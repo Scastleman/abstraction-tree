@@ -1,0 +1,10 @@
+{
+  "id": "scan.example",
+  "timestamp": "2026-04-25T00:00:00.000Z",
+  "title": "Example abstraction tree generated",
+  "reason": "Seeded sample project memory so the visual app has immediate data to display.",
+  "affectedNodeIds": ["project.intent", "project.domain", "project.code"],
+  "filesChanged": [".abstraction-tree/tree.json", ".abstraction-tree/files.json"],
+  "invariantsPreserved": ["invariant.tree-updated-after-change"],
+  "risk": "low"
+}

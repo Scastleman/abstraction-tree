@@ -1,0 +1,20 @@
+{
+  "name": "abstraction-tree",
+  "version": "0.1.0",
+  "description": "Full Abstraction Tree install: CLI plus local visual app.",
+  "type": "module",
+  "bin": {
+    "atree": "bin/atree.js",
+    "abstraction-tree": "bin/atree.js"
+  },
+  "files": [
+    "bin",
+    "package.json",
+    "README.md"
+  ],
+  "dependencies": {
+    "@abstraction-tree/cli": "0.1.0",
+    "@abstraction-tree/app": "0.1.0"
+  },
+  "license": "MIT"
+}

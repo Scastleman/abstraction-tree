@@ -1,0 +1,23 @@
+{
+  "name": "abstraction-tree-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Local-first abstraction tree and visual codebase understanding system.",
+  "type": "module",
+  "workspaces": [
+    "packages/core",
+    "packages/cli",
+    "packages/app",
+    "packages/full"
+  ],
+  "scripts": {
+    "build": "npm run build -w @abstraction-tree/core && npm run build -w @abstraction-tree/cli && npm run build -w @abstraction-tree/app",
+    "dev:app": "npm run dev -w @abstraction-tree/app",
+    "atree": "node packages/cli/dist/index.js",
+    "test": "node --test packages/core/dist/**/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,8 @@
+{
+  "name": "small-web-app-example",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "test": "node tests/checkout.test.js"
+  }
+}

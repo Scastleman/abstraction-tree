@@ -1,0 +1,5 @@
+[
+  {"id":"invariant.payment-after-validation","title":"Payment after validation","description":"Payment authorization should happen only after cart validation succeeds.","nodeIds":["concept-node.checkout","concept-node.payment"],"filePaths":["src/api/checkout.ts","src/services/payment.ts"],"severity":"high"},
+  {"id":"invariant.tests-reflect-behavior","title":"Tests should reflect behavior changes","description":"When checkout behavior changes, tests should be added or updated.","nodeIds":["module.src","module.tests"],"filePaths":["tests/checkout.test.js"],"severity":"medium"},
+  {"id":"invariant.tree-updated-after-change","title":"Tree memory must be updated after meaningful changes","description":"Architecture, concepts, ownership, and durable decisions should be reflected in `.abstraction-tree/`.","nodeIds":["project.intent"],"filePaths":[".abstraction-tree/tree.json"],"severity":"high"}
+]

@@ -1,0 +1,5 @@
+[
+  {"id":"checkout","title":"Checkout","summary":"Cross-cutting flow linking cart, payment, order, UI, and tests.","relatedNodeIds":["concept-node.checkout"],"relatedFiles":["src/api/checkout.ts","src/components/CheckoutForm.tsx"],"tags":["checkout"]},
+  {"id":"payment","title":"Payment","summary":"Payment authorization boundary.","relatedNodeIds":["concept-node.payment"],"relatedFiles":["src/services/payment.ts"],"tags":["payment"]},
+  {"id":"order","title":"Order","summary":"Order creation concept.","relatedNodeIds":["concept-node.order"],"relatedFiles":["src/services/orders.ts"],"tags":["order"]}
+]
