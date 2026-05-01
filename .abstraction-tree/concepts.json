@@ -1,0 +1,495 @@
+[
+  {
+    "id": "core",
+    "title": "Core",
+    "summary": "Durable concept inferred from 13 file(s) using path signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.core.package.json",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.index.ts",
+      "file.packages.core.src.scanner.test.ts",
+      "file.packages.core.src.scanner.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.test.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.packages.core.tsconfig.json"
+    ],
+    "relatedFiles": [
+      "packages/core/package.json",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/index.ts",
+      "packages/core/src/scanner.test.ts",
+      "packages/core/src/scanner.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.test.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts",
+      "packages/core/src/workspace.ts",
+      "packages/core/tsconfig.json"
+    ],
+    "tags": [
+      "core"
+    ]
+  },
+  {
+    "id": "concept",
+    "title": "Concept",
+    "summary": "Durable concept inferred from 5 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.test.ts",
+      "file.packages.core.src.treebuilder.ts"
+    ],
+    "relatedFiles": [
+      "packages/app/src/types.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.test.ts",
+      "packages/core/src/treeBuilder.ts"
+    ],
+    "tags": [
+      "concept"
+    ]
+  },
+  {
+    "id": "tree",
+    "title": "Tree",
+    "summary": "Durable concept inferred from 6 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.app.src.main.tsx",
+      "file.packages.app.src.types.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.test.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "relatedFiles": [
+      "packages/app/src/main.tsx",
+      "packages/app/src/types.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.test.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "tags": [
+      "tree"
+    ]
+  },
+  {
+    "id": "config",
+    "title": "Config",
+    "summary": "Durable concept inferred from 4 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.scanner.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts"
+    ],
+    "relatedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/scanner.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts"
+    ],
+    "tags": [
+      "config"
+    ]
+  },
+  {
+    "id": "checkout",
+    "title": "Checkout",
+    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.examples",
+      "file.examples.small.web.app.src.api.checkout.ts",
+      "file.examples.small.web.app.src.components.checkoutform.tsx",
+      "file.examples.small.web.app.tests.checkout.test.js"
+    ],
+    "relatedFiles": [
+      "examples/small-web-app/src/api/checkout.ts",
+      "examples/small-web-app/src/components/CheckoutForm.tsx",
+      "examples/small-web-app/tests/checkout.test.js"
+    ],
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "id": "ontology",
+    "title": "Ontology",
+    "summary": "Durable concept inferred from 5 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "relatedFiles": [
+      "packages/app/src/types.ts",
+      "packages/cli/src/index.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "tags": [
+      "ontology"
+    ]
+  },
+  {
+    "id": "docs",
+    "title": "Docs",
+    "summary": "Durable concept inferred from 5 file(s) using path signals.",
+    "relatedNodeIds": [
+      "module.docs",
+      "file.docs.agent.protocol.md",
+      "file.docs.architecture.md",
+      "file.docs.data.model.md",
+      "file.docs.packaging.md",
+      "file.docs.roadmap.md"
+    ],
+    "relatedFiles": [
+      "docs/AGENT_PROTOCOL.md",
+      "docs/ARCHITECTURE.md",
+      "docs/DATA_MODEL.md",
+      "docs/PACKAGING.md",
+      "docs/ROADMAP.md"
+    ],
+    "tags": [
+      "docs"
+    ]
+  },
+  {
+    "id": "atree",
+    "title": "Atree",
+    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.packages.full.bin.atree.js"
+    ],
+    "relatedFiles": [
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts",
+      "packages/full/bin/atree.js"
+    ],
+    "tags": [
+      "atree"
+    ]
+  },
+  {
+    "id": "context",
+    "title": "Context",
+    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.schema.ts"
+    ],
+    "relatedFiles": [
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/schema.ts"
+    ],
+    "tags": [
+      "context"
+    ]
+  },
+  {
+    "id": "pack",
+    "title": "Pack",
+    "summary": "Durable concept inferred from 4 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.schema.ts"
+    ],
+    "relatedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/schema.ts"
+    ],
+    "tags": [
+      "pack"
+    ]
+  },
+  {
+    "id": "tsconfig",
+    "title": "Tsconfig",
+    "summary": "Durable concept inferred from 4 file(s) using path signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "module.root",
+      "file.packages.app.tsconfig.json",
+      "file.packages.cli.tsconfig.json",
+      "file.packages.core.tsconfig.json",
+      "file.tsconfig.base.json"
+    ],
+    "relatedFiles": [
+      "packages/app/tsconfig.json",
+      "packages/cli/tsconfig.json",
+      "packages/core/tsconfig.json",
+      "tsconfig.base.json"
+    ],
+    "tags": [
+      "tsconfig"
+    ]
+  },
+  {
+    "id": "state",
+    "title": "State",
+    "summary": "Durable concept inferred from 3 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.app.src.main.tsx",
+      "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts"
+    ],
+    "relatedFiles": [
+      "packages/app/src/main.tsx",
+      "packages/app/src/types.ts",
+      "packages/cli/src/index.ts"
+    ],
+    "tags": [
+      "state"
+    ]
+  },
+  {
+    "id": "abstraction",
+    "title": "Abstraction",
+    "summary": "Durable concept inferred from 2 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.core.src.schema.ts"
+    ],
+    "relatedFiles": [
+      "packages/app/src/types.ts",
+      "packages/core/src/schema.ts"
+    ],
+    "tags": [
+      "abstraction"
+    ]
+  },
+  {
+    "id": "scan",
+    "title": "Scan",
+    "summary": "Durable concept inferred from 2 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.scanner.ts"
+    ],
+    "relatedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/scanner.ts"
+    ],
+    "tags": [
+      "scan"
+    ]
+  },
+  {
+    "id": "cli",
+    "title": "Cli",
+    "summary": "Durable concept inferred from 3 file(s) using path, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.cli.package.json",
+      "file.packages.cli.src.index.ts",
+      "file.packages.cli.tsconfig.json"
+    ],
+    "relatedFiles": [
+      "packages/cli/package.json",
+      "packages/cli/src/index.ts",
+      "packages/cli/tsconfig.json"
+    ],
+    "tags": [
+      "cli"
+    ]
+  },
+  {
+    "id": "concepts",
+    "title": "Concepts",
+    "summary": "Durable concept inferred from 4 file(s) using symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.treebuilder.ts"
+    ],
+    "relatedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/treeBuilder.ts"
+    ],
+    "tags": [
+      "concepts"
+    ]
+  },
+  {
+    "id": "invariants",
+    "title": "Invariants",
+    "summary": "Durable concept inferred from 4 file(s) using symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.treebuilder.ts"
+    ],
+    "relatedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/treeBuilder.ts"
+    ],
+    "tags": [
+      "invariants"
+    ]
+  },
+  {
+    "id": "change",
+    "title": "Change",
+    "summary": "Durable concept inferred from 3 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.schema.ts"
+    ],
+    "relatedFiles": [
+      "packages/app/src/types.ts",
+      "packages/cli/src/index.ts",
+      "packages/core/src/schema.ts"
+    ],
+    "tags": [
+      "change"
+    ]
+  },
+  {
+    "id": "mode",
+    "title": "Mode",
+    "summary": "Durable concept inferred from 3 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts"
+    ],
+    "relatedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts"
+    ],
+    "tags": [
+      "mode"
+    ]
+  },
+  {
+    "id": "result",
+    "title": "Result",
+    "summary": "Durable concept inferred from 3 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.core.src.scanner.ts",
+      "file.packages.core.src.treebuilder.test.ts",
+      "file.packages.core.src.treebuilder.ts"
+    ],
+    "relatedFiles": [
+      "packages/core/src/scanner.ts",
+      "packages/core/src/treeBuilder.test.ts",
+      "packages/core/src/treeBuilder.ts"
+    ],
+    "tags": [
+      "result"
+    ]
+  },
+  {
+    "id": "text",
+    "title": "Text",
+    "summary": "Durable concept inferred from 2 file(s) using symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.scanner.ts"
+    ],
+    "relatedFiles": [
+      "packages/core/src/context.ts",
+      "packages/core/src/scanner.ts"
+    ],
+    "tags": [
+      "text"
+    ]
+  },
+  {
+    "id": "facts",
+    "title": "Facts",
+    "summary": "Durable concept inferred from 1 file(s) using symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.core.src.scanner.ts"
+    ],
+    "relatedFiles": [
+      "packages/core/src/scanner.ts"
+    ],
+    "tags": [
+      "facts"
+    ]
+  },
+  {
+    "id": "full",
+    "title": "Full",
+    "summary": "Durable concept inferred from 3 file(s) using path signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.full.bin.atree.js",
+      "file.packages.full.package.json",
+      "file.packages.full.readme.md"
+    ],
+    "relatedFiles": [
+      "packages/full/README.md",
+      "packages/full/bin/atree.js",
+      "packages/full/package.json"
+    ],
+    "tags": [
+      "full"
+    ]
+  },
+  {
+    "id": "cart",
+    "title": "Cart",
+    "summary": "Durable concept inferred from 2 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.examples",
+      "file.examples.small.web.app.src.api.checkout.ts",
+      "file.examples.small.web.app.src.services.cart.ts"
+    ],
+    "relatedFiles": [
+      "examples/small-web-app/src/api/checkout.ts",
+      "examples/small-web-app/src/services/cart.ts"
+    ],
+    "tags": [
+      "cart"
+    ]
+  }
+]

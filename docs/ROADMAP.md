@@ -11,6 +11,7 @@
 - Relevance-scored context pack generation.
 - Basic validation and stale-memory drift detection.
 - Test coverage for scan and validation behavior.
+- Root repository dogfooding through committed `.abstraction-tree/` memory and CI validation.
 - Agent instructions.
 
 ## Version 0.2

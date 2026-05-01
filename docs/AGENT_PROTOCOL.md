@@ -33,6 +33,14 @@ The agent adapter should perform this protocol internally.
 5. Write a semantic change record in `.abstraction-tree/changes/`.
 6. Run `atree validate`.
 
+## This Repository
+
+The Abstraction Tree repo dogfoods the protocol at the repository root. Changes to core behavior, CLI commands, packaging, docs, or the app should update the root `.abstraction-tree/` memory and pass:
+
+```bash
+npm run atree:validate
+```
+
 ## Overreach detection
 
 A change may be overreaching if:

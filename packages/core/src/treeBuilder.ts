@@ -137,10 +137,11 @@ interface ConceptCandidate {
 }
 
 const CONCEPT_STOP_WORDS = new Set([
-  "src", "lib", "app", "apps", "pkg", "packages", "index", "main", "test", "tests", "spec", "dist",
+  "src", "lib", "app", "apps", "pkg", "package", "packages", "index", "main", "test", "tests", "spec", "dist",
   "build", "types", "type", "utils", "util", "helper", "helpers", "common", "shared", "file", "files",
   "node", "nodes", "module", "modules", "service", "services", "component", "components", "tsx", "jsx",
-  "json", "yaml", "yml", "markdown"
+  "json", "yaml", "yml", "markdown", "example", "examples", "small", "web", "name", "names", "level",
+  "levels", "path", "paths", "set", "sets", "score", "scores", "summary", "summaries", "value", "values"
 ]);
 
 function inferConcepts(files: FileSummary[], nodes: TreeNode[]): Concept[] {

@@ -14,6 +14,8 @@
     "build": "npm run build -w @abstraction-tree/core && npm run build -w @abstraction-tree/cli && npm run build -w @abstraction-tree/app",
     "dev:app": "npm run dev -w @abstraction-tree/app",
     "atree": "node packages/cli/dist/index.js",
+    "atree:scan": "node packages/cli/dist/index.js scan --project .",
+    "atree:validate": "node packages/cli/dist/index.js validate --project . --strict",
     "test": "node --test packages/core/dist/**/*.test.js"
   },
   "engines": {

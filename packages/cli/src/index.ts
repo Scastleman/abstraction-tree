@@ -97,6 +97,7 @@ program.command("scan")
 program.command("validate")
   .description("Validate tree/file alignment")
   .option("-p, --project <path>", "project root")
+  .option("--strict", "treat warnings as validation failures")
   .action(async opts => {
     const root = projectPath(opts.project);
     const ontology = await readJson<AbstractionOntologyLevel[]>(atreePath(root, "ontology.json"), []);
@@ -112,7 +113,7 @@ program.command("validate")
       return;
     }
     for (const i of issues) console.log(`[${i.severity}] ${i.message}${i.filePath ? ` (${i.filePath})` : ""}`);
-    process.exitCode = issues.some(i => i.severity === "error") ? 1 : 0;
+    process.exitCode = issues.some(i => i.severity === "error" || (opts.strict && i.severity === "warning")) ? 1 : 0;
   });
 
 program.command("context")

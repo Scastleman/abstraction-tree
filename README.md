@@ -157,6 +157,18 @@ npm run atree -- context --project examples/small-web-app --target checkout
 npm run atree -- serve --project examples/small-web-app
 ```
 
+## Dogfooding
+
+This repository uses Abstraction Tree on itself. The root `.abstraction-tree/` folder is committed as project memory for the monorepo, and CI runs strict self-validation after build and tests.
+
+```bash
+npm run build
+npm run atree:scan
+npm run atree:validate
+```
+
+When core behavior, docs, packaging, or app structure changes, update the root abstraction memory in the same change.
+
 ## CLI commands
 
 ### `atree init`
