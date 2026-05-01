@@ -1,0 +1,62 @@
+[
+  {
+    "id": "project-purpose",
+    "name": "Project Purpose Layer",
+    "description": "Why this repository exists and what durable outcome it serves.",
+    "rank": 0,
+    "signals": [
+      "project name",
+      "README",
+      "package metadata"
+    ],
+    "confidence": 0.7
+  },
+  {
+    "id": "domain-concepts",
+    "name": "Domain Concept Layer",
+    "description": "Human-level concepts and cross-cutting ideas expressed by names, folders, tests, and symbols.",
+    "rank": 1,
+    "signals": [
+      "file names",
+      "folder names",
+      "exported symbols",
+      "tests"
+    ],
+    "confidence": 0.65
+  },
+  {
+    "id": "application.ui.runtime.layer",
+    "name": "Application / UI Runtime Layer",
+    "description": "Major runtime systems, data movement, user flows, or architectural boundaries.",
+    "rank": 2,
+    "signals": [
+      "UI components",
+      "imports"
+    ],
+    "confidence": 0.6
+  },
+  {
+    "id": "package.module.layer",
+    "name": "Package / Module Layer",
+    "description": "Packages, workspaces, folders, and modules that organize implementation ownership.",
+    "rank": 3,
+    "signals": [
+      "top-level folders",
+      "4 detected language(s)"
+    ],
+    "confidence": 0.7
+  },
+  {
+    "id": "component.file.layer",
+    "name": "Component / File Layer",
+    "description": "Concrete files, components, classes, functions, and other code units.",
+    "rank": 4,
+    "signals": [
+      "source files",
+      "imports",
+      "exports",
+      "symbols"
+    ],
+    "confidence": 0.75
+  }
+]

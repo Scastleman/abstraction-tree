@@ -1,5 +1,133 @@
 [
-  {"id":"checkout","title":"Checkout","summary":"Cross-cutting flow linking cart, payment, order, UI, and tests.","relatedNodeIds":["concept-node.checkout"],"relatedFiles":["src/api/checkout.ts","src/components/CheckoutForm.tsx"],"tags":["checkout"]},
-  {"id":"payment","title":"Payment","summary":"Payment authorization boundary.","relatedNodeIds":["concept-node.payment"],"relatedFiles":["src/services/payment.ts"],"tags":["payment"]},
-  {"id":"order","title":"Order","summary":"Order creation concept.","relatedNodeIds":["concept-node.order"],"relatedFiles":["src/services/orders.ts"],"tags":["order"]}
+  {
+    "id": "auth",
+    "title": "Auth",
+    "summary": "Cross-cutting concept inferred from files and symbols containing \"auth\".",
+    "relatedNodeIds": [
+      "module.src",
+      "file.src.services.payment.ts"
+    ],
+    "relatedFiles": [
+      "src/services/payment.ts"
+    ],
+    "tags": [
+      "auth"
+    ]
+  },
+  {
+    "id": "checkout",
+    "title": "Checkout",
+    "summary": "Cross-cutting concept inferred from files and symbols containing \"checkout\".",
+    "relatedNodeIds": [
+      "module.src",
+      "module.tests",
+      "file.src.api.checkout.ts",
+      "file.src.components.checkoutform.tsx",
+      "file.tests.checkout.test.js"
+    ],
+    "relatedFiles": [
+      "src/api/checkout.ts",
+      "src/components/CheckoutForm.tsx",
+      "tests/checkout.test.js"
+    ],
+    "tags": [
+      "checkout"
+    ]
+  },
+  {
+    "id": "payment",
+    "title": "Payment",
+    "summary": "Cross-cutting concept inferred from files and symbols containing \"payment\".",
+    "relatedNodeIds": [
+      "module.src",
+      "file.src.api.checkout.ts",
+      "file.src.services.payment.ts"
+    ],
+    "relatedFiles": [
+      "src/api/checkout.ts",
+      "src/services/payment.ts"
+    ],
+    "tags": [
+      "payment"
+    ]
+  },
+  {
+    "id": "order",
+    "title": "Order",
+    "summary": "Cross-cutting concept inferred from files and symbols containing \"order\".",
+    "relatedNodeIds": [
+      "module.src",
+      "file.src.services.orders.ts"
+    ],
+    "relatedFiles": [
+      "src/services/orders.ts"
+    ],
+    "tags": [
+      "order"
+    ]
+  },
+  {
+    "id": "api",
+    "title": "Api",
+    "summary": "Cross-cutting concept inferred from files and symbols containing \"api\".",
+    "relatedNodeIds": [
+      "module.src",
+      "file.src.api.checkout.ts"
+    ],
+    "relatedFiles": [
+      "src/api/checkout.ts"
+    ],
+    "tags": [
+      "api"
+    ]
+  },
+  {
+    "id": "test",
+    "title": "Test",
+    "summary": "Cross-cutting concept inferred from files and symbols containing \"test\".",
+    "relatedNodeIds": [
+      "module.tests",
+      "file.tests.checkout.test.js"
+    ],
+    "relatedFiles": [
+      "tests/checkout.test.js"
+    ],
+    "tags": [
+      "test"
+    ]
+  },
+  {
+    "id": "component",
+    "title": "Component",
+    "summary": "Cross-cutting concept inferred from files and symbols containing \"component\".",
+    "relatedNodeIds": [
+      "module.src",
+      "file.src.components.checkoutform.tsx"
+    ],
+    "relatedFiles": [
+      "src/components/CheckoutForm.tsx"
+    ],
+    "tags": [
+      "component"
+    ]
+  },
+  {
+    "id": "service",
+    "title": "Service",
+    "summary": "Cross-cutting concept inferred from files and symbols containing \"service\".",
+    "relatedNodeIds": [
+      "module.src",
+      "file.src.services.cart.ts",
+      "file.src.services.orders.ts",
+      "file.src.services.payment.ts"
+    ],
+    "relatedFiles": [
+      "src/services/cart.ts",
+      "src/services/orders.ts",
+      "src/services/payment.ts"
+    ],
+    "tags": [
+      "service"
+    ]
+  }
 ]

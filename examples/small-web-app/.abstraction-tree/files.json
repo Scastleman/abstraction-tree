@@ -1,8 +1,135 @@
 [
-  {"path":"src/api/checkout.ts","extension":".ts","language":"TypeScript","sizeBytes":426,"lines":9,"imports":["../services/cart","../services/payment","../services/orders"],"exports":["checkout"],"symbols":["checkout"],"isTest":false,"summary":"Coordinates cart validation, payment authorization, and order creation.","ownedByNodeIds":["concept-node.checkout","module.src"]},
-  {"path":"src/services/cart.ts","extension":".ts","language":"TypeScript","sizeBytes":178,"lines":4,"imports":[],"exports":["validateCart"],"symbols":["validateCart"],"isTest":false,"summary":"Validates cart identity and returns demo cart contents.","ownedByNodeIds":["module.src"]},
-  {"path":"src/services/payment.ts","extension":".ts","language":"TypeScript","sizeBytes":244,"lines":5,"imports":[],"exports":["authorizePayment"],"symbols":["authorizePayment"],"isTest":false,"summary":"Authorizes a payment after cart validation.","ownedByNodeIds":["concept-node.payment","module.src"]},
-  {"path":"src/services/orders.ts","extension":".ts","language":"TypeScript","sizeBytes":165,"lines":3,"imports":[],"exports":["createOrder"],"symbols":["createOrder"],"isTest":false,"summary":"Creates orders after successful checkout.","ownedByNodeIds":["concept-node.order","module.src"]},
-  {"path":"src/components/CheckoutForm.tsx","extension":".tsx","language":"TypeScript React","sizeBytes":98,"lines":3,"imports":[],"exports":["CheckoutForm"],"symbols":["CheckoutForm"],"isTest":false,"summary":"Simple checkout UI component.","ownedByNodeIds":["concept-node.checkout","module.src"]},
-  {"path":"tests/checkout.test.js","extension":".js","language":"JavaScript","sizeBytes":79,"lines":4,"imports":["node:assert/strict"],"exports":[],"symbols":[],"isTest":true,"summary":"Example checkout test placeholder.","ownedByNodeIds":["module.tests"]}
+  {
+    "path": "package.json",
+    "extension": ".json",
+    "language": "JSON",
+    "sizeBytes": 142,
+    "lines": 9,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "package.json is a JSON implementation file.",
+    "ownedByNodeIds": [
+      "file.package.json",
+      "module.root"
+    ]
+  },
+  {
+    "path": "src/api/checkout.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "sizeBytes": 480,
+    "lines": 10,
+    "imports": [
+      "../services/cart",
+      "../services/payment",
+      "../services/orders"
+    ],
+    "exports": [],
+    "symbols": [
+      "checkout",
+      "cart",
+      "payment"
+    ],
+    "isTest": false,
+    "summary": "checkout.ts is a TypeScript implementation file. Defines checkout, cart, payment. Depends on ../services/cart, ../services/payment, ../services/orders.",
+    "ownedByNodeIds": [
+      "file.src.api.checkout.ts",
+      "module.src"
+    ]
+  },
+  {
+    "path": "src/components/CheckoutForm.tsx",
+    "extension": ".tsx",
+    "language": "TypeScript React",
+    "sizeBytes": 98,
+    "lines": 4,
+    "imports": [],
+    "exports": [
+      "CheckoutForm"
+    ],
+    "symbols": [
+      "CheckoutForm"
+    ],
+    "isTest": false,
+    "summary": "CheckoutForm.tsx is a TypeScript React implementation file. Defines CheckoutForm.",
+    "ownedByNodeIds": [
+      "file.src.components.checkoutform.tsx",
+      "module.src"
+    ]
+  },
+  {
+    "path": "src/services/cart.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "sizeBytes": 215,
+    "lines": 5,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "validateCart"
+    ],
+    "isTest": false,
+    "summary": "cart.ts is a TypeScript implementation file. Defines validateCart.",
+    "ownedByNodeIds": [
+      "file.src.services.cart.ts",
+      "module.src"
+    ]
+  },
+  {
+    "path": "src/services/orders.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "sizeBytes": 159,
+    "lines": 4,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "createOrder"
+    ],
+    "isTest": false,
+    "summary": "orders.ts is a TypeScript implementation file. Defines createOrder.",
+    "ownedByNodeIds": [
+      "file.src.services.orders.ts",
+      "module.src"
+    ]
+  },
+  {
+    "path": "src/services/payment.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "sizeBytes": 263,
+    "lines": 6,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "authorizePayment"
+    ],
+    "isTest": false,
+    "summary": "payment.ts is a TypeScript implementation file. Defines authorizePayment.",
+    "ownedByNodeIds": [
+      "file.src.services.payment.ts",
+      "module.src"
+    ]
+  },
+  {
+    "path": "tests/checkout.test.js",
+    "extension": ".js",
+    "language": "JavaScript",
+    "sizeBytes": 104,
+    "lines": 5,
+    "imports": [
+      "node:assert/strict",
+      "assert"
+    ],
+    "exports": [],
+    "symbols": [],
+    "isTest": true,
+    "summary": "checkout.test.js is a JavaScript test coverage file. Depends on node:assert/strict, assert.",
+    "ownedByNodeIds": [
+      "file.tests.checkout.test.js",
+      "module.tests"
+    ]
+  }
 ]

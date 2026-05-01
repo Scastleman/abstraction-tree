@@ -18,6 +18,7 @@ import {
   validateTree,
   writeJson,
   type ChangeRecord,
+  type AbstractionOntologyLevel,
   type Concept,
   type FileSummary,
   type InstallMode,
@@ -74,6 +75,7 @@ program.command("scan")
     const scan = await scanProject(root);
     const built = buildDeterministicTree(config.projectName, scan.files);
     await writeJson(atreePath(root, "files.json"), built.files);
+    await writeJson(atreePath(root, "ontology.json"), built.ontology);
     await writeJson(atreePath(root, "tree.json"), built.nodes);
     await writeJson(atreePath(root, "concepts.json"), built.concepts);
     await writeJson(atreePath(root, "invariants.json"), built.invariants);
@@ -83,7 +85,7 @@ program.command("scan")
       title: "Deterministic scan",
       reason: "Generated abstraction tree from project files, imports, symbols, tests, and folders.",
       affectedNodeIds: ["project.intent", "project.architecture", "project.code"],
-      filesChanged: [".abstraction-tree/files.json", ".abstraction-tree/tree.json", ".abstraction-tree/concepts.json", ".abstraction-tree/invariants.json"],
+      filesChanged: [".abstraction-tree/files.json", ".abstraction-tree/ontology.json", ".abstraction-tree/tree.json", ".abstraction-tree/concepts.json", ".abstraction-tree/invariants.json"],
       invariantsPreserved: ["invariant.tree-updated-after-change"],
       risk: "low"
     };
@@ -96,9 +98,10 @@ program.command("validate")
   .option("-p, --project <path>", "project root")
   .action(async opts => {
     const root = projectPath(opts.project);
+    const ontology = await readJson<AbstractionOntologyLevel[]>(atreePath(root, "ontology.json"), []);
     const nodes = await readJson<TreeNode[]>(atreePath(root, "tree.json"), []);
     const files = await readJson<FileSummary[]>(atreePath(root, "files.json"), []);
-    const issues = validateTree(nodes, files);
+    const issues = validateTree(nodes, files, ontology);
     if (!issues.length) {
       console.log("No validation issues found.");
       return;
@@ -150,6 +153,7 @@ program.command("serve")
       if (req.url.startsWith("/api/state")) {
         const state = {
           config: await readConfig(root),
+          ontology: await readJson(atreePath(root, "ontology.json"), []),
           nodes: await readJson<TreeNode[]>(atreePath(root, "tree.json"), []),
           files: await readJson<FileSummary[]>(atreePath(root, "files.json"), []),
           concepts: await readJson<Concept[]>(atreePath(root, "concepts.json"), []),

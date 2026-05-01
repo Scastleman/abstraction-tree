@@ -1,6 +1,6 @@
 # Abstraction Tree
 
-Abstraction Tree is a local-first codebase understanding system. It scans an existing software project, builds a hierarchical abstraction tree from high-level intent down to files and symbols, and gives both humans and coding agents a shared semantic map of the codebase.
+Abstraction Tree is a local-first codebase understanding system. It scans an existing software project, infers the repository's natural abstraction layers, and gives both humans and coding agents a shared semantic map of the codebase.
 
 The source of truth is always the project-local `.abstraction-tree/` folder. The visual app is optional: it reads the same tree data and displays it as an interactive project map.
 
@@ -46,6 +46,7 @@ Core-only mode creates and maintains:
 ```txt
 .abstraction-tree/
   config.json
+  ontology.json
   tree.json
   files.json
   concepts.json
@@ -83,7 +84,7 @@ npx atree mode full
 
 Most codebases are understood through a mix of folders, stale documentation, tribal memory, and Git history. Coding agents face the same problem, but worse: they often lack a durable, compressed, project-level memory of what should exist and what must not be changed.
 
-Abstraction Tree creates a shared semantic map for humans and agents.
+Abstraction Tree creates a shared semantic map for humans and agents. The node schema is fixed, but the abstraction layers are adaptive: a frontend, compiler, game engine, Kubernetes operator, and quant research repo should not be forced into the same hierarchy.
 
 ```txt
 Intent
@@ -96,13 +97,15 @@ Intent
 
 The visual app is not a separate documentation site. It is the human-readable interface to the same `.abstraction-tree/` data consumed by agents.
 
+In practice, the stored tree is shaped by `.abstraction-tree/ontology.json`, so the displayed labels might be "Application / UI Runtime Layer" for one repo and "Backtesting Engine" or "Rendering Pipeline" for another.
+
 ## MVP status
 
 This repository is a working starter implementation. It includes:
 
 - a Node/TypeScript CLI;
 - a scanner for files, imports, symbols, and basic tests;
-- a deterministic initial tree builder;
+- a deterministic ontology and initial tree builder;
 - a local `.abstraction-tree/` schema;
 - validation and drift checks;
 - context-pack generation for coding agents;
@@ -176,6 +179,7 @@ Scans project files and creates/updates:
 
 ```txt
 .abstraction-tree/files.json
+.abstraction-tree/ontology.json
 .abstraction-tree/tree.json
 .abstraction-tree/concepts.json
 .abstraction-tree/invariants.json
@@ -217,6 +221,7 @@ When added to a project, Abstraction Tree creates:
 ```txt
 .abstraction-tree/
   config.json
+  ontology.json
   tree.json
   files.json
   concepts.json

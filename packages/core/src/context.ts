@@ -10,12 +10,12 @@ export function buildContextPack(args: {
 }): ContextPack {
   const q = args.target.toLowerCase();
   const relevantNodes = args.nodes.filter(n =>
-    n.title.toLowerCase().includes(q) ||
+    nodeName(n).toLowerCase().includes(q) ||
     n.summary.toLowerCase().includes(q) ||
-    n.ownedFiles.some(f => f.toLowerCase().includes(q))
+    nodeFiles(n).some(f => f.toLowerCase().includes(q))
   ).slice(0, 30);
 
-  const fileSet = new Set(relevantNodes.flatMap(n => n.ownedFiles));
+  const fileSet = new Set(relevantNodes.flatMap(nodeFiles));
   const relevantFiles = args.files.filter(f => fileSet.has(f.path) || f.path.toLowerCase().includes(q)).slice(0, 50);
   const relevantConcepts = args.concepts.filter(c =>
     c.title.toLowerCase().includes(q) ||
@@ -41,4 +41,12 @@ export function buildContextPack(args: {
       "After code changes, update `.abstraction-tree/` files and write a semantic change record."
     ]
   };
+}
+
+function nodeName(node: TreeNode): string {
+  return node.name ?? node.title;
+}
+
+function nodeFiles(node: TreeNode): string[] {
+  return node.sourceFiles ?? node.ownedFiles ?? [];
 }

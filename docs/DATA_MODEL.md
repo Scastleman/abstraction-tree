@@ -6,6 +6,23 @@ A project using Abstraction Tree stores its semantic memory in `.abstraction-tre
 
 Project-level configuration. It includes the current install mode: `core` for abstraction-only usage, or `full` when the local visual app is enabled.
 
+## `ontology.json`
+
+The project-specific abstraction ontology inferred during initialization or scan.
+
+The system does not assume that every repository has the same conceptual layers. A React app, compiler, game engine, Kubernetes operator, and quant research repo can each describe different natural layers.
+
+Each ontology level has:
+
+- id;
+- name;
+- description;
+- rank;
+- signals used to infer it;
+- confidence.
+
+The ontology is variable. The node contract is fixed.
+
 ## `files.json`
 
 Mechanical scan output for source files:
@@ -26,16 +43,20 @@ The abstraction hierarchy.
 Each node has:
 
 - id;
-- title;
-- level;
-- summary;
-- children;
+- name;
+- abstraction level;
 - parent;
-- owned files;
-- dependencies;
+- children;
+- source files;
+- summary;
+- responsibilities;
 - invariants;
 - change policy;
+- dependencies;
+- change log;
 - confidence.
+
+For compatibility with older consumers, nodes may also expose alias fields such as `title`, `level`, `parentId`, `ownedFiles`, and `dependsOn`. New consumers should prefer `name`, `abstractionLevel`, `parent`, `sourceFiles`, and `dependencies`.
 
 ## `concepts.json`
 

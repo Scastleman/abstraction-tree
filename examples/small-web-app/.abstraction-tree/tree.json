@@ -1,11 +1,799 @@
 [
-  {"id":"project.intent","title":"small-web-app","level":"intent","summary":"Example checkout application used to demonstrate Abstraction Tree scanning and visualization.","children":["project.domain","project.architecture","project.code"],"ownedFiles":[],"dependsOn":[],"invariants":["invariant.tree-updated-after-change"],"changePolicy":{"allowedToChange":[],"mustNotChange":[]},"confidence":0.8},
-  {"id":"project.domain","title":"Domain Concepts","level":"domain","summary":"Checkout, cart validation, payment authorization, and order creation concepts.","children":["concept-node.checkout","concept-node.payment","concept-node.order"],"parentId":"project.intent","ownedFiles":[],"dependsOn":[],"invariants":[],"changePolicy":{"allowedToChange":[],"mustNotChange":[]},"confidence":0.7},
-  {"id":"project.architecture","title":"Architecture","level":"architecture","summary":"Small web app split between API, services, components, and tests.","children":[],"parentId":"project.intent","ownedFiles":[],"dependsOn":[],"invariants":[],"changePolicy":{"allowedToChange":[],"mustNotChange":[]},"confidence":0.7},
-  {"id":"project.code","title":"Code Structure","level":"module","summary":"Source and test files for the example project.","children":["module.src","module.tests"],"parentId":"project.intent","ownedFiles":[],"dependsOn":[],"invariants":[],"changePolicy":{"allowedToChange":[],"mustNotChange":[]},"confidence":0.7},
-  {"id":"module.src","title":"Src","level":"module","summary":"Application implementation files.","children":[],"parentId":"project.code","ownedFiles":["src/api/checkout.ts","src/services/cart.ts","src/services/payment.ts","src/services/orders.ts","src/components/CheckoutForm.tsx"],"dependsOn":[],"invariants":["invariant.tests-reflect-behavior"],"changePolicy":{"allowedToChange":["src/api/checkout.ts","src/services/cart.ts","src/services/payment.ts","src/services/orders.ts","src/components/CheckoutForm.tsx"],"mustNotChange":[]},"confidence":0.65},
-  {"id":"module.tests","title":"Tests","level":"module","summary":"Test files for checkout behavior.","children":[],"parentId":"project.code","ownedFiles":["tests/checkout.test.js"],"dependsOn":[],"invariants":[],"changePolicy":{"allowedToChange":["tests/checkout.test.js"],"mustNotChange":[]},"confidence":0.65},
-  {"id":"concept-node.checkout","title":"Checkout","level":"domain","summary":"Coordinates cart validation, payment authorization, and order creation.","children":[],"parentId":"project.domain","ownedFiles":["src/api/checkout.ts","src/components/CheckoutForm.tsx"],"dependsOn":["module.src"],"invariants":["invariant.payment-after-validation"],"changePolicy":{"allowedToChange":["src/api/checkout.ts","src/components/CheckoutForm.tsx"],"mustNotChange":[]},"confidence":0.7},
-  {"id":"concept-node.payment","title":"Payment","level":"domain","summary":"Authorizes payment only after cart validation succeeds.","children":[],"parentId":"project.domain","ownedFiles":["src/services/payment.ts"],"dependsOn":["concept-node.checkout"],"invariants":["invariant.payment-after-validation"],"changePolicy":{"allowedToChange":["src/services/payment.ts"],"mustNotChange":[]},"confidence":0.7},
-  {"id":"concept-node.order","title":"Order","level":"domain","summary":"Creates an order after successful validation and payment authorization.","children":[],"parentId":"project.domain","ownedFiles":["src/services/orders.ts"],"dependsOn":["concept-node.checkout"],"invariants":[],"changePolicy":{"allowedToChange":["src/services/orders.ts"],"mustNotChange":[]},"confidence":0.7}
+  {
+    "id": "project.intent",
+    "name": "small-web-app",
+    "title": "small-web-app",
+    "abstractionLevel": "project-purpose",
+    "level": "project-purpose",
+    "summary": "Top-level purpose and semantic map for small-web-app.",
+    "children": [
+      "project.domain",
+      "project.architecture",
+      "project.code"
+    ],
+    "sourceFiles": [],
+    "ownedFiles": [],
+    "responsibilities": [],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "project.domain",
+    "name": "Domain Concept Layer",
+    "title": "Domain Concept Layer",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Human-level concepts inferred from names, folders, and code symbols.",
+    "parent": "project.intent",
+    "parentId": "project.intent",
+    "children": [
+      "concept-node.auth",
+      "concept-node.checkout",
+      "concept-node.payment",
+      "concept-node.order",
+      "concept-node.api",
+      "concept-node.test",
+      "concept-node.component",
+      "concept-node.service"
+    ],
+    "sourceFiles": [],
+    "ownedFiles": [],
+    "responsibilities": [],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "project.architecture",
+    "name": "Application / UI Runtime Layer",
+    "title": "Application / UI Runtime Layer",
+    "abstractionLevel": "application.ui.runtime.layer",
+    "level": "application.ui.runtime.layer",
+    "summary": "Runtime systems, dataflow, and implementation boundaries inferred from repository structure.",
+    "parent": "project.intent",
+    "parentId": "project.intent",
+    "children": [],
+    "sourceFiles": [],
+    "ownedFiles": [],
+    "responsibilities": [],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "project.code",
+    "name": "Package / Module Layer",
+    "title": "Package / Module Layer",
+    "abstractionLevel": "package.module.layer",
+    "level": "package.module.layer",
+    "summary": "Package, folder, and file ownership extracted from the repository.",
+    "parent": "project.intent",
+    "parentId": "project.intent",
+    "children": [
+      "module.root",
+      "module.src",
+      "module.tests"
+    ],
+    "sourceFiles": [],
+    "ownedFiles": [],
+    "responsibilities": [],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "module.root",
+    "name": "Root",
+    "title": "Root",
+    "abstractionLevel": "package.module.layer",
+    "level": "package.module.layer",
+    "summary": "Files and functionality under root.",
+    "parent": "project.code",
+    "parentId": "project.code",
+    "children": [
+      "file.package.json"
+    ],
+    "sourceFiles": [
+      "package.json"
+    ],
+    "ownedFiles": [
+      "package.json"
+    ],
+    "responsibilities": [
+      "Own files and behavior under root."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "package.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "module.src",
+    "name": "Src",
+    "title": "Src",
+    "abstractionLevel": "package.module.layer",
+    "level": "package.module.layer",
+    "summary": "Files and functionality under src.",
+    "parent": "project.code",
+    "parentId": "project.code",
+    "children": [
+      "file.src.api.checkout.ts",
+      "file.src.components.checkoutform.tsx",
+      "file.src.services.cart.ts",
+      "file.src.services.orders.ts",
+      "file.src.services.payment.ts"
+    ],
+    "sourceFiles": [
+      "src/api/checkout.ts",
+      "src/components/CheckoutForm.tsx",
+      "src/services/cart.ts",
+      "src/services/orders.ts",
+      "src/services/payment.ts"
+    ],
+    "ownedFiles": [
+      "src/api/checkout.ts",
+      "src/components/CheckoutForm.tsx",
+      "src/services/cart.ts",
+      "src/services/orders.ts",
+      "src/services/payment.ts"
+    ],
+    "responsibilities": [
+      "Own files and behavior under src."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "src/api/checkout.ts",
+        "src/components/CheckoutForm.tsx",
+        "src/services/cart.ts",
+        "src/services/orders.ts",
+        "src/services/payment.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "module.tests",
+    "name": "Tests",
+    "title": "Tests",
+    "abstractionLevel": "package.module.layer",
+    "level": "package.module.layer",
+    "summary": "Files and functionality under tests.",
+    "parent": "project.code",
+    "parentId": "project.code",
+    "children": [
+      "file.tests.checkout.test.js"
+    ],
+    "sourceFiles": [
+      "tests/checkout.test.js"
+    ],
+    "ownedFiles": [
+      "tests/checkout.test.js"
+    ],
+    "responsibilities": [
+      "Own files and behavior under tests."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "tests/checkout.test.js"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.package.json",
+    "name": "package.json",
+    "title": "package.json",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "package.json is a JSON implementation file.",
+    "parent": "module.root",
+    "parentId": "module.root",
+    "children": [],
+    "sourceFiles": [
+      "package.json"
+    ],
+    "ownedFiles": [
+      "package.json"
+    ],
+    "responsibilities": [
+      "package.json is a JSON implementation file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "package.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.src.api.checkout.ts",
+    "name": "checkout.ts",
+    "title": "checkout.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "checkout.ts is a TypeScript implementation file. Defines checkout, cart, payment. Depends on ../services/cart, ../services/payment, ../services/orders.",
+    "parent": "module.src",
+    "parentId": "module.src",
+    "children": [],
+    "sourceFiles": [
+      "src/api/checkout.ts"
+    ],
+    "ownedFiles": [
+      "src/api/checkout.ts"
+    ],
+    "responsibilities": [
+      "checkout.ts is a TypeScript implementation file. Defines checkout, cart, payment. Depends on ../services/cart, ../services/payment, ../services/orders."
+    ],
+    "dependencies": [
+      "import:../services/cart",
+      "import:../services/payment",
+      "import:../services/orders"
+    ],
+    "dependsOn": [
+      "import:../services/cart",
+      "import:../services/payment",
+      "import:../services/orders"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "src/api/checkout.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.src.components.checkoutform.tsx",
+    "name": "CheckoutForm.tsx",
+    "title": "CheckoutForm.tsx",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "CheckoutForm.tsx is a TypeScript React implementation file. Defines CheckoutForm.",
+    "parent": "module.src",
+    "parentId": "module.src",
+    "children": [],
+    "sourceFiles": [
+      "src/components/CheckoutForm.tsx"
+    ],
+    "ownedFiles": [
+      "src/components/CheckoutForm.tsx"
+    ],
+    "responsibilities": [
+      "CheckoutForm.tsx is a TypeScript React implementation file. Defines CheckoutForm."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "src/components/CheckoutForm.tsx"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.src.services.cart.ts",
+    "name": "cart.ts",
+    "title": "cart.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "cart.ts is a TypeScript implementation file. Defines validateCart.",
+    "parent": "module.src",
+    "parentId": "module.src",
+    "children": [],
+    "sourceFiles": [
+      "src/services/cart.ts"
+    ],
+    "ownedFiles": [
+      "src/services/cart.ts"
+    ],
+    "responsibilities": [
+      "cart.ts is a TypeScript implementation file. Defines validateCart."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "src/services/cart.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.src.services.orders.ts",
+    "name": "orders.ts",
+    "title": "orders.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "orders.ts is a TypeScript implementation file. Defines createOrder.",
+    "parent": "module.src",
+    "parentId": "module.src",
+    "children": [],
+    "sourceFiles": [
+      "src/services/orders.ts"
+    ],
+    "ownedFiles": [
+      "src/services/orders.ts"
+    ],
+    "responsibilities": [
+      "orders.ts is a TypeScript implementation file. Defines createOrder."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "src/services/orders.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.src.services.payment.ts",
+    "name": "payment.ts",
+    "title": "payment.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "payment.ts is a TypeScript implementation file. Defines authorizePayment.",
+    "parent": "module.src",
+    "parentId": "module.src",
+    "children": [],
+    "sourceFiles": [
+      "src/services/payment.ts"
+    ],
+    "ownedFiles": [
+      "src/services/payment.ts"
+    ],
+    "responsibilities": [
+      "payment.ts is a TypeScript implementation file. Defines authorizePayment."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "src/services/payment.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.tests.checkout.test.js",
+    "name": "checkout.test.js",
+    "title": "checkout.test.js",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "checkout.test.js is a JavaScript test coverage file. Depends on node:assert/strict, assert.",
+    "parent": "module.tests",
+    "parentId": "module.tests",
+    "children": [],
+    "sourceFiles": [
+      "tests/checkout.test.js"
+    ],
+    "ownedFiles": [
+      "tests/checkout.test.js"
+    ],
+    "responsibilities": [
+      "checkout.test.js is a JavaScript test coverage file. Depends on node:assert/strict, assert."
+    ],
+    "dependencies": [
+      "import:node:assert/strict",
+      "import:assert"
+    ],
+    "dependsOn": [
+      "import:node:assert/strict",
+      "import:assert"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "tests/checkout.test.js"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.auth",
+    "name": "Auth",
+    "title": "Auth",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Cross-cutting concept inferred from files and symbols containing \"auth\".",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "src/services/payment.ts"
+    ],
+    "ownedFiles": [
+      "src/services/payment.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Auth concept across related files."
+    ],
+    "dependencies": [
+      "module.src",
+      "file.src.services.payment.ts"
+    ],
+    "dependsOn": [
+      "module.src",
+      "file.src.services.payment.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.checkout",
+    "name": "Checkout",
+    "title": "Checkout",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Cross-cutting concept inferred from files and symbols containing \"checkout\".",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "src/api/checkout.ts",
+      "src/components/CheckoutForm.tsx",
+      "tests/checkout.test.js"
+    ],
+    "ownedFiles": [
+      "src/api/checkout.ts",
+      "src/components/CheckoutForm.tsx",
+      "tests/checkout.test.js"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Checkout concept across related files."
+    ],
+    "dependencies": [
+      "module.src",
+      "module.tests",
+      "file.src.api.checkout.ts",
+      "file.src.components.checkoutform.tsx",
+      "file.tests.checkout.test.js"
+    ],
+    "dependsOn": [
+      "module.src",
+      "module.tests",
+      "file.src.api.checkout.ts",
+      "file.src.components.checkoutform.tsx",
+      "file.tests.checkout.test.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.payment",
+    "name": "Payment",
+    "title": "Payment",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Cross-cutting concept inferred from files and symbols containing \"payment\".",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "src/api/checkout.ts",
+      "src/services/payment.ts"
+    ],
+    "ownedFiles": [
+      "src/api/checkout.ts",
+      "src/services/payment.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Payment concept across related files."
+    ],
+    "dependencies": [
+      "module.src",
+      "file.src.api.checkout.ts",
+      "file.src.services.payment.ts"
+    ],
+    "dependsOn": [
+      "module.src",
+      "file.src.api.checkout.ts",
+      "file.src.services.payment.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.order",
+    "name": "Order",
+    "title": "Order",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Cross-cutting concept inferred from files and symbols containing \"order\".",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "src/services/orders.ts"
+    ],
+    "ownedFiles": [
+      "src/services/orders.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Order concept across related files."
+    ],
+    "dependencies": [
+      "module.src",
+      "file.src.services.orders.ts"
+    ],
+    "dependsOn": [
+      "module.src",
+      "file.src.services.orders.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.api",
+    "name": "Api",
+    "title": "Api",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Cross-cutting concept inferred from files and symbols containing \"api\".",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "src/api/checkout.ts"
+    ],
+    "ownedFiles": [
+      "src/api/checkout.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Api concept across related files."
+    ],
+    "dependencies": [
+      "module.src",
+      "file.src.api.checkout.ts"
+    ],
+    "dependsOn": [
+      "module.src",
+      "file.src.api.checkout.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.test",
+    "name": "Test",
+    "title": "Test",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Cross-cutting concept inferred from files and symbols containing \"test\".",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "tests/checkout.test.js"
+    ],
+    "ownedFiles": [
+      "tests/checkout.test.js"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Test concept across related files."
+    ],
+    "dependencies": [
+      "module.tests",
+      "file.tests.checkout.test.js"
+    ],
+    "dependsOn": [
+      "module.tests",
+      "file.tests.checkout.test.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.component",
+    "name": "Component",
+    "title": "Component",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Cross-cutting concept inferred from files and symbols containing \"component\".",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "src/components/CheckoutForm.tsx"
+    ],
+    "ownedFiles": [
+      "src/components/CheckoutForm.tsx"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Component concept across related files."
+    ],
+    "dependencies": [
+      "module.src",
+      "file.src.components.checkoutform.tsx"
+    ],
+    "dependsOn": [
+      "module.src",
+      "file.src.components.checkoutform.tsx"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.service",
+    "name": "Service",
+    "title": "Service",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Cross-cutting concept inferred from files and symbols containing \"service\".",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "src/services/cart.ts",
+      "src/services/orders.ts",
+      "src/services/payment.ts"
+    ],
+    "ownedFiles": [
+      "src/services/cart.ts",
+      "src/services/orders.ts",
+      "src/services/payment.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Service concept across related files."
+    ],
+    "dependencies": [
+      "module.src",
+      "file.src.services.cart.ts",
+      "file.src.services.orders.ts",
+      "file.src.services.payment.ts"
+    ],
+    "dependsOn": [
+      "module.src",
+      "file.src.services.cart.ts",
+      "file.src.services.orders.ts",
+      "file.src.services.payment.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  }
 ]

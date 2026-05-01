@@ -1,11 +1,13 @@
-export type AbstractionLevel =
-  | "intent"
-  | "domain"
-  | "architecture"
-  | "module"
-  | "component"
-  | "file"
-  | "symbol";
+export type AbstractionLevel = string;
+
+export interface AbstractionOntologyLevel {
+  id: AbstractionLevel;
+  name: string;
+  description: string;
+  rank: number;
+  signals: string[];
+  confidence: number;
+}
 
 export type InstallMode = "core" | "full";
 
@@ -16,6 +18,7 @@ export interface AtreeConfig {
   sourceRoot: string;
   ignored: string[];
   treeBuilder: "deterministic" | "llm";
+  abstractionOntology?: AbstractionOntologyLevel[];
   installMode: InstallMode;
   visualApp: {
     enabled: boolean;
@@ -39,13 +42,20 @@ export interface FileSummary {
 
 export interface TreeNode {
   id: string;
+  name: string;
   title: string;
+  abstractionLevel: AbstractionLevel;
   level: AbstractionLevel;
   summary: string;
+  parent?: string;
   children: string[];
   parentId?: string;
+  sourceFiles: string[];
   ownedFiles: string[];
+  responsibilities: string[];
+  dependencies: string[];
   dependsOn: string[];
+  changeLog: string[];
   invariants: string[];
   changePolicy: {
     allowedToChange: string[];
