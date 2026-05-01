@@ -129,22 +129,50 @@ function inferOntology(files: FileSummary[]): AbstractionOntologyLevel[] {
   ];
 }
 
+interface ConceptCandidate {
+  token: string;
+  files: Set<string>;
+  score: number;
+  signals: Set<string>;
+}
+
+const CONCEPT_STOP_WORDS = new Set([
+  "src", "lib", "app", "apps", "pkg", "packages", "index", "main", "test", "tests", "spec", "dist",
+  "build", "types", "type", "utils", "util", "helper", "helpers", "common", "shared", "file", "files",
+  "node", "nodes", "module", "modules", "service", "services", "component", "components", "tsx", "jsx",
+  "json", "yaml", "yml", "markdown"
+]);
+
 function inferConcepts(files: FileSummary[], nodes: TreeNode[]): Concept[] {
-  const keywords = ["auth", "user", "checkout", "payment", "order", "api", "database", "schema", "config", "test", "ui", "component", "service", "agent", "tree", "context", "scan", "visual"];
-  const concepts: Concept[] = [];
-  for (const kw of keywords) {
-    const related = files.filter(f => f.path.toLowerCase().includes(kw) || f.symbols.some(s => s.toLowerCase().includes(kw)));
-    if (!related.length) continue;
-    concepts.push({
-      id: slug(kw),
-      title: titleize(kw),
-      summary: `Cross-cutting concept inferred from files and symbols containing "${kw}".`,
-      relatedNodeIds: nodes.filter(n => n.ownedFiles.some(of => related.some(f => f.path === of))).map(n => n.id),
-      relatedFiles: related.map(f => f.path),
-      tags: [kw]
-    });
+  const candidates = new Map<string, ConceptCandidate>();
+
+  for (const file of files) {
+    for (const token of conceptTokens(file.path)) {
+      addConceptSignal(candidates, token, file.path, 3, "path");
+    }
+    for (const token of file.symbols.flatMap(conceptTokens)) {
+      addConceptSignal(candidates, token, file.path, 2, "symbol");
+    }
+    for (const token of file.exports.flatMap(conceptTokens)) {
+      addConceptSignal(candidates, token, file.path, 2, "export");
+    }
   }
-  return concepts;
+
+  return [...candidates.values()]
+    .filter(candidate => candidate.files.size >= 2 || candidate.score >= 5)
+    .sort((a, b) => b.score - a.score || b.files.size - a.files.size || a.token.localeCompare(b.token))
+    .slice(0, 24)
+    .map(candidate => {
+      const relatedFiles = [...candidate.files].sort();
+      return {
+        id: slug(candidate.token),
+        title: titleize(candidate.token),
+        summary: `Durable concept inferred from ${relatedFiles.length} file(s) using ${[...candidate.signals].sort().join(", ")} signals.`,
+        relatedNodeIds: nodes.filter(n => n.ownedFiles.some(of => candidate.files.has(of))).map(n => n.id),
+        relatedFiles,
+        tags: [candidate.token]
+      };
+    });
 }
 
 function inferInvariants(files: FileSummary[], nodes: TreeNode[]): Invariant[] {
@@ -200,4 +228,21 @@ function slug(input: string) {
 
 function titleize(input: string) {
   return input.replace(/[-_.]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function addConceptSignal(candidates: Map<string, ConceptCandidate>, token: string, filePath: string, score: number, signal: string) {
+  if (!token || CONCEPT_STOP_WORDS.has(token)) return;
+  const existing = candidates.get(token) ?? { token, files: new Set<string>(), score: 0, signals: new Set<string>() };
+  existing.files.add(filePath);
+  existing.score += score;
+  existing.signals.add(signal);
+  candidates.set(token, existing);
+}
+
+function conceptTokens(input: string): string[] {
+  return input
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter(token => token.length >= 3 && !CONCEPT_STOP_WORDS.has(token));
 }

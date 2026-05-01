@@ -61,7 +61,7 @@ function App() {
           {state.invariants.map(i => <div className={`card ${i.severity}`} key={i.id}><strong>{i.title}</strong><p>{i.description}</p></div>)}
         </Panel>
         <Panel title="Change history" icon={<History />} wide>
-          {state.changes.slice().reverse().map(c => <div className="change" key={c.id}><strong>{c.title}</strong><span>{new Date(c.timestamp).toLocaleString()} · risk {c.risk}</span><p>{c.reason}</p></div>)}
+          {state.changes.slice().reverse().map(c => <div className="change" key={c.id}><strong>{c.title}</strong><span>{new Date(c.timestamp).toLocaleString()} - risk {c.risk}</span><p>{c.reason}</p></div>)}
         </Panel>
       </section>
     </main>

@@ -194,7 +194,12 @@ async function loadChanges(root: string): Promise<ChangeRecord[]> {
   const out: ChangeRecord[] = [];
   for (const name of names.filter(n => n.endsWith(".json"))) {
     const raw = await readFile(path.join(dir, name), "utf8").catch(() => "");
-    if (raw) out.push(JSON.parse(raw));
+    if (!raw) continue;
+    try {
+      out.push(JSON.parse(raw));
+    } catch {
+      // Ignore malformed local change records so one bad file does not break context generation.
+    }
   }
   return out.sort((a, b) => a.timestamp.localeCompare(b.timestamp));
 }

@@ -6,8 +6,9 @@
 - File scanner.
 - AST-backed TypeScript/JavaScript import, export, and symbol extraction.
 - Deterministic initial tree builder.
+- Repo-specific concept inference from paths, symbols, and exports.
 - Visual app served locally.
-- Context pack generation.
+- Relevance-scored context pack generation.
 - Basic validation and stale-memory drift detection.
 - Test coverage for scan and validation behavior.
 - Agent instructions.

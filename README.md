@@ -109,10 +109,10 @@ This repository is a working starter implementation. It includes:
 
 - a Node/TypeScript CLI;
 - an AST-backed scanner for TypeScript/JavaScript files, with regex fallback for other supported text files;
-- a deterministic ontology and initial tree builder;
+- a deterministic ontology and initial tree builder with repo-specific concept extraction;
 - a local `.abstraction-tree/` schema;
 - validation and stale-memory drift checks;
-- context-pack generation for coding agents;
+- relevance-scored context-pack generation for coding agents;
 - an optional Vite/React visual app;
 - Codex/agent instructions;
 - an example project.

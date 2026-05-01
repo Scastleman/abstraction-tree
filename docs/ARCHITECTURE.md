@@ -10,13 +10,17 @@ The core engine is responsible for a deterministic project-understanding baselin
 - extract imports, exports, symbols, tests, and basic summaries;
 - infer a project-specific abstraction ontology;
 - build an initial abstraction tree using that ontology;
-- infer concepts and invariants;
+- infer concepts from path, symbol, and export signals;
 - validate drift;
-- generate context packs for agents.
+- generate relevance-scored context packs for agents.
 
 The core should remain independent from a specific editor, LLM provider, or UI framework.
 
 The current scanner uses the TypeScript compiler AST for TypeScript, TSX, JavaScript, and JSX files, with regex fallback scanning for other supported text languages. This gives the baseline better import/export/symbol facts without pretending to infer full behavioral meaning.
+
+The deterministic concept pass is repo-specific rather than a fixed keyword list. It scores candidate concepts from file paths, exported names, and symbols, then connects them back to owning nodes and related files.
+
+Context packs use the same facts to rank nodes, concepts, files, and invariants. A target can match through concept summaries, symbols, exports, ownership, or file paths instead of only exact node text.
 
 The protocol is fixed, but the abstraction layers are not. Every tree node follows the same machine-readable schema, while level names come from repository inspection today and should be refined by LLM abstraction providers later. A small web app may produce product, domain, UI runtime, package, and component/file layers; a quant repo may instead produce research objective, data universe, feature engineering, backtesting, portfolio, and reporting layers when an LLM builder is available.
 
