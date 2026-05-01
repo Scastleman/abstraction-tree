@@ -48,6 +48,57 @@ export function validateTree(nodes: TreeNode[], files: FileSummary[], ontology: 
   return issues;
 }
 
+export function detectFileDrift(storedFiles: FileSummary[], currentFiles: FileSummary[], nodes: TreeNode[] = []): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const storedByPath = new Map(storedFiles.map(f => [f.path, f]));
+  const currentByPath = new Map(currentFiles.map(f => [f.path, f]));
+
+  for (const current of currentFiles) {
+    if (!storedByPath.has(current.path)) {
+      issues.push({
+        severity: "warning",
+        filePath: current.path,
+        message: "File is missing from abstraction memory. Run `atree scan` to add it."
+      });
+    }
+  }
+
+  for (const stored of storedFiles) {
+    const current = currentByPath.get(stored.path);
+    if (!current) {
+      issues.push({
+        severity: "warning",
+        filePath: stored.path,
+        message: "File exists in abstraction memory but is no longer present on disk."
+      });
+      continue;
+    }
+
+    if (fileSignature(stored) !== fileSignature(current)) {
+      issues.push({
+        severity: "warning",
+        filePath: stored.path,
+        message: "File changed since the last scan; summaries, symbols, or node ownership may be stale."
+      });
+    }
+  }
+
+  for (const node of nodes) {
+    for (const filePath of nodeFiles(node)) {
+      if (!currentByPath.has(filePath)) {
+        issues.push({
+          severity: "warning",
+          nodeId: node.id,
+          filePath,
+          message: `Node owns file that is not present in the current source tree: ${filePath}.`
+        });
+      }
+    }
+  }
+
+  return dedupeIssues(issues);
+}
+
 function nodeName(node: TreeNode): string {
   return node.name ?? node.title;
 }
@@ -62,4 +113,30 @@ function nodeParent(node: TreeNode): string | undefined {
 
 function nodeFiles(node: TreeNode): string[] {
   return node.sourceFiles ?? node.ownedFiles ?? [];
+}
+
+function fileSignature(file: FileSummary): string {
+  return JSON.stringify({
+    language: file.language,
+    sizeBytes: file.sizeBytes,
+    lines: file.lines,
+    imports: normalized(file.imports),
+    exports: normalized(file.exports),
+    symbols: normalized(file.symbols),
+    isTest: file.isTest
+  });
+}
+
+function normalized(values: string[] = []): string[] {
+  return [...values].sort();
+}
+
+function dedupeIssues(issues: ValidationIssue[]): ValidationIssue[] {
+  const seen = new Set<string>();
+  return issues.filter(issue => {
+    const key = [issue.severity, issue.nodeId ?? "", issue.filePath ?? "", issue.message].join("|");
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }

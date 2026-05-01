@@ -10,6 +10,7 @@ import {
   atreePath,
   buildContextPack,
   buildDeterministicTree,
+  detectFileDrift,
   ensureWorkspace,
   readConfig,
   readJson,
@@ -101,7 +102,11 @@ program.command("validate")
     const ontology = await readJson<AbstractionOntologyLevel[]>(atreePath(root, "ontology.json"), []);
     const nodes = await readJson<TreeNode[]>(atreePath(root, "tree.json"), []);
     const files = await readJson<FileSummary[]>(atreePath(root, "files.json"), []);
-    const issues = validateTree(nodes, files, ontology);
+    const currentScan = await scanProject(root);
+    const issues = [
+      ...validateTree(nodes, files, ontology),
+      ...detectFileDrift(files, currentScan.files, nodes)
+    ];
     if (!issues.length) {
       console.log("No validation issues found.");
       return;

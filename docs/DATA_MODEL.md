@@ -29,12 +29,15 @@ Mechanical scan output for source files:
 
 - path;
 - language;
+- parse strategy;
 - imports;
 - exports;
 - symbols;
 - test flag;
 - summary;
 - owning tree nodes.
+
+`parseStrategy` is `typescript-ast` for TypeScript/JavaScript-family files parsed with the TypeScript compiler API and `regex` for the current fallback scanner.
 
 ## `tree.json`
 

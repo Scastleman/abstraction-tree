@@ -30,6 +30,7 @@ export interface FileSummary {
   path: string;
   extension: string;
   language: string;
+  parseStrategy?: "typescript-ast" | "regex";
   sizeBytes: number;
   lines: number;
   imports: string[];
