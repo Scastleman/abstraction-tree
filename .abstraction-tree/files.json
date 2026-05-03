@@ -1,0 +1,1131 @@
+[
+  {
+    "path": ".github/workflows/ci.yml",
+    "extension": ".yml",
+    "language": "YAML",
+    "parseStrategy": "regex",
+    "sizeBytes": 334,
+    "lines": 20,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "ci.yml is a YAML implementation file.",
+    "ownedByNodeIds": [
+      "file.github.workflows.ci.yml",
+      "module.github"
+    ]
+  },
+  {
+    "path": "adapters/codex/AGENTS.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "sizeBytes": 1385,
+    "lines": 43,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "AGENTS.md is a Markdown implementation file.",
+    "ownedByNodeIds": [
+      "file.adapters.codex.agents.md",
+      "module.adapters"
+    ]
+  },
+  {
+    "path": "CONTRIBUTING.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "sizeBytes": 461,
+    "lines": 23,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "CONTRIBUTING.md is a Markdown implementation file.",
+    "ownedByNodeIds": [
+      "file.contributing.md",
+      "module.root"
+    ]
+  },
+  {
+    "path": "docs/AGENT_PROTOCOL.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "sizeBytes": 2346,
+    "lines": 63,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "AGENT_PROTOCOL.md is a Markdown implementation file.",
+    "ownedByNodeIds": [
+      "file.docs.agent.protocol.md",
+      "module.docs"
+    ]
+  },
+  {
+    "path": "docs/ARCHITECTURE.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "sizeBytes": 2922,
+    "lines": 67,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "to"
+    ],
+    "isTest": false,
+    "summary": "ARCHITECTURE.md is a Markdown implementation file. Defines to.",
+    "ownedByNodeIds": [
+      "file.docs.architecture.md",
+      "module.docs"
+    ]
+  },
+  {
+    "path": "docs/DATA_MODEL.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "sizeBytes": 2218,
+    "lines": 94,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "DATA_MODEL.md is a Markdown implementation file.",
+    "ownedByNodeIds": [
+      "file.docs.data.model.md",
+      "module.docs"
+    ]
+  },
+  {
+    "path": "docs/PACKAGING.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "sizeBytes": 1307,
+    "lines": 68,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "PACKAGING.md is a Markdown implementation file.",
+    "ownedByNodeIds": [
+      "file.docs.packaging.md",
+      "module.docs"
+    ]
+  },
+  {
+    "path": "docs/ROADMAP.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "sizeBytes": 1050,
+    "lines": 41,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "ROADMAP.md is a Markdown implementation file.",
+    "ownedByNodeIds": [
+      "file.docs.roadmap.md",
+      "module.docs"
+    ]
+  },
+  {
+    "path": "examples/small-web-app/package.json",
+    "extension": ".json",
+    "language": "JSON",
+    "parseStrategy": "regex",
+    "sizeBytes": 142,
+    "lines": 9,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "package.json is a JSON implementation file.",
+    "ownedByNodeIds": [
+      "file.examples.small.web.app.package.json",
+      "module.examples"
+    ]
+  },
+  {
+    "path": "examples/small-web-app/src/api/checkout.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 480,
+    "lines": 10,
+    "imports": [
+      "../services/cart",
+      "../services/payment",
+      "../services/orders"
+    ],
+    "exports": [
+      "checkout"
+    ],
+    "symbols": [
+      "checkout",
+      "cart",
+      "payment"
+    ],
+    "isTest": false,
+    "summary": "checkout.ts is a TypeScript implementation file. AST-backed scan. Defines checkout, cart, payment. Depends on ../services/cart, ../services/payment, ../services/orders.",
+    "ownedByNodeIds": [
+      "file.examples.small.web.app.src.api.checkout.ts",
+      "module.examples"
+    ]
+  },
+  {
+    "path": "examples/small-web-app/src/components/CheckoutForm.tsx",
+    "extension": ".tsx",
+    "language": "TypeScript React",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 98,
+    "lines": 4,
+    "imports": [],
+    "exports": [
+      "CheckoutForm"
+    ],
+    "symbols": [
+      "CheckoutForm"
+    ],
+    "isTest": false,
+    "summary": "CheckoutForm.tsx is a TypeScript React implementation file. AST-backed scan. Defines CheckoutForm.",
+    "ownedByNodeIds": [
+      "file.examples.small.web.app.src.components.checkoutform.tsx",
+      "module.examples"
+    ]
+  },
+  {
+    "path": "examples/small-web-app/src/services/cart.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 215,
+    "lines": 5,
+    "imports": [],
+    "exports": [
+      "validateCart"
+    ],
+    "symbols": [
+      "validateCart"
+    ],
+    "isTest": false,
+    "summary": "cart.ts is a TypeScript implementation file. AST-backed scan. Defines validateCart.",
+    "ownedByNodeIds": [
+      "file.examples.small.web.app.src.services.cart.ts",
+      "module.examples"
+    ]
+  },
+  {
+    "path": "examples/small-web-app/src/services/orders.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 159,
+    "lines": 4,
+    "imports": [],
+    "exports": [
+      "createOrder"
+    ],
+    "symbols": [
+      "createOrder"
+    ],
+    "isTest": false,
+    "summary": "orders.ts is a TypeScript implementation file. AST-backed scan. Defines createOrder.",
+    "ownedByNodeIds": [
+      "file.examples.small.web.app.src.services.orders.ts",
+      "module.examples"
+    ]
+  },
+  {
+    "path": "examples/small-web-app/src/services/payment.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 263,
+    "lines": 6,
+    "imports": [],
+    "exports": [
+      "authorizePayment"
+    ],
+    "symbols": [
+      "authorizePayment"
+    ],
+    "isTest": false,
+    "summary": "payment.ts is a TypeScript implementation file. AST-backed scan. Defines authorizePayment.",
+    "ownedByNodeIds": [
+      "file.examples.small.web.app.src.services.payment.ts",
+      "module.examples"
+    ]
+  },
+  {
+    "path": "examples/small-web-app/tests/checkout.test.js",
+    "extension": ".js",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 104,
+    "lines": 5,
+    "imports": [
+      "node:assert/strict"
+    ],
+    "exports": [],
+    "symbols": [],
+    "isTest": true,
+    "summary": "checkout.test.js is a JavaScript test coverage file. AST-backed scan. Depends on node:assert/strict.",
+    "ownedByNodeIds": [
+      "file.examples.small.web.app.tests.checkout.test.js",
+      "module.examples"
+    ]
+  },
+  {
+    "path": "package-lock.json",
+    "extension": ".json",
+    "language": "JSON",
+    "parseStrategy": "regex",
+    "sizeBytes": 60935,
+    "lines": 1776,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "package-lock.json is a JSON implementation file.",
+    "ownedByNodeIds": [
+      "file.package.lock.json",
+      "module.root"
+    ]
+  },
+  {
+    "path": "package.json",
+    "extension": ".json",
+    "language": "JSON",
+    "parseStrategy": "regex",
+    "sizeBytes": 1143,
+    "lines": 29,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "package.json is a JSON implementation file.",
+    "ownedByNodeIds": [
+      "file.package.json",
+      "module.root"
+    ]
+  },
+  {
+    "path": "packages/app/package.json",
+    "extension": ".json",
+    "language": "JSON",
+    "parseStrategy": "regex",
+    "sizeBytes": 653,
+    "lines": 30,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "package.json is a JSON implementation file.",
+    "ownedByNodeIds": [
+      "file.packages.app.package.json",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/app/src/main.tsx",
+    "extension": ".tsx",
+    "language": "TypeScript React",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 5343,
+    "lines": 109,
+    "imports": [
+      "react",
+      "react-dom/client",
+      "lucide-react",
+      "./types.js",
+      "./styles.css"
+    ],
+    "exports": [],
+    "symbols": [
+      "App",
+      "state",
+      "setState",
+      "selectedId",
+      "setSelectedId",
+      "query",
+      "setQuery",
+      "selected",
+      "filtered",
+      "q",
+      "files",
+      "TreeList",
+      "NodeDetails",
+      "Panel",
+      "Stat",
+      "emptyState",
+      "nodeName",
+      "nodeLevel",
+      "nodeFiles",
+      "nodeDependencies"
+    ],
+    "isTest": false,
+    "summary": "main.tsx is a TypeScript React implementation file. AST-backed scan. Defines App, state, setState, selectedId, setSelectedId. Depends on react, react-dom/client, lucide-react, ./types.js.",
+    "ownedByNodeIds": [
+      "file.packages.app.src.main.tsx",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/app/src/types.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 1503,
+    "lines": 49,
+    "imports": [],
+    "exports": [
+      "AbstractionOntologyLevel",
+      "FileSummary",
+      "TreeNode",
+      "Concept",
+      "Invariant",
+      "ChangeRecord",
+      "State"
+    ],
+    "symbols": [
+      "AbstractionOntologyLevel",
+      "FileSummary",
+      "TreeNode",
+      "Concept",
+      "Invariant",
+      "ChangeRecord",
+      "State"
+    ],
+    "isTest": false,
+    "summary": "types.ts is a TypeScript implementation file. AST-backed scan. Defines AbstractionOntologyLevel, FileSummary, TreeNode, Concept, Invariant.",
+    "ownedByNodeIds": [
+      "file.packages.app.src.types.ts",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/app/tsconfig.json",
+    "extension": ".json",
+    "language": "JSON",
+    "parseStrategy": "regex",
+    "sizeBytes": 196,
+    "lines": 10,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "tsconfig.json is a JSON configuration file.",
+    "ownedByNodeIds": [
+      "file.packages.app.tsconfig.json",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/cli/package.json",
+    "extension": ".json",
+    "language": "JSON",
+    "parseStrategy": "regex",
+    "sizeBytes": 533,
+    "lines": 25,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "package.json is a JSON implementation file.",
+    "ownedByNodeIds": [
+      "file.packages.cli.package.json",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/cli/src/index.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 9376,
+    "lines": 215,
+    "imports": [
+      "commander",
+      "node:path",
+      "node:http",
+      "node:fs",
+      "node:fs/promises",
+      "node:url",
+      "sirv",
+      "@abstraction-tree/core"
+    ],
+    "exports": [],
+    "symbols": [
+      "program",
+      "projectPath",
+      "root",
+      "mode",
+      "config",
+      "scan",
+      "built",
+      "change",
+      "ontology",
+      "nodes",
+      "files",
+      "currentScan",
+      "issues",
+      "i",
+      "concepts",
+      "invariants",
+      "changes",
+      "pack",
+      "out",
+      "port",
+      "appDist",
+      "serveStatic",
+      "server",
+      "state",
+      "findVisualAppDist",
+      "cliDir",
+      "candidates",
+      "loadChanges",
+      "dir",
+      "fs",
+      "names",
+      "name",
+      "raw",
+      "fallback"
+    ],
+    "isTest": false,
+    "summary": "index.ts is a TypeScript implementation file. AST-backed scan. Defines program, projectPath, root, mode, config. Depends on commander, node:path, node:http, node:fs.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.index.ts",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/cli/tsconfig.json",
+    "extension": ".json",
+    "language": "JSON",
+    "parseStrategy": "regex",
+    "sizeBytes": 145,
+    "lines": 9,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "tsconfig.json is a JSON configuration file.",
+    "ownedByNodeIds": [
+      "file.packages.cli.tsconfig.json",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/core/package.json",
+    "extension": ".json",
+    "language": "JSON",
+    "parseStrategy": "regex",
+    "sizeBytes": 270,
+    "lines": 15,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "package.json is a JSON implementation file.",
+    "ownedByNodeIds": [
+      "file.packages.core.package.json",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/core/src/context.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 2936,
+    "lines": 86,
+    "imports": [
+      "node:assert/strict",
+      "node:test",
+      "./context.js",
+      "./schema.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "files",
+      "nodes",
+      "concepts",
+      "invariants",
+      "pack",
+      "file",
+      "node"
+    ],
+    "isTest": true,
+    "summary": "context.test.ts is a TypeScript test coverage file. AST-backed scan. Defines files, nodes, concepts, invariants, pack. Depends on node:assert/strict, node:test, ./context.js, ./schema.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.context.test.ts",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/core/src/context.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 6124,
+    "lines": 162,
+    "imports": [
+      "./schema.js"
+    ],
+    "exports": [
+      "buildContextPack"
+    ],
+    "symbols": [
+      "buildContextPack",
+      "query",
+      "queryTokens",
+      "conceptScores",
+      "conceptFileSet",
+      "conceptNodeSet",
+      "nodeScores",
+      "files",
+      "conceptOverlap",
+      "conceptNodeBoost",
+      "relevantNodes",
+      "nodeFileSet",
+      "fileScores",
+      "ownershipBoost",
+      "conceptBoost",
+      "relevantFiles",
+      "fileSet",
+      "node",
+      "filePath",
+      "relevantConcepts",
+      "nodeIds",
+      "invariants",
+      "nodeName",
+      "nodeFiles",
+      "scoreNode",
+      "scoreFile",
+      "scoreConcept",
+      "scoreList",
+      "scoreText",
+      "text",
+      "textTokens",
+      "score",
+      "token",
+      "tokenize",
+      "normalize",
+      "byScoreThenName",
+      "uniqueBy",
+      "seen",
+      "value",
+      "conceptName"
+    ],
+    "isTest": false,
+    "summary": "context.ts is a TypeScript implementation file. AST-backed scan. Defines buildContextPack, query, queryTokens, conceptScores, conceptFileSet. Depends on ./schema.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.context.ts",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/core/src/index.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 187,
+    "lines": 7,
+    "imports": [
+      "./schema.js",
+      "./workspace.js",
+      "./scanner.js",
+      "./treeBuilder.js",
+      "./context.js",
+      "./validator.js"
+    ],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "index.ts is a TypeScript implementation file. AST-backed scan. Depends on ./schema.js, ./workspace.js, ./scanner.js, ./treeBuilder.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.index.ts",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/core/src/scanner.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 1419,
+    "lines": 48,
+    "imports": [
+      "node:assert/strict",
+      "node:test",
+      "./scanner.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "source",
+      "summary"
+    ],
+    "isTest": true,
+    "summary": "scanner.test.ts is a TypeScript test coverage file. AST-backed scan. Defines source, summary. Depends on node:assert/strict, node:test, ./scanner.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.scanner.test.ts",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/core/src/scanner.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 8758,
+    "lines": 275,
+    "imports": [
+      "node:fs/promises",
+      "node:path",
+      "typescript",
+      "./schema.js",
+      "./workspace.js"
+    ],
+    "exports": [
+      "ScanResult",
+      "scanProject",
+      "summarizeFile"
+    ],
+    "symbols": [
+      "LANGUAGE_BY_EXT",
+      "TEXT_EXTENSIONS",
+      "TYPESCRIPT_AST_EXTENSIONS",
+      "ParseStrategy",
+      "SourceFacts",
+      "ScanResult",
+      "scanProject",
+      "config",
+      "ignored",
+      "files",
+      "walk",
+      "entries",
+      "entry",
+      "abs",
+      "rel",
+      "ext",
+      "s",
+      "text",
+      "summarizeFile",
+      "lines",
+      "facts",
+      "isTest",
+      "language",
+      "summary",
+      "extractSourceFacts",
+      "extractTypeScriptFacts",
+      "imports",
+      "exports",
+      "symbols",
+      "sourceFile",
+      "visit",
+      "extractRegexFacts",
+      "extractMatches",
+      "out",
+      "regex",
+      "m",
+      "collectImport",
+      "collectExport",
+      "declaration",
+      "element"
+    ],
+    "isTest": false,
+    "summary": "scanner.ts is a TypeScript implementation file. AST-backed scan. Defines LANGUAGE_BY_EXT, TEXT_EXTENSIONS, TYPESCRIPT_AST_EXTENSIONS, ParseStrategy, SourceFacts. Depends on node:fs/promises, node:path, typescript, ./schema.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.scanner.ts",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/core/src/schema.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 2371,
+    "lines": 116,
+    "imports": [],
+    "exports": [
+      "AbstractionLevel",
+      "AbstractionOntologyLevel",
+      "InstallMode",
+      "AtreeConfig",
+      "FileSummary",
+      "TreeNode",
+      "Concept",
+      "Invariant",
+      "ChangeRecord",
+      "ContextPack",
+      "ValidationIssue"
+    ],
+    "symbols": [
+      "AbstractionLevel",
+      "AbstractionOntologyLevel",
+      "InstallMode",
+      "AtreeConfig",
+      "FileSummary",
+      "TreeNode",
+      "Concept",
+      "Invariant",
+      "ChangeRecord",
+      "ContextPack",
+      "ValidationIssue"
+    ],
+    "isTest": false,
+    "summary": "schema.ts is a TypeScript data/schema file. AST-backed scan. Defines AbstractionLevel, AbstractionOntologyLevel, InstallMode, AtreeConfig, FileSummary.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.schema.ts",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/core/src/treeBuilder.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 1137,
+    "lines": 36,
+    "imports": [
+      "node:assert/strict",
+      "node:test",
+      "./treeBuilder.js",
+      "./schema.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "result",
+      "concept",
+      "file"
+    ],
+    "isTest": true,
+    "summary": "treeBuilder.test.ts is a TypeScript test coverage file. AST-backed scan. Defines result, concept, file. Depends on node:assert/strict, node:test, ./treeBuilder.js, ./schema.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.treebuilder.test.ts",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/core/src/treeBuilder.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 10225,
+    "lines": 250,
+    "imports": [
+      "node:path",
+      "./schema.js"
+    ],
+    "exports": [
+      "BuildTreeResult",
+      "buildDeterministicTree"
+    ],
+    "symbols": [
+      "BuildTreeResult",
+      "buildDeterministicTree",
+      "ontology",
+      "levels",
+      "rootId",
+      "nodes",
+      "root",
+      "domain",
+      "arch",
+      "code",
+      "n",
+      "topFolders",
+      "f",
+      "folder",
+      "id",
+      "parentId",
+      "concepts",
+      "c",
+      "cn",
+      "invariants",
+      "inv",
+      "nodeId",
+      "inferOntology",
+      "paths",
+      "languages",
+      "hasUi",
+      "hasTests",
+      "hasPackages",
+      "hasData",
+      "runtimeName",
+      "packageName",
+      "codeName",
+      "ConceptCandidate",
+      "CONCEPT_STOP_WORDS",
+      "inferConcepts",
+      "candidates",
+      "file",
+      "token",
+      "relatedFiles",
+      "inferInvariants"
+    ],
+    "isTest": false,
+    "summary": "treeBuilder.ts is a TypeScript implementation file. AST-backed scan. Defines BuildTreeResult, buildDeterministicTree, ontology, levels, rootId. Depends on node:path, ./schema.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.treebuilder.ts",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/core/src/validator.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 4572,
+    "lines": 127,
+    "imports": [
+      "node:assert/strict",
+      "node:test",
+      "./scanner.js",
+      "./validator.js",
+      "./schema.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "stored",
+      "current",
+      "added",
+      "issues",
+      "nodes",
+      "first",
+      "second",
+      "ontology",
+      "node",
+      "ontologyLevel"
+    ],
+    "isTest": true,
+    "summary": "validator.test.ts is a TypeScript test coverage file. AST-backed scan. Defines stored, current, added, issues, nodes. Depends on node:assert/strict, node:test, ./scanner.js, ./validator.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.validator.test.ts",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/core/src/validator.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 8854,
+    "lines": 260,
+    "imports": [
+      "./schema.js"
+    ],
+    "exports": [
+      "validateTree",
+      "detectFileDrift"
+    ],
+    "symbols": [
+      "validateTree",
+      "issues",
+      "filePaths",
+      "nodeIds",
+      "nodeById",
+      "ontologyIds",
+      "id",
+      "path",
+      "name",
+      "n",
+      "parent",
+      "child",
+      "childNode",
+      "f",
+      "roots",
+      "ranks",
+      "level",
+      "detectFileDrift",
+      "storedByPath",
+      "currentByPath",
+      "current",
+      "stored",
+      "node",
+      "filePath",
+      "nodeName",
+      "nodeLevel",
+      "nodeParent",
+      "nodeFiles",
+      "findDuplicateNodeIds",
+      "seen",
+      "duplicates",
+      "findDuplicateFilePaths",
+      "file",
+      "findDuplicateOntologyLevelIds",
+      "findDuplicateOntologyLevelNames",
+      "key",
+      "existing",
+      "detectParentCycles",
+      "reported",
+      "start"
+    ],
+    "isTest": false,
+    "summary": "validator.ts is a TypeScript implementation file. AST-backed scan. Defines validateTree, issues, filePaths, nodeIds, nodeById. Depends on ./schema.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.validator.ts",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/core/src/workspace.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 2976,
+    "lines": 79,
+    "imports": [
+      "node:fs/promises",
+      "node:fs",
+      "node:path",
+      "./schema.js"
+    ],
+    "exports": [
+      "ATREE_DIR",
+      "atreePath",
+      "defaultConfig",
+      "ensureWorkspace",
+      "setInstallMode",
+      "readJson",
+      "writeJson",
+      "readConfig"
+    ],
+    "symbols": [
+      "ATREE_DIR",
+      "atreePath",
+      "defaultConfig",
+      "ensureWorkspace",
+      "configPath",
+      "existing",
+      "merged",
+      "setInstallMode",
+      "config",
+      "readJson",
+      "raw",
+      "writeJson",
+      "readConfig"
+    ],
+    "isTest": false,
+    "summary": "workspace.ts is a TypeScript implementation file. AST-backed scan. Defines ATREE_DIR, atreePath, defaultConfig, ensureWorkspace, configPath. Depends on node:fs/promises, node:fs, node:path, ./schema.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.workspace.ts",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/core/tsconfig.json",
+    "extension": ".json",
+    "language": "JSON",
+    "parseStrategy": "regex",
+    "sizeBytes": 145,
+    "lines": 9,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "tsconfig.json is a JSON configuration file.",
+    "ownedByNodeIds": [
+      "file.packages.core.tsconfig.json",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/full/bin/atree.js",
+    "extension": ".js",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "sizeBytes": 52,
+    "lines": 3,
+    "imports": [
+      "@abstraction-tree/cli"
+    ],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "atree.js is a JavaScript implementation file. AST-backed scan. Depends on @abstraction-tree/cli.",
+    "ownedByNodeIds": [
+      "file.packages.full.bin.atree.js",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/full/package.json",
+    "extension": ".json",
+    "language": "JSON",
+    "parseStrategy": "regex",
+    "sizeBytes": 422,
+    "lines": 21,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "package.json is a JSON implementation file.",
+    "ownedByNodeIds": [
+      "file.packages.full.package.json",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/full/README.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "sizeBytes": 345,
+    "lines": 16,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "README.md is a Markdown implementation file.",
+    "ownedByNodeIds": [
+      "file.packages.full.readme.md",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "README.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "sizeBytes": 7879,
+    "lines": 277,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "to"
+    ],
+    "isTest": false,
+    "summary": "README.md is a Markdown implementation file. Defines to.",
+    "ownedByNodeIds": [
+      "file.readme.md",
+      "module.root"
+    ]
+  },
+  {
+    "path": "tsconfig.base.json",
+    "extension": ".json",
+    "language": "JSON",
+    "parseStrategy": "regex",
+    "sizeBytes": 316,
+    "lines": 15,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "tsconfig.base.json is a JSON configuration file.",
+    "ownedByNodeIds": [
+      "file.tsconfig.base.json",
+      "module.root"
+    ]
+  }
+]

@@ -1,0 +1,3164 @@
+[
+  {
+    "id": "project.intent",
+    "name": "abstraction-tree",
+    "title": "abstraction-tree",
+    "abstractionLevel": "project-purpose",
+    "level": "project-purpose",
+    "summary": "Top-level purpose and semantic map for abstraction-tree.",
+    "children": [
+      "project.domain",
+      "project.architecture",
+      "project.code"
+    ],
+    "sourceFiles": [],
+    "ownedFiles": [],
+    "responsibilities": [],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "project.domain",
+    "name": "Domain Concept Layer",
+    "title": "Domain Concept Layer",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Human-level concepts inferred from names, folders, and code symbols.",
+    "parent": "project.intent",
+    "parentId": "project.intent",
+    "children": [
+      "concept-node.core",
+      "concept-node.concept",
+      "concept-node.tree",
+      "concept-node.ontology",
+      "concept-node.config",
+      "concept-node.checkout",
+      "concept-node.docs",
+      "concept-node.atree",
+      "concept-node.context",
+      "concept-node.pack",
+      "concept-node.tsconfig",
+      "concept-node.state",
+      "concept-node.abstraction",
+      "concept-node.scan",
+      "concept-node.cli",
+      "concept-node.concepts",
+      "concept-node.invariants",
+      "concept-node.change",
+      "concept-node.mode",
+      "concept-node.result",
+      "concept-node.find",
+      "concept-node.ids",
+      "concept-node.text",
+      "concept-node.facts"
+    ],
+    "sourceFiles": [],
+    "ownedFiles": [],
+    "responsibilities": [],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "project.architecture",
+    "name": "Runtime / Dataflow Layer",
+    "title": "Runtime / Dataflow Layer",
+    "abstractionLevel": "runtime.dataflow.layer",
+    "level": "runtime.dataflow.layer",
+    "summary": "Runtime systems, dataflow, and implementation boundaries inferred from repository structure.",
+    "parent": "project.intent",
+    "parentId": "project.intent",
+    "children": [],
+    "sourceFiles": [],
+    "ownedFiles": [],
+    "responsibilities": [],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "project.code",
+    "name": "Package / Workspace Layer",
+    "title": "Package / Workspace Layer",
+    "abstractionLevel": "package.workspace.layer",
+    "level": "package.workspace.layer",
+    "summary": "Package, folder, and file ownership extracted from the repository.",
+    "parent": "project.intent",
+    "parentId": "project.intent",
+    "children": [
+      "module.github",
+      "module.adapters",
+      "module.docs",
+      "module.examples",
+      "module.packages",
+      "module.root"
+    ],
+    "sourceFiles": [],
+    "ownedFiles": [],
+    "responsibilities": [],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "module.github",
+    "name": " Github",
+    "title": " Github",
+    "abstractionLevel": "package.workspace.layer",
+    "level": "package.workspace.layer",
+    "summary": "Files and functionality under .github.",
+    "parent": "project.code",
+    "parentId": "project.code",
+    "children": [
+      "file.github.workflows.ci.yml"
+    ],
+    "sourceFiles": [
+      ".github/workflows/ci.yml"
+    ],
+    "ownedFiles": [
+      ".github/workflows/ci.yml"
+    ],
+    "responsibilities": [
+      "Own files and behavior under .github."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        ".github/workflows/ci.yml"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "module.adapters",
+    "name": "Adapters",
+    "title": "Adapters",
+    "abstractionLevel": "package.workspace.layer",
+    "level": "package.workspace.layer",
+    "summary": "Files and functionality under adapters.",
+    "parent": "project.code",
+    "parentId": "project.code",
+    "children": [
+      "file.adapters.codex.agents.md"
+    ],
+    "sourceFiles": [
+      "adapters/codex/AGENTS.md"
+    ],
+    "ownedFiles": [
+      "adapters/codex/AGENTS.md"
+    ],
+    "responsibilities": [
+      "Own files and behavior under adapters."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "adapters/codex/AGENTS.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "module.docs",
+    "name": "Docs",
+    "title": "Docs",
+    "abstractionLevel": "package.workspace.layer",
+    "level": "package.workspace.layer",
+    "summary": "Files and functionality under docs.",
+    "parent": "project.code",
+    "parentId": "project.code",
+    "children": [
+      "file.docs.agent.protocol.md",
+      "file.docs.architecture.md",
+      "file.docs.data.model.md",
+      "file.docs.packaging.md",
+      "file.docs.roadmap.md"
+    ],
+    "sourceFiles": [
+      "docs/AGENT_PROTOCOL.md",
+      "docs/ARCHITECTURE.md",
+      "docs/DATA_MODEL.md",
+      "docs/PACKAGING.md",
+      "docs/ROADMAP.md"
+    ],
+    "ownedFiles": [
+      "docs/AGENT_PROTOCOL.md",
+      "docs/ARCHITECTURE.md",
+      "docs/DATA_MODEL.md",
+      "docs/PACKAGING.md",
+      "docs/ROADMAP.md"
+    ],
+    "responsibilities": [
+      "Own files and behavior under docs."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "docs/AGENT_PROTOCOL.md",
+        "docs/ARCHITECTURE.md",
+        "docs/DATA_MODEL.md",
+        "docs/PACKAGING.md",
+        "docs/ROADMAP.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "module.examples",
+    "name": "Examples",
+    "title": "Examples",
+    "abstractionLevel": "package.workspace.layer",
+    "level": "package.workspace.layer",
+    "summary": "Files and functionality under examples.",
+    "parent": "project.code",
+    "parentId": "project.code",
+    "children": [
+      "file.examples.small.web.app.package.json",
+      "file.examples.small.web.app.src.api.checkout.ts",
+      "file.examples.small.web.app.src.components.checkoutform.tsx",
+      "file.examples.small.web.app.src.services.cart.ts",
+      "file.examples.small.web.app.src.services.orders.ts",
+      "file.examples.small.web.app.src.services.payment.ts",
+      "file.examples.small.web.app.tests.checkout.test.js"
+    ],
+    "sourceFiles": [
+      "examples/small-web-app/package.json",
+      "examples/small-web-app/src/api/checkout.ts",
+      "examples/small-web-app/src/components/CheckoutForm.tsx",
+      "examples/small-web-app/src/services/cart.ts",
+      "examples/small-web-app/src/services/orders.ts",
+      "examples/small-web-app/src/services/payment.ts",
+      "examples/small-web-app/tests/checkout.test.js"
+    ],
+    "ownedFiles": [
+      "examples/small-web-app/package.json",
+      "examples/small-web-app/src/api/checkout.ts",
+      "examples/small-web-app/src/components/CheckoutForm.tsx",
+      "examples/small-web-app/src/services/cart.ts",
+      "examples/small-web-app/src/services/orders.ts",
+      "examples/small-web-app/src/services/payment.ts",
+      "examples/small-web-app/tests/checkout.test.js"
+    ],
+    "responsibilities": [
+      "Own files and behavior under examples."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "examples/small-web-app/package.json",
+        "examples/small-web-app/src/api/checkout.ts",
+        "examples/small-web-app/src/components/CheckoutForm.tsx",
+        "examples/small-web-app/src/services/cart.ts",
+        "examples/small-web-app/src/services/orders.ts",
+        "examples/small-web-app/src/services/payment.ts",
+        "examples/small-web-app/tests/checkout.test.js"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "module.packages",
+    "name": "Packages",
+    "title": "Packages",
+    "abstractionLevel": "package.workspace.layer",
+    "level": "package.workspace.layer",
+    "summary": "Files and functionality under packages.",
+    "parent": "project.code",
+    "parentId": "project.code",
+    "children": [
+      "file.packages.app.package.json",
+      "file.packages.app.src.main.tsx",
+      "file.packages.app.src.types.ts",
+      "file.packages.app.tsconfig.json",
+      "file.packages.cli.package.json",
+      "file.packages.cli.src.index.ts",
+      "file.packages.cli.tsconfig.json",
+      "file.packages.core.package.json",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.index.ts",
+      "file.packages.core.src.scanner.test.ts",
+      "file.packages.core.src.scanner.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.test.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.packages.core.tsconfig.json",
+      "file.packages.full.bin.atree.js",
+      "file.packages.full.package.json",
+      "file.packages.full.readme.md"
+    ],
+    "sourceFiles": [
+      "packages/app/package.json",
+      "packages/app/src/main.tsx",
+      "packages/app/src/types.ts",
+      "packages/app/tsconfig.json",
+      "packages/cli/package.json",
+      "packages/cli/src/index.ts",
+      "packages/cli/tsconfig.json",
+      "packages/core/package.json",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/index.ts",
+      "packages/core/src/scanner.test.ts",
+      "packages/core/src/scanner.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.test.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts",
+      "packages/core/src/workspace.ts",
+      "packages/core/tsconfig.json",
+      "packages/full/bin/atree.js",
+      "packages/full/package.json",
+      "packages/full/README.md"
+    ],
+    "ownedFiles": [
+      "packages/app/package.json",
+      "packages/app/src/main.tsx",
+      "packages/app/src/types.ts",
+      "packages/app/tsconfig.json",
+      "packages/cli/package.json",
+      "packages/cli/src/index.ts",
+      "packages/cli/tsconfig.json",
+      "packages/core/package.json",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/index.ts",
+      "packages/core/src/scanner.test.ts",
+      "packages/core/src/scanner.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.test.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts",
+      "packages/core/src/workspace.ts",
+      "packages/core/tsconfig.json",
+      "packages/full/bin/atree.js",
+      "packages/full/package.json",
+      "packages/full/README.md"
+    ],
+    "responsibilities": [
+      "Own files and behavior under packages."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/app/package.json",
+        "packages/app/src/main.tsx",
+        "packages/app/src/types.ts",
+        "packages/app/tsconfig.json",
+        "packages/cli/package.json",
+        "packages/cli/src/index.ts",
+        "packages/cli/tsconfig.json",
+        "packages/core/package.json",
+        "packages/core/src/context.test.ts",
+        "packages/core/src/context.ts",
+        "packages/core/src/index.ts",
+        "packages/core/src/scanner.test.ts",
+        "packages/core/src/scanner.ts",
+        "packages/core/src/schema.ts",
+        "packages/core/src/treeBuilder.test.ts",
+        "packages/core/src/treeBuilder.ts",
+        "packages/core/src/validator.test.ts",
+        "packages/core/src/validator.ts",
+        "packages/core/src/workspace.ts",
+        "packages/core/tsconfig.json",
+        "packages/full/bin/atree.js",
+        "packages/full/package.json",
+        "packages/full/README.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "module.root",
+    "name": "Root",
+    "title": "Root",
+    "abstractionLevel": "package.workspace.layer",
+    "level": "package.workspace.layer",
+    "summary": "Files and functionality under root.",
+    "parent": "project.code",
+    "parentId": "project.code",
+    "children": [
+      "file.contributing.md",
+      "file.package.lock.json",
+      "file.package.json",
+      "file.readme.md",
+      "file.tsconfig.base.json"
+    ],
+    "sourceFiles": [
+      "CONTRIBUTING.md",
+      "package-lock.json",
+      "package.json",
+      "README.md",
+      "tsconfig.base.json"
+    ],
+    "ownedFiles": [
+      "CONTRIBUTING.md",
+      "package-lock.json",
+      "package.json",
+      "README.md",
+      "tsconfig.base.json"
+    ],
+    "responsibilities": [
+      "Own files and behavior under root."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "CONTRIBUTING.md",
+        "package-lock.json",
+        "package.json",
+        "README.md",
+        "tsconfig.base.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.github.workflows.ci.yml",
+    "name": "ci.yml",
+    "title": "ci.yml",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "ci.yml is a YAML implementation file.",
+    "parent": "module.github",
+    "parentId": "module.github",
+    "children": [],
+    "sourceFiles": [
+      ".github/workflows/ci.yml"
+    ],
+    "ownedFiles": [
+      ".github/workflows/ci.yml"
+    ],
+    "responsibilities": [
+      "ci.yml is a YAML implementation file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        ".github/workflows/ci.yml"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.adapters.codex.agents.md",
+    "name": "AGENTS.md",
+    "title": "AGENTS.md",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "AGENTS.md is a Markdown implementation file.",
+    "parent": "module.adapters",
+    "parentId": "module.adapters",
+    "children": [],
+    "sourceFiles": [
+      "adapters/codex/AGENTS.md"
+    ],
+    "ownedFiles": [
+      "adapters/codex/AGENTS.md"
+    ],
+    "responsibilities": [
+      "AGENTS.md is a Markdown implementation file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "adapters/codex/AGENTS.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.contributing.md",
+    "name": "CONTRIBUTING.md",
+    "title": "CONTRIBUTING.md",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "CONTRIBUTING.md is a Markdown implementation file.",
+    "parent": "module.root",
+    "parentId": "module.root",
+    "children": [],
+    "sourceFiles": [
+      "CONTRIBUTING.md"
+    ],
+    "ownedFiles": [
+      "CONTRIBUTING.md"
+    ],
+    "responsibilities": [
+      "CONTRIBUTING.md is a Markdown implementation file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "CONTRIBUTING.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.docs.agent.protocol.md",
+    "name": "AGENT_PROTOCOL.md",
+    "title": "AGENT_PROTOCOL.md",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "AGENT_PROTOCOL.md is a Markdown implementation file.",
+    "parent": "module.docs",
+    "parentId": "module.docs",
+    "children": [],
+    "sourceFiles": [
+      "docs/AGENT_PROTOCOL.md"
+    ],
+    "ownedFiles": [
+      "docs/AGENT_PROTOCOL.md"
+    ],
+    "responsibilities": [
+      "AGENT_PROTOCOL.md is a Markdown implementation file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "docs/AGENT_PROTOCOL.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.docs.architecture.md",
+    "name": "ARCHITECTURE.md",
+    "title": "ARCHITECTURE.md",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "ARCHITECTURE.md is a Markdown implementation file. Defines to.",
+    "parent": "module.docs",
+    "parentId": "module.docs",
+    "children": [],
+    "sourceFiles": [
+      "docs/ARCHITECTURE.md"
+    ],
+    "ownedFiles": [
+      "docs/ARCHITECTURE.md"
+    ],
+    "responsibilities": [
+      "ARCHITECTURE.md is a Markdown implementation file. Defines to."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "docs/ARCHITECTURE.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.docs.data.model.md",
+    "name": "DATA_MODEL.md",
+    "title": "DATA_MODEL.md",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "DATA_MODEL.md is a Markdown implementation file.",
+    "parent": "module.docs",
+    "parentId": "module.docs",
+    "children": [],
+    "sourceFiles": [
+      "docs/DATA_MODEL.md"
+    ],
+    "ownedFiles": [
+      "docs/DATA_MODEL.md"
+    ],
+    "responsibilities": [
+      "DATA_MODEL.md is a Markdown implementation file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "docs/DATA_MODEL.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.docs.packaging.md",
+    "name": "PACKAGING.md",
+    "title": "PACKAGING.md",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "PACKAGING.md is a Markdown implementation file.",
+    "parent": "module.docs",
+    "parentId": "module.docs",
+    "children": [],
+    "sourceFiles": [
+      "docs/PACKAGING.md"
+    ],
+    "ownedFiles": [
+      "docs/PACKAGING.md"
+    ],
+    "responsibilities": [
+      "PACKAGING.md is a Markdown implementation file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "docs/PACKAGING.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.docs.roadmap.md",
+    "name": "ROADMAP.md",
+    "title": "ROADMAP.md",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "ROADMAP.md is a Markdown implementation file.",
+    "parent": "module.docs",
+    "parentId": "module.docs",
+    "children": [],
+    "sourceFiles": [
+      "docs/ROADMAP.md"
+    ],
+    "ownedFiles": [
+      "docs/ROADMAP.md"
+    ],
+    "responsibilities": [
+      "ROADMAP.md is a Markdown implementation file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "docs/ROADMAP.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.examples.small.web.app.package.json",
+    "name": "package.json",
+    "title": "package.json",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "package.json is a JSON implementation file.",
+    "parent": "module.examples",
+    "parentId": "module.examples",
+    "children": [],
+    "sourceFiles": [
+      "examples/small-web-app/package.json"
+    ],
+    "ownedFiles": [
+      "examples/small-web-app/package.json"
+    ],
+    "responsibilities": [
+      "package.json is a JSON implementation file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "examples/small-web-app/package.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.examples.small.web.app.src.api.checkout.ts",
+    "name": "checkout.ts",
+    "title": "checkout.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "checkout.ts is a TypeScript implementation file. AST-backed scan. Defines checkout, cart, payment. Depends on ../services/cart, ../services/payment, ../services/orders.",
+    "parent": "module.examples",
+    "parentId": "module.examples",
+    "children": [],
+    "sourceFiles": [
+      "examples/small-web-app/src/api/checkout.ts"
+    ],
+    "ownedFiles": [
+      "examples/small-web-app/src/api/checkout.ts"
+    ],
+    "responsibilities": [
+      "checkout.ts is a TypeScript implementation file. AST-backed scan. Defines checkout, cart, payment. Depends on ../services/cart, ../services/payment, ../services/orders."
+    ],
+    "dependencies": [
+      "import:../services/cart",
+      "import:../services/payment",
+      "import:../services/orders"
+    ],
+    "dependsOn": [
+      "import:../services/cart",
+      "import:../services/payment",
+      "import:../services/orders"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "examples/small-web-app/src/api/checkout.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.examples.small.web.app.src.components.checkoutform.tsx",
+    "name": "CheckoutForm.tsx",
+    "title": "CheckoutForm.tsx",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "CheckoutForm.tsx is a TypeScript React implementation file. AST-backed scan. Defines CheckoutForm.",
+    "parent": "module.examples",
+    "parentId": "module.examples",
+    "children": [],
+    "sourceFiles": [
+      "examples/small-web-app/src/components/CheckoutForm.tsx"
+    ],
+    "ownedFiles": [
+      "examples/small-web-app/src/components/CheckoutForm.tsx"
+    ],
+    "responsibilities": [
+      "CheckoutForm.tsx is a TypeScript React implementation file. AST-backed scan. Defines CheckoutForm."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "examples/small-web-app/src/components/CheckoutForm.tsx"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.examples.small.web.app.src.services.cart.ts",
+    "name": "cart.ts",
+    "title": "cart.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "cart.ts is a TypeScript implementation file. AST-backed scan. Defines validateCart.",
+    "parent": "module.examples",
+    "parentId": "module.examples",
+    "children": [],
+    "sourceFiles": [
+      "examples/small-web-app/src/services/cart.ts"
+    ],
+    "ownedFiles": [
+      "examples/small-web-app/src/services/cart.ts"
+    ],
+    "responsibilities": [
+      "cart.ts is a TypeScript implementation file. AST-backed scan. Defines validateCart."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "examples/small-web-app/src/services/cart.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.examples.small.web.app.src.services.orders.ts",
+    "name": "orders.ts",
+    "title": "orders.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "orders.ts is a TypeScript implementation file. AST-backed scan. Defines createOrder.",
+    "parent": "module.examples",
+    "parentId": "module.examples",
+    "children": [],
+    "sourceFiles": [
+      "examples/small-web-app/src/services/orders.ts"
+    ],
+    "ownedFiles": [
+      "examples/small-web-app/src/services/orders.ts"
+    ],
+    "responsibilities": [
+      "orders.ts is a TypeScript implementation file. AST-backed scan. Defines createOrder."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "examples/small-web-app/src/services/orders.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.examples.small.web.app.src.services.payment.ts",
+    "name": "payment.ts",
+    "title": "payment.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "payment.ts is a TypeScript implementation file. AST-backed scan. Defines authorizePayment.",
+    "parent": "module.examples",
+    "parentId": "module.examples",
+    "children": [],
+    "sourceFiles": [
+      "examples/small-web-app/src/services/payment.ts"
+    ],
+    "ownedFiles": [
+      "examples/small-web-app/src/services/payment.ts"
+    ],
+    "responsibilities": [
+      "payment.ts is a TypeScript implementation file. AST-backed scan. Defines authorizePayment."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "examples/small-web-app/src/services/payment.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.examples.small.web.app.tests.checkout.test.js",
+    "name": "checkout.test.js",
+    "title": "checkout.test.js",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "checkout.test.js is a JavaScript test coverage file. AST-backed scan. Depends on node:assert/strict.",
+    "parent": "module.examples",
+    "parentId": "module.examples",
+    "children": [],
+    "sourceFiles": [
+      "examples/small-web-app/tests/checkout.test.js"
+    ],
+    "ownedFiles": [
+      "examples/small-web-app/tests/checkout.test.js"
+    ],
+    "responsibilities": [
+      "checkout.test.js is a JavaScript test coverage file. AST-backed scan. Depends on node:assert/strict."
+    ],
+    "dependencies": [
+      "import:node:assert/strict"
+    ],
+    "dependsOn": [
+      "import:node:assert/strict"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "examples/small-web-app/tests/checkout.test.js"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.package.lock.json",
+    "name": "package-lock.json",
+    "title": "package-lock.json",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "package-lock.json is a JSON implementation file.",
+    "parent": "module.root",
+    "parentId": "module.root",
+    "children": [],
+    "sourceFiles": [
+      "package-lock.json"
+    ],
+    "ownedFiles": [
+      "package-lock.json"
+    ],
+    "responsibilities": [
+      "package-lock.json is a JSON implementation file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "package-lock.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.package.json",
+    "name": "package.json",
+    "title": "package.json",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "package.json is a JSON implementation file.",
+    "parent": "module.root",
+    "parentId": "module.root",
+    "children": [],
+    "sourceFiles": [
+      "package.json"
+    ],
+    "ownedFiles": [
+      "package.json"
+    ],
+    "responsibilities": [
+      "package.json is a JSON implementation file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "package.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.app.package.json",
+    "name": "package.json",
+    "title": "package.json",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "package.json is a JSON implementation file.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/app/package.json"
+    ],
+    "ownedFiles": [
+      "packages/app/package.json"
+    ],
+    "responsibilities": [
+      "package.json is a JSON implementation file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/app/package.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.app.src.main.tsx",
+    "name": "main.tsx",
+    "title": "main.tsx",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "main.tsx is a TypeScript React implementation file. AST-backed scan. Defines App, state, setState, selectedId, setSelectedId. Depends on react, react-dom/client, lucide-react, ./types.js.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/app/src/main.tsx"
+    ],
+    "ownedFiles": [
+      "packages/app/src/main.tsx"
+    ],
+    "responsibilities": [
+      "main.tsx is a TypeScript React implementation file. AST-backed scan. Defines App, state, setState, selectedId, setSelectedId. Depends on react, react-dom/client, lucide-react, ./types.js."
+    ],
+    "dependencies": [
+      "import:react",
+      "import:react-dom/client",
+      "import:lucide-react",
+      "import:./types.js",
+      "import:./styles.css"
+    ],
+    "dependsOn": [
+      "import:react",
+      "import:react-dom/client",
+      "import:lucide-react",
+      "import:./types.js",
+      "import:./styles.css"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/app/src/main.tsx"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.app.src.types.ts",
+    "name": "types.ts",
+    "title": "types.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "types.ts is a TypeScript implementation file. AST-backed scan. Defines AbstractionOntologyLevel, FileSummary, TreeNode, Concept, Invariant.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/app/src/types.ts"
+    ],
+    "ownedFiles": [
+      "packages/app/src/types.ts"
+    ],
+    "responsibilities": [
+      "types.ts is a TypeScript implementation file. AST-backed scan. Defines AbstractionOntologyLevel, FileSummary, TreeNode, Concept, Invariant."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/app/src/types.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.app.tsconfig.json",
+    "name": "tsconfig.json",
+    "title": "tsconfig.json",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "tsconfig.json is a JSON configuration file.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/app/tsconfig.json"
+    ],
+    "ownedFiles": [
+      "packages/app/tsconfig.json"
+    ],
+    "responsibilities": [
+      "tsconfig.json is a JSON configuration file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/app/tsconfig.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.cli.package.json",
+    "name": "package.json",
+    "title": "package.json",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "package.json is a JSON implementation file.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/package.json"
+    ],
+    "ownedFiles": [
+      "packages/cli/package.json"
+    ],
+    "responsibilities": [
+      "package.json is a JSON implementation file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/cli/package.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.cli.src.index.ts",
+    "name": "index.ts",
+    "title": "index.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "index.ts is a TypeScript implementation file. AST-backed scan. Defines program, projectPath, root, mode, config. Depends on commander, node:path, node:http, node:fs.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/src/index.ts"
+    ],
+    "ownedFiles": [
+      "packages/cli/src/index.ts"
+    ],
+    "responsibilities": [
+      "index.ts is a TypeScript implementation file. AST-backed scan. Defines program, projectPath, root, mode, config. Depends on commander, node:path, node:http, node:fs."
+    ],
+    "dependencies": [
+      "import:commander",
+      "import:node:path",
+      "import:node:http",
+      "import:node:fs",
+      "import:node:fs/promises",
+      "import:node:url",
+      "import:sirv",
+      "import:@abstraction-tree/core"
+    ],
+    "dependsOn": [
+      "import:commander",
+      "import:node:path",
+      "import:node:http",
+      "import:node:fs",
+      "import:node:fs/promises",
+      "import:node:url",
+      "import:sirv",
+      "import:@abstraction-tree/core"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/cli/src/index.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.cli.tsconfig.json",
+    "name": "tsconfig.json",
+    "title": "tsconfig.json",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "tsconfig.json is a JSON configuration file.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/tsconfig.json"
+    ],
+    "ownedFiles": [
+      "packages/cli/tsconfig.json"
+    ],
+    "responsibilities": [
+      "tsconfig.json is a JSON configuration file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/cli/tsconfig.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.core.package.json",
+    "name": "package.json",
+    "title": "package.json",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "package.json is a JSON implementation file.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/package.json"
+    ],
+    "ownedFiles": [
+      "packages/core/package.json"
+    ],
+    "responsibilities": [
+      "package.json is a JSON implementation file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/core/package.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.core.src.context.test.ts",
+    "name": "context.test.ts",
+    "title": "context.test.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "context.test.ts is a TypeScript test coverage file. AST-backed scan. Defines files, nodes, concepts, invariants, pack. Depends on node:assert/strict, node:test, ./context.js, ./schema.js.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/context.test.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/context.test.ts"
+    ],
+    "responsibilities": [
+      "context.test.ts is a TypeScript test coverage file. AST-backed scan. Defines files, nodes, concepts, invariants, pack. Depends on node:assert/strict, node:test, ./context.js, ./schema.js."
+    ],
+    "dependencies": [
+      "import:node:assert/strict",
+      "import:node:test",
+      "import:./context.js",
+      "import:./schema.js"
+    ],
+    "dependsOn": [
+      "import:node:assert/strict",
+      "import:node:test",
+      "import:./context.js",
+      "import:./schema.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/core/src/context.test.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.core.src.context.ts",
+    "name": "context.ts",
+    "title": "context.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "context.ts is a TypeScript implementation file. AST-backed scan. Defines buildContextPack, query, queryTokens, conceptScores, conceptFileSet. Depends on ./schema.js.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/context.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/context.ts"
+    ],
+    "responsibilities": [
+      "context.ts is a TypeScript implementation file. AST-backed scan. Defines buildContextPack, query, queryTokens, conceptScores, conceptFileSet. Depends on ./schema.js."
+    ],
+    "dependencies": [
+      "import:./schema.js"
+    ],
+    "dependsOn": [
+      "import:./schema.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/core/src/context.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.core.src.index.ts",
+    "name": "index.ts",
+    "title": "index.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "index.ts is a TypeScript implementation file. AST-backed scan. Depends on ./schema.js, ./workspace.js, ./scanner.js, ./treeBuilder.js.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/index.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/index.ts"
+    ],
+    "responsibilities": [
+      "index.ts is a TypeScript implementation file. AST-backed scan. Depends on ./schema.js, ./workspace.js, ./scanner.js, ./treeBuilder.js."
+    ],
+    "dependencies": [
+      "import:./schema.js",
+      "import:./workspace.js",
+      "import:./scanner.js",
+      "import:./treeBuilder.js",
+      "import:./context.js",
+      "import:./validator.js"
+    ],
+    "dependsOn": [
+      "import:./schema.js",
+      "import:./workspace.js",
+      "import:./scanner.js",
+      "import:./treeBuilder.js",
+      "import:./context.js",
+      "import:./validator.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/core/src/index.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.core.src.scanner.test.ts",
+    "name": "scanner.test.ts",
+    "title": "scanner.test.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "scanner.test.ts is a TypeScript test coverage file. AST-backed scan. Defines source, summary. Depends on node:assert/strict, node:test, ./scanner.js.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/scanner.test.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/scanner.test.ts"
+    ],
+    "responsibilities": [
+      "scanner.test.ts is a TypeScript test coverage file. AST-backed scan. Defines source, summary. Depends on node:assert/strict, node:test, ./scanner.js."
+    ],
+    "dependencies": [
+      "import:node:assert/strict",
+      "import:node:test",
+      "import:./scanner.js"
+    ],
+    "dependsOn": [
+      "import:node:assert/strict",
+      "import:node:test",
+      "import:./scanner.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/core/src/scanner.test.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.core.src.scanner.ts",
+    "name": "scanner.ts",
+    "title": "scanner.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "scanner.ts is a TypeScript implementation file. AST-backed scan. Defines LANGUAGE_BY_EXT, TEXT_EXTENSIONS, TYPESCRIPT_AST_EXTENSIONS, ParseStrategy, SourceFacts. Depends on node:fs/promises, node:path, typescript, ./schema.js.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/scanner.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/scanner.ts"
+    ],
+    "responsibilities": [
+      "scanner.ts is a TypeScript implementation file. AST-backed scan. Defines LANGUAGE_BY_EXT, TEXT_EXTENSIONS, TYPESCRIPT_AST_EXTENSIONS, ParseStrategy, SourceFacts. Depends on node:fs/promises, node:path, typescript, ./schema.js."
+    ],
+    "dependencies": [
+      "import:node:fs/promises",
+      "import:node:path",
+      "import:typescript",
+      "import:./schema.js",
+      "import:./workspace.js"
+    ],
+    "dependsOn": [
+      "import:node:fs/promises",
+      "import:node:path",
+      "import:typescript",
+      "import:./schema.js",
+      "import:./workspace.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/core/src/scanner.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.core.src.schema.ts",
+    "name": "schema.ts",
+    "title": "schema.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "schema.ts is a TypeScript data/schema file. AST-backed scan. Defines AbstractionLevel, AbstractionOntologyLevel, InstallMode, AtreeConfig, FileSummary.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/schema.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/schema.ts"
+    ],
+    "responsibilities": [
+      "schema.ts is a TypeScript data/schema file. AST-backed scan. Defines AbstractionLevel, AbstractionOntologyLevel, InstallMode, AtreeConfig, FileSummary."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/core/src/schema.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.core.src.treebuilder.test.ts",
+    "name": "treeBuilder.test.ts",
+    "title": "treeBuilder.test.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "treeBuilder.test.ts is a TypeScript test coverage file. AST-backed scan. Defines result, concept, file. Depends on node:assert/strict, node:test, ./treeBuilder.js, ./schema.js.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/treeBuilder.test.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/treeBuilder.test.ts"
+    ],
+    "responsibilities": [
+      "treeBuilder.test.ts is a TypeScript test coverage file. AST-backed scan. Defines result, concept, file. Depends on node:assert/strict, node:test, ./treeBuilder.js, ./schema.js."
+    ],
+    "dependencies": [
+      "import:node:assert/strict",
+      "import:node:test",
+      "import:./treeBuilder.js",
+      "import:./schema.js"
+    ],
+    "dependsOn": [
+      "import:node:assert/strict",
+      "import:node:test",
+      "import:./treeBuilder.js",
+      "import:./schema.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/core/src/treeBuilder.test.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.core.src.treebuilder.ts",
+    "name": "treeBuilder.ts",
+    "title": "treeBuilder.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "treeBuilder.ts is a TypeScript implementation file. AST-backed scan. Defines BuildTreeResult, buildDeterministicTree, ontology, levels, rootId. Depends on node:path, ./schema.js.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/treeBuilder.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/treeBuilder.ts"
+    ],
+    "responsibilities": [
+      "treeBuilder.ts is a TypeScript implementation file. AST-backed scan. Defines BuildTreeResult, buildDeterministicTree, ontology, levels, rootId. Depends on node:path, ./schema.js."
+    ],
+    "dependencies": [
+      "import:node:path",
+      "import:./schema.js"
+    ],
+    "dependsOn": [
+      "import:node:path",
+      "import:./schema.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/core/src/treeBuilder.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.core.src.validator.test.ts",
+    "name": "validator.test.ts",
+    "title": "validator.test.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "validator.test.ts is a TypeScript test coverage file. AST-backed scan. Defines stored, current, added, issues, nodes. Depends on node:assert/strict, node:test, ./scanner.js, ./validator.js.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/validator.test.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/validator.test.ts"
+    ],
+    "responsibilities": [
+      "validator.test.ts is a TypeScript test coverage file. AST-backed scan. Defines stored, current, added, issues, nodes. Depends on node:assert/strict, node:test, ./scanner.js, ./validator.js."
+    ],
+    "dependencies": [
+      "import:node:assert/strict",
+      "import:node:test",
+      "import:./scanner.js",
+      "import:./validator.js",
+      "import:./schema.js"
+    ],
+    "dependsOn": [
+      "import:node:assert/strict",
+      "import:node:test",
+      "import:./scanner.js",
+      "import:./validator.js",
+      "import:./schema.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/core/src/validator.test.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.core.src.validator.ts",
+    "name": "validator.ts",
+    "title": "validator.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "validator.ts is a TypeScript implementation file. AST-backed scan. Defines validateTree, issues, filePaths, nodeIds, nodeById. Depends on ./schema.js.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/validator.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/validator.ts"
+    ],
+    "responsibilities": [
+      "validator.ts is a TypeScript implementation file. AST-backed scan. Defines validateTree, issues, filePaths, nodeIds, nodeById. Depends on ./schema.js."
+    ],
+    "dependencies": [
+      "import:./schema.js"
+    ],
+    "dependsOn": [
+      "import:./schema.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/core/src/validator.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.core.src.workspace.ts",
+    "name": "workspace.ts",
+    "title": "workspace.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "workspace.ts is a TypeScript implementation file. AST-backed scan. Defines ATREE_DIR, atreePath, defaultConfig, ensureWorkspace, configPath. Depends on node:fs/promises, node:fs, node:path, ./schema.js.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/workspace.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/workspace.ts"
+    ],
+    "responsibilities": [
+      "workspace.ts is a TypeScript implementation file. AST-backed scan. Defines ATREE_DIR, atreePath, defaultConfig, ensureWorkspace, configPath. Depends on node:fs/promises, node:fs, node:path, ./schema.js."
+    ],
+    "dependencies": [
+      "import:node:fs/promises",
+      "import:node:fs",
+      "import:node:path",
+      "import:./schema.js"
+    ],
+    "dependsOn": [
+      "import:node:fs/promises",
+      "import:node:fs",
+      "import:node:path",
+      "import:./schema.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/core/src/workspace.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.core.tsconfig.json",
+    "name": "tsconfig.json",
+    "title": "tsconfig.json",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "tsconfig.json is a JSON configuration file.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/tsconfig.json"
+    ],
+    "ownedFiles": [
+      "packages/core/tsconfig.json"
+    ],
+    "responsibilities": [
+      "tsconfig.json is a JSON configuration file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/core/tsconfig.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.full.bin.atree.js",
+    "name": "atree.js",
+    "title": "atree.js",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "atree.js is a JavaScript implementation file. AST-backed scan. Depends on @abstraction-tree/cli.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/full/bin/atree.js"
+    ],
+    "ownedFiles": [
+      "packages/full/bin/atree.js"
+    ],
+    "responsibilities": [
+      "atree.js is a JavaScript implementation file. AST-backed scan. Depends on @abstraction-tree/cli."
+    ],
+    "dependencies": [
+      "import:@abstraction-tree/cli"
+    ],
+    "dependsOn": [
+      "import:@abstraction-tree/cli"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/full/bin/atree.js"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.full.package.json",
+    "name": "package.json",
+    "title": "package.json",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "package.json is a JSON implementation file.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/full/package.json"
+    ],
+    "ownedFiles": [
+      "packages/full/package.json"
+    ],
+    "responsibilities": [
+      "package.json is a JSON implementation file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/full/package.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.full.readme.md",
+    "name": "README.md",
+    "title": "README.md",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "README.md is a Markdown implementation file.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/full/README.md"
+    ],
+    "ownedFiles": [
+      "packages/full/README.md"
+    ],
+    "responsibilities": [
+      "README.md is a Markdown implementation file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/full/README.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.readme.md",
+    "name": "README.md",
+    "title": "README.md",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "README.md is a Markdown implementation file. Defines to.",
+    "parent": "module.root",
+    "parentId": "module.root",
+    "children": [],
+    "sourceFiles": [
+      "README.md"
+    ],
+    "ownedFiles": [
+      "README.md"
+    ],
+    "responsibilities": [
+      "README.md is a Markdown implementation file. Defines to."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "README.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.tsconfig.base.json",
+    "name": "tsconfig.base.json",
+    "title": "tsconfig.base.json",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "tsconfig.base.json is a JSON configuration file.",
+    "parent": "module.root",
+    "parentId": "module.root",
+    "children": [],
+    "sourceFiles": [
+      "tsconfig.base.json"
+    ],
+    "ownedFiles": [
+      "tsconfig.base.json"
+    ],
+    "responsibilities": [
+      "tsconfig.base.json is a JSON configuration file."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "tsconfig.base.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.core",
+    "name": "Core",
+    "title": "Core",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 13 file(s) using path signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/package.json",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/index.ts",
+      "packages/core/src/scanner.test.ts",
+      "packages/core/src/scanner.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.test.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts",
+      "packages/core/src/workspace.ts",
+      "packages/core/tsconfig.json"
+    ],
+    "ownedFiles": [
+      "packages/core/package.json",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/index.ts",
+      "packages/core/src/scanner.test.ts",
+      "packages/core/src/scanner.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.test.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts",
+      "packages/core/src/workspace.ts",
+      "packages/core/tsconfig.json"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Core concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.core.package.json",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.index.ts",
+      "file.packages.core.src.scanner.test.ts",
+      "file.packages.core.src.scanner.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.test.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.packages.core.tsconfig.json"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.core.package.json",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.index.ts",
+      "file.packages.core.src.scanner.test.ts",
+      "file.packages.core.src.scanner.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.test.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.packages.core.tsconfig.json"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.concept",
+    "name": "Concept",
+    "title": "Concept",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 5 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/app/src/types.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.test.ts",
+      "packages/core/src/treeBuilder.ts"
+    ],
+    "ownedFiles": [
+      "packages/app/src/types.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.test.ts",
+      "packages/core/src/treeBuilder.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Concept concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.test.ts",
+      "file.packages.core.src.treebuilder.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.test.ts",
+      "file.packages.core.src.treebuilder.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.tree",
+    "name": "Tree",
+    "title": "Tree",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 6 file(s) using export, path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/app/src/main.tsx",
+      "packages/app/src/types.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.test.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "ownedFiles": [
+      "packages/app/src/main.tsx",
+      "packages/app/src/types.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.test.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Tree concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.app.src.main.tsx",
+      "file.packages.app.src.types.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.test.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.app.src.main.tsx",
+      "file.packages.app.src.types.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.test.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.ontology",
+    "name": "Ontology",
+    "title": "Ontology",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 6 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/app/src/types.ts",
+      "packages/cli/src/index.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "ownedFiles": [
+      "packages/app/src/types.ts",
+      "packages/cli/src/index.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Ontology concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.config",
+    "name": "Config",
+    "title": "Config",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 4 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/scanner.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts"
+    ],
+    "ownedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/scanner.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Config concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.scanner.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.scanner.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.checkout",
+    "name": "Checkout",
+    "title": "Checkout",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "examples/small-web-app/src/api/checkout.ts",
+      "examples/small-web-app/src/components/CheckoutForm.tsx",
+      "examples/small-web-app/tests/checkout.test.js"
+    ],
+    "ownedFiles": [
+      "examples/small-web-app/src/api/checkout.ts",
+      "examples/small-web-app/src/components/CheckoutForm.tsx",
+      "examples/small-web-app/tests/checkout.test.js"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Checkout concept across related files."
+    ],
+    "dependencies": [
+      "module.examples",
+      "file.examples.small.web.app.src.api.checkout.ts",
+      "file.examples.small.web.app.src.components.checkoutform.tsx",
+      "file.examples.small.web.app.tests.checkout.test.js"
+    ],
+    "dependsOn": [
+      "module.examples",
+      "file.examples.small.web.app.src.api.checkout.ts",
+      "file.examples.small.web.app.src.components.checkoutform.tsx",
+      "file.examples.small.web.app.tests.checkout.test.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.docs",
+    "name": "Docs",
+    "title": "Docs",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 5 file(s) using path signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "docs/AGENT_PROTOCOL.md",
+      "docs/ARCHITECTURE.md",
+      "docs/DATA_MODEL.md",
+      "docs/PACKAGING.md",
+      "docs/ROADMAP.md"
+    ],
+    "ownedFiles": [
+      "docs/AGENT_PROTOCOL.md",
+      "docs/ARCHITECTURE.md",
+      "docs/DATA_MODEL.md",
+      "docs/PACKAGING.md",
+      "docs/ROADMAP.md"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Docs concept across related files."
+    ],
+    "dependencies": [
+      "module.docs",
+      "file.docs.agent.protocol.md",
+      "file.docs.architecture.md",
+      "file.docs.data.model.md",
+      "file.docs.packaging.md",
+      "file.docs.roadmap.md"
+    ],
+    "dependsOn": [
+      "module.docs",
+      "file.docs.agent.protocol.md",
+      "file.docs.architecture.md",
+      "file.docs.data.model.md",
+      "file.docs.packaging.md",
+      "file.docs.roadmap.md"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.atree",
+    "name": "Atree",
+    "title": "Atree",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts",
+      "packages/full/bin/atree.js"
+    ],
+    "ownedFiles": [
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts",
+      "packages/full/bin/atree.js"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Atree concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.packages.full.bin.atree.js"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.packages.full.bin.atree.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.context",
+    "name": "Context",
+    "title": "Context",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/schema.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/schema.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Context concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.schema.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.schema.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.pack",
+    "name": "Pack",
+    "title": "Pack",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 4 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/schema.ts"
+    ],
+    "ownedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/schema.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Pack concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.schema.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.schema.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.tsconfig",
+    "name": "Tsconfig",
+    "title": "Tsconfig",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 4 file(s) using path signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/app/tsconfig.json",
+      "packages/cli/tsconfig.json",
+      "packages/core/tsconfig.json",
+      "tsconfig.base.json"
+    ],
+    "ownedFiles": [
+      "packages/app/tsconfig.json",
+      "packages/cli/tsconfig.json",
+      "packages/core/tsconfig.json",
+      "tsconfig.base.json"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Tsconfig concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "module.root",
+      "file.packages.app.tsconfig.json",
+      "file.packages.cli.tsconfig.json",
+      "file.packages.core.tsconfig.json",
+      "file.tsconfig.base.json"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "module.root",
+      "file.packages.app.tsconfig.json",
+      "file.packages.cli.tsconfig.json",
+      "file.packages.core.tsconfig.json",
+      "file.tsconfig.base.json"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.state",
+    "name": "State",
+    "title": "State",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 3 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/app/src/main.tsx",
+      "packages/app/src/types.ts",
+      "packages/cli/src/index.ts"
+    ],
+    "ownedFiles": [
+      "packages/app/src/main.tsx",
+      "packages/app/src/types.ts",
+      "packages/cli/src/index.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting State concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.app.src.main.tsx",
+      "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.app.src.main.tsx",
+      "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.abstraction",
+    "name": "Abstraction",
+    "title": "Abstraction",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 2 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/app/src/types.ts",
+      "packages/core/src/schema.ts"
+    ],
+    "ownedFiles": [
+      "packages/app/src/types.ts",
+      "packages/core/src/schema.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Abstraction concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.core.src.schema.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.core.src.schema.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.scan",
+    "name": "Scan",
+    "title": "Scan",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 2 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/scanner.ts"
+    ],
+    "ownedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/scanner.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Scan concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.scanner.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.scanner.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.cli",
+    "name": "Cli",
+    "title": "Cli",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 3 file(s) using path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/package.json",
+      "packages/cli/src/index.ts",
+      "packages/cli/tsconfig.json"
+    ],
+    "ownedFiles": [
+      "packages/cli/package.json",
+      "packages/cli/src/index.ts",
+      "packages/cli/tsconfig.json"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Cli concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.cli.package.json",
+      "file.packages.cli.src.index.ts",
+      "file.packages.cli.tsconfig.json"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.cli.package.json",
+      "file.packages.cli.src.index.ts",
+      "file.packages.cli.tsconfig.json"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.concepts",
+    "name": "Concepts",
+    "title": "Concepts",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 4 file(s) using symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/treeBuilder.ts"
+    ],
+    "ownedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/treeBuilder.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Concepts concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.treebuilder.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.treebuilder.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.invariants",
+    "name": "Invariants",
+    "title": "Invariants",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 4 file(s) using symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/treeBuilder.ts"
+    ],
+    "ownedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/treeBuilder.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Invariants concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.treebuilder.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.treebuilder.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.change",
+    "name": "Change",
+    "title": "Change",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 3 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/app/src/types.ts",
+      "packages/cli/src/index.ts",
+      "packages/core/src/schema.ts"
+    ],
+    "ownedFiles": [
+      "packages/app/src/types.ts",
+      "packages/cli/src/index.ts",
+      "packages/core/src/schema.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Change concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.schema.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.schema.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.mode",
+    "name": "Mode",
+    "title": "Mode",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 3 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts"
+    ],
+    "ownedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Mode concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.result",
+    "name": "Result",
+    "title": "Result",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 3 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/scanner.ts",
+      "packages/core/src/treeBuilder.test.ts",
+      "packages/core/src/treeBuilder.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/scanner.ts",
+      "packages/core/src/treeBuilder.test.ts",
+      "packages/core/src/treeBuilder.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Result concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.core.src.scanner.ts",
+      "file.packages.core.src.treebuilder.test.ts",
+      "file.packages.core.src.treebuilder.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.core.src.scanner.ts",
+      "file.packages.core.src.treebuilder.test.ts",
+      "file.packages.core.src.treebuilder.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.find",
+    "name": "Find",
+    "title": "Find",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 2 file(s) using symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "ownedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Find concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.ids",
+    "name": "Ids",
+    "title": "Ids",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 2 file(s) using symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/context.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/context.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Ids concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.text",
+    "name": "Text",
+    "title": "Text",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 2 file(s) using symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/context.ts",
+      "packages/core/src/scanner.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/context.ts",
+      "packages/core/src/scanner.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Text concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.scanner.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.scanner.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.facts",
+    "name": "Facts",
+    "title": "Facts",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 1 file(s) using symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/scanner.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/scanner.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Facts concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.core.src.scanner.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.core.src.scanner.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  }
+]

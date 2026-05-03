@@ -1,0 +1,10 @@
+{
+    "loops_today":  1,
+    "max_loops_today":  25,
+    "max_minutes_today":  300,
+    "stagnation_count":  0,
+    "max_stagnation":  3,
+    "last_result":  "partial",
+    "last_run_date":  "2026-05-03",
+    "stop_requested":  false
+}

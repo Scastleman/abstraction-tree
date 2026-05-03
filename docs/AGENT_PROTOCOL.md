@@ -33,6 +33,24 @@ The agent adapter should perform this protocol internally.
 5. Write a semantic change record in `.abstraction-tree/changes/`.
 6. Run `atree validate`.
 
+## This Repository
+
+The Abstraction Tree repo dogfoods the protocol at the repository root. Changes to core behavior, CLI commands, packaging, docs, or the app should update the root `.abstraction-tree/` memory and pass:
+
+```bash
+npm run atree:validate
+```
+
+## Bounded self-improvement loops
+
+When running an autonomous improvement loop on this repository, start from existing memory before exploring widely:
+
+1. Check `git diff`, `.abstraction-tree/automation/loop-state.json`, and the latest files in `.abstraction-tree/runs/` and `.abstraction-tree/lessons/`.
+2. Use targeted reads of `README.md`, `docs/`, `packages/core/src/`, `packages/cli/src/`, and `.abstraction-tree/` before broad repository search.
+3. Choose one small, testable improvement that reduces future uncertainty, validation gaps, drift, or agent setup cost.
+4. In the run report, separate pre-existing dirty files from files changed by the current loop.
+5. Run the canonical checks when possible, and record any sandbox-blocked commands with the fallback checks used.
+
 ## Overreach detection
 
 A change may be overreaching if:

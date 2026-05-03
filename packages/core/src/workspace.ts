@@ -15,7 +15,7 @@ export function defaultConfig(projectRoot: string, installMode: InstallMode = "c
     projectName: projectName ?? path.basename(projectRoot),
     createdAt: new Date().toISOString(),
     sourceRoot: ".",
-    ignored: ["node_modules", "dist", "build", ".git", ".abstraction-tree", "coverage"],
+    ignored: ["node_modules", "dist", "dist-ts", "build", ".git", ".abstraction-tree", "coverage"],
     treeBuilder: "deterministic",
     installMode,
     visualApp: {

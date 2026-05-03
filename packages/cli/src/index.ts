@@ -10,6 +10,7 @@ import {
   atreePath,
   buildContextPack,
   buildDeterministicTree,
+  detectFileDrift,
   ensureWorkspace,
   readConfig,
   readJson,
@@ -96,18 +97,23 @@ program.command("scan")
 program.command("validate")
   .description("Validate tree/file alignment")
   .option("-p, --project <path>", "project root")
+  .option("--strict", "treat warnings as validation failures")
   .action(async opts => {
     const root = projectPath(opts.project);
     const ontology = await readJson<AbstractionOntologyLevel[]>(atreePath(root, "ontology.json"), []);
     const nodes = await readJson<TreeNode[]>(atreePath(root, "tree.json"), []);
     const files = await readJson<FileSummary[]>(atreePath(root, "files.json"), []);
-    const issues = validateTree(nodes, files, ontology);
+    const currentScan = await scanProject(root);
+    const issues = [
+      ...validateTree(nodes, files, ontology),
+      ...detectFileDrift(files, currentScan.files, nodes)
+    ];
     if (!issues.length) {
       console.log("No validation issues found.");
       return;
     }
     for (const i of issues) console.log(`[${i.severity}] ${i.message}${i.filePath ? ` (${i.filePath})` : ""}`);
-    process.exitCode = issues.some(i => i.severity === "error") ? 1 : 0;
+    process.exitCode = issues.some(i => i.severity === "error" || (opts.strict && i.severity === "warning")) ? 1 : 0;
   });
 
 program.command("context")
@@ -189,7 +195,12 @@ async function loadChanges(root: string): Promise<ChangeRecord[]> {
   const out: ChangeRecord[] = [];
   for (const name of names.filter(n => n.endsWith(".json"))) {
     const raw = await readFile(path.join(dir, name), "utf8").catch(() => "");
-    if (raw) out.push(JSON.parse(raw));
+    if (!raw) continue;
+    try {
+      out.push(JSON.parse(raw));
+    } catch {
+      // Ignore malformed local change records so one bad file does not break context generation.
+    }
   }
   return out.sort((a, b) => a.timestamp.localeCompare(b.timestamp));
 }
