@@ -306,7 +306,7 @@
     "extension": ".json",
     "language": "JSON",
     "parseStrategy": "regex",
-    "sizeBytes": 1027,
+    "sizeBytes": 1024,
     "lines": 28,
     "imports": [],
     "exports": [],
