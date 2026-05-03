@@ -16,7 +16,9 @@
     "atree": "node packages/cli/dist/index.js",
     "atree:scan": "node packages/cli/dist/index.js scan --project .",
     "atree:validate": "node packages/cli/dist/index.js validate --project . --strict",
-    "test": "node --test packages/core/dist/**/*.test.js"
+    "test": "node --test packages/core/dist/**/*.test.js",
+    "abstraction:loop": "powershell -ExecutionPolicy Bypass -File scripts/run-abstraction-loop.ps1",
+    "diff:summary": "powershell -ExecutionPolicy Bypass -File scripts/summarize-diff.ps1"
   },
   "engines": {
     "node": ">=20"

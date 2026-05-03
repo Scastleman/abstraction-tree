@@ -55,9 +55,9 @@
       "concept-node.core",
       "concept-node.concept",
       "concept-node.tree",
+      "concept-node.ontology",
       "concept-node.config",
       "concept-node.checkout",
-      "concept-node.ontology",
       "concept-node.docs",
       "concept-node.atree",
       "concept-node.context",
@@ -72,10 +72,10 @@
       "concept-node.change",
       "concept-node.mode",
       "concept-node.result",
+      "concept-node.ids",
       "concept-node.text",
       "concept-node.facts",
-      "concept-node.full",
-      "concept-node.cart"
+      "concept-node.full"
     ],
     "filePaths": [
       "examples/small-web-app/tests/checkout.test.js",

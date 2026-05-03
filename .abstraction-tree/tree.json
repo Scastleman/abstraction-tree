@@ -39,9 +39,9 @@
       "concept-node.core",
       "concept-node.concept",
       "concept-node.tree",
+      "concept-node.ontology",
       "concept-node.config",
       "concept-node.checkout",
-      "concept-node.ontology",
       "concept-node.docs",
       "concept-node.atree",
       "concept-node.context",
@@ -56,10 +56,10 @@
       "concept-node.change",
       "concept-node.mode",
       "concept-node.result",
+      "concept-node.ids",
       "concept-node.text",
       "concept-node.facts",
-      "concept-node.full",
-      "concept-node.cart"
+      "concept-node.full"
     ],
     "sourceFiles": [],
     "ownedFiles": [],
@@ -1686,7 +1686,7 @@
     "title": "validator.test.ts",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "validator.test.ts is a TypeScript test coverage file. AST-backed scan. Defines stored, current, added, issues. Depends on node:assert/strict, node:test, ./scanner.js, ./validator.js.",
+    "summary": "validator.test.ts is a TypeScript test coverage file. AST-backed scan. Defines stored, current, added, issues, nodes. Depends on node:assert/strict, node:test, ./scanner.js, ./validator.js.",
     "parent": "module.packages",
     "parentId": "module.packages",
     "children": [],
@@ -1697,19 +1697,21 @@
       "packages/core/src/validator.test.ts"
     ],
     "responsibilities": [
-      "validator.test.ts is a TypeScript test coverage file. AST-backed scan. Defines stored, current, added, issues. Depends on node:assert/strict, node:test, ./scanner.js, ./validator.js."
+      "validator.test.ts is a TypeScript test coverage file. AST-backed scan. Defines stored, current, added, issues, nodes. Depends on node:assert/strict, node:test, ./scanner.js, ./validator.js."
     ],
     "dependencies": [
       "import:node:assert/strict",
       "import:node:test",
       "import:./scanner.js",
-      "import:./validator.js"
+      "import:./validator.js",
+      "import:./schema.js"
     ],
     "dependsOn": [
       "import:node:assert/strict",
       "import:node:test",
       "import:./scanner.js",
-      "import:./validator.js"
+      "import:./validator.js",
+      "import:./schema.js"
     ],
     "changeLog": [],
     "invariants": [
@@ -1729,7 +1731,7 @@
     "title": "validator.ts",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "validator.ts is a TypeScript implementation file. AST-backed scan. Defines validateTree, issues, filePaths, nodeIds, ontologyIds. Depends on ./schema.js.",
+    "summary": "validator.ts is a TypeScript implementation file. AST-backed scan. Defines validateTree, issues, filePaths, nodeIds, nodeById. Depends on ./schema.js.",
     "parent": "module.packages",
     "parentId": "module.packages",
     "children": [],
@@ -1740,7 +1742,7 @@
       "packages/core/src/validator.ts"
     ],
     "responsibilities": [
-      "validator.ts is a TypeScript implementation file. AST-backed scan. Defines validateTree, issues, filePaths, nodeIds, ontologyIds. Depends on ./schema.js."
+      "validator.ts is a TypeScript implementation file. AST-backed scan. Defines validateTree, issues, filePaths, nodeIds, nodeById. Depends on ./schema.js."
     ],
     "dependencies": [
       "import:./schema.js"
@@ -2201,6 +2203,63 @@
     "confidence": 0.65
   },
   {
+    "id": "concept-node.ontology",
+    "name": "Ontology",
+    "title": "Ontology",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 6 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/app/src/types.ts",
+      "packages/cli/src/index.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "ownedFiles": [
+      "packages/app/src/types.ts",
+      "packages/cli/src/index.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Ontology concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
     "id": "concept-node.config",
     "name": "Config",
     "title": "Config",
@@ -2283,59 +2342,6 @@
       "file.examples.small.web.app.src.api.checkout.ts",
       "file.examples.small.web.app.src.components.checkoutform.tsx",
       "file.examples.small.web.app.tests.checkout.test.js"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.ontology",
-    "name": "Ontology",
-    "title": "Ontology",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 5 file(s) using export, symbol signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "packages/app/src/types.ts",
-      "packages/cli/src/index.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/treeBuilder.ts",
-      "packages/core/src/validator.ts"
-    ],
-    "ownedFiles": [
-      "packages/app/src/types.ts",
-      "packages/cli/src/index.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/treeBuilder.ts",
-      "packages/core/src/validator.ts"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Ontology concept across related files."
-    ],
-    "dependencies": [
-      "module.packages",
-      "file.packages.app.src.types.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.treebuilder.ts",
-      "file.packages.core.src.validator.ts"
-    ],
-    "dependsOn": [
-      "module.packages",
-      "file.packages.app.src.types.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.treebuilder.ts",
-      "file.packages.core.src.validator.ts"
     ],
     "changeLog": [],
     "invariants": [
@@ -2996,6 +3002,47 @@
     "confidence": 0.65
   },
   {
+    "id": "concept-node.ids",
+    "name": "Ids",
+    "title": "Ids",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 2 file(s) using symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/context.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/context.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Ids concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
     "id": "concept-node.text",
     "name": "Text",
     "title": "Text",
@@ -3107,47 +3154,6 @@
       "file.packages.full.bin.atree.js",
       "file.packages.full.package.json",
       "file.packages.full.readme.md"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.cart",
-    "name": "Cart",
-    "title": "Cart",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 2 file(s) using export, path, symbol signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "examples/small-web-app/src/api/checkout.ts",
-      "examples/small-web-app/src/services/cart.ts"
-    ],
-    "ownedFiles": [
-      "examples/small-web-app/src/api/checkout.ts",
-      "examples/small-web-app/src/services/cart.ts"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Cart concept across related files."
-    ],
-    "dependencies": [
-      "module.examples",
-      "file.examples.small.web.app.src.api.checkout.ts",
-      "file.examples.small.web.app.src.services.cart.ts"
-    ],
-    "dependsOn": [
-      "module.examples",
-      "file.examples.small.web.app.src.api.checkout.ts",
-      "file.examples.small.web.app.src.services.cart.ts"
     ],
     "changeLog": [],
     "invariants": [

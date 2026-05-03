@@ -87,6 +87,31 @@
     ]
   },
   {
+    "id": "ontology",
+    "title": "Ontology",
+    "summary": "Durable concept inferred from 6 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "relatedFiles": [
+      "packages/app/src/types.ts",
+      "packages/cli/src/index.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "tags": [
+      "ontology"
+    ]
+  },
+  {
     "id": "config",
     "title": "Config",
     "summary": "Durable concept inferred from 4 file(s) using export, symbol signals.",
@@ -124,29 +149,6 @@
     ],
     "tags": [
       "checkout"
-    ]
-  },
-  {
-    "id": "ontology",
-    "title": "Ontology",
-    "summary": "Durable concept inferred from 5 file(s) using export, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "file.packages.app.src.types.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.treebuilder.ts",
-      "file.packages.core.src.validator.ts"
-    ],
-    "relatedFiles": [
-      "packages/app/src/types.ts",
-      "packages/cli/src/index.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/treeBuilder.ts",
-      "packages/core/src/validator.ts"
-    ],
-    "tags": [
-      "ontology"
     ]
   },
   {
@@ -425,6 +427,23 @@
     ]
   },
   {
+    "id": "ids",
+    "title": "Ids",
+    "summary": "Durable concept inferred from 2 file(s) using symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "relatedFiles": [
+      "packages/core/src/context.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "tags": [
+      "ids"
+    ]
+  },
+  {
     "id": "text",
     "title": "Text",
     "summary": "Durable concept inferred from 2 file(s) using symbol signals.",
@@ -473,23 +492,6 @@
     ],
     "tags": [
       "full"
-    ]
-  },
-  {
-    "id": "cart",
-    "title": "Cart",
-    "summary": "Durable concept inferred from 2 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.examples",
-      "file.examples.small.web.app.src.api.checkout.ts",
-      "file.examples.small.web.app.src.services.cart.ts"
-    ],
-    "relatedFiles": [
-      "examples/small-web-app/src/api/checkout.ts",
-      "examples/small-web-app/src/services/cart.ts"
-    ],
-    "tags": [
-      "cart"
     ]
   }
 ]
