@@ -18,6 +18,7 @@
     "atree:validate": "node packages/cli/dist/index.js validate --project . --strict",
     "test": "node --test packages/core/dist/*.test.js",
     "abstraction:loop": "powershell -ExecutionPolicy Bypass -File scripts/run-abstraction-loop.ps1",
+    "abstraction:loop:visible": "powershell -ExecutionPolicy Bypass -File scripts/run-abstraction-loop-scheduled.ps1",
     "diff:summary": "powershell -ExecutionPolicy Bypass -File scripts/summarize-diff.ps1"
   },
   "engines": {

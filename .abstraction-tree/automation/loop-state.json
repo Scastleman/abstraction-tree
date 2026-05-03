@@ -1,9 +1,9 @@
 {
     "loops_today":  0,
-    "max_loops_today":  5,
-    "max_minutes_today":  120,
+    "max_loops_today":  25,
+    "max_minutes_today":  300,
     "stagnation_count":  0,
-    "max_stagnation":  2,
+    "max_stagnation":  3,
     "last_result":  "",
     "last_run_date":  "",
     "stop_requested":  false
