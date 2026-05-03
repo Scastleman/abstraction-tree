@@ -16,6 +16,9 @@ export function validateTree(nodes: TreeNode[], files: FileSummary[], ontology: 
   for (const id of findDuplicateOntologyLevelIds(ontology)) {
     issues.push({ severity: "error", message: `Ontology contains duplicate level id ${id}.` });
   }
+  for (const name of findDuplicateOntologyLevelNames(ontology)) {
+    issues.push({ severity: "error", message: `Ontology contains duplicate level name ${name}.` });
+  }
 
   for (const n of nodes) {
     if (!n.id) issues.push({ severity: "error", message: "Node is missing id." });
@@ -169,6 +172,22 @@ function findDuplicateOntologyLevelIds(ontology: AbstractionOntologyLevel[]): st
     if (!level.id) continue;
     if (seen.has(level.id)) duplicates.add(level.id);
     seen.add(level.id);
+  }
+
+  return [...duplicates].sort();
+}
+
+function findDuplicateOntologyLevelNames(ontology: AbstractionOntologyLevel[]): string[] {
+  const seen = new Map<string, string>();
+  const duplicates = new Set<string>();
+
+  for (const level of ontology) {
+    const name = level.name?.trim().replace(/\s+/g, " ");
+    if (!name) continue;
+    const key = name.toLowerCase();
+    const existing = seen.get(key);
+    if (existing) duplicates.add(existing);
+    else seen.set(key, name);
   }
 
   return [...duplicates].sort();

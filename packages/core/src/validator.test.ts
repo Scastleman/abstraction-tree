@@ -80,6 +80,17 @@ test("validateTree reports duplicate ontology level ids before ontology lookups 
   assert.ok(issues.some(issue => issue.message.includes("duplicate level id component")));
 });
 
+test("validateTree reports duplicate ontology level names", () => {
+  const ontology = [
+    ontologyLevel("runtime", 0, "Runtime Layer"),
+    ontologyLevel("execution", 1, " runtime   layer ")
+  ];
+
+  const issues = validateTree([node("root", undefined, [])], [], ontology);
+
+  assert.ok(issues.some(issue => issue.message.includes("duplicate level name Runtime Layer")));
+});
+
 function node(id: string, parent: string | undefined, children: string[]): TreeNode {
   return {
     id,
@@ -103,10 +114,10 @@ function node(id: string, parent: string | undefined, children: string[]): TreeN
   };
 }
 
-function ontologyLevel(id: string, rank: number): AbstractionOntologyLevel {
+function ontologyLevel(id: string, rank: number, name = id): AbstractionOntologyLevel {
   return {
     id,
-    name: id,
+    name,
     description: `${id} layer.`,
     rank,
     signals: [],

@@ -56,10 +56,10 @@
       "concept-node.change",
       "concept-node.mode",
       "concept-node.result",
+      "concept-node.find",
       "concept-node.ids",
       "concept-node.text",
-      "concept-node.facts",
-      "concept-node.full"
+      "concept-node.facts"
     ],
     "sourceFiles": [],
     "ownedFiles": [],
@@ -3002,6 +3002,47 @@
     "confidence": 0.65
   },
   {
+    "id": "concept-node.find",
+    "name": "Find",
+    "title": "Find",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 2 file(s) using symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "ownedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Find concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
     "id": "concept-node.ids",
     "name": "Ids",
     "title": "Ids",
@@ -3109,51 +3150,6 @@
     "dependsOn": [
       "module.packages",
       "file.packages.core.src.scanner.ts"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.full",
-    "name": "Full",
-    "title": "Full",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 3 file(s) using path signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "packages/full/README.md",
-      "packages/full/bin/atree.js",
-      "packages/full/package.json"
-    ],
-    "ownedFiles": [
-      "packages/full/README.md",
-      "packages/full/bin/atree.js",
-      "packages/full/package.json"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Full concept across related files."
-    ],
-    "dependencies": [
-      "module.packages",
-      "file.packages.full.bin.atree.js",
-      "file.packages.full.package.json",
-      "file.packages.full.readme.md"
-    ],
-    "dependsOn": [
-      "module.packages",
-      "file.packages.full.bin.atree.js",
-      "file.packages.full.package.json",
-      "file.packages.full.readme.md"
     ],
     "changeLog": [],
     "invariants": [

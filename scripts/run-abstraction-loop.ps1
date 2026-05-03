@@ -7,12 +7,12 @@ $statePath = ".abstraction-tree/automation/loop-state.json"
 $promptPath = ".abstraction-tree/automation/codex-loop-prompt.md"
 
 if (!(Test-Path $statePath)) {
-  Write-Host "Missing loop-state.json"
+  Write-Output "Missing loop-state.json"
   exit 1
 }
 
 if (!(Test-Path $promptPath)) {
-  Write-Host "Missing codex-loop-prompt.md"
+  Write-Output "Missing codex-loop-prompt.md"
   exit 1
 }
 
@@ -34,31 +34,44 @@ while ($true) {
   $elapsedMinutes = ((Get-Date) - $start).TotalMinutes
 
   if ($state.stop_requested -eq $true) {
-    Write-Host "Stop requested."
+    Write-Output "Stop requested."
     break
   }
 
   if ($state.loops_today -ge $state.max_loops_today) {
-    Write-Host "Max loops reached."
+    Write-Output "Max loops reached."
     break
   }
 
   if ($elapsedMinutes -ge $state.max_minutes_today) {
-    Write-Host "Max minutes reached."
+    Write-Output "Max minutes reached."
     break
   }
 
   if ($state.stagnation_count -ge $state.max_stagnation) {
-    Write-Host "Max stagnation reached."
+    Write-Output "Max stagnation reached."
     break
   }
 
-  Write-Host "Starting Codex loop $($state.loops_today + 1)..."
+  Write-Output "Starting Codex loop $($state.loops_today + 1)..."
 
   $loopStartedAt = [int]$state.loops_today
   $prompt = Get-Content $promptPath -Raw
 
-  $prompt | & codex.cmd exec --cd $repo --sandbox workspace-write -
+  $previousErrorActionPreference = $ErrorActionPreference
+  $ErrorActionPreference = "Continue"
+  try {
+    $prompt | & codex.cmd exec --cd $repo --sandbox workspace-write - 2>&1
+    $codexExitCode = if ($LASTEXITCODE -is [int]) { $LASTEXITCODE } else { 0 }
+  }
+  finally {
+    $ErrorActionPreference = $previousErrorActionPreference
+  }
+
+  if ($codexExitCode -ne 0) {
+    Write-Output "Codex exited with code $codexExitCode."
+    break
+  }
 
   $state = Get-Content $statePath | ConvertFrom-Json
   if ([int]$state.loops_today -le $loopStartedAt) {
@@ -66,7 +79,7 @@ while ($true) {
   }
   $state | ConvertTo-Json -Depth 10 | Set-Content $statePath
 
-  Write-Host "Loop completed."
+  Write-Output "Loop completed."
 }
 
-Write-Host "Abstraction loop finished."
+Write-Output "Abstraction loop finished."

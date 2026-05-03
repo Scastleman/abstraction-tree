@@ -885,8 +885,8 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "sizeBytes": 4186,
-    "lines": 116,
+    "sizeBytes": 4572,
+    "lines": 127,
     "imports": [
       "node:assert/strict",
       "node:test",
@@ -919,8 +919,8 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "sizeBytes": 8206,
-    "lines": 241,
+    "sizeBytes": 8854,
+    "lines": 260,
     "imports": [
       "./schema.js"
     ],
@@ -937,6 +937,7 @@
       "ontologyIds",
       "id",
       "path",
+      "name",
       "n",
       "parent",
       "child",
@@ -962,13 +963,12 @@
       "findDuplicateFilePaths",
       "file",
       "findDuplicateOntologyLevelIds",
+      "findDuplicateOntologyLevelNames",
+      "key",
+      "existing",
       "detectParentCycles",
       "reported",
-      "start",
-      "cycleStart",
-      "cycle",
-      "key",
-      "cycleKey"
+      "start"
     ],
     "isTest": false,
     "summary": "validator.ts is a TypeScript implementation file. AST-backed scan. Defines validateTree, issues, filePaths, nodeIds, nodeById. Depends on ./schema.js.",

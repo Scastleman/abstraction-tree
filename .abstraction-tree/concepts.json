@@ -427,6 +427,23 @@
     ]
   },
   {
+    "id": "find",
+    "title": "Find",
+    "summary": "Durable concept inferred from 2 file(s) using symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "relatedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "tags": [
+      "find"
+    ]
+  },
+  {
     "id": "ids",
     "title": "Ids",
     "summary": "Durable concept inferred from 2 file(s) using symbol signals.",
@@ -473,25 +490,6 @@
     ],
     "tags": [
       "facts"
-    ]
-  },
-  {
-    "id": "full",
-    "title": "Full",
-    "summary": "Durable concept inferred from 3 file(s) using path signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "file.packages.full.bin.atree.js",
-      "file.packages.full.package.json",
-      "file.packages.full.readme.md"
-    ],
-    "relatedFiles": [
-      "packages/full/README.md",
-      "packages/full/bin/atree.js",
-      "packages/full/package.json"
-    ],
-    "tags": [
-      "full"
     ]
   }
 ]

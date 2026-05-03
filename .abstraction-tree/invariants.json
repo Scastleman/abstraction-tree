@@ -72,10 +72,10 @@
       "concept-node.change",
       "concept-node.mode",
       "concept-node.result",
+      "concept-node.find",
       "concept-node.ids",
       "concept-node.text",
-      "concept-node.facts",
-      "concept-node.full"
+      "concept-node.facts"
     ],
     "filePaths": [
       "examples/small-web-app/tests/checkout.test.js",
