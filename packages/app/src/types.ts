@@ -9,9 +9,13 @@ export interface AbstractionOntologyLevel {
 
 export interface FileSummary {
   path: string;
+  extension?: string;
   language: string;
+  parseStrategy?: string;
+  sizeBytes?: number;
   lines: number;
   imports: string[];
+  exports?: string[];
   symbols: string[];
   isTest: boolean;
   summary: string;
@@ -38,7 +42,7 @@ export interface TreeNode {
   confidence: number;
 }
 
-export interface Concept { id: string; title: string; summary: string; relatedFiles: string[]; tags: string[]; }
-export interface Invariant { id: string; title: string; description: string; severity: string; }
+export interface Concept { id: string; title: string; summary: string; relatedNodeIds?: string[]; relatedFiles: string[]; tags: string[]; }
+export interface Invariant { id: string; title: string; description: string; nodeIds?: string[]; filePaths?: string[]; severity: string; }
 export interface ChangeRecord { id: string; timestamp: string; title: string; reason: string; risk: string; filesChanged: string[]; affectedNodeIds: string[]; }
 export interface State { config: { projectName: string }; ontology: AbstractionOntologyLevel[]; nodes: TreeNode[]; files: FileSummary[]; concepts: Concept[]; invariants: Invariant[]; changes: ChangeRecord[]; }

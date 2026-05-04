@@ -1,0 +1,21 @@
+{
+  "version": "0.1.0",
+  "projectName": "abstraction-tree",
+  "createdAt": "2026-05-01T13:37:52.385Z",
+  "sourceRoot": ".",
+  "ignored": [
+    "node_modules",
+    "dist",
+    "dist-ts",
+    "build",
+    ".git",
+    ".abstraction-tree",
+    "coverage"
+  ],
+  "treeBuilder": "deterministic",
+  "installMode": "core",
+  "visualApp": {
+    "enabled": false,
+    "defaultPort": 4317
+  }
+}

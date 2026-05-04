@@ -1,0 +1,85 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import { buildContextPack } from "./context.js";
+import type { Concept, FileSummary, Invariant, TreeNode } from "./schema.js";
+
+test("buildContextPack pulls concept-related files and nodes into vague target queries", () => {
+  const files = [
+    file("src/billing/stripe.ts", ["authorizeCharge"], ["createPaymentIntent"]),
+    file("src/profile/avatar.ts", ["resizeAvatar"], [])
+  ];
+  const nodes = [
+    node("file.stripe", "Stripe Adapter", "Third party billing adapter.", ["src/billing/stripe.ts"]),
+    node("file.avatar", "Avatar", "User profile image handling.", ["src/profile/avatar.ts"])
+  ];
+  const concepts: Concept[] = [{
+    id: "payment",
+    title: "Payment",
+    summary: "Payment authorization and checkout charge flow.",
+    relatedNodeIds: ["file.stripe"],
+    relatedFiles: ["src/billing/stripe.ts"],
+    tags: ["payment", "billing"]
+  }];
+  const invariants: Invariant[] = [{
+    id: "invariant.payment",
+    title: "Payment authorization stays explicit",
+    description: "Charge creation must preserve authorization boundaries.",
+    nodeIds: ["file.stripe"],
+    filePaths: ["src/billing/stripe.ts"],
+    severity: "high"
+  }];
+
+  const pack = buildContextPack({ target: "payment authorization", nodes, files, concepts, invariants, changes: [] });
+
+  assert.deepEqual(pack.relevantNodes.map(n => n.id), ["file.stripe"]);
+  assert.deepEqual(pack.relevantFiles.map(f => f.path), ["src/billing/stripe.ts"]);
+  assert.deepEqual(pack.relevantConcepts.map(c => c.id), ["payment"]);
+  assert.deepEqual(pack.invariants.map(i => i.id), ["invariant.payment"]);
+});
+
+test("buildContextPack scores symbols and exports, not just file paths", () => {
+  const files = [file("src/ui/form.tsx", ["CheckoutForm"], ["CheckoutForm"])];
+  const nodes = [node("file.form", "Form", "UI form component.", ["src/ui/form.tsx"])];
+
+  const pack = buildContextPack({ target: "checkout", nodes, files, concepts: [], invariants: [], changes: [] });
+
+  assert.deepEqual(pack.relevantFiles.map(f => f.path), ["src/ui/form.tsx"]);
+});
+
+function file(path: string, symbols: string[], exports: string[]): FileSummary {
+  return {
+    path,
+    extension: ".ts",
+    language: "TypeScript",
+    parseStrategy: "typescript-ast",
+    sizeBytes: 120,
+    lines: 6,
+    imports: [],
+    exports,
+    symbols,
+    isTest: false,
+    summary: `${path} summary.`,
+    ownedByNodeIds: []
+  };
+}
+
+function node(id: string, title: string, summary: string, sourceFiles: string[]): TreeNode {
+  return {
+    id,
+    name: title,
+    title,
+    abstractionLevel: "component",
+    level: "component",
+    summary,
+    children: [],
+    sourceFiles,
+    ownedFiles: sourceFiles,
+    responsibilities: [summary],
+    dependencies: [],
+    dependsOn: [],
+    changeLog: [],
+    invariants: [],
+    changePolicy: { allowedToChange: sourceFiles, mustNotChange: [] },
+    confidence: 0.8
+  };
+}

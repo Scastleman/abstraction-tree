@@ -1,12 +1,14 @@
 # Abstraction Tree
 
-Abstraction Tree is a local-first codebase understanding system. It scans an existing software project, infers the repository's natural abstraction layers, and gives both humans and coding agents a shared semantic map of the codebase.
+Abstraction Tree is a local-first codebase understanding system. It scans an existing software project, builds a deterministic abstraction-memory baseline, and gives both humans and coding agents a shared map of the codebase.
+
+The long-term goal is adaptive, LLM-assisted abstraction memory. The current repo is intentionally the first layer: structured project facts, deterministic tree generation, validation, and agent context packs without requiring an API key.
 
 The source of truth is always the project-local `.abstraction-tree/` folder. The visual app is optional: it reads the same tree data and displays it as an interactive project map.
 
 ## Core promise
 
-Add Abstraction Tree to any repo, build the initial tree, and make the project easier to understand, prompt, and safely change.
+Add Abstraction Tree to any repo, build the initial memory tree, and make the project easier to inspect, prompt, and safely change.
 
 ```bash
 cd your-existing-project
@@ -22,7 +24,7 @@ The local visual app shows:
 - file ownership by tree node;
 - inferred invariants;
 - recent semantic changes;
-- drift between code and tree memory;
+- drift between current code and stored tree memory;
 - context packs that coding agents can consume.
 
 ## Two install modes
@@ -84,15 +86,17 @@ npx atree mode full
 
 Most codebases are understood through a mix of folders, stale documentation, tribal memory, and Git history. Coding agents face the same problem, but worse: they often lack a durable, compressed, project-level memory of what should exist and what must not be changed.
 
-Abstraction Tree creates a shared semantic map for humans and agents. The node schema is fixed, but the abstraction layers are adaptive: a frontend, compiler, game engine, Kubernetes operator, and quant research repo should not be forced into the same hierarchy.
+Abstraction Tree creates a shared semantic map for humans and agents. The node schema is fixed, but the abstraction layers should become adaptive: a frontend, compiler, game engine, Kubernetes operator, and quant research repo should not be forced into the same hierarchy.
+
+Today, the baseline tree is deterministic. It uses folder structure, package layout, file names, AST-backed TypeScript/JavaScript imports and symbols, regex fallback scanning for other languages, tests, and configured ontology data. The next semantic layer is an LLM abstraction pass that proposes repo-specific ontology and tree nodes from those facts.
 
 ```txt
 Intent
-└── Product / Domain Concepts
-    └── Architecture
-        └── Modules
-            └── Files
-                └── Symbols
+`-- Product / Domain Concepts
+    `-- Architecture
+        `-- Modules
+            `-- Files
+                `-- Symbols
 ```
 
 The visual app is not a separate documentation site. It is the human-readable interface to the same `.abstraction-tree/` data consumed by agents.
@@ -104,16 +108,16 @@ In practice, the stored tree is shaped by `.abstraction-tree/ontology.json`, so 
 This repository is a working starter implementation. It includes:
 
 - a Node/TypeScript CLI;
-- a scanner for files, imports, symbols, and basic tests;
-- a deterministic ontology and initial tree builder;
+- an AST-backed scanner for TypeScript/JavaScript files, with regex fallback for other supported text files;
+- a deterministic ontology and initial tree builder with repo-specific concept extraction;
 - a local `.abstraction-tree/` schema;
-- validation and drift checks;
-- context-pack generation for coding agents;
+- validation and stale-memory drift checks;
+- relevance-scored context-pack generation for coding agents;
 - an optional Vite/React visual app;
 - Codex/agent instructions;
 - an example project.
 
-The LLM abstraction pass is intentionally adapter-based. The current implementation builds a deterministic first tree without requiring an API key. LLM providers can be added through the adapter interface.
+The LLM abstraction pass is not implemented yet. The current implementation builds a deterministic first tree without requiring an API key; provider adapters are the next major intelligence layer.
 
 ## Repository layout
 
@@ -152,6 +156,18 @@ npm run atree -- validate --project examples/small-web-app
 npm run atree -- context --project examples/small-web-app --target checkout
 npm run atree -- serve --project examples/small-web-app
 ```
+
+## Dogfooding
+
+This repository uses Abstraction Tree on itself. The root `.abstraction-tree/` folder is committed as project memory for the monorepo, and CI runs strict self-validation after build and tests.
+
+```bash
+npm run build
+npm run atree:scan
+npm run atree:validate
+```
+
+When core behavior, docs, packaging, or app structure changes, update the root abstraction memory in the same change.
 
 ## CLI commands
 
@@ -200,7 +216,7 @@ atree serve --project /path/to/project --port 4317
 
 ### `atree validate`
 
-Checks whether tracked files and tree nodes still align.
+Checks whether tracked files and tree nodes still align, then compares stored file summaries against a fresh scan to detect stale abstraction memory.
 
 ```bash
 atree validate --project /path/to/project
