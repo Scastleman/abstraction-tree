@@ -70,12 +70,12 @@
       "concept-node.tsconfig",
       "concept-node.state",
       "concept-node.abstraction",
+      "concept-node.changes",
       "concept-node.scan",
+      "concept-node.text",
       "concept-node.cli",
       "concept-node.existing",
-      "concept-node.issues",
-      "concept-node.mode",
-      "concept-node.record"
+      "concept-node.issues"
     ],
     "filePaths": [
       "examples/small-web-app/tests/checkout.test.js",

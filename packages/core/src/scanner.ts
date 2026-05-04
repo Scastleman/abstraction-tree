@@ -1,4 +1,5 @@
 import { readdir, readFile, stat } from "node:fs/promises";
+import { createHash } from "node:crypto";
 import path from "node:path";
 import * as ts from "typescript";
 import type { FileSummary } from "./schema.js";
@@ -84,6 +85,7 @@ export function summarizeFile(filePath: string, extension: string, text: string,
     extension,
     language,
     parseStrategy: facts.parseStrategy,
+    contentHash: hashText(text),
     sizeBytes,
     lines: lines.length,
     imports: facts.imports,
@@ -93,6 +95,14 @@ export function summarizeFile(filePath: string, extension: string, text: string,
     summary,
     ownedByNodeIds: []
   };
+}
+
+function hashText(text: string): string {
+  return createHash("sha256").update(normalizeLineEndings(text)).digest("hex");
+}
+
+function normalizeLineEndings(text: string): string {
+  return text.replace(/\r\n?/g, "\n");
 }
 
 function extractSourceFacts(filePath: string, extension: string, text: string): SourceFacts {

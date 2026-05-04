@@ -15,6 +15,25 @@ test("detectFileDrift reports stale file summaries and new files", () => {
   assert.ok(issues.some(issue => issue.filePath === "src/payment.ts" && issue.message.includes("missing from abstraction memory")));
 });
 
+test("detectFileDrift ignores platform line ending size differences when content hash matches", () => {
+  const stored = summarizeFile("src/checkout.ts", ".ts", "export const checkout = 1;\n", 26);
+  const current = summarizeFile("src/checkout.ts", ".ts", "export const checkout = 1;\r\n", 27);
+
+  const issues = detectFileDrift([stored], [current]);
+
+  assert.equal(issues.some(issue => issue.filePath === "src/checkout.ts" && issue.message.includes("changed since the last scan")), false);
+});
+
+test("detectFileDrift uses legacy signatures when only one side has a content hash", () => {
+  const stored = summarizeFile("src/checkout.ts", ".ts", "export const checkout = 1;\n", 26);
+  const current = summarizeFile("src/checkout.ts", ".ts", "export const checkout = 1;\r\n", 27);
+  delete stored.contentHash;
+
+  const issues = detectFileDrift([stored], [current]);
+
+  assert.equal(issues.some(issue => issue.filePath === "src/checkout.ts" && issue.message.includes("changed since the last scan")), false);
+});
+
 test("detectFileDrift reports files removed from disk", () => {
   const stored = summarizeFile("src/old.ts", ".ts", "export const oldFlow = true;\n", 28);
 

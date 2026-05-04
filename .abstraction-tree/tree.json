@@ -54,12 +54,12 @@
       "concept-node.tsconfig",
       "concept-node.state",
       "concept-node.abstraction",
+      "concept-node.changes",
       "concept-node.scan",
+      "concept-node.text",
       "concept-node.cli",
       "concept-node.existing",
-      "concept-node.issues",
-      "concept-node.mode",
-      "concept-node.record"
+      "concept-node.issues"
     ],
     "sourceFiles": [],
     "ownedFiles": [],
@@ -1526,7 +1526,7 @@
     "title": "scanner.ts",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "scanner.ts is a TypeScript implementation file. AST-backed scan. Defines LANGUAGE_BY_EXT, TEXT_EXTENSIONS, TYPESCRIPT_AST_EXTENSIONS, ParseStrategy, SourceFacts. Depends on node:fs/promises, node:path, typescript, ./schema.js.",
+    "summary": "scanner.ts is a TypeScript implementation file. AST-backed scan. Defines LANGUAGE_BY_EXT, TEXT_EXTENSIONS, TYPESCRIPT_AST_EXTENSIONS, ParseStrategy, SourceFacts. Depends on node:fs/promises, node:crypto, node:path, typescript.",
     "parent": "module.packages",
     "parentId": "module.packages",
     "children": [],
@@ -1537,10 +1537,11 @@
       "packages/core/src/scanner.ts"
     ],
     "responsibilities": [
-      "scanner.ts is a TypeScript implementation file. AST-backed scan. Defines LANGUAGE_BY_EXT, TEXT_EXTENSIONS, TYPESCRIPT_AST_EXTENSIONS, ParseStrategy, SourceFacts. Depends on node:fs/promises, node:path, typescript, ./schema.js."
+      "scanner.ts is a TypeScript implementation file. AST-backed scan. Defines LANGUAGE_BY_EXT, TEXT_EXTENSIONS, TYPESCRIPT_AST_EXTENSIONS, ParseStrategy, SourceFacts. Depends on node:fs/promises, node:crypto, node:path, typescript."
     ],
     "dependencies": [
       "import:node:fs/promises",
+      "import:node:crypto",
       "import:node:path",
       "import:typescript",
       "import:./schema.js",
@@ -1548,6 +1549,7 @@
     ],
     "dependsOn": [
       "import:node:fs/promises",
+      "import:node:crypto",
       "import:node:path",
       "import:typescript",
       "import:./schema.js",
@@ -2964,6 +2966,47 @@
     "confidence": 0.65
   },
   {
+    "id": "concept-node.changes",
+    "name": "Changes",
+    "title": "Changes",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 2 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "ownedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Changes concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
     "id": "concept-node.scan",
     "name": "Scan",
     "title": "Scan",
@@ -2992,6 +3035,47 @@
     "dependsOn": [
       "module.packages",
       "file.packages.cli.src.index.ts",
+      "file.packages.core.src.scanner.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.text",
+    "name": "Text",
+    "title": "Text",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 2 file(s) using symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/context.ts",
+      "packages/core/src/scanner.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/context.ts",
+      "packages/core/src/scanner.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Text concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.scanner.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.core.src.context.ts",
       "file.packages.core.src.scanner.ts"
     ],
     "changeLog": [],
@@ -3127,96 +3211,6 @@
       "module.packages",
       "file.packages.cli.src.index.ts",
       "file.packages.core.src.validator.test.ts",
-      "file.packages.core.src.validator.ts"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.mode",
-    "name": "Mode",
-    "title": "Mode",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 3 file(s) using export, symbol signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "packages/cli/src/index.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/workspace.ts"
-    ],
-    "ownedFiles": [
-      "packages/cli/src/index.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/workspace.ts"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Mode concept across related files."
-    ],
-    "dependencies": [
-      "module.packages",
-      "file.packages.cli.src.index.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.workspace.ts"
-    ],
-    "dependsOn": [
-      "module.packages",
-      "file.packages.cli.src.index.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.workspace.ts"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.record",
-    "name": "Record",
-    "title": "Record",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 3 file(s) using export, symbol signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "packages/app/src/types.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/validator.ts"
-    ],
-    "ownedFiles": [
-      "packages/app/src/types.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/validator.ts"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Record concept across related files."
-    ],
-    "dependencies": [
-      "module.packages",
-      "file.packages.app.src.types.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.validator.ts"
-    ],
-    "dependsOn": [
-      "module.packages",
-      "file.packages.app.src.types.ts",
-      "file.packages.core.src.schema.ts",
       "file.packages.core.src.validator.ts"
     ],
     "changeLog": [],

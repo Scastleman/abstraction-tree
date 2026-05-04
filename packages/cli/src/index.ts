@@ -27,7 +27,8 @@ import {
   type FileSummary,
   type InstallMode,
   type Invariant,
-  type TreeNode
+  type TreeNode,
+  type ValidationIssue
 } from "@abstraction-tree/core";
 
 const program = new Command();
@@ -108,7 +109,8 @@ program.command("validate")
     const files = await readJson<FileSummary[]>(atreePath(root, "files.json"), []);
     const concepts = await readJson<Concept[]>(atreePath(root, "concepts.json"), []);
     const invariants = await readJson<Invariant[]>(atreePath(root, "invariants.json"), []);
-    const changes = await loadChanges(root);
+    const loadedChanges = await loadChanges(root);
+    const changes = loadedChanges.records;
     const existingConceptFilePaths = concepts
       .flatMap(concept => concept.relatedFiles ?? [])
       .filter(filePath => existsSync(path.resolve(root, filePath)));
@@ -116,10 +118,11 @@ program.command("validate")
       .flatMap(invariant => invariant.filePaths ?? [])
       .filter(filePath => existsSync(path.resolve(root, filePath)));
     const existingChangeFilePaths = changes
-      .flatMap(change => change.filesChanged ?? [])
+      .flatMap(change => stringArrayField(change, "filesChanged"))
       .filter(filePath => existsSync(path.resolve(root, filePath)));
     const currentScan = await scanProject(root);
     const issues = [
+      ...loadedChanges.issues,
       ...validateTree(nodes, files, ontology),
       ...validateConcepts(concepts, nodes, files, existingConceptFilePaths),
       ...validateInvariants(invariants, nodes, files, existingInvariantFilePaths),
@@ -144,7 +147,7 @@ program.command("context")
     const files = await readJson<FileSummary[]>(atreePath(root, "files.json"), []);
     const concepts = await readJson<Concept[]>(atreePath(root, "concepts.json"), []);
     const invariants = await readJson<Invariant[]>(atreePath(root, "invariants.json"), []);
-    const changes = await loadChanges(root);
+    const changes = validChangeRecords((await loadChanges(root)).records);
     const pack = buildContextPack({ target: opts.target, nodes, files, concepts, invariants, changes });
     const out = atreePath(root, "context-packs", `${pack.id}.json`);
     await writeJson(out, pack);
@@ -182,7 +185,7 @@ program.command("serve")
           files: await readJson<FileSummary[]>(atreePath(root, "files.json"), []),
           concepts: await readJson<Concept[]>(atreePath(root, "concepts.json"), []),
           invariants: await readJson<Invariant[]>(atreePath(root, "invariants.json"), []),
-          changes: await loadChanges(root)
+          changes: validChangeRecords((await loadChanges(root)).records)
         };
         res.setHeader("content-type", "application/json");
         res.end(JSON.stringify(state));
@@ -205,22 +208,71 @@ function findVisualAppDist(): string | undefined {
   return candidates.find(existsSync);
 }
 
-async function loadChanges(root: string): Promise<ChangeRecord[]> {
+interface LoadedChanges {
+  records: unknown[];
+  issues: ValidationIssue[];
+}
+
+async function loadChanges(root: string): Promise<LoadedChanges> {
   const dir = atreePath(root, "changes");
-  if (!existsSync(dir)) return [];
+  if (!existsSync(dir)) return { records: [], issues: [] };
   const fs = await import("node:fs/promises");
   const names = await fs.readdir(dir).catch(() => []);
-  const out: ChangeRecord[] = [];
+  const records: unknown[] = [];
+  const issues: ValidationIssue[] = [];
   for (const name of names.filter(n => n.endsWith(".json"))) {
-    const raw = await readFile(path.join(dir, name), "utf8").catch(() => "");
+    const filePath = path.join(dir, name);
+    const raw = await readFile(filePath, "utf8").catch(() => "");
     if (!raw) continue;
     try {
-      out.push(JSON.parse(raw));
+      records.push(JSON.parse(raw));
     } catch {
-      // Ignore malformed local change records so one bad file does not break context generation.
+      issues.push({
+        severity: "error",
+        filePath: path.relative(root, filePath).replaceAll(path.sep, "/"),
+        message: `Change record ${name} is not valid JSON.`
+      });
     }
   }
-  return out.sort((a, b) => a.timestamp.localeCompare(b.timestamp));
+  return {
+    records: records.sort((a, b) => changeSortKey(a).localeCompare(changeSortKey(b))),
+    issues
+  };
+}
+
+function changeSortKey(value: unknown): string {
+  const record = objectRecord(value);
+  return typeof record?.timestamp === "string" ? record.timestamp : "";
+}
+
+function validChangeRecords(values: unknown[]): ChangeRecord[] {
+  return values.filter(isChangeRecord);
+}
+
+function isChangeRecord(value: unknown): value is ChangeRecord {
+  const record = objectRecord(value);
+  if (!record) return false;
+  return (
+    typeof record.id === "string" &&
+    typeof record.timestamp === "string" &&
+    typeof record.title === "string" &&
+    typeof record.reason === "string" &&
+    ["low", "medium", "high"].includes(String(record.risk)) &&
+    stringArrayField(record, "affectedNodeIds").length === (Array.isArray(record.affectedNodeIds) ? record.affectedNodeIds.length : -1) &&
+    stringArrayField(record, "filesChanged").length === (Array.isArray(record.filesChanged) ? record.filesChanged.length : -1) &&
+    stringArrayField(record, "invariantsPreserved").length === (Array.isArray(record.invariantsPreserved) ? record.invariantsPreserved.length : -1)
+  );
+}
+
+function stringArrayField(value: unknown, field: string): string[] {
+  const record = objectRecord(value);
+  const fieldValue = record?.[field];
+  return Array.isArray(fieldValue) ? fieldValue.filter((item): item is string => typeof item === "string") : [];
+}
+
+function objectRecord(value: unknown): Record<string, unknown> | undefined {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return undefined;
+  return value as Record<string, unknown>;
 }
 
 function fallback(res: import("node:http").ServerResponse) {

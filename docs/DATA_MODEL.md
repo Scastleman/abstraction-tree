@@ -30,6 +30,7 @@ Mechanical scan output for source files:
 - path;
 - language;
 - parse strategy;
+- normalized content hash;
 - imports;
 - exports;
 - symbols;
@@ -37,7 +38,7 @@ Mechanical scan output for source files:
 - summary;
 - owning tree nodes.
 
-`parseStrategy` is `typescript-ast` for TypeScript/JavaScript-family files parsed with the TypeScript compiler API and `regex` for the current fallback scanner.
+`parseStrategy` is `typescript-ast` for TypeScript/JavaScript-family files parsed with the TypeScript compiler API and `regex` for the current fallback scanner. The content hash normalizes line endings before hashing, so drift checks remain stable across Windows and Unix checkouts.
 
 ## `tree.json`
 

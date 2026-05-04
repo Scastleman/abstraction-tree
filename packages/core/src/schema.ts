@@ -31,6 +31,7 @@ export interface FileSummary {
   extension: string;
   language: string;
   parseStrategy?: "typescript-ast" | "regex";
+  contentHash?: string;
   sizeBytes: number;
   lines: number;
   imports: string[];

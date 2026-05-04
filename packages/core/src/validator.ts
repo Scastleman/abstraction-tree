@@ -99,7 +99,7 @@ export function detectFileDrift(storedFiles: FileSummary[], currentFiles: FileSu
       continue;
     }
 
-    if (fileSignature(stored) !== fileSignature(current)) {
+    if (hasFileDrift(stored, current)) {
       issues.push({
         severity: "warning",
         filePath: stored.path,
@@ -226,7 +226,7 @@ export function validateInvariants(
 }
 
 export function validateChanges(
-  changes: ChangeRecord[],
+  changes: unknown[],
   nodes?: TreeNode[],
   files?: FileSummary[],
   invariants?: Invariant[],
@@ -383,7 +383,7 @@ function findDuplicateInvariantIds(invariants: Invariant[]): string[] {
   return [...duplicates].sort();
 }
 
-function findDuplicateChangeIds(changes: ChangeRecord[]): string[] {
+function findDuplicateChangeIds(changes: unknown[]): string[] {
   const seen = new Set<string>();
   const duplicates = new Set<string>();
 
@@ -398,7 +398,7 @@ function findDuplicateChangeIds(changes: ChangeRecord[]): string[] {
   return [...duplicates].sort();
 }
 
-function validateChangeRecordShapes(changes: ChangeRecord[]): ValidationIssue[] {
+function validateChangeRecordShapes(changes: unknown[]): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
   const arrayFields = ["affectedNodeIds", "filesChanged", "invariantsPreserved"] as const;
 
@@ -553,10 +553,17 @@ function cycleKey(ids: string[]): string {
   return [...ids].sort().join("|");
 }
 
-function fileSignature(file: FileSummary): string {
+function hasFileDrift(stored: FileSummary, current: FileSummary): boolean {
+  if (stored.contentHash && current.contentHash) {
+    return stored.contentHash !== current.contentHash;
+  }
+
+  return legacyFileSignature(stored) !== legacyFileSignature(current);
+}
+
+function legacyFileSignature(file: FileSummary): string {
   return JSON.stringify({
     language: file.language,
-    sizeBytes: file.sizeBytes,
     lines: file.lines,
     imports: normalized(file.imports),
     exports: normalized(file.exports),

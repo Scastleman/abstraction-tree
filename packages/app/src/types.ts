@@ -12,6 +12,7 @@ export interface FileSummary {
   extension?: string;
   language: string;
   parseStrategy?: string;
+  contentHash?: string;
   sizeBytes?: number;
   lines: number;
   imports: string[];
