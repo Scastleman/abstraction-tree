@@ -1,4 +1,4 @@
-import type { AbstractionOntologyLevel, FileSummary, TreeNode, ValidationIssue } from "./schema.js";
+import type { AbstractionOntologyLevel, ChangeRecord, Concept, FileSummary, Invariant, TreeNode, ValidationIssue } from "./schema.js";
 
 export function validateTree(nodes: TreeNode[], files: FileSummary[], ontology: AbstractionOntologyLevel[] = []): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
@@ -19,6 +19,8 @@ export function validateTree(nodes: TreeNode[], files: FileSummary[], ontology: 
   for (const name of findDuplicateOntologyLevelNames(ontology)) {
     issues.push({ severity: "error", message: `Ontology contains duplicate level name ${name}.` });
   }
+  issues.push(...validateOntologyRankShape(ontology));
+  issues.push(...validateOntologyConfidence(ontology));
 
   for (const n of nodes) {
     if (!n.id) issues.push({ severity: "error", message: "Node is missing id." });
@@ -122,6 +124,168 @@ export function detectFileDrift(storedFiles: FileSummary[], currentFiles: FileSu
   return dedupeIssues(issues);
 }
 
+export function validateConcepts(
+  concepts: Concept[],
+  nodes?: TreeNode[],
+  files?: FileSummary[],
+  knownFilePaths: string[] = []
+): ValidationIssue[] {
+  const issues: ValidationIssue[] = findDuplicateConceptIds(concepts).map(id => ({
+    severity: "error",
+    message: `Concept memory contains duplicate concept id ${id}.`
+  }));
+
+  const nodeIds = nodes ? new Set(nodes.map(node => node.id)) : undefined;
+  const filePaths = files ? new Set([...files.map(file => file.path), ...knownFilePaths]) : undefined;
+
+  for (const concept of concepts) {
+    if (nodeIds) {
+      for (const nodeId of concept.relatedNodeIds ?? []) {
+        if (!nodeIds.has(nodeId)) {
+          issues.push({
+            severity: "error",
+            nodeId,
+            message: `Concept ${concept.id} references missing tree node ${nodeId}.`
+          });
+        }
+      }
+    }
+
+    if (filePaths) {
+      for (const filePath of concept.relatedFiles ?? []) {
+        if (!filePaths.has(filePath)) {
+          issues.push({
+            severity: "error",
+            filePath,
+            message: `Concept ${concept.id} references missing file ${filePath}.`
+          });
+        }
+      }
+    }
+  }
+
+  return issues;
+}
+
+export function validateInvariants(
+  invariants: Invariant[],
+  nodes?: TreeNode[],
+  files?: FileSummary[],
+  knownFilePaths: string[] = []
+): ValidationIssue[] {
+  const issues: ValidationIssue[] = findDuplicateInvariantIds(invariants).map(id => ({
+    severity: "error",
+    message: `Invariant memory contains duplicate invariant id ${id}.`
+  }));
+
+  const nodeIds = nodes ? new Set(nodes.map(node => node.id)) : undefined;
+  const filePaths = files ? new Set([...files.map(file => file.path), ...knownFilePaths]) : undefined;
+
+  for (const invariant of invariants) {
+    if (nodeIds) {
+      for (const nodeId of invariant.nodeIds ?? []) {
+        if (!nodeIds.has(nodeId)) {
+          issues.push({
+            severity: "error",
+            nodeId,
+            message: `Invariant ${invariant.id} references missing tree node ${nodeId}.`
+          });
+        }
+      }
+    }
+
+    if (filePaths) {
+      for (const filePath of invariant.filePaths ?? []) {
+        if (!filePaths.has(filePath)) {
+          issues.push({
+            severity: "error",
+            filePath,
+            message: `Invariant ${invariant.id} references missing file ${filePath}.`
+          });
+        }
+      }
+    }
+  }
+
+  if (nodes) {
+    const invariantIds = new Set(invariants.map(invariant => invariant.id));
+    for (const node of nodes) {
+      for (const invariantId of node.invariants ?? []) {
+        if (!invariantIds.has(invariantId)) {
+          issues.push({
+            severity: "error",
+            nodeId: node.id,
+            message: `Node ${node.id} references missing invariant ${invariantId}.`
+          });
+        }
+      }
+    }
+  }
+
+  return issues;
+}
+
+export function validateChanges(
+  changes: ChangeRecord[],
+  nodes?: TreeNode[],
+  files?: FileSummary[],
+  invariants?: Invariant[],
+  knownFilePaths: string[] = []
+): ValidationIssue[] {
+  const issues: ValidationIssue[] = findDuplicateChangeIds(changes).map(id => ({
+    severity: "error",
+    message: `Change records contain duplicate change id ${id}.`
+  }));
+  issues.push(...validateChangeRecordShapes(changes));
+
+  const nodeIds = nodes ? new Set(nodes.map(node => node.id)) : undefined;
+  const filePaths = files ? new Set([...files.map(file => file.path), ...knownFilePaths]) : undefined;
+  const invariantIds = invariants ? new Set(invariants.map(invariant => invariant.id)) : undefined;
+
+  for (const change of changes) {
+    const record = objectRecord(change);
+    if (!record) continue;
+    const changeId = stringValue(record.id) ?? "(missing id)";
+
+    if (nodeIds) {
+      for (const nodeId of stringArrayValue(record.affectedNodeIds)) {
+        if (!nodeIds.has(nodeId)) {
+          issues.push({
+            severity: "error",
+            nodeId,
+            message: `Change record ${changeId} references missing tree node ${nodeId}.`
+          });
+        }
+      }
+    }
+
+    if (filePaths) {
+      for (const filePath of stringArrayValue(record.filesChanged)) {
+        if (!filePaths.has(filePath)) {
+          issues.push({
+            severity: "warning",
+            filePath,
+            message: `Change record ${changeId} references missing file ${filePath}.`
+          });
+        }
+      }
+    }
+
+    if (invariantIds) {
+      for (const invariantId of stringArrayValue(record.invariantsPreserved)) {
+        if (!invariantIds.has(invariantId)) {
+          issues.push({
+            severity: "error",
+            message: `Change record ${changeId} references missing invariant ${invariantId}.`
+          });
+        }
+      }
+    }
+  }
+
+  return issues;
+}
+
 function nodeName(node: TreeNode): string {
   return node.name ?? node.title;
 }
@@ -191,6 +355,163 @@ function findDuplicateOntologyLevelNames(ontology: AbstractionOntologyLevel[]): 
   }
 
   return [...duplicates].sort();
+}
+
+function findDuplicateConceptIds(concepts: Concept[]): string[] {
+  const seen = new Set<string>();
+  const duplicates = new Set<string>();
+
+  for (const concept of concepts) {
+    if (!concept.id) continue;
+    if (seen.has(concept.id)) duplicates.add(concept.id);
+    seen.add(concept.id);
+  }
+
+  return [...duplicates].sort();
+}
+
+function findDuplicateInvariantIds(invariants: Invariant[]): string[] {
+  const seen = new Set<string>();
+  const duplicates = new Set<string>();
+
+  for (const invariant of invariants) {
+    if (!invariant.id) continue;
+    if (seen.has(invariant.id)) duplicates.add(invariant.id);
+    seen.add(invariant.id);
+  }
+
+  return [...duplicates].sort();
+}
+
+function findDuplicateChangeIds(changes: ChangeRecord[]): string[] {
+  const seen = new Set<string>();
+  const duplicates = new Set<string>();
+
+  for (const change of changes) {
+    const record = objectRecord(change);
+    const id = record ? stringValue(record.id) : undefined;
+    if (!id) continue;
+    if (seen.has(id)) duplicates.add(id);
+    seen.add(id);
+  }
+
+  return [...duplicates].sort();
+}
+
+function validateChangeRecordShapes(changes: ChangeRecord[]): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const arrayFields = ["affectedNodeIds", "filesChanged", "invariantsPreserved"] as const;
+
+  changes.forEach((change, index) => {
+    const record = objectRecord(change);
+    if (!record) {
+      issues.push({
+        severity: "error",
+        message: `Change record at index ${index} must be an object.`
+      });
+      return;
+    }
+
+    const label = changeRecordLabel(record, index);
+    if (!stringValue(record.id)) {
+      issues.push({ severity: "error", message: `Change record at index ${index} is missing a non-empty id.` });
+    }
+    if (!isValidTimestamp(record.timestamp)) {
+      issues.push({ severity: "error", message: `Change record ${label} must use a valid timestamp.` });
+    }
+    if (!stringValue(record.title)) {
+      issues.push({ severity: "error", message: `Change record ${label} is missing a non-empty title.` });
+    }
+    if (!stringValue(record.reason)) {
+      issues.push({ severity: "error", message: `Change record ${label} is missing a non-empty reason.` });
+    }
+    if (!["low", "medium", "high"].includes(String(record.risk))) {
+      issues.push({ severity: "error", message: `Change record ${label} must use risk low, medium, or high.` });
+    }
+
+    for (const field of arrayFields) {
+      const value = record[field];
+      if (!Array.isArray(value)) {
+        issues.push({ severity: "error", message: `Change record ${label} must use a string array for ${field}.` });
+        continue;
+      }
+      if (value.some(item => typeof item !== "string")) {
+        issues.push({ severity: "error", message: `Change record ${label} must contain only strings in ${field}.` });
+      }
+    }
+  });
+
+  return issues;
+}
+
+function objectRecord(value: unknown): Record<string, unknown> | undefined {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return undefined;
+  return value as Record<string, unknown>;
+}
+
+function stringValue(value: unknown): string | undefined {
+  return typeof value === "string" && value.trim() ? value : undefined;
+}
+
+function stringArrayValue(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
+}
+
+function isValidTimestamp(value: unknown): boolean {
+  return typeof value === "string" && Number.isFinite(Date.parse(value));
+}
+
+function changeRecordLabel(record: Record<string, unknown>, index: number): string {
+  return stringValue(record.id) ?? `at index ${index}`;
+}
+
+function validateOntologyRankShape(ontology: AbstractionOntologyLevel[]): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  let hasInvalidRank = false;
+
+  for (const level of ontology) {
+    const rank = level.rank;
+    if (typeof rank !== "number" || !Number.isInteger(rank) || rank < 0) {
+      hasInvalidRank = true;
+      issues.push({
+        severity: "error",
+        message: `Ontology level ${ontologyLevelLabel(level)} must use a non-negative integer rank.`
+      });
+    }
+  }
+
+  if (hasInvalidRank) return issues;
+
+  const ranks = ontology.map(level => level.rank);
+  const uniqueRanks = [...new Set(ranks)].sort((a, b) => a - b);
+  if (uniqueRanks.length !== ontology.length) return issues;
+
+  const isContiguousFromRoot = uniqueRanks.every((rank, index) => rank === index);
+  if (!isContiguousFromRoot) {
+    issues.push({
+      severity: "error",
+      message: `Ontology ranks must be contiguous from 0; found ranks ${uniqueRanks.join(", ")}.`
+    });
+  }
+
+  return issues;
+}
+
+function ontologyLevelLabel(level: AbstractionOntologyLevel): string {
+  return level.id || level.name || "(missing id)";
+}
+
+function validateOntologyConfidence(ontology: AbstractionOntologyLevel[]): ValidationIssue[] {
+  return ontology.flatMap(level => {
+    const confidence = level.confidence;
+    if (typeof confidence === "number" && Number.isFinite(confidence) && confidence >= 0 && confidence <= 1) {
+      return [];
+    }
+    return [{
+      severity: "error",
+      message: `Ontology level ${ontologyLevelLabel(level)} must use a confidence between 0 and 1.`
+    }];
+  });
 }
 
 function detectParentCycles(nodes: TreeNode[], nodeById: Map<string, TreeNode>): ValidationIssue[] {

@@ -40,8 +40,13 @@
       "concept-node.concept",
       "concept-node.tree",
       "concept-node.ontology",
+      "concept-node.change",
+      "concept-node.invariant",
       "concept-node.config",
+      "concept-node.validate",
       "concept-node.checkout",
+      "concept-node.concepts",
+      "concept-node.invariants",
       "concept-node.docs",
       "concept-node.atree",
       "concept-node.context",
@@ -51,15 +56,10 @@
       "concept-node.abstraction",
       "concept-node.scan",
       "concept-node.cli",
-      "concept-node.concepts",
-      "concept-node.invariants",
-      "concept-node.change",
+      "concept-node.existing",
+      "concept-node.issues",
       "concept-node.mode",
-      "concept-node.result",
-      "concept-node.find",
-      "concept-node.ids",
-      "concept-node.text",
-      "concept-node.facts"
+      "concept-node.record"
     ],
     "sourceFiles": [],
     "ownedFiles": [],
@@ -2098,23 +2098,29 @@
     "title": "Concept",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 5 file(s) using export, symbol signals.",
+    "summary": "Durable concept inferred from 8 file(s) using export, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
     "sourceFiles": [
       "packages/app/src/types.ts",
+      "packages/cli/src/index.ts",
       "packages/core/src/context.ts",
       "packages/core/src/schema.ts",
       "packages/core/src/treeBuilder.test.ts",
-      "packages/core/src/treeBuilder.ts"
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts"
     ],
     "ownedFiles": [
       "packages/app/src/types.ts",
+      "packages/cli/src/index.ts",
       "packages/core/src/context.ts",
       "packages/core/src/schema.ts",
       "packages/core/src/treeBuilder.test.ts",
-      "packages/core/src/treeBuilder.ts"
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts"
     ],
     "responsibilities": [
       "Represent the cross-cutting Concept concept across related files."
@@ -2122,18 +2128,24 @@
     "dependencies": [
       "module.packages",
       "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts",
       "file.packages.core.src.context.ts",
       "file.packages.core.src.schema.ts",
       "file.packages.core.src.treebuilder.test.ts",
-      "file.packages.core.src.treebuilder.ts"
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts"
     ],
     "dependsOn": [
       "module.packages",
       "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts",
       "file.packages.core.src.context.ts",
       "file.packages.core.src.schema.ts",
       "file.packages.core.src.treebuilder.test.ts",
-      "file.packages.core.src.treebuilder.ts"
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts"
     ],
     "changeLog": [],
     "invariants": [
@@ -2260,6 +2272,112 @@
     "confidence": 0.65
   },
   {
+    "id": "concept-node.change",
+    "name": "Change",
+    "title": "Change",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 5 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/app/src/types.ts",
+      "packages/cli/src/index.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "ownedFiles": [
+      "packages/app/src/types.ts",
+      "packages/cli/src/index.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Change concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.invariant",
+    "name": "Invariant",
+    "title": "Invariant",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 5 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/app/src/types.ts",
+      "packages/cli/src/index.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "ownedFiles": [
+      "packages/app/src/types.ts",
+      "packages/cli/src/index.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Invariant concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.app.src.types.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
     "id": "concept-node.config",
     "name": "Config",
     "title": "Config",
@@ -2309,39 +2427,202 @@
     "confidence": 0.65
   },
   {
+    "id": "concept-node.validate",
+    "name": "Validate",
+    "title": "Validate",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 2 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "examples/small-web-app/src/services/cart.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "ownedFiles": [
+      "examples/small-web-app/src/services/cart.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Validate concept across related files."
+    ],
+    "dependencies": [
+      "module.examples",
+      "module.packages",
+      "file.examples.small.web.app.src.services.cart.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "dependsOn": [
+      "module.examples",
+      "module.packages",
+      "file.examples.small.web.app.src.services.cart.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
     "id": "concept-node.checkout",
     "name": "Checkout",
     "title": "Checkout",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 4 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
     "sourceFiles": [
       "examples/small-web-app/src/api/checkout.ts",
       "examples/small-web-app/src/components/CheckoutForm.tsx",
-      "examples/small-web-app/tests/checkout.test.js"
+      "examples/small-web-app/tests/checkout.test.js",
+      "packages/core/src/validator.test.ts"
     ],
     "ownedFiles": [
       "examples/small-web-app/src/api/checkout.ts",
       "examples/small-web-app/src/components/CheckoutForm.tsx",
-      "examples/small-web-app/tests/checkout.test.js"
+      "examples/small-web-app/tests/checkout.test.js",
+      "packages/core/src/validator.test.ts"
     ],
     "responsibilities": [
       "Represent the cross-cutting Checkout concept across related files."
     ],
     "dependencies": [
       "module.examples",
+      "module.packages",
       "file.examples.small.web.app.src.api.checkout.ts",
       "file.examples.small.web.app.src.components.checkoutform.tsx",
-      "file.examples.small.web.app.tests.checkout.test.js"
+      "file.examples.small.web.app.tests.checkout.test.js",
+      "file.packages.core.src.validator.test.ts"
     ],
     "dependsOn": [
       "module.examples",
+      "module.packages",
       "file.examples.small.web.app.src.api.checkout.ts",
       "file.examples.small.web.app.src.components.checkoutform.tsx",
-      "file.examples.small.web.app.tests.checkout.test.js"
+      "file.examples.small.web.app.tests.checkout.test.js",
+      "file.packages.core.src.validator.test.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.concepts",
+    "name": "Concepts",
+    "title": "Concepts",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 6 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "ownedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Concepts concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.invariants",
+    "name": "Invariants",
+    "title": "Invariants",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 6 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "ownedFiles": [
+      "packages/cli/src/index.ts",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Invariants concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts"
     ],
     "changeLog": [],
     "invariants": [
@@ -2769,43 +3050,39 @@
     "confidence": 0.65
   },
   {
-    "id": "concept-node.concepts",
-    "name": "Concepts",
-    "title": "Concepts",
+    "id": "concept-node.existing",
+    "name": "Existing",
+    "title": "Existing",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 4 file(s) using symbol signals.",
+    "summary": "Durable concept inferred from 3 file(s) using symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
     "sourceFiles": [
       "packages/cli/src/index.ts",
-      "packages/core/src/context.test.ts",
-      "packages/core/src/context.ts",
-      "packages/core/src/treeBuilder.ts"
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/workspace.ts"
     ],
     "ownedFiles": [
       "packages/cli/src/index.ts",
-      "packages/core/src/context.test.ts",
-      "packages/core/src/context.ts",
-      "packages/core/src/treeBuilder.ts"
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/workspace.ts"
     ],
     "responsibilities": [
-      "Represent the cross-cutting Concepts concept across related files."
+      "Represent the cross-cutting Existing concept across related files."
     ],
     "dependencies": [
       "module.packages",
       "file.packages.cli.src.index.ts",
-      "file.packages.core.src.context.test.ts",
-      "file.packages.core.src.context.ts",
-      "file.packages.core.src.treebuilder.ts"
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.workspace.ts"
     ],
     "dependsOn": [
       "module.packages",
       "file.packages.cli.src.index.ts",
-      "file.packages.core.src.context.test.ts",
-      "file.packages.core.src.context.ts",
-      "file.packages.core.src.treebuilder.ts"
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.workspace.ts"
     ],
     "changeLog": [],
     "invariants": [
@@ -2818,88 +3095,39 @@
     "confidence": 0.65
   },
   {
-    "id": "concept-node.invariants",
-    "name": "Invariants",
-    "title": "Invariants",
+    "id": "concept-node.issues",
+    "name": "Issues",
+    "title": "Issues",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 4 file(s) using symbol signals.",
+    "summary": "Durable concept inferred from 3 file(s) using symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
     "sourceFiles": [
       "packages/cli/src/index.ts",
-      "packages/core/src/context.test.ts",
-      "packages/core/src/context.ts",
-      "packages/core/src/treeBuilder.ts"
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts"
     ],
     "ownedFiles": [
       "packages/cli/src/index.ts",
-      "packages/core/src/context.test.ts",
-      "packages/core/src/context.ts",
-      "packages/core/src/treeBuilder.ts"
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts"
     ],
     "responsibilities": [
-      "Represent the cross-cutting Invariants concept across related files."
+      "Represent the cross-cutting Issues concept across related files."
     ],
     "dependencies": [
       "module.packages",
       "file.packages.cli.src.index.ts",
-      "file.packages.core.src.context.test.ts",
-      "file.packages.core.src.context.ts",
-      "file.packages.core.src.treebuilder.ts"
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts"
     ],
     "dependsOn": [
       "module.packages",
       "file.packages.cli.src.index.ts",
-      "file.packages.core.src.context.test.ts",
-      "file.packages.core.src.context.ts",
-      "file.packages.core.src.treebuilder.ts"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.change",
-    "name": "Change",
-    "title": "Change",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 3 file(s) using export, symbol signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "packages/app/src/types.ts",
-      "packages/cli/src/index.ts",
-      "packages/core/src/schema.ts"
-    ],
-    "ownedFiles": [
-      "packages/app/src/types.ts",
-      "packages/cli/src/index.ts",
-      "packages/core/src/schema.ts"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Change concept across related files."
-    ],
-    "dependencies": [
-      "module.packages",
-      "file.packages.app.src.types.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.core.src.schema.ts"
-    ],
-    "dependsOn": [
-      "module.packages",
-      "file.packages.app.src.types.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.core.src.schema.ts"
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts"
     ],
     "changeLog": [],
     "invariants": [
@@ -2957,9 +3185,9 @@
     "confidence": 0.65
   },
   {
-    "id": "concept-node.result",
-    "name": "Result",
-    "title": "Result",
+    "id": "concept-node.record",
+    "name": "Record",
+    "title": "Record",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
     "summary": "Durable concept inferred from 3 file(s) using export, symbol signals.",
@@ -2967,189 +3195,29 @@
     "parentId": "project.domain",
     "children": [],
     "sourceFiles": [
-      "packages/core/src/scanner.ts",
-      "packages/core/src/treeBuilder.test.ts",
-      "packages/core/src/treeBuilder.ts"
-    ],
-    "ownedFiles": [
-      "packages/core/src/scanner.ts",
-      "packages/core/src/treeBuilder.test.ts",
-      "packages/core/src/treeBuilder.ts"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Result concept across related files."
-    ],
-    "dependencies": [
-      "module.packages",
-      "file.packages.core.src.scanner.ts",
-      "file.packages.core.src.treebuilder.test.ts",
-      "file.packages.core.src.treebuilder.ts"
-    ],
-    "dependsOn": [
-      "module.packages",
-      "file.packages.core.src.scanner.ts",
-      "file.packages.core.src.treebuilder.test.ts",
-      "file.packages.core.src.treebuilder.ts"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.find",
-    "name": "Find",
-    "title": "Find",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 2 file(s) using symbol signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "packages/cli/src/index.ts",
+      "packages/app/src/types.ts",
+      "packages/core/src/schema.ts",
       "packages/core/src/validator.ts"
     ],
     "ownedFiles": [
-      "packages/cli/src/index.ts",
+      "packages/app/src/types.ts",
+      "packages/core/src/schema.ts",
       "packages/core/src/validator.ts"
     ],
     "responsibilities": [
-      "Represent the cross-cutting Find concept across related files."
+      "Represent the cross-cutting Record concept across related files."
     ],
     "dependencies": [
       "module.packages",
-      "file.packages.cli.src.index.ts",
+      "file.packages.app.src.types.ts",
+      "file.packages.core.src.schema.ts",
       "file.packages.core.src.validator.ts"
     ],
     "dependsOn": [
       "module.packages",
-      "file.packages.cli.src.index.ts",
+      "file.packages.app.src.types.ts",
+      "file.packages.core.src.schema.ts",
       "file.packages.core.src.validator.ts"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.ids",
-    "name": "Ids",
-    "title": "Ids",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 2 file(s) using symbol signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "packages/core/src/context.ts",
-      "packages/core/src/validator.ts"
-    ],
-    "ownedFiles": [
-      "packages/core/src/context.ts",
-      "packages/core/src/validator.ts"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Ids concept across related files."
-    ],
-    "dependencies": [
-      "module.packages",
-      "file.packages.core.src.context.ts",
-      "file.packages.core.src.validator.ts"
-    ],
-    "dependsOn": [
-      "module.packages",
-      "file.packages.core.src.context.ts",
-      "file.packages.core.src.validator.ts"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.text",
-    "name": "Text",
-    "title": "Text",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 2 file(s) using symbol signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "packages/core/src/context.ts",
-      "packages/core/src/scanner.ts"
-    ],
-    "ownedFiles": [
-      "packages/core/src/context.ts",
-      "packages/core/src/scanner.ts"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Text concept across related files."
-    ],
-    "dependencies": [
-      "module.packages",
-      "file.packages.core.src.context.ts",
-      "file.packages.core.src.scanner.ts"
-    ],
-    "dependsOn": [
-      "module.packages",
-      "file.packages.core.src.context.ts",
-      "file.packages.core.src.scanner.ts"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.facts",
-    "name": "Facts",
-    "title": "Facts",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 1 file(s) using symbol signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "packages/core/src/scanner.ts"
-    ],
-    "ownedFiles": [
-      "packages/core/src/scanner.ts"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Facts concept across related files."
-    ],
-    "dependencies": [
-      "module.packages",
-      "file.packages.core.src.scanner.ts"
-    ],
-    "dependsOn": [
-      "module.packages",
-      "file.packages.core.src.scanner.ts"
     ],
     "changeLog": [],
     "invariants": [

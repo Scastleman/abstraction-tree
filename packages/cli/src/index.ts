@@ -16,6 +16,9 @@ import {
   readJson,
   scanProject,
   setInstallMode,
+  validateChanges,
+  validateConcepts,
+  validateInvariants,
   validateTree,
   writeJson,
   type ChangeRecord,
@@ -103,9 +106,24 @@ program.command("validate")
     const ontology = await readJson<AbstractionOntologyLevel[]>(atreePath(root, "ontology.json"), []);
     const nodes = await readJson<TreeNode[]>(atreePath(root, "tree.json"), []);
     const files = await readJson<FileSummary[]>(atreePath(root, "files.json"), []);
+    const concepts = await readJson<Concept[]>(atreePath(root, "concepts.json"), []);
+    const invariants = await readJson<Invariant[]>(atreePath(root, "invariants.json"), []);
+    const changes = await loadChanges(root);
+    const existingConceptFilePaths = concepts
+      .flatMap(concept => concept.relatedFiles ?? [])
+      .filter(filePath => existsSync(path.resolve(root, filePath)));
+    const existingInvariantFilePaths = invariants
+      .flatMap(invariant => invariant.filePaths ?? [])
+      .filter(filePath => existsSync(path.resolve(root, filePath)));
+    const existingChangeFilePaths = changes
+      .flatMap(change => change.filesChanged ?? [])
+      .filter(filePath => existsSync(path.resolve(root, filePath)));
     const currentScan = await scanProject(root);
     const issues = [
       ...validateTree(nodes, files, ontology),
+      ...validateConcepts(concepts, nodes, files, existingConceptFilePaths),
+      ...validateInvariants(invariants, nodes, files, existingInvariantFilePaths),
+      ...validateChanges(changes, nodes, files, invariants, existingChangeFilePaths),
       ...detectFileDrift(files, currentScan.files, nodes)
     ];
     if (!issues.length) {
