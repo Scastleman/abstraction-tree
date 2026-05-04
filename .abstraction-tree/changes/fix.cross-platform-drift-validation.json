@@ -2,7 +2,7 @@
   "id": "fix.cross-platform-drift-validation",
   "timestamp": "2026-05-04T00:31:30.000Z",
   "title": "Stabilize drift validation across platforms",
-  "reason": "Strict validation could report stale abstraction memory after a Windows checkout because legacy drift signatures depended on raw byte sizes and malformed change records could be skipped before validation. CI also needed deterministic installs, runtime cleanup, and a Vite upgrade to remove audit noise.",
+  "reason": "Strict validation could report stale abstraction memory after a Windows checkout because legacy drift signatures depended on raw byte sizes and malformed change records could be skipped before validation. CI also needed deterministic installs, current GitHub Actions runtimes, and a Vite upgrade to remove audit noise.",
   "affectedNodeIds": [
     "project.code",
     "module.packages",
