@@ -33,6 +33,12 @@ The agent adapter should perform this protocol internally.
 5. Write a semantic change record in `.abstraction-tree/changes/`.
 6. Run `atree validate`.
 
+## LLM-assisted proposals
+
+The current protocol is deterministic by default. Future LLM support should enter through provider adapters that implement the core `LlmAbstractionBuilder` interface rather than through the scanner, tree builder, or CLI default path.
+
+LLM output is a proposal, not memory. Agents should validate proposed ontology changes, proposed tree changes, confidence, rationale, warnings, affected abstraction layers, and detected-change classifications before writing them into `.abstraction-tree/`.
+
 ## This Repository
 
 The Abstraction Tree repo dogfoods the protocol at the repository root. Changes to core behavior, CLI commands, packaging, docs, or the app should update the root `.abstraction-tree/` memory and pass:
@@ -45,7 +51,7 @@ npm run atree:validate
 
 When running an autonomous improvement loop on this repository, start from existing memory before exploring widely:
 
-1. Check `git diff`, `.abstraction-tree/automation/loop-state.json`, and the latest files in `.abstraction-tree/runs/` and `.abstraction-tree/lessons/`.
+1. Check `git diff`, committed loop policy in `.abstraction-tree/automation/loop-config.json`, ignored local counters in `.abstraction-tree/automation/loop-runtime.json`, and the latest files in `.abstraction-tree/runs/` and `.abstraction-tree/lessons/`.
 2. Use targeted reads of `README.md`, `docs/`, `packages/core/src/`, `packages/cli/src/`, and `.abstraction-tree/` before broad repository search.
 3. Choose one small, testable improvement that reduces future uncertainty, validation gaps, drift, or agent setup cost.
 4. In the run report, separate pre-existing dirty files from files changed by the current loop.

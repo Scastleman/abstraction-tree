@@ -1,0 +1,11 @@
+{
+  "max_loops_today": 25,
+  "max_minutes_today": 300,
+  "max_stagnation": 3,
+  "max_failed_loops": 3,
+  "max_diff_lines": 1200,
+  "commit_each_successful_loop": false,
+  "revert_failed_experiments": true,
+  "stop_if_tests_fail_twice": true,
+  "stop_if_diff_too_large": true
+}

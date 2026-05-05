@@ -4,3 +4,8 @@ export * from "./scanner.js";
 export * from "./treeBuilder.js";
 export * from "./context.js";
 export * from "./validator.js";
+export * from "./automationValidation.js";
+export * from "./evaluator.js";
+export * from "./diffSummary.js";
+export * from "./llm/types.js";
+export * from "./llm/abstractionBuilder.js";

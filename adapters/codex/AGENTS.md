@@ -20,6 +20,27 @@ After making meaningful changes:
 4. Write a change record in `.abstraction-tree/changes/`.
 5. Run `atree validate` if available.
 
+## Memory and runtime boundaries
+
+Treat committed `.abstraction-tree/` files as durable memory: abstraction data, stable automation config, change records, context packs, run reports, lessons, and evaluations can be part of the repo.
+
+Do not commit live runtime state: loop counters, mission runner state, logs, secrets, `.env` files, or local Codex state. Runtime examples and stable configs are acceptable; machine-local state is not.
+
+Useful repo scripts:
+
+```bash
+npm run abstraction:loop
+npm run atree:validate
+npm run atree:evaluate
+npm run diff:summary
+```
+
+The autonomous loop runs bounded Codex cycles and post-loop checks. It does not push to remote, bypass failed checks, commit ignored runtime state, or enable LLM-inferred abstraction as default scanner behavior.
+
+The loop is bounded by configured limits for loop count, elapsed time, failed loops, stagnation, repeated test failures, and diff size. Use objective evaluation metrics alongside run reports because self-reporting alone cannot prove that drift, ownership, context breadth, or automation health improved.
+
+Current limitation: deterministic scan, validation, context, evaluation, and app serving are implemented. LLM-inferred abstraction remains adapter-ready scaffolding and is not default behavior.
+
 ## Prompt expansion
 
 Do not force the user to use special prompts. Internally translate ordinary requests into tree-aware scope.

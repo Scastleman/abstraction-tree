@@ -22,6 +22,8 @@ jobs:
           node-version: 20.19.x
           cache: npm
       - run: npm ci
+      - run: npm run format:check
+      - run: npm run check:unicode
       - run: npm run build
       - run: npm test
       - run: npm run atree:validate

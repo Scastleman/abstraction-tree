@@ -3,7 +3,7 @@ import { Command } from "commander";
 import path from "node:path";
 import { createServer } from "node:http";
 import { existsSync } from "node:fs";
-import { readFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import sirv from "sirv";
 import {
@@ -12,11 +12,13 @@ import {
   buildDeterministicTree,
   detectFileDrift,
   ensureWorkspace,
+  writeEvaluationReport,
   readConfig,
   readJson,
   scanProject,
   setInstallMode,
   validateChanges,
+  validateAutomation,
   validateConcepts,
   validateInvariants,
   validateTree,
@@ -104,31 +106,7 @@ program.command("validate")
   .option("--strict", "treat warnings as validation failures")
   .action(async opts => {
     const root = projectPath(opts.project);
-    const ontology = await readJson<AbstractionOntologyLevel[]>(atreePath(root, "ontology.json"), []);
-    const nodes = await readJson<TreeNode[]>(atreePath(root, "tree.json"), []);
-    const files = await readJson<FileSummary[]>(atreePath(root, "files.json"), []);
-    const concepts = await readJson<Concept[]>(atreePath(root, "concepts.json"), []);
-    const invariants = await readJson<Invariant[]>(atreePath(root, "invariants.json"), []);
-    const loadedChanges = await loadChanges(root);
-    const changes = loadedChanges.records;
-    const existingConceptFilePaths = concepts
-      .flatMap(concept => concept.relatedFiles ?? [])
-      .filter(filePath => existsSync(path.resolve(root, filePath)));
-    const existingInvariantFilePaths = invariants
-      .flatMap(invariant => invariant.filePaths ?? [])
-      .filter(filePath => existsSync(path.resolve(root, filePath)));
-    const existingChangeFilePaths = changes
-      .flatMap(change => stringArrayField(change, "filesChanged"))
-      .filter(filePath => existsSync(path.resolve(root, filePath)));
-    const currentScan = await scanProject(root);
-    const issues = [
-      ...loadedChanges.issues,
-      ...validateTree(nodes, files, ontology),
-      ...validateConcepts(concepts, nodes, files, existingConceptFilePaths),
-      ...validateInvariants(invariants, nodes, files, existingInvariantFilePaths),
-      ...validateChanges(changes, nodes, files, invariants, existingChangeFilePaths),
-      ...detectFileDrift(files, currentScan.files, nodes)
-    ];
+    const issues = await collectValidationIssues(root);
     if (!issues.length) {
       console.log("No validation issues found.");
       return;
@@ -152,6 +130,16 @@ program.command("context")
     const out = atreePath(root, "context-packs", `${pack.id}.json`);
     await writeJson(out, pack);
     console.log(JSON.stringify(pack, null, 2));
+  });
+
+program.command("evaluate")
+  .description("Generate deterministic evaluation metrics")
+  .option("-p, --project <path>", "project root")
+  .action(async opts => {
+    const root = projectPath(opts.project);
+    const { report, filePath } = await writeEvaluationReport(root);
+    console.log(`Wrote evaluation report to ${path.relative(root, filePath).replaceAll(path.sep, "/")}`);
+    console.log(JSON.stringify(report, null, 2));
   });
 
 program.command("serve")
@@ -185,7 +173,8 @@ program.command("serve")
           files: await readJson<FileSummary[]>(atreePath(root, "files.json"), []),
           concepts: await readJson<Concept[]>(atreePath(root, "concepts.json"), []),
           invariants: await readJson<Invariant[]>(atreePath(root, "invariants.json"), []),
-          changes: validChangeRecords((await loadChanges(root)).records)
+          changes: validChangeRecords((await loadChanges(root)).records),
+          agentHealth: await loadAgentHealth(root)
         };
         res.setHeader("content-type", "application/json");
         res.end(JSON.stringify(state));
@@ -195,6 +184,146 @@ program.command("serve")
     });
     server.listen(port, () => console.log(`Abstraction Tree app: http://localhost:${port}`));
   });
+
+async function collectValidationIssues(root: string): Promise<ValidationIssue[]> {
+  const ontology = await readJson<AbstractionOntologyLevel[]>(atreePath(root, "ontology.json"), []);
+  const nodes = await readJson<TreeNode[]>(atreePath(root, "tree.json"), []);
+  const files = await readJson<FileSummary[]>(atreePath(root, "files.json"), []);
+  const concepts = await readJson<Concept[]>(atreePath(root, "concepts.json"), []);
+  const invariants = await readJson<Invariant[]>(atreePath(root, "invariants.json"), []);
+  const loadedChanges = await loadChanges(root);
+  const changes = loadedChanges.records;
+  const existingConceptFilePaths = concepts
+    .flatMap(concept => concept.relatedFiles ?? [])
+    .filter(filePath => existsSync(path.resolve(root, filePath)));
+  const existingInvariantFilePaths = invariants
+    .flatMap(invariant => invariant.filePaths ?? [])
+    .filter(filePath => existsSync(path.resolve(root, filePath)));
+  const existingChangeFilePaths = changes
+    .flatMap(change => stringArrayField(change, "filesChanged"))
+    .filter(filePath => existsSync(path.resolve(root, filePath)));
+  const currentScan = await scanProject(root);
+
+  return [
+    ...loadedChanges.issues,
+    ...(await validateAutomation(root)),
+    ...validateTree(nodes, files, ontology),
+    ...validateConcepts(concepts, nodes, files, existingConceptFilePaths),
+    ...validateInvariants(invariants, nodes, files, existingInvariantFilePaths),
+    ...validateChanges(changes, nodes, files, invariants, existingChangeFilePaths),
+    ...detectFileDrift(files, currentScan.files, nodes)
+  ];
+}
+
+interface AgentHealth {
+  latestRun?: {
+    file: string;
+    timestamp?: string;
+    task?: string;
+    result?: "success" | "partial" | "failed" | "no-op" | "unknown";
+  };
+  latestEvaluation?: {
+    file: string;
+    timestamp?: string;
+    issueCount?: number;
+    staleFileCount?: number;
+    missingFileCount?: number;
+  };
+  validation?: {
+    issueCount: number;
+    errorCount: number;
+    warningCount: number;
+  };
+  automation?: {
+    loopsToday?: number;
+    maxLoopsToday?: number;
+    failedLoopsToday?: number;
+    maxFailedLoops?: number;
+    maxMinutesToday?: number;
+    maxDiffLines?: number;
+    stopRequested?: boolean;
+    currentMission?: string;
+    completedMissions?: number;
+    failedMissions?: number;
+  };
+}
+
+type RunResult = NonNullable<AgentHealth["latestRun"]>["result"];
+
+async function loadAgentHealth(root: string): Promise<AgentHealth> {
+  const issues = await collectValidationIssues(root).catch(() => undefined);
+  return {
+    latestRun: await loadLatestRun(root),
+    latestEvaluation: await loadLatestEvaluation(root),
+    validation: issues ? {
+      issueCount: issues.length,
+      errorCount: issues.filter(issue => issue.severity === "error").length,
+      warningCount: issues.filter(issue => issue.severity === "warning").length
+    } : undefined,
+    automation: await loadAutomationHealth(root)
+  };
+}
+
+async function loadLatestRun(root: string): Promise<AgentHealth["latestRun"]> {
+  const latest = await latestNamedFile(atreePath(root, "runs"), name => name.endsWith("-agent-run.md"));
+  if (!latest) return undefined;
+  const text = await readFile(latest.path, "utf8").catch(() => "");
+  const result = parseRunResult(markdownSection(text, "Result"));
+  return {
+    file: `.abstraction-tree/runs/${latest.name}`,
+    timestamp: timestampFromName(latest.name),
+    task: firstMarkdownLine(markdownSection(text, "Task Chosen")),
+    result: result ?? "unknown"
+  };
+}
+
+async function loadLatestEvaluation(root: string): Promise<AgentHealth["latestEvaluation"]> {
+  const latest = await latestNamedFile(atreePath(root, "evaluations"), name => name.endsWith("-evaluation.json"));
+  if (!latest) return undefined;
+  const report = objectRecord(await readJson<Record<string, unknown>>(latest.path, {})) ?? {};
+  const drift = objectRecord(report.drift);
+  const issues = Array.isArray(report.issues) ? report.issues : undefined;
+  return {
+    file: `.abstraction-tree/evaluations/${latest.name}`,
+    timestamp: stringField(report, "timestamp") ?? timestampFromName(latest.name),
+    issueCount: issues?.length,
+    staleFileCount: numberField(drift, "staleFileCount"),
+    missingFileCount: numberField(drift, "missingFileCount")
+  };
+}
+
+async function loadAutomationHealth(root: string): Promise<AgentHealth["automation"]> {
+  const configPath = atreePath(root, "automation", "loop-config.json");
+  const runtimePath = atreePath(root, "automation", "loop-runtime.json");
+  const missionsPath = atreePath(root, "automation", "mission-runtime.json");
+  if (![configPath, runtimePath, missionsPath].some(existsSync)) return undefined;
+
+  const config = objectRecord(await readJson<Record<string, unknown>>(configPath, {})) ?? {};
+  const runtime = objectRecord(await readJson<Record<string, unknown>>(runtimePath, {})) ?? {};
+  const missions = objectRecord(await readJson<Record<string, unknown>>(missionsPath, {})) ?? {};
+  const completed = Array.isArray(missions.completed) ? missions.completed.length : undefined;
+  const failed = Array.isArray(missions.failed) ? missions.failed.length : undefined;
+
+  return {
+    loopsToday: numberField(runtime, "loops_today"),
+    maxLoopsToday: numberField(config, "max_loops_today"),
+    failedLoopsToday: numberField(runtime, "failed_loops_today"),
+    maxFailedLoops: numberField(config, "max_failed_loops"),
+    maxMinutesToday: numberField(config, "max_minutes_today"),
+    maxDiffLines: numberField(config, "max_diff_lines"),
+    stopRequested: booleanField(runtime, "stop_requested") ?? booleanField(missions, "stop_requested"),
+    currentMission: stringField(missions, "current"),
+    completedMissions: completed,
+    failedMissions: failed
+  };
+}
+
+async function latestNamedFile(dir: string, accepts: (name: string) => boolean): Promise<{ name: string; path: string } | undefined> {
+  if (!existsSync(dir)) return undefined;
+  const names = (await readdir(dir).catch(() => [])).filter(accepts).sort();
+  const name = names.at(-1);
+  return name ? { name, path: path.join(dir, name) } : undefined;
+}
 
 function findVisualAppDist(): string | undefined {
   const cliDir = path.dirname(fileURLToPath(import.meta.url));
@@ -268,6 +397,49 @@ function stringArrayField(value: unknown, field: string): string[] {
   const record = objectRecord(value);
   const fieldValue = record?.[field];
   return Array.isArray(fieldValue) ? fieldValue.filter((item): item is string => typeof item === "string") : [];
+}
+
+function stringField(value: unknown, field: string): string | undefined {
+  const record = objectRecord(value);
+  const fieldValue = record?.[field];
+  return typeof fieldValue === "string" && fieldValue.trim() ? fieldValue : undefined;
+}
+
+function numberField(value: unknown, field: string): number | undefined {
+  const record = objectRecord(value);
+  const fieldValue = record?.[field];
+  return typeof fieldValue === "number" && Number.isFinite(fieldValue) ? fieldValue : undefined;
+}
+
+function booleanField(value: unknown, field: string): boolean | undefined {
+  const record = objectRecord(value);
+  const fieldValue = record?.[field];
+  return typeof fieldValue === "boolean" ? fieldValue : undefined;
+}
+
+function markdownSection(text: string, heading: string): string {
+  const escaped = heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return text.match(new RegExp(`^## ${escaped}\\s+([\\s\\S]*?)(?=^## |\\s*$)`, "m"))?.[1] ?? "";
+}
+
+function firstMarkdownLine(text: string): string | undefined {
+  return text.split(/\r?\n/).map(line => line.trim()).find(Boolean);
+}
+
+function parseRunResult(text: string): RunResult {
+  const firstValue = firstMarkdownLine(text)?.toLowerCase();
+  if (!firstValue) return undefined;
+  if (firstValue.startsWith("success")) return "success";
+  if (firstValue.startsWith("partial")) return "partial";
+  if (firstValue.startsWith("failed") || firstValue.startsWith("failure")) return "failed";
+  if (firstValue.startsWith("no-op") || firstValue.startsWith("noop") || firstValue.startsWith("no op")) return "no-op";
+  return undefined;
+}
+
+function timestampFromName(name: string): string | undefined {
+  const match = name.match(/^(\d{4})-(\d{2})-(\d{2})-(\d{2})(\d{2})/);
+  if (!match) return undefined;
+  return `${match[1]}-${match[2]}-${match[3]} ${match[4]}:${match[5]}`;
 }
 
 function objectRecord(value: unknown): Record<string, unknown> | undefined {

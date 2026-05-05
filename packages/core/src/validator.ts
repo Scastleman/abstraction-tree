@@ -1,4 +1,4 @@
-import type { AbstractionOntologyLevel, ChangeRecord, Concept, FileSummary, Invariant, TreeNode, ValidationIssue } from "./schema.js";
+import type { AbstractionOntologyLevel, ChangeRecord, Concept, ContextPack, FileSummary, Invariant, TreeNode, ValidationIssue } from "./schema.js";
 
 export function validateTree(nodes: TreeNode[], files: FileSummary[], ontology: AbstractionOntologyLevel[] = []): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
@@ -21,6 +21,7 @@ export function validateTree(nodes: TreeNode[], files: FileSummary[], ontology: 
   }
   issues.push(...validateOntologyRankShape(ontology));
   issues.push(...validateOntologyConfidence(ontology));
+  issues.push(...validateNodeConfidence(nodes));
 
   for (const n of nodes) {
     if (!n.id) issues.push({ severity: "error", message: "Node is missing id." });
@@ -286,6 +287,111 @@ export function validateChanges(
   return issues;
 }
 
+export function validateContextPacks(
+  packs: unknown[],
+  nodes?: TreeNode[],
+  files?: FileSummary[],
+  concepts?: Concept[],
+  invariants?: Invariant[],
+  changes?: unknown[],
+  knownFilePaths: string[] = []
+): ValidationIssue[] {
+  const issues: ValidationIssue[] = findDuplicateContextPackIds(packs).map(id => ({
+    severity: "error",
+    message: `Context packs contain duplicate context pack id ${id}.`
+  }));
+  issues.push(...validateContextPackShapes(packs));
+
+  const nodeIds = nodes ? new Set(nodes.map(node => node.id)) : undefined;
+  const filePaths = files ? new Set([...files.map(file => file.path), ...knownFilePaths]) : undefined;
+  const conceptIds = concepts ? new Set(concepts.map(concept => concept.id)) : undefined;
+  const invariantIds = invariants ? new Set(invariants.map(invariant => invariant.id)) : undefined;
+  const changeIds = changes ? new Set(changes.map(change => stringValue(objectRecord(change)?.id)).filter((id): id is string => Boolean(id))) : undefined;
+
+  packs.forEach((pack, index) => {
+    const record = objectRecord(pack);
+    if (!record) return;
+    const packId = contextPackLabel(record as Partial<ContextPack>, index);
+
+    if (nodeIds) {
+      for (const nodeRef of objectArrayValue(record.relevantNodes)) {
+        const nodeId = stringValue(nodeRef.id);
+        if (nodeId && !nodeIds.has(nodeId)) {
+          issues.push({
+            severity: "warning",
+            nodeId,
+            message: `Context pack ${packId} references missing tree node ${nodeId}.`
+          });
+        }
+
+        if (filePaths) {
+          for (const filePath of nodeFileRefs(nodeRef)) {
+            if (!filePaths.has(filePath)) {
+              issues.push({
+                severity: "warning",
+                nodeId,
+                filePath,
+                message: `Context pack ${packId} includes node ${nodeId ?? "(missing id)"} with missing file ${filePath}.`
+              });
+            }
+          }
+        }
+      }
+    }
+
+    if (filePaths) {
+      for (const fileRef of objectArrayValue(record.relevantFiles)) {
+        const filePath = stringValue(fileRef.path);
+        if (filePath && !filePaths.has(filePath)) {
+          issues.push({
+            severity: "warning",
+            filePath,
+            message: `Context pack ${packId} references missing file ${filePath}.`
+          });
+        }
+      }
+    }
+
+    if (conceptIds) {
+      for (const conceptRef of objectArrayValue(record.relevantConcepts)) {
+        const conceptId = stringValue(conceptRef.id);
+        if (conceptId && !conceptIds.has(conceptId)) {
+          issues.push({
+            severity: "warning",
+            message: `Context pack ${packId} references missing concept ${conceptId}.`
+          });
+        }
+      }
+    }
+
+    if (invariantIds) {
+      for (const invariantRef of objectArrayValue(record.invariants)) {
+        const invariantId = stringValue(invariantRef.id);
+        if (invariantId && !invariantIds.has(invariantId)) {
+          issues.push({
+            severity: "warning",
+            message: `Context pack ${packId} references missing invariant ${invariantId}.`
+          });
+        }
+      }
+    }
+
+    if (changeIds) {
+      for (const changeRef of objectArrayValue(record.recentChanges)) {
+        const changeId = stringValue(changeRef.id);
+        if (changeId && !changeIds.has(changeId)) {
+          issues.push({
+            severity: "warning",
+            message: `Context pack ${packId} references missing change record ${changeId}.`
+          });
+        }
+      }
+    }
+  });
+
+  return dedupeIssues(issues);
+}
+
 function nodeName(node: TreeNode): string {
   return node.name ?? node.title;
 }
@@ -398,6 +504,21 @@ function findDuplicateChangeIds(changes: unknown[]): string[] {
   return [...duplicates].sort();
 }
 
+function findDuplicateContextPackIds(packs: unknown[]): string[] {
+  const seen = new Set<string>();
+  const duplicates = new Set<string>();
+
+  for (const pack of packs) {
+    const record = objectRecord(pack);
+    const id = record ? stringValue(record.id) : undefined;
+    if (!id) continue;
+    if (seen.has(id)) duplicates.add(id);
+    seen.add(id);
+  }
+
+  return [...duplicates].sort();
+}
+
 function validateChangeRecordShapes(changes: unknown[]): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
   const arrayFields = ["affectedNodeIds", "filesChanged", "invariantsPreserved"] as const;
@@ -444,9 +565,66 @@ function validateChangeRecordShapes(changes: unknown[]): ValidationIssue[] {
   return issues;
 }
 
+function validateContextPackShapes(packs: unknown[]): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const objectArrayFields = ["relevantNodes", "relevantFiles", "relevantConcepts", "invariants", "recentChanges"] as const;
+
+  packs.forEach((pack, index) => {
+    const record = objectRecord(pack);
+    if (!record) {
+      issues.push({
+        severity: "error",
+        message: `Context pack at index ${index} must be an object.`
+      });
+      return;
+    }
+
+    const label = contextPackLabel(record as Partial<ContextPack>, index);
+    if (!stringValue(record.id)) {
+      issues.push({ severity: "error", message: `Context pack at index ${index} is missing a non-empty id.` });
+    }
+    if (!isValidTimestamp(record.createdAt)) {
+      issues.push({ severity: "error", message: `Context pack ${label} must use a valid createdAt timestamp.` });
+    }
+    if (!stringValue(record.target)) {
+      issues.push({ severity: "error", message: `Context pack ${label} is missing a non-empty target.` });
+    }
+    if (!stringValue(record.projectSummary)) {
+      issues.push({ severity: "error", message: `Context pack ${label} is missing a non-empty projectSummary.` });
+    }
+
+    for (const field of objectArrayFields) {
+      const value = record[field];
+      if (!Array.isArray(value)) {
+        issues.push({ severity: "error", message: `Context pack ${label} must use an object array for ${field}.` });
+        continue;
+      }
+      if (value.some(item => !objectRecord(item))) {
+        issues.push({ severity: "error", message: `Context pack ${label} must contain only objects in ${field}.` });
+      }
+    }
+
+    if (!Array.isArray(record.agentInstructions)) {
+      issues.push({ severity: "error", message: `Context pack ${label} must use a string array for agentInstructions.` });
+    } else if (record.agentInstructions.some(item => typeof item !== "string")) {
+      issues.push({ severity: "error", message: `Context pack ${label} must contain only strings in agentInstructions.` });
+    }
+  });
+
+  return issues;
+}
+
 function objectRecord(value: unknown): Record<string, unknown> | undefined {
   if (typeof value !== "object" || value === null || Array.isArray(value)) return undefined;
   return value as Record<string, unknown>;
+}
+
+function objectArrayValue(value: unknown): Record<string, unknown>[] {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((item): Record<string, unknown>[] => {
+    const record = objectRecord(item);
+    return record ? [record] : [];
+  });
 }
 
 function stringValue(value: unknown): string | undefined {
@@ -463,6 +641,15 @@ function isValidTimestamp(value: unknown): boolean {
 
 function changeRecordLabel(record: Record<string, unknown>, index: number): string {
   return stringValue(record.id) ?? `at index ${index}`;
+}
+
+function contextPackLabel(record: Partial<ContextPack>, index: number): string {
+  return stringValue(record.id) ?? `at index ${index}`;
+}
+
+function nodeFileRefs(record: Record<string, unknown>): string[] {
+  const sourceFiles = stringArrayValue(record.sourceFiles);
+  return sourceFiles.length ? sourceFiles : stringArrayValue(record.ownedFiles);
 }
 
 function validateOntologyRankShape(ontology: AbstractionOntologyLevel[]): ValidationIssue[] {
@@ -510,6 +697,20 @@ function validateOntologyConfidence(ontology: AbstractionOntologyLevel[]): Valid
     return [{
       severity: "error",
       message: `Ontology level ${ontologyLevelLabel(level)} must use a confidence between 0 and 1.`
+    }];
+  });
+}
+
+function validateNodeConfidence(nodes: TreeNode[]): ValidationIssue[] {
+  return nodes.flatMap(node => {
+    const confidence = node.confidence;
+    if (typeof confidence === "number" && Number.isFinite(confidence) && confidence >= 0 && confidence <= 1) {
+      return [];
+    }
+    return [{
+      severity: "error",
+      nodeId: node.id,
+      message: `Node ${node.id || "(missing id)"} must use a confidence between 0 and 1.`
     }];
   });
 }

@@ -169,6 +169,44 @@ npm run atree:validate
 
 When core behavior, docs, packaging, or app structure changes, update the root abstraction memory in the same change.
 
+### Committed memory and local runtime state
+
+The committed `.abstraction-tree/` data is durable project memory. It includes:
+
+- abstraction memory: `config.json`, `ontology.json`, `tree.json`, `files.json`, `concepts.json`, `invariants.json`, context packs, and change records;
+- stable automation config: `.abstraction-tree/automation/loop-config.json` and example runtime templates;
+- run reports in `.abstraction-tree/runs/`;
+- reusable lessons in `.abstraction-tree/lessons/`;
+- deterministic evaluation reports in `.abstraction-tree/evaluations/`.
+
+The repo should not commit local runtime state. Keep these local or ignored:
+
+- live loop counters such as `.abstraction-tree/automation/loop-runtime.json`;
+- local mission runner state such as `.abstraction-tree/automation/mission-runtime.json` and mission logs;
+- secrets, `.env` files, and API keys;
+- local Codex state outside the project memory contract.
+
+Useful dogfooding commands:
+
+```bash
+npm run abstraction:loop
+npm run atree:validate
+npm run atree:evaluate
+npm run diff:summary
+```
+
+### Autonomous loop contract
+
+`npm run abstraction:loop` runs a bounded local Codex improvement loop. It reads the stable loop config and prompt, starts a Codex cycle, runs post-loop checks, updates ignored runtime counters, and can optionally auto-commit only when configured and when required checks pass.
+
+The loop does not push to a remote, does not bypass failed checks, does not make unbounded changes, does not commit ignored runtime state, and does not turn LLM-inferred abstraction into default scanner behavior.
+
+The loop is bounded because autonomous coding work needs explicit stop conditions. The config limits daily loops, elapsed minutes, failed loops, stagnation, repeated test failures, and maximum diff size so a bad prompt or failing change cannot run indefinitely.
+
+Run reports are useful but subjective. Objective metrics from `npm run atree:evaluate` are needed as a second signal: they count tree shape, drift, missing ownership, run outcomes, duplicate lesson candidates, context-pack breadth, and automation config health.
+
+Current limitation: the deterministic MVP is implemented. LLM-inferred abstraction is not default behavior yet. This checkout includes an adapter-ready LLM abstraction interface, but no provider adapter is wired into `scan`, `validate`, `context`, `evaluate`, or `serve`.
+
 ## CLI commands
 
 ### `atree init`

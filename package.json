@@ -13,13 +13,18 @@
   "scripts": {
     "build": "npm run build -w @abstraction-tree/core && npm run build -w @abstraction-tree/cli && npm run build -w @abstraction-tree/app",
     "dev:app": "npm run dev -w @abstraction-tree/app",
+    "format": "node scripts/format.mjs --write",
+    "format:check": "node scripts/format.mjs --check",
+    "check:unicode": "node scripts/check-unicode.mjs",
     "atree": "node packages/cli/dist/index.js",
     "atree:scan": "node packages/cli/dist/index.js scan --project .",
     "atree:validate": "node packages/cli/dist/index.js validate --project . --strict",
-    "test": "node --test packages/core/dist/*.test.js",
+    "atree:evaluate": "node packages/cli/dist/index.js evaluate --project .",
+    "test": "node --test scripts/run-tests.mjs",
     "abstraction:loop": "powershell -ExecutionPolicy Bypass -File scripts/run-abstraction-loop.ps1",
     "abstraction:loop:visible": "powershell -ExecutionPolicy Bypass -File scripts/run-abstraction-loop-scheduled.ps1",
-    "diff:summary": "powershell -ExecutionPolicy Bypass -File scripts/summarize-diff.ps1"
+    "diff:summary": "powershell -ExecutionPolicy Bypass -File scripts/summarize-diff.ps1",
+    "codex:missions": "powershell -ExecutionPolicy Bypass -File scripts/run-codex-missions.ps1"
   },
   "engines": {
     "node": ">=20.19.0"
