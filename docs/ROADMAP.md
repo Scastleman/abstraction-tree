@@ -13,6 +13,18 @@
 - Test coverage for scan and validation behavior.
 - Root repository dogfooding through committed `.abstraction-tree/` memory and CI validation.
 - Agent instructions.
+- Provider-neutral LLM abstraction interface with deterministic no-op behavior when no adapter is configured.
+- Stable automation config, bounded loop scripts, run reports, lessons, and deterministic evaluation reports as committed self-dogfooding memory.
+
+## Current operational boundary
+
+The deterministic MVP is the current default. It scans files, builds memory, validates drift, generates context packs, evaluates objective metrics, and summarizes diffs without requiring an API key.
+
+LLM-inferred abstraction is not default behavior yet. This checkout includes the adapter-ready interface for provider implementations, but `scan`, `validate`, `context`, `evaluate`, and `serve` do not call an LLM provider.
+
+Committed `.abstraction-tree/` memory should include abstraction data, stable automation config, run reports, lessons, and evaluations. Local runtime counters, mission state, secrets, logs, and local Codex state should stay uncommitted.
+
+The autonomous loop should remain bounded by loop count, elapsed time, failed loops, stagnation, repeated test failures, and diff size. Objective metrics should continue to accompany self-reported run results so future agents can see whether the tree, drift state, context packs, and automation health improved.
 
 ## Version 0.2
 
@@ -22,10 +34,11 @@
 - Mermaid/Graphviz export.
 - Markdown/YAML output option.
 - Git diff based semantic change records.
+- Validation gates for adapter-generated ontology and tree proposals before they can update memory.
 
 ## Version 0.3
 
-- LLM provider adapters.
+- LLM provider adapters outside the core deterministic pipeline.
 - PR review mode.
 - Drift detection against Git diffs.
 - VS Code/Cursor panel.

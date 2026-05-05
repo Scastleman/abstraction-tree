@@ -46,4 +46,36 @@ export interface TreeNode {
 export interface Concept { id: string; title: string; summary: string; relatedNodeIds?: string[]; relatedFiles: string[]; tags: string[]; }
 export interface Invariant { id: string; title: string; description: string; nodeIds?: string[]; filePaths?: string[]; severity: string; }
 export interface ChangeRecord { id: string; timestamp: string; title: string; reason: string; risk: string; filesChanged: string[]; affectedNodeIds: string[]; }
-export interface State { config: { projectName: string }; ontology: AbstractionOntologyLevel[]; nodes: TreeNode[]; files: FileSummary[]; concepts: Concept[]; invariants: Invariant[]; changes: ChangeRecord[]; }
+export interface AgentHealth {
+  latestRun?: {
+    file: string;
+    timestamp?: string;
+    task?: string;
+    result?: "success" | "partial" | "failed" | "no-op" | "unknown";
+  };
+  latestEvaluation?: {
+    file: string;
+    timestamp?: string;
+    issueCount?: number;
+    staleFileCount?: number;
+    missingFileCount?: number;
+  };
+  validation?: {
+    issueCount: number;
+    errorCount: number;
+    warningCount: number;
+  };
+  automation?: {
+    loopsToday?: number;
+    maxLoopsToday?: number;
+    failedLoopsToday?: number;
+    maxFailedLoops?: number;
+    maxMinutesToday?: number;
+    maxDiffLines?: number;
+    stopRequested?: boolean;
+    currentMission?: string;
+    completedMissions?: number;
+    failedMissions?: number;
+  };
+}
+export interface State { config: { projectName: string }; ontology: AbstractionOntologyLevel[]; nodes: TreeNode[]; files: FileSummary[]; concepts: Concept[]; invariants: Invariant[]; changes: ChangeRecord[]; agentHealth?: AgentHealth; }

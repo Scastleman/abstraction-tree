@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { GitBranch, FileText, AlertTriangle, Network, History, Search } from "lucide-react";
-import type { State, TreeNode } from "./types.js";
+import { Activity, GitBranch, FileText, AlertTriangle, Network, History, Search } from "lucide-react";
+import type { AgentHealth, State, TreeNode } from "./types.js";
 import "./styles.css";
 
 function App() {
@@ -50,6 +50,9 @@ function App() {
         <Panel title="Selected node" icon={<Network />}>
           {selected ? <NodeDetails node={selected} /> : <p>No selected node.</p>}
         </Panel>
+        <Panel title="Agent health" icon={<Activity />}>
+          <AgentHealthPanel health={state.agentHealth} />
+        </Panel>
         <Panel title="Owned files" icon={<FileText />}>
           {(nodeFiles(selected).length ? nodeFiles(selected) : []).map(f => <code className="pill" key={f}>{f}</code>)}
           {!nodeFiles(selected).length && <p className="muted">This node does not directly own files.</p>}
@@ -81,6 +84,25 @@ function NodeDetails({ node }: { node: TreeNode }) {
   </div>;
 }
 
+function AgentHealthPanel({ health }: { health?: AgentHealth }) {
+  if (!health) return <p className="muted">No agent health data is available.</p>;
+  const runResult = health.latestRun?.result ?? "unknown";
+  return <div className="health-grid">
+    <HealthItem label="Latest run" value={runResult} detail={health.latestRun?.task ?? "No run report found."} tone={toneForRun(runResult)} />
+    <HealthItem label="Latest evaluation" value={displayTimestamp(health.latestEvaluation?.timestamp)} detail={evaluationDetail(health.latestEvaluation)} />
+    <HealthItem label="Validation issues" value={displayCount(health.validation?.issueCount)} detail={validationDetail(health.validation)} tone={health.validation?.issueCount ? "warn" : "good"} />
+    <HealthItem label="Automation limits" value={automationLimit(health.automation)} detail={automationDetail(health.automation)} tone={health.automation?.stopRequested ? "warn" : undefined} />
+  </div>;
+}
+
+function HealthItem({ label, value, detail, tone }: { label: string; value: string; detail: string; tone?: "good" | "warn" | "bad" }) {
+  return <div className={tone ? `health-item ${tone}` : "health-item"}>
+    <span>{label}</span>
+    <strong>{value}</strong>
+    <small>{detail}</small>
+  </div>;
+}
+
 function Panel({ title, icon, children, wide=false }: { title: string; icon: React.ReactNode; children: React.ReactNode; wide?: boolean }) {
   return <section className={wide ? "panel wide" : "panel"}><h2>{icon}{title}</h2>{children}</section>;
 }
@@ -103,6 +125,59 @@ function nodeFiles(node?: TreeNode): string[] {
 
 function nodeDependencies(node: TreeNode): string[] {
   return node.dependencies ?? node.dependsOn ?? [];
+}
+
+function displayTimestamp(value?: string): string {
+  if (!value) return "Unknown";
+  const timestamp = Date.parse(value);
+  return Number.isFinite(timestamp) ? new Date(timestamp).toLocaleString() : value;
+}
+
+function displayCount(value?: number): string {
+  return typeof value === "number" ? String(value) : "Unknown";
+}
+
+function evaluationDetail(evaluation?: AgentHealth["latestEvaluation"]): string {
+  if (!evaluation) return "No evaluation report found.";
+  const issues = typeof evaluation.issueCount === "number" ? `${evaluation.issueCount} eval issues` : "eval issues unknown";
+  const stale = typeof evaluation.staleFileCount === "number" ? evaluation.staleFileCount : "?";
+  const missing = typeof evaluation.missingFileCount === "number" ? evaluation.missingFileCount : "?";
+  return `${issues}; drift stale ${stale}, missing ${missing}`;
+}
+
+function validationDetail(validation?: AgentHealth["validation"]): string {
+  if (!validation) return "Validation status unavailable.";
+  return `${validation.errorCount} errors, ${validation.warningCount} warnings`;
+}
+
+function automationLimit(automation?: AgentHealth["automation"]): string {
+  if (!automation) return "Unknown";
+  const loops = limitPair(automation.loopsToday, automation.maxLoopsToday);
+  return loops ? `${loops} loops` : "Configured";
+}
+
+function automationDetail(automation?: AgentHealth["automation"]): string {
+  if (!automation) return "Automation config not found.";
+  const failed = limitPair(automation.failedLoopsToday, automation.maxFailedLoops);
+  const pieces = [
+    failed ? `${failed} failed` : undefined,
+    typeof automation.maxDiffLines === "number" ? `${automation.maxDiffLines} max diff lines` : undefined,
+    automation.stopRequested ? "stop requested" : undefined
+  ].filter(Boolean);
+  return pieces.join("; ") || "No runtime limits reported.";
+}
+
+function limitPair(current?: number, max?: number): string | undefined {
+  if (typeof current === "number" && typeof max === "number") return `${current}/${max}`;
+  if (typeof max === "number") return `max ${max}`;
+  return undefined;
+}
+
+function toneForRun(result: string): "good" | "warn" | "bad" | undefined {
+  if (result === "success") return "good";
+  if (result === "failed") return "bad";
+  if (result === "partial" || result === "unknown") return "warn";
+  return undefined;
 }
 
 createRoot(document.getElementById("root")!).render(<App />);

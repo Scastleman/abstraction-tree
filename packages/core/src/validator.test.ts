@@ -140,6 +140,19 @@ test("validateTree reports invalid ontology confidence values", () => {
   assert.ok(issues.some(issue => issue.message.includes("level runtime must use a confidence between 0 and 1")));
 });
 
+test("validateTree reports invalid node confidence values", () => {
+  const nodes = [
+    node("root", undefined, ["feature", "runtime"]),
+    { ...node("feature", "root", []), confidence: -0.1 },
+    { ...node("runtime", "root", []), confidence: Number.POSITIVE_INFINITY }
+  ];
+
+  const issues = validateTree(nodes, []);
+
+  assert.ok(issues.some(issue => issue.nodeId === "feature" && issue.message.includes("Node feature must use a confidence between 0 and 1")));
+  assert.ok(issues.some(issue => issue.nodeId === "runtime" && issue.message.includes("Node runtime must use a confidence between 0 and 1")));
+});
+
 test("validateConcepts reports duplicate concept ids before context de-duplication", () => {
   const concepts = [
     concept("checkout"),

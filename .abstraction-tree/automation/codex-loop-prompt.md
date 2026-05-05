@@ -43,6 +43,48 @@ Avoid full-repo exploration unless needed.
 
 Prefer improvements that reduce future token usage.
 
+## Experiment Requirement
+
+Each loop must test one concrete hypothesis.
+
+Examples:
+
+- "Context packs improve if ranking includes exported symbols."
+- "Validation improves if automation runtime state is gitignored."
+- "Agent safety improves if large diffs stop the loop."
+- "Tree quality improves if files without owners are reported."
+
+For every loop:
+
+1. State the hypothesis.
+2. Implement the smallest change to test it.
+3. Run checks.
+4. Run evaluation if available.
+5. Decide whether the result is success, partial, failed, or no-op.
+6. Write a lesson.
+7. Recommend exactly one next loop.
+
+## Measurement Requirement
+
+Do not rely only on self-reflection.
+
+Whenever possible, include objective evidence:
+
+- tests passed or failed
+- validation issue counts
+- evaluation metrics
+- diff size
+- context-pack size or relevance changes
+- stale-memory counts
+
+## Source-Control Hygiene
+
+Never commit live runtime counters.
+
+Do not update ignored runtime files as part of a code change unless required for local execution.
+
+Prefer stable config and example files over live state.
+
 ## Required Process
 
 1. Inspect:
@@ -74,7 +116,7 @@ Prefer improvements that reduce future token usage.
 
    .abstraction-tree/lessons/YYYY-MM-DD-HHMM-lesson.md
 
-8. Update `.abstraction-tree/automation/loop-state.json`.
+8. Update ignored local counters in `.abstraction-tree/automation/loop-runtime.json`; use `.abstraction-tree/automation/loop-config.json` for committed policy and `.abstraction-tree/automation/loop-runtime.example.json` as the committed runtime template.
 
 ## Run Report Format
 
