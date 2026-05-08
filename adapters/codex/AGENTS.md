@@ -29,13 +29,13 @@ Do not commit live runtime state: loop counters, mission runner state, logs, sec
 Useful repo scripts:
 
 ```bash
-npm run abstraction:loop
 npm run atree:validate
 npm run atree:evaluate
 npm run diff:summary
+npm run abstraction:loop:windows
 ```
 
-The autonomous loop runs bounded Codex cycles and post-loop checks. It does not push to remote, bypass failed checks, commit ignored runtime state, or enable LLM-inferred abstraction as default scanner behavior.
+The autonomous loop command is Windows PowerShell scoped local automation. It runs bounded Codex cycles and post-loop checks. It does not push to remote, bypass failed checks, commit ignored runtime state, or enable LLM-inferred abstraction as default scanner behavior.
 
 The loop is bounded by configured limits for loop count, elapsed time, failed loops, stagnation, repeated test failures, and diff size. Use objective evaluation metrics alongside run reports because self-reporting alone cannot prove that drift, ownership, context breadth, or automation health improved.
 

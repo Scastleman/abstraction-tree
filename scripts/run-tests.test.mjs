@@ -30,13 +30,17 @@ test("collectTestFiles discovers nested package and script tests", async t => {
 
   await mkdir(path.join(root, "packages", "core", "dist", "nested"), { recursive: true });
   await mkdir(path.join(root, "packages", "cli", "dist"), { recursive: true });
+  await mkdir(path.join(root, "packages", "app", "dist-ts"), { recursive: true });
   await mkdir(path.join(root, "scripts", "nested"), { recursive: true });
+  await mkdir(path.join(root, "examples", "small-web-app", "tests"), { recursive: true });
   await writeFile(path.join(root, "packages", "core", "dist", "core.test.js"), "export {};\n", "utf8");
   await writeFile(path.join(root, "packages", "core", "dist", "nested", "core-nested.test.js"), "export {};\n", "utf8");
   await writeFile(path.join(root, "packages", "cli", "dist", "cli.test.js"), "export {};\n", "utf8");
+  await writeFile(path.join(root, "packages", "app", "dist-ts", "app.test.js"), "export {};\n", "utf8");
   await writeFile(path.join(root, "scripts", "runner.test.mjs"), "export {};\n", "utf8");
   await writeFile(path.join(root, "scripts", "nested", "runner-nested.test.mjs"), "export {};\n", "utf8");
   await writeFile(path.join(root, "scripts", "nested", "helper.mjs"), "export {};\n", "utf8");
+  await writeFile(path.join(root, "examples", "small-web-app", "tests", "checkout.test.js"), "export {};\n", "utf8");
 
   const matches = await collectTestFiles(root);
 
@@ -44,7 +48,9 @@ test("collectTestFiles discovers nested package and script tests", async t => {
     "packages/core/dist/core.test.js",
     "packages/core/dist/nested/core-nested.test.js",
     "packages/cli/dist/cli.test.js",
+    "packages/app/dist-ts/app.test.js",
     "scripts/nested/runner-nested.test.mjs",
-    "scripts/runner.test.mjs"
+    "scripts/runner.test.mjs",
+    "examples/small-web-app/tests/checkout.test.js"
   ]);
 });

@@ -6,7 +6,9 @@ import { pathToFileURL } from "node:url";
 const defaultTestSearches = [
   { directory: "packages/core/dist", suffix: ".test.js" },
   { directory: "packages/cli/dist", suffix: ".test.js" },
-  { directory: "scripts", suffix: ".test.mjs" }
+  { directory: "packages/app/dist-ts", suffix: ".test.js" },
+  { directory: "scripts", suffix: ".test.mjs" },
+  { directory: "examples/small-web-app/tests", suffix: ".test.js" }
 ];
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {

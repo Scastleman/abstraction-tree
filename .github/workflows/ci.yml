@@ -24,6 +24,10 @@ jobs:
       - run: npm ci
       - run: npm run format:check
       - run: npm run check:unicode
+      - run: npm run lint
+      - run: npm run typecheck
       - run: npm run build
+      - run: npm run coverage
+      - run: npm run pack:smoke
       - run: npm test
       - run: npm run atree:validate

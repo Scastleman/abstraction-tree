@@ -329,7 +329,14 @@ function concept(id: string): Concept {
     summary: `${id} concept.`,
     relatedNodeIds: [],
     relatedFiles: [],
-    tags: []
+    tags: [],
+    evidence: [{
+      kind: "symbol",
+      filePath: "src/app.ts",
+      value: id,
+      term: id,
+      score: 3
+    }]
   };
 }
 

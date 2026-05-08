@@ -7,7 +7,7 @@
     "module.packages",
     "module.docs",
     "concept-node.change",
-    "concept-node.report"
+    "concept-node.change.record"
   ],
   "filesChanged": [
     "packages/core/src/changeReview.ts",

@@ -1,0 +1,1841 @@
+{
+  "edges": [
+    {
+      "from": "examples/inventory-api/src/api/inventory.ts",
+      "to": "examples/inventory-api/src/services/audit.ts",
+      "specifier": "../services/audit",
+      "kind": "relative"
+    },
+    {
+      "from": "examples/inventory-api/src/api/inventory.ts",
+      "to": "examples/inventory-api/src/services/catalog.ts",
+      "specifier": "../services/catalog",
+      "kind": "relative"
+    },
+    {
+      "from": "examples/inventory-api/src/api/inventory.ts",
+      "to": "examples/inventory-api/src/services/stock.ts",
+      "specifier": "../services/stock",
+      "kind": "relative"
+    },
+    {
+      "from": "examples/small-web-app/src/api/checkout.ts",
+      "to": "examples/small-web-app/src/services/cart.ts",
+      "specifier": "../services/cart",
+      "kind": "relative"
+    },
+    {
+      "from": "examples/small-web-app/src/api/checkout.ts",
+      "to": "examples/small-web-app/src/services/orders.ts",
+      "specifier": "../services/orders",
+      "kind": "relative"
+    },
+    {
+      "from": "examples/small-web-app/src/api/checkout.ts",
+      "to": "examples/small-web-app/src/services/payment.ts",
+      "specifier": "../services/payment",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/app.test.tsx",
+      "to": "packages/app/src/App.tsx",
+      "specifier": "./App.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/app.test.tsx",
+      "to": "packages/app/src/components/AgentHealthPanel.tsx",
+      "specifier": "./components/AgentHealthPanel.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/app.test.tsx",
+      "to": "packages/app/src/components/ChangeHistory.tsx",
+      "specifier": "./components/ChangeHistory.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/app.test.tsx",
+      "to": "packages/app/src/components/ConceptPanel.tsx",
+      "specifier": "./components/ConceptPanel.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/app.test.tsx",
+      "to": "packages/app/src/components/InvariantPanel.tsx",
+      "specifier": "./components/InvariantPanel.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/app.test.tsx",
+      "to": "packages/app/src/components/NodeDetails.tsx",
+      "specifier": "./components/NodeDetails.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/app.test.tsx",
+      "to": "packages/app/src/components/TreeList.tsx",
+      "specifier": "./components/TreeList.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/app.test.tsx",
+      "to": "packages/app/src/hooks/useAbstractionState.ts",
+      "specifier": "./hooks/useAbstractionState.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/app.test.tsx",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/app/src/App.tsx",
+      "to": "packages/app/src/components/AgentHealthPanel.tsx",
+      "specifier": "./components/AgentHealthPanel.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/App.tsx",
+      "to": "packages/app/src/components/ChangeHistory.tsx",
+      "specifier": "./components/ChangeHistory.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/App.tsx",
+      "to": "packages/app/src/components/ConceptPanel.tsx",
+      "specifier": "./components/ConceptPanel.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/App.tsx",
+      "to": "packages/app/src/components/InvariantPanel.tsx",
+      "specifier": "./components/InvariantPanel.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/App.tsx",
+      "to": "packages/app/src/components/NodeDetails.tsx",
+      "specifier": "./components/NodeDetails.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/App.tsx",
+      "to": "packages/app/src/components/Panel.tsx",
+      "specifier": "./components/Panel.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/App.tsx",
+      "to": "packages/app/src/components/Stat.tsx",
+      "specifier": "./components/Stat.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/App.tsx",
+      "to": "packages/app/src/components/TreeList.tsx",
+      "specifier": "./components/TreeList.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/App.tsx",
+      "to": "packages/app/src/hooks/useAbstractionState.ts",
+      "specifier": "./hooks/useAbstractionState.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/App.tsx",
+      "to": "packages/app/src/nodeAccessors.ts",
+      "specifier": "./nodeAccessors.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/App.tsx",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/app/src/components/AgentHealthPanel.tsx",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/app/src/components/ChangeHistory.tsx",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/app/src/components/ConceptPanel.tsx",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/app/src/components/InvariantPanel.tsx",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/app/src/components/NodeDetails.tsx",
+      "to": "packages/app/src/nodeAccessors.ts",
+      "specifier": "../nodeAccessors.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/components/NodeDetails.tsx",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/app/src/components/TreeList.tsx",
+      "to": "packages/app/src/nodeAccessors.ts",
+      "specifier": "../nodeAccessors.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/components/TreeList.tsx",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/app/src/hooks/useAbstractionState.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/app/src/main.tsx",
+      "to": "packages/app/src/App.tsx",
+      "specifier": "./App.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/main.tsx",
+      "to": "packages/app/src/styles.css",
+      "specifier": "./styles.css",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/nodeAccessors.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/agentHealth.test.ts",
+      "to": "packages/cli/src/agentHealth.ts",
+      "specifier": "./agentHealth.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/agentHealth.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/apiState.test.ts",
+      "to": "packages/cli/src/apiState.ts",
+      "specifier": "./apiState.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/apiState.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/apiState.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "to": "packages/cli/src/apiState.ts",
+      "specifier": "./apiState.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "to": "packages/cli/src/propose.ts",
+      "specifier": "./propose.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "to": "packages/cli/src/serveHost.ts",
+      "specifier": "./serveHost.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/propose.test.ts",
+      "to": "packages/cli/src/propose.ts",
+      "specifier": "./propose.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/propose.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/propose.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/serveHost.test.ts",
+      "to": "packages/cli/src/serveHost.ts",
+      "specifier": "./serveHost.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/automationValidation.test.ts",
+      "to": "packages/core/src/automationValidation.ts",
+      "specifier": "./automationValidation.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/automationValidation.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/automationValidation.ts",
+      "to": "packages/core/src/workspace.ts",
+      "specifier": "./workspace.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/changeReview.test.ts",
+      "to": "packages/core/src/changeReview.ts",
+      "specifier": "./changeReview.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/changeReview.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/changeReview.ts",
+      "to": "packages/core/src/workspace.ts",
+      "specifier": "./workspace.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/context.test.ts",
+      "to": "packages/core/src/context.ts",
+      "specifier": "./context.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/context.test.ts",
+      "to": "packages/core/src/contextLimits.ts",
+      "specifier": "./contextLimits.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/context.test.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/context.ts",
+      "to": "packages/core/src/contextLimits.ts",
+      "specifier": "./contextLimits.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/context.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/diffSummary.test.ts",
+      "to": "packages/core/src/diffSummary.ts",
+      "specifier": "./diffSummary.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/evaluator.test.ts",
+      "to": "packages/core/src/contextLimits.ts",
+      "specifier": "./contextLimits.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/evaluator.test.ts",
+      "to": "packages/core/src/evaluator.ts",
+      "specifier": "./evaluator.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/evaluator.test.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/evaluator.ts",
+      "to": "packages/core/src/automationValidation.ts",
+      "specifier": "./automationValidation.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/evaluator.ts",
+      "to": "packages/core/src/contextLimits.ts",
+      "specifier": "./contextLimits.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/evaluator.ts",
+      "to": "packages/core/src/runReports.ts",
+      "specifier": "./runReports.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/evaluator.ts",
+      "to": "packages/core/src/scanner.ts",
+      "specifier": "./scanner.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/evaluator.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/evaluator.ts",
+      "to": "packages/core/src/workspace.ts",
+      "specifier": "./workspace.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/importGraph.test.ts",
+      "to": "packages/core/src/importGraph.ts",
+      "specifier": "./importGraph.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/importGraph.test.ts",
+      "to": "packages/core/src/runtimeSchema.ts",
+      "specifier": "./runtimeSchema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/importGraph.test.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/importGraph.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/automationValidation.ts",
+      "specifier": "./automationValidation.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/changeReview.ts",
+      "specifier": "./changeReview.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/context.ts",
+      "specifier": "./context.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/contextLimits.ts",
+      "specifier": "./contextLimits.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/diffSummary.ts",
+      "specifier": "./diffSummary.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/evaluator.ts",
+      "specifier": "./evaluator.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/importGraph.ts",
+      "specifier": "./importGraph.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/llm/abstractionBuilder.ts",
+      "specifier": "./llm/abstractionBuilder.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/llm/proposals.ts",
+      "specifier": "./llm/proposals.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/llm/types.ts",
+      "specifier": "./llm/types.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/runReports.ts",
+      "specifier": "./runReports.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/runtimeSchema.ts",
+      "specifier": "./runtimeSchema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/scanner.ts",
+      "specifier": "./scanner.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/treeBuilder.ts",
+      "specifier": "./treeBuilder.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/validator.ts",
+      "specifier": "./validator.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/workspace.ts",
+      "specifier": "./workspace.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/llm/abstractionBuilder.ts",
+      "to": "packages/core/src/llm/types.ts",
+      "specifier": "./types.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/llm/proposals.ts",
+      "to": "packages/core/src/runtimeSchema.ts",
+      "specifier": "../runtimeSchema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/llm/proposals.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "../schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/llm/proposals.ts",
+      "to": "packages/core/src/validator.ts",
+      "specifier": "../validator.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/llm/proposals.ts",
+      "to": "packages/core/src/workspace.ts",
+      "specifier": "../workspace.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/llm/proposals.ts",
+      "to": "packages/core/src/llm/types.ts",
+      "specifier": "./types.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/llm/types.ts",
+      "to": "packages/core/src/scanner.ts",
+      "specifier": "../scanner.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/llm/types.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "../schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/llmAbstractionBuilder.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "./index.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/llmProposalValidation.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "./index.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/runReports.test.ts",
+      "to": "packages/core/src/runReports.ts",
+      "specifier": "./runReports.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/runtimeSchema.test.ts",
+      "to": "packages/core/src/runtimeSchema.ts",
+      "specifier": "./runtimeSchema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/runtimeSchema.test.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/runtimeSchema.test.ts",
+      "to": "packages/core/src/workspace.ts",
+      "specifier": "./workspace.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/runtimeSchema.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/scanner.test.ts",
+      "to": "packages/core/src/scanner.ts",
+      "specifier": "./scanner.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/scanner.test.ts",
+      "to": "packages/core/src/workspace.ts",
+      "specifier": "./workspace.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/scanner.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/scanner.ts",
+      "to": "packages/core/src/workspace.ts",
+      "specifier": "./workspace.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/treeBuilder.test.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/treeBuilder.test.ts",
+      "to": "packages/core/src/treeBuilder.ts",
+      "specifier": "./treeBuilder.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/treeBuilder.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/validator.test.ts",
+      "to": "packages/core/src/scanner.ts",
+      "specifier": "./scanner.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/validator.test.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/validator.test.ts",
+      "to": "packages/core/src/validator.ts",
+      "specifier": "./validator.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/validator.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/workspace.test.ts",
+      "to": "packages/core/src/workspace.ts",
+      "specifier": "./workspace.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/workspace.ts",
+      "to": "packages/core/src/importGraph.ts",
+      "specifier": "./importGraph.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/workspace.ts",
+      "to": "packages/core/src/runtimeSchema.ts",
+      "specifier": "./runtimeSchema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/workspace.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/full/bin/atree.js",
+      "to": "packages/cli/src/index.ts",
+      "specifier": "@abstraction-tree/cli",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/cli"
+    },
+    {
+      "from": "scripts/check-changelog.test.mjs",
+      "to": "scripts/check-changelog.mjs",
+      "specifier": "./check-changelog.mjs",
+      "kind": "relative"
+    },
+    {
+      "from": "scripts/check-unicode.mjs",
+      "to": "scripts/project-text-files.mjs",
+      "specifier": "./project-text-files.mjs",
+      "kind": "relative"
+    },
+    {
+      "from": "scripts/check-unicode.test.mjs",
+      "to": "scripts/check-unicode.mjs",
+      "specifier": "./check-unicode.mjs",
+      "kind": "relative"
+    },
+    {
+      "from": "scripts/cross-platform-automation.test.mjs",
+      "to": "scripts/diff-summary.mjs",
+      "specifier": "./diff-summary.mjs",
+      "kind": "relative"
+    },
+    {
+      "from": "scripts/format.mjs",
+      "to": "scripts/project-text-files.mjs",
+      "specifier": "./project-text-files.mjs",
+      "kind": "relative"
+    },
+    {
+      "from": "scripts/lint.mjs",
+      "to": "scripts/project-text-files.mjs",
+      "specifier": "./project-text-files.mjs",
+      "kind": "relative"
+    },
+    {
+      "from": "scripts/lint.test.mjs",
+      "to": "scripts/lint.mjs",
+      "specifier": "./lint.mjs",
+      "kind": "relative"
+    },
+    {
+      "from": "scripts/project-text-files.test.mjs",
+      "to": "scripts/project-text-files.mjs",
+      "specifier": "./project-text-files.mjs",
+      "kind": "relative"
+    },
+    {
+      "from": "scripts/release-dry-run.mjs",
+      "to": "scripts/check-changelog.mjs",
+      "specifier": "./check-changelog.mjs",
+      "kind": "relative"
+    },
+    {
+      "from": "scripts/run-tests.test.mjs",
+      "to": "scripts/run-tests.mjs",
+      "specifier": "./run-tests.mjs",
+      "kind": "relative"
+    }
+  ],
+  "externalImports": [
+    {
+      "from": "adapters/local-json/index.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "adapters/local-json/index.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "examples/inventory-api/tests/inventory.test.js",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "examples/inventory-api/tests/inventory.test.js",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "examples/small-web-app/tests/checkout.test.js",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "examples/small-web-app/tests/checkout.test.js",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "examples/small-web-app/tests/checkout.test.js",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "examples/small-web-app/tests/checkout.test.js",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "examples/small-web-app/tests/checkout.test.js",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "examples/small-web-app/tests/checkout.test.js",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "examples/small-web-app/tests/checkout.test.js",
+      "specifier": "typescript",
+      "packageName": "typescript"
+    },
+    {
+      "from": "packages/app/src/app.test.tsx",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/app/src/app.test.tsx",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/app/src/app.test.tsx",
+      "specifier": "react",
+      "packageName": "react"
+    },
+    {
+      "from": "packages/app/src/app.test.tsx",
+      "specifier": "react-dom/server",
+      "packageName": "react-dom"
+    },
+    {
+      "from": "packages/app/src/App.tsx",
+      "specifier": "lucide-react",
+      "packageName": "lucide-react"
+    },
+    {
+      "from": "packages/app/src/App.tsx",
+      "specifier": "react",
+      "packageName": "react"
+    },
+    {
+      "from": "packages/app/src/components/Panel.tsx",
+      "specifier": "react",
+      "packageName": "react"
+    },
+    {
+      "from": "packages/app/src/components/TreeList.tsx",
+      "specifier": "react",
+      "packageName": "react"
+    },
+    {
+      "from": "packages/app/src/hooks/useAbstractionState.ts",
+      "specifier": "react",
+      "packageName": "react"
+    },
+    {
+      "from": "packages/app/src/main.tsx",
+      "specifier": "react-dom/client",
+      "packageName": "react-dom"
+    },
+    {
+      "from": "packages/cli/src/agentHealth.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/agentHealth.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/apiState.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/apiState.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/apiState.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/cli/src/apiState.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/apiState.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/apiState.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/cli/src/apiState.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/apiState.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "specifier": "commander",
+      "packageName": "commander"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "specifier": "node:http",
+      "packageName": "node:http"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "specifier": "sirv",
+      "packageName": "sirv"
+    },
+    {
+      "from": "packages/cli/src/propose.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/propose.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/propose.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/cli/src/propose.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/propose.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/propose.test.ts",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "packages/cli/src/propose.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/cli/src/propose.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/propose.ts",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "packages/cli/src/serveHost.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/serveHost.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/automationValidation.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/automationValidation.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/automationValidation.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/core/src/automationValidation.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/automationValidation.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/automationValidation.ts",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "packages/core/src/automationValidation.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/core/src/automationValidation.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/automationValidation.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/automationValidation.ts",
+      "specifier": "node:util",
+      "packageName": "node:util"
+    },
+    {
+      "from": "packages/core/src/changeReview.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/changeReview.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/changeReview.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/core/src/changeReview.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/changeReview.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/context.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/context.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/diffSummary.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/diffSummary.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/evaluator.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/evaluator.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/evaluator.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/core/src/evaluator.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/evaluator.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/evaluator.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/core/src/evaluator.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/evaluator.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/importGraph.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/importGraph.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/importGraph.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/core/src/importGraph.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/importGraph.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/importGraph.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/importGraph.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/llmAbstractionBuilder.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/llmAbstractionBuilder.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/llmProposalValidation.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/llmProposalValidation.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/runReports.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/runReports.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/runtimeSchema.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/runtimeSchema.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/runtimeSchema.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/core/src/runtimeSchema.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/runtimeSchema.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/scanner.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/scanner.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/scanner.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/core/src/scanner.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/scanner.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/scanner.ts",
+      "specifier": "ignore",
+      "packageName": "ignore"
+    },
+    {
+      "from": "packages/core/src/scanner.ts",
+      "specifier": "node:crypto",
+      "packageName": "node:crypto"
+    },
+    {
+      "from": "packages/core/src/scanner.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/scanner.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/scanner.ts",
+      "specifier": "typescript",
+      "packageName": "typescript"
+    },
+    {
+      "from": "packages/core/src/treeBuilder.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/treeBuilder.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/treeBuilder.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/validator.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/validator.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/workspace.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/workspace.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/workspace.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/core/src/workspace.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/workspace.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/workspace.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/core/src/workspace.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/workspace.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/app-node-accessors.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/app-node-accessors.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "scripts/check-changelog.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/check-changelog.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/check-changelog.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/check-changelog.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/check-changelog.test.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/check-changelog.test.mjs",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "scripts/check-changelog.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/check-changelog.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "scripts/check-unicode.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/check-unicode.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/check-unicode.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/check-unicode.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/check-unicode.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "scripts/cross-platform-automation.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/cross-platform-automation.test.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/cross-platform-automation.test.mjs",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "scripts/cross-platform-automation.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/cross-platform-automation.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "scripts/cross-platform-automation.test.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/diff-summary.mjs",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "scripts/diff-summary.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/diff-summary.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/diff-summary.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/diff-summary.mjs",
+      "specifier": "node:util",
+      "packageName": "node:util"
+    },
+    {
+      "from": "scripts/format.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/format.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/format.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/generated-memory-fixtures.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/generated-memory-fixtures.test.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/generated-memory-fixtures.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/generated-memory-fixtures.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "scripts/generated-memory-fixtures.test.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/lint.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/lint.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/lint.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/lint.mjs",
+      "specifier": "typescript",
+      "packageName": "typescript"
+    },
+    {
+      "from": "scripts/lint.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/lint.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "scripts/pack-smoke-test.mjs",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "scripts/pack-smoke-test.mjs",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "scripts/pack-smoke-test.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/pack-smoke-test.mjs",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "scripts/pack-smoke-test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/pack-smoke-test.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/project-text-files.mjs",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "scripts/project-text-files.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/project-text-files.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/project-text-files.mjs",
+      "specifier": "node:util",
+      "packageName": "node:util"
+    },
+    {
+      "from": "scripts/project-text-files.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/project-text-files.test.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/project-text-files.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/project-text-files.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "scripts/release-dry-run.mjs",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "scripts/release-dry-run.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/release-dry-run.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/run-tests.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/run-tests.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/run-tests.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/run-tests.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/run-tests.test.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/run-tests.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/run-tests.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "scripts/small-web-app-fixture.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/small-web-app-fixture.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/small-web-app-fixture.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "scripts/small-web-app-fixture.test.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    }
+  ],
+  "unresolvedImports": [
+    {
+      "from": "scripts/app-node-accessors.test.mjs",
+      "specifier": "../packages/app/dist-ts/nodeAccessors.js",
+      "kind": "relative",
+      "reason": "Relative import could not be resolved to a scanned repository file."
+    },
+    {
+      "from": "scripts/generated-memory-fixtures.test.mjs",
+      "specifier": "../packages/core/dist/index.js",
+      "kind": "relative",
+      "reason": "Relative import could not be resolved to a scanned repository file."
+    },
+    {
+      "from": "scripts/small-web-app-fixture.test.mjs",
+      "specifier": "../packages/core/dist/index.js",
+      "kind": "relative",
+      "reason": "Relative import could not be resolved to a scanned repository file."
+    }
+  ],
+  "cycles": [],
+  "workspacePackages": [
+    {
+      "name": "@abstraction-tree/app",
+      "root": "packages/app",
+      "manifestPath": "packages/app/package.json",
+      "entrypoint": "packages/app/src/main.tsx",
+      "scriptNames": [
+        "build",
+        "dev",
+        "typecheck"
+      ],
+      "dependencyPackageNames": [
+        "@abstraction-tree/core",
+        "@types/react",
+        "@types/react-dom",
+        "@vitejs/plugin-react",
+        "lucide-react",
+        "react",
+        "react-dom",
+        "typescript",
+        "vite"
+      ]
+    },
+    {
+      "name": "@abstraction-tree/cli",
+      "root": "packages/cli",
+      "manifestPath": "packages/cli/package.json",
+      "entrypoint": "packages/cli/src/index.ts",
+      "binCommands": [
+        "abstraction-tree",
+        "atree"
+      ],
+      "scriptNames": [
+        "build",
+        "typecheck"
+      ],
+      "dependencyPackageNames": [
+        "@abstraction-tree/core",
+        "@types/node",
+        "commander",
+        "sirv",
+        "typescript"
+      ]
+    },
+    {
+      "name": "@abstraction-tree/core",
+      "root": "packages/core",
+      "manifestPath": "packages/core/package.json",
+      "entrypoint": "packages/core/src/index.ts",
+      "scriptNames": [
+        "build",
+        "typecheck"
+      ],
+      "dependencyPackageNames": [
+        "ignore",
+        "typescript"
+      ]
+    },
+    {
+      "name": "abstraction-tree",
+      "root": "packages/full",
+      "manifestPath": "packages/full/package.json",
+      "entrypoint": "packages/full/bin/atree.js",
+      "binCommands": [
+        "abstraction-tree",
+        "atree"
+      ],
+      "dependencyPackageNames": [
+        "@abstraction-tree/app",
+        "@abstraction-tree/cli"
+      ]
+    }
+  ]
+}

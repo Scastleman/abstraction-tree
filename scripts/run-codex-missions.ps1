@@ -10,6 +10,10 @@ $MissionDir = ".abstraction-tree/automation/missions"
 $RuntimePath = ".abstraction-tree/automation/mission-runtime.json"
 $RuntimeExamplePath = ".abstraction-tree/automation/mission-runtime.example.json"
 $LogDir = ".abstraction-tree/automation/mission-logs"
+$CodexReasoningEffort = if ($env:CODEX_REASONING_EFFORT) { $env:CODEX_REASONING_EFFORT } else { "xhigh" }
+$CodexApprovalPolicy = if ($env:CODEX_ASK_FOR_APPROVAL) { $env:CODEX_ASK_FOR_APPROVAL } else { "never" }
+$CodexSandbox = if ($env:CODEX_SANDBOX) { $env:CODEX_SANDBOX } else { "workspace-write" }
+$CodexEphemeral = if ($env:CODEX_EPHEMERAL) { $env:CODEX_EPHEMERAL -ne "false" } else { $true }
 
 function Ensure-Directory([string]$Path) {
   if (!(Test-Path $Path)) {
@@ -66,11 +70,16 @@ function Invoke-CodexExec([string]$MissionPath, [string]$LogPath) {
   $relativeMissionPath = Resolve-Path -Relative $MissionPath
   $instruction = "Read the Codex mission prompt at $relativeMissionPath and execute that mission exactly. Treat that file as your full task prompt. Complete only that mission, then stop."
 
-  Write-Host "Invoking Codex CLI with: codex exec --cd `"$RepoRoot`" --sandbox workspace-write `"$instruction`""
+  $ephemeralFlag = if ($CodexEphemeral) { " --ephemeral" } else { "" }
+  Write-Host "Invoking Codex CLI with: codex --ask-for-approval $CodexApprovalPolicy exec --cd `"$RepoRoot`" --sandbox $CodexSandbox -c model_reasoning_effort=$CodexReasoningEffort$ephemeralFlag `"$instruction`""
 
   $startInfo = New-Object System.Diagnostics.ProcessStartInfo
   $startInfo.FileName = "cmd.exe"
-  $codexCommand = 'codex.cmd exec --cd "' + $RepoRoot.Replace('"', '\"') + '" --sandbox workspace-write "' + $instruction.Replace('"', '\"') + '"'
+  $codexCommand = 'codex.cmd --ask-for-approval ' + $CodexApprovalPolicy + ' exec --cd "' + $RepoRoot.Replace('"', '\"') + '" --sandbox ' + $CodexSandbox + ' -c model_reasoning_effort=' + $CodexReasoningEffort
+  if ($CodexEphemeral) {
+    $codexCommand += ' --ephemeral'
+  }
+  $codexCommand += ' "' + $instruction.Replace('"', '\"') + '"'
   $startInfo.Arguments = '/d /s /c "' + $codexCommand + '"'
   $startInfo.RedirectStandardOutput = $true
   $startInfo.RedirectStandardError = $true

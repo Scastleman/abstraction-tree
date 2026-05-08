@@ -1,9 +1,14 @@
 import { readdir, readFile, stat } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import path from "node:path";
+import ignore, { type Ignore } from "ignore";
 import * as ts from "typescript";
 import type { FileSummary } from "./schema.js";
 import { readConfig } from "./workspace.js";
+
+const createIgnore = ignore as unknown as () => Ignore;
+const MAX_TEXT_FILE_BYTES = 512_000;
+const BINARY_SAMPLE_BYTES = 8_000;
 
 type ParseStrategy = NonNullable<FileSummary["parseStrategy"]>;
 
@@ -23,9 +28,12 @@ type ExtensionDescriptor =
 const EXTENSION_DESCRIPTORS: Record<string, ExtensionDescriptor> = {
   ".ts": { language: "TypeScript", parseStrategy: "typescript-ast", scriptKind: ts.ScriptKind.TS, dotTestPattern: true },
   ".tsx": { language: "TypeScript React", parseStrategy: "typescript-ast", scriptKind: ts.ScriptKind.TSX, dotTestPattern: true },
+  ".mts": { language: "TypeScript", parseStrategy: "typescript-ast", scriptKind: ts.ScriptKind.TS, dotTestPattern: true },
+  ".cts": { language: "TypeScript", parseStrategy: "typescript-ast", scriptKind: ts.ScriptKind.TS, dotTestPattern: true },
   ".js": { language: "JavaScript", parseStrategy: "typescript-ast", scriptKind: ts.ScriptKind.JS, dotTestPattern: true },
   ".jsx": { language: "JavaScript React", parseStrategy: "typescript-ast", scriptKind: ts.ScriptKind.JSX, dotTestPattern: true },
   ".mjs": { language: "JavaScript", parseStrategy: "typescript-ast", scriptKind: ts.ScriptKind.JS, dotTestPattern: true },
+  ".cjs": { language: "JavaScript", parseStrategy: "typescript-ast", scriptKind: ts.ScriptKind.JS, dotTestPattern: true },
   ".py": { language: "Python", parseStrategy: "regex" },
   ".go": { language: "Go", parseStrategy: "regex" },
   ".rs": { language: "Rust", parseStrategy: "regex" },
@@ -41,6 +49,13 @@ const EXTENSION_DESCRIPTORS: Record<string, ExtensionDescriptor> = {
   ".yaml": { language: "YAML", parseStrategy: "regex" },
   ".yml": { language: "YAML", parseStrategy: "regex" },
   ".md": { language: "Markdown", parseStrategy: "regex" },
+  ".mdx": { language: "MDX", parseStrategy: "regex" },
+  ".toml": { language: "TOML", parseStrategy: "regex" },
+  ".sh": { language: "Shell", parseStrategy: "regex" },
+  ".ps1": { language: "PowerShell", parseStrategy: "regex" },
+  ".html": { language: "HTML", parseStrategy: "regex" },
+  ".css": { language: "CSS", parseStrategy: "regex" },
+  ".scss": { language: "SCSS", parseStrategy: "regex" },
   ".sql": { language: "SQL", parseStrategy: "regex" }
 };
 
@@ -55,34 +70,116 @@ interface SourceFacts {
 
 export interface ScanResult {
   files: FileSummary[];
+  diagnostics: ScanDiagnostic[];
+}
+
+export interface ScanDiagnostic {
+  severity: "info" | "warning";
+  kind: "skipped-directory" | "skipped-file" | "source-root";
+  path: string;
+  reason: string;
 }
 
 export async function scanProject(projectRoot: string): Promise<ScanResult> {
   const config = await readConfig(projectRoot);
-  const ignored = new Set(config.ignored);
+  const ignored = await buildIgnoreMatcher(projectRoot, config.ignored, config.respectGitignore ?? false);
+  const sourceRoot = path.resolve(projectRoot, config.sourceRoot);
   const files: FileSummary[] = [];
+  const diagnostics: ScanDiagnostic[] = [];
+
+  if (!isInsideProject(projectRoot, sourceRoot)) {
+    diagnostics.push({
+      severity: "warning",
+      kind: "source-root",
+      path: config.sourceRoot,
+      reason: "Configured sourceRoot must stay inside the project root."
+    });
+    return { files, diagnostics };
+  }
+
+  const sourceRootStat = await stat(sourceRoot).catch(() => undefined);
+  if (!sourceRootStat?.isDirectory()) {
+    diagnostics.push({
+      severity: "warning",
+      kind: "source-root",
+      path: projectRelativePath(projectRoot, sourceRoot),
+      reason: "Configured sourceRoot is not a readable directory."
+    });
+    return { files, diagnostics };
+  }
 
   async function walk(dir: string) {
     const entries = await readdir(dir, { withFileTypes: true });
     for (const entry of entries) {
       const abs = path.join(dir, entry.name);
-      const rel = path.relative(projectRoot, abs).replaceAll(path.sep, "/");
-      if (ignored.has(entry.name) || [...ignored].some(i => rel === i || rel.startsWith(i + "/"))) continue;
+      const rel = projectRelativePath(projectRoot, abs);
       if (entry.isDirectory()) {
+        if (ignored.ignores(`${rel}/`)) {
+          diagnostics.push(skippedDiagnostic("skipped-directory", rel, "Ignored by scanner ignore rules."));
+          continue;
+        }
         await walk(abs);
       } else if (entry.isFile()) {
+        if (ignored.ignores(rel)) {
+          diagnostics.push(skippedDiagnostic("skipped-file", rel, "Ignored by scanner ignore rules."));
+          continue;
+        }
         const ext = path.extname(entry.name).toLowerCase();
         if (!TEXT_EXTENSIONS.has(ext)) continue;
         const s = await stat(abs);
-        if (s.size > 512_000) continue;
-        const text = await readFile(abs, "utf8").catch(() => "");
+        if (s.size > MAX_TEXT_FILE_BYTES) continue;
+        const bytes = await readFile(abs).catch(() => undefined);
+        if (!bytes || isLikelyBinary(bytes)) continue;
+        const text = bytes.toString("utf8");
         files.push(summarizeFile(rel, ext, text, s.size));
       }
     }
   }
 
-  await walk(projectRoot);
-  return { files: files.sort((a, b) => a.path.localeCompare(b.path)) };
+  await walk(sourceRoot);
+  return { files: files.sort((a, b) => a.path.localeCompare(b.path)), diagnostics };
+}
+
+async function buildIgnoreMatcher(projectRoot: string, configuredPatterns: string[], respectGitignore: boolean): Promise<Ignore> {
+  const matcher = createIgnore().add(configuredPatterns.map(normalizeIgnorePattern));
+
+  if (respectGitignore) {
+    const gitignore = await readFile(path.join(projectRoot, ".gitignore"), "utf8").catch(() => undefined);
+    if (gitignore) matcher.add(gitignore);
+  }
+
+  return matcher;
+}
+
+function normalizeIgnorePattern(pattern: string): string {
+  return pattern.replaceAll("\\", "/");
+}
+
+function projectRelativePath(projectRoot: string, abs: string): string {
+  return path.relative(projectRoot, abs).replaceAll(path.sep, "/") || ".";
+}
+
+function isInsideProject(projectRoot: string, abs: string): boolean {
+  const relative = path.relative(projectRoot, abs);
+  return relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative));
+}
+
+function skippedDiagnostic(kind: "skipped-directory" | "skipped-file", filePath: string, reason: string): ScanDiagnostic {
+  return { severity: "info", kind, path: filePath, reason };
+}
+
+function isLikelyBinary(bytes: Buffer): boolean {
+  const sample = bytes.subarray(0, Math.min(bytes.length, BINARY_SAMPLE_BYTES));
+  if (!sample.length) return false;
+  if (sample.includes(0)) return true;
+
+  let controlBytes = 0;
+  for (const byte of sample) {
+    if (byte === 9 || byte === 10 || byte === 13) continue;
+    if (byte < 32) controlBytes += 1;
+  }
+
+  return controlBytes / sample.length > 0.3;
 }
 
 export function summarizeFile(filePath: string, extension: string, text: string, sizeBytes: number): FileSummary {
@@ -125,10 +222,19 @@ function extensionDescriptor(extension: string): ExtensionDescriptor | undefined
 
 function isTestFile(filePath: string, extension: string, descriptor?: ExtensionDescriptor): boolean {
   if (/(^|\/)(__tests__|tests?|spec)\//i.test(filePath)) return true;
-  if (!descriptor?.dotTestPattern) return false;
 
   const basenameWithoutExtension = path.basename(filePath, extension);
+  if (isLanguageTestConvention(basenameWithoutExtension, extension)) return true;
+  if (!descriptor?.dotTestPattern) return false;
+
   return /\.(test|spec)$/i.test(basenameWithoutExtension);
+}
+
+function isLanguageTestConvention(basenameWithoutExtension: string, extension: string): boolean {
+  const normalizedExtension = extension.toLowerCase();
+  if (normalizedExtension === ".py") return /^test_/i.test(basenameWithoutExtension) || /_test$/i.test(basenameWithoutExtension);
+  if (normalizedExtension === ".go") return /_test$/i.test(basenameWithoutExtension);
+  return false;
 }
 
 function extractSourceFacts(filePath: string, descriptor: ExtensionDescriptor | undefined, text: string): SourceFacts {
@@ -168,7 +274,11 @@ function extractRegexFacts(text: string): SourceFacts {
     /require\(["']([^"']+)["']\)/g,
     /^from\s+([\w.]+)\s+import\s+/gm,
     /^import\s+([\w.]+)/gm,
-    /^#include\s+[<"]([^>"]+)[>"]/gm
+    /^#include\s+[<"]([^>"]+)[>"]/gm,
+    /^\s*(?:source|\.)\s+["']?([^"'\s]+)["']?/gm,
+    /^\s*Import-Module\s+["']?([^"'\s]+)["']?/gim,
+    /^\s*@(?:import|use|forward)\s+(?:url\(\s*)?["']?([^"')\s;]+)["']?\s*\)?/gm,
+    /<(?:script|link)\b[^>]+\b(?:src|href)=["']([^"']+)["']/gim
   ]);
   const exports = extractMatches(text, [
     /export\s+(?:default\s+)?(?:class|function|const|let|var|interface|type)\s+([A-Za-z0-9_]+)/g,
@@ -179,7 +289,12 @@ function extractRegexFacts(text: string): SourceFacts {
     /(?:const|let|var)\s+([A-Za-z0-9_]+)\s*=/g,
     /^def\s+([A-Za-z0-9_]+)\s*\(/gm,
     /^class\s+([A-Za-z0-9_]+)/gm,
-    /func\s+([A-Za-z0-9_]+)\s*\(/g
+    /func\s+([A-Za-z0-9_]+)\s*\(/g,
+    /^\s*(?:function\s+)?([A-Za-z_][A-Za-z0-9_-]*)\s*\(\)\s*\{/gm,
+    /^\s*function\s+([A-Za-z_][A-Za-z0-9_-]*)\b/gim,
+    /^\s*\[([A-Za-z0-9_.-]+)\]/gm,
+    /^\s*#{1,6}\s+(.+?)\s*#*$/gm,
+    /^[^{\n]*[.#]([A-Za-z_][A-Za-z0-9_-]*)[\s:{.#,\[>]/gm
   ]).slice(0, 40);
 
   return { imports, exports, symbols, parseStrategy: "regex" };

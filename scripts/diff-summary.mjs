@@ -2,44 +2,75 @@
 import { execFile } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const args = new Set(process.argv.slice(2));
-const jsonOutput = args.has("--json") || args.has("-json") || args.has("-Json");
-const inputJsonPath = inputJsonArgument(process.argv.slice(2));
 
-let diffSummary;
-try {
-  diffSummary = await import("../packages/core/dist/diffSummary.js");
-} catch {
-  console.error("diff:summary requires built core artifacts. Run `npm run build` first.");
-  process.exit(1);
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
+  const exitCode = await main();
+  process.exitCode = exitCode;
 }
 
-const {
-  buildDiffChangesFromGitOutput,
-  buildDiffSummary,
-  formatDiffSummary
-} = diffSummary;
+export async function main(rawArgs = process.argv.slice(2), streams = { stdout: process.stdout, stderr: process.stderr }) {
+  const result = await runDiffSummary(rawArgs);
+  if (result.error) {
+    streams.stderr.write(`${result.error}\n`);
+  } else {
+    streams.stdout.write(result.output);
+  }
+  return result.exitCode;
+}
 
-const input = inputJsonPath ? await readInputJson(inputJsonPath) : await collectGitInput();
-const changes = buildDiffChangesFromGitOutput({
-  numstat: input.numstat,
-  nameStatus: input.nameStatus,
-  untrackedFiles: input.untrackedFiles,
-  untrackedLineCounts: input.untrackedLineCounts
-});
-const summary = buildDiffSummary(changes, {
-  maxDiffLines: integerConfig(input.config?.max_diff_lines)
-});
+export async function runDiffSummary(rawArgs = []) {
+  const args = new Set(rawArgs);
+  const jsonOutput = args.has("--json") || args.has("-json") || args.has("-Json");
+  const inputJsonPath = inputJsonArgument(rawArgs);
 
-if (jsonOutput) {
-  console.log(JSON.stringify({ base: input.base.trim(), ...summary }, null, 2));
-} else {
-  process.stdout.write(formatDiffSummary(summary, { base: input.base.trim() }));
+  let diffSummary;
+  try {
+    diffSummary = await import("../packages/core/dist/diffSummary.js");
+  } catch {
+    return {
+      exitCode: 1,
+      output: "",
+      error: "diff:summary requires built core artifacts. Run `npm run build` first."
+    };
+  }
+
+  const {
+    buildDiffChangesFromGitOutput,
+    buildDiffSummary,
+    formatDiffSummary
+  } = diffSummary;
+
+  try {
+    const input = inputJsonPath ? await readInputJson(inputJsonPath) : await collectGitInput();
+    const changes = buildDiffChangesFromGitOutput({
+      numstat: input.numstat,
+      nameStatus: input.nameStatus,
+      untrackedFiles: input.untrackedFiles,
+      untrackedLineCounts: input.untrackedLineCounts
+    });
+    const summary = buildDiffSummary(changes, {
+      maxDiffLines: integerConfig(input.config?.max_diff_lines)
+    });
+
+    return {
+      exitCode: 0,
+      output: jsonOutput
+        ? `${JSON.stringify({ base: input.base.trim(), ...summary }, null, 2)}\n`
+        : formatDiffSummary(summary, { base: input.base.trim() }),
+      error: ""
+    };
+  } catch (error) {
+    return {
+      exitCode: 1,
+      output: "",
+      error: `diff:summary failed to collect Git diff input: ${errorMessage(error)}`
+    };
+  }
 }
 
 async function collectGitInput() {
@@ -121,4 +152,8 @@ function stringField(value) {
 
 function recordField(value) {
   return typeof value === "object" && value !== null && !Array.isArray(value) ? value : {};
+}
+
+function errorMessage(error) {
+  return error instanceof Error ? error.message : String(error);
 }

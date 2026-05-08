@@ -17,6 +17,7 @@ export interface AtreeConfig {
   createdAt: string;
   sourceRoot: string;
   ignored: string[];
+  respectGitignore?: boolean;
   treeBuilder: "deterministic" | "llm";
   abstractionOntology?: AbstractionOntologyLevel[];
   installMode: InstallMode;
@@ -66,6 +67,62 @@ export interface TreeNode {
   confidence: number;
 }
 
+export type ImportGraphEdgeKind = "relative" | "workspace-package";
+
+export interface WorkspacePackage {
+  name: string;
+  root: string;
+  manifestPath: string;
+  entrypoint?: string;
+  binCommands?: string[];
+  scriptNames?: string[];
+  dependencyPackageNames?: string[];
+}
+
+export interface ImportGraphEdge {
+  from: string;
+  to: string;
+  specifier: string;
+  kind: ImportGraphEdgeKind;
+  packageName?: string;
+}
+
+export interface ExternalImport {
+  from: string;
+  specifier: string;
+  packageName: string;
+}
+
+export interface UnresolvedImport {
+  from: string;
+  specifier: string;
+  kind: ImportGraphEdgeKind;
+  packageName?: string;
+  reason: string;
+}
+
+export interface ImportCycle {
+  files: string[];
+}
+
+export interface ImportGraph {
+  edges: ImportGraphEdge[];
+  externalImports: ExternalImport[];
+  unresolvedImports: UnresolvedImport[];
+  cycles: ImportCycle[];
+  workspacePackages: WorkspacePackage[];
+}
+
+export type ConceptEvidenceKind = "path" | "symbol" | "export" | "doc";
+
+export interface ConceptEvidence {
+  kind: ConceptEvidenceKind;
+  filePath: string;
+  value: string;
+  term: string;
+  score: number;
+}
+
 export interface Concept {
   id: string;
   title: string;
@@ -73,6 +130,7 @@ export interface Concept {
   relatedNodeIds: string[];
   relatedFiles: string[];
   tags: string[];
+  evidence: ConceptEvidence[];
 }
 
 export interface Invariant {
@@ -95,6 +153,72 @@ export interface ChangeRecord {
   risk: "low" | "medium" | "high";
 }
 
+export interface AgentHealth {
+  latestRun?: {
+    file: string;
+    timestamp?: string;
+    task?: string;
+    result?: "success" | "partial" | "failed" | "no-op" | "unknown";
+  };
+  latestEvaluation?: {
+    file: string;
+    timestamp?: string;
+    issueCount?: number;
+    staleFileCount?: number;
+    missingFileCount?: number;
+  };
+  validation?: {
+    issueCount: number;
+    errorCount: number;
+    warningCount: number;
+  };
+  automation?: {
+    loopsToday?: number;
+    maxLoopsToday?: number;
+    failedLoopsToday?: number;
+    maxFailedLoops?: number;
+    maxMinutesToday?: number;
+    maxDiffLines?: number;
+    stopRequested?: boolean;
+    currentMission?: string;
+    completedMissions?: number;
+    failedMissions?: number;
+  };
+}
+
+export interface AbstractionTreeState {
+  config: AtreeConfig;
+  ontology: AbstractionOntologyLevel[];
+  nodes: TreeNode[];
+  files: FileSummary[];
+  importGraph: ImportGraph;
+  concepts: Concept[];
+  invariants: Invariant[];
+  changes: ChangeRecord[];
+  agentHealth: AgentHealth;
+}
+
+export type ContextSelectionKind = "node" | "file" | "concept" | "invariant" | "change";
+
+export interface ContextSelectionDiagnostic {
+  kind: ContextSelectionKind;
+  id: string;
+  label: string;
+  score: number;
+  estimatedTokens: number;
+  reasons: string[];
+  excludedReason?: "hard-limit" | "token-budget";
+}
+
+export interface ContextPackDiagnostics {
+  tokenEstimator: "approximate-json-chars-div-4";
+  budgeted: boolean;
+  estimatedTokens: number;
+  maxTokens?: number;
+  selected: ContextSelectionDiagnostic[];
+  excludedNearby: ContextSelectionDiagnostic[];
+}
+
 export interface ContextPack {
   id: string;
   createdAt: string;
@@ -106,6 +230,7 @@ export interface ContextPack {
   invariants: Invariant[];
   recentChanges: ChangeRecord[];
   agentInstructions: string[];
+  diagnostics?: ContextPackDiagnostics;
 }
 
 export interface ValidationIssue {
@@ -113,4 +238,6 @@ export interface ValidationIssue {
   message: string;
   nodeId?: string;
   filePath?: string;
+  fieldPath?: string;
+  recoveryHint?: string;
 }

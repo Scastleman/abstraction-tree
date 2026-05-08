@@ -3,19 +3,26 @@ import { Command } from "commander";
 import path from "node:path";
 import { createServer } from "node:http";
 import { existsSync } from "node:fs";
-import { readdir, readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import sirv from "sirv";
 import {
   atreePath,
   buildContextPack,
+  formatContextPackMarkdown,
   reviewChangeRecords,
+  buildImportGraph,
   buildDeterministicTree,
   detectFileDrift,
   ensureWorkspace,
+  formatRuntimeValidationIssue,
+  loadAtreeMemory,
   writeEvaluationReport,
   readConfig,
-  readJson,
+  readChangeRecords,
+  readConcepts,
+  readFileSummaries,
+  readInvariants,
+  readTreeNodes,
   scanProject,
   setInstallMode,
   validateChanges,
@@ -24,22 +31,32 @@ import {
   validateInvariants,
   validateTree,
   writeJson,
+  RuntimeSchemaValidationError,
   type ChangeRecord,
-  type AbstractionOntologyLevel,
-  type Concept,
-  type FileSummary,
   type InstallMode,
-  type Invariant,
-  type TreeNode,
   type ValidationIssue
 } from "@abstraction-tree/core";
-import { summarizeRunMarkdown, type RunResult } from "./agentHealth.js";
+import { loadApiAgentHealth, loadApiState } from "./apiState.js";
+import { runProposeCommand } from "./propose.js";
+import { formatServeUrl, selectServeHost } from "./serveHost.js";
 
 const program = new Command();
 program.name("atree").description("Build and visualize an abstraction tree for a codebase.").version("0.1.0");
 
 function projectPath(input?: string) {
   return path.resolve(input ?? process.cwd());
+}
+
+type ContextOutputFormat = "json" | "markdown";
+
+function contextOutputFormat(input: unknown): ContextOutputFormat | undefined {
+  return input === "json" || input === "markdown" ? input : undefined;
+}
+
+function contextMaxTokens(input: unknown): number | undefined {
+  if (input === undefined) return undefined;
+  const parsed = Number(input);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : undefined;
 }
 
 program.command("init")
@@ -82,8 +99,10 @@ program.command("scan")
     await ensureWorkspace(root);
     const config = await readConfig(root);
     const scan = await scanProject(root);
-    const built = buildDeterministicTree(config.projectName, scan.files);
+    const importGraph = await buildImportGraph(root, scan.files);
+    const built = buildDeterministicTree(config.projectName, scan.files, { importGraph });
     await writeJson(atreePath(root, "files.json"), built.files);
+    await writeJson(atreePath(root, "import-graph.json"), importGraph);
     await writeJson(atreePath(root, "ontology.json"), built.ontology);
     await writeJson(atreePath(root, "tree.json"), built.nodes);
     await writeJson(atreePath(root, "concepts.json"), built.concepts);
@@ -94,7 +113,7 @@ program.command("scan")
       title: "Deterministic scan",
       reason: "Generated abstraction tree from project files, imports, symbols, tests, and folders.",
       affectedNodeIds: ["project.intent", "project.architecture", "project.code"],
-      filesChanged: [".abstraction-tree/files.json", ".abstraction-tree/ontology.json", ".abstraction-tree/tree.json", ".abstraction-tree/concepts.json", ".abstraction-tree/invariants.json"],
+      filesChanged: [".abstraction-tree/files.json", ".abstraction-tree/import-graph.json", ".abstraction-tree/ontology.json", ".abstraction-tree/tree.json", ".abstraction-tree/concepts.json", ".abstraction-tree/invariants.json"],
       invariantsPreserved: ["invariant.tree-updated-after-change"],
       risk: "low"
     };
@@ -113,25 +132,70 @@ program.command("validate")
       console.log("No validation issues found.");
       return;
     }
-    for (const i of issues) console.log(`[${i.severity}] ${i.message}${i.filePath ? ` (${i.filePath})` : ""}`);
+    for (const i of issues) console.log(formatRuntimeValidationIssue(i));
     process.exitCode = issues.some(i => i.severity === "error" || (opts.strict && i.severity === "warning")) ? 1 : 0;
   });
 
 program.command("context")
   .description("Generate a compact context pack for an agent")
   .option("-p, --project <path>", "project root")
+  .option("--format <format>", "output format: json or markdown", "json")
+  .option("--max-tokens <n>", "approximate token budget for selected context items")
+  .option("--why", "include selection diagnostics and nearby excluded candidates")
   .requiredOption("-t, --target <query>", "target feature, concept, or file")
   .action(async opts => {
+    const format = contextOutputFormat(opts.format);
+    if (!format) {
+      console.error("Context format must be either `json` or `markdown`.");
+      process.exitCode = 1;
+      return;
+    }
+    const maxTokens = contextMaxTokens(opts.maxTokens);
+    if (opts.maxTokens !== undefined && maxTokens === undefined) {
+      console.error("Context max tokens must be a positive integer.");
+      process.exitCode = 1;
+      return;
+    }
     const root = projectPath(opts.project);
-    const nodes = await readJson<TreeNode[]>(atreePath(root, "tree.json"), []);
-    const files = await readJson<FileSummary[]>(atreePath(root, "files.json"), []);
-    const concepts = await readJson<Concept[]>(atreePath(root, "concepts.json"), []);
-    const invariants = await readJson<Invariant[]>(atreePath(root, "invariants.json"), []);
-    const changes = validChangeRecords((await loadChanges(root)).records);
-    const pack = buildContextPack({ target: opts.target, nodes, files, concepts, invariants, changes });
+    const nodes = await readTreeNodes(root);
+    const files = await readFileSummaries(root);
+    const concepts = await readConcepts(root);
+    const invariants = await readInvariants(root);
+    const changes = await readChangeRecords(root);
+    const pack = buildContextPack({
+      target: opts.target,
+      nodes,
+      files,
+      concepts,
+      invariants,
+      changes,
+      maxTokens,
+      includeDiagnostics: Boolean(opts.why)
+    });
     const out = atreePath(root, "context-packs", `${pack.id}.json`);
     await writeJson(out, pack);
-    console.log(JSON.stringify(pack, null, 2));
+    if (format === "markdown") process.stdout.write(formatContextPackMarkdown(pack));
+    else console.log(JSON.stringify(pack, null, 2));
+  });
+
+program.command("propose")
+  .description("Run an explicit LLM provider adapter and save validated proposal output for review")
+  .option("-p, --project <path>", "project root")
+  .requiredOption("--provider <name>", "provider adapter name")
+  .option("--adapter <path>", "ESM adapter module path; defaults to adapters/<provider>/index.mjs when present")
+  .option("--input <path>", "optional provider input file passed to the adapter")
+  .action(async opts => {
+    const root = projectPath(opts.project);
+    const result = await runProposeCommand({
+      projectRoot: root,
+      provider: opts.provider,
+      adapter: opts.adapter,
+      input: opts.input
+    });
+    console.log(`Wrote proposal to ${path.relative(root, result.proposalPath).replaceAll(path.sep, "/")}`);
+    console.log(`Validation: ${result.validation.status} (${result.validation.errorCount} errors, ${result.validation.warningCount} warnings).`);
+    for (const issue of result.validation.issues) console.log(formatRuntimeValidationIssue(issue));
+    if (result.validation.errorCount) process.exitCode = 1;
   });
 
 program.command("evaluate")
@@ -160,10 +224,12 @@ program.command("serve")
   .description("Serve the visual app locally")
   .option("-p, --project <path>", "project root")
   .option("--port <number>", "port; defaults to config visualApp.defaultPort or 4317")
+  .option("--host <host>", "host to bind; defaults to 127.0.0.1")
   .action(async opts => {
     const root = projectPath(opts.project);
     const config = await readConfig(root);
     const port = Number(opts.port ?? config.visualApp?.defaultPort ?? 4317);
+    const { host, warning } = selectServeHost(opts.host);
     const appDist = findVisualAppDist();
     if (!appDist) {
       console.error("The visual app is not installed or has not been built.");
@@ -180,33 +246,22 @@ program.command("serve")
     const server = createServer(async (req, res) => {
       if (!req.url) return res.end();
       if (req.url.startsWith("/api/state")) {
-        const state = {
-          config: await readConfig(root),
-          ontology: await readJson(atreePath(root, "ontology.json"), []),
-          nodes: await readJson<TreeNode[]>(atreePath(root, "tree.json"), []),
-          files: await readJson<FileSummary[]>(atreePath(root, "files.json"), []),
-          concepts: await readJson<Concept[]>(atreePath(root, "concepts.json"), []),
-          invariants: await readJson<Invariant[]>(atreePath(root, "invariants.json"), []),
-          changes: validChangeRecords((await loadChanges(root)).records),
-          agentHealth: await loadAgentHealth(root)
-        };
+        const state = await loadApiState(root, projectRoot => loadApiAgentHealth(projectRoot, collectValidationIssues));
         res.setHeader("content-type", "application/json");
         res.end(JSON.stringify(state));
         return;
       }
       serveStatic(req, res, () => fallback(res));
     });
-    server.listen(port, () => console.log(`Abstraction Tree app: http://localhost:${port}`));
+    if (warning) console.warn(warning);
+    server.listen(port, host, () => console.log(`Abstraction Tree app: ${formatServeUrl(host, port)}`));
   });
 
 async function collectValidationIssues(root: string): Promise<ValidationIssue[]> {
-  const ontology = await readJson<AbstractionOntologyLevel[]>(atreePath(root, "ontology.json"), []);
-  const nodes = await readJson<TreeNode[]>(atreePath(root, "tree.json"), []);
-  const files = await readJson<FileSummary[]>(atreePath(root, "files.json"), []);
-  const concepts = await readJson<Concept[]>(atreePath(root, "concepts.json"), []);
-  const invariants = await readJson<Invariant[]>(atreePath(root, "invariants.json"), []);
-  const loadedChanges = await loadChanges(root);
-  const changes = loadedChanges.records;
+  const memory = await loadAtreeMemory(root);
+  if (memory.issues.some(issue => issue.severity === "error")) return memory.issues;
+
+  const { ontology, nodes, files, concepts, invariants, changes } = memory;
   const existingConceptFilePaths = concepts
     .flatMap(concept => concept.relatedFiles ?? [])
     .filter(filePath => existsSync(path.resolve(root, filePath)));
@@ -214,12 +269,12 @@ async function collectValidationIssues(root: string): Promise<ValidationIssue[]>
     .flatMap(invariant => invariant.filePaths ?? [])
     .filter(filePath => existsSync(path.resolve(root, filePath)));
   const existingChangeFilePaths = changes
-    .flatMap(change => stringArrayField(change, "filesChanged"))
+    .flatMap(change => change.filesChanged)
     .filter(filePath => existsSync(path.resolve(root, filePath)));
   const currentScan = await scanProject(root);
 
   return [
-    ...loadedChanges.issues,
+    ...memory.issues,
     ...(await validateAutomation(root)),
     ...validateTree(nodes, files, ontology),
     ...validateConcepts(concepts, nodes, files, existingConceptFilePaths),
@@ -227,114 +282,6 @@ async function collectValidationIssues(root: string): Promise<ValidationIssue[]>
     ...validateChanges(changes, nodes, files, invariants, existingChangeFilePaths),
     ...detectFileDrift(files, currentScan.files, nodes)
   ];
-}
-
-interface AgentHealth {
-  latestRun?: {
-    file: string;
-    timestamp?: string;
-    task?: string;
-    result?: "success" | "partial" | "failed" | "no-op" | "unknown";
-  };
-  latestEvaluation?: {
-    file: string;
-    timestamp?: string;
-    issueCount?: number;
-    staleFileCount?: number;
-    missingFileCount?: number;
-  };
-  validation?: {
-    issueCount: number;
-    errorCount: number;
-    warningCount: number;
-  };
-  automation?: {
-    loopsToday?: number;
-    maxLoopsToday?: number;
-    failedLoopsToday?: number;
-    maxFailedLoops?: number;
-    maxMinutesToday?: number;
-    maxDiffLines?: number;
-    stopRequested?: boolean;
-    currentMission?: string;
-    completedMissions?: number;
-    failedMissions?: number;
-  };
-}
-
-async function loadAgentHealth(root: string): Promise<AgentHealth> {
-  const issues = await collectValidationIssues(root).catch(() => undefined);
-  return {
-    latestRun: await loadLatestRun(root),
-    latestEvaluation: await loadLatestEvaluation(root),
-    validation: issues ? {
-      issueCount: issues.length,
-      errorCount: issues.filter(issue => issue.severity === "error").length,
-      warningCount: issues.filter(issue => issue.severity === "warning").length
-    } : undefined,
-    automation: await loadAutomationHealth(root)
-  };
-}
-
-async function loadLatestRun(root: string): Promise<AgentHealth["latestRun"]> {
-  const latest = await latestNamedFile(atreePath(root, "runs"), name => name.endsWith("-agent-run.md"));
-  if (!latest) return undefined;
-  const text = await readFile(latest.path, "utf8").catch(() => "");
-  const summary = summarizeRunMarkdown(text);
-  return {
-    file: `.abstraction-tree/runs/${latest.name}`,
-    timestamp: timestampFromName(latest.name),
-    task: summary.task,
-    result: summary.result ?? "unknown"
-  };
-}
-
-async function loadLatestEvaluation(root: string): Promise<AgentHealth["latestEvaluation"]> {
-  const latest = await latestNamedFile(atreePath(root, "evaluations"), name => name.endsWith("-evaluation.json"));
-  if (!latest) return undefined;
-  const report = objectRecord(await readJson<Record<string, unknown>>(latest.path, {})) ?? {};
-  const drift = objectRecord(report.drift);
-  const issues = Array.isArray(report.issues) ? report.issues : undefined;
-  return {
-    file: `.abstraction-tree/evaluations/${latest.name}`,
-    timestamp: stringField(report, "timestamp") ?? timestampFromName(latest.name),
-    issueCount: issues?.length,
-    staleFileCount: numberField(drift, "staleFileCount"),
-    missingFileCount: numberField(drift, "missingFileCount")
-  };
-}
-
-async function loadAutomationHealth(root: string): Promise<AgentHealth["automation"]> {
-  const configPath = atreePath(root, "automation", "loop-config.json");
-  const runtimePath = atreePath(root, "automation", "loop-runtime.json");
-  const missionsPath = atreePath(root, "automation", "mission-runtime.json");
-  if (![configPath, runtimePath, missionsPath].some(existsSync)) return undefined;
-
-  const config = objectRecord(await readJson<Record<string, unknown>>(configPath, {})) ?? {};
-  const runtime = objectRecord(await readJson<Record<string, unknown>>(runtimePath, {})) ?? {};
-  const missions = objectRecord(await readJson<Record<string, unknown>>(missionsPath, {})) ?? {};
-  const completed = Array.isArray(missions.completed) ? missions.completed.length : undefined;
-  const failed = Array.isArray(missions.failed) ? missions.failed.length : undefined;
-
-  return {
-    loopsToday: numberField(runtime, "loops_today"),
-    maxLoopsToday: numberField(config, "max_loops_today"),
-    failedLoopsToday: numberField(runtime, "failed_loops_today"),
-    maxFailedLoops: numberField(config, "max_failed_loops"),
-    maxMinutesToday: numberField(config, "max_minutes_today"),
-    maxDiffLines: numberField(config, "max_diff_lines"),
-    stopRequested: booleanField(runtime, "stop_requested") ?? booleanField(missions, "stop_requested"),
-    currentMission: stringField(missions, "current"),
-    completedMissions: completed,
-    failedMissions: failed
-  };
-}
-
-async function latestNamedFile(dir: string, accepts: (name: string) => boolean): Promise<{ name: string; path: string } | undefined> {
-  if (!existsSync(dir)) return undefined;
-  const names = (await readdir(dir).catch(() => [])).filter(accepts).sort();
-  const name = names.at(-1);
-  return name ? { name, path: path.join(dir, name) } : undefined;
 }
 
 function findVisualAppDist(): string | undefined {
@@ -349,101 +296,17 @@ function findVisualAppDist(): string | undefined {
   return candidates.find(existsSync);
 }
 
-interface LoadedChanges {
-  records: unknown[];
-  issues: ValidationIssue[];
-}
-
-async function loadChanges(root: string): Promise<LoadedChanges> {
-  const dir = atreePath(root, "changes");
-  if (!existsSync(dir)) return { records: [], issues: [] };
-  const fs = await import("node:fs/promises");
-  const names = await fs.readdir(dir).catch(() => []);
-  const records: unknown[] = [];
-  const issues: ValidationIssue[] = [];
-  for (const name of names.filter(n => n.endsWith(".json"))) {
-    const filePath = path.join(dir, name);
-    const raw = await readFile(filePath, "utf8").catch(() => "");
-    if (!raw) continue;
-    try {
-      records.push(await readJson<unknown>(filePath, undefined));
-    } catch {
-      issues.push({
-        severity: "error",
-        filePath: path.relative(root, filePath).replaceAll(path.sep, "/"),
-        message: `Change record ${name} is not valid JSON.`
-      });
-    }
-  }
-  return {
-    records: records.sort((a, b) => changeSortKey(a).localeCompare(changeSortKey(b))),
-    issues
-  };
-}
-
-function changeSortKey(value: unknown): string {
-  const record = objectRecord(value);
-  return typeof record?.timestamp === "string" ? record.timestamp : "";
-}
-
-function validChangeRecords(values: unknown[]): ChangeRecord[] {
-  return values.filter(isChangeRecord);
-}
-
-function isChangeRecord(value: unknown): value is ChangeRecord {
-  const record = objectRecord(value);
-  if (!record) return false;
-  return (
-    typeof record.id === "string" &&
-    typeof record.timestamp === "string" &&
-    typeof record.title === "string" &&
-    typeof record.reason === "string" &&
-    ["low", "medium", "high"].includes(String(record.risk)) &&
-    stringArrayField(record, "affectedNodeIds").length === (Array.isArray(record.affectedNodeIds) ? record.affectedNodeIds.length : -1) &&
-    stringArrayField(record, "filesChanged").length === (Array.isArray(record.filesChanged) ? record.filesChanged.length : -1) &&
-    stringArrayField(record, "invariantsPreserved").length === (Array.isArray(record.invariantsPreserved) ? record.invariantsPreserved.length : -1)
-  );
-}
-
-function stringArrayField(value: unknown, field: string): string[] {
-  const record = objectRecord(value);
-  const fieldValue = record?.[field];
-  return Array.isArray(fieldValue) ? fieldValue.filter((item): item is string => typeof item === "string") : [];
-}
-
-function stringField(value: unknown, field: string): string | undefined {
-  const record = objectRecord(value);
-  const fieldValue = record?.[field];
-  return typeof fieldValue === "string" && fieldValue.trim() ? fieldValue : undefined;
-}
-
-function numberField(value: unknown, field: string): number | undefined {
-  const record = objectRecord(value);
-  const fieldValue = record?.[field];
-  return typeof fieldValue === "number" && Number.isFinite(fieldValue) ? fieldValue : undefined;
-}
-
-function booleanField(value: unknown, field: string): boolean | undefined {
-  const record = objectRecord(value);
-  const fieldValue = record?.[field];
-  return typeof fieldValue === "boolean" ? fieldValue : undefined;
-}
-
-function timestampFromName(name: string): string | undefined {
-  const match = name.match(/^(\d{4})-(\d{2})-(\d{2})-(\d{2})(\d{2})/);
-  if (!match) return undefined;
-  return `${match[1]}-${match[2]}-${match[3]} ${match[4]}:${match[5]}`;
-}
-
-function objectRecord(value: unknown): Record<string, unknown> | undefined {
-  if (typeof value !== "object" || value === null || Array.isArray(value)) return undefined;
-  return value as Record<string, unknown>;
-}
-
 function fallback(res: import("node:http").ServerResponse) {
   res.statusCode = 200;
   res.setHeader("content-type", "text/html");
   res.end(`<html><body><h1>Abstraction Tree</h1><p>The app bundle was found, but the requested route did not resolve.</p><p>API state is available at <a href="/api/state">/api/state</a>.</p></body></html>`);
 }
 
-program.parseAsync();
+program.parseAsync().catch(error => {
+  if (error instanceof RuntimeSchemaValidationError) {
+    console.error(error.message);
+    process.exitCode = 1;
+    return;
+  }
+  throw error;
+});

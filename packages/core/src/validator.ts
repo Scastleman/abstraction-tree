@@ -140,6 +140,13 @@ export function validateConcepts(
   const filePaths = files ? new Set([...files.map(file => file.path), ...knownFilePaths]) : undefined;
 
   for (const concept of concepts) {
+    if (!concept.evidence?.length) {
+      issues.push({
+        severity: "error",
+        message: `Concept ${concept.id || "(missing id)"} is missing extraction evidence.`
+      });
+    }
+
     if (nodeIds) {
       for (const nodeId of concept.relatedNodeIds ?? []) {
         if (!nodeIds.has(nodeId)) {
@@ -153,7 +160,10 @@ export function validateConcepts(
     }
 
     if (filePaths) {
-      for (const filePath of concept.relatedFiles ?? []) {
+      for (const filePath of uniqueStrings([
+        ...(concept.relatedFiles ?? []),
+        ...(concept.evidence ?? []).map(evidence => evidence.filePath)
+      ])) {
         if (!filePaths.has(filePath)) {
           issues.push({
             severity: "error",
@@ -634,6 +644,10 @@ function stringValue(value: unknown): string | undefined {
 
 function stringArrayValue(value: unknown): string[] {
   return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
+}
+
+function uniqueStrings(values: string[]): string[] {
+  return [...new Set(values)];
 }
 
 function isValidTimestamp(value: unknown): boolean {

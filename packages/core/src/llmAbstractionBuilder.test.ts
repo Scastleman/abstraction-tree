@@ -39,6 +39,7 @@ function abstractionInput(): AbstractionBuilderInput {
   return {
     projectName: "abstraction-tree",
     scannerOutput: {
+      diagnostics: [],
       files: [{
         path: "packages/core/src/schema.ts",
         extension: ".ts",

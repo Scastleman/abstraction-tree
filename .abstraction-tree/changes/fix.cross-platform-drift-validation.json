@@ -18,7 +18,6 @@
     "packages/core/src/validator.test.ts",
     "packages/core/src/schema.ts",
     "packages/cli/src/index.ts",
-    "packages/app/src/types.ts",
     ".github/workflows/ci.yml",
     "package.json",
     "package-lock.json",

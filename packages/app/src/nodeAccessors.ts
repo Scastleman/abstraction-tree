@@ -1,4 +1,4 @@
-import type { TreeNode } from "./types.js";
+import type { TreeNode } from "@abstraction-tree/core";
 
 export function nodeName(node: TreeNode): string {
   return node.name ?? node.title;

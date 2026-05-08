@@ -5,7 +5,6 @@
   "reason": "Validation now treats non-empty sourceFiles as preferred but falls back to legacy ownedFiles when sourceFiles is empty, matching context-pack and evaluator ownership semantics.",
   "affectedNodeIds": [
     "project.code",
-    "concept-node.validate",
     "file.packages.core.src.validator.ts",
     "file.packages.core.src.validator.test.ts"
   ],
