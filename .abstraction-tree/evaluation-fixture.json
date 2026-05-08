@@ -1,0 +1,33 @@
+{
+  "expectedTreeNodeIds": [
+    "concept-node.context",
+    "concept-node.context.pack",
+    "file.packages.cli.src.index.ts",
+    "file.packages.core.src.context.ts",
+    "file.packages.core.src.evaluator.ts",
+    "file.packages.core.src.validator.ts",
+    "module.packages",
+    "project.architecture",
+    "project.intent"
+  ],
+  "expectedArchitectureNodeIds": [
+    "architecture.cli.surface",
+    "architecture.core.engine",
+    "architecture.package.distribution",
+    "architecture.runtime.dataflow",
+    "architecture.scanner.tree.context.pipeline"
+  ],
+  "expectedConceptIds": [
+    "abstraction",
+    "agent",
+    "context.pack",
+    "evaluation",
+    "import.graph",
+    "memory",
+    "tree"
+  ],
+  "expectedInvariantIds": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ]
+}

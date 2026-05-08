@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
-import { chmod, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { EventEmitter } from "node:events";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { PassThrough } from "node:stream";
 import test from "node:test";
 import {
   createMissionPlan,
@@ -177,10 +179,9 @@ test("runtime-only completion exits with an explicit no pending message", async 
   assert.match(stdout.text, /No pending missions/);
 });
 
-test("execution uses a fake Codex binary and writes final output", async t => {
+test("execution uses an injected Codex process and writes final output", async t => {
   const root = await tempWorkspace(t, "atree-missions-exec-");
   await writeFileAt(root, ".abstraction-tree/missions/mission-001.md", "# One\n\nDo one thing.\n");
-  const fakeCodex = await writeFakeCodex(root);
 
   const result = await runCli([
     "--missions",
@@ -188,11 +189,12 @@ test("execution uses a fake Codex binary and writes final output", async t => {
     "--sandbox",
     "read-only",
     "--codex-bin",
-    fakeCodex
+    "fake-codex"
   ], {
     cwd: root,
     stdout: captureStream(),
-    stderr: captureStream()
+    stderr: captureStream(),
+    spawnProcess: fakeCodexSpawn()
   });
   const finalText = await readFile(result.statuses[0].finalPath, "utf8");
   const jsonlText = await readFile(result.statuses[0].jsonlPath, "utf8");
@@ -260,22 +262,31 @@ async function writeFileAt(root, relativePath, text) {
   return filePath;
 }
 
-async function writeFakeCodex(root) {
-  const script = await writeFileAt(root, "fake-codex.mjs", `
-let input = "";
-process.stdin.on("data", chunk => {
-  input += chunk;
-});
-process.stdin.on("end", () => {
-  if (!input.includes("# Mission:")) process.exit(2);
-  console.log(JSON.stringify({ type: "agent_message", message: "fake complete" }));
-});
-`);
-  if (process.platform === "win32") {
-    return writeFileAt(root, "fake-codex.cmd", `@echo off\r\nnode "%~dp0fake-codex.mjs" %*\r\n`);
-  }
-  await chmod(script, 0o755);
-  return script;
+function fakeCodexSpawn() {
+  return () => {
+    const process = new EventEmitter();
+    process.stdin = new PassThrough();
+    process.stdout = new PassThrough();
+    process.stderr = new PassThrough();
+
+    let prompt = "";
+    process.stdin.on("data", chunk => {
+      prompt += chunk;
+    });
+    process.stdin.on("end", () => {
+      const exitCode = prompt.includes("# Mission:") ? 0 : 2;
+      if (exitCode === 0) {
+        process.stdout.write(`${JSON.stringify({ type: "agent_message", message: "fake complete" })}\n`);
+      } else {
+        process.stderr.write("missing mission prompt\n");
+      }
+      process.stdout.end();
+      process.stderr.end();
+      queueMicrotask(() => process.emit("close", exitCode));
+    });
+
+    return process;
+  };
 }
 
 function captureStream() {

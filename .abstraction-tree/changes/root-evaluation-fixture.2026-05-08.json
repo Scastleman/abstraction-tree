@@ -1,0 +1,19 @@
+{
+  "id": "root-evaluation-fixture.2026-05-08",
+  "timestamp": "2026-05-08T13:41:00.000Z",
+  "title": "Add root evaluation fixture",
+  "reason": "Make dogfood evaluation assert durable expected tree, architecture, concept, and invariant IDs instead of reporting zero fixture expectations.",
+  "affectedNodeIds": [
+    "project.intent",
+    "project.architecture",
+    "architecture.core.engine"
+  ],
+  "filesChanged": [
+    ".abstraction-tree/evaluation-fixture.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

@@ -1731,6 +1731,11 @@
     },
     {
       "from": "scripts/run-missions.test.mjs",
+      "specifier": "node:events",
+      "packageName": "node:events"
+    },
+    {
+      "from": "scripts/run-missions.test.mjs",
       "specifier": "node:fs/promises",
       "packageName": "node:fs/promises"
     },
@@ -1743,6 +1748,11 @@
       "from": "scripts/run-missions.test.mjs",
       "specifier": "node:path",
       "packageName": "node:path"
+    },
+    {
+      "from": "scripts/run-missions.test.mjs",
+      "specifier": "node:stream",
+      "packageName": "node:stream"
     },
     {
       "from": "scripts/run-missions.test.mjs",

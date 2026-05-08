@@ -1,0 +1,17 @@
+{
+  "id": "mission-runner-spawn-test.2026-05-08",
+  "timestamp": "2026-05-08T13:48:00.000Z",
+  "title": "Make mission-runner execution test sandbox-safe",
+  "reason": "Replace the temporary fake Codex executable with an injected spawn mock so autonomous loop checks do not depend on executing a temp .cmd outside the workspace sandbox.",
+  "affectedNodeIds": [
+    "file.scripts.run.missions.test.mjs",
+    "module.scripts"
+  ],
+  "filesChanged": [
+    "scripts/run-missions.test.mjs"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior"
+  ],
+  "risk": "low"
+}

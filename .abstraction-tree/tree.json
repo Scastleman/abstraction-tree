@@ -5378,7 +5378,7 @@
     "title": "run-missions.test.mjs",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "run-missions.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines parsed, root, memory, missions, missionPath. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "summary": "run-missions.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines parsed, root, memory, missions, missionPath. Depends on node:assert/strict, node:events, node:fs/promises, node:os.",
     "parent": "module.scripts",
     "parentId": "module.scripts",
     "children": [],
@@ -5389,21 +5389,25 @@
       "scripts/run-missions.test.mjs"
     ],
     "responsibilities": [
-      "run-missions.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines parsed, root, memory, missions, missionPath. Depends on node:assert/strict, node:fs/promises, node:os, node:path."
+      "run-missions.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines parsed, root, memory, missions, missionPath. Depends on node:assert/strict, node:events, node:fs/promises, node:os."
     ],
     "dependencies": [
       "import:node:assert/strict",
+      "import:node:events",
       "import:node:fs/promises",
       "import:node:os",
       "import:node:path",
+      "import:node:stream",
       "import:node:test",
       "import:./run-missions.mjs"
     ],
     "dependsOn": [
       "import:node:assert/strict",
+      "import:node:events",
       "import:node:fs/promises",
       "import:node:os",
       "import:node:path",
+      "import:node:stream",
       "import:node:test",
       "import:./run-missions.mjs"
     ],
