@@ -1,8 +1,5 @@
-import { existsSync } from "node:fs";
-import { readdir } from "node:fs/promises";
-import path from "node:path";
 import type { ValidationIssue } from "./schema.js";
-import { atreePath, readJson } from "./workspace.js";
+import { loadChangeRecordObjects, type LoadedChangeRecordObject } from "./workspace.js";
 
 export interface ChangeRecordReviewItem {
   id: string;
@@ -25,10 +22,7 @@ export interface ChangeRecordReviewReport {
   issues: ValidationIssue[];
 }
 
-export interface ChangeRecordReviewInput {
-  filePath: string;
-  record: Record<string, unknown>;
-}
+export type ChangeRecordReviewInput = LoadedChangeRecordObject;
 
 export async function reviewChangeRecords(projectRoot: string): Promise<ChangeRecordReviewReport> {
   const loaded = await loadChangeRecordObjects(projectRoot);
@@ -56,53 +50,6 @@ export function buildChangeRecordReviewReport(
     eligibleGeneratedScanRecords,
     issues
   };
-}
-
-async function loadChangeRecordObjects(
-  projectRoot: string
-): Promise<{ records: ChangeRecordReviewInput[]; issues: ValidationIssue[] }> {
-  const dir = atreePath(projectRoot, "changes");
-  if (!existsSync(dir)) return { records: [], issues: [] };
-
-  const names = await readdir(dir).catch(() => undefined);
-  if (!names) {
-    return {
-      records: [],
-      issues: [{
-        severity: "warning",
-        filePath: ".abstraction-tree/changes",
-        message: ".abstraction-tree/changes could not be read."
-      }]
-    };
-  }
-
-  const records: ChangeRecordReviewInput[] = [];
-  const issues: ValidationIssue[] = [];
-
-  for (const name of names.filter(name => name.endsWith(".json")).sort()) {
-    const absolutePath = path.join(dir, name);
-    const relativePath = `.abstraction-tree/changes/${name}`;
-    try {
-      const record = await readJson<unknown>(absolutePath, undefined);
-      if (objectRecord(record)) {
-        records.push({ filePath: relativePath, record });
-      } else {
-        issues.push({
-          severity: "warning",
-          filePath: relativePath,
-          message: `${relativePath} must be a JSON object.`
-        });
-      }
-    } catch {
-      issues.push({
-        severity: "warning",
-        filePath: relativePath,
-        message: `${relativePath} is not valid JSON.`
-      });
-    }
-  }
-
-  return { records, issues };
 }
 
 function reviewItem(
@@ -135,10 +82,6 @@ function changeSortKey(change: ChangeRecordReviewInput): string {
 
 function isGeneratedScanRecord(change: Record<string, unknown>): boolean {
   return typeof change.id === "string" && change.id.startsWith("scan.");
-}
-
-function objectRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 function stringValue(value: unknown): string | undefined {

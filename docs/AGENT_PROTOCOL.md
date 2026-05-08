@@ -17,6 +17,12 @@ The agent adapter should perform this protocol internally.
 5. Identify invariants and must-not-change boundaries.
 6. Explain the planned scope if the change is large.
 
+## Context packs
+
+`atree context --target <query>` emits JSON by default and writes the canonical JSON pack under `.abstraction-tree/context-packs/`.
+
+Use `--format markdown` when the next consumer is an agent prompt or report. Use `--why` to include selection diagnostics for every selected node, file, concept, invariant, and recent change, plus nearby candidates excluded by hard limits or token budget. Use `--max-tokens <n>` to apply an approximate selected-item budget. The first-pass estimator is documented as `approximate-json-chars-div-4`, so it is a deterministic character-count approximation and does not require a tokenizer package.
+
 ## During editing
 
 1. Stay inside relevant ownership boundaries when possible.
@@ -37,7 +43,19 @@ The agent adapter should perform this protocol internally.
 
 The current protocol is deterministic by default. Future LLM support should enter through provider adapters that implement the core `LlmAbstractionBuilder` interface rather than through the scanner, tree builder, or CLI default path.
 
-LLM output is a proposal, not memory. Agents should validate proposed ontology changes, proposed tree changes, confidence, rationale, warnings, affected abstraction layers, and detected-change classifications before writing them into `.abstraction-tree/`.
+LLM output is a proposal, not memory. Agents should validate proposed ontology changes, proposed tree changes, confidence, rationale, warnings, affected abstraction layers, and detected-change classifications before writing them into canonical `.abstraction-tree/` files.
+
+Use the explicit proposal path when testing an adapter:
+
+```bash
+atree propose --provider local-json --adapter adapters/local-json/index.mjs --input adapters/local-json/proposal.example.json
+```
+
+The command writes `.abstraction-tree/proposals/<id>.json` and leaves `ontology.json`, `tree.json`, `files.json`, concepts, invariants, and change records unchanged. A human reviewer must resolve validation errors, inspect warnings and rationale, approve any destructive remove proposals separately, manually apply accepted memory edits, then run:
+
+```bash
+atree validate --strict
+```
 
 ## This Repository
 
@@ -50,6 +68,8 @@ npm run atree:validate
 ## Bounded self-improvement loops
 
 When running an autonomous improvement loop on this repository, start from existing memory before exploring widely:
+
+Bounded loop orchestration in this checkout is Windows PowerShell scoped. Use `npm run abstraction:loop:windows` for the local loop or `npm run codex:missions:windows` for the local mission runner. Do not run those loop commands in public CI; macOS/Linux contributors can use the Node-based core checks such as `npm run build`, `npm test`, `npm run atree:validate`, and `npm run diff:summary`.
 
 1. Check `git diff`, committed loop policy in `.abstraction-tree/automation/loop-config.json`, ignored local counters in `.abstraction-tree/automation/loop-runtime.json`, and the latest files in `.abstraction-tree/runs/` and `.abstraction-tree/lessons/`.
 2. Use targeted reads of `README.md`, `docs/`, `packages/core/src/`, `packages/cli/src/`, and `.abstraction-tree/` before broad repository search.

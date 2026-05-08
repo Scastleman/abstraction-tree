@@ -16,9 +16,24 @@ The core engine is responsible for a deterministic project-understanding baselin
 
 The core should remain independent from a specific editor, LLM provider, or UI framework.
 
-The current scanner uses the TypeScript compiler AST for TypeScript, TSX, JavaScript, and JSX files, with regex fallback scanning for other supported text languages. This gives the baseline better import/export/symbol facts without pretending to infer full behavioral meaning.
+The current scanner uses the TypeScript compiler AST for TypeScript and JavaScript-family files, with regex fallback scanning for other supported text languages. This gives the baseline better import/export/symbol facts without pretending to infer full behavioral meaning.
+
+Supported scanner inputs are deterministic and bounded:
+
+| Parse strategy | Extensions |
+| --- | --- |
+| TypeScript compiler AST | `.ts`, `.tsx`, `.mts`, `.cts`, `.js`, `.jsx`, `.mjs`, `.cjs` |
+| Regex text scan | `.py`, `.go`, `.rs`, `.cpp`, `.hpp`, `.c`, `.h`, `.cs`, `.java`, `.vue`, `.svelte`, `.json`, `.yaml`, `.yml`, `.md`, `.mdx`, `.toml`, `.sh`, `.ps1`, `.html`, `.css`, `.scss`, `.sql` |
+
+Test detection is path- and language-convention based: files under `test`, `tests`, `spec`, or `__tests__` directories are tests; JavaScript and TypeScript-family files also recognize `.test` and `.spec` basenames; Python recognizes `test_*.py` and `*_test.py`; Go recognizes `*_test.go`.
+
+The scanner skips ignored paths, unsupported extensions, files larger than 512,000 bytes, and files whose byte sample looks binary. It does not use tree-sitter or any language parser beyond the TypeScript compiler AST path.
 
 The deterministic concept pass is repo-specific rather than a fixed keyword list. It scores candidate concepts from file paths, exported names, and symbols, then connects them back to owning nodes and related files.
+
+The deterministic architecture pass adds a runtime/dataflow layer beneath `project.architecture`. It uses package manifests, npm workspace metadata, bin commands, package entrypoints, UI file paths, API/route paths, server imports, and the resolved import graph to create evidence-backed nodes such as CLI surface, core engine, scanner/tree/context pipeline, visual app API, visual app UI, runtime dataflow, and package distribution.
+
+The architecture pass is intentionally evidence-limited. It can identify runtime boundaries that are visible in manifests, paths, imports, and local package metadata, but it does not infer hidden business semantics, dynamic routes assembled at runtime, bundler aliases not represented in the import graph, environment-specific deployment topology, or complete user journeys. When the evidence is broad, architecture nodes should be read as deterministic ownership and dependency groupings rather than a complete design document.
 
 Context packs use the same facts to rank nodes, concepts, files, and invariants. A target can match through concept summaries, symbols, exports, ownership, or file paths instead of only exact node text.
 
@@ -32,6 +47,16 @@ The current system remains deterministic by default. The CLI does not call an LL
 
 Provider adapters should live outside the core deterministic pipeline. They may implement the interface, but their proposals must be validated against schema, invariants, drift checks, and human or policy review before they become `.abstraction-tree/` memory.
 
+The first explicit opt-in adapter path is the `atree propose` command. It requires a provider name and either an adapter module path or a checkout-local `adapters/<provider>/index.mjs` module:
+
+```bash
+atree propose --provider local-json --adapter adapters/local-json/index.mjs --input adapters/local-json/proposal.example.json
+```
+
+`atree propose` scans the current project for provider context, calls only the explicitly selected adapter, validates proposed ontology and tree changes with the existing runtime and tree validators, and writes a review artifact under `.abstraction-tree/proposals/`. It does not update `.abstraction-tree/ontology.json`, `.abstraction-tree/tree.json`, or other canonical memory. Validation errors block the proposal record for application, and destructive remove proposals require separate human approval.
+
+The `local-json` adapter is a reference adapter for captured provider output. It lets a team paste or export LLM-generated JSON into a file, run the same adapter contract and validators, and review the result without adding an API key or network dependency to deterministic MVP commands. Real provider adapters should follow the same contract: return proposals, never directly write memory, and let the review workflow decide whether a human applies the changes.
+
 ## Repository memory contract
 
 The `.abstraction-tree/` directory is the project-local memory boundary. Committed memory includes the abstraction baseline, stable automation config, change records, context packs, run reports, lessons, and deterministic evaluations. These artifacts let future agents inspect what the repo believes about itself and what previous loops actually changed.
@@ -44,16 +69,29 @@ The scanner also ignores `.abstraction-tree/` as source input. That keeps genera
 
 The autonomous loop is an orchestration layer around Codex, npm scripts, validation, and runtime guards. From this repo, the key commands are:
 
+Cross-platform checks and metrics:
+
 ```bash
-npm run abstraction:loop
+npm run build
+npm test
 npm run atree:validate
 npm run atree:evaluate
 npm run diff:summary
 ```
 
+Windows-scoped local automation:
+
+```bash
+npm run abstraction:loop:windows
+npm run abstraction:loop:visible:windows
+npm run codex:missions:windows
+```
+
 The loop reads `.abstraction-tree/automation/loop-config.json`, runs bounded Codex cycles, executes post-loop checks, updates ignored runtime counters, and stops when configured limits are reached. It does not push to remote, does not ignore failed checks, does not commit live runtime files, and does not replace the deterministic scanner with LLM inference.
 
 The loop is bounded by design: maximum loops, minutes, failures, stagnation, repeated test failures, and diff size prevent unattended work from expanding past a measurable envelope.
+
+Public CI runs deterministic Node checks on Ubuntu. It does not invoke the Windows-scoped loop scripts and does not require ignored runtime JSON or log files.
 
 Run reports remain useful narrative evidence, but they are not enough. `atree:evaluate` produces objective counters for drift, missing files, tree shape, run results, duplicate lesson candidates, context-pack breadth, and automation health. `diff:summary` adds a second boundedness signal by summarizing the current working-tree size and risk.
 
@@ -87,7 +125,7 @@ It shows:
 - context packs;
 - drift warnings.
 
-The browser app is local-first. It is served by the CLI and reads local project state through a local API. Projects that only install `@abstraction-tree/cli` can still scan, validate, and produce agent context packs without installing the UI.
+The browser app is local-first. It is served by the CLI and reads local project state through a local API. `atree serve` binds to `127.0.0.1` by default; LAN exposure requires an explicit non-loopback `--host` value and emits a warning because `/api/state` contains local project memory. Projects that only install `@abstraction-tree/cli` can still scan, validate, and produce agent context packs without installing the UI.
 
 ## Future layers
 

@@ -1,0 +1,32 @@
+{
+  "id": "mission-018.contributing-dogfood-contract-docs",
+  "timestamp": "2026-05-08T00:00:00.000-04:00",
+  "title": "Document contributor dogfooding contract",
+  "reason": "Contributor guidance now names the CI command sequence, root abstraction-memory refresh policy, committed versus ignored automation files, PR checklist expectations, and related agent and packaging docs.",
+  "affectedNodeIds": [
+    "module.docs",
+    "module.root",
+    "architecture.package.distribution",
+    "file.contributing.md",
+    "file.docs.agent.protocol.md",
+    "file.docs.packaging.md",
+    "file.readme.md",
+    "concept-node.change",
+    "concept-node.change.record"
+  ],
+  "filesChanged": [
+    "CONTRIBUTING.md",
+    ".abstraction-tree/automation/missions/mission-018-contributing-dogfood-contract-docs.md",
+    ".abstraction-tree/changes/mission-018-contributing-dogfood-contract-docs.2026-05-08.json",
+    ".abstraction-tree/files.json",
+    ".abstraction-tree/tree.json",
+    ".abstraction-tree/concepts.json",
+    ".abstraction-tree/invariants.json",
+    ".abstraction-tree/import-graph.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

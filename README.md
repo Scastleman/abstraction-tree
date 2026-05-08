@@ -1,5 +1,10 @@
 # Abstraction Tree
 
+[![CI](https://github.com/Scastleman/abstraction-tree/actions/workflows/ci.yml/badge.svg)](https://github.com/Scastleman/abstraction-tree/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![npm: abstraction-tree](https://img.shields.io/npm/v/abstraction-tree.svg?label=abstraction-tree)](https://www.npmjs.com/package/abstraction-tree)
+[![npm: @abstraction-tree/cli](https://img.shields.io/npm/v/%40abstraction-tree%2Fcli.svg?label=%40abstraction-tree%2Fcli)](https://www.npmjs.com/package/@abstraction-tree/cli)
+
 Abstraction Tree is a local-first codebase understanding system. It scans an existing software project, builds a deterministic abstraction-memory baseline, and gives both humans and coding agents a shared map of the codebase.
 
 The long-term goal is adaptive, LLM-assisted abstraction memory. The current repo is intentionally the first layer: structured project facts, deterministic tree generation, validation, and agent context packs without requiring an API key.
@@ -157,6 +162,12 @@ npm run atree -- context --project examples/small-web-app --target checkout
 npm run atree -- serve --project examples/small-web-app
 ```
 
+## Canonical example fixture
+
+`examples/small-web-app` is the canonical integration fixture for scanner, tree, context-pack, and validation changes. It stays intentionally small: `src/api/checkout.ts` coordinates cart, payment, and order services; `tests/checkout.test.js` verifies that collaboration and the service error paths; and `scripts/small-web-app-fixture.test.mjs` scans the example and asserts expected file summaries, concepts, context output, and validator results.
+
+Root `npm test` includes both the example behavior tests and the scanner fixture script, so CI exercises the fixture after the packages are built.
+
 ## Dogfooding
 
 This repository uses Abstraction Tree on itself. The root `.abstraction-tree/` folder is committed as project memory for the monorepo, and CI runs strict self-validation after build and tests.
@@ -186,18 +197,27 @@ The repo should not commit local runtime state. Keep these local or ignored:
 - secrets, `.env` files, and API keys;
 - local Codex state outside the project memory contract.
 
-Useful dogfooding commands:
+Runtime example files stay committed so local state has a documented shape, but the live runtime JSON files and automation logs are ignored by `.gitignore`.
+
+Useful cross-platform dogfooding commands:
 
 ```bash
-npm run abstraction:loop
 npm run atree:validate
 npm run atree:evaluate
 npm run diff:summary
 ```
 
+Windows-only local loop commands:
+
+```bash
+npm run abstraction:loop:windows
+npm run abstraction:loop:visible:windows
+npm run codex:missions:windows
+```
+
 ### Autonomous loop contract
 
-`npm run abstraction:loop` runs a bounded local Codex improvement loop. It reads the stable loop config and prompt, starts a Codex cycle, runs post-loop checks, updates ignored runtime counters, and can optionally auto-commit only when configured and when required checks pass.
+`npm run abstraction:loop:windows` runs a bounded local Codex improvement loop. It is Windows PowerShell automation around local Codex state, not a public CI entrypoint. It reads the stable loop config and prompt, starts a Codex cycle, runs post-loop checks, updates ignored runtime counters, and can optionally auto-commit only when configured and when required checks pass.
 
 The loop does not push to a remote, does not bypass failed checks, does not make unbounded changes, does not commit ignored runtime state, and does not turn LLM-inferred abstraction into default scanner behavior.
 
@@ -242,17 +262,28 @@ Scans project files and creates/updates:
 .abstraction-tree/changes/
 ```
 
+Supported files are intentionally bounded. The scanner skips ignored paths, unsupported extensions, files larger than 512,000 bytes, and likely binary files.
+
+| Parse strategy | Extensions |
+| --- | --- |
+| TypeScript compiler AST | `.ts`, `.tsx`, `.mts`, `.cts`, `.js`, `.jsx`, `.mjs`, `.cjs` |
+| Regex text scan | `.py`, `.go`, `.rs`, `.cpp`, `.hpp`, `.c`, `.h`, `.cs`, `.java`, `.vue`, `.svelte`, `.json`, `.yaml`, `.yml`, `.md`, `.mdx`, `.toml`, `.sh`, `.ps1`, `.html`, `.css`, `.scss`, `.sql` |
+
+Test files are recognized through common paths and language conventions: `test`, `tests`, `spec`, and `__tests__` directories; `.test` and `.spec` basenames for JavaScript and TypeScript-family files; `test_*.py` and `*_test.py` for Python; and `*_test.go` for Go.
+
 ```bash
 atree scan --project /path/to/project
 ```
 
 ### `atree serve`
 
-Starts the local visual app. This requires the full install package or a built `@abstraction-tree/app` workspace.
+Starts the local visual app. This requires the full install package or a built `@abstraction-tree/app` workspace. The server binds to `127.0.0.1` by default so `/api/state` stays local to your machine.
 
 ```bash
 atree serve --project /path/to/project --port 4317
 ```
+
+Use `--host 0.0.0.0` only when you intentionally want LAN access; the CLI prints a risk warning for wildcard or non-loopback hosts.
 
 ### `atree validate`
 

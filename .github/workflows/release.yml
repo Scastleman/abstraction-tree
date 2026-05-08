@@ -1,0 +1,38 @@
+name: Release Dry Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Synchronized package version to validate, such as 0.1.0
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ inputs.version }}
+  cancel-in-progress: false
+
+jobs:
+  dry-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20.19.x
+          cache: npm
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm run check:unicode
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run release:changelog -- --version "${{ inputs.version }}"
+      - run: npm run build
+      - run: npm run coverage
+      - run: npm test
+      - run: npm run pack:smoke
+      - run: npm run release:dry-run -- --version "${{ inputs.version }}"
+      - run: npm run atree:validate

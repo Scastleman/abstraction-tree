@@ -1,0 +1,29 @@
+{
+  "ontology": {
+    "confidence": 0,
+    "rationale": "Example adapter payload with no ontology changes.",
+    "warnings": [
+      "This checked-in example is only a shape reference."
+    ],
+    "affectedLayers": [],
+    "proposedOntologyChanges": []
+  },
+  "tree": {
+    "confidence": 0,
+    "rationale": "Example adapter payload with no tree changes.",
+    "warnings": [
+      "This checked-in example is only a shape reference."
+    ],
+    "affectedLayers": [],
+    "proposedTreeChanges": []
+  },
+  "classification": {
+    "confidence": 0,
+    "rationale": "Example adapter payload with no change classifications.",
+    "warnings": [
+      "This checked-in example is only a shape reference."
+    ],
+    "affectedLayers": [],
+    "changes": []
+  }
+}

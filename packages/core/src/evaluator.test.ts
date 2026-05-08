@@ -5,7 +5,7 @@ import path from "node:path";
 import test, { type TestContext } from "node:test";
 import { CONTEXT_OVER_BROAD_LIMITS, CONTEXT_PACK_LIMITS } from "./contextLimits.js";
 import { evaluateProject } from "./evaluator.js";
-import type { FileSummary, TreeNode } from "./schema.js";
+import type { Concept, ContextPack, FileSummary, ImportGraph, TreeNode } from "./schema.js";
 
 const loopConfigPath = ".abstraction-tree/automation/loop-config.json";
 const loopRuntimeExamplePath = ".abstraction-tree/automation/loop-runtime.example.json";
@@ -94,16 +94,14 @@ test("evaluateProject reports automation config status", async t => {
 test("evaluateProject flags context packs at over-broad boundaries", async t => {
   const root = await workspace(t);
   await writeValidAutomationFiles(root);
-  await writeJson(root, ".abstraction-tree/context-packs/narrow.json", {
-    relevantNodes: Array.from({ length: CONTEXT_PACK_LIMITS.nodes }, (_, index) => ({ id: `node.${index}` })),
-    relevantFiles: Array.from({ length: CONTEXT_PACK_LIMITS.files }, (_, index) => ({ path: `src/file-${index}.ts` })),
-    relevantConcepts: Array.from({ length: CONTEXT_PACK_LIMITS.concepts }, (_, index) => ({ id: `concept.${index}` }))
-  });
-  await writeJson(root, ".abstraction-tree/context-packs/broad.json", {
-    relevantNodes: Array.from({ length: CONTEXT_OVER_BROAD_LIMITS.nodes }, (_, index) => ({ id: `node.${index}` })),
-    relevantFiles: [],
-    relevantConcepts: []
-  });
+  await writeJson(root, ".abstraction-tree/context-packs/narrow.json", contextPack("narrow", {
+    relevantNodes: Array.from({ length: CONTEXT_PACK_LIMITS.nodes }, (_, index) => node(`node.${index}`, undefined, [])),
+    relevantFiles: Array.from({ length: CONTEXT_PACK_LIMITS.files }, (_, index) => file(`src/file-${index}.ts`, [])),
+    relevantConcepts: Array.from({ length: CONTEXT_PACK_LIMITS.concepts }, (_, index) => concept(`concept.${index}`))
+  }));
+  await writeJson(root, ".abstraction-tree/context-packs/broad.json", contextPack("broad", {
+    relevantNodes: Array.from({ length: CONTEXT_OVER_BROAD_LIMITS.nodes }, (_, index) => node(`node.${index}`, undefined, []))
+  }));
 
   const report = await evaluateProject(root, { now: fixedNow() });
 
@@ -114,17 +112,44 @@ test("evaluateProject accepts BOM-prefixed metadata JSON", async t => {
   const root = await workspace(t);
   await writeValidAutomationFiles(root);
   await writeJson(root, ".abstraction-tree/tree.json", [node("root", undefined, [])], { bom: true });
-  await writeJson(root, ".abstraction-tree/context-packs/root.json", {
-    relevantNodes: [{ id: "root" }],
-    relevantFiles: [],
-    relevantConcepts: []
-  }, { bom: true });
+  await writeJson(root, ".abstraction-tree/context-packs/root.json", contextPack("root", {
+    relevantNodes: [node("root", undefined, [])]
+  }), { bom: true });
 
   const report = await evaluateProject(root, { now: fixedNow() });
 
   assert.equal(report.tree.nodeCount, 1);
   assert.equal(report.context.lastPackCount, 1);
   assert.ok(!report.issues.some(issue => issue.message.includes("not valid JSON")));
+});
+
+test("evaluateProject reports generated-memory quality regressions", async t => {
+  const root = await workspace(t);
+  await writeValidAutomationFiles(root);
+  await mkdir(path.join(root, "src"), { recursive: true });
+  await writeFile(path.join(root, "src", "checkout.ts"), "import { missing } from './missing';\nexport const checkout = missing;\n", "utf8");
+  await writeJson(root, ".abstraction-tree/files.json", [file("src/checkout.ts", ["file.src.checkout.ts"])]);
+  await writeJson(root, ".abstraction-tree/tree.json", [node("file.src.checkout.ts", undefined, [])]);
+  await writeJson(root, ".abstraction-tree/concepts.json", [noisyConcept("service")]);
+  await writeJson(root, ".abstraction-tree/import-graph.json", importGraphWithUnresolvedImport());
+  await writeJson(root, ".abstraction-tree/evaluation-fixture.json", {
+    expectedConceptIds: ["checkout"],
+    expectedContextPacks: [{
+      target: "checkout",
+      expectedFilePaths: ["src/checkout.ts"]
+    }]
+  });
+
+  const report = await evaluateProject(root, { now: fixedNow() });
+
+  assert.equal(report.quality.concepts.noisyConceptCount, 1);
+  assert.deepEqual(report.quality.fixture.missingExpectedConceptIds, ["checkout"]);
+  assert.equal(report.quality.imports.unresolvedImportCount, 1);
+  assert.equal(report.quality.architecture.architectureCoveragePercent, 0);
+  assert.equal(report.quality.context.missingExpectedInclusionCount, 1);
+  assert.ok(report.issues.some(issue => issue.area === "quality" && issue.message.includes("missing expected concepts")));
+  assert.ok(report.issues.some(issue => issue.area === "quality" && issue.message.includes("noisy concept")));
+  assert.ok(report.issues.some(issue => issue.area === "quality" && issue.message.includes("unresolved import")));
 });
 
 test("evaluation output is serializable", async t => {
@@ -239,5 +264,68 @@ function node(id: string, parent: string | undefined, children: string[]): TreeN
     invariants: [],
     changePolicy: { allowedToChange: [], mustNotChange: [] },
     confidence: 0.8
+  };
+}
+
+function concept(id: string): Concept {
+  return {
+    id,
+    title: id,
+    summary: `${id} summary.`,
+    relatedNodeIds: [],
+    relatedFiles: [],
+    tags: [id],
+    evidence: [{
+      kind: "symbol",
+      filePath: "src/app.ts",
+      value: id,
+      term: id,
+      score: 3
+    }]
+  };
+}
+
+function noisyConcept(id: string): Concept {
+  return {
+    id,
+    title: id,
+    summary: `${id} summary.`,
+    relatedNodeIds: [],
+    relatedFiles: [],
+    tags: [id],
+    evidence: []
+  };
+}
+
+function importGraphWithUnresolvedImport(): ImportGraph {
+  return {
+    edges: [],
+    externalImports: [],
+    unresolvedImports: [{
+      from: "src/checkout.ts",
+      specifier: "./missing",
+      kind: "relative",
+      reason: "Relative import could not be resolved to a scanned repository file."
+    }],
+    cycles: [],
+    workspacePackages: []
+  };
+}
+
+function contextPack(
+  id: string,
+  overrides: Partial<Pick<ContextPack, "relevantNodes" | "relevantFiles" | "relevantConcepts">>
+): ContextPack {
+  return {
+    id: `context.${id}`,
+    createdAt: "2026-05-04T15:30:00.000Z",
+    target: id,
+    projectSummary: "Project summary.",
+    relevantNodes: overrides.relevantNodes ?? [],
+    relevantFiles: overrides.relevantFiles ?? [],
+    relevantConcepts: overrides.relevantConcepts ?? [],
+    invariants: [],
+    recentChanges: [],
+    agentInstructions: ["Use relevant memory."]
   };
 }

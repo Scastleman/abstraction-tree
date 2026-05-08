@@ -2,710 +2,5801 @@
   {
     "id": "change",
     "title": "Change",
-    "summary": "Durable concept inferred from 13 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 26 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
+      "module.adapters",
+      "module.docs",
       "module.packages",
-      "file.packages.app.src.types.ts",
+      "module.root",
+      "module.scripts",
+      "file.adapters.local.json.index.mjs",
+      "file.docs.data.model.md",
+      "file.packages.app.src.components.changehistory.tsx",
+      "file.packages.app.src.styles.css",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.apistate.ts",
       "file.packages.cli.src.index.ts",
       "file.packages.core.src.changereview.test.ts",
       "file.packages.core.src.changereview.ts",
+      "file.packages.core.src.context.ts",
       "file.packages.core.src.diffsummary.test.ts",
       "file.packages.core.src.diffsummary.ts",
       "file.packages.core.src.evaluator.test.ts",
       "file.packages.core.src.evaluator.ts",
       "file.packages.core.src.llm.abstractionbuilder.ts",
+      "file.packages.core.src.llm.proposals.ts",
       "file.packages.core.src.llm.types.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
       "file.packages.core.src.schema.ts",
       "file.packages.core.src.validator.test.ts",
-      "file.packages.core.src.validator.ts"
+      "file.packages.core.src.validator.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.readme.md",
+      "file.scripts.diff.summary.mjs",
+      "file.scripts.run.abstraction.loop.ps1",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline",
+      "architecture.visual.app.api",
+      "architecture.visual.app.ui",
+      "architecture.package.distribution"
     ],
     "relatedFiles": [
-      "packages/app/src/types.ts",
+      "README.md",
+      "adapters/local-json/index.mjs",
+      "docs/DATA_MODEL.md",
+      "packages/app/src/components/ChangeHistory.tsx",
+      "packages/app/src/styles.css",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/apiState.ts",
       "packages/cli/src/index.ts",
       "packages/core/src/changeReview.test.ts",
       "packages/core/src/changeReview.ts",
+      "packages/core/src/context.ts",
       "packages/core/src/diffSummary.test.ts",
       "packages/core/src/diffSummary.ts",
       "packages/core/src/evaluator.test.ts",
       "packages/core/src/evaluator.ts",
       "packages/core/src/llm/abstractionBuilder.ts",
+      "packages/core/src/llm/proposals.ts",
       "packages/core/src/llm/types.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
       "packages/core/src/schema.ts",
       "packages/core/src/validator.test.ts",
-      "packages/core/src/validator.ts"
+      "packages/core/src/validator.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/diff-summary.mjs",
+      "scripts/run-abstraction-loop.ps1"
     ],
     "tags": [
       "change"
-    ]
-  },
-  {
-    "id": "core",
-    "title": "Core",
-    "summary": "Durable concept inferred from 28 file(s) using path signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "file.packages.core.package.json",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.packages.core.src.changereview.test.ts",
-      "file.packages.core.src.changereview.ts",
-      "file.packages.core.src.context.test.ts",
-      "file.packages.core.src.context.ts",
-      "file.packages.core.src.contextlimits.ts",
-      "file.packages.core.src.diffsummary.test.ts",
-      "file.packages.core.src.diffsummary.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.index.ts",
-      "file.packages.core.src.llm.abstractionbuilder.ts",
-      "file.packages.core.src.llm.types.ts",
-      "file.packages.core.src.llmabstractionbuilder.test.ts",
-      "file.packages.core.src.runreports.test.ts",
-      "file.packages.core.src.runreports.ts",
-      "file.packages.core.src.scanner.test.ts",
-      "file.packages.core.src.scanner.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.treebuilder.test.ts",
-      "file.packages.core.src.treebuilder.ts",
-      "file.packages.core.src.validator.test.ts",
-      "file.packages.core.src.validator.ts",
-      "file.packages.core.src.workspace.test.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.packages.core.tsconfig.json"
     ],
-    "relatedFiles": [
-      "packages/core/package.json",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/automationValidation.ts",
-      "packages/core/src/changeReview.test.ts",
-      "packages/core/src/changeReview.ts",
-      "packages/core/src/context.test.ts",
-      "packages/core/src/context.ts",
-      "packages/core/src/contextLimits.ts",
-      "packages/core/src/diffSummary.test.ts",
-      "packages/core/src/diffSummary.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/index.ts",
-      "packages/core/src/llm/abstractionBuilder.ts",
-      "packages/core/src/llm/types.ts",
-      "packages/core/src/llmAbstractionBuilder.test.ts",
-      "packages/core/src/runReports.test.ts",
-      "packages/core/src/runReports.ts",
-      "packages/core/src/scanner.test.ts",
-      "packages/core/src/scanner.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/treeBuilder.test.ts",
-      "packages/core/src/treeBuilder.ts",
-      "packages/core/src/validator.test.ts",
-      "packages/core/src/validator.ts",
-      "packages/core/src/workspace.test.ts",
-      "packages/core/src/workspace.ts",
-      "packages/core/tsconfig.json"
-    ],
-    "tags": [
-      "core"
-    ]
-  },
-  {
-    "id": "diff",
-    "title": "Diff",
-    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "module.scripts",
-      "file.packages.core.src.diffsummary.test.ts",
-      "file.packages.core.src.diffsummary.ts",
-      "file.scripts.diff.summary.mjs"
-    ],
-    "relatedFiles": [
-      "packages/core/src/diffSummary.test.ts",
-      "packages/core/src/diffSummary.ts",
-      "scripts/diff-summary.mjs"
-    ],
-    "tags": [
-      "diff"
-    ]
-  },
-  {
-    "id": "run",
-    "title": "Run",
-    "summary": "Durable concept inferred from 10 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "module.scripts",
-      "file.packages.app.src.main.tsx",
-      "file.packages.cli.src.agenthealth.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.llm.types.ts",
-      "file.packages.core.src.runreports.test.ts",
-      "file.packages.core.src.runreports.ts",
-      "file.scripts.run.tests.mjs",
-      "file.scripts.run.tests.test.mjs"
-    ],
-    "relatedFiles": [
-      "packages/app/src/main.tsx",
-      "packages/cli/src/agentHealth.ts",
-      "packages/cli/src/index.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/llm/types.ts",
-      "packages/core/src/runReports.test.ts",
-      "packages/core/src/runReports.ts",
-      "scripts/run-tests.mjs",
-      "scripts/run-tests.test.mjs"
-    ],
-    "tags": [
-      "run"
-    ]
-  },
-  {
-    "id": "config",
-    "title": "Config",
-    "summary": "Durable concept inferred from 10 file(s) using export, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "module.scripts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.packages.core.src.diffsummary.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.scanner.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.scripts.diff.summary.mjs"
-    ],
-    "relatedFiles": [
-      "packages/cli/src/index.ts",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/automationValidation.ts",
-      "packages/core/src/diffSummary.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/scanner.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/workspace.ts",
-      "scripts/diff-summary.mjs"
-    ],
-    "tags": [
-      "config"
-    ]
-  },
-  {
-    "id": "record",
-    "title": "Record",
-    "summary": "Durable concept inferred from 7 file(s) using export, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "module.scripts",
-      "file.packages.app.src.types.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.packages.core.src.changereview.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.validator.ts",
-      "file.scripts.diff.summary.mjs"
-    ],
-    "relatedFiles": [
-      "packages/app/src/types.ts",
-      "packages/core/src/automationValidation.ts",
-      "packages/core/src/changeReview.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/validator.ts",
-      "scripts/diff-summary.mjs"
-    ],
-    "tags": [
-      "record"
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/ChangeHistory.tsx",
+        "value": "ChangeHistory",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/ChangeHistory.tsx",
+        "value": "ChangeHistoryProps",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "buildChangeRecordReviewReport",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewInput",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewItem",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewReport",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "reviewChangeRecords",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "buildDiffChangesFromGitOutput",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "DangerousFileChange",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "DiffFileChange",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "ChangeClassification",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "ChangeClassificationInput",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "ChangeImpactClassification",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "ChangeRisk",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "ClassifiedChange",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "DetectedChange",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "DetectedChangeStatus",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "ProposedOntologyChange",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "ProposedTreeChange",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateChangeRecordSchema",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateChangeRecordsSchema",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ChangeRecord",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/validator.ts",
+        "value": "validateChanges",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "ChangeRecordObjectLoadResult",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadChangeRecordObjects",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadChangeRecords",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "LoadedChangeRecordObject",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readChangeRecords",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/app/src/components/ChangeHistory.tsx",
+        "value": "packages/app/src/components/ChangeHistory.tsx",
+        "term": "change",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/changeReview.test.ts",
+        "value": "packages/core/src/changeReview.test.ts",
+        "term": "change",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "packages/core/src/changeReview.ts",
+        "term": "change",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "adapters/local-json/index.mjs",
+        "value": "classifyChange",
+        "term": "change",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "adapters/local-json/index.mjs",
+        "value": "noOpChangeClassification",
+        "term": "change",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/DATA_MODEL.md",
+        "value": "`changes/`",
+        "term": "change",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/ChangeHistory.tsx",
+        "value": "ChangeHistory",
+        "term": "change",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/ChangeHistory.tsx",
+        "value": "ChangeHistoryProps",
+        "term": "change",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/styles.css",
+        "value": "change",
+        "term": "change",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.test.ts",
+        "value": "fixtureChange",
+        "term": "change",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "changes",
+        "term": "change",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/index.ts",
+        "value": "change",
+        "term": "change",
+        "score": 3
+      }
     ]
   },
   {
     "id": "tree",
     "title": "Tree",
-    "summary": "Durable concept inferred from 10 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 21 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
+      "module.adapters",
+      "module.docs",
       "module.packages",
-      "file.packages.app.src.main.tsx",
-      "file.packages.app.src.types.ts",
+      "module.root",
+      "module.scripts",
+      "file.adapters.codex.agents.md",
+      "file.adapters.local.json.index.mjs",
+      "file.docs.data.model.md",
+      "file.packages.app.src.components.treelist.tsx",
+      "file.packages.app.src.styles.css",
+      "file.packages.cli.src.propose.test.ts",
       "file.packages.core.src.evaluator.ts",
       "file.packages.core.src.llm.abstractionbuilder.ts",
+      "file.packages.core.src.llm.proposals.ts",
       "file.packages.core.src.llm.types.ts",
       "file.packages.core.src.llmabstractionbuilder.test.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
       "file.packages.core.src.schema.ts",
       "file.packages.core.src.treebuilder.test.ts",
       "file.packages.core.src.treebuilder.ts",
-      "file.packages.core.src.validator.ts"
+      "file.packages.core.src.validator.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.packages.full.readme.md",
+      "file.readme.md",
+      "file.scripts.run.abstraction.loop.ps1",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline",
+      "architecture.visual.app.ui"
     ],
     "relatedFiles": [
-      "packages/app/src/main.tsx",
-      "packages/app/src/types.ts",
+      "README.md",
+      "adapters/codex/AGENTS.md",
+      "adapters/local-json/index.mjs",
+      "docs/DATA_MODEL.md",
+      "packages/app/src/components/TreeList.tsx",
+      "packages/app/src/styles.css",
+      "packages/cli/src/propose.test.ts",
       "packages/core/src/evaluator.ts",
       "packages/core/src/llm/abstractionBuilder.ts",
+      "packages/core/src/llm/proposals.ts",
       "packages/core/src/llm/types.ts",
       "packages/core/src/llmAbstractionBuilder.test.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
       "packages/core/src/schema.ts",
       "packages/core/src/treeBuilder.test.ts",
       "packages/core/src/treeBuilder.ts",
-      "packages/core/src/validator.ts"
+      "packages/core/src/validator.ts",
+      "packages/core/src/workspace.ts",
+      "packages/full/README.md",
+      "scripts/run-abstraction-loop.ps1"
     ],
     "tags": [
       "tree"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "buildTreeItems",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "flattenTreeItems",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "moveTreeSelection",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "TreeItem",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "TreeList",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "TreeListProps",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "ProposedTreeChange",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "TreeProposal",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateTreeNodesSchema",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AbstractionTreeState",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "TreeNode",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/treeBuilder.ts",
+        "value": "buildDeterministicTree",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/treeBuilder.ts",
+        "value": "BuildTreeOptions",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/treeBuilder.ts",
+        "value": "BuildTreeResult",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/validator.ts",
+        "value": "validateTree",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readTreeNodes",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "packages/app/src/components/TreeList.tsx",
+        "term": "tree",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/treeBuilder.test.ts",
+        "value": "packages/core/src/treeBuilder.test.ts",
+        "term": "tree",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/treeBuilder.ts",
+        "value": "packages/core/src/treeBuilder.ts",
+        "term": "tree",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "adapters/codex/AGENTS.md",
+        "value": "Codex Agent Instructions for Abstraction Tree",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "adapters/local-json/index.mjs",
+        "value": "noOpTreeProposal",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "adapters/local-json/index.mjs",
+        "value": "proposeTree",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/DATA_MODEL.md",
+        "value": "`tree.json`",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "buildTreeItems",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "createTreeItem",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "filterTreeItem",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "flattenTreeItems",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "handleTreeKeyDown",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "moveTreeSelection",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "TreeBranch",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "treeButtonClassName",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "treeButtonId",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "TreeItem",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "treeItems",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "TreeList",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "TreeListProps",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/styles.css",
+        "value": "tree-children",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/styles.css",
+        "value": "tree-item",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/styles.css",
+        "value": "tree-items",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/styles.css",
+        "value": "tree-level",
+        "term": "tree",
+        "score": 3
+      }
     ]
   },
   {
-    "id": "text",
-    "title": "Text",
-    "summary": "Durable concept inferred from 7 file(s) using export, path, symbol signals.",
+    "id": "proposal",
+    "title": "Proposal",
+    "summary": "Durable concept inferred from 9 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
+      "module.adapters",
+      "module.docs",
       "module.packages",
-      "module.scripts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.core.src.context.ts",
-      "file.packages.core.src.scanner.ts",
-      "file.scripts.diff.summary.mjs",
-      "file.scripts.format.mjs",
-      "file.scripts.project.text.files.mjs",
-      "file.scripts.project.text.files.test.mjs"
-    ],
-    "relatedFiles": [
-      "packages/cli/src/index.ts",
-      "packages/core/src/context.ts",
-      "packages/core/src/scanner.ts",
-      "scripts/diff-summary.mjs",
-      "scripts/format.mjs",
-      "scripts/project-text-files.mjs",
-      "scripts/project-text-files.test.mjs"
-    ],
-    "tags": [
-      "text"
-    ]
-  },
-  {
-    "id": "concept",
-    "title": "Concept",
-    "summary": "Durable concept inferred from 9 file(s) using export, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "file.packages.app.src.types.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.core.src.context.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.treebuilder.test.ts",
-      "file.packages.core.src.treebuilder.ts",
-      "file.packages.core.src.validator.test.ts",
-      "file.packages.core.src.validator.ts"
-    ],
-    "relatedFiles": [
-      "packages/app/src/types.ts",
-      "packages/cli/src/index.ts",
-      "packages/core/src/context.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/treeBuilder.test.ts",
-      "packages/core/src/treeBuilder.ts",
-      "packages/core/src/validator.test.ts",
-      "packages/core/src/validator.ts"
-    ],
-    "tags": [
-      "concept"
-    ]
-  },
-  {
-    "id": "ontology",
-    "title": "Ontology",
-    "summary": "Durable concept inferred from 9 file(s) using export, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "file.packages.app.src.types.ts",
-      "file.packages.cli.src.index.ts",
+      "file.adapters.local.json.index.mjs",
+      "file.adapters.local.json.proposal.example.json",
+      "file.docs.agent.protocol.md",
+      "file.packages.cli.src.propose.test.ts",
+      "file.packages.cli.src.propose.ts",
       "file.packages.core.src.llm.abstractionbuilder.ts",
+      "file.packages.core.src.llm.proposals.ts",
       "file.packages.core.src.llm.types.ts",
-      "file.packages.core.src.llmabstractionbuilder.test.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.treebuilder.ts",
-      "file.packages.core.src.validator.test.ts",
-      "file.packages.core.src.validator.ts"
+      "file.packages.core.src.llmproposalvalidation.test.ts",
+      "architecture.cli.surface",
+      "architecture.core.engine"
     ],
     "relatedFiles": [
-      "packages/app/src/types.ts",
-      "packages/cli/src/index.ts",
+      "adapters/local-json/index.mjs",
+      "adapters/local-json/proposal.example.json",
+      "docs/AGENT_PROTOCOL.md",
+      "packages/cli/src/propose.test.ts",
+      "packages/cli/src/propose.ts",
       "packages/core/src/llm/abstractionBuilder.ts",
+      "packages/core/src/llm/proposals.ts",
       "packages/core/src/llm/types.ts",
-      "packages/core/src/llmAbstractionBuilder.test.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/treeBuilder.ts",
-      "packages/core/src/validator.test.ts",
-      "packages/core/src/validator.ts"
+      "packages/core/src/llmProposalValidation.test.ts"
     ],
     "tags": [
-      "ontology"
-    ]
-  },
-  {
-    "id": "project",
-    "title": "Project",
-    "summary": "Durable concept inferred from 7 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "module.scripts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.scanner.ts",
-      "file.scripts.check.unicode.mjs",
-      "file.scripts.project.text.files.mjs",
-      "file.scripts.project.text.files.test.mjs"
+      "proposal"
     ],
-    "relatedFiles": [
-      "packages/cli/src/index.ts",
-      "packages/core/src/automationValidation.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/scanner.ts",
-      "scripts/check-unicode.mjs",
-      "scripts/project-text-files.mjs",
-      "scripts/project-text-files.test.mjs"
-    ],
-    "tags": [
-      "project"
-    ]
-  },
-  {
-    "id": "report",
-    "title": "Report",
-    "summary": "Durable concept inferred from 7 file(s) using export, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "file.packages.cli.src.index.ts",
-      "file.packages.core.src.changereview.test.ts",
-      "file.packages.core.src.changereview.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.llm.types.ts",
-      "file.packages.core.src.runreports.ts"
-    ],
-    "relatedFiles": [
-      "packages/cli/src/index.ts",
-      "packages/core/src/changeReview.test.ts",
-      "packages/core/src/changeReview.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/llm/types.ts",
-      "packages/core/src/runReports.ts"
-    ],
-    "tags": [
-      "report"
-    ]
-  },
-  {
-    "id": "abstraction",
-    "title": "Abstraction",
-    "summary": "Durable concept inferred from 5 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "file.packages.app.src.types.ts",
-      "file.packages.core.src.llm.abstractionbuilder.ts",
-      "file.packages.core.src.llm.types.ts",
-      "file.packages.core.src.llmabstractionbuilder.test.ts",
-      "file.packages.core.src.schema.ts"
-    ],
-    "relatedFiles": [
-      "packages/app/src/types.ts",
-      "packages/core/src/llm/abstractionBuilder.ts",
-      "packages/core/src/llm/types.ts",
-      "packages/core/src/llmAbstractionBuilder.test.ts",
-      "packages/core/src/schema.ts"
-    ],
-    "tags": [
-      "abstraction"
-    ]
-  },
-  {
-    "id": "validate",
-    "title": "Validate",
-    "summary": "Durable concept inferred from 3 file(s) using export, symbol signals.",
-    "relatedNodeIds": [
-      "module.examples",
-      "module.packages",
-      "file.examples.small.web.app.src.services.cart.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.packages.core.src.validator.ts"
-    ],
-    "relatedFiles": [
-      "examples/small-web-app/src/services/cart.ts",
-      "packages/core/src/automationValidation.ts",
-      "packages/core/src/validator.ts"
-    ],
-    "tags": [
-      "validate"
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "collectLlmProposalBundle",
+        "term": "proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "createLlmProposalRecord",
+        "term": "proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "CreateLlmProposalRecordOptions",
+        "term": "proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_PENDING_PATH",
+        "term": "proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_POLICY_GATES",
+        "term": "proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_REVIEW_HINT",
+        "term": "proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalBundle",
+        "term": "proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalRecord",
+        "term": "proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidation",
+        "term": "proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidationContext",
+        "term": "proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "validateLlmProposalBundle",
+        "term": "proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "writeLlmProposalRecord",
+        "term": "proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "OntologyProposal",
+        "term": "proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "ProposalEvidence",
+        "term": "proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "ProposalMetadata",
+        "term": "proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "TreeProposal",
+        "term": "proposal",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "adapters/local-json/proposal.example.json",
+        "value": "adapters/local-json/proposal.example.json",
+        "term": "proposal",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "packages/core/src/llm/proposals.ts",
+        "term": "proposal",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/llmProposalValidation.test.ts",
+        "value": "packages/core/src/llmProposalValidation.test.ts",
+        "term": "proposal",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "adapters/local-json/index.mjs",
+        "value": "noOpOntologyProposal",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "adapters/local-json/index.mjs",
+        "value": "noOpTreeProposal",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "adapters/local-json/index.mjs",
+        "value": "proposal",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "adapters/local-json/index.mjs",
+        "value": "readProposal",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/AGENT_PROTOCOL.md",
+        "value": "LLM-assisted proposals",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.test.ts",
+        "value": "noOpProposal",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.test.ts",
+        "value": "proposal",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.test.ts",
+        "value": "proposalNames",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "proposalPath",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "proposals",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/abstractionBuilder.ts",
+        "value": "proposalEvidence",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "collectLlmProposalBundle",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "createLlmProposalRecord",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "CreateLlmProposalRecordOptions",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_PENDING_PATH",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_POLICY_GATES",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_REVIEW_HINT",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalBundle",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalRecord",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidation",
+        "term": "proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidationContext",
+        "term": "proposal",
+        "score": 3
+      }
     ]
   },
   {
     "id": "context",
     "title": "Context",
-    "summary": "Durable concept inferred from 6 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 16 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
+      "module.docs",
       "module.packages",
+      "module.root",
+      "module.scripts",
+      "file.docs.agent.protocol.md",
+      "file.docs.data.model.md",
+      "file.packages.cli.src.index.ts",
       "file.packages.core.src.context.test.ts",
       "file.packages.core.src.context.ts",
       "file.packages.core.src.contextlimits.ts",
+      "file.packages.core.src.evaluator.test.ts",
       "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.llm.proposals.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
       "file.packages.core.src.schema.ts",
-      "file.packages.core.src.validator.ts"
+      "file.packages.core.src.validator.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.readme.md",
+      "file.scripts.generated.memory.fixtures.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline",
+      "architecture.visual.app.api",
+      "architecture.package.distribution"
     ],
     "relatedFiles": [
+      "README.md",
+      "docs/AGENT_PROTOCOL.md",
+      "docs/DATA_MODEL.md",
+      "packages/cli/src/index.ts",
       "packages/core/src/context.test.ts",
       "packages/core/src/context.ts",
       "packages/core/src/contextLimits.ts",
+      "packages/core/src/evaluator.test.ts",
       "packages/core/src/evaluator.ts",
+      "packages/core/src/llm/proposals.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
       "packages/core/src/schema.ts",
-      "packages/core/src/validator.ts"
+      "packages/core/src/validator.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/generated-memory-fixtures.test.mjs"
     ],
     "tags": [
       "context"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/context.ts",
+        "value": "buildContextPack",
+        "term": "context",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/context.ts",
+        "value": "estimateContextItemTokens",
+        "term": "context",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/context.ts",
+        "value": "formatContextPackMarkdown",
+        "term": "context",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/contextLimits.ts",
+        "value": "CONTEXT_OVER_BROAD_LIMITS",
+        "term": "context",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/contextLimits.ts",
+        "value": "CONTEXT_PACK_LIMITS",
+        "term": "context",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "ExpectedContextPackQuality",
+        "term": "context",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidationContext",
+        "term": "context",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateContextPackSchema",
+        "term": "context",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateContextPacksSchema",
+        "term": "context",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ContextPack",
+        "term": "context",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ContextPackDiagnostics",
+        "term": "context",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ContextSelectionDiagnostic",
+        "term": "context",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ContextSelectionKind",
+        "term": "context",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/validator.ts",
+        "value": "validateContextPacks",
+        "term": "context",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readContextPacks",
+        "term": "context",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/context.test.ts",
+        "value": "packages/core/src/context.test.ts",
+        "term": "context",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/context.ts",
+        "value": "packages/core/src/context.ts",
+        "term": "context",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/contextLimits.ts",
+        "value": "packages/core/src/contextLimits.ts",
+        "term": "context",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/AGENT_PROTOCOL.md",
+        "value": "Context packs",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/DATA_MODEL.md",
+        "value": "`context-packs/`",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/index.ts",
+        "value": "contextMaxTokens",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/index.ts",
+        "value": "contextOutputFormat",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/index.ts",
+        "value": "ContextOutputFormat",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/context.ts",
+        "value": "buildContextPack",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/context.ts",
+        "value": "formatContextPackMarkdown",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/contextLimits.ts",
+        "value": "CONTEXT_OVER_BROAD_LIMITS",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/contextLimits.ts",
+        "value": "CONTEXT_PACK_LIMITS",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.test.ts",
+        "value": "contextPack",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "contextPacks",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "ExpectedContextPackQuality",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidationContext",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "contextPack",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "contextPackRecord",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "CONTEXT_HINT",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateContextPackSchema",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateContextPacksSchema",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ContextPack",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ContextPackDiagnostics",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ContextSelectionDiagnostic",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ContextSelectionKind",
+        "term": "context",
+        "score": 3
+      }
     ]
   },
   {
-    "id": "root",
-    "title": "Root",
-    "summary": "Durable concept inferred from 13 file(s) using symbol signals.",
+    "id": "llm",
+    "title": "Llm",
+    "summary": "Durable concept inferred from 9 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
+      "module.adapters",
+      "module.docs",
+      "module.packages",
+      "file.adapters.local.json.index.mjs",
+      "file.docs.agent.protocol.md",
+      "file.docs.architecture.md",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.core.src.llm.abstractionbuilder.ts",
+      "file.packages.core.src.llm.proposals.ts",
+      "file.packages.core.src.llm.types.ts",
+      "file.packages.core.src.llmabstractionbuilder.test.ts",
+      "file.packages.core.src.llmproposalvalidation.test.ts",
+      "architecture.cli.surface",
+      "architecture.core.engine"
+    ],
+    "relatedFiles": [
+      "adapters/local-json/index.mjs",
+      "docs/AGENT_PROTOCOL.md",
+      "docs/ARCHITECTURE.md",
+      "packages/cli/src/propose.ts",
+      "packages/core/src/llm/abstractionBuilder.ts",
+      "packages/core/src/llm/proposals.ts",
+      "packages/core/src/llm/types.ts",
+      "packages/core/src/llmAbstractionBuilder.test.ts",
+      "packages/core/src/llmProposalValidation.test.ts"
+    ],
+    "tags": [
+      "llm"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "adapters/local-json/index.mjs",
+        "value": "LocalJsonLlmAbstractionBuilder",
+        "term": "llm",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/abstractionBuilder.ts",
+        "value": "LLM_PROVIDER_NOT_CONFIGURED_MESSAGE",
+        "term": "llm",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/abstractionBuilder.ts",
+        "value": "NoopLlmAbstractionBuilder",
+        "term": "llm",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "collectLlmProposalBundle",
+        "term": "llm",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "createLlmProposalRecord",
+        "term": "llm",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "CreateLlmProposalRecordOptions",
+        "term": "llm",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_PENDING_PATH",
+        "term": "llm",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_POLICY_GATES",
+        "term": "llm",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_REVIEW_HINT",
+        "term": "llm",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalBundle",
+        "term": "llm",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalRecord",
+        "term": "llm",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidation",
+        "term": "llm",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidationContext",
+        "term": "llm",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "validateLlmProposalBundle",
+        "term": "llm",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "writeLlmProposalRecord",
+        "term": "llm",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "LlmAbstractionBuilder",
+        "term": "llm",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/llm/abstractionBuilder.ts",
+        "value": "packages/core/src/llm/abstractionBuilder.ts",
+        "term": "llm",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "packages/core/src/llm/proposals.ts",
+        "term": "llm",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "packages/core/src/llm/types.ts",
+        "term": "llm",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/llmAbstractionBuilder.test.ts",
+        "value": "packages/core/src/llmAbstractionBuilder.test.ts",
+        "term": "llm",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/llmProposalValidation.test.ts",
+        "value": "packages/core/src/llmProposalValidation.test.ts",
+        "term": "llm",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "adapters/local-json/index.mjs",
+        "value": "LocalJsonLlmAbstractionBuilder",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/AGENT_PROTOCOL.md",
+        "value": "LLM-assisted proposals",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/ARCHITECTURE.md",
+        "value": "LLM abstraction interface",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "isLlmAbstractionBuilder",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "LoadedLlmProviderAdapter",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "loadLlmProviderAdapter",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/abstractionBuilder.ts",
+        "value": "LLM_PROVIDER_NOT_CONFIGURED_MESSAGE",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/abstractionBuilder.ts",
+        "value": "NoopLlmAbstractionBuilder",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "collectLlmProposalBundle",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "createLlmProposalRecord",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "CreateLlmProposalRecordOptions",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_PENDING_PATH",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_POLICY_GATES",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_REVIEW_HINT",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalBundle",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalRecord",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidation",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidationContext",
+        "term": "llm",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "validateLlmProposalBundle",
+        "term": "llm",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "abstraction",
+    "title": "Abstraction",
+    "summary": "Durable concept inferred from 13 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.adapters",
+      "module.docs",
+      "module.packages",
+      "module.root",
+      "module.scripts",
+      "file.adapters.codex.agents.md",
+      "file.adapters.local.json.index.mjs",
+      "file.docs.architecture.md",
+      "file.packages.app.src.hooks.useabstractionstate.ts",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.core.src.llm.abstractionbuilder.ts",
+      "file.packages.core.src.llm.types.ts",
+      "file.packages.core.src.llmabstractionbuilder.test.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.full.readme.md",
+      "file.readme.md",
+      "file.scripts.run.abstraction.loop.scheduled.ps1",
+      "file.scripts.run.abstraction.loop.ps1",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.visual.app.ui"
+    ],
+    "relatedFiles": [
+      "README.md",
+      "adapters/codex/AGENTS.md",
+      "adapters/local-json/index.mjs",
+      "docs/ARCHITECTURE.md",
+      "packages/app/src/hooks/useAbstractionState.ts",
+      "packages/cli/src/propose.ts",
+      "packages/core/src/llm/abstractionBuilder.ts",
+      "packages/core/src/llm/types.ts",
+      "packages/core/src/llmAbstractionBuilder.test.ts",
+      "packages/core/src/schema.ts",
+      "packages/full/README.md",
+      "scripts/run-abstraction-loop-scheduled.ps1",
+      "scripts/run-abstraction-loop.ps1"
+    ],
+    "tags": [
+      "abstraction"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "adapters/local-json/index.mjs",
+        "value": "LocalJsonLlmAbstractionBuilder",
+        "term": "abstraction",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "AbstractionStateStatus",
+        "term": "abstraction",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "fetchAbstractionState",
+        "term": "abstraction",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "useAbstractionState",
+        "term": "abstraction",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "UseAbstractionStateResult",
+        "term": "abstraction",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/abstractionBuilder.ts",
+        "value": "NoopLlmAbstractionBuilder",
+        "term": "abstraction",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "AbstractionBuilderInput",
+        "term": "abstraction",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "AbstractionLayerReference",
+        "term": "abstraction",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "LlmAbstractionBuilder",
+        "term": "abstraction",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AbstractionLevel",
+        "term": "abstraction",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AbstractionOntologyLevel",
+        "term": "abstraction",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AbstractionTreeState",
+        "term": "abstraction",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "packages/app/src/hooks/useAbstractionState.ts",
+        "term": "abstraction",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/llm/abstractionBuilder.ts",
+        "value": "packages/core/src/llm/abstractionBuilder.ts",
+        "term": "abstraction",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/llmAbstractionBuilder.test.ts",
+        "value": "packages/core/src/llmAbstractionBuilder.test.ts",
+        "term": "abstraction",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/run-abstraction-loop-scheduled.ps1",
+        "value": "scripts/run-abstraction-loop-scheduled.ps1",
+        "term": "abstraction",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "scripts/run-abstraction-loop.ps1",
+        "term": "abstraction",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "adapters/codex/AGENTS.md",
+        "value": "Codex Agent Instructions for Abstraction Tree",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "adapters/local-json/index.mjs",
+        "value": "LocalJsonLlmAbstractionBuilder",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/ARCHITECTURE.md",
+        "value": "LLM abstraction interface",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "AbstractionStateStatus",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "fetchAbstractionState",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "useAbstractionState",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "UseAbstractionStateResult",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "isLlmAbstractionBuilder",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/abstractionBuilder.ts",
+        "value": "NoopLlmAbstractionBuilder",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "AbstractionBuilderInput",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "AbstractionLayerReference",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "LlmAbstractionBuilder",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llmAbstractionBuilder.test.ts",
+        "value": "abstractionInput",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AbstractionLevel",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AbstractionOntologyLevel",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AbstractionTreeState",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/full/README.md",
+        "value": "abstraction-tree",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "README.md",
+        "value": "Abstraction Tree",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "README.md",
+        "value": "The `.abstraction-tree/` folder",
+        "term": "abstraction",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "Expected location: repo-root/scripts/run-abstraction-loop.ps1",
+        "term": "abstraction",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "ontology",
+    "title": "Ontology",
+    "summary": "Durable concept inferred from 17 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.adapters",
+      "module.docs",
+      "module.packages",
+      "file.adapters.local.json.index.mjs",
+      "file.docs.data.model.md",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.llm.abstractionbuilder.ts",
+      "file.packages.core.src.llm.proposals.ts",
+      "file.packages.core.src.llm.types.ts",
+      "file.packages.core.src.llmabstractionbuilder.test.ts",
+      "file.packages.core.src.llmproposalvalidation.test.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts",
+      "file.packages.core.src.workspace.ts",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline",
+      "architecture.visual.app.api",
+      "architecture.package.distribution"
+    ],
+    "relatedFiles": [
+      "adapters/local-json/index.mjs",
+      "docs/DATA_MODEL.md",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/apiState.ts",
+      "packages/cli/src/index.ts",
+      "packages/core/src/llm/abstractionBuilder.ts",
+      "packages/core/src/llm/proposals.ts",
+      "packages/core/src/llm/types.ts",
+      "packages/core/src/llmAbstractionBuilder.test.ts",
+      "packages/core/src/llmProposalValidation.test.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts",
+      "packages/core/src/workspace.ts"
+    ],
+    "tags": [
+      "ontology"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "OntologyProposal",
+        "term": "ontology",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "ProposedOntologyChange",
+        "term": "ontology",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateOntologySchema",
+        "term": "ontology",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AbstractionOntologyLevel",
+        "term": "ontology",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readOntology",
+        "term": "ontology",
+        "score": 4
+      },
+      {
+        "kind": "symbol",
+        "filePath": "adapters/local-json/index.mjs",
+        "value": "noOpOntologyProposal",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "adapters/local-json/index.mjs",
+        "value": "proposeOntology",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/DATA_MODEL.md",
+        "value": "`ontology.json`",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.test.ts",
+        "value": "fixtureOntology",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "ontology",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/index.ts",
+        "value": "ontology",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/abstractionBuilder.ts",
+        "value": "proposeOntology",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "materializedOntology",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "ontology",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "ontologyChanges",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "ontologyProposal",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "validateOntologyProposal",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "OntologyProposal",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "ProposedOntologyChange",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llmAbstractionBuilder.test.ts",
+        "value": "ontology",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llmProposalValidation.test.ts",
+        "value": "ontologyLevel",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "ontology",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "ontologyLevel",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateOntologySchema",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AbstractionOntologyLevel",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/treeBuilder.ts",
+        "value": "inferOntology",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/treeBuilder.ts",
+        "value": "ontology",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.test.ts",
+        "value": "gappedOntology",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.test.ts",
+        "value": "nonIntegerOntology",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.test.ts",
+        "value": "ontology",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.test.ts",
+        "value": "ontologyLevel",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.ts",
+        "value": "ontologyIds",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "ontology",
+        "term": "ontology",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readOntology",
+        "term": "ontology",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "import.graph",
+    "title": "Import Graph",
+    "summary": "Durable concept inferred from 15 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.docs",
       "module.packages",
       "module.scripts",
+      "file.docs.data.model.md",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.apistate.ts",
       "file.packages.cli.src.index.ts",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.packages.core.src.changereview.test.ts",
+      "file.packages.cli.src.propose.test.ts",
       "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.scanner.test.ts",
-      "file.packages.core.src.treebuilder.ts",
-      "file.packages.core.src.workspace.test.ts",
-      "file.scripts.check.unicode.mjs",
-      "file.scripts.diff.summary.mjs",
-      "file.scripts.format.mjs",
-      "file.scripts.project.text.files.test.mjs",
-      "file.scripts.run.tests.test.mjs"
+      "file.packages.core.src.importgraph.test.ts",
+      "file.packages.core.src.importgraph.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.test.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.scripts.generated.memory.fixtures.test.mjs",
+      "file.scripts.small.web.app.fixture.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline",
+      "architecture.visual.app.api",
+      "architecture.package.distribution"
     ],
     "relatedFiles": [
+      "docs/DATA_MODEL.md",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/apiState.ts",
       "packages/cli/src/index.ts",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/automationValidation.ts",
-      "packages/core/src/changeReview.test.ts",
+      "packages/cli/src/propose.test.ts",
       "packages/core/src/evaluator.test.ts",
-      "packages/core/src/scanner.test.ts",
-      "packages/core/src/treeBuilder.ts",
-      "packages/core/src/workspace.test.ts",
-      "scripts/check-unicode.mjs",
-      "scripts/diff-summary.mjs",
-      "scripts/format.mjs",
-      "scripts/project-text-files.test.mjs",
-      "scripts/run-tests.test.mjs"
+      "packages/core/src/importGraph.test.ts",
+      "packages/core/src/importGraph.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.test.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/generated-memory-fixtures.test.mjs",
+      "scripts/small-web-app-fixture.test.mjs"
     ],
     "tags": [
-      "root"
+      "import graph"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "buildImportGraph",
+        "term": "import graph",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "buildImportGraphFromFiles",
+        "term": "import graph",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "BuildImportGraphOptions",
+        "term": "import graph",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "emptyImportGraph",
+        "term": "import graph",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateImportGraphSchema",
+        "term": "import graph",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ImportGraph",
+        "term": "import graph",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ImportGraphEdge",
+        "term": "import graph",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ImportGraphEdgeKind",
+        "term": "import graph",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readImportGraph",
+        "term": "import graph",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/importGraph.test.ts",
+        "value": "packages/core/src/importGraph.test.ts",
+        "term": "import graph",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "packages/core/src/importGraph.ts",
+        "term": "import graph",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/DATA_MODEL.md",
+        "value": "`import-graph.json`",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.test.ts",
+        "value": "fixtureImportGraph",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "importGraph",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/index.ts",
+        "value": "importGraph",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.test.ts",
+        "value": "importGraph",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.test.ts",
+        "value": "importGraphWithUnresolvedImport",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "buildImportGraph",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "buildImportGraphFromFiles",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "BuildImportGraphOptions",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "emptyImportGraph",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "importGraph",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "importGraphRecord",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateImportGraphSchema",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ImportGraph",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ImportGraphEdge",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ImportGraphEdgeKind",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/treeBuilder.test.ts",
+        "value": "monorepoImportGraph",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/treeBuilder.test.ts",
+        "value": "smallWebAppImportGraph",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "importGraph",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readImportGraph",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/generated-memory-fixtures.test.mjs",
+        "value": "importGraph",
+        "term": "import graph",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/small-web-app-fixture.test.mjs",
+        "value": "importGraph",
+        "term": "import graph",
+        "score": 3
+      }
     ]
   },
   {
-    "id": "automation",
-    "title": "Automation",
-    "summary": "Durable concept inferred from 5 file(s) using export, path, symbol signals.",
+    "id": "invariant",
+    "title": "Invariant",
+    "summary": "Durable concept inferred from 15 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
+      "module.docs",
       "module.packages",
-      "file.packages.app.src.main.tsx",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.evaluator.ts"
-    ],
-    "relatedFiles": [
-      "packages/app/src/main.tsx",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/automationValidation.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/evaluator.ts"
-    ],
-    "tags": [
-      "automation"
-    ]
-  },
-  {
-    "id": "runtime",
-    "title": "Runtime",
-    "summary": "Durable concept inferred from 5 file(s) using export, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.packages.core.src.evaluator.test.ts",
+      "file.docs.data.model.md",
+      "file.packages.app.src.components.invariantpanel.tsx",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
       "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.treebuilder.ts"
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts",
+      "file.packages.core.src.workspace.ts",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline",
+      "architecture.visual.app.api",
+      "architecture.visual.app.ui",
+      "architecture.package.distribution"
     ],
     "relatedFiles": [
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/automationValidation.ts",
-      "packages/core/src/evaluator.test.ts",
+      "docs/DATA_MODEL.md",
+      "packages/app/src/components/InvariantPanel.tsx",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/apiState.ts",
+      "packages/cli/src/index.ts",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
       "packages/core/src/evaluator.ts",
-      "packages/core/src/treeBuilder.ts"
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts",
+      "packages/core/src/workspace.ts"
     ],
     "tags": [
-      "runtime"
+      "invariant"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/InvariantPanel.tsx",
+        "value": "InvariantPanel",
+        "term": "invariant",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/InvariantPanel.tsx",
+        "value": "InvariantPanelProps",
+        "term": "invariant",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateInvariantsSchema",
+        "term": "invariant",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "Invariant",
+        "term": "invariant",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/validator.ts",
+        "value": "validateInvariants",
+        "term": "invariant",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readInvariants",
+        "term": "invariant",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/app/src/components/InvariantPanel.tsx",
+        "value": "packages/app/src/components/InvariantPanel.tsx",
+        "term": "invariant",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/DATA_MODEL.md",
+        "value": "`invariants.json`",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/InvariantPanel.tsx",
+        "value": "InvariantPanel",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/InvariantPanel.tsx",
+        "value": "InvariantPanelProps",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.test.ts",
+        "value": "fixtureInvariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/index.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/context.test.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/context.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/context.ts",
+        "value": "invariantSelection",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "expectedInvariantIds",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "invariantIds",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "invariant",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateInvariantsSchema",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "Invariant",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/treeBuilder.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.test.ts",
+        "value": "invariant",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.test.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.test.ts",
+        "value": "staleInvariant",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.ts",
+        "value": "invariant",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.ts",
+        "value": "invariantId",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.ts",
+        "value": "invariantIds",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.ts",
+        "value": "validateInvariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readInvariants",
+        "term": "invariant",
+        "score": 3
+      }
     ]
   },
   {
-    "id": "review",
-    "title": "Review",
-    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "file.packages.core.src.changereview.test.ts",
-      "file.packages.core.src.changereview.ts",
-      "file.packages.core.src.evaluator.ts"
-    ],
-    "relatedFiles": [
-      "packages/core/src/changeReview.test.ts",
-      "packages/core/src/changeReview.ts",
-      "packages/core/src/evaluator.ts"
-    ],
-    "tags": [
-      "review"
-    ]
-  },
-  {
-    "id": "scan",
-    "title": "Scan",
+    "id": "change.record",
+    "title": "Change Record",
     "summary": "Durable concept inferred from 6 file(s) using export, symbol signals.",
     "relatedNodeIds": [
       "module.packages",
-      "module.scripts",
-      "file.packages.cli.src.index.ts",
       "file.packages.core.src.changereview.ts",
       "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.scanner.test.ts",
-      "file.packages.core.src.scanner.ts",
-      "file.scripts.check.unicode.mjs"
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts",
+      "architecture.core.engine"
     ],
     "relatedFiles": [
-      "packages/cli/src/index.ts",
       "packages/core/src/changeReview.ts",
       "packages/core/src/evaluator.ts",
-      "packages/core/src/scanner.test.ts",
-      "packages/core/src/scanner.ts",
-      "scripts/check-unicode.mjs"
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts"
     ],
     "tags": [
-      "scan"
+      "change record"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "buildChangeRecordReviewReport",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewInput",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewItem",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewReport",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "reviewChangeRecords",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateChangeRecordSchema",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateChangeRecordsSchema",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ChangeRecord",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "ChangeRecordObjectLoadResult",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadChangeRecordObjects",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadChangeRecords",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "LoadedChangeRecordObject",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readChangeRecords",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "buildChangeRecordReviewReport",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewInput",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewItem",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewReport",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "compareLoadedChangeRecords",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "reviewChangeRecords",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "CHANGE_RECORD_REVIEW_THRESHOLD",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "changeRecord",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateChangeRecordSchema",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateChangeRecordsSchema",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ChangeRecord",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "ChangeRecordObjectLoadResult",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadChangeRecords",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "LoadedChangeRecordObject",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readChangeRecords",
+        "term": "change record",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "atree",
+    "title": "Atree",
+    "summary": "Durable concept inferred from 5 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "module.root",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.packages.full.bin.atree.js",
+      "file.readme.md",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.package.distribution"
+    ],
+    "relatedFiles": [
+      "README.md",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts",
+      "packages/full/bin/atree.js"
+    ],
+    "tags": [
+      "atree"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "ATREE_CONFIG_MIGRATIONS",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "CURRENT_ATREE_SCHEMA_VERSION",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "migrateAtreeConfig",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateAtreeConfigSchema",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AtreeConfig",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "ATREE_DIR",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "AtreeMemory",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "atreePath",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadAtreeMemory",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/full/bin/atree.js",
+        "value": "packages/full/bin/atree.js",
+        "term": "atree",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "ATREE_CONFIG_MIGRATIONS",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "CURRENT_ATREE_SCHEMA_VERSION",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "migrateAtreeConfig",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateAtreeConfigSchema",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AtreeConfig",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "ATREE_DIR",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "AtreeMemory",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "atreePath",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadAtreeMemory",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "README.md",
+        "value": "`atree changes review`",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "README.md",
+        "value": "`atree context`",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "README.md",
+        "value": "`atree init`",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "README.md",
+        "value": "`atree mode`",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "README.md",
+        "value": "`atree scan`",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "README.md",
+        "value": "`atree serve`",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "README.md",
+        "value": "`atree validate`",
+        "term": "atree",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "diff",
+    "title": "Diff",
+    "summary": "Durable concept inferred from 5 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "module.scripts",
+      "file.packages.core.src.diffsummary.test.ts",
+      "file.packages.core.src.diffsummary.ts",
+      "file.scripts.diff.summary.mjs",
+      "file.scripts.run.abstraction.loop.ps1",
+      "file.scripts.summarize.diff.ps1",
+      "architecture.core.engine"
+    ],
+    "relatedFiles": [
+      "packages/core/src/diffSummary.test.ts",
+      "packages/core/src/diffSummary.ts",
+      "scripts/diff-summary.mjs",
+      "scripts/run-abstraction-loop.ps1",
+      "scripts/summarize-diff.ps1"
+    ],
+    "tags": [
+      "diff"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "buildDiffChangesFromGitOutput",
+        "term": "diff",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "buildDiffSummary",
+        "term": "diff",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "DiffFileChange",
+        "term": "diff",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "DiffSummary",
+        "term": "diff",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "DiffSummaryFile",
+        "term": "diff",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "DiffSummaryOptions",
+        "term": "diff",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "formatDiffSummary",
+        "term": "diff",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "GitDiffOutputs",
+        "term": "diff",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/diff-summary.mjs",
+        "value": "runDiffSummary",
+        "term": "diff",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/diffSummary.test.ts",
+        "value": "packages/core/src/diffSummary.test.ts",
+        "term": "diff",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "packages/core/src/diffSummary.ts",
+        "term": "diff",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/diff-summary.mjs",
+        "value": "scripts/diff-summary.mjs",
+        "term": "diff",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/summarize-diff.ps1",
+        "value": "scripts/summarize-diff.ps1",
+        "term": "diff",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "buildDiffChangesFromGitOutput",
+        "term": "diff",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "buildDiffSummary",
+        "term": "diff",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "DEFAULT_MAX_DIFF_LINES",
+        "term": "diff",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "DiffFileChange",
+        "term": "diff",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "DiffSummary",
+        "term": "diff",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "DiffSummaryFile",
+        "term": "diff",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "DiffSummaryOptions",
+        "term": "diff",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "formatDiffSummary",
+        "term": "diff",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "GitDiffOutputs",
+        "term": "diff",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/diffSummary.ts",
+        "value": "maxDiffLines",
+        "term": "diff",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/diff-summary.mjs",
+        "value": "buildDiffChangesFromGitOutput",
+        "term": "diff",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/diff-summary.mjs",
+        "value": "buildDiffSummary",
+        "term": "diff",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/diff-summary.mjs",
+        "value": "diffSummary",
+        "term": "diff",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/diff-summary.mjs",
+        "value": "formatDiffSummary",
+        "term": "diff",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/diff-summary.mjs",
+        "value": "runDiffSummary",
+        "term": "diff",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "Get-DiffLineCount",
+        "term": "diff",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "context.pack",
+    "title": "Context Pack",
+    "summary": "Durable concept inferred from 12 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.docs",
+      "module.packages",
+      "module.scripts",
+      "file.docs.agent.protocol.md",
+      "file.docs.data.model.md",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.contextlimits.ts",
+      "file.packages.core.src.evaluator.test.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.validator.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.scripts.generated.memory.fixtures.test.mjs",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline"
+    ],
+    "relatedFiles": [
+      "docs/AGENT_PROTOCOL.md",
+      "docs/DATA_MODEL.md",
+      "packages/core/src/context.ts",
+      "packages/core/src/contextLimits.ts",
+      "packages/core/src/evaluator.test.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/validator.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/generated-memory-fixtures.test.mjs"
+    ],
+    "tags": [
+      "context pack"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/context.ts",
+        "value": "buildContextPack",
+        "term": "context pack",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/context.ts",
+        "value": "formatContextPackMarkdown",
+        "term": "context pack",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/contextLimits.ts",
+        "value": "CONTEXT_PACK_LIMITS",
+        "term": "context pack",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "ExpectedContextPackQuality",
+        "term": "context pack",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateContextPackSchema",
+        "term": "context pack",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateContextPacksSchema",
+        "term": "context pack",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ContextPack",
+        "term": "context pack",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ContextPackDiagnostics",
+        "term": "context pack",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/validator.ts",
+        "value": "validateContextPacks",
+        "term": "context pack",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readContextPacks",
+        "term": "context pack",
+        "score": 4
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/AGENT_PROTOCOL.md",
+        "value": "Context packs",
+        "term": "context pack",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/DATA_MODEL.md",
+        "value": "`context-packs/`",
+        "term": "context pack",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/context.ts",
+        "value": "buildContextPack",
+        "term": "context pack",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/context.ts",
+        "value": "formatContextPackMarkdown",
+        "term": "context pack",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/contextLimits.ts",
+        "value": "CONTEXT_PACK_LIMITS",
+        "term": "context pack",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.test.ts",
+        "value": "contextPack",
+        "term": "context pack",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "contextPacks",
+        "term": "context pack",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "ExpectedContextPackQuality",
+        "term": "context pack",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "contextPack",
+        "term": "context pack",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "contextPackRecord",
+        "term": "context pack",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateContextPackSchema",
+        "term": "context pack",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateContextPacksSchema",
+        "term": "context pack",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ContextPack",
+        "term": "context pack",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ContextPackDiagnostics",
+        "term": "context pack",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.ts",
+        "value": "validateContextPacks",
+        "term": "context pack",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "contextPacks",
+        "term": "context pack",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/generated-memory-fixtures.test.mjs",
+        "value": "contextPacks",
+        "term": "context pack",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "memory",
+    "title": "Memory",
+    "summary": "Durable concept inferred from 13 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.adapters",
+      "module.docs",
+      "module.packages",
+      "module.root",
+      "module.scripts",
+      "file.adapters.codex.agents.md",
+      "file.contributing.md",
+      "file.docs.architecture.md",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.propose.test.ts",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.readme.md",
+      "file.scripts.generated.memory.fixtures.test.mjs",
+      "file.scripts.small.web.app.fixture.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.visual.app.api",
+      "architecture.package.distribution"
+    ],
+    "relatedFiles": [
+      "CONTRIBUTING.md",
+      "README.md",
+      "adapters/codex/AGENTS.md",
+      "docs/ARCHITECTURE.md",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/index.ts",
+      "packages/cli/src/propose.test.ts",
+      "packages/cli/src/propose.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/generated-memory-fixtures.test.mjs",
+      "scripts/small-web-app-fixture.test.mjs"
+    ],
+    "tags": [
+      "memory"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "evaluateGeneratedMemoryQuality",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "EvaluateGeneratedMemoryQualityInput",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "GeneratedMemoryQualityFixture",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "GeneratedMemoryQualityReport",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "AtreeMemory",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadAtreeMemory",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "MemoryLoadResult",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/generated-memory-fixtures.test.mjs",
+        "value": "scripts/generated-memory-fixtures.test.mjs",
+        "term": "memory",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "adapters/codex/AGENTS.md",
+        "value": "Memory and runtime boundaries",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "CONTRIBUTING.md",
+        "value": "Dogfooding memory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/ARCHITECTURE.md",
+        "value": "Repository memory contract",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.test.ts",
+        "value": "writeFixtureMemory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/index.ts",
+        "value": "memory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.test.ts",
+        "value": "writeDeterministicMemory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "memory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "memoryErrors",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "evaluateGeneratedMemoryQuality",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "EvaluateGeneratedMemoryQualityInput",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "GeneratedMemoryQualityFixture",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "GeneratedMemoryQualityReport",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "memory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "memory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "AtreeMemory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadAtreeMemory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "MemoryLoadResult",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "README.md",
+        "value": "Committed memory and local runtime state",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/small-web-app-fixture.test.mjs",
+        "value": "generatedMemoryPaths",
+        "term": "memory",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "llm.proposal",
+    "title": "Llm Proposal",
+    "summary": "Durable concept inferred from 2 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.core.src.llm.proposals.ts",
+      "file.packages.core.src.llmproposalvalidation.test.ts",
+      "architecture.core.engine"
+    ],
+    "relatedFiles": [
+      "packages/core/src/llm/proposals.ts",
+      "packages/core/src/llmProposalValidation.test.ts"
+    ],
+    "tags": [
+      "llm proposal"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "collectLlmProposalBundle",
+        "term": "llm proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "createLlmProposalRecord",
+        "term": "llm proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "CreateLlmProposalRecordOptions",
+        "term": "llm proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_PENDING_PATH",
+        "term": "llm proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_POLICY_GATES",
+        "term": "llm proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_REVIEW_HINT",
+        "term": "llm proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalBundle",
+        "term": "llm proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalRecord",
+        "term": "llm proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidation",
+        "term": "llm proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidationContext",
+        "term": "llm proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "validateLlmProposalBundle",
+        "term": "llm proposal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "writeLlmProposalRecord",
+        "term": "llm proposal",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/llmProposalValidation.test.ts",
+        "value": "packages/core/src/llmProposalValidation.test.ts",
+        "term": "llm proposal",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "collectLlmProposalBundle",
+        "term": "llm proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "createLlmProposalRecord",
+        "term": "llm proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "CreateLlmProposalRecordOptions",
+        "term": "llm proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_PENDING_PATH",
+        "term": "llm proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_POLICY_GATES",
+        "term": "llm proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LLM_PROPOSAL_REVIEW_HINT",
+        "term": "llm proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalBundle",
+        "term": "llm proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalRecord",
+        "term": "llm proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidation",
+        "term": "llm proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidationContext",
+        "term": "llm proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "validateLlmProposalBundle",
+        "term": "llm proposal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "writeLlmProposalRecord",
+        "term": "llm proposal",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "workspace",
+    "title": "Workspace",
+    "summary": "Durable concept inferred from 13 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.examples",
+      "module.packages",
+      "file.examples.small.web.app.tests.checkout.test.js",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.propose.test.ts",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.changereview.test.ts",
+      "file.packages.core.src.evaluator.test.ts",
+      "file.packages.core.src.importgraph.test.ts",
+      "file.packages.core.src.importgraph.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.scanner.test.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.test.ts",
+      "file.packages.core.src.workspace.ts",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline"
+    ],
+    "relatedFiles": [
+      "examples/small-web-app/tests/checkout.test.js",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/propose.test.ts",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/changeReview.test.ts",
+      "packages/core/src/evaluator.test.ts",
+      "packages/core/src/importGraph.test.ts",
+      "packages/core/src/importGraph.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/scanner.test.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.test.ts",
+      "packages/core/src/workspace.ts"
+    ],
+    "tags": [
+      "workspace"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "discoverWorkspacePackages",
+        "term": "workspace",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "WorkspacePackage",
+        "term": "workspace",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "ensureWorkspace",
+        "term": "workspace",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/workspace.test.ts",
+        "value": "packages/core/src/workspace.test.ts",
+        "term": "workspace",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "packages/core/src/workspace.ts",
+        "term": "workspace",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "examples/small-web-app/tests/checkout.test.js",
+        "value": "makeWorkspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "discoverWorkspacePackages",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "resolveWorkspaceSpecifier",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "workspaceByName",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "workspacePackage",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "workspacePackages",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "workspaceResolution",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/scanner.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "WorkspacePackage",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "ensureWorkspace",
+        "term": "workspace",
+        "score": 3
+      }
     ]
   },
   {
     "id": "loop",
     "title": "Loop",
-    "summary": "Durable concept inferred from 5 file(s) using symbol signals.",
+    "summary": "Durable concept inferred from 10 file(s) using path, symbol signals.",
     "relatedNodeIds": [
+      "module.docs",
       "module.packages",
+      "module.root",
       "module.scripts",
+      "file.docs.agent.protocol.md",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
       "file.packages.core.src.automationvalidation.test.ts",
       "file.packages.core.src.automationvalidation.ts",
       "file.packages.core.src.evaluator.test.ts",
       "file.packages.core.src.evaluator.ts",
-      "file.scripts.diff.summary.mjs"
+      "file.readme.md",
+      "file.scripts.diff.summary.mjs",
+      "file.scripts.run.abstraction.loop.scheduled.ps1",
+      "file.scripts.run.abstraction.loop.ps1",
+      "architecture.core.engine",
+      "architecture.visual.app.ui"
     ],
     "relatedFiles": [
+      "README.md",
+      "docs/AGENT_PROTOCOL.md",
+      "packages/app/src/components/AgentHealthPanel.tsx",
       "packages/core/src/automationValidation.test.ts",
       "packages/core/src/automationValidation.ts",
       "packages/core/src/evaluator.test.ts",
       "packages/core/src/evaluator.ts",
-      "scripts/diff-summary.mjs"
+      "scripts/diff-summary.mjs",
+      "scripts/run-abstraction-loop-scheduled.ps1",
+      "scripts/run-abstraction-loop.ps1"
     ],
     "tags": [
       "loop"
+    ],
+    "evidence": [
+      {
+        "kind": "path",
+        "filePath": "scripts/run-abstraction-loop-scheduled.ps1",
+        "value": "scripts/run-abstraction-loop-scheduled.ps1",
+        "term": "loop",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "scripts/run-abstraction-loop.ps1",
+        "term": "loop",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/AGENT_PROTOCOL.md",
+        "value": "Bounded self-improvement loops",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "loops",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "loopConfigPath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "loopRuntimeExamplePath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "loopRuntimePath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "loopStatePath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "LOOP_CONFIG_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "LOOP_RUNTIME_EXAMPLE_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "LOOP_RUNTIME_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "LOOP_STATE_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.test.ts",
+        "value": "loopConfigPath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.test.ts",
+        "value": "loopRuntimeExamplePath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.test.ts",
+        "value": "loopRuntimePath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "LOOP_CONFIG_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "LOOP_RUNTIME_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "README.md",
+        "value": "Autonomous loop contract",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/diff-summary.mjs",
+        "value": "readLoopConfig",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-abstraction-loop-scheduled.ps1",
+        "value": "Write-LoopLog",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "Expected location: repo-root/scripts/run-abstraction-loop.ps1",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "Invoke-PostLoopChecks",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "New-LoopRuntime",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "Runs one or more bounded Codex improvement loops with local runtime guards.",
+        "term": "loop",
+        "score": 3
+      }
     ]
   },
   {
-    "id": "input",
-    "title": "Input",
-    "summary": "Durable concept inferred from 4 file(s) using export, symbol signals.",
+    "id": "version",
+    "title": "Version",
+    "summary": "Durable concept inferred from 5 file(s) using export, symbol signals.",
     "relatedNodeIds": [
+      "module.docs",
       "module.packages",
       "module.scripts",
-      "file.packages.core.src.changereview.ts",
-      "file.packages.core.src.llm.types.ts",
-      "file.packages.core.src.llmabstractionbuilder.test.ts",
-      "file.scripts.diff.summary.mjs"
+      "file.docs.roadmap.md",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.scripts.check.changelog.mjs",
+      "file.scripts.check.changelog.test.mjs",
+      "file.scripts.release.dry.run.mjs",
+      "architecture.core.engine"
     ],
     "relatedFiles": [
-      "packages/core/src/changeReview.ts",
-      "packages/core/src/llm/types.ts",
-      "packages/core/src/llmAbstractionBuilder.test.ts",
-      "scripts/diff-summary.mjs"
+      "docs/ROADMAP.md",
+      "packages/core/src/runtimeSchema.ts",
+      "scripts/check-changelog.mjs",
+      "scripts/check-changelog.test.mjs",
+      "scripts/release-dry-run.mjs"
     ],
     "tags": [
-      "input"
+      "version"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "CURRENT_ATREE_SCHEMA_VERSION",
+        "term": "version",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
+        "term": "version",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateConfigVersion",
+        "term": "version",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "resolveExpectedVersion",
+        "term": "version",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "validateSynchronizedVersions",
+        "term": "version",
+        "score": 4
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/ROADMAP.md",
+        "value": "Version 0.2",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/ROADMAP.md",
+        "value": "Version 0.3",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/ROADMAP.md",
+        "value": "Version 1.0",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "CURRENT_ATREE_SCHEMA_VERSION",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateConfigVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "VERSION_HINT",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "dependencyVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "expectedVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "explicitVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "resolveExpectedVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "validateManifestVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "validateSynchronizedVersions",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.test.mjs",
+        "value": "version",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.test.mjs",
+        "value": "versionIssues",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/release-dry-run.mjs",
+        "value": "expectedVersion",
+        "term": "version",
+        "score": 3
+      }
     ]
   },
   {
-    "id": "mjs",
-    "title": "Mjs",
-    "summary": "Durable concept inferred from 9 file(s) using path signals.",
+    "id": "panel",
+    "title": "Panel",
+    "summary": "Durable concept inferred from 5 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
-      "module.scripts",
-      "file.scripts.app.node.accessors.test.mjs",
-      "file.scripts.check.unicode.mjs",
-      "file.scripts.check.unicode.test.mjs",
-      "file.scripts.diff.summary.mjs",
-      "file.scripts.format.mjs",
-      "file.scripts.project.text.files.mjs",
-      "file.scripts.project.text.files.test.mjs",
-      "file.scripts.run.tests.mjs",
-      "file.scripts.run.tests.test.mjs"
+      "module.packages",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.app.src.components.conceptpanel.tsx",
+      "file.packages.app.src.components.invariantpanel.tsx",
+      "file.packages.app.src.components.panel.tsx",
+      "file.packages.app.src.styles.css",
+      "architecture.visual.app.ui"
     ],
     "relatedFiles": [
-      "scripts/app-node-accessors.test.mjs",
-      "scripts/check-unicode.mjs",
-      "scripts/check-unicode.test.mjs",
-      "scripts/diff-summary.mjs",
-      "scripts/format.mjs",
-      "scripts/project-text-files.mjs",
-      "scripts/project-text-files.test.mjs",
-      "scripts/run-tests.mjs",
-      "scripts/run-tests.test.mjs"
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/app/src/components/ConceptPanel.tsx",
+      "packages/app/src/components/InvariantPanel.tsx",
+      "packages/app/src/components/Panel.tsx",
+      "packages/app/src/styles.css"
     ],
     "tags": [
-      "mjs"
+      "panel"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "AgentHealthPanel",
+        "term": "panel",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "AgentHealthPanelProps",
+        "term": "panel",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/ConceptPanel.tsx",
+        "value": "ConceptPanel",
+        "term": "panel",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/ConceptPanel.tsx",
+        "value": "ConceptPanelProps",
+        "term": "panel",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/InvariantPanel.tsx",
+        "value": "InvariantPanel",
+        "term": "panel",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/InvariantPanel.tsx",
+        "value": "InvariantPanelProps",
+        "term": "panel",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/Panel.tsx",
+        "value": "Panel",
+        "term": "panel",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/Panel.tsx",
+        "value": "PanelProps",
+        "term": "panel",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "packages/app/src/components/AgentHealthPanel.tsx",
+        "term": "panel",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/app/src/components/ConceptPanel.tsx",
+        "value": "packages/app/src/components/ConceptPanel.tsx",
+        "term": "panel",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/app/src/components/InvariantPanel.tsx",
+        "value": "packages/app/src/components/InvariantPanel.tsx",
+        "term": "panel",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/app/src/components/Panel.tsx",
+        "value": "packages/app/src/components/Panel.tsx",
+        "term": "panel",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "AgentHealthPanel",
+        "term": "panel",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "AgentHealthPanelProps",
+        "term": "panel",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/ConceptPanel.tsx",
+        "value": "ConceptPanel",
+        "term": "panel",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/ConceptPanel.tsx",
+        "value": "ConceptPanelProps",
+        "term": "panel",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/InvariantPanel.tsx",
+        "value": "InvariantPanel",
+        "term": "panel",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/InvariantPanel.tsx",
+        "value": "InvariantPanelProps",
+        "term": "panel",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/Panel.tsx",
+        "value": "Panel",
+        "term": "panel",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/Panel.tsx",
+        "value": "PanelProps",
+        "term": "panel",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/styles.css",
+        "value": "panel",
+        "term": "panel",
+        "score": 3
+      }
     ]
   },
   {
-    "id": "scripts",
-    "title": "Scripts",
-    "summary": "Durable concept inferred from 9 file(s) using path signals.",
+    "id": "health",
+    "title": "Health",
+    "summary": "Durable concept inferred from 8 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
-      "module.scripts",
-      "file.scripts.app.node.accessors.test.mjs",
-      "file.scripts.check.unicode.mjs",
-      "file.scripts.check.unicode.test.mjs",
-      "file.scripts.diff.summary.mjs",
-      "file.scripts.format.mjs",
-      "file.scripts.project.text.files.mjs",
-      "file.scripts.project.text.files.test.mjs",
-      "file.scripts.run.tests.mjs",
-      "file.scripts.run.tests.test.mjs"
+      "module.packages",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.app.src.styles.css",
+      "file.packages.cli.src.agenthealth.test.ts",
+      "file.packages.cli.src.agenthealth.ts",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.schema.ts",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.visual.app.ui"
     ],
     "relatedFiles": [
-      "scripts/app-node-accessors.test.mjs",
-      "scripts/check-unicode.mjs",
-      "scripts/check-unicode.test.mjs",
-      "scripts/diff-summary.mjs",
-      "scripts/format.mjs",
-      "scripts/project-text-files.mjs",
-      "scripts/project-text-files.test.mjs",
-      "scripts/run-tests.mjs",
-      "scripts/run-tests.test.mjs"
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/app/src/styles.css",
+      "packages/cli/src/agentHealth.test.ts",
+      "packages/cli/src/agentHealth.ts",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/apiState.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/schema.ts"
     ],
     "tags": [
-      "scripts"
+      "health"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "AgentHealthPanel",
+        "term": "health",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "AgentHealthPanelProps",
+        "term": "health",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "AgentHealthLoader",
+        "term": "health",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "loadApiAgentHealth",
+        "term": "health",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AgentHealth",
+        "term": "health",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "packages/app/src/components/AgentHealthPanel.tsx",
+        "term": "health",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/agentHealth.test.ts",
+        "value": "packages/cli/src/agentHealth.test.ts",
+        "term": "health",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/agentHealth.ts",
+        "value": "packages/cli/src/agentHealth.ts",
+        "term": "health",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "AgentHealthPanel",
+        "term": "health",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "AgentHealthPanelProps",
+        "term": "health",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "HealthItem",
+        "term": "health",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/styles.css",
+        "value": "health-grid",
+        "term": "health",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/styles.css",
+        "value": "health-item",
+        "term": "health",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.test.ts",
+        "value": "agentHealth",
+        "term": "health",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.test.ts",
+        "value": "health",
+        "term": "health",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "agentHealth",
+        "term": "health",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "AgentHealthLoader",
+        "term": "health",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "loadApiAgentHealth",
+        "term": "health",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "loadAutomationHealth",
+        "term": "health",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "agentHealthRecord",
+        "term": "health",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AgentHealth",
+        "term": "health",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "evaluation",
+    "title": "Evaluation",
+    "summary": "Durable concept inferred from 6 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.workspace.ts",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.visual.app.ui"
+    ],
+    "relatedFiles": [
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/cli/src/apiState.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/workspace.ts"
+    ],
+    "tags": [
+      "evaluation"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "EvaluationIssue",
+        "term": "evaluation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "EvaluationReport",
+        "term": "evaluation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "formatEvaluationTimestamp",
+        "term": "evaluation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "writeEvaluationReport",
+        "term": "evaluation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "WrittenEvaluationReport",
+        "term": "evaluation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateEvaluationReportSchema",
+        "term": "evaluation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateEvaluationReportsSchema",
+        "term": "evaluation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readEvaluationReports",
+        "term": "evaluation",
+        "score": 4
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "evaluationDetail",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "loadLatestEvaluation",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "changeEvaluation",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "EvaluationIssue",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "EvaluationReport",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "WrittenEvaluationReport",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "evaluation",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "evaluationReport",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "legacyEvaluation",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "EVALUATION_HINT",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "evaluations",
+        "term": "evaluation",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "prop",
+    "title": "Prop",
+    "summary": "Durable concept inferred from 9 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.app.src.app.tsx",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.app.src.components.changehistory.tsx",
+      "file.packages.app.src.components.conceptpanel.tsx",
+      "file.packages.app.src.components.invariantpanel.tsx",
+      "file.packages.app.src.components.nodedetails.tsx",
+      "file.packages.app.src.components.panel.tsx",
+      "file.packages.app.src.components.stat.tsx",
+      "file.packages.app.src.components.treelist.tsx",
+      "architecture.visual.app.ui"
+    ],
+    "relatedFiles": [
+      "packages/app/src/App.tsx",
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/app/src/components/ChangeHistory.tsx",
+      "packages/app/src/components/ConceptPanel.tsx",
+      "packages/app/src/components/InvariantPanel.tsx",
+      "packages/app/src/components/NodeDetails.tsx",
+      "packages/app/src/components/Panel.tsx",
+      "packages/app/src/components/Stat.tsx",
+      "packages/app/src/components/TreeList.tsx"
+    ],
+    "tags": [
+      "prop"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/App.tsx",
+        "value": "AppExplorerProps",
+        "term": "prop",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "AgentHealthPanelProps",
+        "term": "prop",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/ChangeHistory.tsx",
+        "value": "ChangeHistoryProps",
+        "term": "prop",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/ConceptPanel.tsx",
+        "value": "ConceptPanelProps",
+        "term": "prop",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/InvariantPanel.tsx",
+        "value": "InvariantPanelProps",
+        "term": "prop",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/NodeDetails.tsx",
+        "value": "NodeDetailsProps",
+        "term": "prop",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/Panel.tsx",
+        "value": "PanelProps",
+        "term": "prop",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/Stat.tsx",
+        "value": "StatProps",
+        "term": "prop",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "TreeListProps",
+        "term": "prop",
+        "score": 4
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/App.tsx",
+        "value": "AppExplorerProps",
+        "term": "prop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "AgentHealthPanelProps",
+        "term": "prop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/ChangeHistory.tsx",
+        "value": "ChangeHistoryProps",
+        "term": "prop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/ConceptPanel.tsx",
+        "value": "ConceptPanelProps",
+        "term": "prop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/InvariantPanel.tsx",
+        "value": "InvariantPanelProps",
+        "term": "prop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/NodeDetails.tsx",
+        "value": "NodeDetailsProps",
+        "term": "prop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/Panel.tsx",
+        "value": "PanelProps",
+        "term": "prop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/Stat.tsx",
+        "value": "StatProps",
+        "term": "prop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/TreeList.tsx",
+        "value": "TreeListProps",
+        "term": "prop",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "agent",
+    "title": "Agent",
+    "summary": "Durable concept inferred from 10 file(s) using doc, export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.adapters",
+      "module.docs",
+      "module.packages",
+      "file.adapters.codex.agents.md",
+      "file.docs.agent.protocol.md",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.cli.src.agenthealth.test.ts",
+      "file.packages.cli.src.agenthealth.ts",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.schema.ts",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline",
+      "architecture.visual.app.ui"
+    ],
+    "relatedFiles": [
+      "adapters/codex/AGENTS.md",
+      "docs/AGENT_PROTOCOL.md",
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/cli/src/agentHealth.test.ts",
+      "packages/cli/src/agentHealth.ts",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/apiState.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/schema.ts"
+    ],
+    "tags": [
+      "agent"
+    ],
+    "evidence": [
+      {
+        "kind": "doc",
+        "filePath": "adapters/codex/AGENTS.md",
+        "value": "adapters/codex/AGENTS.md",
+        "term": "agent",
+        "score": 1
+      },
+      {
+        "kind": "doc",
+        "filePath": "docs/AGENT_PROTOCOL.md",
+        "value": "docs/AGENT_PROTOCOL.md",
+        "term": "agent",
+        "score": 1
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "AgentHealthPanel",
+        "term": "agent",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "AgentHealthPanelProps",
+        "term": "agent",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "AgentHealthLoader",
+        "term": "agent",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "loadApiAgentHealth",
+        "term": "agent",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AgentHealth",
+        "term": "agent",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "packages/app/src/components/AgentHealthPanel.tsx",
+        "term": "agent",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/agentHealth.test.ts",
+        "value": "packages/cli/src/agentHealth.test.ts",
+        "term": "agent",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/agentHealth.ts",
+        "value": "packages/cli/src/agentHealth.ts",
+        "term": "agent",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "adapters/codex/AGENTS.md",
+        "value": "Codex Agent Instructions for Abstraction Tree",
+        "term": "agent",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/AGENT_PROTOCOL.md",
+        "value": "Agent Protocol",
+        "term": "agent",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "AgentHealthPanel",
+        "term": "agent",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "AgentHealthPanelProps",
+        "term": "agent",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.test.ts",
+        "value": "agentHealth",
+        "term": "agent",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "agentHealth",
+        "term": "agent",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "AgentHealthLoader",
+        "term": "agent",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "loadApiAgentHealth",
+        "term": "agent",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/context.ts",
+        "value": "agentInstructions",
+        "term": "agent",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "agentHealthRecord",
+        "term": "agent",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AgentHealth",
+        "term": "agent",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "validation",
+    "title": "Validation",
+    "summary": "Durable concept inferred from 10 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.automationvalidation.ts",
+      "file.packages.core.src.llm.proposals.ts",
+      "file.packages.core.src.llmproposalvalidation.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.visual.app.api",
+      "architecture.visual.app.ui",
+      "architecture.package.distribution"
+    ],
+    "relatedFiles": [
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/cli/src/apiState.ts",
+      "packages/cli/src/index.ts",
+      "packages/cli/src/propose.ts",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/automationValidation.ts",
+      "packages/core/src/llm/proposals.ts",
+      "packages/core/src/llmProposalValidation.test.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts"
+    ],
+    "tags": [
+      "validation"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "ValidationIssuesLoader",
+        "term": "validation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidation",
+        "term": "validation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidationContext",
+        "term": "validation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "formatRuntimeValidationIssue",
+        "term": "validation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "RuntimeSchemaValidationError",
+        "term": "validation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ValidationIssue",
+        "term": "validation",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "packages/core/src/automationValidation.test.ts",
+        "term": "validation",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "packages/core/src/automationValidation.ts",
+        "term": "validation",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/llmProposalValidation.test.ts",
+        "value": "packages/core/src/llmProposalValidation.test.ts",
+        "term": "validation",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "validationDetail",
+        "term": "validation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "ValidationIssuesLoader",
+        "term": "validation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/index.ts",
+        "value": "collectValidationIssues",
+        "term": "validation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "validation",
+        "term": "validation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidation",
+        "term": "validation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/proposals.ts",
+        "value": "LlmProposalValidationContext",
+        "term": "validation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llmProposalValidation.test.ts",
+        "value": "validation",
+        "term": "validation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "formatRuntimeValidationIssue",
+        "term": "validation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "RuntimeSchemaValidationError",
+        "term": "validation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ValidationIssue",
+        "term": "validation",
+        "score": 3
+      }
     ]
   }
 ]

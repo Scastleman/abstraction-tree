@@ -26,6 +26,10 @@ Committed `.abstraction-tree/` memory should include abstraction data, stable au
 
 The autonomous loop should remain bounded by loop count, elapsed time, failed loops, stagnation, repeated test failures, and diff size. Objective metrics should continue to accompany self-reported run results so future agents can see whether the tree, drift state, context packs, and automation health improved.
 
+Generated-memory quality fixtures live in example projects under `.abstraction-tree/evaluation-fixture.json`. They list expected tree nodes, architecture nodes, concepts, invariants, and context-pack inclusions for compact projects whose generated memory should stay semantically useful. When scanner, import-graph, tree-builder, concept, or context behavior intentionally changes, update the relevant fixture expectations to describe the new durable behavior rather than copying full generated JSON snapshots. Then run `npm run build`, `node scripts/generated-memory-fixtures.test.mjs`, and `npm test` to confirm the fixture quality metrics still pass.
+
+`atree evaluate` includes generated-memory quality signals alongside structural counters: noisy concepts, missing fixture expectations when a fixture is present, unresolved imports, architecture coverage, and missing expected context inclusions. Treat those signals as regression indicators for stable fixtures, not proof of objective semantic correctness across arbitrary repositories.
+
 ## Version 0.2
 
 - Tree-sitter symbol extraction for additional languages.

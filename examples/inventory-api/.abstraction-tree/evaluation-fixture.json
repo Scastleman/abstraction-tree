@@ -1,0 +1,45 @@
+{
+  "expectedTreeNodeIds": [
+    "concept-node.inventory",
+    "file.src.api.inventory.ts",
+    "module.src"
+  ],
+  "expectedArchitectureNodeIds": [
+    "architecture.local.api.routes",
+    "architecture.package.distribution",
+    "architecture.runtime.dataflow"
+  ],
+  "expectedConceptIds": [
+    "audit",
+    "catalog",
+    "inventory",
+    "stock"
+  ],
+  "expectedInvariantIds": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "expectedContextPacks": [
+    {
+      "target": "inventory",
+      "expectedTreeNodeIds": [
+        "architecture.runtime.dataflow",
+        "concept-node.inventory",
+        "file.src.api.inventory.ts"
+      ],
+      "expectedFilePaths": [
+        "src/api/inventory.ts",
+        "src/services/audit.ts",
+        "src/services/catalog.ts",
+        "src/services/stock.ts",
+        "tests/inventory.test.js"
+      ],
+      "expectedConceptIds": [
+        "audit",
+        "catalog",
+        "inventory",
+        "stock"
+      ]
+    }
+  ]
+}

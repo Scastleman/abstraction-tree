@@ -1,0 +1,41 @@
+{
+  "id": "mission-013.cross-platform-automation-scripts",
+  "timestamp": "2026-05-08T00:00:00.000-04:00",
+  "title": "Clarify cross-platform automation entrypoints",
+  "reason": "Core contributor checks should run on macOS/Linux without PowerShell, while bounded local Codex loop automation should remain clearly Windows-scoped until it has an equivalent cross-platform implementation.",
+  "affectedNodeIds": [
+    "module.adapters",
+    "module.docs",
+    "module.root",
+    "module.scripts",
+    "architecture.package.distribution",
+    "file.adapters.codex.agents.md",
+    "file.docs.agent.protocol.md",
+    "file.docs.architecture.md",
+    "file.package.json",
+    "file.readme.md",
+    "file.scripts.cross.platform.automation.test.mjs",
+    "file.scripts.diff.summary.mjs"
+  ],
+  "filesChanged": [
+    ".abstraction-tree/automation/missions/mission-013-cross-platform-automation-scripts.md",
+    ".abstraction-tree/changes/mission-013-cross-platform-automation-scripts.2026-05-08.json",
+    ".abstraction-tree/concepts.json",
+    ".abstraction-tree/files.json",
+    ".abstraction-tree/invariants.json",
+    ".abstraction-tree/import-graph.json",
+    ".abstraction-tree/tree.json",
+    "README.md",
+    "adapters/codex/AGENTS.md",
+    "docs/AGENT_PROTOCOL.md",
+    "docs/ARCHITECTURE.md",
+    "package.json",
+    "scripts/cross-platform-automation.test.mjs",
+    "scripts/diff-summary.mjs"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

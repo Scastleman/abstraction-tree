@@ -1,0 +1,46 @@
+{
+  "expectedTreeNodeIds": [
+    "concept-node.checkout",
+    "file.src.api.checkout.ts",
+    "module.src"
+  ],
+  "expectedArchitectureNodeIds": [
+    "architecture.local.api.routes",
+    "architecture.package.distribution",
+    "architecture.runtime.dataflow",
+    "architecture.visual.app.ui"
+  ],
+  "expectedConceptIds": [
+    "cart",
+    "checkout",
+    "order",
+    "payment"
+  ],
+  "expectedInvariantIds": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "expectedContextPacks": [
+    {
+      "target": "checkout",
+      "expectedTreeNodeIds": [
+        "concept-node.checkout",
+        "file.src.api.checkout.ts",
+        "module.src"
+      ],
+      "expectedFilePaths": [
+        "src/api/checkout.ts",
+        "src/components/CheckoutForm.tsx",
+        "src/services/cart.ts",
+        "src/services/orders.ts",
+        "src/services/payment.ts",
+        "tests/checkout.test.js"
+      ],
+      "expectedConceptIds": [
+        "cart",
+        "checkout",
+        "payment"
+      ]
+    }
+  ]
+}

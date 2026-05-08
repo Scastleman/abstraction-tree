@@ -1,16 +1,22 @@
 import { existsSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
-import type { FileSummary, TreeNode, ValidationIssue } from "./schema.js";
+import type { Concept, ContextPack, FileSummary, ImportGraph, Invariant, TreeNode, ValidationIssue } from "./schema.js";
 import { scanProject } from "./scanner.js";
 import { validateAutomation } from "./automationValidation.js";
-import { atreePath, readJson, writeJson } from "./workspace.js";
+import { atreePath, loadAtreeMemory, readJson, writeJson } from "./workspace.js";
 import { CONTEXT_OVER_BROAD_LIMITS } from "./contextLimits.js";
 import { summarizeRunMarkdown } from "./runReports.js";
 
 const LOOP_CONFIG_PATH = ".abstraction-tree/automation/loop-config.json";
 const LOOP_RUNTIME_PATH = ".abstraction-tree/automation/loop-runtime.json";
+const QUALITY_FIXTURE_PATH = ".abstraction-tree/evaluation-fixture.json";
 const CHANGE_RECORD_REVIEW_THRESHOLD = 10;
+const NOISY_CONCEPT_IDS = new Set([
+  "app", "component", "config", "data", "default", "doc", "example", "file", "guide", "helper",
+  "index", "item", "module", "note", "overview", "project", "readme", "record", "result", "root",
+  "script", "section", "service", "src", "test", "type", "usage", "user", "util", "value"
+]);
 
 export interface EvaluationReport {
   timestamp: string;
@@ -51,14 +57,84 @@ export interface EvaluationReport {
     runtimeStateIgnored: boolean;
     configValid: boolean;
   };
+  quality: GeneratedMemoryQualityReport;
   issues: EvaluationIssue[];
 }
 
 export interface EvaluationIssue {
   severity: ValidationIssue["severity"];
-  area: "tree" | "context" | "runs" | "changes" | "lessons" | "automation";
+  area: "tree" | "context" | "runs" | "changes" | "lessons" | "automation" | "quality";
   message: string;
   filePath?: string;
+}
+
+export interface GeneratedMemoryQualityFixture {
+  expectedTreeNodeIds?: string[];
+  expectedArchitectureNodeIds?: string[];
+  expectedConceptIds?: string[];
+  expectedInvariantIds?: string[];
+  expectedContextPacks?: ExpectedContextPackQuality[];
+  allowedNoisyConceptIds?: string[];
+}
+
+export interface ExpectedContextPackQuality {
+  target: string;
+  expectedTreeNodeIds?: string[];
+  expectedFilePaths?: string[];
+  expectedConceptIds?: string[];
+  expectedInvariantIds?: string[];
+}
+
+export interface GeneratedMemoryQualityReport {
+  fixture: {
+    path?: string;
+    expectedTreeNodeCount: number;
+    missingExpectedTreeNodeCount: number;
+    missingExpectedTreeNodeIds: string[];
+    expectedArchitectureNodeCount: number;
+    missingExpectedArchitectureNodeCount: number;
+    missingExpectedArchitectureNodeIds: string[];
+    expectedConceptCount: number;
+    missingExpectedConceptCount: number;
+    missingExpectedConceptIds: string[];
+    expectedInvariantCount: number;
+    missingExpectedInvariantCount: number;
+    missingExpectedInvariantIds: string[];
+  };
+  concepts: {
+    totalConceptCount: number;
+    noisyConceptCount: number;
+    noisyConceptIds: string[];
+    conceptsWithoutEvidence: number;
+    conceptsWithoutRelatedFiles: number;
+  };
+  imports: {
+    unresolvedImportCount: number;
+  };
+  architecture: {
+    architectureNodeCount: number;
+    architectureCoverableFileCount: number;
+    architectureCoveredFileCount: number;
+    architectureCoveragePercent: number;
+  };
+  context: {
+    evaluatedContextPackCount: number;
+    expectedContextPackCount: number;
+    passingExpectedContextPackCount: number;
+    missingExpectedInclusionCount: number;
+    missingExpectedInclusions: string[];
+  };
+}
+
+export interface EvaluateGeneratedMemoryQualityInput {
+  nodes: TreeNode[];
+  files: FileSummary[];
+  concepts: Concept[];
+  invariants: Invariant[];
+  importGraph: ImportGraph;
+  contextPacks: ContextPack[];
+  fixture?: GeneratedMemoryQualityFixture;
+  fixturePath?: string;
 }
 
 export interface EvaluateProjectOptions {
@@ -73,15 +149,27 @@ export interface WrittenEvaluationReport {
 export async function evaluateProject(projectRoot: string, options: EvaluateProjectOptions = {}): Promise<EvaluationReport> {
   const now = options.now ?? new Date();
   const issues: EvaluationIssue[] = [];
-  const nodes = await readJsonArray<TreeNode>(atreePath(projectRoot, "tree.json"), ".abstraction-tree/tree.json", "tree", issues);
-  const files = await readJsonArray<FileSummary>(atreePath(projectRoot, "files.json"), ".abstraction-tree/files.json", "tree", issues);
-  const contextPacks = await readJsonObjectsFromDir(atreePath(projectRoot, "context-packs"), ".abstraction-tree/context-packs", "context", issues);
+  const memory = await loadAtreeMemory(projectRoot);
+  const nodes = memory.nodes;
+  const files = memory.files;
+  const contextPacks = memory.contextPacks as unknown as Record<string, unknown>[];
   const runReports = await readMarkdownFiles(atreePath(projectRoot, "runs"), ".abstraction-tree/runs", "runs", issues);
-  const changes = await readJsonObjectsFromDir(atreePath(projectRoot, "changes"), ".abstraction-tree/changes", "changes", issues);
+  const changes = memory.changes as unknown as Record<string, unknown>[];
   const lessons = await readMarkdownFiles(atreePath(projectRoot, "lessons"), ".abstraction-tree/lessons", "lessons", issues);
+  const qualityFixture = await readQualityFixture(projectRoot, issues);
   const currentScan = await scanProject(projectRoot);
   const automationIssues = await validateAutomation(projectRoot);
   const changeEvaluation = evaluateChanges(changes);
+  const quality = evaluateGeneratedMemoryQuality({
+    nodes,
+    files,
+    concepts: memory.concepts,
+    invariants: memory.invariants,
+    importGraph: memory.importGraph,
+    contextPacks: memory.contextPacks,
+    fixture: qualityFixture,
+    ...(qualityFixture ? { fixturePath: QUALITY_FIXTURE_PATH } : {})
+  });
   if (changeEvaluation.generatedScanReviewNeeded) {
     issues.push({
       severity: "warning",
@@ -96,6 +184,13 @@ export async function evaluateProject(projectRoot: string, options: EvaluateProj
     message: issue.message,
     filePath: issue.filePath
   })));
+  issues.push(...memory.issues.map(issue => ({
+    severity: issue.severity,
+    area: runtimeIssueArea(issue.filePath),
+    message: runtimeIssueMessage(issue),
+    filePath: issue.filePath
+  })));
+  issues.push(...qualityIssues(quality));
 
   return {
     timestamp: now.toISOString(),
@@ -109,7 +204,56 @@ export async function evaluateProject(projectRoot: string, options: EvaluateProj
       runtimeStateIgnored: !automationIssues.some(issue => issue.filePath === LOOP_RUNTIME_PATH),
       configValid: !automationIssues.some(issue => issue.filePath === LOOP_CONFIG_PATH)
     },
+    quality,
     issues
+  };
+}
+
+export function evaluateGeneratedMemoryQuality(input: EvaluateGeneratedMemoryQualityInput): GeneratedMemoryQualityReport {
+  const fixture = input.fixture;
+  const nodeIds = new Set(input.nodes.map(node => node.id));
+  const conceptIds = new Set(input.concepts.map(concept => concept.id));
+  const invariantIds = new Set(input.invariants.map(invariant => invariant.id));
+  const expectedTreeNodeIds = uniqueSorted(fixture?.expectedTreeNodeIds ?? []);
+  const expectedArchitectureNodeIds = uniqueSorted(fixture?.expectedArchitectureNodeIds ?? []);
+  const expectedConceptIds = uniqueSorted(fixture?.expectedConceptIds ?? []);
+  const expectedInvariantIds = uniqueSorted(fixture?.expectedInvariantIds ?? []);
+  const allowedNoisyConceptIds = new Set(fixture?.allowedNoisyConceptIds ?? []);
+  const noisyConcepts = input.concepts
+    .filter(concept => !allowedNoisyConceptIds.has(concept.id) && noisyConceptReasons(concept).length > 0)
+    .map(concept => concept.id)
+    .sort();
+  const architecture = evaluateArchitectureCoverage(input.nodes, input.files);
+  const context = evaluateExpectedContextPacks(input.contextPacks, fixture?.expectedContextPacks ?? []);
+
+  return {
+    fixture: {
+      ...(input.fixturePath ? { path: input.fixturePath } : {}),
+      expectedTreeNodeCount: expectedTreeNodeIds.length,
+      missingExpectedTreeNodeCount: missingValues(expectedTreeNodeIds, nodeIds).length,
+      missingExpectedTreeNodeIds: missingValues(expectedTreeNodeIds, nodeIds),
+      expectedArchitectureNodeCount: expectedArchitectureNodeIds.length,
+      missingExpectedArchitectureNodeCount: missingValues(expectedArchitectureNodeIds, nodeIds).length,
+      missingExpectedArchitectureNodeIds: missingValues(expectedArchitectureNodeIds, nodeIds),
+      expectedConceptCount: expectedConceptIds.length,
+      missingExpectedConceptCount: missingValues(expectedConceptIds, conceptIds).length,
+      missingExpectedConceptIds: missingValues(expectedConceptIds, conceptIds),
+      expectedInvariantCount: expectedInvariantIds.length,
+      missingExpectedInvariantCount: missingValues(expectedInvariantIds, invariantIds).length,
+      missingExpectedInvariantIds: missingValues(expectedInvariantIds, invariantIds)
+    },
+    concepts: {
+      totalConceptCount: input.concepts.length,
+      noisyConceptCount: noisyConcepts.length,
+      noisyConceptIds: noisyConcepts.slice(0, 20),
+      conceptsWithoutEvidence: input.concepts.filter(concept => !arrayLength(concept.evidence)).length,
+      conceptsWithoutRelatedFiles: input.concepts.filter(concept => !arrayLength(concept.relatedFiles)).length
+    },
+    imports: {
+      unresolvedImportCount: input.importGraph.unresolvedImports.length
+    },
+    architecture,
+    context
   };
 }
 
@@ -218,76 +362,296 @@ function evaluateLessons(lessons: MarkdownFile[]): EvaluationReport["lessons"] {
   };
 }
 
-async function readJsonArray<T>(
-  filePath: string,
-  relativePath: string,
-  area: EvaluationIssue["area"],
-  issues: EvaluationIssue[]
-): Promise<T[]> {
-  if (!existsSync(filePath)) return [];
+async function readQualityFixture(projectRoot: string, issues: EvaluationIssue[]): Promise<GeneratedMemoryQualityFixture | undefined> {
+  const filePath = atreePath(projectRoot, "evaluation-fixture.json");
+  if (!existsSync(filePath)) return undefined;
+
+  let value: unknown;
   try {
-    const value = await readJson<unknown>(filePath, undefined);
-    if (Array.isArray(value)) return value as T[];
-    issues.push({
-      severity: "warning",
-      area,
-      filePath: relativePath,
-      message: `${relativePath} must be a JSON array.`
-    });
+    value = await readJson<unknown>(filePath, undefined);
   } catch {
     issues.push({
       severity: "warning",
-      area,
-      filePath: relativePath,
-      message: `${relativePath} is not valid JSON.`
+      area: "quality",
+      filePath: QUALITY_FIXTURE_PATH,
+      message: `${QUALITY_FIXTURE_PATH} could not be parsed; generated-memory fixture expectations were skipped.`
     });
+    return undefined;
   }
-  return [];
+
+  return normalizeQualityFixture(value, issues);
 }
 
-async function readJsonObjectsFromDir(
-  dirPath: string,
-  relativeDir: string,
-  area: EvaluationIssue["area"],
-  issues: EvaluationIssue[]
-): Promise<Record<string, unknown>[]> {
-  if (!existsSync(dirPath)) return [];
-  const names = await readdir(dirPath).catch(() => {
+function normalizeQualityFixture(value: unknown, issues: EvaluationIssue[]): GeneratedMemoryQualityFixture | undefined {
+  const record = objectRecord(value);
+  if (!record) {
     issues.push({
       severity: "warning",
-      area,
-      filePath: relativeDir,
-      message: `${relativeDir} could not be read.`
+      area: "quality",
+      filePath: QUALITY_FIXTURE_PATH,
+      message: `${QUALITY_FIXTURE_PATH} must be a JSON object; generated-memory fixture expectations were skipped.`
     });
-    return [];
-  });
-  const objects: Record<string, unknown>[] = [];
-
-  for (const name of names.filter(name => name.endsWith(".json")).sort()) {
-    const filePath = path.join(dirPath, name);
-    const relativePath = `${relativeDir}/${name}`;
-    try {
-      const value = await readJson<unknown>(filePath, undefined);
-      if (objectRecord(value)) objects.push(value);
-      else {
-        issues.push({
-          severity: "warning",
-          area,
-          filePath: relativePath,
-          message: `${relativePath} must be a JSON object.`
-        });
-      }
-    } catch {
-      issues.push({
-        severity: "warning",
-        area,
-        filePath: relativePath,
-        message: `${relativePath} is not valid JSON.`
-      });
-    }
+    return undefined;
   }
 
-  return objects;
+  return {
+    ...optionalStringArrayField(record, "expectedTreeNodeIds", issues),
+    ...optionalStringArrayField(record, "expectedArchitectureNodeIds", issues),
+    ...optionalStringArrayField(record, "expectedConceptIds", issues),
+    ...optionalStringArrayField(record, "expectedInvariantIds", issues),
+    ...optionalStringArrayField(record, "allowedNoisyConceptIds", issues),
+    ...optionalContextPackExpectations(record, issues)
+  };
+}
+
+function optionalStringArrayField(
+  record: Record<string, unknown>,
+  field: keyof GeneratedMemoryQualityFixture,
+  issues: EvaluationIssue[]
+): Partial<GeneratedMemoryQualityFixture> {
+  if (!(field in record)) return {};
+  const value = record[field];
+  if (Array.isArray(value) && value.every(item => typeof item === "string")) {
+    return { [field]: uniqueSorted(value) };
+  }
+  fixtureFieldIssue(field, "Expected an array of strings.", issues);
+  return {};
+}
+
+function optionalContextPackExpectations(
+  record: Record<string, unknown>,
+  issues: EvaluationIssue[]
+): Partial<GeneratedMemoryQualityFixture> {
+  if (!("expectedContextPacks" in record)) return {};
+  const value = record.expectedContextPacks;
+  if (!Array.isArray(value)) {
+    fixtureFieldIssue("expectedContextPacks", "Expected an array of context-pack expectation objects.", issues);
+    return {};
+  }
+
+  const expectedContextPacks = value
+    .map((item, index) => normalizeContextPackExpectation(item, index, issues))
+    .filter((item): item is ExpectedContextPackQuality => Boolean(item));
+  return { expectedContextPacks };
+}
+
+function normalizeContextPackExpectation(
+  value: unknown,
+  index: number,
+  issues: EvaluationIssue[]
+): ExpectedContextPackQuality | undefined {
+  const record = objectRecord(value);
+  if (!record || typeof record.target !== "string" || !record.target.trim()) {
+    issues.push({
+      severity: "warning",
+      area: "quality",
+      filePath: QUALITY_FIXTURE_PATH,
+      message: `expectedContextPacks[${index}] must be an object with a non-empty target string.`
+    });
+    return undefined;
+  }
+
+  return {
+    target: record.target,
+    ...optionalContextStringArray(record, "expectedTreeNodeIds", index, issues),
+    ...optionalContextStringArray(record, "expectedFilePaths", index, issues),
+    ...optionalContextStringArray(record, "expectedConceptIds", index, issues),
+    ...optionalContextStringArray(record, "expectedInvariantIds", index, issues)
+  };
+}
+
+function optionalContextStringArray(
+  record: Record<string, unknown>,
+  field: keyof ExpectedContextPackQuality,
+  index: number,
+  issues: EvaluationIssue[]
+): Partial<ExpectedContextPackQuality> {
+  if (!(field in record)) return {};
+  const value = record[field];
+  if (Array.isArray(value) && value.every(item => typeof item === "string")) {
+    return { [field]: uniqueSorted(value) };
+  }
+  issues.push({
+    severity: "warning",
+    area: "quality",
+    filePath: QUALITY_FIXTURE_PATH,
+    message: `expectedContextPacks[${index}].${field} must be an array of strings.`
+  });
+  return {};
+}
+
+function fixtureFieldIssue(field: string, message: string, issues: EvaluationIssue[]): void {
+  issues.push({
+    severity: "warning",
+    area: "quality",
+    filePath: QUALITY_FIXTURE_PATH,
+    message: `${QUALITY_FIXTURE_PATH} ${field}: ${message}`
+  });
+}
+
+function qualityIssues(quality: GeneratedMemoryQualityReport): EvaluationIssue[] {
+  const issues: EvaluationIssue[] = [];
+  const fixturePath = quality.fixture.path;
+
+  if (quality.fixture.missingExpectedTreeNodeCount) {
+    issues.push({
+      severity: "error",
+      area: "quality",
+      filePath: fixturePath,
+      message: `Generated memory is missing expected tree nodes: ${quality.fixture.missingExpectedTreeNodeIds.join(", ")}.`
+    });
+  }
+  if (quality.fixture.missingExpectedArchitectureNodeCount) {
+    issues.push({
+      severity: "error",
+      area: "quality",
+      filePath: fixturePath,
+      message: `Generated memory is missing expected architecture nodes: ${quality.fixture.missingExpectedArchitectureNodeIds.join(", ")}.`
+    });
+  }
+  if (quality.fixture.missingExpectedConceptCount) {
+    issues.push({
+      severity: "error",
+      area: "quality",
+      filePath: fixturePath,
+      message: `Generated memory is missing expected concepts: ${quality.fixture.missingExpectedConceptIds.join(", ")}.`
+    });
+  }
+  if (quality.fixture.missingExpectedInvariantCount) {
+    issues.push({
+      severity: "error",
+      area: "quality",
+      filePath: fixturePath,
+      message: `Generated memory is missing expected invariants: ${quality.fixture.missingExpectedInvariantIds.join(", ")}.`
+    });
+  }
+  if (quality.context.missingExpectedInclusionCount) {
+    issues.push({
+      severity: "error",
+      area: "quality",
+      filePath: fixturePath,
+      message: `Generated context packs are missing expected inclusions: ${quality.context.missingExpectedInclusions.join("; ")}.`
+    });
+  }
+  if (quality.concepts.noisyConceptCount) {
+    issues.push({
+      severity: "warning",
+      area: "quality",
+      filePath: ".abstraction-tree/concepts.json",
+      message: `Generated concepts include ${quality.concepts.noisyConceptCount} noisy concept candidate(s): ${quality.concepts.noisyConceptIds.join(", ")}.`
+    });
+  }
+  if (quality.imports.unresolvedImportCount) {
+    issues.push({
+      severity: "warning",
+      area: "quality",
+      filePath: ".abstraction-tree/import-graph.json",
+      message: `Import graph has ${quality.imports.unresolvedImportCount} unresolved import(s); architecture and context coverage may be incomplete.`
+    });
+  }
+
+  return issues;
+}
+
+function evaluateArchitectureCoverage(nodes: TreeNode[], files: FileSummary[]): GeneratedMemoryQualityReport["architecture"] {
+  const architectureNodes = nodes.filter(isArchitectureNode);
+  const architectureFiles = new Set(architectureNodes.flatMap(nodeFiles));
+  const coverableFiles = files.filter(isArchitectureCoverableFile);
+  const coveredFileCount = coverableFiles.filter(file => architectureFiles.has(file.path)).length;
+
+  return {
+    architectureNodeCount: architectureNodes.length,
+    architectureCoverableFileCount: coverableFiles.length,
+    architectureCoveredFileCount: coveredFileCount,
+    architectureCoveragePercent: percentage(coveredFileCount, coverableFiles.length)
+  };
+}
+
+function evaluateExpectedContextPacks(
+  packs: ContextPack[],
+  expectedPacks: ExpectedContextPackQuality[]
+): GeneratedMemoryQualityReport["context"] {
+  const missingExpectedInclusions: string[] = [];
+  let passingExpectedContextPackCount = 0;
+
+  for (const expected of expectedPacks) {
+    const candidates = packs.filter(pack => normalizeTarget(pack.target) === normalizeTarget(expected.target));
+    if (!candidates.length) {
+      missingExpectedInclusions.push(`target "${expected.target}" has no generated context pack`);
+      continue;
+    }
+
+    const bestMissing = candidates
+      .map(pack => missingContextInclusions(pack, expected))
+      .sort((a, b) => a.length - b.length)[0] ?? [];
+    if (!bestMissing.length) {
+      passingExpectedContextPackCount += 1;
+      continue;
+    }
+    missingExpectedInclusions.push(...bestMissing);
+  }
+
+  return {
+    evaluatedContextPackCount: packs.length,
+    expectedContextPackCount: expectedPacks.length,
+    passingExpectedContextPackCount,
+    missingExpectedInclusionCount: missingExpectedInclusions.length,
+    missingExpectedInclusions: missingExpectedInclusions.slice(0, 20)
+  };
+}
+
+function missingContextInclusions(pack: ContextPack, expected: ExpectedContextPackQuality): string[] {
+  return [
+    ...missingContextValues(pack.target, "node", expected.expectedTreeNodeIds ?? [], pack.relevantNodes.map(node => node.id)),
+    ...missingContextValues(pack.target, "file", expected.expectedFilePaths ?? [], pack.relevantFiles.map(file => file.path)),
+    ...missingContextValues(pack.target, "concept", expected.expectedConceptIds ?? [], pack.relevantConcepts.map(concept => concept.id)),
+    ...missingContextValues(pack.target, "invariant", expected.expectedInvariantIds ?? [], pack.invariants.map(invariant => invariant.id))
+  ];
+}
+
+function missingContextValues(target: string, label: string, expected: string[], actual: string[]): string[] {
+  const actualSet = new Set(actual);
+  return expected
+    .filter(value => !actualSet.has(value))
+    .map(value => `target "${target}" missing ${label} ${value}`);
+}
+
+function noisyConceptReasons(concept: Concept): string[] {
+  const reasons: string[] = [];
+  const normalizedId = concept.id.toLowerCase().replace(/[^a-z0-9]+/g, ".");
+  if (NOISY_CONCEPT_IDS.has(normalizedId)) reasons.push("generic concept id");
+  if (!arrayLength(concept.relatedFiles)) reasons.push("no related files");
+  if (!arrayLength(concept.evidence)) reasons.push("no evidence");
+  return reasons;
+}
+
+function missingValues(expected: string[], actual: Set<string>): string[] {
+  return expected.filter(value => !actual.has(value));
+}
+
+function isArchitectureNode(node: TreeNode): boolean {
+  return node.id.startsWith("architecture.") || nodeParent(node) === "project.architecture";
+}
+
+function isArchitectureCoverableFile(file: FileSummary): boolean {
+  return !file.isTest && !file.path.startsWith(".abstraction-tree/");
+}
+
+function normalizeTarget(value: string): string {
+  return value.trim().toLowerCase();
+}
+
+function objectRecord(value: unknown): Record<string, unknown> | undefined {
+  return typeof value === "object" && value !== null && !Array.isArray(value) ? value as Record<string, unknown> : undefined;
+}
+
+function uniqueSorted(values: string[]): string[] {
+  return [...new Set(values)].sort();
+}
+
+function percentage(numerator: number, denominator: number): number {
+  if (!denominator) return 0;
+  return Math.round((numerator / denominator) * 10000) / 100;
 }
 
 interface MarkdownFile {
@@ -385,10 +749,6 @@ function nonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
 }
 
-function objectRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
 function isGeneratedScanRecord(change: Record<string, unknown>): boolean {
   return typeof change.id === "string" && change.id.startsWith("scan.");
 }
@@ -408,4 +768,18 @@ function normalized(values: string[] = []): string[] {
 
 function pad(value: number): string {
   return String(value).padStart(2, "0");
+}
+
+function runtimeIssueArea(filePath?: string): EvaluationIssue["area"] {
+  if (filePath?.includes("/context-packs")) return "context";
+  if (filePath?.includes("/changes")) return "changes";
+  if (filePath?.includes("/runs")) return "runs";
+  if (filePath?.includes("/automation")) return "automation";
+  return "tree";
+}
+
+function runtimeIssueMessage(issue: ValidationIssue): string {
+  const location = [issue.filePath, issue.fieldPath].filter(Boolean).join(" ");
+  const hint = issue.recoveryHint ? ` Hint: ${issue.recoveryHint}` : "";
+  return `${location ? `${location}: ` : ""}${issue.message}${hint}`;
 }
