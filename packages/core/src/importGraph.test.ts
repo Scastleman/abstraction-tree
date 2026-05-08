@@ -89,6 +89,59 @@ test("buildImportGraph resolves workspace package imports and separates external
   assert.deepEqual(validateImportGraphSchema(graph), []);
 });
 
+test("buildImportGraph resolves relative generated package artifact imports to scanned source files", async t => {
+  const root = await workspace(t);
+  await mkdir(path.join(root, "packages", "app", "src"), { recursive: true });
+  await mkdir(path.join(root, "packages", "core", "src"), { recursive: true });
+  await writeFile(path.join(root, "package.json"), JSON.stringify({ workspaces: ["packages/*"] }), "utf8");
+  await writeFile(path.join(root, "packages", "app", "package.json"), JSON.stringify({ name: "@abstraction-tree/app" }), "utf8");
+  await writeFile(path.join(root, "packages", "core", "package.json"), JSON.stringify({
+    name: "@abstraction-tree/core",
+    main: "dist/index.js",
+    types: "dist/index.d.ts"
+  }), "utf8");
+
+  const graph = await buildImportGraph(root, [
+    file("scripts/app-node-accessors.test.mjs", ["../packages/app/dist-ts/nodeAccessors.js"]),
+    file("scripts/generated-memory-fixtures.test.mjs", ["../packages/core/dist/index.js"]),
+    file("packages/app/src/main.tsx"),
+    file("packages/app/src/nodeAccessors.ts"),
+    file("packages/core/src/index.ts")
+  ]);
+
+  assert.deepEqual(graph.edges.map(edge => [edge.from, edge.specifier, edge.to, edge.kind, edge.packageName]), [
+    [
+      "scripts/app-node-accessors.test.mjs",
+      "../packages/app/dist-ts/nodeAccessors.js",
+      "packages/app/src/nodeAccessors.ts",
+      "workspace-package",
+      "@abstraction-tree/app"
+    ],
+    [
+      "scripts/generated-memory-fixtures.test.mjs",
+      "../packages/core/dist/index.js",
+      "packages/core/src/index.ts",
+      "workspace-package",
+      "@abstraction-tree/core"
+    ]
+  ]);
+  assert.deepEqual(graph.unresolvedImports, []);
+  assert.deepEqual(validateImportGraphSchema(graph), []);
+});
+
+test("buildImportGraphFromFiles keeps genuinely missing relative source imports unresolved", () => {
+  const graph = buildImportGraphFromFiles([
+    file("scripts/check-source.test.mjs", ["../src/missing.js"]),
+    file("src/index.ts")
+  ]);
+
+  assert.deepEqual(graph.edges, []);
+  assert.deepEqual(graph.unresolvedImports.map(item => [item.from, item.specifier, item.kind]), [
+    ["scripts/check-source.test.mjs", "../src/missing.js", "relative"]
+  ]);
+  assert.deepEqual(validateImportGraphSchema(graph), []);
+});
+
 test("buildImportGraphFromFiles detects file import cycles", () => {
   const graph = buildImportGraphFromFiles([
     file("src/a.ts", ["./b"]),

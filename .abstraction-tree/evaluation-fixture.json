@@ -46,7 +46,12 @@
       ],
       "expectedInvariantIds": [
         "invariant.tests-reflect-behavior"
-      ]
+      ],
+      "maxRelevantNodes": 24,
+      "maxRelevantFiles": 33,
+      "maxRelevantConcepts": 19,
+      "maxRecentChanges": 10,
+      "maxEstimatedTokens": 23000
     }
   ]
 }

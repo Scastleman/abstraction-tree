@@ -5,7 +5,7 @@ import path from "node:path";
 import test, { type TestContext } from "node:test";
 import { CONTEXT_OVER_BROAD_LIMITS, CONTEXT_PACK_LIMITS } from "./contextLimits.js";
 import { evaluateProject } from "./evaluator.js";
-import type { Concept, ContextPack, FileSummary, ImportGraph, TreeNode } from "./schema.js";
+import type { ChangeRecord, Concept, ContextPack, FileSummary, ImportGraph, TreeNode } from "./schema.js";
 
 const loopConfigPath = ".abstraction-tree/automation/loop-config.json";
 const loopRuntimeExamplePath = ".abstraction-tree/automation/loop-runtime.example.json";
@@ -56,27 +56,82 @@ test("evaluateProject counts run reports by result", async t => {
   });
 });
 
-test("evaluateProject reports generated scan change-record buildup", async t => {
+test("evaluateProject reports generated scan buildup with one retained scan", async t => {
   const root = await workspace(t);
   await writeValidAutomationFiles(root);
   for (let index = 0; index < 12; index += 1) {
-    await writeChange(root, `scan.${index}`);
+    await writeChange(root, `scan.${String(index).padStart(2, "0")}`, `2026-05-04T10:${String(index).padStart(2, "0")}:00.000Z`);
   }
-  await writeChange(root, "semantic.1");
-  await writeChange(root, "semantic.2");
 
   const report = await evaluateProject(root, { now: fixedNow() });
 
   assert.deepEqual(report.changes, {
-    totalChangeRecordCount: 14,
+    totalChangeRecordCount: 12,
     generatedScanRecordCount: 12,
-    semanticChangeRecordCount: 2,
+    semanticChangeRecordCount: 0,
+    eligibleGeneratedScanRecordCount: 11,
+    retainedGeneratedScanRecordId: "scan.11",
+    changeReviewIssueCount: 0,
     generatedScanReviewNeeded: true
   });
   assert.ok(report.issues.some(issue =>
     issue.area === "changes" &&
     issue.filePath === ".abstraction-tree/changes" &&
-    issue.message.includes("12 generated scan records")
+    issue.message.includes("11 older generated scan records are eligible for consolidation") &&
+    issue.message.includes("retaining latest generated scan scan.11") &&
+    issue.message.includes("Change review reported 0 issues")
+  ));
+});
+
+test("evaluateProject keeps semantic records separate from generated scan eligibility", async t => {
+  const root = await workspace(t);
+  await writeValidAutomationFiles(root);
+  for (let index = 0; index < 12; index += 1) {
+    await writeChange(root, `scan.${String(index).padStart(2, "0")}`, `2026-05-04T10:${String(index).padStart(2, "0")}:00.000Z`);
+  }
+  for (let index = 0; index < 20; index += 1) {
+    await writeChange(root, `semantic.${String(index).padStart(2, "0")}`, `2026-05-04T11:${String(index).padStart(2, "0")}:00.000Z`);
+  }
+
+  const report = await evaluateProject(root, { now: fixedNow() });
+
+  assert.deepEqual(report.changes, {
+    totalChangeRecordCount: 32,
+    generatedScanRecordCount: 12,
+    semanticChangeRecordCount: 20,
+    eligibleGeneratedScanRecordCount: 11,
+    retainedGeneratedScanRecordId: "scan.11",
+    changeReviewIssueCount: 0,
+    generatedScanReviewNeeded: true
+  });
+  assert.ok(report.issues.some(issue =>
+    issue.area === "changes" &&
+    issue.message.includes("11 older generated scan records are eligible for consolidation")
+  ));
+});
+
+test("evaluateProject does not warn when generated scan count is below threshold", async t => {
+  const root = await workspace(t);
+  await writeValidAutomationFiles(root);
+  for (let index = 0; index < 10; index += 1) {
+    await writeChange(root, `scan.${String(index).padStart(2, "0")}`, `2026-05-04T10:${String(index).padStart(2, "0")}:00.000Z`);
+  }
+
+  const report = await evaluateProject(root, { now: fixedNow() });
+
+  assert.deepEqual(report.changes, {
+    totalChangeRecordCount: 10,
+    generatedScanRecordCount: 10,
+    semanticChangeRecordCount: 0,
+    eligibleGeneratedScanRecordCount: 9,
+    retainedGeneratedScanRecordId: "scan.09",
+    changeReviewIssueCount: 0,
+    generatedScanReviewNeeded: false
+  });
+  assert.ok(!report.issues.some(issue =>
+    issue.area === "changes" &&
+    issue.filePath === ".abstraction-tree/changes" &&
+    issue.message.includes("older generated scan records are eligible for consolidation")
   ));
 });
 
@@ -152,6 +207,80 @@ test("evaluateProject reports generated-memory quality regressions", async t => 
   assert.ok(report.issues.some(issue => issue.area === "quality" && issue.message.includes("unresolved import")));
 });
 
+test("evaluateProject warns when expected context pack exceeds fixture ceilings", async t => {
+  const root = await workspace(t);
+  await writeValidAutomationFiles(root);
+  await writeJson(root, ".abstraction-tree/context-packs/checkout.json", contextPack("checkout", {
+    relevantNodes: [node("node.checkout", undefined, []), node("node.extra", undefined, [])],
+    relevantFiles: [file("src/checkout.ts", []), file("src/extra.ts", [])],
+    relevantConcepts: [concept("checkout"), concept("extra")],
+    recentChanges: [changeRecord("change.one"), changeRecord("change.two")]
+  }));
+  await writeJson(root, ".abstraction-tree/evaluation-fixture.json", {
+    expectedContextPacks: [{
+      target: "checkout",
+      expectedFilePaths: ["src/checkout.ts"],
+      maxRelevantNodes: 1,
+      maxRelevantFiles: 1,
+      maxRelevantConcepts: 1,
+      maxRecentChanges: 1,
+      maxEstimatedTokens: 1
+    }]
+  });
+
+  const report = await evaluateProject(root, { now: fixedNow() });
+
+  assert.equal(report.quality.context.missingExpectedInclusionCount, 0);
+  assert.deepEqual(report.quality.context.missingExpectedInclusions, []);
+  assert.equal(report.quality.context.expectedContextPackCeilingViolationCount, 5);
+  assert.equal(report.quality.context.passingExpectedContextPackCount, 0);
+  const ceilingViolations = report.quality.context.expectedContextPackCeilingViolations.join("; ");
+  assert.ok(ceilingViolations.includes("maxRelevantNodes (2 > 1)"));
+  assert.ok(ceilingViolations.includes("maxRelevantFiles (2 > 1)"));
+  assert.ok(ceilingViolations.includes("maxRelevantConcepts (2 > 1)"));
+  assert.ok(ceilingViolations.includes("maxRecentChanges (2 > 1)"));
+  assert.ok(ceilingViolations.includes("maxEstimatedTokens"));
+  assert.ok(report.issues.some(issue =>
+    issue.severity === "warning" &&
+    issue.area === "quality" &&
+    issue.message.includes("Generated context packs exceed fixture ceilings") &&
+    issue.message.includes("maxRelevantFiles")
+  ));
+  assert.ok(!report.issues.some(issue =>
+    issue.area === "quality" &&
+    issue.message.includes("Generated context packs are missing expected inclusions")
+  ));
+});
+
+test("evaluateProject validates context-pack fixture ceilings", async t => {
+  const root = await workspace(t);
+  await writeValidAutomationFiles(root);
+  await writeJson(root, ".abstraction-tree/context-packs/checkout.json", contextPack("checkout", {}));
+  await writeJson(root, ".abstraction-tree/evaluation-fixture.json", {
+    expectedContextPacks: [{
+      target: "checkout",
+      maxRelevantNodes: 0,
+      maxRelevantFiles: 1.5,
+      maxRelevantConcepts: "2",
+      maxRecentChanges: null,
+      maxEstimatedTokens: -1
+    }]
+  });
+
+  const report = await evaluateProject(root, { now: fixedNow() });
+
+  assert.equal(report.quality.context.expectedContextPackCeilingViolationCount, 0);
+  assert.equal(report.quality.context.passingExpectedContextPackCount, 1);
+  for (const field of ["maxRelevantNodes", "maxRelevantFiles", "maxRelevantConcepts", "maxRecentChanges", "maxEstimatedTokens"]) {
+    assert.ok(report.issues.some(issue =>
+      issue.severity === "warning" &&
+      issue.area === "quality" &&
+      issue.filePath === ".abstraction-tree/evaluation-fixture.json" &&
+      issue.message.includes(`expectedContextPacks[0].${field} must be a positive integer`)
+    ));
+  }
+});
+
 test("evaluation output is serializable", async t => {
   const root = await workspace(t);
   await writeValidAutomationFiles(root);
@@ -203,17 +332,21 @@ async function writeRun(root: string, name: string, result: string) {
   await writeFile(path.join(root, ".abstraction-tree", "runs", name), `# Agent Run Report\n\n## Result\n\n${result}\n`, "utf8");
 }
 
-async function writeChange(root: string, id: string) {
-  await writeJson(root, `.abstraction-tree/changes/${id}.json`, {
+async function writeChange(root: string, id: string, timestamp = "2026-05-04T15:30:00.000Z") {
+  await writeJson(root, `.abstraction-tree/changes/${id}.json`, changeRecord(id, timestamp));
+}
+
+function changeRecord(id: string, timestamp = "2026-05-04T15:30:00.000Z"): ChangeRecord {
+  return {
     id,
-    timestamp: "2026-05-04T15:30:00.000Z",
+    timestamp,
     title: id.startsWith("scan.") ? "Deterministic scan" : "Semantic change",
     reason: "Test change record.",
     affectedNodeIds: [],
     filesChanged: [],
     invariantsPreserved: [],
     risk: "low"
-  });
+  };
 }
 
 async function writeJson(root: string, relativePath: string, value: unknown, options: { bom?: boolean } = {}) {
@@ -314,7 +447,7 @@ function importGraphWithUnresolvedImport(): ImportGraph {
 
 function contextPack(
   id: string,
-  overrides: Partial<Pick<ContextPack, "relevantNodes" | "relevantFiles" | "relevantConcepts">>
+  overrides: Partial<Pick<ContextPack, "relevantNodes" | "relevantFiles" | "relevantConcepts" | "recentChanges">>
 ): ContextPack {
   return {
     id: `context.${id}`,
@@ -325,7 +458,7 @@ function contextPack(
     relevantFiles: overrides.relevantFiles ?? [],
     relevantConcepts: overrides.relevantConcepts ?? [],
     invariants: [],
-    recentChanges: [],
+    recentChanges: overrides.recentChanges ?? [],
     agentInstructions: ["Use relevant memory."]
   };
 }

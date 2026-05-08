@@ -79,7 +79,7 @@ test("valid assessment output passes validation", async t => {
   const { runDir, missionsDir } = assessmentPaths(root);
   await writeFileAt(root, "run/assessment.md", "# Assessment\n");
   await writeFileAt(root, "run/missions/README.md", "# Missions\n");
-  await writeFileAt(root, "run/missions/mission-one.md", "# Mission One\n");
+  await writeFileAt(root, "run/missions/mission-one.md", validMissionMarkdown());
 
   const missions = await validateAssessmentOutput({
     cwd: root,
@@ -89,6 +89,62 @@ test("valid assessment output passes validation", async t => {
   });
 
   assert.deepEqual(missions.map(filePath => relativePath(root, filePath)), ["run/missions/mission-one.md"]);
+});
+
+test("assessment output validation fails when a mission is missing frontmatter", async t => {
+  const root = await tempWorkspace(t);
+  const { runDir, missionsDir } = assessmentPaths(root);
+  await writeFileAt(root, "run/assessment.md", "# Assessment\n");
+  await writeFileAt(root, "run/missions/README.md", "# Missions\n");
+  await writeFileAt(root, "run/missions/mission-one.md", "# Mission\n");
+
+  await assert.rejects(
+    () => validateAssessmentOutput({ cwd: root, runDir, missionsDir, maxMissions: 1 }),
+    /run\/missions\/mission-one\.md.*missing frontmatter/
+  );
+});
+
+test("assessment output validation fails when a mission is missing required frontmatter fields", async t => {
+  const root = await tempWorkspace(t);
+  const { runDir, missionsDir } = assessmentPaths(root);
+  await writeFileAt(root, "run/assessment.md", "# Assessment\n");
+  await writeFileAt(root, "run/missions/README.md", "# Missions\n");
+  await writeFileAt(root, "run/missions/mission-one.md", validMissionMarkdown().replace(/^risk: low\n/mu, ""));
+
+  await assert.rejects(
+    () => validateAssessmentOutput({ cwd: root, runDir, missionsDir, maxMissions: 1 }),
+    /run\/missions\/mission-one\.md.*risk/
+  );
+});
+
+test("assessment output validation fails when parallelGroupSafe is not boolean", async t => {
+  const root = await tempWorkspace(t);
+  const { runDir, missionsDir } = assessmentPaths(root);
+  await writeFileAt(root, "run/assessment.md", "# Assessment\n");
+  await writeFileAt(root, "run/missions/README.md", "# Missions\n");
+  await writeFileAt(
+    root,
+    "run/missions/mission-one.md",
+    validMissionMarkdown().replace("parallelGroupSafe: true", "parallelGroupSafe: maybe")
+  );
+
+  await assert.rejects(
+    () => validateAssessmentOutput({ cwd: root, runDir, missionsDir, maxMissions: 1 }),
+    /run\/missions\/mission-one\.md.*parallelGroupSafe.*boolean/
+  );
+});
+
+test("assessment output validation fails when required body sections are missing", async t => {
+  const root = await tempWorkspace(t);
+  const { runDir, missionsDir } = assessmentPaths(root);
+  await writeFileAt(root, "run/assessment.md", "# Assessment\n");
+  await writeFileAt(root, "run/missions/README.md", "# Missions\n");
+  await writeFileAt(root, "run/missions/mission-one.md", validMissionMarkdown().replace("\n## Scope\n\nUpdate validation only.\n", "\n"));
+
+  await assert.rejects(
+    () => validateAssessmentOutput({ cwd: root, runDir, missionsDir, maxMissions: 1 }),
+    /run\/missions\/mission-one\.md.*## Scope/
+  );
 });
 
 test("assessment output validation fails without assessment.md", async t => {
@@ -182,6 +238,53 @@ function assessmentPaths(root) {
     runDir: path.join(root, "run"),
     missionsDir: path.join(root, "run", "missions")
   };
+}
+
+function validMissionMarkdown() {
+  return `---
+id: mission-one
+title: Mission One
+priority: P0
+risk: low
+affectedFiles:
+  - scripts/run-full-self-improvement-loop.mjs
+affectedNodes:
+  - file.scripts.run.full.self.improvement.loop.mjs
+dependsOn: []
+parallelGroup: full-loop
+parallelGroupSafe: true
+---
+
+# Mission
+
+## Goal
+
+Validate generated missions before planning.
+
+## Abstraction Tree Position
+
+Architecture and tests.
+
+## Why This Matters
+
+Bare missions weaken scope controls.
+
+## Scope
+
+Update validation only.
+
+## Out of Scope
+
+No planning semantic changes.
+
+## Required Checks
+
+- node --test scripts/run-full-self-improvement-loop.test.mjs
+
+## Success Criteria
+
+Invalid generated missions are rejected.
+`;
 }
 
 function relativePath(root, filePath) {

@@ -420,6 +420,18 @@
     },
     {
       "from": "packages/core/src/evaluator.ts",
+      "to": "packages/core/src/changeReview.ts",
+      "specifier": "./changeReview.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/evaluator.ts",
+      "to": "packages/core/src/context.ts",
+      "specifier": "./context.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/evaluator.ts",
       "to": "packages/core/src/contextLimits.ts",
       "specifier": "./contextLimits.js",
       "kind": "relative"
@@ -762,6 +774,13 @@
       "packageName": "@abstraction-tree/cli"
     },
     {
+      "from": "scripts/app-node-accessors.test.mjs",
+      "to": "packages/app/src/nodeAccessors.ts",
+      "specifier": "../packages/app/dist-ts/nodeAccessors.js",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/app"
+    },
+    {
       "from": "scripts/check-changelog.test.mjs",
       "to": "scripts/check-changelog.mjs",
       "specifier": "./check-changelog.mjs",
@@ -790,6 +809,13 @@
       "to": "scripts/project-text-files.mjs",
       "specifier": "./project-text-files.mjs",
       "kind": "relative"
+    },
+    {
+      "from": "scripts/generated-memory-fixtures.test.mjs",
+      "to": "packages/core/src/index.ts",
+      "specifier": "../packages/core/dist/index.js",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
     },
     {
       "from": "scripts/lint.mjs",
@@ -832,6 +858,13 @@
       "to": "scripts/run-tests.mjs",
       "specifier": "./run-tests.mjs",
       "kind": "relative"
+    },
+    {
+      "from": "scripts/small-web-app-fixture.test.mjs",
+      "to": "packages/core/src/index.ts",
+      "specifier": "../packages/core/dist/index.js",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
     }
   ],
   "externalImports": [
@@ -1876,26 +1909,7 @@
       "packageName": "node:url"
     }
   ],
-  "unresolvedImports": [
-    {
-      "from": "scripts/app-node-accessors.test.mjs",
-      "specifier": "../packages/app/dist-ts/nodeAccessors.js",
-      "kind": "relative",
-      "reason": "Relative import could not be resolved to a scanned repository file."
-    },
-    {
-      "from": "scripts/generated-memory-fixtures.test.mjs",
-      "specifier": "../packages/core/dist/index.js",
-      "kind": "relative",
-      "reason": "Relative import could not be resolved to a scanned repository file."
-    },
-    {
-      "from": "scripts/small-web-app-fixture.test.mjs",
-      "specifier": "../packages/core/dist/index.js",
-      "kind": "relative",
-      "reason": "Relative import could not be resolved to a scanned repository file."
-    }
-  ],
+  "unresolvedImports": [],
   "cycles": [],
   "workspacePackages": [
     {

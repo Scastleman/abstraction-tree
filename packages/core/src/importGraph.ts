@@ -16,6 +16,10 @@ export interface BuildImportGraphOptions {
 }
 
 type PackageManifest = Record<string, unknown>;
+interface GeneratedPackageArtifactResolution {
+  to: string;
+  packageName: string;
+}
 
 const JAVASCRIPT_EXTENSIONS = new Set([".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs"]);
 const RESOLUTION_EXTENSIONS = [".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs", ".json"];
@@ -25,6 +29,7 @@ const EXTENSION_ALIASES: Record<string, string[]> = {
   ".mjs": [".mts", ".mjs", ".ts", ".js"],
   ".cjs": [".cts", ".cjs", ".ts", ".js"]
 };
+const GENERATED_PACKAGE_BUILD_DIRS = new Set(["dist", "dist-ts"]);
 
 export function emptyImportGraph(): ImportGraph {
   return {
@@ -56,6 +61,17 @@ export function buildImportGraphFromFiles(files: FileSummary[], options: BuildIm
         if (to) {
           edges.push({ from: file.path, to, specifier, kind: "relative" });
         } else {
+          const generatedArtifact = resolveGeneratedPackageArtifactSpecifier(file.path, specifier, workspacePackages, fileSet);
+          if (generatedArtifact) {
+            edges.push({
+              from: file.path,
+              to: generatedArtifact.to,
+              specifier,
+              kind: "workspace-package",
+              packageName: generatedArtifact.packageName
+            });
+            continue;
+          }
           unresolvedImports.push(unresolved(file.path, specifier, "relative", "Relative import could not be resolved to a scanned repository file."));
         }
         continue;
@@ -146,10 +162,83 @@ function isRelativeSpecifier(specifier: string): boolean {
 }
 
 function resolveRelativeSpecifier(from: string, specifier: string, fileSet: Set<string>): string | undefined {
+  const candidate = relativeSpecifierCandidate(from, specifier);
+  return candidate ? resolvePathCandidate(candidate, fileSet) : undefined;
+}
+
+function relativeSpecifierCandidate(from: string, specifier: string): string | undefined {
   const fromDir = path.posix.dirname(from);
   const candidate = normalizeRepoPath(path.posix.normalize(path.posix.join(fromDir, specifier)));
   if (isOutsideRepo(candidate)) return undefined;
-  return resolvePathCandidate(candidate, fileSet);
+  return candidate;
+}
+
+function resolveGeneratedPackageArtifactSpecifier(
+  from: string,
+  specifier: string,
+  workspacePackages: WorkspacePackage[],
+  fileSet: Set<string>
+): GeneratedPackageArtifactResolution | undefined {
+  const candidate = relativeSpecifierCandidate(from, specifier);
+  if (!candidate) return undefined;
+
+  for (const workspacePackage of workspacePackagesBySpecificRoot(workspacePackages)) {
+    const artifactSubpath = generatedPackageArtifactSubpath(candidate, workspacePackage);
+    if (!artifactSubpath) continue;
+
+    return {
+      to: resolveGeneratedPackageArtifactSource(workspacePackage, artifactSubpath, fileSet),
+      packageName: workspacePackage.name
+    };
+  }
+
+  return undefined;
+}
+
+function workspacePackagesBySpecificRoot(workspacePackages: WorkspacePackage[]): WorkspacePackage[] {
+  return [...workspacePackages].sort((a, b) => b.root.length - a.root.length || a.name.localeCompare(b.name));
+}
+
+function generatedPackageArtifactSubpath(candidate: string, workspacePackage: WorkspacePackage): string | undefined {
+  const packageRelativePath = pathRelativeToPackage(candidate, workspacePackage.root);
+  if (!packageRelativePath) return undefined;
+
+  const [buildDir, ...artifactParts] = packageRelativePath.split("/");
+  if (!GENERATED_PACKAGE_BUILD_DIRS.has(buildDir) || !artifactParts.length) return undefined;
+
+  return artifactParts.join("/");
+}
+
+function pathRelativeToPackage(candidate: string, packageRoot: string): string | undefined {
+  const root = normalizeRepoPath(packageRoot);
+  if (root === ".") return candidate;
+  return candidate.startsWith(`${root}/`) ? candidate.slice(root.length + 1) : undefined;
+}
+
+function resolveGeneratedPackageArtifactSource(
+  workspacePackage: WorkspacePackage,
+  artifactSubpath: string,
+  fileSet: Set<string>
+): string {
+  const sourceEntrypoint = scannedPackageEntrypoint(workspacePackage, fileSet);
+  if (isPackageEntrypointArtifact(artifactSubpath) && sourceEntrypoint) return sourceEntrypoint;
+
+  return (
+    resolvePathCandidate(repoJoin(workspacePackage.root, "src", artifactSubpath), fileSet) ??
+    sourceEntrypoint ??
+    workspacePackage.root
+  );
+}
+
+function scannedPackageEntrypoint(workspacePackage: WorkspacePackage, fileSet: Set<string>): string | undefined {
+  return workspacePackage.entrypoint && fileSet.has(workspacePackage.entrypoint)
+    ? workspacePackage.entrypoint
+    : undefined;
+}
+
+function isPackageEntrypointArtifact(artifactSubpath: string): boolean {
+  return path.posix.dirname(artifactSubpath) === "." &&
+    path.posix.basename(artifactSubpath, path.posix.extname(artifactSubpath)) === "index";
 }
 
 function resolveWorkspaceSpecifier(specifier: string, workspacePackage: WorkspacePackage, fileSet: Set<string>): string | undefined {

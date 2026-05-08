@@ -47,9 +47,9 @@
       "concept-node.import.graph",
       "concept-node.memory",
       "concept-node.invariant",
+      "concept-node.context.pack",
       "concept-node.atree",
       "concept-node.diff",
-      "concept-node.context.pack",
       "concept-node.llm.proposal",
       "concept-node.loop",
       "concept-node.workspace",
@@ -3499,8 +3499,10 @@
       "import:./schema.js",
       "import:./scanner.js",
       "import:./automationValidation.js",
+      "import:./changeReview.js",
       "import:./workspace.js",
       "import:./contextLimits.js",
+      "import:./context.js",
       "import:./runReports.js"
     ],
     "dependsOn": [
@@ -3510,8 +3512,10 @@
       "import:./schema.js",
       "import:./scanner.js",
       "import:./automationValidation.js",
+      "import:./changeReview.js",
       "import:./workspace.js",
       "import:./contextLimits.js",
+      "import:./context.js",
       "import:./runReports.js"
     ],
     "changeLog": [],
@@ -3583,7 +3587,7 @@
     "title": "importGraph.ts",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "importGraph.ts is a TypeScript implementation file. AST-backed scan. Defines BuildImportGraphOptions, PackageManifest, JAVASCRIPT_EXTENSIONS, RESOLUTION_EXTENSIONS, EXTENSION_ALIASES. Depends on node:fs/promises, node:path, ./schema.js.",
+    "summary": "importGraph.ts is a TypeScript implementation file. AST-backed scan. Defines BuildImportGraphOptions, PackageManifest, GeneratedPackageArtifactResolution, JAVASCRIPT_EXTENSIONS, RESOLUTION_EXTENSIONS. Depends on node:fs/promises, node:path, ./schema.js.",
     "parent": "module.packages",
     "parentId": "module.packages",
     "children": [],
@@ -3594,7 +3598,7 @@
       "packages/core/src/importGraph.ts"
     ],
     "responsibilities": [
-      "importGraph.ts is a TypeScript implementation file. AST-backed scan. Defines BuildImportGraphOptions, PackageManifest, JAVASCRIPT_EXTENSIONS, RESOLUTION_EXTENSIONS, EXTENSION_ALIASES. Depends on node:fs/promises, node:path, ./schema.js."
+      "importGraph.ts is a TypeScript implementation file. AST-backed scan. Defines BuildImportGraphOptions, PackageManifest, GeneratedPackageArtifactResolution, JAVASCRIPT_EXTENSIONS, RESOLUTION_EXTENSIONS. Depends on node:fs/promises, node:path, ./schema.js."
     ],
     "dependencies": [
       "import:node:fs/promises",
@@ -7581,12 +7585,13 @@
     "title": "Change Record",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 6 file(s) using export, symbol signals.",
+    "summary": "Durable concept inferred from 7 file(s) using export, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
     "sourceFiles": [
       "packages/core/src/changeReview.ts",
+      "packages/core/src/evaluator.test.ts",
       "packages/core/src/evaluator.ts",
       "packages/core/src/runtimeSchema.test.ts",
       "packages/core/src/runtimeSchema.ts",
@@ -7595,6 +7600,7 @@
     ],
     "ownedFiles": [
       "packages/core/src/changeReview.ts",
+      "packages/core/src/evaluator.test.ts",
       "packages/core/src/evaluator.ts",
       "packages/core/src/runtimeSchema.test.ts",
       "packages/core/src/runtimeSchema.ts",
@@ -7607,6 +7613,7 @@
     "dependencies": [
       "module.packages",
       "file.packages.core.src.changereview.ts",
+      "file.packages.core.src.evaluator.test.ts",
       "file.packages.core.src.evaluator.ts",
       "file.packages.core.src.runtimeschema.test.ts",
       "file.packages.core.src.runtimeschema.ts",
@@ -7617,6 +7624,7 @@
     "dependsOn": [
       "module.packages",
       "file.packages.core.src.changereview.ts",
+      "file.packages.core.src.evaluator.test.ts",
       "file.packages.core.src.evaluator.ts",
       "file.packages.core.src.runtimeschema.test.ts",
       "file.packages.core.src.runtimeschema.ts",
@@ -8077,6 +8085,95 @@
     "confidence": 0.65
   },
   {
+    "id": "concept-node.context.pack",
+    "name": "Context Pack",
+    "title": "Context Pack",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 12 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "docs/AGENT_PROTOCOL.md",
+      "docs/DATA_MODEL.md",
+      "packages/core/src/context.ts",
+      "packages/core/src/contextLimits.ts",
+      "packages/core/src/evaluator.test.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/validator.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/generated-memory-fixtures.test.mjs"
+    ],
+    "ownedFiles": [
+      "docs/AGENT_PROTOCOL.md",
+      "docs/DATA_MODEL.md",
+      "packages/core/src/context.ts",
+      "packages/core/src/contextLimits.ts",
+      "packages/core/src/evaluator.test.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/validator.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/generated-memory-fixtures.test.mjs"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Context Pack concept across related files."
+    ],
+    "dependencies": [
+      "module.docs",
+      "module.packages",
+      "module.scripts",
+      "file.docs.agent.protocol.md",
+      "file.docs.data.model.md",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.contextlimits.ts",
+      "file.packages.core.src.evaluator.test.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.validator.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.scripts.generated.memory.fixtures.test.mjs",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline"
+    ],
+    "dependsOn": [
+      "module.docs",
+      "module.packages",
+      "module.scripts",
+      "file.docs.agent.protocol.md",
+      "file.docs.data.model.md",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.contextlimits.ts",
+      "file.packages.core.src.evaluator.test.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.validator.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.scripts.generated.memory.fixtures.test.mjs",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
     "id": "concept-node.atree",
     "name": "Atree",
     "title": "Atree",
@@ -8183,95 +8280,6 @@
       "file.scripts.run.abstraction.loop.ps1",
       "file.scripts.summarize.diff.ps1",
       "architecture.core.engine"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.context.pack",
-    "name": "Context Pack",
-    "title": "Context Pack",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 12 file(s) using export, symbol signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "docs/AGENT_PROTOCOL.md",
-      "docs/DATA_MODEL.md",
-      "packages/core/src/context.ts",
-      "packages/core/src/contextLimits.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/runtimeSchema.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/validator.ts",
-      "packages/core/src/workspace.ts",
-      "scripts/generated-memory-fixtures.test.mjs"
-    ],
-    "ownedFiles": [
-      "docs/AGENT_PROTOCOL.md",
-      "docs/DATA_MODEL.md",
-      "packages/core/src/context.ts",
-      "packages/core/src/contextLimits.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/runtimeSchema.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/validator.ts",
-      "packages/core/src/workspace.ts",
-      "scripts/generated-memory-fixtures.test.mjs"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Context Pack concept across related files."
-    ],
-    "dependencies": [
-      "module.docs",
-      "module.packages",
-      "module.scripts",
-      "file.docs.agent.protocol.md",
-      "file.docs.data.model.md",
-      "file.packages.core.src.context.ts",
-      "file.packages.core.src.contextlimits.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.runtimeschema.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.validator.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.scripts.generated.memory.fixtures.test.mjs",
-      "architecture.core.engine",
-      "architecture.scanner.tree.context.pipeline"
-    ],
-    "dependsOn": [
-      "module.docs",
-      "module.packages",
-      "module.scripts",
-      "file.docs.agent.protocol.md",
-      "file.docs.data.model.md",
-      "file.packages.core.src.context.ts",
-      "file.packages.core.src.contextlimits.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.runtimeschema.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.validator.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.scripts.generated.memory.fixtures.test.mjs",
-      "architecture.core.engine",
-      "architecture.scanner.tree.context.pipeline"
     ],
     "changeLog": [],
     "invariants": [

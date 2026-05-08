@@ -4,8 +4,10 @@ import path from "node:path";
 import type { Concept, ContextPack, FileSummary, ImportGraph, Invariant, TreeNode, ValidationIssue } from "./schema.js";
 import { scanProject } from "./scanner.js";
 import { validateAutomation } from "./automationValidation.js";
+import { buildChangeRecordReviewSummary, reviewChangeRecords, type ChangeRecordReviewSummary } from "./changeReview.js";
 import { atreePath, loadAtreeMemory, readJson, writeJson } from "./workspace.js";
 import { CONTEXT_OVER_BROAD_LIMITS } from "./contextLimits.js";
+import { estimateContextItemTokens } from "./context.js";
 import { summarizeRunMarkdown } from "./runReports.js";
 
 const LOOP_CONFIG_PATH = ".abstraction-tree/automation/loop-config.json";
@@ -47,6 +49,9 @@ export interface EvaluationReport {
     totalChangeRecordCount: number;
     generatedScanRecordCount: number;
     semanticChangeRecordCount: number;
+    eligibleGeneratedScanRecordCount: number;
+    retainedGeneratedScanRecordId?: string;
+    changeReviewIssueCount: number;
     generatedScanReviewNeeded: boolean;
   };
   lessons: {
@@ -83,7 +88,19 @@ export interface ExpectedContextPackQuality {
   expectedFilePaths?: string[];
   expectedConceptIds?: string[];
   expectedInvariantIds?: string[];
+  maxRelevantNodes?: number;
+  maxRelevantFiles?: number;
+  maxRelevantConcepts?: number;
+  maxRecentChanges?: number;
+  maxEstimatedTokens?: number;
 }
+
+type ContextPackCeilingField =
+  | "maxRelevantNodes"
+  | "maxRelevantFiles"
+  | "maxRelevantConcepts"
+  | "maxRecentChanges"
+  | "maxEstimatedTokens";
 
 export interface GeneratedMemoryQualityReport {
   fixture: {
@@ -123,6 +140,8 @@ export interface GeneratedMemoryQualityReport {
     passingExpectedContextPackCount: number;
     missingExpectedInclusionCount: number;
     missingExpectedInclusions: string[];
+    expectedContextPackCeilingViolationCount: number;
+    expectedContextPackCeilingViolations: string[];
   };
 }
 
@@ -154,12 +173,12 @@ export async function evaluateProject(projectRoot: string, options: EvaluateProj
   const files = memory.files;
   const contextPacks = memory.contextPacks as unknown as Record<string, unknown>[];
   const runReports = await readMarkdownFiles(atreePath(projectRoot, "runs"), ".abstraction-tree/runs", "runs", issues);
-  const changes = memory.changes as unknown as Record<string, unknown>[];
   const lessons = await readMarkdownFiles(atreePath(projectRoot, "lessons"), ".abstraction-tree/lessons", "lessons", issues);
   const qualityFixture = await readQualityFixture(projectRoot, issues);
   const currentScan = await scanProject(projectRoot);
   const automationIssues = await validateAutomation(projectRoot);
-  const changeEvaluation = evaluateChanges(changes);
+  const changeReviewSummary = buildChangeRecordReviewSummary(await reviewChangeRecords(projectRoot));
+  const changeEvaluation = evaluateChanges(changeReviewSummary);
   const quality = evaluateGeneratedMemoryQuality({
     nodes,
     files,
@@ -171,11 +190,12 @@ export async function evaluateProject(projectRoot: string, options: EvaluateProj
     ...(qualityFixture ? { fixturePath: QUALITY_FIXTURE_PATH } : {})
   });
   if (changeEvaluation.generatedScanReviewNeeded) {
+    const reviewIssueLabel = changeEvaluation.changeReviewIssueCount === 1 ? "issue" : "issues";
     issues.push({
       severity: "warning",
       area: "changes",
       filePath: ".abstraction-tree/changes",
-      message: `.abstraction-tree/changes contains ${changeEvaluation.generatedScanRecordCount} generated scan records and ${changeEvaluation.semanticChangeRecordCount} semantic records; review or consolidate scan records before the autopilot diff grows past guardrails.`
+      message: `.abstraction-tree/changes contains ${changeEvaluation.generatedScanRecordCount} generated scan records and ${changeEvaluation.semanticChangeRecordCount} semantic records; ${changeEvaluation.eligibleGeneratedScanRecordCount} older generated scan records are eligible for consolidation, retaining latest generated scan ${changeEvaluation.retainedGeneratedScanRecordId ?? "(none)"}. Change review reported ${changeEvaluation.changeReviewIssueCount} ${reviewIssueLabel}. Evaluation is read-only.`
     });
   }
   issues.push(...automationIssues.map(issue => ({
@@ -337,15 +357,19 @@ function evaluateRuns(reports: MarkdownFile[]): EvaluationReport["runs"] {
   };
 }
 
-function evaluateChanges(changes: Record<string, unknown>[]): EvaluationReport["changes"] {
-  const generatedScanRecordCount = changes.filter(isGeneratedScanRecord).length;
-  const semanticChangeRecordCount = Math.max(0, changes.length - generatedScanRecordCount);
-  return {
-    totalChangeRecordCount: changes.length,
-    generatedScanRecordCount,
-    semanticChangeRecordCount,
-    generatedScanReviewNeeded: generatedScanRecordCount > CHANGE_RECORD_REVIEW_THRESHOLD && generatedScanRecordCount > semanticChangeRecordCount
+function evaluateChanges(summary: ChangeRecordReviewSummary): EvaluationReport["changes"] {
+  const changes: EvaluationReport["changes"] = {
+    totalChangeRecordCount: summary.totalChangeRecordCount,
+    generatedScanRecordCount: summary.generatedScanRecordCount,
+    semanticChangeRecordCount: summary.semanticChangeRecordCount,
+    eligibleGeneratedScanRecordCount: summary.eligibleGeneratedScanRecordCount,
+    changeReviewIssueCount: summary.issueCount,
+    generatedScanReviewNeeded: summary.eligibleGeneratedScanRecordCount > CHANGE_RECORD_REVIEW_THRESHOLD
   };
+  if (summary.retainedGeneratedScanRecordId) {
+    changes.retainedGeneratedScanRecordId = summary.retainedGeneratedScanRecordId;
+  }
+  return changes;
 }
 
 function evaluateLessons(lessons: MarkdownFile[]): EvaluationReport["lessons"] {
@@ -456,7 +480,12 @@ function normalizeContextPackExpectation(
     ...optionalContextStringArray(record, "expectedTreeNodeIds", index, issues),
     ...optionalContextStringArray(record, "expectedFilePaths", index, issues),
     ...optionalContextStringArray(record, "expectedConceptIds", index, issues),
-    ...optionalContextStringArray(record, "expectedInvariantIds", index, issues)
+    ...optionalContextStringArray(record, "expectedInvariantIds", index, issues),
+    ...optionalContextPositiveInteger(record, "maxRelevantNodes", index, issues),
+    ...optionalContextPositiveInteger(record, "maxRelevantFiles", index, issues),
+    ...optionalContextPositiveInteger(record, "maxRelevantConcepts", index, issues),
+    ...optionalContextPositiveInteger(record, "maxRecentChanges", index, issues),
+    ...optionalContextPositiveInteger(record, "maxEstimatedTokens", index, issues)
   };
 }
 
@@ -476,6 +505,26 @@ function optionalContextStringArray(
     area: "quality",
     filePath: QUALITY_FIXTURE_PATH,
     message: `expectedContextPacks[${index}].${field} must be an array of strings.`
+  });
+  return {};
+}
+
+function optionalContextPositiveInteger(
+  record: Record<string, unknown>,
+  field: ContextPackCeilingField,
+  index: number,
+  issues: EvaluationIssue[]
+): Partial<ExpectedContextPackQuality> {
+  if (!(field in record)) return {};
+  const value = record[field];
+  if (isPositiveInteger(value)) {
+    return { [field]: value };
+  }
+  issues.push({
+    severity: "warning",
+    area: "quality",
+    filePath: QUALITY_FIXTURE_PATH,
+    message: `expectedContextPacks[${index}].${field} must be a positive integer.`
   });
   return {};
 }
@@ -533,6 +582,14 @@ function qualityIssues(quality: GeneratedMemoryQualityReport): EvaluationIssue[]
       message: `Generated context packs are missing expected inclusions: ${quality.context.missingExpectedInclusions.join("; ")}.`
     });
   }
+  if (quality.context.expectedContextPackCeilingViolationCount) {
+    issues.push({
+      severity: "warning",
+      area: "quality",
+      filePath: fixturePath,
+      message: `Generated context packs exceed fixture ceilings: ${quality.context.expectedContextPackCeilingViolations.join("; ")}.`
+    });
+  }
   if (quality.concepts.noisyConceptCount) {
     issues.push({
       severity: "warning",
@@ -572,6 +629,7 @@ function evaluateExpectedContextPacks(
   expectedPacks: ExpectedContextPackQuality[]
 ): GeneratedMemoryQualityReport["context"] {
   const missingExpectedInclusions: string[] = [];
+  const expectedContextPackCeilingViolations: string[] = [];
   let passingExpectedContextPackCount = 0;
 
   for (const expected of expectedPacks) {
@@ -581,14 +639,20 @@ function evaluateExpectedContextPacks(
       continue;
     }
 
-    const bestMissing = candidates
-      .map(pack => missingContextInclusions(pack, expected))
-      .sort((a, b) => a.length - b.length)[0] ?? [];
-    if (!bestMissing.length) {
+    const best = candidates
+      .map(pack => ({
+        pack,
+        missing: missingContextInclusions(pack, expected)
+      }))
+      .sort((a, b) => a.missing.length - b.missing.length)[0];
+    const bestMissing = best?.missing ?? [];
+    const bestCeilingViolations = best ? contextPackCeilingViolations(best.pack, expected) : [];
+    if (!bestMissing.length && !bestCeilingViolations.length) {
       passingExpectedContextPackCount += 1;
       continue;
     }
-    missingExpectedInclusions.push(...bestMissing);
+    if (bestMissing.length) missingExpectedInclusions.push(...bestMissing);
+    if (bestCeilingViolations.length) expectedContextPackCeilingViolations.push(...bestCeilingViolations);
   }
 
   return {
@@ -596,7 +660,9 @@ function evaluateExpectedContextPacks(
     expectedContextPackCount: expectedPacks.length,
     passingExpectedContextPackCount,
     missingExpectedInclusionCount: missingExpectedInclusions.length,
-    missingExpectedInclusions: missingExpectedInclusions.slice(0, 20)
+    missingExpectedInclusions: missingExpectedInclusions.slice(0, 20),
+    expectedContextPackCeilingViolationCount: expectedContextPackCeilingViolations.length,
+    expectedContextPackCeilingViolations: expectedContextPackCeilingViolations.slice(0, 20)
   };
 }
 
@@ -614,6 +680,34 @@ function missingContextValues(target: string, label: string, expected: string[],
   return expected
     .filter(value => !actualSet.has(value))
     .map(value => `target "${target}" missing ${label} ${value}`);
+}
+
+function contextPackCeilingViolations(pack: ContextPack, expected: ExpectedContextPackQuality): string[] {
+  return [
+    contextPackCeilingViolation(pack.target, "maxRelevantNodes", pack.relevantNodes.length, expected.maxRelevantNodes),
+    contextPackCeilingViolation(pack.target, "maxRelevantFiles", pack.relevantFiles.length, expected.maxRelevantFiles),
+    contextPackCeilingViolation(pack.target, "maxRelevantConcepts", pack.relevantConcepts.length, expected.maxRelevantConcepts),
+    contextPackCeilingViolation(pack.target, "maxRecentChanges", pack.recentChanges.length, expected.maxRecentChanges),
+    contextPackCeilingViolation(pack.target, "maxEstimatedTokens", contextPackEstimatedTokens(pack), expected.maxEstimatedTokens)
+  ].filter((violation): violation is string => Boolean(violation));
+}
+
+function contextPackCeilingViolation(
+  target: string,
+  field: ContextPackCeilingField,
+  actual: number,
+  ceiling?: number
+): string | undefined {
+  if (ceiling === undefined || actual <= ceiling) return undefined;
+  return `target "${target}" exceeds ${field} (${actual} > ${ceiling})`;
+}
+
+function contextPackEstimatedTokens(pack: ContextPack): number {
+  const diagnosticsEstimate = pack.diagnostics?.estimatedTokens;
+  if (typeof diagnosticsEstimate === "number" && Number.isFinite(diagnosticsEstimate) && diagnosticsEstimate >= 0) {
+    return diagnosticsEstimate;
+  }
+  return estimateContextItemTokens(pack);
 }
 
 function noisyConceptReasons(concept: Concept): string[] {
@@ -749,8 +843,8 @@ function nonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
 }
 
-function isGeneratedScanRecord(change: Record<string, unknown>): boolean {
-  return typeof change.id === "string" && change.id.startsWith("scan.");
+function isPositiveInteger(value: unknown): value is number {
+  return typeof value === "number" && Number.isInteger(value) && value > 0;
 }
 
 function arrayLength(value: unknown): number {

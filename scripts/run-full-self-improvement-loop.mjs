@@ -428,7 +428,135 @@ export async function validateAssessmentOutput(input) {
     );
   }
 
+  for (const missionPath of missions) {
+    const markdown = await readFile(missionPath, "utf8");
+    validateGeneratedMissionContract(markdown, relative(cwd, missionPath));
+  }
+
   return missions;
+}
+
+const requiredMissionStringFields = ["id", "title", "priority", "risk", "parallelGroup"];
+const requiredMissionArrayFields = ["affectedFiles", "affectedNodes", "dependsOn"];
+const requiredMissionBodyHeadings = [
+  "# Mission",
+  "## Goal",
+  "## Abstraction Tree Position",
+  "## Why This Matters",
+  "## Scope",
+  "## Out of Scope",
+  "## Required Checks",
+  "## Success Criteria"
+];
+
+function validateGeneratedMissionContract(markdown, missionLabel) {
+  const parsed = parseGeneratedMissionMarkdown(markdown);
+  if (!parsed.hasFrontmatter) {
+    throw new Error(`${missionLabel} is missing frontmatter delimited by ---.`);
+  }
+
+  for (const field of requiredMissionStringFields) {
+    if (!Object.hasOwn(parsed.frontmatter, field)) {
+      throw new Error(`${missionLabel} is missing required frontmatter field ${field}.`);
+    }
+    if (typeof parsed.frontmatter[field] !== "string" || !parsed.frontmatter[field].trim()) {
+      throw new Error(`${missionLabel} frontmatter field ${field} must be a non-empty string.`);
+    }
+  }
+
+  for (const field of requiredMissionArrayFields) {
+    if (!Object.hasOwn(parsed.frontmatter, field)) {
+      throw new Error(`${missionLabel} is missing required frontmatter field ${field}.`);
+    }
+    if (!Array.isArray(parsed.frontmatter[field])) {
+      throw new Error(`${missionLabel} frontmatter field ${field} must be an array.`);
+    }
+  }
+
+  if (!Object.hasOwn(parsed.frontmatter, "parallelGroupSafe")) {
+    throw new Error(`${missionLabel} is missing required frontmatter field parallelGroupSafe.`);
+  }
+  if (typeof parsed.frontmatter.parallelGroupSafe !== "boolean") {
+    throw new Error(`${missionLabel} frontmatter field parallelGroupSafe must be boolean true or false.`);
+  }
+
+  const headings = new Set(parsed.body.split(/\r?\n/u).map(line => line.trim()));
+  for (const heading of requiredMissionBodyHeadings) {
+    if (!headings.has(heading)) {
+      throw new Error(`${missionLabel} is missing required body heading ${heading}.`);
+    }
+  }
+}
+
+function parseGeneratedMissionMarkdown(markdown) {
+  const lines = markdown.split(/\r?\n/u);
+  if (lines[0]?.trim() !== "---") {
+    return { hasFrontmatter: false, frontmatter: {}, body: markdown };
+  }
+
+  const endIndex = lines.findIndex((line, index) => index > 0 && line.trim() === "---");
+  if (endIndex === -1) {
+    return { hasFrontmatter: false, frontmatter: {}, body: markdown };
+  }
+
+  return {
+    hasFrontmatter: true,
+    frontmatter: parseGeneratedMissionFrontmatter(lines.slice(1, endIndex).join("\n")),
+    body: lines.slice(endIndex + 1).join("\n").replace(/^\s*\n/u, "")
+  };
+}
+
+function parseGeneratedMissionFrontmatter(text) {
+  const result = {};
+  let currentArrayKey;
+
+  for (const rawLine of text.split(/\r?\n/u)) {
+    const line = rawLine.replace(/\s+$/u, "");
+    if (!line.trim() || line.trimStart().startsWith("#")) continue;
+
+    const arrayItem = line.match(/^\s*-\s*(.*)$/u);
+    if (arrayItem && currentArrayKey) {
+      result[currentArrayKey].push(unquoteFrontmatterValue(arrayItem[1].trim()));
+      continue;
+    }
+
+    currentArrayKey = undefined;
+    const field = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/u);
+    if (!field) continue;
+
+    const key = field[1];
+    const value = field[2].trim();
+    if (value === "[]") {
+      result[key] = [];
+      continue;
+    }
+    if (!value) {
+      result[key] = [];
+      currentArrayKey = key;
+      continue;
+    }
+    if (value === "true") {
+      result[key] = true;
+      continue;
+    }
+    if (value === "false") {
+      result[key] = false;
+      continue;
+    }
+    result[key] = unquoteFrontmatterValue(value);
+  }
+
+  return result;
+}
+
+function unquoteFrontmatterValue(value) {
+  if (
+    (value.startsWith('"') && value.endsWith('"')) ||
+    (value.startsWith("'") && value.endsWith("'"))
+  ) {
+    return value.slice(1, -1);
+  }
+  return value;
 }
 
 function missionRunnerArgs(input) {

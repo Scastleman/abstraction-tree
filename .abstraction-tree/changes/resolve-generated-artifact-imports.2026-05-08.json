@@ -1,0 +1,25 @@
+{
+  "id": "resolve-generated-artifact-imports.2026-05-08",
+  "timestamp": "2026-05-08T14:18:00-04:00",
+  "title": "Classify generated package artifact imports",
+  "reason": "Relative imports that target ignored workspace package build outputs now resolve to scanned package source when possible, or to the known package boundary, so generated artifacts are not reported as missing source dependencies.",
+  "affectedNodeIds": [
+    "architecture.core.engine",
+    "architecture.scanner.tree.context.pipeline",
+    "concept-node.import.graph",
+    "file.packages.core.src.importgraph.test.ts",
+    "file.packages.core.src.importgraph.ts",
+    "module.packages"
+  ],
+  "filesChanged": [
+    "packages/core/src/importGraph.ts",
+    "packages/core/src/importGraph.test.ts",
+    ".abstraction-tree/import-graph.json",
+    ".abstraction-tree/evaluations/2026-05-08-1417-evaluation.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "medium"
+}
