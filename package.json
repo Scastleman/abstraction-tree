@@ -27,6 +27,8 @@
     "atree:validate": "node packages/cli/dist/index.js validate --project . --strict",
     "atree:evaluate": "node packages/cli/dist/index.js evaluate --project .",
     "test": "node scripts/run-tests.mjs",
+    "missions:plan": "node scripts/run-missions.mjs --plan",
+    "missions:run": "node scripts/run-missions.mjs",
     "diff:summary": "node scripts/diff-summary.mjs",
     "diff:summary:windows": "powershell -ExecutionPolicy Bypass -File scripts/summarize-diff.ps1",
     "abstraction:loop:windows": "powershell -ExecutionPolicy Bypass -File scripts/run-abstraction-loop.ps1",

@@ -69,7 +69,7 @@ npm run atree:validate
 
 When running an autonomous improvement loop on this repository, start from existing memory before exploring widely:
 
-Bounded loop orchestration in this checkout is Windows PowerShell scoped. Use `npm run abstraction:loop:windows` for the local loop or `npm run codex:missions:windows` for the local mission runner. Do not run those loop commands in public CI; macOS/Linux contributors can use the Node-based core checks such as `npm run build`, `npm test`, `npm run atree:validate`, and `npm run diff:summary`.
+Bounded loop orchestration in this checkout is Windows PowerShell scoped. Use `npm run abstraction:loop:windows` for the local loop, `powershell -ExecutionPolicy Bypass -File scripts/run-abstraction-loop.ps1 -MaxLoopsThisRun 1` for an attended one-loop smoke run, or `npm run missions:plan` / `npm run missions:run` for the mission queue. Do not run those loop commands in public CI; macOS/Linux contributors can use the Node-based core checks such as `npm run build`, `npm test`, `npm run atree:validate`, and `npm run diff:summary`.
 
 1. Check `git diff`, committed loop policy in `.abstraction-tree/automation/loop-config.json`, ignored local counters in `.abstraction-tree/automation/loop-runtime.json`, and the latest files in `.abstraction-tree/runs/` and `.abstraction-tree/lessons/`.
 2. Use targeted reads of `README.md`, `docs/`, `packages/core/src/`, `packages/cli/src/`, and `.abstraction-tree/` before broad repository search.

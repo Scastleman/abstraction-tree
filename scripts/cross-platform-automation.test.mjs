@@ -65,3 +65,11 @@ test("diff-summary Node wrapper reads fixture input without PowerShell", async t
   assert.equal(summary.thresholds.maxDiffLines, 20);
   assert.deepEqual(summary.overreach, []);
 });
+
+test("PowerShell automation invokes npm through npm.cmd on Windows", async () => {
+  for (const scriptName of ["run-abstraction-loop.ps1", "run-codex-missions.ps1"]) {
+    const script = await readFile(path.join(repoRoot, "scripts", scriptName), "utf8");
+    assert.match(script, /npm\.cmd/);
+    assert.doesNotMatch(script, /Invoke-CheckedCommand\s+"npm"\b/);
+  }
+});

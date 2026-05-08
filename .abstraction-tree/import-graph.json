@@ -816,6 +816,12 @@
       "kind": "relative"
     },
     {
+      "from": "scripts/run-missions.test.mjs",
+      "to": "scripts/run-missions.mjs",
+      "specifier": "./run-missions.mjs",
+      "kind": "relative"
+    },
+    {
       "from": "scripts/run-tests.test.mjs",
       "to": "scripts/run-tests.mjs",
       "specifier": "./run-tests.mjs",
@@ -1687,6 +1693,61 @@
       "from": "scripts/release-dry-run.mjs",
       "specifier": "node:url",
       "packageName": "node:url"
+    },
+    {
+      "from": "scripts/run-missions.mjs",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "scripts/run-missions.mjs",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "scripts/run-missions.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/run-missions.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/run-missions.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/run-missions.mjs",
+      "specifier": "node:util",
+      "packageName": "node:util"
+    },
+    {
+      "from": "scripts/run-missions.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/run-missions.test.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/run-missions.test.mjs",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "scripts/run-missions.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/run-missions.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
     },
     {
       "from": "scripts/run-tests.mjs",

@@ -1,3 +1,7 @@
+param(
+  [int]$MaxLoopsThisRun = 0
+)
+
 $ErrorActionPreference = "Stop"
 
 # Runs one or more bounded Codex improvement loops with local runtime guards.
@@ -155,7 +159,7 @@ function Invoke-NpmScript($Scripts, [string]$Name, [bool]$Required) {
   }
 
   $arguments = if ($Name -eq "test") { @("test") } else { @("run", $Name) }
-  $exitCode = Invoke-CheckedCommand "npm" $arguments
+  $exitCode = Invoke-CheckedCommand "npm.cmd" $arguments
 
   return [pscustomobject]@{
     name = $Name
@@ -422,8 +426,14 @@ $scripts = (Read-JsonFile $PackagePath).scripts
 $runtime = Read-Runtime
 $runtime = Reset-RuntimeForNewDay $runtime (Get-Date -Format "yyyy-MM-dd")
 Save-JsonFile $runtime $RuntimePath
+$loopsRunThisSession = 0
 
 while ($true) {
+  if ($MaxLoopsThisRun -gt 0 -and $loopsRunThisSession -ge $MaxLoopsThisRun) {
+    Write-Host "Max loops for this run reached."
+    break
+  }
+
   $runtime = Read-Runtime
   $stopReason = Get-StopReason $runtime $config $startedAt
   if ($stopReason) {
@@ -463,6 +473,7 @@ while ($true) {
   Save-JsonFile $runtime $RuntimePath
 
   Invoke-AutoCommitIfEnabled $config $checkResults $worktreeWasCleanAtStart
+  $loopsRunThisSession += 1
 
   $stopReason = Get-StopReason (Read-Runtime) $config $startedAt
   if ($stopReason) {

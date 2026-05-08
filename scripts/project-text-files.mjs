@@ -13,7 +13,9 @@ export const ignoredRelativeFiles = new Set([
 ]);
 
 export const ignoredRelativePrefixes = [
-  ".abstraction-tree/automation/mission-logs/"
+  ".abstraction-tree/automation/mission-logs/",
+  ".abstraction-tree/mission-runs/",
+  ".abstraction-tree/worktrees/"
 ];
 
 export const supportedTextExtensions = new Set([

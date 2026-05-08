@@ -10,6 +10,8 @@ packages/app/.vite/
 # Local autonomous Codex mission runtime state
 .abstraction-tree/automation/mission-runtime.json
 .abstraction-tree/automation/mission-logs/
+.abstraction-tree/mission-runs/
+.abstraction-tree/worktrees/
 
 # Local autonomous abstraction loop runtime state
 .abstraction-tree/automation/loop-runtime.json

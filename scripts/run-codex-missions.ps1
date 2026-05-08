@@ -204,10 +204,10 @@ foreach ($mission in $missions) {
     Write-Host ""
     Write-Host "Running post-mission checks..."
 
-    $buildCode = Invoke-CheckedCommand "npm" @("run", "build")
-    $testCode = Invoke-CheckedCommand "npm" @("test")
-    $scanCode = Invoke-CheckedCommand "npm" @("run", "atree:scan")
-    $validateCode = Invoke-CheckedCommand "npm" @("run", "atree:validate")
+    $buildCode = Invoke-CheckedCommand "npm.cmd" @("run", "build")
+    $testCode = Invoke-CheckedCommand "npm.cmd" @("test")
+    $scanCode = Invoke-CheckedCommand "npm.cmd" @("run", "atree:scan")
+    $validateCode = Invoke-CheckedCommand "npm.cmd" @("run", "atree:validate")
 
     if ($buildCode -ne 0 -or $testCode -ne 0 -or $scanCode -ne 0 -or $validateCode -ne 0) {
       throw "Post-mission checks failed. build=$buildCode test=$testCode scan=$scanCode validate=$validateCode"
