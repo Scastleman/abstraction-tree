@@ -1,0 +1,25 @@
+{
+  "id": "validator-owned-files-fallback.2026-05-07-1906",
+  "timestamp": "2026-05-07T19:06:58-04:00",
+  "title": "Validate legacy ownedFiles fallback consistently",
+  "reason": "Validation now treats non-empty sourceFiles as preferred but falls back to legacy ownedFiles when sourceFiles is empty, matching context-pack and evaluator ownership semantics.",
+  "affectedNodeIds": [
+    "project.code",
+    "concept-node.validate",
+    "file.packages.core.src.validator.ts",
+    "file.packages.core.src.validator.test.ts"
+  ],
+  "filesChanged": [
+    "packages/core/src/validator.ts",
+    "packages/core/src/validator.test.ts",
+    ".abstraction-tree/files.json",
+    ".abstraction-tree/tree.json",
+    ".abstraction-tree/concepts.json",
+    ".abstraction-tree/invariants.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

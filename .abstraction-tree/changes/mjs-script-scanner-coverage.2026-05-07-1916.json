@@ -1,0 +1,24 @@
+{
+  "id": "mjs-script-scanner-coverage.2026-05-07-1916",
+  "timestamp": "2026-05-07T19:16:53-04:00",
+  "title": "Scan MJS script files",
+  "reason": "The scanner now treats .mjs files as JavaScript source, parses them with the existing TypeScript compiler AST path, and marks .test.mjs and .spec.mjs files as test coverage.",
+  "affectedNodeIds": [
+    "file.packages.core.src.scanner.ts",
+    "file.packages.core.src.scanner.test.ts",
+    "module.scripts"
+  ],
+  "filesChanged": [
+    "packages/core/src/scanner.ts",
+    "packages/core/src/scanner.test.ts",
+    ".abstraction-tree/files.json",
+    ".abstraction-tree/tree.json",
+    ".abstraction-tree/concepts.json",
+    ".abstraction-tree/invariants.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Activity, GitBranch, FileText, AlertTriangle, Network, History, Search } from "lucide-react";
 import type { AgentHealth, State, TreeNode } from "./types.js";
+import { nodeDependencies, nodeFiles, nodeLevel, nodeName } from "./nodeAccessors.js";
 import "./styles.css";
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
     if (!state) return [];
     const q = query.toLowerCase();
     return state.nodes.filter(n => {
-      const files = n.sourceFiles ?? n.ownedFiles ?? [];
+      const files = nodeFiles(n);
       return !q || nodeName(n).toLowerCase().includes(q) || n.summary.toLowerCase().includes(q) || files.some(f => f.toLowerCase().includes(q));
     });
   }, [state, query]);
@@ -110,22 +111,6 @@ function Panel({ title, icon, children, wide=false }: { title: string; icon: Rea
 function Stat({ label, value }: { label: string; value: number }) { return <div><strong>{value}</strong><span>{label}</span></div>; }
 
 const emptyState: State = { config: { projectName: "Unknown" }, ontology: [], nodes: [], files: [], concepts: [], invariants: [], changes: [] };
-
-function nodeName(node: TreeNode): string {
-  return node.name ?? node.title;
-}
-
-function nodeLevel(node: TreeNode): string {
-  return node.abstractionLevel ?? node.level;
-}
-
-function nodeFiles(node?: TreeNode): string[] {
-  return node?.sourceFiles ?? node?.ownedFiles ?? [];
-}
-
-function nodeDependencies(node: TreeNode): string[] {
-  return node.dependencies ?? node.dependsOn ?? [];
-}
 
 function displayTimestamp(value?: string): string {
   if (!value) return "Unknown";

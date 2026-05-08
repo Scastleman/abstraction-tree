@@ -1,0 +1,18 @@
+{
+  "id": "context-owned-files-fallback.2026-05-07-1551",
+  "timestamp": "2026-05-07T19:51:00Z",
+  "title": "Use ownedFiles fallback in context pack ownership",
+  "reason": "Context pack scoring treated an empty sourceFiles array as authoritative even when legacy ownedFiles aliases still identified node ownership, causing relevant files to be missed for alias-shaped metadata.",
+  "affectedNodeIds": [
+    "file.packages.core.src.context.ts",
+    "file.packages.core.src.context.test.ts"
+  ],
+  "filesChanged": [
+    "packages/core/src/context.ts",
+    "packages/core/src/context.test.ts"
+  ],
+  "invariantsPreserved": [
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

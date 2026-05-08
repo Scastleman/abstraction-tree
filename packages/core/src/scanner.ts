@@ -5,33 +5,46 @@ import * as ts from "typescript";
 import type { FileSummary } from "./schema.js";
 import { readConfig } from "./workspace.js";
 
-const LANGUAGE_BY_EXT: Record<string, string> = {
-  ".ts": "TypeScript",
-  ".tsx": "TypeScript React",
-  ".js": "JavaScript",
-  ".jsx": "JavaScript React",
-  ".py": "Python",
-  ".go": "Go",
-  ".rs": "Rust",
-  ".cpp": "C++",
-  ".hpp": "C++",
-  ".c": "C",
-  ".h": "C/C++",
-  ".cs": "C#",
-  ".java": "Java",
-  ".vue": "Vue",
-  ".svelte": "Svelte",
-  ".json": "JSON",
-  ".yaml": "YAML",
-  ".yml": "YAML",
-  ".md": "Markdown",
-  ".sql": "SQL"
+type ParseStrategy = NonNullable<FileSummary["parseStrategy"]>;
+
+type ExtensionDescriptor =
+  | {
+      language: string;
+      parseStrategy: "typescript-ast";
+      scriptKind: ts.ScriptKind;
+      dotTestPattern: true;
+    }
+  | {
+      language: string;
+      parseStrategy: "regex";
+      dotTestPattern?: true;
+    };
+
+const EXTENSION_DESCRIPTORS: Record<string, ExtensionDescriptor> = {
+  ".ts": { language: "TypeScript", parseStrategy: "typescript-ast", scriptKind: ts.ScriptKind.TS, dotTestPattern: true },
+  ".tsx": { language: "TypeScript React", parseStrategy: "typescript-ast", scriptKind: ts.ScriptKind.TSX, dotTestPattern: true },
+  ".js": { language: "JavaScript", parseStrategy: "typescript-ast", scriptKind: ts.ScriptKind.JS, dotTestPattern: true },
+  ".jsx": { language: "JavaScript React", parseStrategy: "typescript-ast", scriptKind: ts.ScriptKind.JSX, dotTestPattern: true },
+  ".mjs": { language: "JavaScript", parseStrategy: "typescript-ast", scriptKind: ts.ScriptKind.JS, dotTestPattern: true },
+  ".py": { language: "Python", parseStrategy: "regex" },
+  ".go": { language: "Go", parseStrategy: "regex" },
+  ".rs": { language: "Rust", parseStrategy: "regex" },
+  ".cpp": { language: "C++", parseStrategy: "regex" },
+  ".hpp": { language: "C++", parseStrategy: "regex" },
+  ".c": { language: "C", parseStrategy: "regex" },
+  ".h": { language: "C/C++", parseStrategy: "regex" },
+  ".cs": { language: "C#", parseStrategy: "regex" },
+  ".java": { language: "Java", parseStrategy: "regex" },
+  ".vue": { language: "Vue", parseStrategy: "regex" },
+  ".svelte": { language: "Svelte", parseStrategy: "regex" },
+  ".json": { language: "JSON", parseStrategy: "regex" },
+  ".yaml": { language: "YAML", parseStrategy: "regex" },
+  ".yml": { language: "YAML", parseStrategy: "regex" },
+  ".md": { language: "Markdown", parseStrategy: "regex" },
+  ".sql": { language: "SQL", parseStrategy: "regex" }
 };
 
-const TEXT_EXTENSIONS = new Set(Object.keys(LANGUAGE_BY_EXT));
-const TYPESCRIPT_AST_EXTENSIONS = new Set([".ts", ".tsx", ".js", ".jsx"]);
-
-type ParseStrategy = NonNullable<FileSummary["parseStrategy"]>;
+const TEXT_EXTENSIONS = new Set(Object.keys(EXTENSION_DESCRIPTORS));
 
 interface SourceFacts {
   imports: string[];
@@ -74,10 +87,11 @@ export async function scanProject(projectRoot: string): Promise<ScanResult> {
 
 export function summarizeFile(filePath: string, extension: string, text: string, sizeBytes: number): FileSummary {
   const lines = text.split(/\r?\n/);
-  const facts = extractSourceFacts(filePath, extension, text);
+  const descriptor = extensionDescriptor(extension);
+  const facts = extractSourceFacts(filePath, descriptor, text);
 
-  const isTest = /(^|\/)(__tests__|tests?|spec)\//i.test(filePath) || /\.(test|spec)\.[tj]sx?$/.test(filePath);
-  const language = LANGUAGE_BY_EXT[extension] ?? "Text";
+  const isTest = isTestFile(filePath, extension, descriptor);
+  const language = descriptor?.language ?? "Text";
   const summary = inferSummary(filePath, language, facts.symbols, facts.imports, isTest, facts.parseStrategy);
 
   return {
@@ -105,19 +119,31 @@ function normalizeLineEndings(text: string): string {
   return text.replace(/\r\n?/g, "\n");
 }
 
-function extractSourceFacts(filePath: string, extension: string, text: string): SourceFacts {
-  if (TYPESCRIPT_AST_EXTENSIONS.has(extension)) {
-    return extractTypeScriptFacts(filePath, extension, text);
+function extensionDescriptor(extension: string): ExtensionDescriptor | undefined {
+  return EXTENSION_DESCRIPTORS[extension.toLowerCase()];
+}
+
+function isTestFile(filePath: string, extension: string, descriptor?: ExtensionDescriptor): boolean {
+  if (/(^|\/)(__tests__|tests?|spec)\//i.test(filePath)) return true;
+  if (!descriptor?.dotTestPattern) return false;
+
+  const basenameWithoutExtension = path.basename(filePath, extension);
+  return /\.(test|spec)$/i.test(basenameWithoutExtension);
+}
+
+function extractSourceFacts(filePath: string, descriptor: ExtensionDescriptor | undefined, text: string): SourceFacts {
+  if (descriptor?.parseStrategy === "typescript-ast") {
+    return extractTypeScriptFacts(filePath, descriptor.scriptKind, text);
   }
 
   return extractRegexFacts(text);
 }
 
-function extractTypeScriptFacts(filePath: string, extension: string, text: string): SourceFacts {
+function extractTypeScriptFacts(filePath: string, scriptKind: ts.ScriptKind, text: string): SourceFacts {
   const imports = new Set<string>();
   const exports = new Set<string>();
   const symbols = new Set<string>();
-  const sourceFile = ts.createSourceFile(filePath, text, ts.ScriptTarget.Latest, true, scriptKindFor(extension));
+  const sourceFile = ts.createSourceFile(filePath, text, ts.ScriptTarget.Latest, true, scriptKind);
 
   function visit(node: ts.Node) {
     collectImport(node, imports);
@@ -255,19 +281,6 @@ function hasExportModifier(node: ts.Node): boolean {
 
 function isStringLiteralLike(node: ts.Node): node is ts.StringLiteral | ts.NoSubstitutionTemplateLiteral {
   return ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node);
-}
-
-function scriptKindFor(extension: string): ts.ScriptKind {
-  switch (extension) {
-    case ".tsx":
-      return ts.ScriptKind.TSX;
-    case ".jsx":
-      return ts.ScriptKind.JSX;
-    case ".js":
-      return ts.ScriptKind.JS;
-    default:
-      return ts.ScriptKind.TS;
-  }
 }
 
 function take(values: Set<string>, limit: number): string[] {

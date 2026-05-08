@@ -1,0 +1,20 @@
+{
+  "id": "health-parser-task-heading.2026-05-07-1532",
+  "timestamp": "2026-05-07T19:32:00Z",
+  "title": "Stabilize served agent health parsing",
+  "reason": "The CLI health endpoint read only legacy Task Chosen headings while current run reports use Task, and the served state path crashed on BOM-prefixed automation JSON written by PowerShell.",
+  "affectedNodeIds": [
+    "file.packages.cli.src.index.ts",
+    "file.packages.core.src.workspace.ts",
+    "file.packages.core.src.workspace.test.ts"
+  ],
+  "filesChanged": [
+    "packages/cli/src/index.ts",
+    "packages/core/src/workspace.ts",
+    "packages/core/src/workspace.test.ts"
+  ],
+  "invariantsPreserved": [
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

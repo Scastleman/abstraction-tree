@@ -42,6 +42,18 @@ test("detectFileDrift reports files removed from disk", () => {
   assert.ok(issues.some(issue => issue.filePath === "src/old.ts" && issue.message.includes("no longer present")));
 });
 
+test("detectFileDrift falls back to ownedFiles when sourceFiles is empty", () => {
+  const legacyNode = {
+    ...node("root", undefined, []),
+    sourceFiles: [],
+    ownedFiles: ["src/legacy.ts"]
+  };
+
+  const issues = detectFileDrift([], [], [legacyNode]);
+
+  assert.ok(issues.some(issue => issue.nodeId === "root" && issue.filePath === "src/legacy.ts" && issue.message.includes("not present")));
+});
+
 test("validateTree reports parent and children link mismatches", () => {
   const nodes = [
     node("root", undefined, ["child"]),
@@ -86,6 +98,18 @@ test("validateTree reports duplicate file paths before path lookups collapse the
   const issues = validateTree([node("root", undefined, [])], [first, second]);
 
   assert.ok(issues.some(issue => issue.filePath === "src/checkout.ts" && issue.message.includes("duplicate path src/checkout.ts")));
+});
+
+test("validateTree falls back to ownedFiles when sourceFiles is empty", () => {
+  const legacyNode = {
+    ...node("root", undefined, []),
+    sourceFiles: [],
+    ownedFiles: ["src/legacy.ts"]
+  };
+
+  const issues = validateTree([legacyNode], []);
+
+  assert.ok(issues.some(issue => issue.nodeId === "root" && issue.filePath === "src/legacy.ts" && issue.message.includes("no longer exists")));
 });
 
 test("validateTree reports duplicate ontology level ids before ontology lookups collapse them", () => {

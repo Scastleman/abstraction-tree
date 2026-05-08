@@ -4,13 +4,13 @@ import path from "node:path";
 import type { FileSummary, TreeNode, ValidationIssue } from "./schema.js";
 import { scanProject } from "./scanner.js";
 import { validateAutomation } from "./automationValidation.js";
-import { atreePath, writeJson } from "./workspace.js";
+import { atreePath, readJson, writeJson } from "./workspace.js";
+import { CONTEXT_OVER_BROAD_LIMITS } from "./contextLimits.js";
+import { summarizeRunMarkdown } from "./runReports.js";
 
 const LOOP_CONFIG_PATH = ".abstraction-tree/automation/loop-config.json";
 const LOOP_RUNTIME_PATH = ".abstraction-tree/automation/loop-runtime.json";
-const OVER_BROAD_FILE_THRESHOLD = 40;
-const OVER_BROAD_CONCEPT_THRESHOLD = 20;
-const OVER_BROAD_NODE_THRESHOLD = 25;
+const CHANGE_RECORD_REVIEW_THRESHOLD = 10;
 
 export interface EvaluationReport {
   timestamp: string;
@@ -37,6 +37,12 @@ export interface EvaluationReport {
     failedCount: number;
     noOpCount: number;
   };
+  changes: {
+    totalChangeRecordCount: number;
+    generatedScanRecordCount: number;
+    semanticChangeRecordCount: number;
+    generatedScanReviewNeeded: boolean;
+  };
   lessons: {
     lessonCount: number;
     duplicateLessonCandidates: number;
@@ -50,7 +56,7 @@ export interface EvaluationReport {
 
 export interface EvaluationIssue {
   severity: ValidationIssue["severity"];
-  area: "tree" | "context" | "runs" | "lessons" | "automation";
+  area: "tree" | "context" | "runs" | "changes" | "lessons" | "automation";
   message: string;
   filePath?: string;
 }
@@ -71,9 +77,19 @@ export async function evaluateProject(projectRoot: string, options: EvaluateProj
   const files = await readJsonArray<FileSummary>(atreePath(projectRoot, "files.json"), ".abstraction-tree/files.json", "tree", issues);
   const contextPacks = await readJsonObjectsFromDir(atreePath(projectRoot, "context-packs"), ".abstraction-tree/context-packs", "context", issues);
   const runReports = await readMarkdownFiles(atreePath(projectRoot, "runs"), ".abstraction-tree/runs", "runs", issues);
+  const changes = await readJsonObjectsFromDir(atreePath(projectRoot, "changes"), ".abstraction-tree/changes", "changes", issues);
   const lessons = await readMarkdownFiles(atreePath(projectRoot, "lessons"), ".abstraction-tree/lessons", "lessons", issues);
   const currentScan = await scanProject(projectRoot);
   const automationIssues = await validateAutomation(projectRoot);
+  const changeEvaluation = evaluateChanges(changes);
+  if (changeEvaluation.generatedScanReviewNeeded) {
+    issues.push({
+      severity: "warning",
+      area: "changes",
+      filePath: ".abstraction-tree/changes",
+      message: `.abstraction-tree/changes contains ${changeEvaluation.generatedScanRecordCount} generated scan records and ${changeEvaluation.semanticChangeRecordCount} semantic records; review or consolidate scan records before the autopilot diff grows past guardrails.`
+    });
+  }
   issues.push(...automationIssues.map(issue => ({
     severity: issue.severity,
     area: "automation" as const,
@@ -87,6 +103,7 @@ export async function evaluateProject(projectRoot: string, options: EvaluateProj
     context: evaluateContext(contextPacks),
     drift: evaluateDrift(files, currentScan.files, nodes),
     runs: evaluateRuns(runReports),
+    changes: changeEvaluation,
     lessons: evaluateLessons(lessons),
     automation: {
       runtimeStateIgnored: !automationIssues.some(issue => issue.filePath === LOOP_RUNTIME_PATH),
@@ -126,9 +143,9 @@ function evaluateContext(packs: Record<string, unknown>[]): EvaluationReport["co
   const fileCounts = packs.map(pack => arrayLength(pack.relevantFiles));
   const conceptCounts = packs.map(pack => arrayLength(pack.relevantConcepts));
   const overBroadCount = packs.filter(pack =>
-    arrayLength(pack.relevantFiles) >= OVER_BROAD_FILE_THRESHOLD ||
-    arrayLength(pack.relevantConcepts) >= OVER_BROAD_CONCEPT_THRESHOLD ||
-    arrayLength(pack.relevantNodes) >= OVER_BROAD_NODE_THRESHOLD
+    arrayLength(pack.relevantFiles) >= CONTEXT_OVER_BROAD_LIMITS.files ||
+    arrayLength(pack.relevantConcepts) >= CONTEXT_OVER_BROAD_LIMITS.concepts ||
+    arrayLength(pack.relevantNodes) >= CONTEXT_OVER_BROAD_LIMITS.nodes
   ).length;
 
   return {
@@ -166,13 +183,24 @@ function evaluateDrift(storedFiles: FileSummary[], currentFiles: FileSummary[], 
 }
 
 function evaluateRuns(reports: MarkdownFile[]): EvaluationReport["runs"] {
-  const results = reports.map(report => parseRunResult(report.text));
+  const results = reports.map(report => summarizeRunMarkdown(report.text).result);
   return {
     runReportCount: reports.length,
     successCount: results.filter(result => result === "success").length,
     partialCount: results.filter(result => result === "partial").length,
     failedCount: results.filter(result => result === "failed").length,
     noOpCount: results.filter(result => result === "no-op").length
+  };
+}
+
+function evaluateChanges(changes: Record<string, unknown>[]): EvaluationReport["changes"] {
+  const generatedScanRecordCount = changes.filter(isGeneratedScanRecord).length;
+  const semanticChangeRecordCount = Math.max(0, changes.length - generatedScanRecordCount);
+  return {
+    totalChangeRecordCount: changes.length,
+    generatedScanRecordCount,
+    semanticChangeRecordCount,
+    generatedScanReviewNeeded: generatedScanRecordCount > CHANGE_RECORD_REVIEW_THRESHOLD && generatedScanRecordCount > semanticChangeRecordCount
   };
 }
 
@@ -198,7 +226,7 @@ async function readJsonArray<T>(
 ): Promise<T[]> {
   if (!existsSync(filePath)) return [];
   try {
-    const value = JSON.parse(await readFile(filePath, "utf8")) as unknown;
+    const value = await readJson<unknown>(filePath, undefined);
     if (Array.isArray(value)) return value as T[];
     issues.push({
       severity: "warning",
@@ -239,7 +267,7 @@ async function readJsonObjectsFromDir(
     const filePath = path.join(dirPath, name);
     const relativePath = `${relativeDir}/${name}`;
     try {
-      const value = JSON.parse(await readFile(filePath, "utf8")) as unknown;
+      const value = await readJson<unknown>(filePath, undefined);
       if (objectRecord(value)) objects.push(value);
       else {
         issues.push({
@@ -334,17 +362,6 @@ function fileSignature(file: FileSummary): string {
   });
 }
 
-function parseRunResult(text: string): "success" | "partial" | "failed" | "no-op" | undefined {
-  const resultSection = text.match(/^## Result\s+([\s\S]*?)(?=^## |\s*$)/m)?.[1] ?? "";
-  const firstValue = resultSection.split(/\r?\n/).map(line => line.trim()).find(Boolean)?.toLowerCase();
-  if (!firstValue) return undefined;
-  if (firstValue.startsWith("success")) return "success";
-  if (firstValue.startsWith("partial")) return "partial";
-  if (firstValue.startsWith("failed") || firstValue.startsWith("failure")) return "failed";
-  if (firstValue.startsWith("no-op") || firstValue.startsWith("noop") || firstValue.startsWith("no op")) return "no-op";
-  return undefined;
-}
-
 function lessonFingerprint(text: string): string {
   return text
     .replace(/^#+\s*lesson\s*$/gim, "")
@@ -370,6 +387,10 @@ function nonEmptyString(value: unknown): value is string {
 
 function objectRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isGeneratedScanRecord(change: Record<string, unknown>): boolean {
+  return typeof change.id === "string" && change.id.startsWith("scan.");
 }
 
 function arrayLength(value: unknown): number {

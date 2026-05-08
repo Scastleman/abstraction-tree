@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { promisify } from "node:util";
 import type { ValidationIssue } from "./schema.js";
+import { readJson } from "./workspace.js";
 
 const execFileAsync = promisify(execFile);
 
@@ -201,7 +202,7 @@ async function readJsonRecord(
   label: string
 ): Promise<{ value?: Record<string, unknown>; issues: ValidationIssue[] }> {
   try {
-    const parsed = JSON.parse(await readFile(filePath, "utf8")) as unknown;
+    const parsed = await readJson<unknown>(filePath, undefined);
     if (objectRecord(parsed)) return { value: parsed, issues: [] };
     return {
       issues: [{

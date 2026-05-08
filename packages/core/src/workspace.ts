@@ -65,7 +65,11 @@ export async function setInstallMode(projectRoot: string, installMode: InstallMo
 export async function readJson<T>(filePath: string, fallback: T): Promise<T> {
   if (!existsSync(filePath)) return fallback;
   const raw = await readFile(filePath, "utf8");
-  return JSON.parse(raw) as T;
+  return JSON.parse(stripJsonBom(raw)) as T;
+}
+
+function stripJsonBom(raw: string): string {
+  return raw.charCodeAt(0) === 0xfeff ? raw.slice(1) : raw;
 }
 
 export async function writeJson(filePath: string, data: unknown) {

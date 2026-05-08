@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-05-07T23:29:17.479Z",
+  "tree": {
+    "nodeCount": 100,
+    "orphanNodeCount": 0,
+    "nodesWithoutSummaries": 0,
+    "filesWithoutOwners": 0
+  },
+  "context": {
+    "lastPackCount": 1,
+    "averageFilesPerPack": 33,
+    "averageConceptsPerPack": 19,
+    "possibleOverBroadPacks": 0
+  },
+  "drift": {
+    "staleFileCount": 0,
+    "missingFileCount": 0
+  },
+  "runs": {
+    "runReportCount": 38,
+    "successCount": 14,
+    "partialCount": 24,
+    "failedCount": 0,
+    "noOpCount": 0
+  },
+  "lessons": {
+    "lessonCount": 38,
+    "duplicateLessonCandidates": 0
+  },
+  "automation": {
+    "runtimeStateIgnored": true,
+    "configValid": true
+  },
+  "issues": []
+}

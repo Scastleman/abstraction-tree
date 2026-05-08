@@ -1,0 +1,25 @@
+{
+  "id": "generated-scan-review-command.2026-05-07-1948",
+  "timestamp": "2026-05-07T23:48:09.706Z",
+  "title": "Generated scan review command",
+  "reason": "Added a read-only change-record review API and CLI command that lists older generated scan records as consolidation candidates while retaining the newest generated scan record as the baseline.",
+  "affectedNodeIds": [
+    "module.packages",
+    "module.docs",
+    "concept-node.change",
+    "concept-node.report"
+  ],
+  "filesChanged": [
+    "packages/core/src/changeReview.ts",
+    "packages/core/src/changeReview.test.ts",
+    "packages/core/src/index.ts",
+    "packages/cli/src/index.ts",
+    "README.md",
+    "docs/DATA_MODEL.md"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

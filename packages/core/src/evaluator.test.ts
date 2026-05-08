@@ -3,6 +3,7 @@ import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test, { type TestContext } from "node:test";
+import { CONTEXT_OVER_BROAD_LIMITS, CONTEXT_PACK_LIMITS } from "./contextLimits.js";
 import { evaluateProject } from "./evaluator.js";
 import type { FileSummary, TreeNode } from "./schema.js";
 
@@ -55,6 +56,30 @@ test("evaluateProject counts run reports by result", async t => {
   });
 });
 
+test("evaluateProject reports generated scan change-record buildup", async t => {
+  const root = await workspace(t);
+  await writeValidAutomationFiles(root);
+  for (let index = 0; index < 12; index += 1) {
+    await writeChange(root, `scan.${index}`);
+  }
+  await writeChange(root, "semantic.1");
+  await writeChange(root, "semantic.2");
+
+  const report = await evaluateProject(root, { now: fixedNow() });
+
+  assert.deepEqual(report.changes, {
+    totalChangeRecordCount: 14,
+    generatedScanRecordCount: 12,
+    semanticChangeRecordCount: 2,
+    generatedScanReviewNeeded: true
+  });
+  assert.ok(report.issues.some(issue =>
+    issue.area === "changes" &&
+    issue.filePath === ".abstraction-tree/changes" &&
+    issue.message.includes("12 generated scan records")
+  ));
+});
+
 test("evaluateProject reports automation config status", async t => {
   const root = await workspace(t);
   await writeValidAutomationFiles(root, { max_minutes_today: 0 });
@@ -64,6 +89,42 @@ test("evaluateProject reports automation config status", async t => {
   assert.equal(report.automation.runtimeStateIgnored, true);
   assert.equal(report.automation.configValid, false);
   assert.ok(report.issues.some(issue => issue.filePath === loopConfigPath));
+});
+
+test("evaluateProject flags context packs at over-broad boundaries", async t => {
+  const root = await workspace(t);
+  await writeValidAutomationFiles(root);
+  await writeJson(root, ".abstraction-tree/context-packs/narrow.json", {
+    relevantNodes: Array.from({ length: CONTEXT_PACK_LIMITS.nodes }, (_, index) => ({ id: `node.${index}` })),
+    relevantFiles: Array.from({ length: CONTEXT_PACK_LIMITS.files }, (_, index) => ({ path: `src/file-${index}.ts` })),
+    relevantConcepts: Array.from({ length: CONTEXT_PACK_LIMITS.concepts }, (_, index) => ({ id: `concept.${index}` }))
+  });
+  await writeJson(root, ".abstraction-tree/context-packs/broad.json", {
+    relevantNodes: Array.from({ length: CONTEXT_OVER_BROAD_LIMITS.nodes }, (_, index) => ({ id: `node.${index}` })),
+    relevantFiles: [],
+    relevantConcepts: []
+  });
+
+  const report = await evaluateProject(root, { now: fixedNow() });
+
+  assert.equal(report.context.possibleOverBroadPacks, 1);
+});
+
+test("evaluateProject accepts BOM-prefixed metadata JSON", async t => {
+  const root = await workspace(t);
+  await writeValidAutomationFiles(root);
+  await writeJson(root, ".abstraction-tree/tree.json", [node("root", undefined, [])], { bom: true });
+  await writeJson(root, ".abstraction-tree/context-packs/root.json", {
+    relevantNodes: [{ id: "root" }],
+    relevantFiles: [],
+    relevantConcepts: []
+  }, { bom: true });
+
+  const report = await evaluateProject(root, { now: fixedNow() });
+
+  assert.equal(report.tree.nodeCount, 1);
+  assert.equal(report.context.lastPackCount, 1);
+  assert.ok(!report.issues.some(issue => issue.message.includes("not valid JSON")));
 });
 
 test("evaluation output is serializable", async t => {
@@ -117,10 +178,23 @@ async function writeRun(root: string, name: string, result: string) {
   await writeFile(path.join(root, ".abstraction-tree", "runs", name), `# Agent Run Report\n\n## Result\n\n${result}\n`, "utf8");
 }
 
-async function writeJson(root: string, relativePath: string, value: unknown) {
+async function writeChange(root: string, id: string) {
+  await writeJson(root, `.abstraction-tree/changes/${id}.json`, {
+    id,
+    timestamp: "2026-05-04T15:30:00.000Z",
+    title: id.startsWith("scan.") ? "Deterministic scan" : "Semantic change",
+    reason: "Test change record.",
+    affectedNodeIds: [],
+    filesChanged: [],
+    invariantsPreserved: [],
+    risk: "low"
+  });
+}
+
+async function writeJson(root: string, relativePath: string, value: unknown, options: { bom?: boolean } = {}) {
   const filePath = path.join(root, ...relativePath.split("/"));
   await mkdir(path.dirname(filePath), { recursive: true });
-  await writeFile(filePath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+  await writeFile(filePath, `${options.bom ? "\ufeff" : ""}${JSON.stringify(value, null, 2)}\n`, "utf8");
 }
 
 function fixedNow(): Date {

@@ -1,0 +1,18 @@
+{
+  "id": "evaluator-bom-metadata-json.2026-05-07-1549",
+  "timestamp": "2026-05-07T19:49:00Z",
+  "title": "Use BOM-aware JSON loading in evaluation metadata reads",
+  "reason": "Evaluation still parsed tree and context-pack metadata JSON directly, so BOM-prefixed metadata could be reported as invalid even though the shared workspace JSON loader accepts it.",
+  "affectedNodeIds": [
+    "file.packages.core.src.evaluator.ts",
+    "file.packages.core.src.evaluator.test.ts"
+  ],
+  "filesChanged": [
+    "packages/core/src/evaluator.ts",
+    "packages/core/src/evaluator.test.ts"
+  ],
+  "invariantsPreserved": [
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

@@ -1,0 +1,25 @@
+{
+  "id": "app-node-files-fallback.2026-05-07-1911",
+  "timestamp": "2026-05-07T19:11:28-04:00",
+  "title": "Align app node file fallback semantics",
+  "reason": "The visual app now uses a shared nodeFiles accessor so search and selected-node file display prefer non-empty sourceFiles but still fall back to legacy ownedFiles when sourceFiles is empty.",
+  "affectedNodeIds": [
+    "module.packages",
+    "file.packages.app.src.main.tsx",
+    "file.packages.app.src.nodeaccessors.ts"
+  ],
+  "filesChanged": [
+    "packages/app/src/main.tsx",
+    "packages/app/src/nodeAccessors.ts",
+    "scripts/app-node-accessors.test.mjs",
+    ".abstraction-tree/files.json",
+    ".abstraction-tree/tree.json",
+    ".abstraction-tree/concepts.json",
+    ".abstraction-tree/invariants.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

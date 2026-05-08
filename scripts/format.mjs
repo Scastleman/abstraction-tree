@@ -1,43 +1,11 @@
 #!/usr/bin/env node
-import { execFile } from "node:child_process";
-import { readFile, readdir, stat, writeFile } from "node:fs/promises";
+import { readFile, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { promisify } from "node:util";
+import { listProjectFiles, maxTextBytes, supportsTextProcessing } from "./project-text-files.mjs";
 
-const execFileAsync = promisify(execFile);
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const mode = process.argv.includes("--check") ? "check" : "write";
-const maxTextBytes = 1024 * 1024;
-const ignoredRelativeFiles = new Set([
-  ".abstraction-tree/automation/loop-runtime.json",
-  ".abstraction-tree/automation/mission-runtime.json"
-]);
-const ignoredRelativePrefixes = [
-  ".abstraction-tree/automation/mission-logs/"
-];
-
-const supportedExtensions = new Set([
-  ".bash",
-  ".cjs",
-  ".cmd",
-  ".css",
-  ".html",
-  ".js",
-  ".json",
-  ".jsx",
-  ".md",
-  ".markdown",
-  ".mjs",
-  ".ps1",
-  ".psd1",
-  ".psm1",
-  ".sh",
-  ".ts",
-  ".tsx",
-  ".yaml",
-  ".yml"
-]);
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   await main();
@@ -66,17 +34,13 @@ export function readableTextIssue(filePath, text) {
   return undefined;
 }
 
-function shouldFormat(filePath) {
-  return supportedExtensions.has(path.extname(filePath).toLowerCase());
-}
-
 async function main() {
-  const files = await listProjectFiles();
+  const files = await listProjectFiles(repoRoot);
   const changed = [];
   const failures = [];
 
   for (const filePath of files) {
-    if (!shouldFormat(filePath)) continue;
+    if (!supportsTextProcessing(filePath)) continue;
 
     const absolutePath = path.join(repoRoot, filePath);
     const fileStat = await stat(absolutePath).catch(() => undefined);
@@ -129,47 +93,4 @@ async function main() {
   } else {
     console.log("Formatting check passed.");
   }
-}
-
-async function listProjectFiles() {
-  try {
-    const { stdout } = await execFileAsync("git", ["ls-files", "--cached", "--others", "--exclude-standard", "-z"], {
-      cwd: repoRoot,
-      windowsHide: true,
-      maxBuffer: 20 * 1024 * 1024
-    });
-    return stdout.split("\0").filter(Boolean).map(normalizePath).sort();
-  } catch {
-    return walkProject(repoRoot);
-  }
-}
-
-async function walkProject(dir) {
-  const ignoredDirectories = new Set([".git", "node_modules", "dist", "dist-ts", "build", "coverage"]);
-  const entries = await readdir(dir, { withFileTypes: true });
-  const files = [];
-
-  for (const entry of entries) {
-    if (entry.isDirectory() && ignoredDirectories.has(entry.name)) continue;
-    const absolutePath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      files.push(...await walkProject(absolutePath));
-      continue;
-    }
-    if (entry.isFile()) {
-      const relativePath = normalizePath(path.relative(repoRoot, absolutePath));
-      if (!shouldIgnoreFallbackPath(relativePath)) files.push(relativePath);
-    }
-  }
-
-  return files.sort();
-}
-
-function shouldIgnoreFallbackPath(filePath) {
-  const normalized = normalizePath(filePath);
-  return ignoredRelativeFiles.has(normalized) || ignoredRelativePrefixes.some(prefix => normalized.startsWith(prefix));
-}
-
-function normalizePath(filePath) {
-  return filePath.replaceAll("\\", "/");
 }

@@ -9,6 +9,7 @@ import sirv from "sirv";
 import {
   atreePath,
   buildContextPack,
+  reviewChangeRecords,
   buildDeterministicTree,
   detectFileDrift,
   ensureWorkspace,
@@ -32,6 +33,7 @@ import {
   type TreeNode,
   type ValidationIssue
 } from "@abstraction-tree/core";
+import { summarizeRunMarkdown, type RunResult } from "./agentHealth.js";
 
 const program = new Command();
 program.name("atree").description("Build and visualize an abstraction tree for a codebase.").version("0.1.0");
@@ -142,6 +144,18 @@ program.command("evaluate")
     console.log(JSON.stringify(report, null, 2));
   });
 
+const changesCommand = program.command("changes")
+  .description("Inspect semantic change records");
+
+changesCommand.command("review")
+  .description("List generated scan change records eligible for consolidation")
+  .option("-p, --project <path>", "project root")
+  .action(async opts => {
+    const root = projectPath(opts.project);
+    const report = await reviewChangeRecords(root);
+    console.log(JSON.stringify(report, null, 2));
+  });
+
 program.command("serve")
   .description("Serve the visual app locally")
   .option("-p, --project <path>", "project root")
@@ -248,8 +262,6 @@ interface AgentHealth {
   };
 }
 
-type RunResult = NonNullable<AgentHealth["latestRun"]>["result"];
-
 async function loadAgentHealth(root: string): Promise<AgentHealth> {
   const issues = await collectValidationIssues(root).catch(() => undefined);
   return {
@@ -268,12 +280,12 @@ async function loadLatestRun(root: string): Promise<AgentHealth["latestRun"]> {
   const latest = await latestNamedFile(atreePath(root, "runs"), name => name.endsWith("-agent-run.md"));
   if (!latest) return undefined;
   const text = await readFile(latest.path, "utf8").catch(() => "");
-  const result = parseRunResult(markdownSection(text, "Result"));
+  const summary = summarizeRunMarkdown(text);
   return {
     file: `.abstraction-tree/runs/${latest.name}`,
     timestamp: timestampFromName(latest.name),
-    task: firstMarkdownLine(markdownSection(text, "Task Chosen")),
-    result: result ?? "unknown"
+    task: summary.task,
+    result: summary.result ?? "unknown"
   };
 }
 
@@ -354,7 +366,7 @@ async function loadChanges(root: string): Promise<LoadedChanges> {
     const raw = await readFile(filePath, "utf8").catch(() => "");
     if (!raw) continue;
     try {
-      records.push(JSON.parse(raw));
+      records.push(await readJson<unknown>(filePath, undefined));
     } catch {
       issues.push({
         severity: "error",
@@ -415,25 +427,6 @@ function booleanField(value: unknown, field: string): boolean | undefined {
   const record = objectRecord(value);
   const fieldValue = record?.[field];
   return typeof fieldValue === "boolean" ? fieldValue : undefined;
-}
-
-function markdownSection(text: string, heading: string): string {
-  const escaped = heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return text.match(new RegExp(`^## ${escaped}\\s+([\\s\\S]*?)(?=^## |\\s*$)`, "m"))?.[1] ?? "";
-}
-
-function firstMarkdownLine(text: string): string | undefined {
-  return text.split(/\r?\n/).map(line => line.trim()).find(Boolean);
-}
-
-function parseRunResult(text: string): RunResult {
-  const firstValue = firstMarkdownLine(text)?.toLowerCase();
-  if (!firstValue) return undefined;
-  if (firstValue.startsWith("success")) return "success";
-  if (firstValue.startsWith("partial")) return "partial";
-  if (firstValue.startsWith("failed") || firstValue.startsWith("failure")) return "failed";
-  if (firstValue.startsWith("no-op") || firstValue.startsWith("noop") || firstValue.startsWith("no op")) return "no-op";
-  return undefined;
 }
 
 function timestampFromName(name: string): string | undefined {
