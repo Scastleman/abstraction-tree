@@ -284,6 +284,29 @@
     ]
   },
   {
+    "path": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "f3a1654e2d7c9f19145ee84c01ef8eb5561b0a3e4423d5edb07da0e4e876e0da",
+    "sizeBytes": 2466,
+    "lines": 64,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "Full Self-Improvement Loop",
+      "Safety",
+      "Dry Run",
+      "md"
+    ],
+    "isTest": false,
+    "summary": "FULL_SELF_IMPROVEMENT_LOOP.md is a Markdown implementation file. Defines Full Self-Improvement Loop, Safety, Dry Run, md.",
+    "ownedByNodeIds": [
+      "file.docs.full.self.improvement.loop.md",
+      "module.docs"
+    ]
+  },
+  {
     "path": "docs/MISSION_RUNNER.md",
     "extension": ".md",
     "language": "Markdown",
@@ -737,9 +760,9 @@
     "extension": ".json",
     "language": "JSON",
     "parseStrategy": "regex",
-    "contentHash": "dcd9e39c62196aee10dc0b58415a36b810f65f3a33ab8eaa9d2566d182ddbab1",
-    "sizeBytes": 2109,
-    "lines": 43,
+    "contentHash": "e00e5be10a1c325017e9aeffee48d83715e510d0cb413012dcd8d3f8069c9b9e",
+    "sizeBytes": 2177,
+    "lines": 44,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -1557,9 +1580,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "24bfdb9e99b95d57fdbe31bdac701cf252f0e275a07a245c4993db70fa04821c",
-    "sizeBytes": 13152,
-    "lines": 313,
+    "contentHash": "3f0f189e464a0750c0a97969b056b97711fd97cbe6caf9ddac7c90af586f3ac9",
+    "sizeBytes": 13330,
+    "lines": 315,
     "imports": [
       "commander",
       "node:path",
@@ -1938,9 +1961,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "faa22a36826ed8ab8e6dc8cd1ebf8690ea2ec8e32cf935abab79be129c2593b7",
-    "sizeBytes": 2736,
-    "lines": 67,
+    "contentHash": "b41cbc9b5bb53404cdcdcbd8f036aeb3e7d2ea243254243c3d81071a80efff98",
+    "sizeBytes": 3523,
+    "lines": 86,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
@@ -1953,12 +1976,13 @@
     "symbols": [
       "root",
       "report",
+      "summary",
       "workspace",
       "writeChange",
       "change"
     ],
     "isTest": true,
-    "summary": "changeReview.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, report, workspace, writeChange, change. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "summary": "changeReview.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, report, summary, workspace, writeChange. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.packages.core.src.changereview.test.ts",
       "module.packages"
@@ -1969,9 +1993,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "4030a57e4e1f183b599828144adb71f36a50f172e6184643a688848804536b5d",
-    "sizeBytes": 3354,
-    "lines": 94,
+    "contentHash": "79e8e810c22cddf0cfb7fae3b5daf88a3af31ef8b62fb5bda107322ddb4b84f1",
+    "sizeBytes": 4124,
+    "lines": 114,
     "imports": [
       "./schema.js",
       "./workspace.js"
@@ -1979,13 +2003,16 @@
     "exports": [
       "ChangeRecordReviewItem",
       "ChangeRecordReviewReport",
+      "ChangeRecordReviewSummary",
       "ChangeRecordReviewInput",
       "reviewChangeRecords",
-      "buildChangeRecordReviewReport"
+      "buildChangeRecordReviewReport",
+      "buildChangeRecordReviewSummary"
     ],
     "symbols": [
       "ChangeRecordReviewItem",
       "ChangeRecordReviewReport",
+      "ChangeRecordReviewSummary",
       "ChangeRecordReviewInput",
       "reviewChangeRecords",
       "loaded",
@@ -1993,6 +2020,7 @@
       "generatedScanRecords",
       "retainedGeneratedScanRecord",
       "eligibleGeneratedScanRecords",
+      "buildChangeRecordReviewSummary",
       "reviewItem",
       "compareLoadedChangeRecords",
       "changeSortKey",
@@ -2001,7 +2029,7 @@
       "stringArray"
     ],
     "isTest": false,
-    "summary": "changeReview.ts is a TypeScript implementation file. AST-backed scan. Defines ChangeRecordReviewItem, ChangeRecordReviewReport, ChangeRecordReviewInput, reviewChangeRecords, loaded. Depends on ./schema.js, ./workspace.js.",
+    "summary": "changeReview.ts is a TypeScript implementation file. AST-backed scan. Defines ChangeRecordReviewItem, ChangeRecordReviewReport, ChangeRecordReviewSummary, ChangeRecordReviewInput, reviewChangeRecords. Depends on ./schema.js, ./workspace.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.changereview.ts",
       "module.packages",
@@ -4170,9 +4198,9 @@
     "extension": ".mjs",
     "language": "JavaScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "7d66635d49cf254959fccd5fa4084f764311623388013b77e94181647a88ca02",
-    "sizeBytes": 2620,
-    "lines": 97,
+    "contentHash": "53fc553fe3408466fbf9e6edbd88d27e82983cf52d2b4f0e0da04f12cc6de2f6",
+    "sizeBytes": 2670,
+    "lines": 98,
     "imports": [
       "node:child_process",
       "node:fs/promises",
@@ -4223,9 +4251,9 @@
     "extension": ".mjs",
     "language": "JavaScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "b2e23cb8e32c06224000d1ca8d41076b334878960d8785a701e863cfe1fcfe8b",
-    "sizeBytes": 1909,
-    "lines": 39,
+    "contentHash": "db4ff9ba5e7c1f3cc01f13acf8bfa681059e6dca9dfa4eb6ac85ec1b38fa623c",
+    "sizeBytes": 2176,
+    "lines": 45,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
@@ -4415,6 +4443,122 @@
     "summary": "run-codex-missions.ps1 is a PowerShell implementation file. Defines Ensure, Read, Save, Normalize, Add.",
     "ownedByNodeIds": [
       "file.scripts.run.codex.missions.ps1",
+      "module.scripts"
+    ]
+  },
+  {
+    "path": "scripts/run-full-self-improvement-loop.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "196d212eb90c6b7443f8eda2ea05ef5ef6debad84cf66bedcf5e3ae7de680fd3",
+    "sizeBytes": 26601,
+    "lines": 806,
+    "imports": [
+      "node:child_process",
+      "node:fs",
+      "node:fs/promises",
+      "node:path",
+      "node:url",
+      "node:util"
+    ],
+    "exports": [
+      "runCli",
+      "parseArgs",
+      "buildAssessmentPrompt",
+      "buildCoherencePrompt",
+      "buildDurableRunReport",
+      "validateAssessmentOutput"
+    ],
+    "symbols": [
+      "execFileAsync",
+      "fullLoopRoot",
+      "durableRunRoot",
+      "defaultCodexBin",
+      "runCli",
+      "cwd",
+      "stdout",
+      "stderr",
+      "options",
+      "runCommand",
+      "createdAt",
+      "timestamp",
+      "runDir",
+      "missionsDir",
+      "status",
+      "context",
+      "assessmentPrompt",
+      "missions",
+      "selectedMissions",
+      "selectedIds",
+      "plan",
+      "runnerArgs",
+      "run",
+      "afterContext",
+      "coherencePrompt",
+      "coherence",
+      "changeReview",
+      "didMissionRunnerFail",
+      "decision",
+      "durableReportPath",
+      "parseArgs",
+      "index",
+      "arg",
+      "buildAssessmentPrompt",
+      "buildCoherencePrompt",
+      "buildDurableRunReport",
+      "result",
+      "selected",
+      "validateAssessmentOutput",
+      "assessmentPath"
+    ],
+    "isTest": false,
+    "summary": "run-full-self-improvement-loop.mjs is a JavaScript implementation file. AST-backed scan. Defines execFileAsync, fullLoopRoot, durableRunRoot, defaultCodexBin, runCli. Depends on node:child_process, node:fs, node:fs/promises, node:path.",
+    "ownedByNodeIds": [
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "module.scripts"
+    ]
+  },
+  {
+    "path": "scripts/run-full-self-improvement-loop.test.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "e8e83a270df95eaa1ef4211c41ba70e683da750fb06f58647465d67b594e68e7",
+    "sizeBytes": 7222,
+    "lines": 207,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:test",
+      "./run-full-self-improvement-loop.mjs"
+    ],
+    "exports": [],
+    "symbols": [
+      "parsed",
+      "prompt",
+      "report",
+      "root",
+      "runDir",
+      "missionsDir",
+      "missions",
+      "stdout",
+      "promptPath",
+      "tempWorkspace",
+      "writeFileAt",
+      "filePath",
+      "assessmentPaths",
+      "relativePath",
+      "fakeCommand",
+      "captureStream",
+      "write"
+    ],
+    "isTest": true,
+    "summary": "run-full-self-improvement-loop.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines parsed, prompt, report, root, runDir. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "ownedByNodeIds": [
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
       "module.scripts"
     ]
   },

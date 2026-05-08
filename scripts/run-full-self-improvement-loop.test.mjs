@@ -1,0 +1,206 @@
+import assert from "node:assert/strict";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import test from "node:test";
+import {
+  buildAssessmentPrompt,
+  buildCoherencePrompt,
+  buildDurableRunReport,
+  parseArgs,
+  runCli,
+  validateAssessmentOutput
+} from "./run-full-self-improvement-loop.mjs";
+
+test("full-loop args parse safe defaults and explicit controls", () => {
+  const parsed = parseArgs([
+    "--max-missions",
+    "2",
+    "--concurrency",
+    "3",
+    "--allow-dirty",
+    "--skip-missions",
+    "--reasoning-effort",
+    "medium"
+  ]);
+
+  assert.equal(parsed.maxMissions, 2);
+  assert.equal(parsed.concurrency, 3);
+  assert.equal(parsed.allowDirty, true);
+  assert.equal(parsed.skipMissions, true);
+  assert.equal(parsed.reasoningEffort, "medium");
+});
+
+test("assessment prompt states full project goal and mission output contract", () => {
+  const prompt = buildAssessmentPrompt({
+    repoRoot: "C:/repo",
+    runDir: "C:/repo/.abstraction-tree/automation/full-loop-runs/run",
+    missionsDir: "C:/repo/.abstraction-tree/automation/full-loop-runs/run/missions",
+    maxMissions: 3,
+    context: { gitStatus: "clean" }
+  });
+
+  assert.match(prompt, /Integrate an abstraction tree into any project/);
+  assert.match(prompt, /developers understand the scope of their prompts/);
+  assert.match(prompt, /up to 3 mission Markdown files/);
+  assert.match(prompt, /Abstraction Tree Position/);
+});
+
+test("coherence prompt asks whether to stop or repeat", () => {
+  const prompt = buildCoherencePrompt({
+    repoRoot: "C:/repo",
+    runDir: "C:/repo/.abstraction-tree/automation/full-loop-runs/run",
+    missionsDir: "C:/repo/.abstraction-tree/automation/full-loop-runs/run/missions",
+    context: { diffSummary: "none" }
+  });
+
+  assert.match(prompt, /coherence/i);
+  assert.match(prompt, /stop or repeat/i);
+  assert.match(prompt, /agents avoid unnecessary overreach/);
+});
+
+test("durable run report records runtime artifact policy", () => {
+  const report = buildDurableRunReport({
+    runDir: ".abstraction-tree/automation/full-loop-runs/run",
+    selectedIds: ["mission-one", "mission-two"],
+    missionRunnerFailed: false,
+    changeReviewExitCode: 0,
+    decision: "# Decision\n\nStop."
+  });
+
+  assert.match(report, /Full Self-Improvement Loop Report/);
+  assert.match(report, /- mission-one/);
+  assert.match(report, /ignored local runtime state/);
+  assert.match(report, /\.abstraction-tree\/runs/);
+});
+
+test("valid assessment output passes validation", async t => {
+  const root = await tempWorkspace(t);
+  const { runDir, missionsDir } = assessmentPaths(root);
+  await writeFileAt(root, "run/assessment.md", "# Assessment\n");
+  await writeFileAt(root, "run/missions/README.md", "# Missions\n");
+  await writeFileAt(root, "run/missions/mission-one.md", "# Mission One\n");
+
+  const missions = await validateAssessmentOutput({
+    cwd: root,
+    runDir,
+    missionsDir,
+    maxMissions: 1
+  });
+
+  assert.deepEqual(missions.map(filePath => relativePath(root, filePath)), ["run/missions/mission-one.md"]);
+});
+
+test("assessment output validation fails without assessment.md", async t => {
+  const root = await tempWorkspace(t);
+  const { runDir, missionsDir } = assessmentPaths(root);
+  await writeFileAt(root, "run/missions/README.md", "# Missions\n");
+  await writeFileAt(root, "run/missions/mission-one.md", "# Mission One\n");
+
+  await assert.rejects(
+    () => validateAssessmentOutput({ cwd: root, runDir, missionsDir, maxMissions: 1 }),
+    /Assessment did not create run\/assessment\.md/
+  );
+});
+
+test("assessment output validation fails without missions README", async t => {
+  const root = await tempWorkspace(t);
+  const { runDir, missionsDir } = assessmentPaths(root);
+  await writeFileAt(root, "run/assessment.md", "# Assessment\n");
+  await writeFileAt(root, "run/missions/mission-one.md", "# Mission One\n");
+
+  await assert.rejects(
+    () => validateAssessmentOutput({ cwd: root, runDir, missionsDir, maxMissions: 1 }),
+    /Assessment did not create run\/missions\/README\.md/
+  );
+});
+
+test("assessment output validation fails when too many missions are written", async t => {
+  const root = await tempWorkspace(t);
+  const { runDir, missionsDir } = assessmentPaths(root);
+  await writeFileAt(root, "run/assessment.md", "# Assessment\n");
+  await writeFileAt(root, "run/missions/README.md", "# Missions\n");
+  await writeFileAt(root, "run/missions/mission-one.md", "# Mission One\n");
+  await writeFileAt(root, "run/missions/mission-two.md", "# Mission Two\n");
+
+  await assert.rejects(
+    () => validateAssessmentOutput({ cwd: root, runDir, missionsDir, maxMissions: 1 }),
+    /Assessment created 2 mission files, but the configured maximum is 1/
+  );
+});
+
+test("assessment output validation fails for mission Markdown outside missions directory", async t => {
+  const root = await tempWorkspace(t);
+  const { runDir, missionsDir } = assessmentPaths(root);
+  await writeFileAt(root, "run/assessment.md", "# Assessment\n");
+  await writeFileAt(root, "run/missions/README.md", "# Missions\n");
+  await writeFileAt(root, "run/missions/mission-one.md", "# Mission One\n");
+  await writeFileAt(root, "run/mission-outside.md", "# Mission Outside\n");
+
+  await assert.rejects(
+    () => validateAssessmentOutput({ cwd: root, runDir, missionsDir, maxMissions: 1 }),
+    /outside configured missions directory .*run\/mission-outside\.md/
+  );
+});
+
+test("dry run writes assessment prompt without invoking Codex", async t => {
+  const root = await tempWorkspace(t);
+  await writeFileAt(root, "package.json", "{}\n");
+  await writeFileAt(root, ".abstraction-tree/automation/mission-runtime.json", "{}\n");
+  await writeFileAt(root, ".abstraction-tree/evaluations/2026-05-08-evaluation.json", "{}\n");
+
+  const stdout = captureStream();
+  await runCli(["--dry-run", "--allow-dirty"], {
+    cwd: root,
+    stdout,
+    stderr: captureStream(),
+    command: fakeCommand()
+  });
+
+  assert.match(stdout.text, /Full self-improvement loop dry run/);
+  const promptPath = stdout.text.match(/Assessment prompt: (.+)/)?.[1]?.trim();
+  assert.ok(promptPath);
+  const prompt = await readFile(path.join(root, ...promptPath.split("/")), "utf8");
+  assert.match(prompt, /Full Abstraction Tree Self-Improvement Loop/);
+});
+
+async function tempWorkspace(t) {
+  const root = await mkdtemp(path.join(tmpdir(), "atree-full-loop-"));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  return root;
+}
+
+async function writeFileAt(root, relativePath, text) {
+  const filePath = path.join(root, ...relativePath.split("/"));
+  await mkdir(path.dirname(filePath), { recursive: true });
+  await writeFile(filePath, text, "utf8");
+  return filePath;
+}
+
+function assessmentPaths(root) {
+  return {
+    runDir: path.join(root, "run"),
+    missionsDir: path.join(root, "run", "missions")
+  };
+}
+
+function relativePath(root, filePath) {
+  return path.relative(root, filePath).replaceAll(path.sep, "/");
+}
+
+function fakeCommand() {
+  return async () => ({
+    exitCode: 0,
+    stdout: "",
+    stderr: ""
+  });
+}
+
+function captureStream() {
+  return {
+    text: "",
+    write(chunk) {
+      this.text += chunk;
+    }
+  };
+}

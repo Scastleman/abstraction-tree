@@ -1,0 +1,94 @@
+{
+  "timestamp": "2026-05-08T15:19:50.171Z",
+  "tree": {
+    "nodeCount": 166,
+    "orphanNodeCount": 0,
+    "nodesWithoutSummaries": 0,
+    "filesWithoutOwners": 0
+  },
+  "context": {
+    "lastPackCount": 1,
+    "averageFilesPerPack": 33,
+    "averageConceptsPerPack": 19,
+    "possibleOverBroadPacks": 0
+  },
+  "drift": {
+    "staleFileCount": 0,
+    "missingFileCount": 0
+  },
+  "runs": {
+    "runReportCount": 44,
+    "successCount": 19,
+    "partialCount": 25,
+    "failedCount": 0,
+    "noOpCount": 0
+  },
+  "changes": {
+    "totalChangeRecordCount": 126,
+    "generatedScanRecordCount": 105,
+    "semanticChangeRecordCount": 21,
+    "generatedScanReviewNeeded": true
+  },
+  "lessons": {
+    "lessonCount": 44,
+    "duplicateLessonCandidates": 0
+  },
+  "automation": {
+    "runtimeStateIgnored": true,
+    "configValid": true
+  },
+  "quality": {
+    "fixture": {
+      "path": ".abstraction-tree/evaluation-fixture.json",
+      "expectedTreeNodeCount": 9,
+      "missingExpectedTreeNodeCount": 0,
+      "missingExpectedTreeNodeIds": [],
+      "expectedArchitectureNodeCount": 5,
+      "missingExpectedArchitectureNodeCount": 0,
+      "missingExpectedArchitectureNodeIds": [],
+      "expectedConceptCount": 7,
+      "missingExpectedConceptCount": 0,
+      "missingExpectedConceptIds": [],
+      "expectedInvariantCount": 2,
+      "missingExpectedInvariantCount": 0,
+      "missingExpectedInvariantIds": []
+    },
+    "concepts": {
+      "totalConceptCount": 24,
+      "noisyConceptCount": 0,
+      "noisyConceptIds": [],
+      "conceptsWithoutEvidence": 0,
+      "conceptsWithoutRelatedFiles": 0
+    },
+    "imports": {
+      "unresolvedImportCount": 3
+    },
+    "architecture": {
+      "architectureNodeCount": 8,
+      "architectureCoverableFileCount": 91,
+      "architectureCoveredFileCount": 57,
+      "architectureCoveragePercent": 62.64
+    },
+    "context": {
+      "evaluatedContextPackCount": 1,
+      "expectedContextPackCount": 1,
+      "passingExpectedContextPackCount": 1,
+      "missingExpectedInclusionCount": 0,
+      "missingExpectedInclusions": []
+    }
+  },
+  "issues": [
+    {
+      "severity": "warning",
+      "area": "changes",
+      "filePath": ".abstraction-tree/changes",
+      "message": ".abstraction-tree/changes contains 105 generated scan records and 21 semantic records; review or consolidate scan records before the autopilot diff grows past guardrails."
+    },
+    {
+      "severity": "warning",
+      "area": "quality",
+      "filePath": ".abstraction-tree/import-graph.json",
+      "message": "Import graph has 3 unresolved import(s); architecture and context coverage may be incomplete."
+    }
+  ]
+}

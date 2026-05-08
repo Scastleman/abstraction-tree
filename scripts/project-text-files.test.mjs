@@ -21,10 +21,16 @@ test("fallback project file listing skips transient and generated directories", 
   await rm(root, { recursive: true, force: true });
   t.after(() => rm(root, { recursive: true, force: true }));
 
+  await mkdir(path.join(root, ".abstraction-tree", "automation", "full-loop-runs", "run"), { recursive: true });
   await mkdir(path.join(root, ".abstraction-tree", "automation", "mission-logs"), { recursive: true });
   await mkdir(path.join(root, "node_modules", "dep"), { recursive: true });
   await mkdir(path.join(root, "src"), { recursive: true });
   await writeFile(path.join(root, "src", "index.ts"), "export const value = 1;\n", "utf8");
+  await writeFile(
+    path.join(root, ".abstraction-tree", "automation", "full-loop-runs", "run", "assessment.md"),
+    "# Local run\n",
+    "utf8"
+  );
   await writeFile(path.join(root, ".abstraction-tree", "automation", "mission-runtime.json"), "{}\n", "utf8");
   await writeFile(path.join(root, ".abstraction-tree", "automation", "mission-logs", "run.log"), "log\n", "utf8");
   await writeFile(path.join(root, "node_modules", "dep", "index.js"), "module.exports = 1;\n", "utf8");

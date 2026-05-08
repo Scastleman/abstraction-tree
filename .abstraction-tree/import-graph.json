@@ -816,6 +816,12 @@
       "kind": "relative"
     },
     {
+      "from": "scripts/run-full-self-improvement-loop.test.mjs",
+      "to": "scripts/run-full-self-improvement-loop.mjs",
+      "specifier": "./run-full-self-improvement-loop.mjs",
+      "kind": "relative"
+    },
+    {
       "from": "scripts/run-missions.test.mjs",
       "to": "scripts/run-missions.mjs",
       "specifier": "./run-missions.mjs",
@@ -1693,6 +1699,61 @@
       "from": "scripts/release-dry-run.mjs",
       "specifier": "node:url",
       "packageName": "node:url"
+    },
+    {
+      "from": "scripts/run-full-self-improvement-loop.mjs",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "scripts/run-full-self-improvement-loop.mjs",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "scripts/run-full-self-improvement-loop.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/run-full-self-improvement-loop.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/run-full-self-improvement-loop.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/run-full-self-improvement-loop.mjs",
+      "specifier": "node:util",
+      "packageName": "node:util"
+    },
+    {
+      "from": "scripts/run-full-self-improvement-loop.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/run-full-self-improvement-loop.test.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/run-full-self-improvement-loop.test.mjs",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "scripts/run-full-self-improvement-loop.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/run-full-self-improvement-loop.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
     },
     {
       "from": "scripts/run-missions.mjs",

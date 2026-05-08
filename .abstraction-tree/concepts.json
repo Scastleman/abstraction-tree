@@ -2,7 +2,7 @@
   {
     "id": "change",
     "title": "Change",
-    "summary": "Durable concept inferred from 26 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 27 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.adapters",
       "module.docs",
@@ -35,6 +35,7 @@
       "file.readme.md",
       "file.scripts.diff.summary.mjs",
       "file.scripts.run.abstraction.loop.ps1",
+      "file.scripts.run.full.self.improvement.loop.mjs",
       "architecture.cli.surface",
       "architecture.core.engine",
       "architecture.scanner.tree.context.pipeline",
@@ -68,7 +69,8 @@
       "packages/core/src/validator.ts",
       "packages/core/src/workspace.ts",
       "scripts/diff-summary.mjs",
-      "scripts/run-abstraction-loop.ps1"
+      "scripts/run-abstraction-loop.ps1",
+      "scripts/run-full-self-improvement-loop.mjs"
     ],
     "tags": [
       "change"
@@ -98,6 +100,13 @@
       {
         "kind": "export",
         "filePath": "packages/core/src/changeReview.ts",
+        "value": "buildChangeRecordReviewSummary",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
         "value": "ChangeRecordReviewInput",
         "term": "change",
         "score": 4
@@ -113,6 +122,13 @@
         "kind": "export",
         "filePath": "packages/core/src/changeReview.ts",
         "value": "ChangeRecordReviewReport",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewSummary",
         "term": "change",
         "score": 4
       },
@@ -337,20 +353,6 @@
         "kind": "symbol",
         "filePath": "packages/cli/src/apiState.test.ts",
         "value": "fixtureChange",
-        "term": "change",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/apiState.ts",
-        "value": "changes",
-        "term": "change",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/index.ts",
-        "value": "change",
         "term": "change",
         "score": 3
       }
@@ -1022,7 +1024,7 @@
   {
     "id": "context",
     "title": "Context",
-    "summary": "Durable concept inferred from 16 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 17 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.docs",
       "module.packages",
@@ -1044,6 +1046,7 @@
       "file.packages.core.src.workspace.ts",
       "file.readme.md",
       "file.scripts.generated.memory.fixtures.test.mjs",
+      "file.scripts.run.full.self.improvement.loop.mjs",
       "architecture.cli.surface",
       "architecture.core.engine",
       "architecture.scanner.tree.context.pipeline",
@@ -1066,7 +1069,8 @@
       "packages/core/src/schema.ts",
       "packages/core/src/validator.ts",
       "packages/core/src/workspace.ts",
-      "scripts/generated-memory-fixtures.test.mjs"
+      "scripts/generated-memory-fixtures.test.mjs",
+      "scripts/run-full-self-improvement-loop.mjs"
     ],
     "tags": [
       "context"
@@ -1992,6 +1996,258 @@
         "filePath": "scripts/run-abstraction-loop.ps1",
         "value": "Expected location: repo-root/scripts/run-abstraction-loop.ps1",
         "term": "abstraction",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "change.record",
+    "title": "Change Record",
+    "summary": "Durable concept inferred from 6 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.core.src.changereview.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts",
+      "architecture.core.engine"
+    ],
+    "relatedFiles": [
+      "packages/core/src/changeReview.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts"
+    ],
+    "tags": [
+      "change record"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "buildChangeRecordReviewReport",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "buildChangeRecordReviewSummary",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewInput",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewItem",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewReport",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewSummary",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "reviewChangeRecords",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateChangeRecordSchema",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateChangeRecordsSchema",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ChangeRecord",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "ChangeRecordObjectLoadResult",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadChangeRecordObjects",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadChangeRecords",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "LoadedChangeRecordObject",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readChangeRecords",
+        "term": "change record",
+        "score": 4
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "buildChangeRecordReviewReport",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "buildChangeRecordReviewSummary",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewInput",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewItem",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewReport",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewSummary",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "compareLoadedChangeRecords",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "reviewChangeRecords",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "CHANGE_RECORD_REVIEW_THRESHOLD",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "changeRecord",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateChangeRecordSchema",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateChangeRecordsSchema",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "ChangeRecord",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "ChangeRecordObjectLoadResult",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadChangeRecords",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "LoadedChangeRecordObject",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readChangeRecords",
+        "term": "change record",
         "score": 3
       }
     ]
@@ -3129,230 +3385,6 @@
     ]
   },
   {
-    "id": "change.record",
-    "title": "Change Record",
-    "summary": "Durable concept inferred from 6 file(s) using export, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "file.packages.core.src.changereview.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.runtimeschema.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.workspace.ts",
-      "architecture.core.engine"
-    ],
-    "relatedFiles": [
-      "packages/core/src/changeReview.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/runtimeSchema.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/workspace.ts"
-    ],
-    "tags": [
-      "change record"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "buildChangeRecordReviewReport",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "ChangeRecordReviewInput",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "ChangeRecordReviewItem",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "ChangeRecordReviewReport",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "reviewChangeRecords",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateChangeRecordSchema",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateChangeRecordsSchema",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "ChangeRecord",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "ChangeRecordObjectLoadResult",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "loadChangeRecordObjects",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "loadChangeRecords",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "LoadedChangeRecordObject",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "readChangeRecords",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "buildChangeRecordReviewReport",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "ChangeRecordReviewInput",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "ChangeRecordReviewItem",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "ChangeRecordReviewReport",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "compareLoadedChangeRecords",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "reviewChangeRecords",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "CHANGE_RECORD_REVIEW_THRESHOLD",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.test.ts",
-        "value": "changeRecord",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateChangeRecordSchema",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateChangeRecordsSchema",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "ChangeRecord",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "ChangeRecordObjectLoadResult",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "loadChangeRecords",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "LoadedChangeRecordObject",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "readChangeRecords",
-        "term": "change record",
-        "score": 3
-      }
-    ]
-  },
-  {
     "id": "atree",
     "title": "Atree",
     "summary": "Durable concept inferred from 5 file(s) using export, path, symbol signals.",
@@ -4235,9 +4267,258 @@
     ]
   },
   {
+    "id": "loop",
+    "title": "Loop",
+    "summary": "Durable concept inferred from 13 file(s) using doc, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.docs",
+      "module.packages",
+      "module.root",
+      "module.scripts",
+      "file.docs.agent.protocol.md",
+      "file.docs.full.self.improvement.loop.md",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.automationvalidation.ts",
+      "file.packages.core.src.evaluator.test.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.readme.md",
+      "file.scripts.diff.summary.mjs",
+      "file.scripts.run.abstraction.loop.scheduled.ps1",
+      "file.scripts.run.abstraction.loop.ps1",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "architecture.core.engine",
+      "architecture.visual.app.ui"
+    ],
+    "relatedFiles": [
+      "README.md",
+      "docs/AGENT_PROTOCOL.md",
+      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/automationValidation.ts",
+      "packages/core/src/evaluator.test.ts",
+      "packages/core/src/evaluator.ts",
+      "scripts/diff-summary.mjs",
+      "scripts/run-abstraction-loop-scheduled.ps1",
+      "scripts/run-abstraction-loop.ps1",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs"
+    ],
+    "tags": [
+      "loop"
+    ],
+    "evidence": [
+      {
+        "kind": "doc",
+        "filePath": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+        "value": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+        "term": "loop",
+        "score": 1
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/run-abstraction-loop-scheduled.ps1",
+        "value": "scripts/run-abstraction-loop-scheduled.ps1",
+        "term": "loop",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "scripts/run-abstraction-loop.ps1",
+        "term": "loop",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "scripts/run-full-self-improvement-loop.mjs",
+        "term": "loop",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
+        "value": "scripts/run-full-self-improvement-loop.test.mjs",
+        "term": "loop",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/AGENT_PROTOCOL.md",
+        "value": "Bounded self-improvement loops",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+        "value": "Full Self-Improvement Loop",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "loops",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "loopConfigPath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "loopRuntimeExamplePath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "loopRuntimePath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "loopStatePath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "LOOP_CONFIG_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "LOOP_RUNTIME_EXAMPLE_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "LOOP_RUNTIME_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "LOOP_STATE_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.test.ts",
+        "value": "loopConfigPath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.test.ts",
+        "value": "loopRuntimeExamplePath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.test.ts",
+        "value": "loopRuntimePath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "LOOP_CONFIG_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "LOOP_RUNTIME_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "README.md",
+        "value": "Autonomous loop contract",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/diff-summary.mjs",
+        "value": "readLoopConfig",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-abstraction-loop-scheduled.ps1",
+        "value": "Write-LoopLog",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "Expected location: repo-root/scripts/run-abstraction-loop.ps1",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "Invoke-PostLoopChecks",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "New-LoopRuntime",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "Runs one or more bounded Codex improvement loops with local runtime guards.",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "fullLoopRoot",
+        "term": "loop",
+        "score": 3
+      }
+    ]
+  },
+  {
     "id": "workspace",
     "title": "Workspace",
-    "summary": "Durable concept inferred from 14 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 15 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.examples",
       "module.packages",
@@ -4255,6 +4536,7 @@
       "file.packages.core.src.schema.ts",
       "file.packages.core.src.workspace.test.ts",
       "file.packages.core.src.workspace.ts",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
       "file.scripts.run.missions.test.mjs",
       "architecture.core.engine",
       "architecture.scanner.tree.context.pipeline"
@@ -4273,6 +4555,7 @@
       "packages/core/src/schema.ts",
       "packages/core/src/workspace.test.ts",
       "packages/core/src/workspace.ts",
+      "scripts/run-full-self-improvement-loop.test.mjs",
       "scripts/run-missions.test.mjs"
     ],
     "tags": [
@@ -4442,217 +4725,16 @@
       },
       {
         "kind": "symbol",
-        "filePath": "scripts/run-missions.test.mjs",
+        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
         "value": "tempWorkspace",
         "term": "workspace",
         "score": 3
-      }
-    ]
-  },
-  {
-    "id": "loop",
-    "title": "Loop",
-    "summary": "Durable concept inferred from 10 file(s) using path, symbol signals.",
-    "relatedNodeIds": [
-      "module.docs",
-      "module.packages",
-      "module.root",
-      "module.scripts",
-      "file.docs.agent.protocol.md",
-      "file.packages.app.src.components.agenthealthpanel.tsx",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.readme.md",
-      "file.scripts.diff.summary.mjs",
-      "file.scripts.run.abstraction.loop.scheduled.ps1",
-      "file.scripts.run.abstraction.loop.ps1",
-      "architecture.core.engine",
-      "architecture.visual.app.ui"
-    ],
-    "relatedFiles": [
-      "README.md",
-      "docs/AGENT_PROTOCOL.md",
-      "packages/app/src/components/AgentHealthPanel.tsx",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/automationValidation.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/evaluator.ts",
-      "scripts/diff-summary.mjs",
-      "scripts/run-abstraction-loop-scheduled.ps1",
-      "scripts/run-abstraction-loop.ps1"
-    ],
-    "tags": [
-      "loop"
-    ],
-    "evidence": [
-      {
-        "kind": "path",
-        "filePath": "scripts/run-abstraction-loop-scheduled.ps1",
-        "value": "scripts/run-abstraction-loop-scheduled.ps1",
-        "term": "loop",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "scripts/run-abstraction-loop.ps1",
-        "value": "scripts/run-abstraction-loop.ps1",
-        "term": "loop",
-        "score": 2
       },
       {
         "kind": "symbol",
-        "filePath": "docs/AGENT_PROTOCOL.md",
-        "value": "Bounded self-improvement loops",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "loops",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.test.ts",
-        "value": "loopConfigPath",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.test.ts",
-        "value": "loopRuntimeExamplePath",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.test.ts",
-        "value": "loopRuntimePath",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.test.ts",
-        "value": "loopStatePath",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "LOOP_CONFIG_PATH",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "LOOP_RUNTIME_EXAMPLE_PATH",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "LOOP_RUNTIME_PATH",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "LOOP_STATE_PATH",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.test.ts",
-        "value": "loopConfigPath",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.test.ts",
-        "value": "loopRuntimeExamplePath",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.test.ts",
-        "value": "loopRuntimePath",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "LOOP_CONFIG_PATH",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "LOOP_RUNTIME_PATH",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "Autonomous loop contract",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/diff-summary.mjs",
-        "value": "readLoopConfig",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-abstraction-loop-scheduled.ps1",
-        "value": "Write-LoopLog",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-abstraction-loop.ps1",
-        "value": "Expected location: repo-root/scripts/run-abstraction-loop.ps1",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-abstraction-loop.ps1",
-        "value": "Invoke-PostLoopChecks",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-abstraction-loop.ps1",
-        "value": "New-LoopRuntime",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-abstraction-loop.ps1",
-        "value": "Runs one or more bounded Codex improvement loops with local runtime guards.",
-        "term": "loop",
+        "filePath": "scripts/run-missions.test.mjs",
+        "value": "tempWorkspace",
+        "term": "workspace",
         "score": 3
       }
     ]

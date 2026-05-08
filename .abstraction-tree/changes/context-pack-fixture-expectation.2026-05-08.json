@@ -1,0 +1,20 @@
+{
+  "id": "context-pack-fixture-expectation.2026-05-08",
+  "timestamp": "2026-05-08T14:38:12.000Z",
+  "title": "Add context-pack fixture expectation",
+  "reason": "Make dogfood evaluation assert that a generated automationValidation context pack contains durable nodes, files, concepts, and invariants.",
+  "affectedNodeIds": [
+    "project.intent",
+    "project.architecture",
+    "architecture.core.engine",
+    "concept-node.context.pack"
+  ],
+  "filesChanged": [
+    ".abstraction-tree/evaluation-fixture.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

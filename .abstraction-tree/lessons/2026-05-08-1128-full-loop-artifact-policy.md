@@ -1,0 +1,1 @@
+Full-loop runtime folders should remain ignored local evidence; durable project memory should be captured as concise run reports, lessons, semantic change records, and refreshed abstraction-tree state.

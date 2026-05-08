@@ -3,7 +3,7 @@ import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test, { type TestContext } from "node:test";
-import { reviewChangeRecords } from "./changeReview.js";
+import { buildChangeRecordReviewSummary, reviewChangeRecords } from "./changeReview.js";
 
 test("reviewChangeRecords marks older generated scans as consolidation candidates", async t => {
   const root = await workspace(t);
@@ -23,6 +23,25 @@ test("reviewChangeRecords marks older generated scans as consolidation candidate
   assert.ok(report.eligibleGeneratedScanRecords.every(record =>
     record.consolidationCandidateReason === "superseded-by-newer-scan"
   ));
+});
+
+test("buildChangeRecordReviewSummary returns compact deterministic counts", async t => {
+  const root = await workspace(t);
+  await writeChange(root, "scan.1", "2026-05-04T10:00:00.000Z");
+  await writeChange(root, "semantic.1", "2026-05-04T10:30:00.000Z");
+  await writeChange(root, "scan.2", "2026-05-04T11:00:00.000Z");
+  await writeFile(path.join(root, ".abstraction-tree", "changes", "bad.json"), "{ bad json\n", "utf8");
+
+  const summary = buildChangeRecordReviewSummary(await reviewChangeRecords(root));
+
+  assert.deepEqual(summary, {
+    totalChangeRecordCount: 3,
+    generatedScanRecordCount: 2,
+    semanticChangeRecordCount: 1,
+    eligibleGeneratedScanRecordCount: 1,
+    retainedGeneratedScanRecordId: "scan.2",
+    issueCount: 1
+  });
 });
 
 test("reviewChangeRecords reports malformed change files without mutating them", async t => {

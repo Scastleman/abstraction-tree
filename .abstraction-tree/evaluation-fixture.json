@@ -29,5 +29,24 @@
   "expectedInvariantIds": [
     "invariant.tests-reflect-behavior",
     "invariant.tree-updated-after-change"
+  ],
+  "expectedContextPacks": [
+    {
+      "target": "automationValidation",
+      "expectedTreeNodeIds": [
+        "file.packages.core.src.automationvalidation.test.ts",
+        "file.packages.core.src.automationvalidation.ts"
+      ],
+      "expectedFilePaths": [
+        "packages/core/src/automationValidation.test.ts",
+        "packages/core/src/automationValidation.ts"
+      ],
+      "expectedConceptIds": [
+        "automation"
+      ],
+      "expectedInvariantIds": [
+        "invariant.tests-reflect-behavior"
+      ]
+    }
   ]
 }

@@ -8,6 +8,7 @@ import sirv from "sirv";
 import {
   atreePath,
   buildContextPack,
+  buildChangeRecordReviewSummary,
   formatContextPackMarkdown,
   reviewChangeRecords,
   buildImportGraph,
@@ -214,10 +215,11 @@ const changesCommand = program.command("changes")
 changesCommand.command("review")
   .description("List generated scan change records eligible for consolidation")
   .option("-p, --project <path>", "project root")
+  .option("--summary", "print compact counts instead of generated scan record details")
   .action(async opts => {
     const root = projectPath(opts.project);
     const report = await reviewChangeRecords(root);
-    console.log(JSON.stringify(report, null, 2));
+    console.log(JSON.stringify(opts.summary ? buildChangeRecordReviewSummary(report) : report, null, 2));
   });
 
 program.command("serve")

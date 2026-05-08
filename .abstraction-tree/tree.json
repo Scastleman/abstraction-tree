@@ -42,17 +42,17 @@
       "concept-node.context",
       "concept-node.llm",
       "concept-node.abstraction",
+      "concept-node.change.record",
       "concept-node.ontology",
       "concept-node.import.graph",
       "concept-node.memory",
       "concept-node.invariant",
-      "concept-node.change.record",
       "concept-node.atree",
       "concept-node.diff",
       "concept-node.context.pack",
       "concept-node.llm.proposal",
-      "concept-node.workspace",
       "concept-node.loop",
+      "concept-node.workspace",
       "concept-node.version",
       "concept-node.panel",
       "concept-node.agent",
@@ -237,6 +237,7 @@
       "file.docs.architecture.md",
       "file.docs.data.model.md",
       "file.docs.formatting.md",
+      "file.docs.full.self.improvement.loop.md",
       "file.docs.mission.runner.md",
       "file.docs.packaging.md",
       "file.docs.roadmap.md"
@@ -246,6 +247,7 @@
       "docs/ARCHITECTURE.md",
       "docs/DATA_MODEL.md",
       "docs/FORMATTING.md",
+      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
       "docs/MISSION_RUNNER.md",
       "docs/PACKAGING.md",
       "docs/ROADMAP.md"
@@ -255,6 +257,7 @@
       "docs/ARCHITECTURE.md",
       "docs/DATA_MODEL.md",
       "docs/FORMATTING.md",
+      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
       "docs/MISSION_RUNNER.md",
       "docs/PACKAGING.md",
       "docs/ROADMAP.md"
@@ -274,6 +277,7 @@
         "docs/ARCHITECTURE.md",
         "docs/DATA_MODEL.md",
         "docs/FORMATTING.md",
+        "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
         "docs/MISSION_RUNNER.md",
         "docs/PACKAGING.md",
         "docs/ROADMAP.md"
@@ -739,6 +743,8 @@
       "file.scripts.run.abstraction.loop.scheduled.ps1",
       "file.scripts.run.abstraction.loop.ps1",
       "file.scripts.run.codex.missions.ps1",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
       "file.scripts.run.missions.mjs",
       "file.scripts.run.missions.test.mjs",
       "file.scripts.run.tests.mjs",
@@ -765,6 +771,8 @@
       "scripts/run-abstraction-loop-scheduled.ps1",
       "scripts/run-abstraction-loop.ps1",
       "scripts/run-codex-missions.ps1",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
       "scripts/run-missions.mjs",
       "scripts/run-missions.test.mjs",
       "scripts/run-tests.mjs",
@@ -791,6 +799,8 @@
       "scripts/run-abstraction-loop-scheduled.ps1",
       "scripts/run-abstraction-loop.ps1",
       "scripts/run-codex-missions.ps1",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
       "scripts/run-missions.mjs",
       "scripts/run-missions.test.mjs",
       "scripts/run-tests.mjs",
@@ -827,6 +837,8 @@
         "scripts/run-abstraction-loop-scheduled.ps1",
         "scripts/run-abstraction-loop.ps1",
         "scripts/run-codex-missions.ps1",
+        "scripts/run-full-self-improvement-loop.mjs",
+        "scripts/run-full-self-improvement-loop.test.mjs",
         "scripts/run-missions.mjs",
         "scripts/run-missions.test.mjs",
         "scripts/run-tests.mjs",
@@ -1202,6 +1214,39 @@
     "changePolicy": {
       "allowedToChange": [
         "docs/FORMATTING.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.docs.full.self.improvement.loop.md",
+    "name": "FULL_SELF_IMPROVEMENT_LOOP.md",
+    "title": "FULL_SELF_IMPROVEMENT_LOOP.md",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "FULL_SELF_IMPROVEMENT_LOOP.md is a Markdown implementation file. Defines Full Self-Improvement Loop, Safety, Dry Run, md.",
+    "parent": "module.docs",
+    "parentId": "module.docs",
+    "children": [],
+    "sourceFiles": [
+      "docs/FULL_SELF_IMPROVEMENT_LOOP.md"
+    ],
+    "ownedFiles": [
+      "docs/FULL_SELF_IMPROVEMENT_LOOP.md"
+    ],
+    "responsibilities": [
+      "FULL_SELF_IMPROVEMENT_LOOP.md is a Markdown implementation file. Defines Full Self-Improvement Loop, Safety, Dry Run, md."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "docs/FULL_SELF_IMPROVEMENT_LOOP.md"
       ],
       "mustNotChange": []
     },
@@ -3106,7 +3151,7 @@
     "title": "changeReview.test.ts",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "changeReview.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, report, workspace, writeChange, change. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "summary": "changeReview.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, report, summary, workspace, writeChange. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "parent": "module.packages",
     "parentId": "module.packages",
     "children": [],
@@ -3117,7 +3162,7 @@
       "packages/core/src/changeReview.test.ts"
     ],
     "responsibilities": [
-      "changeReview.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, report, workspace, writeChange, change. Depends on node:assert/strict, node:fs/promises, node:os, node:path."
+      "changeReview.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, report, summary, workspace, writeChange. Depends on node:assert/strict, node:fs/promises, node:os, node:path."
     ],
     "dependencies": [
       "import:node:assert/strict",
@@ -3153,7 +3198,7 @@
     "title": "changeReview.ts",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "changeReview.ts is a TypeScript implementation file. AST-backed scan. Defines ChangeRecordReviewItem, ChangeRecordReviewReport, ChangeRecordReviewInput, reviewChangeRecords, loaded. Depends on ./schema.js, ./workspace.js.",
+    "summary": "changeReview.ts is a TypeScript implementation file. AST-backed scan. Defines ChangeRecordReviewItem, ChangeRecordReviewReport, ChangeRecordReviewSummary, ChangeRecordReviewInput, reviewChangeRecords. Depends on ./schema.js, ./workspace.js.",
     "parent": "module.packages",
     "parentId": "module.packages",
     "children": [],
@@ -3164,7 +3209,7 @@
       "packages/core/src/changeReview.ts"
     ],
     "responsibilities": [
-      "changeReview.ts is a TypeScript implementation file. AST-backed scan. Defines ChangeRecordReviewItem, ChangeRecordReviewReport, ChangeRecordReviewInput, reviewChangeRecords, loaded. Depends on ./schema.js, ./workspace.js."
+      "changeReview.ts is a TypeScript implementation file. AST-backed scan. Defines ChangeRecordReviewItem, ChangeRecordReviewReport, ChangeRecordReviewSummary, ChangeRecordReviewInput, reviewChangeRecords. Depends on ./schema.js, ./workspace.js."
     ],
     "dependencies": [
       "import:./schema.js",
@@ -5326,6 +5371,100 @@
     "confidence": 0.65
   },
   {
+    "id": "file.scripts.run.full.self.improvement.loop.mjs",
+    "name": "run-full-self-improvement-loop.mjs",
+    "title": "run-full-self-improvement-loop.mjs",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "run-full-self-improvement-loop.mjs is a JavaScript implementation file. AST-backed scan. Defines execFileAsync, fullLoopRoot, durableRunRoot, defaultCodexBin, runCli. Depends on node:child_process, node:fs, node:fs/promises, node:path.",
+    "parent": "module.scripts",
+    "parentId": "module.scripts",
+    "children": [],
+    "sourceFiles": [
+      "scripts/run-full-self-improvement-loop.mjs"
+    ],
+    "ownedFiles": [
+      "scripts/run-full-self-improvement-loop.mjs"
+    ],
+    "responsibilities": [
+      "run-full-self-improvement-loop.mjs is a JavaScript implementation file. AST-backed scan. Defines execFileAsync, fullLoopRoot, durableRunRoot, defaultCodexBin, runCli. Depends on node:child_process, node:fs, node:fs/promises, node:path."
+    ],
+    "dependencies": [
+      "import:node:child_process",
+      "import:node:fs",
+      "import:node:fs/promises",
+      "import:node:path",
+      "import:node:url",
+      "import:node:util"
+    ],
+    "dependsOn": [
+      "import:node:child_process",
+      "import:node:fs",
+      "import:node:fs/promises",
+      "import:node:path",
+      "import:node:url",
+      "import:node:util"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "scripts/run-full-self-improvement-loop.mjs"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.scripts.run.full.self.improvement.loop.test.mjs",
+    "name": "run-full-self-improvement-loop.test.mjs",
+    "title": "run-full-self-improvement-loop.test.mjs",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "run-full-self-improvement-loop.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines parsed, prompt, report, root, runDir. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "parent": "module.scripts",
+    "parentId": "module.scripts",
+    "children": [],
+    "sourceFiles": [
+      "scripts/run-full-self-improvement-loop.test.mjs"
+    ],
+    "ownedFiles": [
+      "scripts/run-full-self-improvement-loop.test.mjs"
+    ],
+    "responsibilities": [
+      "run-full-self-improvement-loop.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines parsed, prompt, report, root, runDir. Depends on node:assert/strict, node:fs/promises, node:os, node:path."
+    ],
+    "dependencies": [
+      "import:node:assert/strict",
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:test",
+      "import:./run-full-self-improvement-loop.mjs"
+    ],
+    "dependsOn": [
+      "import:node:assert/strict",
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:test",
+      "import:./run-full-self-improvement-loop.mjs"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "scripts/run-full-self-improvement-loop.test.mjs"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
     "id": "file.scripts.run.missions.mjs",
     "name": "run-missions.mjs",
     "title": "run-missions.mjs",
@@ -6768,7 +6907,7 @@
     "title": "Change",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 26 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 27 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
@@ -6798,7 +6937,8 @@
       "packages/core/src/validator.ts",
       "packages/core/src/workspace.ts",
       "scripts/diff-summary.mjs",
-      "scripts/run-abstraction-loop.ps1"
+      "scripts/run-abstraction-loop.ps1",
+      "scripts/run-full-self-improvement-loop.mjs"
     ],
     "ownedFiles": [
       "README.md",
@@ -6826,7 +6966,8 @@
       "packages/core/src/validator.ts",
       "packages/core/src/workspace.ts",
       "scripts/diff-summary.mjs",
-      "scripts/run-abstraction-loop.ps1"
+      "scripts/run-abstraction-loop.ps1",
+      "scripts/run-full-self-improvement-loop.mjs"
     ],
     "responsibilities": [
       "Represent the cross-cutting Change concept across related files."
@@ -6863,6 +7004,7 @@
       "file.readme.md",
       "file.scripts.diff.summary.mjs",
       "file.scripts.run.abstraction.loop.ps1",
+      "file.scripts.run.full.self.improvement.loop.mjs",
       "architecture.cli.surface",
       "architecture.core.engine",
       "architecture.scanner.tree.context.pipeline",
@@ -6902,6 +7044,7 @@
       "file.readme.md",
       "file.scripts.diff.summary.mjs",
       "file.scripts.run.abstraction.loop.ps1",
+      "file.scripts.run.full.self.improvement.loop.mjs",
       "architecture.cli.surface",
       "architecture.core.engine",
       "architecture.scanner.tree.context.pipeline",
@@ -7137,7 +7280,7 @@
     "title": "Context",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 16 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 17 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
@@ -7157,7 +7300,8 @@
       "packages/core/src/schema.ts",
       "packages/core/src/validator.ts",
       "packages/core/src/workspace.ts",
-      "scripts/generated-memory-fixtures.test.mjs"
+      "scripts/generated-memory-fixtures.test.mjs",
+      "scripts/run-full-self-improvement-loop.mjs"
     ],
     "ownedFiles": [
       "README.md",
@@ -7175,7 +7319,8 @@
       "packages/core/src/schema.ts",
       "packages/core/src/validator.ts",
       "packages/core/src/workspace.ts",
-      "scripts/generated-memory-fixtures.test.mjs"
+      "scripts/generated-memory-fixtures.test.mjs",
+      "scripts/run-full-self-improvement-loop.mjs"
     ],
     "responsibilities": [
       "Represent the cross-cutting Context concept across related files."
@@ -7201,6 +7346,7 @@
       "file.packages.core.src.workspace.ts",
       "file.readme.md",
       "file.scripts.generated.memory.fixtures.test.mjs",
+      "file.scripts.run.full.self.improvement.loop.mjs",
       "architecture.cli.surface",
       "architecture.core.engine",
       "architecture.scanner.tree.context.pipeline",
@@ -7228,6 +7374,7 @@
       "file.packages.core.src.workspace.ts",
       "file.readme.md",
       "file.scripts.generated.memory.fixtures.test.mjs",
+      "file.scripts.run.full.self.improvement.loop.mjs",
       "architecture.cli.surface",
       "architecture.core.engine",
       "architecture.scanner.tree.context.pipeline",
@@ -7417,6 +7564,65 @@
       "architecture.cli.surface",
       "architecture.core.engine",
       "architecture.visual.app.ui"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.change.record",
+    "name": "Change Record",
+    "title": "Change Record",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 6 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/changeReview.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/changeReview.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Change Record concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.core.src.changereview.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts",
+      "architecture.core.engine"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.core.src.changereview.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts",
+      "architecture.core.engine"
     ],
     "changeLog": [],
     "invariants": [
@@ -7871,65 +8077,6 @@
     "confidence": 0.65
   },
   {
-    "id": "concept-node.change.record",
-    "name": "Change Record",
-    "title": "Change Record",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 6 file(s) using export, symbol signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "packages/core/src/changeReview.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/runtimeSchema.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/workspace.ts"
-    ],
-    "ownedFiles": [
-      "packages/core/src/changeReview.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/runtimeSchema.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/workspace.ts"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Change Record concept across related files."
-    ],
-    "dependencies": [
-      "module.packages",
-      "file.packages.core.src.changereview.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.runtimeschema.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.workspace.ts",
-      "architecture.core.engine"
-    ],
-    "dependsOn": [
-      "module.packages",
-      "file.packages.core.src.changereview.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.runtimeschema.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.workspace.ts",
-      "architecture.core.engine"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
     "id": "concept-node.atree",
     "name": "Atree",
     "title": "Atree",
@@ -8180,12 +8327,107 @@
     "confidence": 0.65
   },
   {
+    "id": "concept-node.loop",
+    "name": "Loop",
+    "title": "Loop",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 13 file(s) using doc, path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "README.md",
+      "docs/AGENT_PROTOCOL.md",
+      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/automationValidation.ts",
+      "packages/core/src/evaluator.test.ts",
+      "packages/core/src/evaluator.ts",
+      "scripts/diff-summary.mjs",
+      "scripts/run-abstraction-loop-scheduled.ps1",
+      "scripts/run-abstraction-loop.ps1",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs"
+    ],
+    "ownedFiles": [
+      "README.md",
+      "docs/AGENT_PROTOCOL.md",
+      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/automationValidation.ts",
+      "packages/core/src/evaluator.test.ts",
+      "packages/core/src/evaluator.ts",
+      "scripts/diff-summary.mjs",
+      "scripts/run-abstraction-loop-scheduled.ps1",
+      "scripts/run-abstraction-loop.ps1",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Loop concept across related files."
+    ],
+    "dependencies": [
+      "module.docs",
+      "module.packages",
+      "module.root",
+      "module.scripts",
+      "file.docs.agent.protocol.md",
+      "file.docs.full.self.improvement.loop.md",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.automationvalidation.ts",
+      "file.packages.core.src.evaluator.test.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.readme.md",
+      "file.scripts.diff.summary.mjs",
+      "file.scripts.run.abstraction.loop.scheduled.ps1",
+      "file.scripts.run.abstraction.loop.ps1",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "architecture.core.engine",
+      "architecture.visual.app.ui"
+    ],
+    "dependsOn": [
+      "module.docs",
+      "module.packages",
+      "module.root",
+      "module.scripts",
+      "file.docs.agent.protocol.md",
+      "file.docs.full.self.improvement.loop.md",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.automationvalidation.ts",
+      "file.packages.core.src.evaluator.test.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.readme.md",
+      "file.scripts.diff.summary.mjs",
+      "file.scripts.run.abstraction.loop.scheduled.ps1",
+      "file.scripts.run.abstraction.loop.ps1",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "architecture.core.engine",
+      "architecture.visual.app.ui"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
     "id": "concept-node.workspace",
     "name": "Workspace",
     "title": "Workspace",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 14 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 15 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
@@ -8203,6 +8445,7 @@
       "packages/core/src/schema.ts",
       "packages/core/src/workspace.test.ts",
       "packages/core/src/workspace.ts",
+      "scripts/run-full-self-improvement-loop.test.mjs",
       "scripts/run-missions.test.mjs"
     ],
     "ownedFiles": [
@@ -8219,6 +8462,7 @@
       "packages/core/src/schema.ts",
       "packages/core/src/workspace.test.ts",
       "packages/core/src/workspace.ts",
+      "scripts/run-full-self-improvement-loop.test.mjs",
       "scripts/run-missions.test.mjs"
     ],
     "responsibilities": [
@@ -8241,6 +8485,7 @@
       "file.packages.core.src.schema.ts",
       "file.packages.core.src.workspace.test.ts",
       "file.packages.core.src.workspace.ts",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
       "file.scripts.run.missions.test.mjs",
       "architecture.core.engine",
       "architecture.scanner.tree.context.pipeline"
@@ -8262,92 +8507,10 @@
       "file.packages.core.src.schema.ts",
       "file.packages.core.src.workspace.test.ts",
       "file.packages.core.src.workspace.ts",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
       "file.scripts.run.missions.test.mjs",
       "architecture.core.engine",
       "architecture.scanner.tree.context.pipeline"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.loop",
-    "name": "Loop",
-    "title": "Loop",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 10 file(s) using path, symbol signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "README.md",
-      "docs/AGENT_PROTOCOL.md",
-      "packages/app/src/components/AgentHealthPanel.tsx",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/automationValidation.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/evaluator.ts",
-      "scripts/diff-summary.mjs",
-      "scripts/run-abstraction-loop-scheduled.ps1",
-      "scripts/run-abstraction-loop.ps1"
-    ],
-    "ownedFiles": [
-      "README.md",
-      "docs/AGENT_PROTOCOL.md",
-      "packages/app/src/components/AgentHealthPanel.tsx",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/automationValidation.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/evaluator.ts",
-      "scripts/diff-summary.mjs",
-      "scripts/run-abstraction-loop-scheduled.ps1",
-      "scripts/run-abstraction-loop.ps1"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Loop concept across related files."
-    ],
-    "dependencies": [
-      "module.docs",
-      "module.packages",
-      "module.root",
-      "module.scripts",
-      "file.docs.agent.protocol.md",
-      "file.packages.app.src.components.agenthealthpanel.tsx",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.readme.md",
-      "file.scripts.diff.summary.mjs",
-      "file.scripts.run.abstraction.loop.scheduled.ps1",
-      "file.scripts.run.abstraction.loop.ps1",
-      "architecture.core.engine",
-      "architecture.visual.app.ui"
-    ],
-    "dependsOn": [
-      "module.docs",
-      "module.packages",
-      "module.root",
-      "module.scripts",
-      "file.docs.agent.protocol.md",
-      "file.packages.app.src.components.agenthealthpanel.tsx",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.readme.md",
-      "file.scripts.diff.summary.mjs",
-      "file.scripts.run.abstraction.loop.scheduled.ps1",
-      "file.scripts.run.abstraction.loop.ps1",
-      "architecture.core.engine",
-      "architecture.visual.app.ui"
     ],
     "changeLog": [],
     "invariants": [

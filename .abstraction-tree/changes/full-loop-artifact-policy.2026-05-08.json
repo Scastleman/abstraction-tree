@@ -1,0 +1,26 @@
+{
+  "id": "full-loop-artifact-policy.2026-05-08",
+  "timestamp": "2026-05-08T15:28:00-04:00",
+  "title": "Separate full-loop runtime artifacts from durable memory",
+  "reason": "Full self-improvement loops now keep high-volume generated run folders local while writing concise durable reports to abstraction-tree run memory.",
+  "affectedNodeIds": [
+    "module.scripts",
+    "module.docs",
+    "project.architecture"
+  ],
+  "filesChanged": [
+    ".gitignore",
+    "scripts/run-full-self-improvement-loop.mjs",
+    "scripts/run-full-self-improvement-loop.test.mjs",
+    "scripts/project-text-files.mjs",
+    "scripts/project-text-files.test.mjs",
+    "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+    ".abstraction-tree/runs/2026-05-08-1102-full-loop-run.md",
+    ".abstraction-tree/lessons/2026-05-08-1128-full-loop-artifact-policy.md"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

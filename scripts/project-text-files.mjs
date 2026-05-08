@@ -13,6 +13,7 @@ export const ignoredRelativeFiles = new Set([
 ]);
 
 export const ignoredRelativePrefixes = [
+  ".abstraction-tree/automation/full-loop-runs/",
   ".abstraction-tree/automation/mission-logs/",
   ".abstraction-tree/mission-runs/",
   ".abstraction-tree/worktrees/"

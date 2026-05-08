@@ -22,6 +22,15 @@ export interface ChangeRecordReviewReport {
   issues: ValidationIssue[];
 }
 
+export interface ChangeRecordReviewSummary {
+  totalChangeRecordCount: number;
+  generatedScanRecordCount: number;
+  semanticChangeRecordCount: number;
+  eligibleGeneratedScanRecordCount: number;
+  retainedGeneratedScanRecordId?: string;
+  issueCount: number;
+}
+
 export type ChangeRecordReviewInput = LoadedChangeRecordObject;
 
 export async function reviewChangeRecords(projectRoot: string): Promise<ChangeRecordReviewReport> {
@@ -49,6 +58,17 @@ export function buildChangeRecordReviewReport(
     retainedGeneratedScanRecord: retainedGeneratedScanRecord ? reviewItem(retainedGeneratedScanRecord) : undefined,
     eligibleGeneratedScanRecords,
     issues
+  };
+}
+
+export function buildChangeRecordReviewSummary(report: ChangeRecordReviewReport): ChangeRecordReviewSummary {
+  return {
+    totalChangeRecordCount: report.totalChangeRecordCount,
+    generatedScanRecordCount: report.generatedScanRecordCount,
+    semanticChangeRecordCount: report.semanticChangeRecordCount,
+    eligibleGeneratedScanRecordCount: report.eligibleGeneratedScanRecordCount,
+    retainedGeneratedScanRecordId: report.retainedGeneratedScanRecord?.id,
+    issueCount: report.issues.length
   };
 }
 
