@@ -405,7 +405,8 @@ function nodeParent(node: TreeNode): string | undefined {
 }
 
 function nodeFiles(node: TreeNode): string[] {
-  return node.sourceFiles ?? node.ownedFiles ?? [];
+  const sourceFiles = Array.isArray(node.sourceFiles) ? node.sourceFiles : [];
+  return sourceFiles.length ? sourceFiles : Array.isArray(node.ownedFiles) ? node.ownedFiles : [];
 }
 
 function findDuplicateNodeIds(nodes: TreeNode[]): string[] {

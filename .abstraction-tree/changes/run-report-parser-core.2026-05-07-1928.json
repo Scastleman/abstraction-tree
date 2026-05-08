@@ -1,0 +1,30 @@
+{
+  "id": "run-report-parser-core.2026-05-07-1928",
+  "timestamp": "2026-05-07T19:28:06-04:00",
+  "title": "Centralize run report Markdown parsing",
+  "reason": "Evaluator run metrics and CLI agent health now share the same core parser for run report task and result extraction, keeping success, partial, failed, and no-op handling consistent.",
+  "affectedNodeIds": [
+    "file.packages.core.src.runreports.ts",
+    "file.packages.core.src.runreports.test.ts",
+    "file.packages.core.src.evaluator.ts",
+    "file.packages.core.src.index.ts",
+    "file.packages.cli.src.agenthealth.ts",
+    "module.packages"
+  ],
+  "filesChanged": [
+    "packages/core/src/runReports.ts",
+    "packages/core/src/runReports.test.ts",
+    "packages/core/src/evaluator.ts",
+    "packages/core/src/index.ts",
+    "packages/cli/src/agentHealth.ts",
+    ".abstraction-tree/files.json",
+    ".abstraction-tree/tree.json",
+    ".abstraction-tree/concepts.json",
+    ".abstraction-tree/invariants.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

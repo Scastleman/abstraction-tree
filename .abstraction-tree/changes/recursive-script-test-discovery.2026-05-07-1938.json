@@ -1,0 +1,24 @@
+{
+  "id": "recursive-script-test-discovery.2026-05-07-1938",
+  "timestamp": "2026-05-07T19:38:00-04:00",
+  "title": "Make script test discovery recursive and import-safe",
+  "reason": "The script test runner now exposes import-safe discovery helpers, recursively finds package and script tests, and has focused coverage for nested script test discovery.",
+  "affectedNodeIds": [
+    "file.scripts.run.tests.mjs",
+    "file.scripts.run.tests.test.mjs",
+    "module.scripts"
+  ],
+  "filesChanged": [
+    "scripts/run-tests.mjs",
+    "scripts/run-tests.test.mjs",
+    ".abstraction-tree/files.json",
+    ".abstraction-tree/tree.json",
+    ".abstraction-tree/concepts.json",
+    ".abstraction-tree/invariants.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

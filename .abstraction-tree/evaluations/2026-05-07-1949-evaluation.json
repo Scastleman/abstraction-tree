@@ -1,0 +1,48 @@
+{
+  "timestamp": "2026-05-07T23:49:44.277Z",
+  "tree": {
+    "nodeCount": 105,
+    "orphanNodeCount": 0,
+    "nodesWithoutSummaries": 0,
+    "filesWithoutOwners": 0
+  },
+  "context": {
+    "lastPackCount": 1,
+    "averageFilesPerPack": 33,
+    "averageConceptsPerPack": 19,
+    "possibleOverBroadPacks": 0
+  },
+  "drift": {
+    "staleFileCount": 0,
+    "missingFileCount": 0
+  },
+  "runs": {
+    "runReportCount": 42,
+    "successCount": 18,
+    "partialCount": 24,
+    "failedCount": 0,
+    "noOpCount": 0
+  },
+  "changes": {
+    "totalChangeRecordCount": 84,
+    "generatedScanRecordCount": 70,
+    "semanticChangeRecordCount": 14,
+    "generatedScanReviewNeeded": true
+  },
+  "lessons": {
+    "lessonCount": 42,
+    "duplicateLessonCandidates": 0
+  },
+  "automation": {
+    "runtimeStateIgnored": true,
+    "configValid": true
+  },
+  "issues": [
+    {
+      "severity": "warning",
+      "area": "changes",
+      "filePath": ".abstraction-tree/changes",
+      "message": ".abstraction-tree/changes contains 70 generated scan records and 14 semantic records; review or consolidate scan records before the autopilot diff grows past guardrails."
+    }
+  ]
+}

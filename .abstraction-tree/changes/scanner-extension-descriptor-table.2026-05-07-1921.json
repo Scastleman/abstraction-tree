@@ -1,0 +1,24 @@
+{
+  "id": "scanner-extension-descriptor-table.2026-05-07-1921",
+  "timestamp": "2026-05-07T19:21:55-04:00",
+  "title": "Centralize scanner extension metadata",
+  "reason": "Scanner language labels, parser strategy, TypeScript script kind, and dot-test matching now come from one extension descriptor table so new module extensions cannot drift across separate hard-coded lists.",
+  "affectedNodeIds": [
+    "file.packages.core.src.scanner.ts",
+    "file.packages.core.src.scanner.test.ts",
+    "module.scripts"
+  ],
+  "filesChanged": [
+    "packages/core/src/scanner.ts",
+    "packages/core/src/scanner.test.ts",
+    ".abstraction-tree/files.json",
+    ".abstraction-tree/tree.json",
+    ".abstraction-tree/concepts.json",
+    ".abstraction-tree/invariants.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

@@ -1,0 +1,28 @@
+{
+  "id": "script-project-text-files-shared.2026-05-07-1933",
+  "timestamp": "2026-05-07T19:33:00-04:00",
+  "title": "Centralize script project text file discovery",
+  "reason": "Formatting and Unicode scanning now share supported text extensions, transient automation ignores, fallback project walking, path normalization, and text byte limits instead of maintaining separate copies.",
+  "affectedNodeIds": [
+    "file.scripts.project.text.files.mjs",
+    "file.scripts.project.text.files.test.mjs",
+    "file.scripts.format.mjs",
+    "file.scripts.check.unicode.mjs",
+    "module.scripts"
+  ],
+  "filesChanged": [
+    "scripts/project-text-files.mjs",
+    "scripts/project-text-files.test.mjs",
+    "scripts/format.mjs",
+    "scripts/check-unicode.mjs",
+    ".abstraction-tree/files.json",
+    ".abstraction-tree/tree.json",
+    ".abstraction-tree/concepts.json",
+    ".abstraction-tree/invariants.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

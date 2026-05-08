@@ -1,0 +1,24 @@
+{
+  "id": "evaluator-scan-record-review.2026-05-07-1942",
+  "timestamp": "2026-05-07T19:42:00-04:00",
+  "title": "Report generated scan change-record buildup",
+  "reason": "Evaluation now counts total, generated scan, and semantic change records and warns when generated scan records need review before autopilot diffs grow past configured guardrails.",
+  "affectedNodeIds": [
+    "file.packages.core.src.evaluator.ts",
+    "file.packages.core.src.evaluator.test.ts",
+    "module.packages"
+  ],
+  "filesChanged": [
+    "packages/core/src/evaluator.ts",
+    "packages/core/src/evaluator.test.ts",
+    ".abstraction-tree/files.json",
+    ".abstraction-tree/tree.json",
+    ".abstraction-tree/concepts.json",
+    ".abstraction-tree/invariants.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

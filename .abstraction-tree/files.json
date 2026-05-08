@@ -102,9 +102,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "9e3d9cda16668a34e136c944b3557d6d364f1a31e427b4d282c32def37af12a4",
-    "sizeBytes": 2367,
-    "lines": 95,
+    "contentHash": "8ba306cc3c73b5cf15e3dc84c56020a8eadf0a8851e5778fb0577d9781cbceb8",
+    "sizeBytes": 2650,
+    "lines": 97,
     "imports": [],
     "exports": [],
     "symbols": [],
@@ -349,8 +349,8 @@
     "extension": ".json",
     "language": "JSON",
     "parseStrategy": "regex",
-    "contentHash": "30b514cd5dcbef3f3fcadd84053c56da44e2fa2b61fcdb7daa7f2a0404980472",
-    "sizeBytes": 1475,
+    "contentHash": "0ba0e34c6f3aba0b9cd45c3cb6d7f6c7e1780b3f6174fb36b054793f056f0744",
+    "sizeBytes": 1468,
     "lines": 34,
     "imports": [],
     "exports": [],
@@ -385,14 +385,15 @@
     "extension": ".tsx",
     "language": "TypeScript React",
     "parseStrategy": "typescript-ast",
-    "contentHash": "6ad49e0f51d9e6562d3d38b231a33e49d040792806e8b8466eac90181e5b0953",
-    "sizeBytes": 9090,
-    "lines": 184,
+    "contentHash": "6395080c525e6c6d81f6bb8a8930240306d7610e25f76842e497aa1b7b632963",
+    "sizeBytes": 8765,
+    "lines": 169,
     "imports": [
       "react",
       "react-dom/client",
       "lucide-react",
       "./types.js",
+      "./nodeAccessors.js",
       "./styles.css"
     ],
     "exports": [],
@@ -416,10 +417,6 @@
       "Panel",
       "Stat",
       "emptyState",
-      "nodeName",
-      "nodeLevel",
-      "nodeFiles",
-      "nodeDependencies",
       "displayTimestamp",
       "timestamp",
       "displayCount",
@@ -440,6 +437,38 @@
     "summary": "main.tsx is a TypeScript React implementation file. AST-backed scan. Defines App, state, setState, selectedId, setSelectedId. Depends on react, react-dom/client, lucide-react, ./types.js.",
     "ownedByNodeIds": [
       "file.packages.app.src.main.tsx",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/app/src/nodeAccessors.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "6e87e9c606b462fe3158bc13ea695d766af297a85c2b9d5a87dd658be4dfb6c5",
+    "sizeBytes": 716,
+    "lines": 20,
+    "imports": [
+      "./types.js"
+    ],
+    "exports": [
+      "nodeName",
+      "nodeLevel",
+      "nodeFiles",
+      "nodeDependencies"
+    ],
+    "symbols": [
+      "nodeName",
+      "nodeLevel",
+      "nodeFiles",
+      "sourceFiles",
+      "nodeDependencies",
+      "dependencies"
+    ],
+    "isTest": false,
+    "summary": "nodeAccessors.ts is a TypeScript implementation file. AST-backed scan. Defines nodeName, nodeLevel, nodeFiles, sourceFiles, nodeDependencies. Depends on ./types.js.",
+    "ownedByNodeIds": [
+      "file.packages.app.src.nodeaccessors.ts",
       "module.packages"
     ]
   },
@@ -516,13 +545,61 @@
     ]
   },
   {
+    "path": "packages/cli/src/agentHealth.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "f8170a48b9fbf2e34fc502a2bd8cfe64254acd6747276685bc3f148271f5b4df",
+    "sizeBytes": 975,
+    "lines": 45,
+    "imports": [
+      "node:assert/strict",
+      "node:test",
+      "./agentHealth.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "summary"
+    ],
+    "isTest": true,
+    "summary": "agentHealth.test.ts is a TypeScript test coverage file. AST-backed scan. Defines summary. Depends on node:assert/strict, node:test, ./agentHealth.js.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.agenthealth.test.ts",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/cli/src/agentHealth.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "8552239080ed77960dfe977a0f2bc202f6c82586f919d09c86913393c29813a0",
+    "sizeBytes": 159,
+    "lines": 3,
+    "imports": [
+      "@abstraction-tree/core"
+    ],
+    "exports": [
+      "summarizeRunMarkdown",
+      "RunMarkdownSummary",
+      "RunResult"
+    ],
+    "symbols": [],
+    "isTest": false,
+    "summary": "agentHealth.ts is a TypeScript implementation file. AST-backed scan. Depends on @abstraction-tree/core.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.agenthealth.ts",
+      "module.packages"
+    ]
+  },
+  {
     "path": "packages/cli/src/index.ts",
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "d0ada11979f073f508a6805af777fb47c24615a84b5ea2315fcddd33a5663fe6",
-    "sizeBytes": 19449,
-    "lines": 457,
+    "contentHash": "4ff50aea1332802c80f9a4f6eea9968dbdbb7abcaa1474a2ee995a1f330a6e9d",
+    "sizeBytes": 19028,
+    "lines": 450,
     "imports": [
       "commander",
       "node:path",
@@ -531,7 +608,8 @@
       "node:fs/promises",
       "node:url",
       "sirv",
-      "@abstraction-tree/core"
+      "@abstraction-tree/core",
+      "./agentHealth.js"
     ],
     "exports": [],
     "symbols": [
@@ -554,6 +632,7 @@
       "out",
       "report",
       "filePath",
+      "changesCommand",
       "port",
       "appDist",
       "serveStatic",
@@ -567,12 +646,11 @@
       "existingChangeFilePaths",
       "currentScan",
       "AgentHealth",
-      "RunResult",
       "loadAgentHealth",
       "loadLatestRun",
       "latest",
       "text",
-      "result",
+      "summary",
       "loadLatestEvaluation",
       "drift"
     ],
@@ -624,9 +702,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "03cd36ec55c5b3645692efdb6ed10a0eea9305d83be4ab964c78300ffc40cbd6",
-    "sizeBytes": 6392,
-    "lines": 160,
+    "contentHash": "3c43ce420a0df365eb89980c44b9e5e62bab580bad234347d904923f150137ae",
+    "sizeBytes": 6774,
+    "lines": 169,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
@@ -661,16 +739,17 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "c34fb5797ef2439485585d18a2ad45498f22ba6e04455228713d89da29fb5723",
-    "sizeBytes": 8249,
-    "lines": 279,
+    "contentHash": "82788baf6be36c3cc3d7cee1829b0d54ba1e63962566dbf251e5baae6f4181bc",
+    "sizeBytes": 8281,
+    "lines": 280,
     "imports": [
       "node:child_process",
       "node:fs",
       "node:fs/promises",
       "node:path",
       "node:util",
-      "./schema.js"
+      "./schema.js",
+      "./workspace.js"
     ],
     "exports": [
       "validateAutomation",
@@ -722,17 +801,105 @@
     ]
   },
   {
+    "path": "packages/core/src/changeReview.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "faa22a36826ed8ab8e6dc8cd1ebf8690ea2ec8e32cf935abab79be129c2593b7",
+    "sizeBytes": 2736,
+    "lines": 67,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:test",
+      "./changeReview.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "root",
+      "report",
+      "workspace",
+      "writeChange",
+      "change"
+    ],
+    "isTest": true,
+    "summary": "changeReview.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, report, workspace, writeChange, change. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.changereview.test.ts",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/core/src/changeReview.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "fa56ee36406cee1d3c287a506fc66a87072f9583de669fadd74c97e3a393c7ed",
+    "sizeBytes": 4993,
+    "lines": 151,
+    "imports": [
+      "node:fs",
+      "node:fs/promises",
+      "node:path",
+      "./schema.js",
+      "./workspace.js"
+    ],
+    "exports": [
+      "ChangeRecordReviewItem",
+      "ChangeRecordReviewReport",
+      "ChangeRecordReviewInput",
+      "reviewChangeRecords",
+      "buildChangeRecordReviewReport"
+    ],
+    "symbols": [
+      "ChangeRecordReviewItem",
+      "ChangeRecordReviewReport",
+      "ChangeRecordReviewInput",
+      "reviewChangeRecords",
+      "loaded",
+      "buildChangeRecordReviewReport",
+      "generatedScanRecords",
+      "retainedGeneratedScanRecord",
+      "eligibleGeneratedScanRecords",
+      "loadChangeRecordObjects",
+      "dir",
+      "names",
+      "records",
+      "issues",
+      "name",
+      "absolutePath",
+      "relativePath",
+      "record",
+      "reviewItem",
+      "compareLoadedChangeRecords",
+      "changeSortKey",
+      "isGeneratedScanRecord",
+      "objectRecord",
+      "stringValue",
+      "stringArray"
+    ],
+    "isTest": false,
+    "summary": "changeReview.ts is a TypeScript implementation file. AST-backed scan. Defines ChangeRecordReviewItem, ChangeRecordReviewReport, ChangeRecordReviewInput, reviewChangeRecords, loaded. Depends on node:fs, node:fs/promises, node:path, ./schema.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.changereview.ts",
+      "module.packages"
+    ]
+  },
+  {
     "path": "packages/core/src/context.test.ts",
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "306202cb0a53b1fbcdb8a9051ed74b3400cf9729f93894f5ee19dc02ad79c2ff",
-    "sizeBytes": 2936,
-    "lines": 86,
+    "contentHash": "11d925fb75e77193f1c8189bf87e9822c3e24a725941023aab19778d7c4db7cc",
+    "sizeBytes": 5090,
+    "lines": 134,
     "imports": [
       "node:assert/strict",
       "node:test",
       "./context.js",
+      "./contextLimits.js",
       "./schema.js"
     ],
     "exports": [],
@@ -746,7 +913,7 @@
       "node"
     ],
     "isTest": true,
-    "summary": "context.test.ts is a TypeScript test coverage file. AST-backed scan. Defines files, nodes, concepts, invariants, pack. Depends on node:assert/strict, node:test, ./context.js, ./schema.js.",
+    "summary": "context.test.ts is a TypeScript test coverage file. AST-backed scan. Defines files, nodes, concepts, invariants, pack. Depends on node:assert/strict, node:test, ./context.js, ./contextLimits.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.context.test.ts",
       "module.packages"
@@ -757,11 +924,12 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "39e4d727e1fa169b2bf0db65aa0fd9b6e598835faa355eebe8ec62b2a98cd347",
-    "sizeBytes": 6124,
-    "lines": 162,
+    "contentHash": "e231cd1632db0dab9b0945203fb0e00974456a4bc9f5dbbdbc3781575c74d056",
+    "sizeBytes": 6612,
+    "lines": 169,
     "imports": [
-      "./schema.js"
+      "./schema.js",
+      "./contextLimits.js"
     ],
     "exports": [
       "buildContextPack"
@@ -791,6 +959,9 @@
       "invariants",
       "nodeName",
       "nodeFiles",
+      "sourceFiles",
+      "nodeDependencies",
+      "dependencies",
       "scoreNode",
       "scoreFile",
       "scoreConcept",
@@ -803,15 +974,36 @@
       "tokenize",
       "normalize",
       "byScoreThenName",
-      "uniqueBy",
-      "seen",
-      "value",
-      "conceptName"
+      "uniqueBy"
     ],
     "isTest": false,
-    "summary": "context.ts is a TypeScript implementation file. AST-backed scan. Defines buildContextPack, query, queryTokens, conceptScores, conceptFileSet. Depends on ./schema.js.",
+    "summary": "context.ts is a TypeScript implementation file. AST-backed scan. Defines buildContextPack, query, queryTokens, conceptScores, conceptFileSet. Depends on ./schema.js, ./contextLimits.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.context.ts",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/core/src/contextLimits.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "5ae45a4dd1039507d4700cfdf08f48badc50a0af44dcfab0195100ab0149f113",
+    "sizeBytes": 289,
+    "lines": 12,
+    "imports": [],
+    "exports": [
+      "CONTEXT_OVER_BROAD_LIMITS",
+      "CONTEXT_PACK_LIMITS"
+    ],
+    "symbols": [
+      "CONTEXT_OVER_BROAD_LIMITS",
+      "CONTEXT_PACK_LIMITS"
+    ],
+    "isTest": false,
+    "summary": "contextLimits.ts is a TypeScript implementation file. AST-backed scan. Defines CONTEXT_OVER_BROAD_LIMITS, CONTEXT_PACK_LIMITS.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.contextlimits.ts",
       "module.packages"
     ]
   },
@@ -917,15 +1109,16 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "b55356660176745c76d1fe1ab37b7f34845bf32888dff213b8bbfae109a10e9c",
-    "sizeBytes": 5957,
-    "lines": 170,
+    "contentHash": "836a9d747a2b54e452c0be502cb0704fb24e337a4ece824c5bc71d0fd227dd1a",
+    "sizeBytes": 8909,
+    "lines": 244,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
       "node:os",
       "node:path",
       "node:test",
+      "./contextLimits.js",
       "./evaluator.js",
       "./schema.js"
     ],
@@ -936,10 +1129,12 @@
       "loopRuntimePath",
       "root",
       "report",
+      "index",
       "parsed",
       "workspace",
       "writeValidAutomationFiles",
       "writeRun",
+      "writeChange",
       "writeJson",
       "filePath",
       "fixedNow",
@@ -958,9 +1153,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "5cfff0e58e595a0b6c5f4901fa025b5f863e196aba05980c82996314468a0e06",
-    "sizeBytes": 12789,
-    "lines": 391,
+    "contentHash": "26e0f294652d7638668220b97cca216f9b9b98d3ad293eb45754789b2235b54f",
+    "sizeBytes": 13708,
+    "lines": 412,
     "imports": [
       "node:fs",
       "node:fs/promises",
@@ -968,7 +1163,9 @@
       "./schema.js",
       "./scanner.js",
       "./automationValidation.js",
-      "./workspace.js"
+      "./workspace.js",
+      "./contextLimits.js",
+      "./runReports.js"
     ],
     "exports": [
       "EvaluationReport",
@@ -982,9 +1179,7 @@
     "symbols": [
       "LOOP_CONFIG_PATH",
       "LOOP_RUNTIME_PATH",
-      "OVER_BROAD_FILE_THRESHOLD",
-      "OVER_BROAD_CONCEPT_THRESHOLD",
-      "OVER_BROAD_NODE_THRESHOLD",
+      "CHANGE_RECORD_REVIEW_THRESHOLD",
       "EvaluationReport",
       "EvaluationIssue",
       "EvaluateProjectOptions",
@@ -996,9 +1191,11 @@
       "files",
       "contextPacks",
       "runReports",
+      "changes",
       "lessons",
       "currentScan",
       "automationIssues",
+      "changeEvaluation",
       "writeEvaluationReport",
       "report",
       "filePath",
@@ -1022,7 +1219,7 @@
       "node"
     ],
     "isTest": false,
-    "summary": "evaluator.ts is a TypeScript implementation file. AST-backed scan. Defines LOOP_CONFIG_PATH, LOOP_RUNTIME_PATH, OVER_BROAD_FILE_THRESHOLD, OVER_BROAD_CONCEPT_THRESHOLD, OVER_BROAD_NODE_THRESHOLD. Depends on node:fs, node:fs/promises, node:path, ./schema.js.",
+    "summary": "evaluator.ts is a TypeScript implementation file. AST-backed scan. Defines LOOP_CONFIG_PATH, LOOP_RUNTIME_PATH, CHANGE_RECORD_REVIEW_THRESHOLD, EvaluationReport, EvaluationIssue. Depends on node:fs, node:fs/promises, node:path, ./schema.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.evaluator.ts",
       "module.packages"
@@ -1033,15 +1230,18 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "960d56ab2cc63017188c049ec21af41743e7815bb3a2e5aa895b3f6dfd302d71",
-    "sizeBytes": 373,
-    "lines": 12,
+    "contentHash": "5f5f68a3df61015d9682f020cea7e08763a371a3f979321b04f89f796c43a8d1",
+    "sizeBytes": 477,
+    "lines": 15,
     "imports": [
       "./schema.js",
       "./workspace.js",
       "./scanner.js",
       "./treeBuilder.js",
       "./context.js",
+      "./contextLimits.js",
+      "./changeReview.js",
+      "./runReports.js",
       "./validator.js",
       "./automationValidation.js",
       "./evaluator.js",
@@ -1181,25 +1381,89 @@
     ]
   },
   {
+    "path": "packages/core/src/runReports.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "bbc47d328fe8ffd2dbf3a07cbe1a89e078d678690560184cfdd1a2e8e07df7eb",
+    "sizeBytes": 1297,
+    "lines": 61,
+    "imports": [
+      "node:assert/strict",
+      "node:test",
+      "./runReports.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "summary"
+    ],
+    "isTest": true,
+    "summary": "runReports.test.ts is a TypeScript test coverage file. AST-backed scan. Defines summary. Depends on node:assert/strict, node:test, ./runReports.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.runreports.test.ts",
+      "module.packages"
+    ]
+  },
+  {
+    "path": "packages/core/src/runReports.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "c10f8252da1085cacabb90602437c4843a14ca41ad235aaf1ea30795baaace85",
+    "sizeBytes": 1348,
+    "lines": 33,
+    "imports": [],
+    "exports": [
+      "RunReportResult",
+      "RunMarkdownSummary",
+      "summarizeRunMarkdown"
+    ],
+    "symbols": [
+      "RunReportResult",
+      "RunMarkdownSummary",
+      "summarizeRunMarkdown",
+      "markdownSection",
+      "escaped",
+      "firstMarkdownLine",
+      "parseRunResult",
+      "firstValue"
+    ],
+    "isTest": false,
+    "summary": "runReports.ts is a TypeScript implementation file. AST-backed scan. Defines RunReportResult, RunMarkdownSummary, summarizeRunMarkdown, markdownSection, escaped.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.runreports.ts",
+      "module.packages"
+    ]
+  },
+  {
     "path": "packages/core/src/scanner.test.ts",
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "93b4c6319ec384d0713e9765a86ef59aa88af623a79a9ddd075662d562ec2013",
-    "sizeBytes": 1419,
-    "lines": 48,
+    "contentHash": "99de4acc9a3aa9b0456f3c3468b1faf0b44c2d8ab2bd065224a53a914931cdb8",
+    "sizeBytes": 4238,
+    "lines": 114,
     "imports": [
       "node:assert/strict",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
       "node:test",
       "./scanner.js"
     ],
     "exports": [],
     "symbols": [
       "source",
-      "summary"
+      "summary",
+      "cases",
+      "testCase",
+      "dottedPyTest",
+      "root",
+      "scan",
+      "workspace"
     ],
     "isTest": true,
-    "summary": "scanner.test.ts is a TypeScript test coverage file. AST-backed scan. Defines source, summary. Depends on node:assert/strict, node:test, ./scanner.js.",
+    "summary": "scanner.test.ts is a TypeScript test coverage file. AST-backed scan. Defines source, summary, cases, testCase, dottedPyTest. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.packages.core.src.scanner.test.ts",
       "module.packages"
@@ -1210,9 +1474,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "990b455c5f2985875503cd7db0b6de9c6da95013b3627505196cc040aa96d6bd",
-    "sizeBytes": 9054,
-    "lines": 285,
+    "contentHash": "f8f97e17845f04686e7db4c1c59793f05822d5007cfea4320e73b3f6e43d6301",
+    "sizeBytes": 10649,
+    "lines": 298,
     "imports": [
       "node:fs/promises",
       "node:crypto",
@@ -1227,10 +1491,10 @@
       "summarizeFile"
     ],
     "symbols": [
-      "LANGUAGE_BY_EXT",
-      "TEXT_EXTENSIONS",
-      "TYPESCRIPT_AST_EXTENSIONS",
       "ParseStrategy",
+      "ExtensionDescriptor",
+      "EXTENSION_DESCRIPTORS",
+      "TEXT_EXTENSIONS",
       "SourceFacts",
       "ScanResult",
       "scanProject",
@@ -1247,12 +1511,16 @@
       "text",
       "summarizeFile",
       "lines",
+      "descriptor",
       "facts",
       "isTest",
       "language",
       "summary",
       "hashText",
       "normalizeLineEndings",
+      "extensionDescriptor",
+      "isTestFile",
+      "basenameWithoutExtension",
       "extractSourceFacts",
       "extractTypeScriptFacts",
       "imports",
@@ -1262,14 +1530,10 @@
       "visit",
       "extractRegexFacts",
       "extractMatches",
-      "out",
-      "regex",
-      "m",
-      "collectImport",
-      "collectExport"
+      "out"
     ],
     "isTest": false,
-    "summary": "scanner.ts is a TypeScript implementation file. AST-backed scan. Defines LANGUAGE_BY_EXT, TEXT_EXTENSIONS, TYPESCRIPT_AST_EXTENSIONS, ParseStrategy, SourceFacts. Depends on node:fs/promises, node:crypto, node:path, typescript.",
+    "summary": "scanner.ts is a TypeScript implementation file. AST-backed scan. Defines ParseStrategy, ExtensionDescriptor, EXTENSION_DESCRIPTORS, TEXT_EXTENSIONS, SourceFacts. Depends on node:fs/promises, node:crypto, node:path, typescript.",
     "ownedByNodeIds": [
       "file.packages.core.src.scanner.ts",
       "module.packages"
@@ -1414,9 +1678,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "0fff4d33d084049e82023d4d60e9a99a60c7851b3c48eb2aeefa1c43648ac8fe",
-    "sizeBytes": 13219,
-    "lines": 335,
+    "contentHash": "f42c1b5ccf9dccc52aeda4356796b4bed1d6daa2f1ff0aca2fdc480144e4a828",
+    "sizeBytes": 14022,
+    "lines": 359,
     "imports": [
       "node:assert/strict",
       "node:test",
@@ -1430,6 +1694,7 @@
       "current",
       "added",
       "issues",
+      "legacyNode",
       "nodes",
       "first",
       "second",
@@ -1453,7 +1718,7 @@
       "change"
     ],
     "isTest": true,
-    "summary": "validator.test.ts is a TypeScript test coverage file. AST-backed scan. Defines stored, current, added, issues, nodes. Depends on node:assert/strict, node:test, ./scanner.js, ./validator.js.",
+    "summary": "validator.test.ts is a TypeScript test coverage file. AST-backed scan. Defines stored, current, added, issues, legacyNode. Depends on node:assert/strict, node:test, ./scanner.js, ./validator.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.validator.test.ts",
       "module.packages"
@@ -1464,9 +1729,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "466c160169b7ce341163d86d128bf475d1b2530f6db7f5e97aeb9708fe24807c",
-    "sizeBytes": 26376,
-    "lines": 789,
+    "contentHash": "345869b145e8cf73402366bc878d4dce665d4b6c8132492a7762e1f79a876f70",
+    "sizeBytes": 26502,
+    "lines": 790,
     "imports": [
       "./schema.js"
     ],
@@ -1528,13 +1793,42 @@
     ]
   },
   {
+    "path": "packages/core/src/workspace.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "78df96b2b645f072847a9cca19b1f7a93178a3e63f2796fb404a04c3f71fe7db",
+    "sizeBytes": 763,
+    "lines": 21,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:test",
+      "./workspace.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "root",
+      "filePath",
+      "workspace"
+    ],
+    "isTest": true,
+    "summary": "workspace.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, filePath, workspace. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.workspace.test.ts",
+      "module.packages"
+    ]
+  },
+  {
     "path": "packages/core/src/workspace.ts",
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "8fd3a9ae2594cd7e61c47a47ee83198e7ba0afbe286a334a6dc043a5c4a16cbd",
-    "sizeBytes": 2976,
-    "lines": 79,
+    "contentHash": "47fa0816c0cb182820847cbfde7a51d72fc3c965f7cd8e498040427615aebfc0",
+    "sizeBytes": 3098,
+    "lines": 83,
     "imports": [
       "node:fs/promises",
       "node:fs",
@@ -1563,6 +1857,7 @@
       "config",
       "readJson",
       "raw",
+      "stripJsonBom",
       "writeJson",
       "readConfig"
     ],
@@ -1652,9 +1947,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "b35b0b567238c4153b31c3c320443dee33191dc77a2e71cc9d0227dbb50f24dc",
-    "sizeBytes": 10251,
-    "lines": 315,
+    "contentHash": "16a2e9eeea4b9efb77b98d5ab6969e2b2b159e45a9f762d1a6c5ffc60452e6c8",
+    "sizeBytes": 10817,
+    "lines": 325,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -1665,6 +1960,353 @@
     "ownedByNodeIds": [
       "file.readme.md",
       "module.root"
+    ]
+  },
+  {
+    "path": "scripts/app-node-accessors.test.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "81d701c13b4916615b6b4e04a030d6590d508cbb9c6dbcf6b82297c87449173d",
+    "sizeBytes": 1429,
+    "lines": 44,
+    "imports": [
+      "node:assert/strict",
+      "node:test",
+      "../packages/app/dist-ts/nodeAccessors.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "node",
+      "item"
+    ],
+    "isTest": true,
+    "summary": "app-node-accessors.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines node, item. Depends on node:assert/strict, node:test, ../packages/app/dist-ts/nodeAccessors.js.",
+    "ownedByNodeIds": [
+      "file.scripts.app.node.accessors.test.mjs",
+      "module.scripts"
+    ]
+  },
+  {
+    "path": "scripts/check-unicode.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "632a6404bf4fcd325b606c6ee3c90992ab776f100848cd9d1fce9aa174d7e865",
+    "sizeBytes": 3095,
+    "lines": 96,
+    "imports": [
+      "node:fs/promises",
+      "node:path",
+      "node:url",
+      "./project-text-files.mjs"
+    ],
+    "exports": [
+      "bidiControls",
+      "scanProject",
+      "findSuspiciousUnicode",
+      "sanitizeLine"
+    ],
+    "symbols": [
+      "repoRoot",
+      "bidiControls",
+      "findings",
+      "finding",
+      "scanProject",
+      "files",
+      "filePath",
+      "absolutePath",
+      "fileStat",
+      "buffer",
+      "findSuspiciousUnicode",
+      "lines",
+      "index",
+      "codePoint",
+      "name",
+      "sanitizeLine",
+      "output",
+      "formatCodePoint"
+    ],
+    "isTest": false,
+    "summary": "check-unicode.mjs is a JavaScript implementation file. AST-backed scan. Defines repoRoot, bidiControls, findings, finding, scanProject. Depends on node:fs/promises, node:path, node:url, ./project-text-files.mjs.",
+    "ownedByNodeIds": [
+      "file.scripts.check.unicode.mjs",
+      "module.scripts"
+    ]
+  },
+  {
+    "path": "scripts/check-unicode.test.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "973e52c4449575810daf3427c445b1375e9b3fc55932bf69255ececdef3762c4",
+    "sizeBytes": 840,
+    "lines": 21,
+    "imports": [
+      "node:assert/strict",
+      "node:test",
+      "./check-unicode.mjs"
+    ],
+    "exports": [],
+    "symbols": [
+      "marker",
+      "findings"
+    ],
+    "isTest": true,
+    "summary": "check-unicode.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines marker, findings. Depends on node:assert/strict, node:test, ./check-unicode.mjs.",
+    "ownedByNodeIds": [
+      "file.scripts.check.unicode.test.mjs",
+      "module.scripts"
+    ]
+  },
+  {
+    "path": "scripts/diff-summary.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "8bc3d6e7bb90a420f97b7ee7dbee752ec796e75c71e845f5599d427398a0e24e",
+    "sizeBytes": 3915,
+    "lines": 125,
+    "imports": [
+      "node:child_process",
+      "node:fs/promises",
+      "node:path",
+      "node:url",
+      "node:util"
+    ],
+    "exports": [],
+    "symbols": [
+      "execFileAsync",
+      "repoRoot",
+      "args",
+      "jsonOutput",
+      "inputJsonPath",
+      "diffSummary",
+      "buildDiffChangesFromGitOutput",
+      "buildDiffSummary",
+      "formatDiffSummary",
+      "input",
+      "changes",
+      "summary",
+      "collectGitInput",
+      "base",
+      "numstat",
+      "nameStatus",
+      "untrackedFiles",
+      "config",
+      "untrackedLineCounts",
+      "git",
+      "stdout",
+      "readLoopConfig",
+      "lineCountsForUntracked",
+      "counts",
+      "files",
+      "textLineCount",
+      "buffer",
+      "lines",
+      "byte",
+      "integerConfig",
+      "readInputJson",
+      "inputJsonArgument",
+      "index",
+      "stringField",
+      "recordField"
+    ],
+    "isTest": false,
+    "summary": "diff-summary.mjs is a JavaScript implementation file. AST-backed scan. Defines execFileAsync, repoRoot, args, jsonOutput, inputJsonPath. Depends on node:child_process, node:fs/promises, node:path, node:url.",
+    "ownedByNodeIds": [
+      "file.scripts.diff.summary.mjs",
+      "module.scripts"
+    ]
+  },
+  {
+    "path": "scripts/format.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "5583498afb862a2b85ab840855633aecb7f8cb3f1ef2f208896d3063cb6bba0c",
+    "sizeBytes": 2987,
+    "lines": 97,
+    "imports": [
+      "node:fs/promises",
+      "node:path",
+      "node:url",
+      "./project-text-files.mjs"
+    ],
+    "exports": [
+      "formatText",
+      "readableTextIssue"
+    ],
+    "symbols": [
+      "repoRoot",
+      "mode",
+      "formatText",
+      "normalized",
+      "readableTextIssue",
+      "contentLines",
+      "main",
+      "files",
+      "changed",
+      "failures",
+      "filePath",
+      "absolutePath",
+      "fileStat",
+      "buffer",
+      "original",
+      "formatted",
+      "error",
+      "readabilityIssue",
+      "failure"
+    ],
+    "isTest": false,
+    "summary": "format.mjs is a JavaScript implementation file. AST-backed scan. Defines repoRoot, mode, formatText, normalized, readableTextIssue. Depends on node:fs/promises, node:path, node:url, ./project-text-files.mjs.",
+    "ownedByNodeIds": [
+      "file.scripts.format.mjs",
+      "module.scripts"
+    ]
+  },
+  {
+    "path": "scripts/project-text-files.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "d0f1fd3f8f90000d7c97879b0deb17d447e94c8f8eab9d5a0eb76cdb440101e3",
+    "sizeBytes": 2549,
+    "lines": 95,
+    "imports": [
+      "node:child_process",
+      "node:fs/promises",
+      "node:path",
+      "node:util"
+    ],
+    "exports": [
+      "maxTextBytes",
+      "ignoredRelativeFiles",
+      "ignoredRelativePrefixes",
+      "supportedTextExtensions",
+      "supportsTextProcessing",
+      "listProjectFiles",
+      "listFallbackProjectFiles",
+      "shouldIgnoreFallbackPath",
+      "normalizePath"
+    ],
+    "symbols": [
+      "execFileAsync",
+      "maxTextBytes",
+      "ignoredRelativeFiles",
+      "ignoredRelativePrefixes",
+      "supportedTextExtensions",
+      "supportsTextProcessing",
+      "listProjectFiles",
+      "stdout",
+      "listFallbackProjectFiles",
+      "shouldIgnoreFallbackPath",
+      "normalized",
+      "normalizePath",
+      "walkProject",
+      "ignoredDirectories",
+      "entries",
+      "files",
+      "entry",
+      "absolutePath",
+      "relativePath"
+    ],
+    "isTest": false,
+    "summary": "project-text-files.mjs is a JavaScript implementation file. AST-backed scan. Defines execFileAsync, maxTextBytes, ignoredRelativeFiles, ignoredRelativePrefixes, supportedTextExtensions. Depends on node:child_process, node:fs/promises, node:path, node:util.",
+    "ownedByNodeIds": [
+      "file.scripts.project.text.files.mjs",
+      "module.scripts"
+    ]
+  },
+  {
+    "path": "scripts/project-text-files.test.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "b2e23cb8e32c06224000d1ca8d41076b334878960d8785a701e863cfe1fcfe8b",
+    "sizeBytes": 1909,
+    "lines": 39,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:path",
+      "node:test",
+      "./project-text-files.mjs"
+    ],
+    "exports": [],
+    "symbols": [
+      "root"
+    ],
+    "isTest": true,
+    "summary": "project-text-files.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines root. Depends on node:assert/strict, node:fs/promises, node:path, node:test.",
+    "ownedByNodeIds": [
+      "file.scripts.project.text.files.test.mjs",
+      "module.scripts"
+    ]
+  },
+  {
+    "path": "scripts/run-tests.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "592c69b90c97886f43031f3f943b2215afe25e4c8afbaa6f909aa6daa6e0a6cd",
+    "sizeBytes": 1498,
+    "lines": 54,
+    "imports": [
+      "node:fs/promises",
+      "node:path",
+      "node:url"
+    ],
+    "exports": [
+      "main",
+      "collectTestFiles",
+      "filesMatching"
+    ],
+    "symbols": [
+      "defaultTestSearches",
+      "main",
+      "testFiles",
+      "filePath",
+      "collectTestFiles",
+      "testFileGroups",
+      "filesMatching",
+      "entries",
+      "files",
+      "entry"
+    ],
+    "isTest": false,
+    "summary": "run-tests.mjs is a JavaScript implementation file. AST-backed scan. Defines defaultTestSearches, main, testFiles, filePath, collectTestFiles. Depends on node:fs/promises, node:path, node:url.",
+    "ownedByNodeIds": [
+      "file.scripts.run.tests.mjs",
+      "module.scripts"
+    ]
+  },
+  {
+    "path": "scripts/run-tests.test.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "63490ea45708c9b911516132b50f9c71b1a227b25487f332d13a15a5370fbb30",
+    "sizeBytes": 2567,
+    "lines": 51,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:path",
+      "node:test",
+      "./run-tests.mjs"
+    ],
+    "exports": [],
+    "symbols": [
+      "relativePaths",
+      "root",
+      "matches"
+    ],
+    "isTest": true,
+    "summary": "run-tests.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines relativePaths, root, matches. Depends on node:assert/strict, node:fs/promises, node:path, node:test.",
+    "ownedByNodeIds": [
+      "file.scripts.run.tests.test.mjs",
+      "module.scripts"
     ]
   },
   {

@@ -89,6 +89,8 @@ Examples:
 
 Semantic change records written in tree language instead of only Git language.
 
+Deterministic scans also write generated records with ids beginning `scan.`. These record the scan event, but older generated scan records can be reviewed for consolidation after a newer scan has superseded them. Use `atree changes review` for a read-only list of those candidates.
+
 ## `context-packs/`
 
 Compressed bundles of relevant tree nodes, files, concepts, invariants, and recent changes for coding agents.

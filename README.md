@@ -205,6 +205,8 @@ The loop is bounded because autonomous coding work needs explicit stop condition
 
 Run reports are useful but subjective. Objective metrics from `npm run atree:evaluate` are needed as a second signal: they count tree shape, drift, missing ownership, run outcomes, duplicate lesson candidates, context-pack breadth, and automation config health.
 
+Generated scan change records can accumulate during autonomous loops. `npm run atree -- changes review --project .` prints a non-destructive report that keeps the newest generated scan record as the retained baseline and lists older generated scan records that are eligible for consolidation.
+
 Current limitation: the deterministic MVP is implemented. LLM-inferred abstraction is not default behavior yet. This checkout includes an adapter-ready LLM abstraction interface, but no provider adapter is wired into `scan`, `validate`, `context`, `evaluate`, or `serve`.
 
 ## CLI commands
@@ -266,6 +268,14 @@ Builds a compact context pack for coding agents.
 
 ```bash
 atree context --project /path/to/project --target checkout
+```
+
+### `atree changes review`
+
+Prints a read-only JSON report for `.abstraction-tree/changes/`, including generated scan records that are older than the newest scan and are therefore candidates for consolidation.
+
+```bash
+atree changes review --project /path/to/project
 ```
 
 ## The `.abstraction-tree/` folder

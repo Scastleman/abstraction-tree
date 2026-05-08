@@ -20,7 +20,7 @@
     "atree:scan": "node packages/cli/dist/index.js scan --project .",
     "atree:validate": "node packages/cli/dist/index.js validate --project . --strict",
     "atree:evaluate": "node packages/cli/dist/index.js evaluate --project .",
-    "test": "node --test scripts/run-tests.mjs",
+    "test": "node scripts/run-tests.mjs",
     "abstraction:loop": "powershell -ExecutionPolicy Bypass -File scripts/run-abstraction-loop.ps1",
     "abstraction:loop:visible": "powershell -ExecutionPolicy Bypass -File scripts/run-abstraction-loop-scheduled.ps1",
     "diff:summary": "powershell -ExecutionPolicy Bypass -File scripts/summarize-diff.ps1",

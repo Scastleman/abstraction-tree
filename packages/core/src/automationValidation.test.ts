@@ -19,6 +19,15 @@ test("validateAutomation accepts valid committed config and ignored runtime stat
   assert.deepEqual(issues, []);
 });
 
+test("validateAutomation accepts BOM-prefixed automation JSON", async t => {
+  const root = await workspace(t);
+  await writeValidAutomationFiles(root, {}, { bom: true });
+
+  const issues = await validateAutomation(root);
+
+  assert.deepEqual(issues, []);
+});
+
 test("validateAutomation reports legacy loop-state.json", async t => {
   const root = await workspace(t);
   await writeValidAutomationFiles(root);
@@ -119,7 +128,7 @@ async function workspace(t: TestContext, options: { ignoreRuntime?: boolean } = 
 async function writeValidAutomationFiles(
   root: string,
   configOverrides: Record<string, unknown> = {},
-  options: { writeGitignore?: boolean; runtimeOverrides?: Record<string, unknown> } = {}
+  options: { bom?: boolean; writeGitignore?: boolean; runtimeOverrides?: Record<string, unknown> } = {}
 ) {
   if (options.writeGitignore !== false) {
     await writeFile(path.join(root, ".gitignore"), `${loopRuntimePath}\n`, "utf8");
@@ -135,7 +144,7 @@ async function writeValidAutomationFiles(
     stop_if_tests_fail_twice: true,
     stop_if_diff_too_large: true,
     ...configOverrides
-  });
+  }, { bom: options.bom });
   await writeJson(root, loopRuntimeExamplePath, {
     loops_today: 0,
     failed_loops_today: 0,
@@ -145,13 +154,13 @@ async function writeValidAutomationFiles(
     last_run_date: "",
     stop_requested: false,
     ...options.runtimeOverrides
-  });
+  }, { bom: options.bom });
 }
 
-async function writeJson(root: string, relativePath: string, value: unknown) {
+async function writeJson(root: string, relativePath: string, value: unknown, options: { bom?: boolean } = {}) {
   const filePath = path.join(root, ...relativePath.split("/"));
   await mkdir(path.dirname(filePath), { recursive: true });
-  await writeFile(filePath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+  await writeFile(filePath, `${options.bom ? "\ufeff" : ""}${JSON.stringify(value, null, 2)}\n`, "utf8");
 }
 
 function hasIssue(issues: { filePath?: string; message: string }[], filePath: string, message: string): boolean {

@@ -1,4 +1,5 @@
 import type { ChangeRecord, Concept, ContextPack, FileSummary, Invariant, TreeNode } from "./schema.js";
+import { CONTEXT_PACK_LIMITS } from "./contextLimits.js";
 
 export function buildContextPack(args: {
   target: string;
@@ -29,7 +30,7 @@ export function buildContextPack(args: {
     })
     .filter(scored => scored.score > 0)
     .sort(byScoreThenName(nodeName));
-  const relevantNodes = uniqueBy(nodeScores.map(scored => scored.item), node => node.id).slice(0, 30);
+  const relevantNodes = uniqueBy(nodeScores.map(scored => scored.item), node => node.id).slice(0, CONTEXT_PACK_LIMITS.nodes);
 
   const nodeFileSet = new Set(relevantNodes.flatMap(nodeFiles));
   const fileScores = args.files
@@ -43,7 +44,7 @@ export function buildContextPack(args: {
     })
     .filter(scored => scored.score > 0)
     .sort(byScoreThenName(file => file.path));
-  const relevantFiles = uniqueBy(fileScores.map(scored => scored.item), file => file.path).slice(0, 50);
+  const relevantFiles = uniqueBy(fileScores.map(scored => scored.item), file => file.path).slice(0, CONTEXT_PACK_LIMITS.files);
 
   const fileSet = new Set(relevantFiles.map(file => file.path));
   for (const node of relevantNodes) {
@@ -52,7 +53,7 @@ export function buildContextPack(args: {
   const relevantConcepts = uniqueBy([
     ...conceptScores.map(scored => scored.item),
     ...args.concepts.filter(c => c.relatedFiles.some(file => fileSet.has(file)))
-  ], concept => concept.id);
+  ], concept => concept.id).slice(0, CONTEXT_PACK_LIMITS.concepts);
   const nodeIds = new Set(relevantNodes.map(n => n.id));
   const invariants = args.invariants.filter(i => i.nodeIds.some(id => nodeIds.has(id)) || i.filePaths.some(f => fileSet.has(f)));
 
@@ -80,7 +81,13 @@ function nodeName(node: TreeNode): string {
 }
 
 function nodeFiles(node: TreeNode): string[] {
-  return node.sourceFiles ?? node.ownedFiles ?? [];
+  const sourceFiles = Array.isArray(node.sourceFiles) ? node.sourceFiles : [];
+  return sourceFiles.length ? sourceFiles : Array.isArray(node.ownedFiles) ? node.ownedFiles : [];
+}
+
+function nodeDependencies(node: TreeNode): string[] {
+  const dependencies = Array.isArray(node.dependencies) ? node.dependencies : [];
+  return dependencies.length ? dependencies : Array.isArray(node.dependsOn) ? node.dependsOn : [];
 }
 
 function scoreNode(node: TreeNode, query: string, queryTokens: string[]): number {
@@ -89,7 +96,7 @@ function scoreNode(node: TreeNode, query: string, queryTokens: string[]): number
     scoreText(node.summary, query, queryTokens, 3),
     scoreList(nodeFiles(node), query, queryTokens, 3),
     scoreList(node.responsibilities ?? [], query, queryTokens, 2),
-    scoreList(node.dependencies ?? node.dependsOn ?? [], query, queryTokens, 1)
+    scoreList(nodeDependencies(node), query, queryTokens, 1)
   ].reduce((sum, value) => sum + value, 0);
 }
 

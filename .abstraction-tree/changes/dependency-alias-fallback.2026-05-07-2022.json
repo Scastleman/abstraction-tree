@@ -1,0 +1,27 @@
+{
+  "id": "dependency-alias-fallback.2026-05-07-2022",
+  "timestamp": "2026-05-07T20:22:00-04:00",
+  "title": "Fallback to legacy dependency aliases when dependency arrays are empty",
+  "reason": "The context scorer and visual app accessors already preserved legacy ownedFiles when sourceFiles was empty, but dependency alias handling only fell back when dependencies was absent. Empty dependency arrays could hide legacy dependsOn relationships from context packs and the app.",
+  "affectedNodeIds": [
+    "file.packages.app.src.nodeaccessors.ts",
+    "file.packages.core.src.context.ts",
+    "file.packages.core.src.context.test.ts",
+    "file.scripts.app.node.accessors.test.mjs"
+  ],
+  "filesChanged": [
+    "packages/app/src/nodeAccessors.ts",
+    "packages/core/src/context.ts",
+    "packages/core/src/context.test.ts",
+    "scripts/app-node-accessors.test.mjs",
+    ".abstraction-tree/files.json",
+    ".abstraction-tree/tree.json",
+    ".abstraction-tree/concepts.json",
+    ".abstraction-tree/invariants.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

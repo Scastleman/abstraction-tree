@@ -1,0 +1,20 @@
+{
+  "id": "json-bom-loader-consistency.2026-05-07-1545",
+  "timestamp": "2026-05-07T19:45:00Z",
+  "title": "Use BOM-aware JSON loading consistently",
+  "reason": "Automation validation and CLI change-record loading still parsed raw JSON directly, so BOM-prefixed files could be reported as invalid after shared workspace JSON loading had been made BOM-aware.",
+  "affectedNodeIds": [
+    "file.packages.cli.src.index.ts",
+    "file.packages.core.src.automationvalidation.ts",
+    "file.packages.core.src.automationvalidation.test.ts"
+  ],
+  "filesChanged": [
+    "packages/cli/src/index.ts",
+    "packages/core/src/automationValidation.ts",
+    "packages/core/src/automationValidation.test.ts"
+  ],
+  "invariantsPreserved": [
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}
