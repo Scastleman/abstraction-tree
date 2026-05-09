@@ -52,6 +52,7 @@ export async function runCli(argv = [], io = {}) {
     only: options.only
   });
   const { missions, skipped } = filterMissionsByRuntime(discoveredMissions, runtime, options);
+  const safetyError = safetyErrorFor(options);
   const plan = createMissionPlan({
     createdAt,
     repoRoot: cwd,
@@ -60,7 +61,8 @@ export async function runCli(argv = [], io = {}) {
     skipped,
     memory,
     sandbox: options.sandbox,
-    warnings: [...memory.warnings]
+    warnings: [...memory.warnings],
+    executionBlockedReason: safetyError
   });
 
   await mkdir(runDir, { recursive: true });
@@ -76,7 +78,6 @@ export async function runCli(argv = [], io = {}) {
     stdout.write(`${dryRunCommands(plan, options).join("\n")}\n`);
   }
 
-  const safetyError = safetyErrorFor(options);
   if (safetyError) {
     stderr.write(`${safetyError}\n`);
     const error = new Error(safetyError);
@@ -199,6 +200,7 @@ export async function discoverMissions(repoRoot, missionsDir, memory, options = 
     if (normalized.includes(".abstraction-tree/worktrees/")) continue;
 
     const mission = await readMissionFile(repoRoot, filePath, memory);
+    mission.runtimePath = normalizePath(path.relative(absoluteDir, filePath));
     if (only.size && !only.has(mission.id) && !only.has(path.basename(mission.filePath, ".md"))) continue;
     missions.push(mission);
   }
@@ -227,15 +229,17 @@ export function emptyMissionRuntime() {
 
 export function filterMissionsByRuntime(missions, runtime, options = {}) {
   const normalized = normalizeMissionRuntime(runtime);
-  const completed = runtimeKeySet(normalized.completed);
-  const failed = runtimeKeySet(normalized.failed);
+  const completed = runtimeIdentitySet(normalized.completed, missions);
+  const failed = runtimeIdentitySet(normalized.failed, missions);
   const skipped = [];
   const pending = [];
 
   for (const mission of missions) {
-    const keys = missionRuntimeKeys(mission);
+    const exactKeys = missionRuntimeExactKeys(mission);
+    const legacyKeys = missionRuntimeLegacyKeys(mission);
     const skipReason = runtimeSkipReason({
-      keys,
+      exactKeys,
+      legacyKeys,
       completed,
       failed,
       stopRequested: normalized.stop_requested,
@@ -266,13 +270,17 @@ export async function updateMissionRuntime(repoRoot, runtimePath, runtime, statu
   const failed = new Set(next.failed);
 
   for (const status of statuses) {
-    const name = path.basename(status.filePath ?? `${status.id}.md`);
+    const name = stableMissionRuntimePath(status);
+    const removalKeys = statusRuntimeRemovalKeys(status);
+    for (const key of removalKeys) {
+      completed.delete(key);
+      failed.delete(key);
+    }
+
     if (status.status === "success") {
       completed.add(name);
-      failed.delete(name);
     } else {
       failed.add(name);
-      completed.delete(name);
     }
   }
 
@@ -409,6 +417,7 @@ export function createMissionPlan(input) {
     missionsDir: input.missionsDir,
     missionCount: missions.length,
     skipped: input.skipped ?? [],
+    ...(input.executionBlockedReason ? { executionBlockedReason: input.executionBlockedReason } : {}),
     batches,
     warnings: input.warnings
   };
@@ -418,14 +427,117 @@ export async function executePlan(plan, options) {
   const statuses = [];
 
   for (const batch of plan.batches) {
+    const batchStartedAt = new Date();
+    const batchStatuses = [];
     for (let index = 0; index < batch.missions.length; index += options.concurrency) {
       const group = batch.missions.slice(index, index + options.concurrency);
       const groupStatuses = await Promise.all(group.map(mission => executeMission(mission, options)));
       statuses.push(...groupStatuses);
+      batchStatuses.push(...groupStatuses);
     }
+    await writeBatchSummary(batch, batchStatuses, {
+      runDir: options.runDir,
+      startedAt: batchStartedAt,
+      finishedAt: new Date()
+    });
   }
 
   return statuses;
+}
+
+async function writeBatchSummary(batch, statuses, input) {
+  const name = `batch-${String(batch.index).padStart(3, "0")}`;
+  const statusPath = path.join(input.runDir, `${name}.status.json`);
+  const markdownPath = path.join(input.runDir, `${name}.md`);
+  const summary = buildBatchSummary(batch, statuses, {
+    runDir: input.runDir,
+    startedAt: input.startedAt,
+    finishedAt: input.finishedAt
+  });
+
+  await writeJson(statusPath, summary);
+  await writeFile(markdownPath, renderBatchSummaryMarkdown(summary, markdownPath), "utf8");
+}
+
+function buildBatchSummary(batch, statuses, input) {
+  const statusesById = new Map(statuses.map(status => [status.id, status]));
+
+  return {
+    batchIndex: batch.index,
+    missionIds: batch.missions.map(mission => mission.id),
+    parallelSafe: Boolean(batch.parallelSafe),
+    startedAt: input.startedAt.toISOString(),
+    finishedAt: input.finishedAt.toISOString(),
+    statuses: batch.missions.map(mission => {
+      const status = statusesById.get(mission.id);
+      const artifacts = missionArtifactPaths(input.runDir, mission.id);
+      return {
+        id: mission.id,
+        filePath: status?.filePath ?? mission.filePath,
+        status: status?.status ?? "not-run",
+        exitCode: status?.exitCode ?? null,
+        worktreePath: status?.worktreePath ?? null,
+        startedAt: status?.startedAt ?? null,
+        finishedAt: status?.finishedAt ?? null,
+        finalPath: status?.finalPath ?? artifacts.finalPath,
+        stderrPath: artifacts.stderrPath,
+        statusPath: artifacts.statusPath,
+        promptPath: status?.promptPath ?? artifacts.promptPath,
+        jsonlPath: status?.jsonlPath ?? artifacts.jsonlPath
+      };
+    })
+  };
+}
+
+function renderBatchSummaryMarkdown(summary, markdownPath) {
+  const lines = [
+    `# Batch ${String(summary.batchIndex).padStart(3, "0")}`,
+    "",
+    `- Parallel safe: ${summary.parallelSafe ? "yes" : "no"}`,
+    `- Started: ${summary.startedAt}`,
+    `- Finished: ${summary.finishedAt}`,
+    `- Missions: ${summary.missionIds.join(", ") || "none"}`
+  ];
+
+  for (const status of summary.statuses) {
+    lines.push(
+      "",
+      `## ${status.id}`,
+      "",
+      `- Status: ${status.status}`,
+      `- Exit code: ${status.exitCode ?? "none"}`,
+      `- Mission file: ${status.filePath}`,
+      `- Worktree: ${status.worktreePath ?? "none"}`,
+      `- Artifacts: ${artifactLinks(status, markdownPath).join(", ")}`
+    );
+  }
+
+  return `${lines.join("\n")}\n`;
+}
+
+function artifactLinks(status, markdownPath) {
+  return [
+    ["final", status.finalPath],
+    ["stderr", status.stderrPath],
+    ["status", status.statusPath],
+    ["jsonl", status.jsonlPath],
+    ["prompt", status.promptPath]
+  ].map(([label, targetPath]) => markdownLink(label, markdownPath, targetPath));
+}
+
+function markdownLink(label, markdownPath, targetPath) {
+  return `[${label}](${normalizePath(path.relative(path.dirname(markdownPath), targetPath))})`;
+}
+
+function missionArtifactPaths(runDir, missionId) {
+  const missionDir = path.join(runDir, safeName(missionId));
+  return {
+    promptPath: path.join(missionDir, "prompt.md"),
+    jsonlPath: path.join(missionDir, "codex.jsonl"),
+    stderrPath: path.join(missionDir, "stderr.log"),
+    finalPath: path.join(missionDir, "final.md"),
+    statusPath: path.join(missionDir, "status.json")
+  };
 }
 
 export async function executeMission(mission, options) {
@@ -454,6 +566,8 @@ export async function executeMission(mission, options) {
       worktreePath: worktreeResult.worktreePath,
       promptPath,
       jsonlPath,
+      stderrPath,
+      statusPath,
       finalPath
     });
     await writeFile(finalPath, worktreeResult.message, "utf8");
@@ -491,6 +605,8 @@ export async function executeMission(mission, options) {
     worktreePath: worktreeResult.worktreePath,
     promptPath,
     jsonlPath,
+    stderrPath,
+    statusPath,
     finalPath
   });
   await writeJson(statusPath, status);
@@ -859,6 +975,8 @@ function missionStatus(mission, input) {
     worktreePath: input.worktreePath ?? null,
     promptPath: input.promptPath,
     jsonlPath: input.jsonlPath,
+    stderrPath: input.stderrPath,
+    statusPath: input.statusPath,
     finalPath: input.finalPath,
     affectedFiles: mission.affectedFiles,
     affectedNodes: mission.affectedNodes
@@ -876,31 +994,75 @@ function normalizeMissionRuntime(runtime) {
   };
 }
 
-function runtimeKeySet(values) {
-  const keys = new Set();
+function runtimeIdentitySet(values, missions) {
+  const legacyCounts = legacyRuntimeKeyCounts(missions);
+  const exact = new Set();
+  const legacy = new Set();
+
   for (const value of values) {
     const normalized = normalizePath(value);
-    keys.add(normalized);
-    keys.add(path.basename(normalized));
-    keys.add(path.basename(normalized, ".md"));
+    if (isPathRuntimeEntry(normalized)) {
+      exact.add(normalized);
+      continue;
+    }
+    if ((legacyCounts.get(normalized) ?? 0) === 1) legacy.add(normalized);
   }
-  return keys;
+
+  return { exact, legacy };
 }
 
-function missionRuntimeKeys(mission) {
-  return [
-    mission.id,
+function legacyRuntimeKeyCounts(missions) {
+  const counts = new Map();
+  for (const mission of missions) {
+    for (const key of new Set(missionRuntimeLegacyKeys(mission))) {
+      counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
+  }
+  return counts;
+}
+
+function missionRuntimeExactKeys(mission) {
+  return uniqueSorted([
     mission.filePath,
+    mission.runtimePath
+  ].filter(isString).map(normalizePath));
+}
+
+function missionRuntimeLegacyKeys(mission) {
+  return uniqueSorted([
+    mission.id,
     path.basename(mission.filePath),
     path.basename(mission.filePath, ".md")
-  ].map(normalizePath);
+  ].filter(isString).map(normalizePath));
+}
+
+function stableMissionRuntimePath(status) {
+  return normalizePath(status.filePath ?? `${status.id}.md`);
+}
+
+function statusRuntimeRemovalKeys(status) {
+  const stablePath = stableMissionRuntimePath(status);
+  return uniqueSorted([
+    stablePath,
+    status.id,
+    path.basename(stablePath),
+    path.basename(stablePath, ".md")
+  ].filter(isString).map(normalizePath));
 }
 
 function runtimeSkipReason(input) {
   if (input.stopRequested) return "runtime stop requested";
-  if (input.keys.some(key => input.completed.has(key))) return "completed";
-  if (!input.retryFailed && input.keys.some(key => input.failed.has(key))) return "previously failed";
+  if (hasRuntimeIdentity(input.completed, input.exactKeys, input.legacyKeys)) return "completed";
+  if (!input.retryFailed && hasRuntimeIdentity(input.failed, input.exactKeys, input.legacyKeys)) return "previously failed";
   return "";
+}
+
+function hasRuntimeIdentity(runtimeSet, exactKeys, legacyKeys) {
+  return exactKeys.some(key => runtimeSet.exact.has(key)) || legacyKeys.some(key => runtimeSet.legacy.has(key));
+}
+
+function isPathRuntimeEntry(value) {
+  return value.includes("/");
 }
 
 function extractAgentText(value) {

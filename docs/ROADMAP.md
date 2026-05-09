@@ -14,13 +14,14 @@
 - Root repository dogfooding through committed `.abstraction-tree/` memory and CI validation.
 - Agent instructions.
 - Provider-neutral LLM abstraction interface with deterministic no-op behavior when no adapter is configured.
+- Explicit `atree propose` review artifacts for provider adapters, with validation before review and no direct canonical memory mutation.
 - Stable automation config, bounded loop scripts, run reports, lessons, and deterministic evaluation reports as committed self-dogfooding memory.
 
 ## Current operational boundary
 
 The deterministic MVP is the current default. It scans files, builds memory, validates drift, generates context packs, evaluates objective metrics, and summarizes diffs without requiring an API key.
 
-LLM-inferred abstraction is not default behavior yet. This checkout includes the adapter-ready interface for provider implementations, but `scan`, `validate`, `context`, `evaluate`, and `serve` do not call an LLM provider.
+LLM-inferred abstraction is not default behavior. This checkout includes the adapter-ready interface and the explicit `atree propose` review workflow for provider implementations, but `scan`, `validate`, `context`, `evaluate`, and `serve` do not call an LLM provider.
 
 Committed `.abstraction-tree/` memory should include abstraction data, stable automation config, run reports, lessons, and evaluations. Local runtime counters, mission state, secrets, logs, and local Codex state should stay uncommitted.
 
@@ -38,11 +39,11 @@ Generated-memory quality fixtures live in example projects under `.abstraction-t
 - Mermaid/Graphviz export.
 - Markdown/YAML output option.
 - Git diff based semantic change records.
-- Validation gates for adapter-generated ontology and tree proposals before they can update memory.
+- Assisted application workflow for human-approved adapter proposal artifacts after existing `atree propose` validation.
 
 ## Version 0.3
 
-- LLM provider adapters outside the core deterministic pipeline.
+- Production LLM provider adapters outside the core deterministic pipeline.
 - PR review mode.
 - Drift detection against Git diffs.
 - VS Code/Cursor panel.

@@ -45,6 +45,7 @@ export async function runCli(argv = [], io = {}) {
     runDir,
     missionsDir,
     maxMissions: options.maxMissions,
+    allowMultipleAutomationMaintenance: options.allowMultipleAutomationMaintenance,
     context
   });
   await writeFile(path.join(runDir, "assessment-prompt.md"), assessmentPrompt, "utf8");
@@ -71,14 +72,15 @@ export async function runCli(argv = [], io = {}) {
     cwd,
     runDir,
     missionsDir,
-    maxMissions: options.maxMissions
+    maxMissions: options.maxMissions,
+    allowMultipleAutomationMaintenance: options.allowMultipleAutomationMaintenance
   });
   const selectedMissions = missions;
   const selectedIds = selectedMissions.map(filePath => path.basename(filePath, ".md"));
   await writeJson(path.join(runDir, "selected-missions.json"), selectedIds);
 
   stdout.write(`Planning ${selectedMissions.length} mission(s).\n`);
-  const plan = await runCommand("node", [
+  const missionPlanArgs = [
     "scripts/run-missions.mjs",
     "--plan",
     "--missions",
@@ -88,7 +90,9 @@ export async function runCli(argv = [], io = {}) {
     selectedIds.join(","),
     "--sandbox",
     options.sandbox
-  ], { cwd, allowFailure: true });
+  ];
+  if (options.allowDangerFullAccess) missionPlanArgs.push("--allow-danger-full-access");
+  const plan = await runCommand("node", missionPlanArgs, { cwd, allowFailure: true });
   await writeFile(path.join(runDir, "mission-plan.stdout.txt"), plan.stdout, "utf8");
   await writeFile(path.join(runDir, "mission-plan.stderr.txt"), plan.stderr, "utf8");
   if (plan.exitCode !== 0) {
@@ -102,7 +106,8 @@ export async function runCli(argv = [], io = {}) {
       concurrency: options.concurrency,
       sandbox: options.sandbox,
       codexBin: options.codexBin,
-      worktrees: options.worktrees || (options.concurrency > 1 && options.sandbox === "workspace-write")
+      worktrees: options.worktrees || (options.concurrency > 1 && options.sandbox === "workspace-write"),
+      allowDangerFullAccess: options.allowDangerFullAccess
     });
     await writeJson(path.join(runDir, "mission-runner-command.json"), runnerArgs);
     stdout.write(`Running mission runner with concurrency ${options.concurrency}.\n`);
@@ -183,6 +188,8 @@ export function parseArgs(argv) {
     codexBin: defaultCodexBin,
     reasoningEffort: "xhigh",
     allowDirty: false,
+    allowDangerFullAccess: false,
+    allowMultipleAutomationMaintenance: false,
     dryRun: false,
     skipMissions: false,
     worktrees: false,
@@ -213,6 +220,12 @@ export function parseArgs(argv) {
       case "--allow-dirty":
         options.allowDirty = true;
         break;
+      case "--allow-danger-full-access":
+        options.allowDangerFullAccess = true;
+        break;
+      case "--allow-multiple-automation-maintenance":
+        options.allowMultipleAutomationMaintenance = true;
+        break;
       case "--dry-run":
         options.dryRun = true;
         break;
@@ -225,6 +238,10 @@ export function parseArgs(argv) {
       default:
         throw new Error(`Unknown option: ${arg}`);
     }
+  }
+
+  if (options.sandbox === "danger-full-access" && !options.allowDangerFullAccess) {
+    throw new Error("--sandbox danger-full-access requires --allow-danger-full-access.");
   }
 
   return options;
@@ -279,6 +296,7 @@ id: mission-slug
 title: Human title
 priority: P0/P1/P2/P3
 risk: low/medium/high
+category: product-value | safety | quality | developer-experience | automation-maintenance
 affectedFiles:
   - path/from/repo/root
 affectedNodes:
@@ -287,6 +305,16 @@ dependsOn: []
 parallelGroup: short-group-name
 parallelGroupSafe: true/false
 ---
+
+The category must identify the mission's primary value:
+
+- product-value: improves capabilities or outcomes for project users/adopters.
+- safety: reduces overreach, security, sandbox, data-loss, or operational risk.
+- quality: improves correctness, validation, test coverage, drift detection, or reliability.
+- developer-experience: improves docs, diagnostics, ergonomics, or maintainer workflow.
+- automation-maintenance: maintains loop, runner, prompt, runtime, or process automation machinery without a clearer product, safety, quality, or developer-experience outcome.
+
+Prefer product-value, safety, quality, and developer-experience missions. Use automation-maintenance only when it is the best fit for the primary value of the work. ${input.allowMultipleAutomationMaintenance ? "This run explicitly allows multiple automation-maintenance missions, but they should still be justified by concrete repository value." : "Create at most one automation-maintenance mission in this full loop."}
 
 Then include:
 
@@ -306,7 +334,7 @@ Then include:
 
 ## Success Criteria
 
-Make missions small, testable, and independently useful. Prefer missions that advance the full self-improvement loop itself, mission quality, assessment quality, context-pack quality, validation, drift detection, and anti-overreach behavior.
+Make missions small, testable, and independently useful. Prefer missions that directly improve product value, safety, quality, or developer experience. Mission quality, assessment quality, context-pack quality, validation, drift detection, and anti-overreach behavior are useful when framed through those value categories; do not let process-only automation maintenance dominate the mission set.
 
 ## Current Repository Context
 
@@ -428,15 +456,34 @@ export async function validateAssessmentOutput(input) {
     );
   }
 
+  const validatedMissions = [];
   for (const missionPath of missions) {
     const markdown = await readFile(missionPath, "utf8");
-    validateGeneratedMissionContract(markdown, relative(cwd, missionPath));
+    validatedMissions.push({
+      path: missionPath,
+      frontmatter: validateGeneratedMissionContract(markdown, relative(cwd, missionPath))
+    });
+  }
+
+  const automationMaintenanceMissions = validatedMissions
+    .filter(mission => mission.frontmatter.category === "automation-maintenance");
+  if (automationMaintenanceMissions.length > 1 && !input.allowMultipleAutomationMaintenance) {
+    throw new Error(
+      `Assessment created ${automationMaintenanceMissions.length} automation-maintenance mission files, but at most one is allowed by default. Pass --allow-multiple-automation-maintenance to override: ${automationMaintenanceMissions.map(mission => relative(cwd, mission.path)).join(", ")}.`
+    );
   }
 
   return missions;
 }
 
-const requiredMissionStringFields = ["id", "title", "priority", "risk", "parallelGroup"];
+const validMissionCategories = new Set([
+  "product-value",
+  "safety",
+  "quality",
+  "developer-experience",
+  "automation-maintenance"
+]);
+const requiredMissionStringFields = ["id", "title", "priority", "risk", "category", "parallelGroup"];
 const requiredMissionArrayFields = ["affectedFiles", "affectedNodes", "dependsOn"];
 const requiredMissionBodyHeadings = [
   "# Mission",
@@ -480,12 +527,20 @@ function validateGeneratedMissionContract(markdown, missionLabel) {
     throw new Error(`${missionLabel} frontmatter field parallelGroupSafe must be boolean true or false.`);
   }
 
+  if (!validMissionCategories.has(parsed.frontmatter.category)) {
+    throw new Error(
+      `${missionLabel} frontmatter field category must be one of: ${[...validMissionCategories].join(", ")}.`
+    );
+  }
+
   const headings = new Set(parsed.body.split(/\r?\n/u).map(line => line.trim()));
   for (const heading of requiredMissionBodyHeadings) {
     if (!headings.has(heading)) {
       throw new Error(`${missionLabel} is missing required body heading ${heading}.`);
     }
   }
+
+  return parsed.frontmatter;
 }
 
 function parseGeneratedMissionMarkdown(markdown) {
@@ -575,6 +630,7 @@ function missionRunnerArgs(input) {
     input.codexBin
   ];
   if (input.worktrees) args.push("--worktrees");
+  if (input.allowDangerFullAccess) args.push("--allow-danger-full-access");
   return args;
 }
 

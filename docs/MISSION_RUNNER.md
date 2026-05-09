@@ -4,13 +4,27 @@
 
 ## Mission Folder
 
-By default, the runner reads:
+Mission folders follow two conventions:
+
+```text
+Manual mission folders: .abstraction-tree/missions/
+Automation-generated mission folders: .abstraction-tree/automation/missions/
+```
+
+By default, `npm run missions:plan` and `npm run missions:run` read the automation-generated mission folder:
 
 ```text
 .abstraction-tree/automation/missions/
 ```
 
-It discovers Markdown files recursively, excludes `README.md`, and never deletes mission files after running them. By default, it also reads `.abstraction-tree/automation/mission-runtime.json` and skips missions already listed as completed or failed. You can point it at another folder:
+Use the manual scripts for hand-authored mission folders:
+
+```bash
+npm run missions:plan:manual
+npm run missions:run:manual
+```
+
+The runner discovers Markdown files recursively, excludes `README.md`, and never deletes mission files after running them. By default, it also reads `.abstraction-tree/automation/mission-runtime.json` and skips missions already listed as completed or failed. You can point it at another folder:
 
 ```bash
 node scripts/run-missions.mjs --missions ./some-folder --plan
@@ -28,6 +42,7 @@ id: mission-001-localhost-serve-security
 title: Bind atree serve to localhost by default
 priority: P0
 risk: medium
+category: safety
 affectedFiles:
   - packages/cli/src/index.ts
   - packages/cli/src/index.test.ts
@@ -50,15 +65,33 @@ Supported fields are string scalars, empty arrays, and block arrays. When fields
 - `affectedNodes` from mentioned node ids plus owners of inferred files.
 - `risk: medium`, `priority: P2`, and `dependsOn: []`.
 
+Full-loop generated missions must include a value `category` so the assessment cannot fill the whole mission set with process-only automation work. Valid categories are:
+
+- `product-value`: improves capabilities or outcomes for project users/adopters.
+- `safety`: reduces overreach, security, sandbox, data-loss, or operational risk.
+- `quality`: improves correctness, validation, test coverage, drift detection, or reliability.
+- `developer-experience`: improves docs, diagnostics, ergonomics, or maintainer workflow.
+- `automation-maintenance`: maintains loop, runner, prompt, runtime, or process automation machinery without a clearer product, safety, quality, or developer-experience outcome.
+
+The full self-improvement loop allows at most one `automation-maintenance` mission by default. Pass `--allow-multiple-automation-maintenance` only for an attended run where multiple automation maintenance tasks are deliberately in scope.
+
 ## Planning
 
-`npm run missions:plan` prints a JSON plan and writes it to:
+`npm run missions:plan` prints a JSON plan for automation-generated missions, and `npm run missions:plan:manual` does the same for manually-authored missions. Plans are written to:
 
 ```text
 .abstraction-tree/mission-runs/<timestamp>/plan.json
 ```
 
 The planner reads `.abstraction-tree/tree.json`, `files.json`, `concepts.json`, and `invariants.json` when present. Missing or invalid memory files become warnings instead of hard failures during planning.
+
+Unsafe execution settings do not stop `--plan` from writing or printing the plan. Instead, the plan includes `executionBlockedReason` with the same blocker that a live execution would reject, for example:
+
+```json
+{
+  "executionBlockedReason": "--concurrency > 1 with --sandbox workspace-write requires --worktrees."
+}
+```
 
 Missions are batched only when they are safe to run together. Writable missions are separated when they overlap on files, nodes, parent/child node neighborhoods, high-risk metadata, dependencies, high-severity invariant files, or shared global files such as `package.json`, CI workflows, `scripts/run-missions.mjs`, and core schema/validator/workspace files.
 
@@ -68,6 +101,12 @@ Run the default queue:
 
 ```bash
 npm run missions:run
+```
+
+Run the manual mission queue:
+
+```bash
+npm run missions:run:manual
 ```
 
 Useful variants:
@@ -81,7 +120,7 @@ node scripts/run-missions.mjs --missions ./some-folder --worktrees --concurrency
 node scripts/run-missions.mjs --missions ./some-folder --codex-bin codex
 ```
 
-After a live run, successful mission filenames are recorded in `mission-runtime.json` under `completed`, failed mission filenames are recorded under `failed`, and `current` is cleared. The runtime file is local-only and ignored by git.
+After a live run, successful mission paths are recorded in `mission-runtime.json` under `completed`, failed mission paths are recorded under `failed`, and `current` is cleared. New entries use normalized repo-relative paths such as `.abstraction-tree/automation/missions/security/mission-001.md` so recursive mission folders with duplicate filenames do not collide. Runtime entries that include a slash match exact repo-relative paths or paths relative to the configured mission folder, such as `security/mission-001.md`. Legacy basename-only entries such as `mission-001.md` are still honored when that basename identifies exactly one discovered mission. The runtime file is local-only and ignored by git. The committed `.abstraction-tree/automation/mission-runtime.example.json` documents the runtime shape.
 
 For each mission, the runner creates:
 
@@ -101,6 +140,15 @@ codex exec --json --sandbox <sandbox> -
 ```
 
 The mission prompt is sent on stdin. JSONL stdout is captured to `codex.jsonl`, stderr is captured to `stderr.log`, and the last parsed agent message is written to `final.md`.
+
+After each batch completes, the runner also writes batch-level summaries:
+
+```text
+.abstraction-tree/mission-runs/<timestamp>/batch-001.status.json
+.abstraction-tree/mission-runs/<timestamp>/batch-001.md
+```
+
+The JSON summary includes the batch index, mission ids, per-mission statuses and exit codes, worktree paths, final paths, stderr paths, the batch `parallelSafe` flag, and batch start/finish timestamps. The Markdown summary is the human-readable review surface and links each mission to its `final.md`, `stderr.log`, `status.json`, `codex.jsonl`, and `prompt.md` artifacts.
 
 ## Writable Parallelism
 
@@ -129,6 +177,10 @@ The runner does not merge, delete, commit, push, or open pull requests. Worktree
 Local run artifacts are ignored by git:
 
 ```text
+.abstraction-tree/automation/mission-runtime.json
+.abstraction-tree/automation/mission-logs/
+.abstraction-tree/automation/full-loop-live.pid
+.abstraction-tree/automation/full-loop-runs/
 .abstraction-tree/mission-runs/
 .abstraction-tree/worktrees/
 ```
@@ -136,3 +188,56 @@ Local run artifacts are ignored by git:
 ## Abstraction Tree Memory
 
 The runner uses Abstraction Tree memory as planning context rather than as an execution authority. `files.json` maps touched files to owning nodes, `tree.json` supplies parent/child neighborhoods, `concepts.json` helps infer related ownership from mission text, and `invariants.json` keeps high-severity invariant files out of writable parallel batches.
+
+## Future Modularization Plan
+
+The first refactor should keep `scripts/run-missions.mjs` and `scripts/run-full-self-improvement-loop.mjs` as the public CLI entrypoints. Extract one module at a time, import it back into the original script, and re-export the same helper names from the original script until the tests and any local callers have moved intentionally.
+
+Proposed mission runner layout:
+
+```text
+scripts/mission-runner/
+  args.mjs
+  discovery.mjs
+  frontmatter.mjs
+  planning.mjs
+  execution.mjs
+  runtime.mjs
+  codex-jsonl.mjs
+  worktrees.mjs
+```
+
+Safe extraction order:
+
+1. Move frontmatter helpers first: `parseMissionMarkdown`, `parseSimpleFrontmatter`, `stringField`, `arrayField`, `booleanField`, `array`, `isString`, and `unquote` into `frontmatter.mjs`. Protection: `scripts/run-missions.test.mjs` frontmatter, heading inference, and affected-file inference tests.
+2. Move mission runtime helpers next: `readMissionRuntime`, `emptyMissionRuntime`, `filterMissionsByRuntime`, `updateMissionRuntime`, and the runtime identity/key helpers into `runtime.mjs`. Protection: runtime skip, duplicate basename, mission-folder-relative runtime, runtime-only completion, and repo-relative runtime update tests.
+3. Move pure planning helpers: `createMissionPlan`, batching conflict checks, dependency ordering, global-file checks, invariant checks, and execution blocker calculation into `planning.mjs`. Protection: batch planning, high-risk isolation, global shared file, workspace-write blocker, and danger-full-access blocker tests.
+4. Move Codex JSONL parsing: `finalAgentMessage`, agent text extraction, content extraction, and fallback final message handling into `codex-jsonl.mjs`. Protection: injected Codex execution and batch summary tests.
+5. Move discovery and memory reads: `discoverMissions`, `readMissionFile`, `readAbstractionMemory`, Markdown walking, affected-file inference, affected-node inference, affected-concept inference, and first-heading inference into `discovery.mjs`. Protection: recursive discovery, heading inference, affected-file inference, and default queue tests.
+6. Move side-effectful execution last: `executePlan`, `executeMission`, prompt hydration, `assemblePrompt`, mission status writing, Codex spawning, stream closing, and artifact path helpers into `execution.mjs`; move `prepareMissionWorktree` into `worktrees.mjs`. Protection: dry-run, blocked execution, injected Codex process, real git worktree, read-only parallel batch, and batch summary tests.
+
+Proposed full-loop layout:
+
+```text
+scripts/full-loop/
+  args.mjs
+  assessment.mjs
+  validation.mjs
+  coherence.mjs
+  reporting.mjs
+```
+
+Safe extraction order:
+
+1. Move `parseArgs`, `positiveInteger`, and argument value helpers into `args.mjs`. Protection: full-loop argument default, explicit control, and danger-full-access tests.
+2. Move `buildAssessmentPrompt` and assessment context collection into `assessment.mjs`. Protection: assessment prompt and dry-run prompt tests.
+3. Move `validateAssessmentOutput`, generated mission contract checks, generated mission parsing, generated frontmatter parsing, and mission file enumeration into `validation.mjs`. Protection: the assessment output validation tests for missing files, missing fields, invalid categories, multiple automation-maintenance missions, bad `parallelGroupSafe`, too many missions, and missions outside the output directory.
+4. Move `buildCoherencePrompt` into `coherence.mjs`. Protection: the coherence prompt test.
+5. Move `buildDurableRunReport`, stop/repeat decision rendering, and durable report text helpers into `reporting.mjs`. Protection: durable run report tests. Leave `runCli`, command execution, Codex process spawning, and top-level orchestration in the original script until the pure modules above are stable.
+
+Behavior preservation rules:
+
+- Keep the original scripts as facade modules during the migration. They should continue exporting `runCli`, `parseArgs`, `discoverMissions`, `readMissionRuntime`, `emptyMissionRuntime`, `filterMissionsByRuntime`, `updateMissionRuntime`, `readMissionFile`, `parseMissionMarkdown`, `parseSimpleFrontmatter`, `createMissionPlan`, `executePlan`, `executeMission`, `assemblePrompt`, `finalAgentMessage`, `readAbstractionMemory`, `buildAssessmentPrompt`, `buildCoherencePrompt`, `buildDurableRunReport`, and `validateAssessmentOutput` under the same names.
+- Do not change CLI flags, defaults, output paths, artifact formats, JSON field names, mission ordering, sandbox gates, or worktree behavior during extraction.
+- Prefer mechanical moves with import rewiring only. Add direct module tests after each move if useful, but keep the existing facade tests passing before changing their imports.
+- Run the focused script tests after each extraction, then the repository checks: `npm run build`, `npm test`, `npm run format`, `npm run check:unicode`, and `npm run atree:validate`.

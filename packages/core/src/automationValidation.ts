@@ -8,11 +8,38 @@ import { readJson } from "./workspace.js";
 
 const execFileAsync = promisify(execFile);
 
+export interface AutomationValidationOptions {
+  runGit?: (args: string[], cwd: string) => Promise<GitResult>;
+}
+
+export interface GitResult {
+  stdout: string;
+}
+
+type GitRunner = NonNullable<AutomationValidationOptions["runGit"]>;
+
 const AUTOMATION_DIR = ".abstraction-tree/automation";
 const LOOP_STATE_PATH = `${AUTOMATION_DIR}/loop-state.json`;
 const LOOP_CONFIG_PATH = `${AUTOMATION_DIR}/loop-config.json`;
 const LOOP_RUNTIME_EXAMPLE_PATH = `${AUTOMATION_DIR}/loop-runtime.example.json`;
 const LOOP_RUNTIME_PATH = `${AUTOMATION_DIR}/loop-runtime.json`;
+const MISSION_RUNTIME_EXAMPLE_PATH = `${AUTOMATION_DIR}/mission-runtime.example.json`;
+const MISSION_RUNTIME_PATH = `${AUTOMATION_DIR}/mission-runtime.json`;
+const MISSION_LOGS_PATH = `${AUTOMATION_DIR}/mission-logs/`;
+const FULL_LOOP_LIVE_PID_PATH = `${AUTOMATION_DIR}/full-loop-live.pid`;
+const FULL_LOOP_RUNS_PATH = `${AUTOMATION_DIR}/full-loop-runs/`;
+const MISSION_RUNS_PATH = ".abstraction-tree/mission-runs/";
+const WORKTREES_PATH = ".abstraction-tree/worktrees/";
+
+const localRuntimePaths = [
+  { path: LOOP_RUNTIME_PATH, label: "Automation loop-runtime.json" },
+  { path: MISSION_RUNTIME_PATH, label: "Automation mission-runtime.json" },
+  { path: MISSION_LOGS_PATH, label: "Automation mission-logs/" },
+  { path: FULL_LOOP_LIVE_PID_PATH, label: "Automation full-loop-live.pid" },
+  { path: FULL_LOOP_RUNS_PATH, label: "Automation full-loop-runs/" },
+  { path: MISSION_RUNS_PATH, label: "Automation mission-runs/" },
+  { path: WORKTREES_PATH, label: "Automation worktrees/" }
+];
 
 const volatileConfigFields = [
   "loops_today",
@@ -58,8 +85,22 @@ const runtimeBooleanFields = [
   "stop_requested"
 ];
 
-export async function validateAutomation(projectRoot: string): Promise<ValidationIssue[]> {
+const missionRuntimeArrayFields = [
+  "completed",
+  "failed"
+];
+
+const missionRuntimeStringFields = [
+  "current"
+];
+
+const missionRuntimeBooleanFields = [
+  "stop_requested"
+];
+
+export async function validateAutomation(projectRoot: string, options: AutomationValidationOptions = {}): Promise<ValidationIssue[]> {
   const issues: ValidationIssue[] = [];
+  const runGit = options.runGit ?? defaultGitRunner;
 
   if (existsSync(projectFile(projectRoot, LOOP_STATE_PATH))) {
     issues.push({
@@ -95,20 +136,35 @@ export async function validateAutomation(projectRoot: string): Promise<Validatio
     if (runtime.value) issues.push(...validateAutomationRuntime(runtime.value, LOOP_RUNTIME_EXAMPLE_PATH));
   }
 
-  if (await isGitTracked(projectRoot, LOOP_RUNTIME_PATH)) {
+  const missionRuntimeExamplePath = projectFile(projectRoot, MISSION_RUNTIME_EXAMPLE_PATH);
+  if (!existsSync(missionRuntimeExamplePath)) {
     issues.push({
       severity: "warning",
-      filePath: LOOP_RUNTIME_PATH,
-      message: "Automation loop-runtime.json is tracked; it must remain local runtime state."
+      filePath: MISSION_RUNTIME_EXAMPLE_PATH,
+      message: "Automation mission runtime example is missing."
     });
+  } else {
+    const missionRuntime = await readJsonRecord(missionRuntimeExamplePath, MISSION_RUNTIME_EXAMPLE_PATH, "Automation mission runtime example");
+    issues.push(...missionRuntime.issues);
+    if (missionRuntime.value) issues.push(...validateMissionRuntime(missionRuntime.value, MISSION_RUNTIME_EXAMPLE_PATH));
   }
 
-  if (!(await isIgnoredByRootGitignore(projectRoot, LOOP_RUNTIME_PATH))) {
-    issues.push({
-      severity: "warning",
-      filePath: LOOP_RUNTIME_PATH,
-      message: "Automation loop-runtime.json is not ignored by the root .gitignore."
-    });
+  for (const runtimePath of localRuntimePaths) {
+    if (await isGitTracked(projectRoot, runtimePath.path, runGit)) {
+      issues.push({
+        severity: "warning",
+        filePath: runtimePath.path,
+        message: `${runtimePath.label} is tracked; it must remain local runtime state.`
+      });
+    }
+
+    if (!(await isIgnoredByRootGitignore(projectRoot, runtimePath.path, runGit))) {
+      issues.push({
+        severity: "warning",
+        filePath: runtimePath.path,
+        message: `${runtimePath.label} is not ignored by the root .gitignore.`
+      });
+    }
   }
 
   return issues;
@@ -196,6 +252,43 @@ export function validateAutomationRuntime(runtime: Record<string, unknown>, file
   return issues;
 }
 
+export function validateMissionRuntime(runtime: Record<string, unknown>, filePath: string = MISSION_RUNTIME_EXAMPLE_PATH): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+
+  for (const field of missionRuntimeArrayFields) {
+    const value = runtime[field];
+    if (!Array.isArray(value) || !value.every(item => typeof item === "string")) {
+      issues.push({
+        severity: "warning",
+        filePath,
+        message: `Automation mission runtime field ${field} must be an array of strings.`
+      });
+    }
+  }
+
+  for (const field of missionRuntimeStringFields) {
+    if (typeof runtime[field] !== "string") {
+      issues.push({
+        severity: "warning",
+        filePath,
+        message: `Automation mission runtime field ${field} must be a string.`
+      });
+    }
+  }
+
+  for (const field of missionRuntimeBooleanFields) {
+    if (typeof runtime[field] !== "boolean") {
+      issues.push({
+        severity: "warning",
+        filePath,
+        message: `Automation mission runtime flag ${field} must be boolean.`
+      });
+    }
+  }
+
+  return issues;
+}
+
 async function readJsonRecord(
   filePath: string,
   relativePath: string,
@@ -222,24 +315,29 @@ async function readJsonRecord(
   }
 }
 
-async function isGitTracked(projectRoot: string, relativePath: string): Promise<boolean> {
+async function defaultGitRunner(args: string[], cwd: string): Promise<GitResult> {
+  const result = await execFileAsync("git", args, {
+    cwd,
+    windowsHide: true
+  });
+  return { stdout: String(result.stdout) };
+}
+
+async function isGitTracked(projectRoot: string, relativePath: string, runGit: GitRunner): Promise<boolean> {
   try {
-    await execFileAsync("git", ["ls-files", "--error-unmatch", "--", relativePath], {
-      cwd: projectRoot,
-      windowsHide: true
-    });
-    return true;
+    const args = isDirectoryPath(relativePath)
+      ? ["ls-files", "--", relativePath]
+      : ["ls-files", "--error-unmatch", "--", relativePath];
+    const result = await runGit(args, projectRoot);
+    return isDirectoryPath(relativePath) ? result.stdout.trim().length > 0 : true;
   } catch {
     return false;
   }
 }
 
-async function isIgnoredByRootGitignore(projectRoot: string, relativePath: string): Promise<boolean> {
+async function isIgnoredByRootGitignore(projectRoot: string, relativePath: string, runGit: GitRunner): Promise<boolean> {
   try {
-    await execFileAsync("git", ["check-ignore", "--quiet", "--no-index", "--", relativePath], {
-      cwd: projectRoot,
-      windowsHide: true
-    });
+    await runGit(["check-ignore", "--quiet", "--no-index", "--", relativePath], projectRoot);
     return true;
   } catch {
     // Fall back to the root .gitignore below for non-git test fixtures.
@@ -267,13 +365,19 @@ function isIntegerAtLeast(value: unknown, minimum: number): boolean {
   return typeof value === "number" && Number.isInteger(value) && value >= minimum;
 }
 
+function isDirectoryPath(relativePath: string): boolean {
+  return relativePath.endsWith("/");
+}
+
 function rootGitignoreContainsPath(gitignoreText: string, relativePath: string): boolean {
   const normalizedPath = relativePath.replaceAll("\\", "/");
-  const basename = path.posix.basename(normalizedPath);
+  const pathWithoutTrailingSlash = normalizedPath.replace(/\/+$/, "");
+  const basename = path.posix.basename(pathWithoutTrailingSlash);
   return gitignoreText.split(/\r?\n/).some(line => {
     const trimmed = line.trim();
     if (!trimmed || trimmed.startsWith("#") || trimmed.startsWith("!")) return false;
     const normalizedPattern = trimmed.startsWith("/") ? trimmed.slice(1) : trimmed;
-    return normalizedPattern === normalizedPath || (!normalizedPattern.includes("/") && normalizedPattern === basename);
+    const patternWithoutTrailingSlash = normalizedPattern.replace(/\/+$/, "");
+    return patternWithoutTrailingSlash === pathWithoutTrailingSlash || (!normalizedPattern.includes("/") && patternWithoutTrailingSlash === basename);
   });
 }

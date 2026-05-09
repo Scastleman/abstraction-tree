@@ -41,7 +41,7 @@ Use `--format markdown` when the next consumer is an agent prompt or report. Use
 
 ## LLM-assisted proposals
 
-The current protocol is deterministic by default. Future LLM support should enter through provider adapters that implement the core `LlmAbstractionBuilder` interface rather than through the scanner, tree builder, or CLI default path.
+The current protocol is deterministic by default. LLM support should enter through explicit provider adapters that implement the core `LlmAbstractionBuilder` interface rather than through the scanner, tree builder, or CLI default path.
 
 LLM output is a proposal, not memory. Agents should validate proposed ontology changes, proposed tree changes, confidence, rationale, warnings, affected abstraction layers, and detected-change classifications before writing them into canonical `.abstraction-tree/` files.
 

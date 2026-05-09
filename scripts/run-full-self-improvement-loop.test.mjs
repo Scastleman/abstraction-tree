@@ -12,6 +12,14 @@ import {
   validateAssessmentOutput
 } from "./run-full-self-improvement-loop.mjs";
 
+test("full-loop args parse safe defaults", () => {
+  const parsed = parseArgs([]);
+
+  assert.equal(parsed.sandbox, "workspace-write");
+  assert.equal(parsed.allowDangerFullAccess, false);
+  assert.equal(parsed.allowMultipleAutomationMaintenance, false);
+});
+
 test("full-loop args parse safe defaults and explicit controls", () => {
   const parsed = parseArgs([
     "--max-missions",
@@ -20,15 +28,36 @@ test("full-loop args parse safe defaults and explicit controls", () => {
     "3",
     "--allow-dirty",
     "--skip-missions",
+    "--allow-multiple-automation-maintenance",
     "--reasoning-effort",
     "medium"
   ]);
 
   assert.equal(parsed.maxMissions, 2);
   assert.equal(parsed.concurrency, 3);
+  assert.equal(parsed.sandbox, "workspace-write");
   assert.equal(parsed.allowDirty, true);
   assert.equal(parsed.skipMissions, true);
+  assert.equal(parsed.allowMultipleAutomationMaintenance, true);
   assert.equal(parsed.reasoningEffort, "medium");
+});
+
+test("full-loop rejects danger-full-access without explicit allow flag", () => {
+  assert.throws(
+    () => parseArgs(["--sandbox", "danger-full-access"]),
+    /--sandbox danger-full-access requires --allow-danger-full-access\./
+  );
+});
+
+test("full-loop accepts danger-full-access with explicit allow flag", () => {
+  const parsed = parseArgs([
+    "--sandbox",
+    "danger-full-access",
+    "--allow-danger-full-access"
+  ]);
+
+  assert.equal(parsed.sandbox, "danger-full-access");
+  assert.equal(parsed.allowDangerFullAccess, true);
 });
 
 test("assessment prompt states full project goal and mission output contract", () => {
@@ -43,6 +72,9 @@ test("assessment prompt states full project goal and mission output contract", (
   assert.match(prompt, /Integrate an abstraction tree into any project/);
   assert.match(prompt, /developers understand the scope of their prompts/);
   assert.match(prompt, /up to 3 mission Markdown files/);
+  assert.match(prompt, /category: product-value \| safety \| quality \| developer-experience \| automation-maintenance/);
+  assert.match(prompt, /Create at most one automation-maintenance mission/);
+  assert.match(prompt, /Prefer product-value, safety, quality, and developer-experience missions/);
   assert.match(prompt, /Abstraction Tree Position/);
 });
 
@@ -115,6 +147,88 @@ test("assessment output validation fails when a mission is missing required fron
     () => validateAssessmentOutput({ cwd: root, runDir, missionsDir, maxMissions: 1 }),
     /run\/missions\/mission-one\.md.*risk/
   );
+});
+
+test("assessment output validation fails when a mission is missing category", async t => {
+  const root = await tempWorkspace(t);
+  const { runDir, missionsDir } = assessmentPaths(root);
+  await writeFileAt(root, "run/assessment.md", "# Assessment\n");
+  await writeFileAt(root, "run/missions/README.md", "# Missions\n");
+  await writeFileAt(root, "run/missions/mission-one.md", validMissionMarkdown().replace(/^category: quality\n/mu, ""));
+
+  await assert.rejects(
+    () => validateAssessmentOutput({ cwd: root, runDir, missionsDir, maxMissions: 1 }),
+    /run\/missions\/mission-one\.md.*category/
+  );
+});
+
+test("assessment output validation fails when a mission has invalid category", async t => {
+  const root = await tempWorkspace(t);
+  const { runDir, missionsDir } = assessmentPaths(root);
+  await writeFileAt(root, "run/assessment.md", "# Assessment\n");
+  await writeFileAt(root, "run/missions/README.md", "# Missions\n");
+  await writeFileAt(
+    root,
+    "run/missions/mission-one.md",
+    validMissionMarkdown().replace("category: quality", "category: process-maintenance")
+  );
+
+  await assert.rejects(
+    () => validateAssessmentOutput({ cwd: root, runDir, missionsDir, maxMissions: 1 }),
+    /run\/missions\/mission-one\.md.*category must be one of/
+  );
+});
+
+test("assessment output validation rejects multiple automation-maintenance missions by default", async t => {
+  const root = await tempWorkspace(t);
+  const { runDir, missionsDir } = assessmentPaths(root);
+  await writeFileAt(root, "run/assessment.md", "# Assessment\n");
+  await writeFileAt(root, "run/missions/README.md", "# Missions\n");
+  await writeFileAt(root, "run/missions/mission-one.md", validMissionMarkdown({
+    id: "mission-one",
+    title: "Mission One",
+    category: "automation-maintenance"
+  }));
+  await writeFileAt(root, "run/missions/mission-two.md", validMissionMarkdown({
+    id: "mission-two",
+    title: "Mission Two",
+    category: "automation-maintenance"
+  }));
+
+  await assert.rejects(
+    () => validateAssessmentOutput({ cwd: root, runDir, missionsDir, maxMissions: 2 }),
+    /Assessment created 2 automation-maintenance mission files, but at most one is allowed by default/
+  );
+});
+
+test("assessment output validation allows multiple automation-maintenance missions with override", async t => {
+  const root = await tempWorkspace(t);
+  const { runDir, missionsDir } = assessmentPaths(root);
+  await writeFileAt(root, "run/assessment.md", "# Assessment\n");
+  await writeFileAt(root, "run/missions/README.md", "# Missions\n");
+  await writeFileAt(root, "run/missions/mission-one.md", validMissionMarkdown({
+    id: "mission-one",
+    title: "Mission One",
+    category: "automation-maintenance"
+  }));
+  await writeFileAt(root, "run/missions/mission-two.md", validMissionMarkdown({
+    id: "mission-two",
+    title: "Mission Two",
+    category: "automation-maintenance"
+  }));
+
+  const missions = await validateAssessmentOutput({
+    cwd: root,
+    runDir,
+    missionsDir,
+    maxMissions: 2,
+    allowMultipleAutomationMaintenance: true
+  });
+
+  assert.deepEqual(missions.map(filePath => relativePath(root, filePath)), [
+    "run/missions/mission-one.md",
+    "run/missions/mission-two.md"
+  ]);
 });
 
 test("assessment output validation fails when parallelGroupSafe is not boolean", async t => {
@@ -220,6 +334,25 @@ test("dry run writes assessment prompt without invoking Codex", async t => {
   assert.match(prompt, /Full Abstraction Tree Self-Improvement Loop/);
 });
 
+test("dry run still rejects danger-full-access without explicit allow flag", async t => {
+  const root = await tempWorkspace(t);
+  let commandCalled = false;
+
+  await assert.rejects(
+    () => runCli(["--dry-run", "--allow-dirty", "--sandbox", "danger-full-access"], {
+      cwd: root,
+      stdout: captureStream(),
+      stderr: captureStream(),
+      command() {
+        commandCalled = true;
+        throw new Error("should not run commands");
+      }
+    }),
+    /--sandbox danger-full-access requires --allow-danger-full-access\./
+  );
+  assert.equal(commandCalled, false);
+});
+
 async function tempWorkspace(t) {
   const root = await mkdtemp(path.join(tmpdir(), "atree-full-loop-"));
   t.after(() => rm(root, { recursive: true, force: true }));
@@ -240,12 +373,19 @@ function assessmentPaths(root) {
   };
 }
 
-function validMissionMarkdown() {
+function validMissionMarkdown(input = {}) {
+  const {
+    id = "mission-one",
+    title = "Mission One",
+    category = "quality"
+  } = input;
+
   return `---
-id: mission-one
-title: Mission One
+id: ${id}
+title: ${title}
 priority: P0
 risk: low
+category: ${category}
 affectedFiles:
   - scripts/run-full-self-improvement-loop.mjs
 affectedNodes:

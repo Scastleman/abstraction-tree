@@ -9,6 +9,23 @@ const loopConfigPath = ".abstraction-tree/automation/loop-config.json";
 const loopRuntimeExamplePath = ".abstraction-tree/automation/loop-runtime.example.json";
 const loopRuntimePath = ".abstraction-tree/automation/loop-runtime.json";
 const loopStatePath = ".abstraction-tree/automation/loop-state.json";
+const missionRuntimeExamplePath = ".abstraction-tree/automation/mission-runtime.example.json";
+const missionRuntimePath = ".abstraction-tree/automation/mission-runtime.json";
+const missionLogsPath = ".abstraction-tree/automation/mission-logs/";
+const fullLoopLivePidPath = ".abstraction-tree/automation/full-loop-live.pid";
+const fullLoopRunsPath = ".abstraction-tree/automation/full-loop-runs/";
+const missionRunsPath = ".abstraction-tree/mission-runs/";
+const worktreesPath = ".abstraction-tree/worktrees/";
+
+const localRuntimePaths = [
+  loopRuntimePath,
+  missionRuntimePath,
+  missionLogsPath,
+  fullLoopLivePidPath,
+  fullLoopRunsPath,
+  missionRunsPath,
+  worktreesPath
+];
 
 test("validateAutomation accepts valid committed config and ignored runtime state", async t => {
   const root = await workspace(t);
@@ -97,6 +114,25 @@ test("validateAutomation reports invalid automation runtime example values", asy
   assert.ok(hasIssue(issues, loopRuntimeExamplePath, "runtime flag stop_requested must be boolean"));
 });
 
+test("validateAutomation reports invalid mission runtime example values", async t => {
+  const root = await workspace(t);
+  await writeValidAutomationFiles(root, {}, {
+    missionRuntimeOverrides: {
+      completed: ["mission-001.md", 2],
+      failed: "mission-002.md",
+      current: null,
+      stop_requested: "false"
+    }
+  });
+
+  const issues = await validateAutomation(root);
+
+  assert.ok(hasIssue(issues, missionRuntimeExamplePath, "field completed must be an array of strings"));
+  assert.ok(hasIssue(issues, missionRuntimeExamplePath, "field failed must be an array of strings"));
+  assert.ok(hasIssue(issues, missionRuntimeExamplePath, "field current must be a string"));
+  assert.ok(hasIssue(issues, missionRuntimeExamplePath, "flag stop_requested must be boolean"));
+});
+
 test("validateAutomation reports missing config and runtime example files", async t => {
   const root = await workspace(t);
 
@@ -104,15 +140,55 @@ test("validateAutomation reports missing config and runtime example files", asyn
 
   assert.ok(hasIssue(issues, loopConfigPath, "config is missing"));
   assert.ok(hasIssue(issues, loopRuntimeExamplePath, "runtime example is missing"));
+  assert.ok(hasIssue(issues, missionRuntimeExamplePath, "mission runtime example is missing"));
 });
 
-test("validateAutomation reports loop-runtime.json when it is not ignored", async t => {
+test("validateAutomation reports local runtime paths when they are not ignored", async t => {
   const root = await workspace(t, { ignoreRuntime: false });
   await writeValidAutomationFiles(root, {}, { writeGitignore: false });
 
   const issues = await validateAutomation(root);
 
-  assert.ok(hasIssue(issues, loopRuntimePath, "not ignored"));
+  for (const runtimePath of localRuntimePaths) {
+    assert.ok(hasIssue(issues, runtimePath, "not ignored"), runtimePath);
+  }
+});
+
+test("validateAutomation uses root gitignore fallback for mission and full-loop runtime paths", async t => {
+  const root = await workspace(t);
+  await writeValidAutomationFiles(root);
+
+  const issues = await validateAutomation(root);
+
+  for (const runtimePath of localRuntimePaths) {
+    assert.ok(!hasIssue(issues, runtimePath, "not ignored"), runtimePath);
+  }
+});
+
+test("validateAutomation warns when mission and full-loop runtime paths are tracked", async t => {
+  const root = await workspace(t);
+  await writeValidAutomationFiles(root);
+  const runGit = fakeGitRunner([
+    missionRuntimePath,
+    ".abstraction-tree/automation/mission-logs/run.log",
+    fullLoopLivePidPath,
+    ".abstraction-tree/automation/full-loop-runs/2026/status.json",
+    ".abstraction-tree/mission-runs/2026/status.json",
+    ".abstraction-tree/worktrees/2026/status.txt"
+  ]);
+
+  const issues = await validateAutomation(root, { runGit });
+
+  for (const runtimePath of [
+    missionRuntimePath,
+    missionLogsPath,
+    fullLoopLivePidPath,
+    fullLoopRunsPath,
+    missionRunsPath,
+    worktreesPath
+  ]) {
+    assert.ok(hasIssue(issues, runtimePath, "is tracked"), runtimePath);
+  }
 });
 
 async function workspace(t: TestContext, options: { ignoreRuntime?: boolean } = {}): Promise<string> {
@@ -120,7 +196,7 @@ async function workspace(t: TestContext, options: { ignoreRuntime?: boolean } = 
   t.after(() => rm(root, { recursive: true, force: true }));
   await mkdir(path.join(root, ".abstraction-tree", "automation"), { recursive: true });
   if (options.ignoreRuntime !== false) {
-    await writeFile(path.join(root, ".gitignore"), `${loopRuntimePath}\n`, "utf8");
+    await writeRootGitignore(root);
   }
   return root;
 }
@@ -128,10 +204,15 @@ async function workspace(t: TestContext, options: { ignoreRuntime?: boolean } = 
 async function writeValidAutomationFiles(
   root: string,
   configOverrides: Record<string, unknown> = {},
-  options: { bom?: boolean; writeGitignore?: boolean; runtimeOverrides?: Record<string, unknown> } = {}
+  options: {
+    bom?: boolean;
+    writeGitignore?: boolean;
+    runtimeOverrides?: Record<string, unknown>;
+    missionRuntimeOverrides?: Record<string, unknown>;
+  } = {}
 ) {
   if (options.writeGitignore !== false) {
-    await writeFile(path.join(root, ".gitignore"), `${loopRuntimePath}\n`, "utf8");
+    await writeRootGitignore(root);
   }
   await writeJson(root, loopConfigPath, {
     max_loops_today: 25,
@@ -155,14 +236,51 @@ async function writeValidAutomationFiles(
     stop_requested: false,
     ...options.runtimeOverrides
   }, { bom: options.bom });
+  await writeJson(root, missionRuntimeExamplePath, {
+    completed: [],
+    failed: [],
+    current: "",
+    stop_requested: false,
+    ...options.missionRuntimeOverrides
+  }, { bom: options.bom });
 }
 
 async function writeJson(root: string, relativePath: string, value: unknown, options: { bom?: boolean } = {}) {
+  await writeFileAt(root, relativePath, `${options.bom ? "\ufeff" : ""}${JSON.stringify(value, null, 2)}\n`);
+}
+
+async function writeFileAt(root: string, relativePath: string, text: string) {
   const filePath = path.join(root, ...relativePath.split("/"));
   await mkdir(path.dirname(filePath), { recursive: true });
-  await writeFile(filePath, `${options.bom ? "\ufeff" : ""}${JSON.stringify(value, null, 2)}\n`, "utf8");
+  await writeFile(filePath, text, "utf8");
+}
+
+async function writeRootGitignore(root: string) {
+  await writeFile(path.join(root, ".gitignore"), `${localRuntimePaths.join("\n")}\n`, "utf8");
 }
 
 function hasIssue(issues: { filePath?: string; message: string }[], filePath: string, message: string): boolean {
   return issues.some(issue => issue.filePath === filePath && issue.message.includes(message));
+}
+
+function fakeGitRunner(trackedPaths: string[]) {
+  const tracked = new Set(trackedPaths);
+  return async (args: string[]): Promise<{ stdout: string }> => {
+    if (args[0] === "check-ignore") {
+      throw new Error("Use root .gitignore fallback.");
+    }
+
+    if (args[0] !== "ls-files") {
+      throw new Error(`Unexpected git command: ${args.join(" ")}`);
+    }
+
+    const relativePath = args[args.length - 1];
+    if (args.includes("--error-unmatch")) {
+      if (tracked.has(relativePath)) return { stdout: `${relativePath}\n` };
+      throw new Error(`${relativePath} is not tracked.`);
+    }
+
+    const matches = [...tracked].filter(filePath => filePath.startsWith(relativePath));
+    return { stdout: matches.join("\n") };
+  };
 }

@@ -1,0 +1,31 @@
+{
+  "id": "review-mission-batch.2026-05-08",
+  "timestamp": "2026-05-08T16:54:00-04:00",
+  "title": "Implement review mission batch",
+  "reason": "Run the supplied abstraction-tree review missions through the mission runner to harden autonomous mission planning, execution safety, runtime boundaries, documentation, and full-loop mission contracts.",
+  "affectedNodeIds": [
+    "module.scripts",
+    "module.docs",
+    "module.root",
+    "architecture.core.engine",
+    "project.architecture"
+  ],
+  "filesChanged": [
+    "README.md",
+    "docs/AGENT_PROTOCOL.md",
+    "docs/MISSION_RUNNER.md",
+    "docs/ROADMAP.md",
+    "package.json",
+    "packages/core/src/automationValidation.ts",
+    "packages/core/src/automationValidation.test.ts",
+    "scripts/run-full-self-improvement-loop.mjs",
+    "scripts/run-full-self-improvement-loop.test.mjs",
+    "scripts/run-missions.mjs",
+    "scripts/run-missions.test.mjs"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "medium"
+}

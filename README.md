@@ -7,7 +7,7 @@
 
 Abstraction Tree is a local-first codebase understanding system. It scans an existing software project, builds a deterministic abstraction-memory baseline, and gives both humans and coding agents a shared map of the codebase.
 
-The long-term goal is adaptive, LLM-assisted abstraction memory. The current repo is intentionally the first layer: structured project facts, deterministic tree generation, validation, and agent context packs without requiring an API key.
+The default layer is structured project facts, deterministic tree generation, validation, and agent context packs without requiring an API key. Higher automation is explicit and review-oriented rather than part of the default scan path.
 
 The source of truth is always the project-local `.abstraction-tree/` folder. The visual app is optional: it reads the same tree data and displays it as an interactive project map.
 
@@ -31,6 +31,27 @@ The local visual app shows:
 - recent semantic changes;
 - drift between current code and stored tree memory;
 - context packs that coding agents can consume.
+
+## Automation maturity ladder
+
+Start at Level 1 for the safest adoption path. Each higher level assumes the earlier levels are understood and validated:
+
+```text
+Level 1: scan / validate / context
+Level 2: visual app
+Level 3: mission runner
+Level 4: proposal adapters through atree propose
+Level 5: full self-improvement loop
+```
+
+LLM inference is not part of the default scan pipeline. The repo includes an explicit `atree propose` review workflow for provider adapters, but proposals are validated and saved for review rather than directly mutating canonical memory.
+
+Related workflow docs:
+
+- [Mission runner](docs/MISSION_RUNNER.md)
+- [Agent protocol and LLM-assisted proposals](docs/AGENT_PROTOCOL.md)
+- [LLM abstraction interface](docs/ARCHITECTURE.md#llm-abstraction-interface)
+- [Full self-improvement loop](docs/FULL_SELF_IMPROVEMENT_LOOP.md)
 
 ## Two install modes
 
@@ -93,7 +114,7 @@ Most codebases are understood through a mix of folders, stale documentation, tri
 
 Abstraction Tree creates a shared semantic map for humans and agents. The node schema is fixed, but the abstraction layers should become adaptive: a frontend, compiler, game engine, Kubernetes operator, and quant research repo should not be forced into the same hierarchy.
 
-Today, the baseline tree is deterministic. It uses folder structure, package layout, file names, AST-backed TypeScript/JavaScript imports and symbols, regex fallback scanning for other languages, tests, and configured ontology data. The next semantic layer is an LLM abstraction pass that proposes repo-specific ontology and tree nodes from those facts.
+Today, the baseline tree is deterministic. It uses folder structure, package layout, file names, AST-backed TypeScript/JavaScript imports and symbols, regex fallback scanning for other languages, tests, and configured ontology data. Optional proposal adapters can use those facts through `atree propose`, but that path produces review artifacts rather than direct memory edits.
 
 ```txt
 Intent
@@ -119,10 +140,13 @@ This repository is a working starter implementation. It includes:
 - validation and stale-memory drift checks;
 - relevance-scored context-pack generation for coding agents;
 - an optional Vite/React visual app;
+- an explicit `atree propose` review workflow for provider adapters;
+- a mission runner for bounded Codex work queues;
+- a full self-improvement loop for local dogfooding;
 - Codex/agent instructions;
 - an example project.
 
-The LLM abstraction pass is not implemented yet. The current implementation builds a deterministic first tree without requiring an API key; provider adapters are the next major intelligence layer.
+LLM inference is not part of the default scan pipeline. The repo includes an explicit `atree propose` review workflow for provider adapters, but proposals are validated and saved for review rather than directly mutating canonical memory.
 
 ## Repository layout
 
@@ -141,6 +165,8 @@ abstraction-tree/
     ARCHITECTURE.md
     DATA_MODEL.md
     AGENT_PROTOCOL.md
+    MISSION_RUNNER.md
+    FULL_SELF_IMPROVEMENT_LOOP.md
     ROADMAP.md
     PACKAGING.md
 ```
@@ -193,11 +219,20 @@ The committed `.abstraction-tree/` data is durable project memory. It includes:
 The repo should not commit local runtime state. Keep these local or ignored:
 
 - live loop counters such as `.abstraction-tree/automation/loop-runtime.json`;
-- local mission runner state such as `.abstraction-tree/automation/mission-runtime.json` and mission logs;
+- local mission runner state such as `.abstraction-tree/automation/mission-runtime.json`, `.abstraction-tree/automation/mission-logs/`, and `.abstraction-tree/mission-runs/`;
+- full-loop live state such as `.abstraction-tree/automation/full-loop-live.pid` and `.abstraction-tree/automation/full-loop-runs/`;
+- local mission worktrees under `.abstraction-tree/worktrees/`;
 - secrets, `.env` files, and API keys;
 - local Codex state outside the project memory contract.
 
-Runtime example files stay committed so local state has a documented shape, but the live runtime JSON files and automation logs are ignored by `.gitignore`.
+Runtime example files, including `.abstraction-tree/automation/mission-runtime.example.json`, stay committed so local state has a documented shape, but the live runtime JSON files and automation logs are ignored by `.gitignore`.
+
+Mission folders follow two conventions:
+
+- Manual mission folders: `.abstraction-tree/missions/`
+- Automation-generated mission folders: `.abstraction-tree/automation/missions/`
+
+`npm run missions:plan` and `npm run missions:run` use the automation-generated folder. `npm run missions:plan:manual` and `npm run missions:run:manual` use the manual folder.
 
 Useful cross-platform dogfooding commands:
 
@@ -219,6 +254,10 @@ npm run codex:missions:windows
 
 `npm run abstraction:loop:windows` runs a bounded local Codex improvement loop. It is Windows PowerShell automation around local Codex state, not a public CI entrypoint. It reads the stable loop config and prompt, starts a Codex cycle, runs post-loop checks, updates ignored runtime counters, and can optionally auto-commit only when configured and when required checks pass.
 
+`npm run self:loop` runs the full self-improvement loop that authors missions, invokes the mission runner, and performs a read-only coherence review. The mission runner and full loop both reject `--sandbox danger-full-access` unless `--allow-danger-full-access` is also passed, including dry runs, so elevated sandbox access is always explicit.
+
+Generated full-loop missions must declare a value category: `product-value`, `safety`, `quality`, `developer-experience`, or `automation-maintenance`. The loop rejects more than one `automation-maintenance` mission by default so process upkeep cannot crowd out product value, safety, quality, or developer experience; `--allow-multiple-automation-maintenance` is the explicit attended override.
+
 The loop does not push to a remote, does not bypass failed checks, does not make unbounded changes, does not commit ignored runtime state, and does not turn LLM-inferred abstraction into default scanner behavior.
 
 The loop is bounded because autonomous coding work needs explicit stop conditions. The config limits daily loops, elapsed minutes, failed loops, stagnation, repeated test failures, and maximum diff size so a bad prompt or failing change cannot run indefinitely.
@@ -227,7 +266,7 @@ Run reports are useful but subjective. Objective metrics from `npm run atree:eva
 
 Generated scan change records can accumulate during autonomous loops. `npm run atree -- changes review --project .` prints a non-destructive report that keeps the newest generated scan record as the retained baseline and lists older generated scan records that are eligible for consolidation.
 
-Current limitation: the deterministic MVP is implemented. LLM-inferred abstraction is not default behavior yet. This checkout includes an adapter-ready LLM abstraction interface, but no provider adapter is wired into `scan`, `validate`, `context`, `evaluate`, or `serve`.
+Current limitation: the deterministic MVP is implemented. LLM-inferred abstraction is not default behavior. `atree propose` can validate and save adapter proposals for review, but accepted proposal changes are still applied deliberately rather than by the default scanner. No provider adapter is wired into `scan`, `validate`, `context`, `evaluate`, or `serve`.
 
 ## CLI commands
 
@@ -307,6 +346,14 @@ Prints a read-only JSON report for `.abstraction-tree/changes/`, including gener
 
 ```bash
 atree changes review --project /path/to/project
+```
+
+### `atree propose`
+
+Runs an explicit provider adapter proposal workflow. It validates proposed ontology and tree changes, writes a review artifact under `.abstraction-tree/proposals/`, and does not directly mutate canonical memory.
+
+```bash
+atree propose --provider local-json --adapter adapters/local-json/index.mjs --input adapters/local-json/proposal.example.json
 ```
 
 ## The `.abstraction-tree/` folder

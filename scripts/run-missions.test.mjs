@@ -1,10 +1,12 @@
 import assert from "node:assert/strict";
+import { execFile } from "node:child_process";
 import { EventEmitter } from "node:events";
-import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { access, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { PassThrough } from "node:stream";
 import test from "node:test";
+import { promisify } from "node:util";
 import {
   createMissionPlan,
   discoverMissions,
@@ -14,6 +16,8 @@ import {
   readMissionFile,
   runCli
 } from "./run-missions.mjs";
+
+const execFileAsync = promisify(execFile);
 
 test("frontmatter parser supports scalars, empty arrays, and block arrays", () => {
   const parsed = parseSimpleFrontmatter(`
@@ -136,6 +140,130 @@ test("dry-run prints commands without spawning Codex", async t => {
   assert.match(stdout.text, /mission-001/);
 });
 
+test("plan surfaces workspace-write concurrency blocker without failing planning", async t => {
+  const root = await tempWorkspace(t, "atree-missions-plan-workspace-write-");
+  await writeFileAt(root, ".abstraction-tree/missions/mission-001.md", "# One\n");
+  const reason = "--concurrency > 1 with --sandbox workspace-write requires --worktrees.";
+  const stdout = captureStream();
+  let spawned = false;
+
+  const result = await runCli([
+    "--plan",
+    "--missions",
+    ".abstraction-tree/missions",
+    "--concurrency",
+    "3"
+  ], {
+    cwd: root,
+    stdout,
+    stderr: captureStream(),
+    spawnProcess() {
+      spawned = true;
+      throw new Error("should not spawn");
+    }
+  });
+  const printedPlan = JSON.parse(stdout.text);
+  const writtenPlan = JSON.parse(await readFile(path.join(result.runDir, "plan.json"), "utf8"));
+
+  assert.equal(spawned, false);
+  assert.equal(result.plan.executionBlockedReason, reason);
+  assert.equal(printedPlan.executionBlockedReason, reason);
+  assert.equal(writtenPlan.executionBlockedReason, reason);
+});
+
+test("workspace-write execution blocks concurrency without worktrees before spawning Codex", async t => {
+  const root = await tempWorkspace(t, "atree-missions-run-workspace-write-blocked-");
+  await writeFileAt(root, ".abstraction-tree/missions/mission-001.md", "# One\n");
+  await writeFileAt(root, ".abstraction-tree/missions/mission-002.md", "# Two\n");
+  const reason = "--concurrency > 1 with --sandbox workspace-write requires --worktrees.";
+  const stderr = captureStream();
+  let spawned = false;
+
+  await assert.rejects(
+    () => runCli([
+      "--missions",
+      ".abstraction-tree/missions",
+      "--concurrency",
+      "2",
+      "--sandbox",
+      "workspace-write"
+    ], {
+      cwd: root,
+      stdout: captureStream(),
+      stderr,
+      spawnProcess() {
+        spawned = true;
+        throw new Error("should not spawn");
+      }
+    }),
+    error => {
+      assert.equal(error.message, reason);
+      assert.equal(error.plan.executionBlockedReason, reason);
+      assert.ok(error.runDir);
+      return true;
+    }
+  );
+
+  assert.equal(spawned, false);
+  assert.match(stderr.text, /requires --worktrees/);
+});
+
+test("plan surfaces danger-full-access blocker without failing planning", async t => {
+  const root = await tempWorkspace(t, "atree-missions-plan-danger-");
+  await writeFileAt(root, ".abstraction-tree/missions/mission-001.md", "# One\n");
+  const reason = "--sandbox danger-full-access requires --allow-danger-full-access.";
+  const stdout = captureStream();
+
+  const result = await runCli([
+    "--plan",
+    "--missions",
+    ".abstraction-tree/missions",
+    "--sandbox",
+    "danger-full-access"
+  ], {
+    cwd: root,
+    stdout,
+    stderr: captureStream(),
+    spawnProcess() {
+      throw new Error("should not spawn");
+    }
+  });
+  const printedPlan = JSON.parse(stdout.text);
+  const writtenPlan = JSON.parse(await readFile(path.join(result.runDir, "plan.json"), "utf8"));
+
+  assert.equal(result.plan.executionBlockedReason, reason);
+  assert.equal(printedPlan.executionBlockedReason, reason);
+  assert.equal(writtenPlan.executionBlockedReason, reason);
+});
+
+test("plan omits execution blocker for explicitly allowed danger-full-access", async t => {
+  const root = await tempWorkspace(t, "atree-missions-plan-danger-allowed-");
+  await writeFileAt(root, ".abstraction-tree/missions/mission-001.md", "# One\n");
+  const stdout = captureStream();
+
+  const result = await runCli([
+    "--plan",
+    "--missions",
+    ".abstraction-tree/missions",
+    "--sandbox",
+    "danger-full-access",
+    "--allow-danger-full-access"
+  ], {
+    cwd: root,
+    stdout,
+    stderr: captureStream(),
+    spawnProcess() {
+      throw new Error("should not spawn");
+    }
+  });
+  const printedPlan = JSON.parse(stdout.text);
+  const writtenPlan = JSON.parse(await readFile(path.join(result.runDir, "plan.json"), "utf8"));
+
+  assert.equal(Object.hasOwn(result.plan, "executionBlockedReason"), false);
+  assert.equal(Object.hasOwn(printedPlan, "executionBlockedReason"), false);
+  assert.equal(Object.hasOwn(writtenPlan, "executionBlockedReason"), false);
+});
+
 test("default queue uses automation missions and skips completed runtime entries", async t => {
   const root = await tempWorkspace(t, "atree-missions-runtime-skip-");
   await writeFileAt(root, ".abstraction-tree/automation/missions/mission-001.md", "# One\n");
@@ -154,6 +282,54 @@ test("default queue uses automation missions and skips completed runtime entries
 
   assert.equal(result.plan.missionCount, 0);
   assert.equal(result.plan.skipped[0].reason, "completed");
+});
+
+test("legacy basename runtime entries do not collide across duplicate basenames", async t => {
+  const root = await tempWorkspace(t, "atree-missions-runtime-duplicate-basename-");
+  await writeFileAt(root, ".abstraction-tree/automation/missions/security/mission-001.md", "# Security\n");
+  await writeFileAt(root, ".abstraction-tree/automation/missions/ops/mission-001.md", "# Ops\n");
+  await writeFileAt(root, ".abstraction-tree/automation/mission-runtime.json", JSON.stringify({
+    completed: ["mission-001.md"],
+    failed: [],
+    current: "",
+    stop_requested: false
+  }));
+
+  const result = await runCli(["--plan"], {
+    cwd: root,
+    stdout: captureStream(),
+    stderr: captureStream()
+  });
+
+  assert.equal(result.plan.missionCount, 2);
+  assert.equal(result.plan.skipped.length, 0);
+});
+
+test("mission-folder-relative runtime entries skip only the intended duplicate basename", async t => {
+  const root = await tempWorkspace(t, "atree-missions-runtime-relative-path-");
+  await writeFileAt(root, ".abstraction-tree/automation/missions/security/mission-001.md", "# Security\n");
+  await writeFileAt(root, ".abstraction-tree/automation/missions/ops/mission-001.md", "# Ops\n");
+  await writeFileAt(root, ".abstraction-tree/automation/mission-runtime.json", JSON.stringify({
+    completed: ["security/mission-001.md"],
+    failed: [],
+    current: "",
+    stop_requested: false
+  }));
+
+  const result = await runCli(["--plan"], {
+    cwd: root,
+    stdout: captureStream(),
+    stderr: captureStream()
+  });
+  const pendingPaths = result.plan.batches.flatMap(batch => batch.missions.map(mission => mission.filePath));
+
+  assert.equal(result.plan.missionCount, 1);
+  assert.deepEqual(result.plan.skipped.map(mission => mission.filePath), [
+    ".abstraction-tree/automation/missions/security/mission-001.md"
+  ]);
+  assert.deepEqual(pendingPaths, [
+    ".abstraction-tree/automation/missions/ops/mission-001.md"
+  ]);
 });
 
 test("runtime-only completion exits with an explicit no pending message", async t => {
@@ -198,13 +374,137 @@ test("execution uses an injected Codex process and writes final output", async t
   });
   const finalText = await readFile(result.statuses[0].finalPath, "utf8");
   const jsonlText = await readFile(result.statuses[0].jsonlPath, "utf8");
+  const batchStatus = JSON.parse(await readFile(path.join(result.runDir, "batch-001.status.json"), "utf8"));
+  const batchMarkdown = await readFile(path.join(result.runDir, "batch-001.md"), "utf8");
 
   assert.equal(result.statuses[0].status, "success");
   assert.match(finalText, /fake complete/);
   assert.match(jsonlText, /agent_message/);
+  assert.equal(batchStatus.batchIndex, 1);
+  assert.deepEqual(batchStatus.missionIds, ["mission-001"]);
+  assert.equal(batchStatus.parallelSafe, false);
+  assert.equal(batchStatus.statuses[0].status, "success");
+  assert.equal(batchStatus.statuses[0].exitCode, 0);
+  assert.equal(batchStatus.statuses[0].finalPath, result.statuses[0].finalPath);
+  assert.match(batchStatus.statuses[0].stderrPath, /mission-001[\\/]stderr\.log$/);
+  assert.match(batchMarkdown, /# Batch 001/);
+  assert.match(batchMarkdown, /mission-001/);
+  assert.match(batchMarkdown, /stderr\.log/);
 
   const runtime = await readMissionRuntime(root);
-  assert.deepEqual(runtime.completed, ["mission-001.md"]);
+  assert.deepEqual(runtime.completed, [".abstraction-tree/missions/mission-001.md"]);
+});
+
+test("workspace-write execution with worktrees creates a real git worktree", async t => {
+  if (!(await gitAvailable())) {
+    t.skip("git executable unavailable to Node child_process");
+    return;
+  }
+
+  const root = await tempWorkspace(t, "atree-missions-worktree-");
+  await runGit(root, ["init"]);
+  await runGit(root, ["config", "user.email", "mission-runner@example.invalid"]);
+  await runGit(root, ["config", "user.name", "Mission Runner Test"]);
+  await writeFileAt(root, "README.md", "# Temp repo\n");
+  await runGit(root, ["add", "README.md"]);
+  await runGit(root, ["commit", "-m", "Initial commit"]);
+  await writeFileAt(root, ".abstraction-tree/missions/mission-001.md", "# One\n\nDo one thing.\n");
+
+  const spawns = [];
+  const result = await runCli([
+    "--missions",
+    ".abstraction-tree/missions",
+    "--worktrees",
+    "--sandbox",
+    "workspace-write",
+    "--codex-bin",
+    "fake-codex"
+  ], {
+    cwd: root,
+    stdout: captureStream(),
+    stderr: captureStream(),
+    spawnProcess: fakeCodexSpawn(call => spawns.push(call))
+  });
+  const status = result.statuses[0];
+  const writtenStatus = JSON.parse(await readFile(status.statusPath, "utf8"));
+
+  assert.equal(status.status, "success");
+  assert.equal(status.usedWorktree, true);
+  assert.equal(writtenStatus.usedWorktree, true);
+  assert.ok(status.worktreePath);
+  await access(status.worktreePath);
+  assert.match(path.relative(root, status.worktreePath), /^\.abstraction-tree[\\/]worktrees[\\/]/);
+  assert.equal(spawns.length, 1);
+  assert.equal(path.resolve(spawns[0].options.cwd), path.resolve(status.worktreePath));
+  assert.match(await readFile(path.join(status.worktreePath, "README.md"), "utf8"), /Temp repo/);
+});
+
+test("parallel-safe read-only execution writes one batch summary for the batch", async t => {
+  const root = await tempWorkspace(t, "atree-missions-parallel-summary-");
+  await writeFileAt(root, ".abstraction-tree/missions/mission-001.md", "# One\n\nDo one thing.\n");
+  await writeFileAt(root, ".abstraction-tree/missions/mission-002.md", "# Two\n\nDo another thing.\n");
+
+  const result = await runCli([
+    "--missions",
+    ".abstraction-tree/missions",
+    "--sandbox",
+    "read-only",
+    "--concurrency",
+    "2",
+    "--codex-bin",
+    "fake-codex"
+  ], {
+    cwd: root,
+    stdout: captureStream(),
+    stderr: captureStream(),
+    spawnProcess: fakeCodexSpawn()
+  });
+  const batchStatus = JSON.parse(await readFile(path.join(result.runDir, "batch-001.status.json"), "utf8"));
+  const batchMarkdown = await readFile(path.join(result.runDir, "batch-001.md"), "utf8");
+
+  assert.equal(result.statuses.length, 2);
+  assert.deepEqual(batchStatus.missionIds, ["mission-001", "mission-002"]);
+  assert.equal(batchStatus.parallelSafe, true);
+  assert.deepEqual(batchStatus.statuses.map(status => status.status), ["success", "success"]);
+  assert.deepEqual(batchStatus.statuses.map(status => status.exitCode), [0, 0]);
+  assert.match(batchMarkdown, /mission-001/);
+  assert.match(batchMarkdown, /mission-002/);
+  assert.match(batchMarkdown, /final\.md/);
+  assert.match(batchMarkdown, /stderr\.log/);
+});
+
+test("runtime updates record repo-relative paths for duplicate basenames", async t => {
+  const root = await tempWorkspace(t, "atree-missions-runtime-write-paths-");
+  await writeFileAt(root, ".abstraction-tree/automation/missions/security/mission-001.md", `---
+id: security-001
+---
+# Security
+`);
+  await writeFileAt(root, ".abstraction-tree/automation/missions/ops/mission-001.md", `---
+id: ops-001
+---
+# Ops
+`);
+
+  const result = await runCli([
+    "--sandbox",
+    "read-only",
+    "--codex-bin",
+    "fake-codex"
+  ], {
+    cwd: root,
+    stdout: captureStream(),
+    stderr: captureStream(),
+    spawnProcess: fakeCodexSpawn()
+  });
+
+  const runtime = await readMissionRuntime(root);
+
+  assert.equal(result.statuses.length, 2);
+  assert.deepEqual(runtime.completed, [
+    ".abstraction-tree/automation/missions/ops/mission-001.md",
+    ".abstraction-tree/automation/missions/security/mission-001.md"
+  ]);
 });
 
 function planInput(missions, overrides = {}) {
@@ -262,8 +562,26 @@ async function writeFileAt(root, relativePath, text) {
   return filePath;
 }
 
-function fakeCodexSpawn() {
-  return () => {
+async function gitAvailable() {
+  try {
+    await execFileAsync("git", ["--version"], { windowsHide: true });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function runGit(cwd, args) {
+  await execFileAsync("git", args, {
+    cwd,
+    windowsHide: true,
+    maxBuffer: 20 * 1024 * 1024
+  });
+}
+
+function fakeCodexSpawn(onSpawn) {
+  return (command, args, options) => {
+    onSpawn?.({ command, args, options });
     const process = new EventEmitter();
     process.stdin = new PassThrough();
     process.stdout = new PassThrough();

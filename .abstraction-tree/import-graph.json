@@ -1825,6 +1825,11 @@
     },
     {
       "from": "scripts/run-missions.test.mjs",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "scripts/run-missions.test.mjs",
       "specifier": "node:events",
       "packageName": "node:events"
     },
@@ -1852,6 +1857,11 @@
       "from": "scripts/run-missions.test.mjs",
       "specifier": "node:test",
       "packageName": "node:test"
+    },
+    {
+      "from": "scripts/run-missions.test.mjs",
+      "specifier": "node:util",
+      "packageName": "node:util"
     },
     {
       "from": "scripts/run-tests.mjs",
