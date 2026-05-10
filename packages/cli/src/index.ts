@@ -2,8 +2,6 @@
 import { Command } from "commander";
 import path from "node:path";
 import { createServer } from "node:http";
-import { existsSync } from "node:fs";
-import { fileURLToPath } from "node:url";
 import sirv from "sirv";
 import {
   atreePath,
@@ -14,10 +12,8 @@ import {
   reviewChangeRecords,
   buildImportGraph,
   buildDeterministicTree,
-  detectFileDrift,
   ensureWorkspace,
   formatRuntimeValidationIssue,
-  loadAtreeMemory,
   writeEvaluationReport,
   readConfig,
   readChangeRecords,
@@ -27,18 +23,14 @@ import {
   readTreeNodes,
   scanProject,
   setInstallMode,
-  validateChanges,
-  validateAutomation,
-  validateConcepts,
-  validateInvariants,
-  validateTree,
   writeJson,
   RuntimeSchemaValidationError,
   type ChangeRecord,
-  type InstallMode,
-  type ValidationIssue
+  type InstallMode
 } from "@abstraction-tree/core";
 import { loadApiAgentHealth, loadApiState } from "./apiState.js";
+import { collectValidationIssues, doctorExitCode, findVisualAppDist, formatDoctorReport, runDoctor } from "./doctor.js";
+import { formatMigrationResult, migrationExitCode, runMigrateCommand } from "./migrate.js";
 import { runProposeCommand } from "./propose.js";
 import { formatServeUrl, selectServeHost } from "./serveHost.js";
 
@@ -142,6 +134,37 @@ program.command("validate")
     }
     for (const i of issues) console.log(formatRuntimeValidationIssue(i));
     process.exitCode = issues.some(i => i.severity === "error" || (opts.strict && i.severity === "warning")) ? 1 : 0;
+  });
+
+program.command("doctor")
+  .description("Diagnose installation, memory, runtime boundaries, and validation readiness")
+  .option("-p, --project <path>", "project root")
+  .option("--json", "print machine-readable diagnostics")
+  .option("--strict", "treat warnings as failures")
+  .action(async opts => {
+    const root = projectPath(opts.project);
+    const report = await runDoctor(root);
+    if (opts.json) console.log(JSON.stringify(report, null, 2));
+    else process.stdout.write(formatDoctorReport(report));
+    process.exitCode = doctorExitCode(report, Boolean(opts.strict));
+  });
+
+program.command("migrate")
+  .description("Plan and apply .abstraction-tree schema migrations")
+  .option("-p, --project <path>", "project root")
+  .option("--dry-run", "print the migration plan without writing files")
+  .option("--from <version>", "expected source schema version")
+  .option("--to <version>", "target schema version")
+  .action(async opts => {
+    const root = projectPath(opts.project);
+    const result = await runMigrateCommand({
+      projectRoot: root,
+      dryRun: Boolean(opts.dryRun),
+      fromVersion: opts.from,
+      toVersion: opts.to
+    });
+    process.stdout.write(formatMigrationResult(result));
+    process.exitCode = migrationExitCode(result);
   });
 
 program.command("context")
@@ -276,45 +299,6 @@ program.command("serve")
     if (warning) console.warn(warning);
     server.listen(port, host, () => console.log(`Abstraction Tree app: ${formatServeUrl(host, port)}`));
   });
-
-async function collectValidationIssues(root: string): Promise<ValidationIssue[]> {
-  const memory = await loadAtreeMemory(root);
-  if (memory.issues.some(issue => issue.severity === "error")) return memory.issues;
-
-  const { ontology, nodes, files, concepts, invariants, changes } = memory;
-  const existingConceptFilePaths = concepts
-    .flatMap(concept => concept.relatedFiles ?? [])
-    .filter(filePath => existsSync(path.resolve(root, filePath)));
-  const existingInvariantFilePaths = invariants
-    .flatMap(invariant => invariant.filePaths ?? [])
-    .filter(filePath => existsSync(path.resolve(root, filePath)));
-  const existingChangeFilePaths = changes
-    .flatMap(change => change.filesChanged)
-    .filter(filePath => existsSync(path.resolve(root, filePath)));
-  const currentScan = await scanProject(root);
-
-  return [
-    ...memory.issues,
-    ...(await validateAutomation(root)),
-    ...validateTree(nodes, files, ontology),
-    ...validateConcepts(concepts, nodes, files, existingConceptFilePaths),
-    ...validateInvariants(invariants, nodes, files, existingInvariantFilePaths),
-    ...validateChanges(changes, nodes, files, invariants, existingChangeFilePaths),
-    ...detectFileDrift(files, currentScan.files, nodes)
-  ];
-}
-
-function findVisualAppDist(): string | undefined {
-  const cliDir = path.dirname(fileURLToPath(import.meta.url));
-  const candidates = [
-    path.resolve(process.cwd(), "packages/app/dist"),
-    path.resolve(process.cwd(), "node_modules/@abstraction-tree/app/dist"),
-    path.resolve(cliDir, "../../app/dist"),
-    path.resolve(cliDir, "../../../app/dist"),
-    path.resolve(cliDir, "../../@abstraction-tree/app/dist")
-  ];
-  return candidates.find(existsSync);
-}
 
 function fallback(res: import("node:http").ServerResponse) {
   res.statusCode = 200;

@@ -17,6 +17,8 @@ The agent adapter should perform this protocol internally.
 5. Identify invariants and must-not-change boundaries.
 6. Explain the planned scope if the change is large.
 
+When setup is uncertain, run `atree doctor --project .` before editing. It is a read-only readiness check for initialization, memory files, runtime schema, validation summary, automation runtime boundaries, install mode, and the suggested next command.
+
 ## Context packs
 
 `atree context --target <query>` emits JSON by default and writes the canonical JSON pack under `.abstraction-tree/context-packs/`.
@@ -38,6 +40,8 @@ Use `--format markdown` when the next consumer is an agent prompt or report. Use
 4. Add concepts or invariants if new durable ideas were introduced.
 5. Write a semantic change record in `.abstraction-tree/changes/`.
 6. Run `atree validate`.
+
+Use `atree doctor` when you need the aggregate setup/readiness view. Use `atree validate` as the focused memory-alignment gate after files, tree nodes, concepts, invariants, or change records are updated.
 
 ## LLM-assisted proposals
 

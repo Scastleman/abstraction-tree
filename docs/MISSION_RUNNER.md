@@ -50,7 +50,7 @@ npm run missions:plan:manual -- --missions .abstraction-tree/missions/review-202
 
 Use `--to <folder>` to choose a different mission import root; the final destination is still `<folder>/<name>`. The importer refuses to write outside the repository or into local runtime artifact folders such as `.abstraction-tree/mission-runs/`, `.abstraction-tree/worktrees/`, `.abstraction-tree/assessment-packs/`, or full-loop run output. Existing destination folders are not replaced unless `--overwrite` is passed.
 
-The importer validates the folder before copying: every source file must be Markdown, `README.md` is allowed but is not counted as a mission, required mission frontmatter must be present, `category` must be one of the documented value categories, `affectedFiles`, `affectedNodes`, and `dependsOn` must be arrays, mission ids must be unique within the imported folder, and every copied path must stay under the destination folder.
+The importer validates the folder before copying: every source file must be Markdown, `README.md` is allowed but is not counted as a mission, required mission frontmatter and body headings must be present, `priority`, `risk`, and `category` must use the documented values, `affectedFiles`, `affectedNodes`, and `dependsOn` must be arrays, `parallelGroupSafe` must be boolean, mission ids must be unique within the imported folder, and every copied path must stay under the destination folder.
 
 Use the manual scripts for hand-authored mission folders:
 
@@ -90,6 +90,30 @@ parallelGroup: cli-security
 ## Goal
 
 Change `atree serve` so it binds to localhost by default.
+
+## Abstraction Tree Position
+
+CLI and safety.
+
+## Why This Matters
+
+The serve command should not expose local project data beyond the developer's machine by default.
+
+## Scope
+
+Update serve host defaults and matching tests.
+
+## Out of Scope
+
+No visual app redesign.
+
+## Required Checks
+
+- npm test
+
+## Success Criteria
+
+`atree serve` binds to localhost unless explicitly configured otherwise.
 ```
 
 Supported fields are string scalars, empty arrays, and block arrays. When fields are missing, the runner infers:
@@ -109,6 +133,8 @@ Full-loop generated missions must include a value `category` so the assessment c
 - `automation-maintenance`: maintains loop, runner, prompt, runtime, or process automation machinery without a clearer product, safety, quality, or developer-experience outcome.
 
 The full self-improvement loop allows at most one `automation-maintenance` mission by default. Pass `--allow-multiple-automation-maintenance` only for an attended run where multiple automation maintenance tasks are deliberately in scope.
+
+Strict import and full-loop generated mission validation use `scripts/mission-schema.mjs` as the canonical schema source. It defines required frontmatter fields, valid priority/risk/category values, required body headings, parsing helpers, and duplicate-id folder validation.
 
 ## Planning
 
@@ -231,6 +257,7 @@ The first refactor should keep `scripts/run-missions.mjs` and `scripts/run-full-
 Proposed mission runner layout:
 
 ```text
+scripts/mission-schema.mjs
 scripts/mission-runner/
   args.mjs
   discovery.mjs
@@ -244,7 +271,7 @@ scripts/mission-runner/
 
 Safe extraction order:
 
-1. Move frontmatter helpers first: `parseMissionMarkdown`, `parseSimpleFrontmatter`, `stringField`, `arrayField`, `booleanField`, `array`, `isString`, and `unquote` into `frontmatter.mjs`. Protection: `scripts/run-missions.test.mjs` frontmatter, heading inference, and affected-file inference tests.
+1. Keep mission schema and parsing helpers centralized in `scripts/mission-schema.mjs`; continue re-exporting `parseMissionMarkdown` and `parseSimpleFrontmatter` from `scripts/run-missions.mjs` while callers migrate. Protection: `scripts/mission-schema.test.mjs`, `scripts/run-missions.test.mjs` frontmatter, heading inference, and affected-file inference tests.
 2. Move mission runtime helpers next: `readMissionRuntime`, `emptyMissionRuntime`, `filterMissionsByRuntime`, `updateMissionRuntime`, and the runtime identity/key helpers into `runtime.mjs`. Protection: runtime skip, duplicate basename, mission-folder-relative runtime, runtime-only completion, and repo-relative runtime update tests.
 3. Move pure planning helpers: `createMissionPlan`, batching conflict checks, dependency ordering, global-file checks, invariant checks, and execution blocker calculation into `planning.mjs`. Protection: batch planning, high-risk isolation, global shared file, workspace-write blocker, and danger-full-access blocker tests.
 4. Move Codex JSONL parsing: `finalAgentMessage`, agent text extraction, content extraction, and fallback final message handling into `codex-jsonl.mjs`. Protection: injected Codex execution and batch summary tests.

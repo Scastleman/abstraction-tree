@@ -39,27 +39,35 @@
       "concept-node.change",
       "concept-node.tree",
       "concept-node.context",
+      "concept-node.mission",
       "concept-node.proposal",
       "concept-node.llm",
       "concept-node.abstraction",
-      "concept-node.change.record",
-      "concept-node.mission",
       "concept-node.memory",
+      "concept-node.atree",
+      "concept-node.change.record",
       "concept-node.import.graph",
+      "concept-node.workspace",
       "concept-node.ontology",
       "concept-node.diff",
       "concept-node.invariant",
-      "concept-node.loop",
-      "concept-node.atree",
+      "concept-node.migration",
       "concept-node.context.pack",
-      "concept-node.llm.proposal",
-      "concept-node.workspace",
+      "concept-node.loop",
       "concept-node.command",
-      "concept-node.evaluation",
-      "concept-node.assessment",
-      "concept-node.cli",
+      "concept-node.validation",
       "concept-node.version",
-      "concept-node.validation"
+      "concept-node.llm.proposal",
+      "concept-node.cli",
+      "concept-node.doctor",
+      "concept-node.evaluation",
+      "concept-node.error",
+      "concept-node.plan",
+      "concept-node.automation",
+      "concept-node.panel",
+      "concept-node.assessment",
+      "concept-node.agent",
+      "concept-node.health"
     ],
     "sourceFiles": [],
     "ownedFiles": [],
@@ -235,6 +243,7 @@
     "children": [
       "file.docs.agent.protocol.md",
       "file.docs.architecture.md",
+      "file.docs.ci.integration.md",
       "file.docs.data.model.md",
       "file.docs.formatting.md",
       "file.docs.full.self.improvement.loop.md",
@@ -245,6 +254,7 @@
     "sourceFiles": [
       "docs/AGENT_PROTOCOL.md",
       "docs/ARCHITECTURE.md",
+      "docs/CI_INTEGRATION.md",
       "docs/DATA_MODEL.md",
       "docs/FORMATTING.md",
       "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
@@ -255,6 +265,7 @@
     "ownedFiles": [
       "docs/AGENT_PROTOCOL.md",
       "docs/ARCHITECTURE.md",
+      "docs/CI_INTEGRATION.md",
       "docs/DATA_MODEL.md",
       "docs/FORMATTING.md",
       "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
@@ -275,6 +286,7 @@
       "allowedToChange": [
         "docs/AGENT_PROTOCOL.md",
         "docs/ARCHITECTURE.md",
+        "docs/CI_INTEGRATION.md",
         "docs/DATA_MODEL.md",
         "docs/FORMATTING.md",
         "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
@@ -296,6 +308,7 @@
     "parent": "project.code",
     "parentId": "project.code",
     "children": [
+      "file.examples.github.actions.abstraction.tree.validate.yml",
       "file.examples.inventory.api.package.json",
       "file.examples.inventory.api.src.api.inventory.ts",
       "file.examples.inventory.api.src.services.audit.ts",
@@ -311,6 +324,7 @@
       "file.examples.small.web.app.tests.checkout.test.js"
     ],
     "sourceFiles": [
+      "examples/github-actions/abstraction-tree-validate.yml",
       "examples/inventory-api/package.json",
       "examples/inventory-api/src/api/inventory.ts",
       "examples/inventory-api/src/services/audit.ts",
@@ -326,6 +340,7 @@
       "examples/small-web-app/tests/checkout.test.js"
     ],
     "ownedFiles": [
+      "examples/github-actions/abstraction-tree-validate.yml",
       "examples/inventory-api/package.json",
       "examples/inventory-api/src/api/inventory.ts",
       "examples/inventory-api/src/services/audit.ts",
@@ -351,6 +366,7 @@
     ],
     "changePolicy": {
       "allowedToChange": [
+        "examples/github-actions/abstraction-tree-validate.yml",
         "examples/inventory-api/package.json",
         "examples/inventory-api/src/api/inventory.ts",
         "examples/inventory-api/src/services/audit.ts",
@@ -401,7 +417,11 @@
       "file.packages.cli.src.agenthealth.ts",
       "file.packages.cli.src.apistate.test.ts",
       "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.doctor.ts",
       "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.migrate.test.ts",
+      "file.packages.cli.src.migrate.ts",
       "file.packages.cli.src.propose.test.ts",
       "file.packages.cli.src.propose.ts",
       "file.packages.cli.src.servehost.test.ts",
@@ -427,6 +447,8 @@
       "file.packages.core.src.llm.types.ts",
       "file.packages.core.src.llmabstractionbuilder.test.ts",
       "file.packages.core.src.llmproposalvalidation.test.ts",
+      "file.packages.core.src.migrations.test.ts",
+      "file.packages.core.src.migrations.ts",
       "file.packages.core.src.runreports.test.ts",
       "file.packages.core.src.runreports.ts",
       "file.packages.core.src.runtimeschema.test.ts",
@@ -468,7 +490,11 @@
       "packages/cli/src/agentHealth.ts",
       "packages/cli/src/apiState.test.ts",
       "packages/cli/src/apiState.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/doctor.ts",
       "packages/cli/src/index.ts",
+      "packages/cli/src/migrate.test.ts",
+      "packages/cli/src/migrate.ts",
       "packages/cli/src/propose.test.ts",
       "packages/cli/src/propose.ts",
       "packages/cli/src/serveHost.test.ts",
@@ -494,6 +520,8 @@
       "packages/core/src/llm/types.ts",
       "packages/core/src/llmAbstractionBuilder.test.ts",
       "packages/core/src/llmProposalValidation.test.ts",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
       "packages/core/src/runReports.test.ts",
       "packages/core/src/runReports.ts",
       "packages/core/src/runtimeSchema.test.ts",
@@ -535,7 +563,11 @@
       "packages/cli/src/agentHealth.ts",
       "packages/cli/src/apiState.test.ts",
       "packages/cli/src/apiState.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/doctor.ts",
       "packages/cli/src/index.ts",
+      "packages/cli/src/migrate.test.ts",
+      "packages/cli/src/migrate.ts",
       "packages/cli/src/propose.test.ts",
       "packages/cli/src/propose.ts",
       "packages/cli/src/serveHost.test.ts",
@@ -561,6 +593,8 @@
       "packages/core/src/llm/types.ts",
       "packages/core/src/llmAbstractionBuilder.test.ts",
       "packages/core/src/llmProposalValidation.test.ts",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
       "packages/core/src/runReports.test.ts",
       "packages/core/src/runReports.ts",
       "packages/core/src/runtimeSchema.test.ts",
@@ -612,7 +646,11 @@
         "packages/cli/src/agentHealth.ts",
         "packages/cli/src/apiState.test.ts",
         "packages/cli/src/apiState.ts",
+        "packages/cli/src/doctor.test.ts",
+        "packages/cli/src/doctor.ts",
         "packages/cli/src/index.ts",
+        "packages/cli/src/migrate.test.ts",
+        "packages/cli/src/migrate.ts",
         "packages/cli/src/propose.test.ts",
         "packages/cli/src/propose.ts",
         "packages/cli/src/serveHost.test.ts",
@@ -638,6 +676,8 @@
         "packages/core/src/llm/types.ts",
         "packages/core/src/llmAbstractionBuilder.test.ts",
         "packages/core/src/llmProposalValidation.test.ts",
+        "packages/core/src/migrations.test.ts",
+        "packages/core/src/migrations.ts",
         "packages/core/src/runReports.test.ts",
         "packages/core/src/runReports.ts",
         "packages/core/src/runtimeSchema.test.ts",
@@ -740,6 +780,8 @@
       "file.scripts.import.assessment.missions.test.mjs",
       "file.scripts.lint.mjs",
       "file.scripts.lint.test.mjs",
+      "file.scripts.mission.schema.mjs",
+      "file.scripts.mission.schema.test.mjs",
       "file.scripts.pack.smoke.test.mjs",
       "file.scripts.project.text.files.mjs",
       "file.scripts.project.text.files.test.mjs",
@@ -772,6 +814,8 @@
       "scripts/import-assessment-missions.test.mjs",
       "scripts/lint.mjs",
       "scripts/lint.test.mjs",
+      "scripts/mission-schema.mjs",
+      "scripts/mission-schema.test.mjs",
       "scripts/pack-smoke-test.mjs",
       "scripts/project-text-files.mjs",
       "scripts/project-text-files.test.mjs",
@@ -804,6 +848,8 @@
       "scripts/import-assessment-missions.test.mjs",
       "scripts/lint.mjs",
       "scripts/lint.test.mjs",
+      "scripts/mission-schema.mjs",
+      "scripts/mission-schema.test.mjs",
       "scripts/pack-smoke-test.mjs",
       "scripts/project-text-files.mjs",
       "scripts/project-text-files.test.mjs",
@@ -846,6 +892,8 @@
         "scripts/import-assessment-missions.test.mjs",
         "scripts/lint.mjs",
         "scripts/lint.test.mjs",
+        "scripts/mission-schema.mjs",
+        "scripts/mission-schema.test.mjs",
         "scripts/pack-smoke-test.mjs",
         "scripts/project-text-files.mjs",
         "scripts/project-text-files.test.mjs",
@@ -1170,12 +1218,45 @@
     "confidence": 0.65
   },
   {
+    "id": "file.docs.ci.integration.md",
+    "name": "CI_INTEGRATION.md",
+    "title": "CI_INTEGRATION.md",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "CI_INTEGRATION.md is a Markdown implementation file. Defines CI Integration, One-time setup, Minimal validation, Strict drift gate, PR context pack artifact.",
+    "parent": "module.docs",
+    "parentId": "module.docs",
+    "children": [],
+    "sourceFiles": [
+      "docs/CI_INTEGRATION.md"
+    ],
+    "ownedFiles": [
+      "docs/CI_INTEGRATION.md"
+    ],
+    "responsibilities": [
+      "CI_INTEGRATION.md is a Markdown implementation file. Defines CI Integration, One-time setup, Minimal validation, Strict drift gate, PR context pack artifact."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "docs/CI_INTEGRATION.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
     "id": "file.docs.data.model.md",
     "name": "DATA_MODEL.md",
     "title": "DATA_MODEL.md",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "DATA_MODEL.md is a Markdown implementation file. Defines Data Model, `config.json`, `ontology.json`, `files.json`, `tree.json`.",
+    "summary": "DATA_MODEL.md is a Markdown implementation file. Defines Data Model, `config.json`, Schema migrations, `ontology.json`, `files.json`.",
     "parent": "module.docs",
     "parentId": "module.docs",
     "children": [],
@@ -1186,7 +1267,7 @@
       "docs/DATA_MODEL.md"
     ],
     "responsibilities": [
-      "DATA_MODEL.md is a Markdown implementation file. Defines Data Model, `config.json`, `ontology.json`, `files.json`, `tree.json`."
+      "DATA_MODEL.md is a Markdown implementation file. Defines Data Model, `config.json`, Schema migrations, `ontology.json`, `files.json`."
     ],
     "dependencies": [],
     "dependsOn": [],
@@ -1362,6 +1443,39 @@
     "changePolicy": {
       "allowedToChange": [
         "docs/ROADMAP.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.examples.github.actions.abstraction.tree.validate.yml",
+    "name": "abstraction-tree-validate.yml",
+    "title": "abstraction-tree-validate.yml",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "abstraction-tree-validate.yml is a YAML implementation file. Defines x.",
+    "parent": "module.examples",
+    "parentId": "module.examples",
+    "children": [],
+    "sourceFiles": [
+      "examples/github-actions/abstraction-tree-validate.yml"
+    ],
+    "ownedFiles": [
+      "examples/github-actions/abstraction-tree-validate.yml"
+    ],
+    "responsibilities": [
+      "abstraction-tree-validate.yml is a YAML implementation file. Defines x."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "examples/github-actions/abstraction-tree-validate.yml"
       ],
       "mustNotChange": []
     },
@@ -2777,12 +2891,106 @@
     "confidence": 0.65
   },
   {
+    "id": "file.packages.cli.src.doctor.test.ts",
+    "name": "doctor.test.ts",
+    "title": "doctor.test.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "doctor.test.ts is a TypeScript test coverage file. AST-backed scan. Defines doctorOptions, root, report, checkedRoot, workspace. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/src/doctor.test.ts"
+    ],
+    "ownedFiles": [
+      "packages/cli/src/doctor.test.ts"
+    ],
+    "responsibilities": [
+      "doctor.test.ts is a TypeScript test coverage file. AST-backed scan. Defines doctorOptions, root, report, checkedRoot, workspace. Depends on node:assert/strict, node:fs/promises, node:os, node:path."
+    ],
+    "dependencies": [
+      "import:node:assert/strict",
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:test",
+      "import:@abstraction-tree/core",
+      "import:./doctor.js"
+    ],
+    "dependsOn": [
+      "import:node:assert/strict",
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:test",
+      "import:@abstraction-tree/core",
+      "import:./doctor.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/cli/src/doctor.test.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.cli.src.doctor.ts",
+    "name": "doctor.ts",
+    "title": "doctor.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "doctor.ts is a TypeScript implementation file. AST-backed scan. Defines DoctorStatus, DoctorIssueSummary, DoctorCheck, DoctorCounts, DoctorReport. Depends on node:fs, node:fs/promises, node:path, node:url.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/src/doctor.ts"
+    ],
+    "ownedFiles": [
+      "packages/cli/src/doctor.ts"
+    ],
+    "responsibilities": [
+      "doctor.ts is a TypeScript implementation file. AST-backed scan. Defines DoctorStatus, DoctorIssueSummary, DoctorCheck, DoctorCounts, DoctorReport. Depends on node:fs, node:fs/promises, node:path, node:url."
+    ],
+    "dependencies": [
+      "import:node:fs",
+      "import:node:fs/promises",
+      "import:node:path",
+      "import:node:url",
+      "import:@abstraction-tree/core"
+    ],
+    "dependsOn": [
+      "import:node:fs",
+      "import:node:fs/promises",
+      "import:node:path",
+      "import:node:url",
+      "import:@abstraction-tree/core"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/cli/src/doctor.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
     "id": "file.packages.cli.src.index.ts",
     "name": "index.ts",
     "title": "index.ts",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "index.ts is a TypeScript implementation file. AST-backed scan. Defines program, projectPath, ContextOutputFormat, contextOutputFormat, contextMaxTokens. Depends on commander, node:path, node:http, node:fs.",
+    "summary": "index.ts is a TypeScript implementation file. AST-backed scan. Defines program, projectPath, ContextOutputFormat, contextOutputFormat, contextMaxTokens. Depends on commander, node:path, node:http, sirv.",
     "parent": "module.packages",
     "parentId": "module.packages",
     "children": [],
@@ -2793,17 +3001,17 @@
       "packages/cli/src/index.ts"
     ],
     "responsibilities": [
-      "index.ts is a TypeScript implementation file. AST-backed scan. Defines program, projectPath, ContextOutputFormat, contextOutputFormat, contextMaxTokens. Depends on commander, node:path, node:http, node:fs."
+      "index.ts is a TypeScript implementation file. AST-backed scan. Defines program, projectPath, ContextOutputFormat, contextOutputFormat, contextMaxTokens. Depends on commander, node:path, node:http, sirv."
     ],
     "dependencies": [
       "import:commander",
       "import:node:path",
       "import:node:http",
-      "import:node:fs",
-      "import:node:url",
       "import:sirv",
       "import:@abstraction-tree/core",
       "import:./apiState.js",
+      "import:./doctor.js",
+      "import:./migrate.js",
       "import:./propose.js",
       "import:./serveHost.js"
     ],
@@ -2811,11 +3019,11 @@
       "import:commander",
       "import:node:path",
       "import:node:http",
-      "import:node:fs",
-      "import:node:url",
       "import:sirv",
       "import:@abstraction-tree/core",
       "import:./apiState.js",
+      "import:./doctor.js",
+      "import:./migrate.js",
       "import:./propose.js",
       "import:./serveHost.js"
     ],
@@ -2826,6 +3034,94 @@
     "changePolicy": {
       "allowedToChange": [
         "packages/cli/src/index.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.cli.src.migrate.test.ts",
+    "name": "migrate.test.ts",
+    "title": "migrate.test.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "migrate.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, before, result, output, after. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/src/migrate.test.ts"
+    ],
+    "ownedFiles": [
+      "packages/cli/src/migrate.test.ts"
+    ],
+    "responsibilities": [
+      "migrate.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, before, result, output, after. Depends on node:assert/strict, node:fs/promises, node:os, node:path."
+    ],
+    "dependencies": [
+      "import:node:assert/strict",
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:test",
+      "import:@abstraction-tree/core",
+      "import:./migrate.js"
+    ],
+    "dependsOn": [
+      "import:node:assert/strict",
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:test",
+      "import:@abstraction-tree/core",
+      "import:./migrate.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/cli/src/migrate.test.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.cli.src.migrate.ts",
+    "name": "migrate.ts",
+    "title": "migrate.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "migrate.ts is a TypeScript implementation file. AST-backed scan. Defines RunMigrateCommandOptions, runMigrateCommand, formatMigrationResult, lines, issueLines. Depends on node:path, @abstraction-tree/core.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/cli/src/migrate.ts"
+    ],
+    "ownedFiles": [
+      "packages/cli/src/migrate.ts"
+    ],
+    "responsibilities": [
+      "migrate.ts is a TypeScript implementation file. AST-backed scan. Defines RunMigrateCommandOptions, runMigrateCommand, formatMigrationResult, lines, issueLines. Depends on node:path, @abstraction-tree/core."
+    ],
+    "dependencies": [
+      "import:node:path",
+      "import:@abstraction-tree/core"
+    ],
+    "dependsOn": [
+      "import:node:path",
+      "import:@abstraction-tree/core"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/cli/src/migrate.ts"
       ],
       "mustNotChange": []
     },
@@ -3644,7 +3940,7 @@
     "title": "index.ts",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "index.ts is a TypeScript implementation file. AST-backed scan. Depends on ./schema.js, ./runtimeSchema.js, ./workspace.js, ./scanner.js.",
+    "summary": "index.ts is a TypeScript implementation file. AST-backed scan. Depends on ./schema.js, ./runtimeSchema.js, ./workspace.js, ./migrations.js.",
     "parent": "module.packages",
     "parentId": "module.packages",
     "children": [],
@@ -3655,12 +3951,13 @@
       "packages/core/src/index.ts"
     ],
     "responsibilities": [
-      "index.ts is a TypeScript implementation file. AST-backed scan. Depends on ./schema.js, ./runtimeSchema.js, ./workspace.js, ./scanner.js."
+      "index.ts is a TypeScript implementation file. AST-backed scan. Depends on ./schema.js, ./runtimeSchema.js, ./workspace.js, ./migrations.js."
     ],
     "dependencies": [
       "import:./schema.js",
       "import:./runtimeSchema.js",
       "import:./workspace.js",
+      "import:./migrations.js",
       "import:./scanner.js",
       "import:./importGraph.js",
       "import:./treeBuilder.js",
@@ -3680,6 +3977,7 @@
       "import:./schema.js",
       "import:./runtimeSchema.js",
       "import:./workspace.js",
+      "import:./migrations.js",
       "import:./scanner.js",
       "import:./importGraph.js",
       "import:./treeBuilder.js",
@@ -3905,6 +4203,106 @@
     "changePolicy": {
       "allowedToChange": [
         "packages/core/src/llmProposalValidation.test.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.core.src.migrations.test.ts",
+    "name": "migrations.test.ts",
+    "title": "migrations.test.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "migrations.test.ts is a TypeScript test coverage file. AST-backed scan. Defines config, plan, root, result, written. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/migrations.test.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/migrations.test.ts"
+    ],
+    "responsibilities": [
+      "migrations.test.ts is a TypeScript test coverage file. AST-backed scan. Defines config, plan, root, result, written. Depends on node:assert/strict, node:fs/promises, node:os, node:path."
+    ],
+    "dependencies": [
+      "import:node:assert/strict",
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:url",
+      "import:node:test",
+      "import:./runtimeSchema.js",
+      "import:./workspace.js",
+      "import:./migrations.js"
+    ],
+    "dependsOn": [
+      "import:node:assert/strict",
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:url",
+      "import:node:test",
+      "import:./runtimeSchema.js",
+      "import:./workspace.js",
+      "import:./migrations.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/core/src/migrations.test.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.packages.core.src.migrations.ts",
+    "name": "migrations.ts",
+    "title": "migrations.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "migrations.ts is a TypeScript implementation file. AST-backed scan. Defines CONFIG_RELATIVE_PATH, MIGRATION_HINT, MigrationStep, MigrationPlan, AtreeMigrationMemory. Depends on node:fs/promises, node:fs, node:path, ./schema.js.",
+    "parent": "module.packages",
+    "parentId": "module.packages",
+    "children": [],
+    "sourceFiles": [
+      "packages/core/src/migrations.ts"
+    ],
+    "ownedFiles": [
+      "packages/core/src/migrations.ts"
+    ],
+    "responsibilities": [
+      "migrations.ts is a TypeScript implementation file. AST-backed scan. Defines CONFIG_RELATIVE_PATH, MIGRATION_HINT, MigrationStep, MigrationPlan, AtreeMigrationMemory. Depends on node:fs/promises, node:fs, node:path, ./schema.js."
+    ],
+    "dependencies": [
+      "import:node:fs/promises",
+      "import:node:fs",
+      "import:node:path",
+      "import:./schema.js",
+      "import:./runtimeSchema.js",
+      "import:./workspace.js"
+    ],
+    "dependsOn": [
+      "import:node:fs/promises",
+      "import:node:fs",
+      "import:node:path",
+      "import:./schema.js",
+      "import:./runtimeSchema.js",
+      "import:./workspace.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "packages/core/src/migrations.ts"
       ],
       "mustNotChange": []
     },
@@ -4849,7 +5247,7 @@
     "title": "create-assessment-pack.mjs",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "create-assessment-pack.mjs is a JavaScript implementation file. AST-backed scan. Defines execFileAsync, assessmentPackRoot, requiredPackFiles, runCli, cwd. Depends on node:child_process, node:fs/promises, node:path, node:url.",
+    "summary": "create-assessment-pack.mjs is a JavaScript implementation file. AST-backed scan. Defines execFileAsync, assessmentPackRoot, defaultMaxBytesPerArtifact, defaultMaxTotalBytes, defaultRedactionPatternDefinitions. Depends on node:child_process, node:fs/promises, node:path, node:url.",
     "parent": "module.scripts",
     "parentId": "module.scripts",
     "children": [],
@@ -4860,7 +5258,7 @@
       "scripts/create-assessment-pack.mjs"
     ],
     "responsibilities": [
-      "create-assessment-pack.mjs is a JavaScript implementation file. AST-backed scan. Defines execFileAsync, assessmentPackRoot, requiredPackFiles, runCli, cwd. Depends on node:child_process, node:fs/promises, node:path, node:url."
+      "create-assessment-pack.mjs is a JavaScript implementation file. AST-backed scan. Defines execFileAsync, assessmentPackRoot, defaultMaxBytesPerArtifact, defaultMaxTotalBytes, defaultRedactionPatternDefinitions. Depends on node:child_process, node:fs/promises, node:path, node:url."
     ],
     "dependencies": [
       "import:node:child_process",
@@ -5125,7 +5523,7 @@
     "title": "import-assessment-missions.mjs",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "import-assessment-missions.mjs is a JavaScript implementation file. AST-backed scan. Defines defaultMissionImportRoot, validMissionCategories, validPriorities, validRisks, requiredStringFields. Depends on node:fs/promises, node:path, node:url, ./run-missions.mjs.",
+    "summary": "import-assessment-missions.mjs is a JavaScript implementation file. AST-backed scan. Defines defaultMissionImportRoot, blockedDestinationPrefixes, runCli, cwd, stdout. Depends on node:fs/promises, node:path, node:url, ./mission-schema.mjs.",
     "parent": "module.scripts",
     "parentId": "module.scripts",
     "children": [],
@@ -5136,19 +5534,19 @@
       "scripts/import-assessment-missions.mjs"
     ],
     "responsibilities": [
-      "import-assessment-missions.mjs is a JavaScript implementation file. AST-backed scan. Defines defaultMissionImportRoot, validMissionCategories, validPriorities, validRisks, requiredStringFields. Depends on node:fs/promises, node:path, node:url, ./run-missions.mjs."
+      "import-assessment-missions.mjs is a JavaScript implementation file. AST-backed scan. Defines defaultMissionImportRoot, blockedDestinationPrefixes, runCli, cwd, stdout. Depends on node:fs/promises, node:path, node:url, ./mission-schema.mjs."
     ],
     "dependencies": [
       "import:node:fs/promises",
       "import:node:path",
       "import:node:url",
-      "import:./run-missions.mjs"
+      "import:./mission-schema.mjs"
     ],
     "dependsOn": [
       "import:node:fs/promises",
       "import:node:path",
       "import:node:url",
-      "import:./run-missions.mjs"
+      "import:./mission-schema.mjs"
     ],
     "changeLog": [],
     "invariants": [
@@ -5290,6 +5688,92 @@
     "changePolicy": {
       "allowedToChange": [
         "scripts/lint.test.mjs"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.scripts.mission.schema.mjs",
+    "name": "mission-schema.mjs",
+    "title": "mission-schema.mjs",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "mission-schema.mjs is a JavaScript data/schema file. AST-backed scan. Defines missionCategoryDescriptions, validMissionCategories, validMissionPriorities, validMissionRisks, requiredMissionStringFields. Depends on node:fs/promises, node:path.",
+    "parent": "module.scripts",
+    "parentId": "module.scripts",
+    "children": [],
+    "sourceFiles": [
+      "scripts/mission-schema.mjs"
+    ],
+    "ownedFiles": [
+      "scripts/mission-schema.mjs"
+    ],
+    "responsibilities": [
+      "mission-schema.mjs is a JavaScript data/schema file. AST-backed scan. Defines missionCategoryDescriptions, validMissionCategories, validMissionPriorities, validMissionRisks, requiredMissionStringFields. Depends on node:fs/promises, node:path."
+    ],
+    "dependencies": [
+      "import:node:fs/promises",
+      "import:node:path"
+    ],
+    "dependsOn": [
+      "import:node:fs/promises",
+      "import:node:path"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "scripts/mission-schema.mjs"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "file.scripts.mission.schema.test.mjs",
+    "name": "mission-schema.test.mjs",
+    "title": "mission-schema.test.mjs",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "mission-schema.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines parsed, missing, root, tempWorkspace, writeFileAt. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "parent": "module.scripts",
+    "parentId": "module.scripts",
+    "children": [],
+    "sourceFiles": [
+      "scripts/mission-schema.test.mjs"
+    ],
+    "ownedFiles": [
+      "scripts/mission-schema.test.mjs"
+    ],
+    "responsibilities": [
+      "mission-schema.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines parsed, missing, root, tempWorkspace, writeFileAt. Depends on node:assert/strict, node:fs/promises, node:os, node:path."
+    ],
+    "dependencies": [
+      "import:node:assert/strict",
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:test",
+      "import:./mission-schema.mjs"
+    ],
+    "dependsOn": [
+      "import:node:assert/strict",
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:test",
+      "import:./mission-schema.mjs"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "scripts/mission-schema.test.mjs"
       ],
       "mustNotChange": []
     },
@@ -5598,7 +6082,8 @@
       "import:node:path",
       "import:node:url",
       "import:node:util",
-      "import:./create-assessment-pack.mjs"
+      "import:./create-assessment-pack.mjs",
+      "import:./mission-schema.mjs"
     ],
     "dependsOn": [
       "import:node:child_process",
@@ -5607,7 +6092,8 @@
       "import:node:path",
       "import:node:url",
       "import:node:util",
-      "import:./create-assessment-pack.mjs"
+      "import:./create-assessment-pack.mjs",
+      "import:./mission-schema.mjs"
     ],
     "changeLog": [],
     "invariants": [
@@ -5699,7 +6185,8 @@
       "import:node:fs/promises",
       "import:node:path",
       "import:node:url",
-      "import:node:util"
+      "import:node:util",
+      "import:./mission-schema.mjs"
     ],
     "dependsOn": [
       "import:node:child_process",
@@ -5707,7 +6194,8 @@
       "import:node:fs/promises",
       "import:node:path",
       "import:node:url",
-      "import:node:util"
+      "import:node:util",
+      "import:./mission-schema.mjs"
     ],
     "changeLog": [],
     "invariants": [
@@ -5987,7 +6475,9 @@
       "packages/cli/package.json",
       "packages/cli/src/agentHealth.ts",
       "packages/cli/src/apiState.ts",
+      "packages/cli/src/doctor.ts",
       "packages/cli/src/index.ts",
+      "packages/cli/src/migrate.ts",
       "packages/cli/src/propose.ts",
       "packages/cli/src/serveHost.ts",
       "packages/cli/tsconfig.json",
@@ -5998,7 +6488,9 @@
       "packages/cli/package.json",
       "packages/cli/src/agentHealth.ts",
       "packages/cli/src/apiState.ts",
+      "packages/cli/src/doctor.ts",
       "packages/cli/src/index.ts",
+      "packages/cli/src/migrate.ts",
       "packages/cli/src/propose.ts",
       "packages/cli/src/serveHost.ts",
       "packages/cli/tsconfig.json",
@@ -6017,7 +6509,9 @@
       "file.packages.cli.package.json",
       "file.packages.cli.src.agenthealth.ts",
       "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.doctor.ts",
       "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.migrate.ts",
       "file.packages.cli.src.propose.ts",
       "file.packages.cli.src.servehost.ts",
       "file.packages.cli.tsconfig.json",
@@ -6025,6 +6519,8 @@
       "file.packages.full.bin.atree.js",
       "file.packages.full.package.json",
       "import:./apiState.js",
+      "import:./doctor.js",
+      "import:./migrate.js",
       "import:./propose.js",
       "import:./serveHost.js",
       "import:@abstraction-tree/cli",
@@ -6057,7 +6553,9 @@
       "file.packages.cli.package.json",
       "file.packages.cli.src.agenthealth.ts",
       "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.doctor.ts",
       "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.migrate.ts",
       "file.packages.cli.src.propose.ts",
       "file.packages.cli.src.servehost.ts",
       "file.packages.cli.tsconfig.json",
@@ -6065,6 +6563,8 @@
       "file.packages.full.bin.atree.js",
       "file.packages.full.package.json",
       "import:./apiState.js",
+      "import:./doctor.js",
+      "import:./migrate.js",
       "import:./propose.js",
       "import:./serveHost.js",
       "import:@abstraction-tree/cli",
@@ -6098,7 +6598,9 @@
         "packages/cli/package.json",
         "packages/cli/src/agentHealth.ts",
         "packages/cli/src/apiState.ts",
+        "packages/cli/src/doctor.ts",
         "packages/cli/src/index.ts",
+        "packages/cli/src/migrate.ts",
         "packages/cli/src/propose.ts",
         "packages/cli/src/serveHost.ts",
         "packages/cli/tsconfig.json",
@@ -6132,6 +6634,7 @@
       "packages/core/src/llm/abstractionBuilder.ts",
       "packages/core/src/llm/proposals.ts",
       "packages/core/src/llm/types.ts",
+      "packages/core/src/migrations.ts",
       "packages/core/src/runReports.ts",
       "packages/core/src/runtimeSchema.ts",
       "packages/core/src/scanner.ts",
@@ -6153,6 +6656,7 @@
       "packages/core/src/llm/abstractionBuilder.ts",
       "packages/core/src/llm/proposals.ts",
       "packages/core/src/llm/types.ts",
+      "packages/core/src/migrations.ts",
       "packages/core/src/runReports.ts",
       "packages/core/src/runtimeSchema.ts",
       "packages/core/src/scanner.ts",
@@ -6179,6 +6683,7 @@
       "file.packages.core.src.llm.abstractionbuilder.ts",
       "file.packages.core.src.llm.proposals.ts",
       "file.packages.core.src.llm.types.ts",
+      "file.packages.core.src.migrations.ts",
       "file.packages.core.src.runreports.ts",
       "file.packages.core.src.runtimeschema.ts",
       "file.packages.core.src.scanner.ts",
@@ -6201,6 +6706,7 @@
       "import:./llm/abstractionBuilder.js",
       "import:./llm/proposals.js",
       "import:./llm/types.js",
+      "import:./migrations.js",
       "import:./runReports.js",
       "import:./runtimeSchema.js",
       "import:./scanner.js",
@@ -6242,6 +6748,7 @@
       "file.packages.core.src.llm.abstractionbuilder.ts",
       "file.packages.core.src.llm.proposals.ts",
       "file.packages.core.src.llm.types.ts",
+      "file.packages.core.src.migrations.ts",
       "file.packages.core.src.runreports.ts",
       "file.packages.core.src.runtimeschema.ts",
       "file.packages.core.src.scanner.ts",
@@ -6264,6 +6771,7 @@
       "import:./llm/abstractionBuilder.js",
       "import:./llm/proposals.js",
       "import:./llm/types.js",
+      "import:./migrations.js",
       "import:./runReports.js",
       "import:./runtimeSchema.js",
       "import:./scanner.js",
@@ -6309,6 +6817,7 @@
         "packages/core/src/llm/abstractionBuilder.ts",
         "packages/core/src/llm/proposals.ts",
         "packages/core/src/llm/types.ts",
+        "packages/core/src/migrations.ts",
         "packages/core/src/runReports.ts",
         "packages/core/src/runtimeSchema.ts",
         "packages/core/src/scanner.ts",
@@ -6445,19 +6954,21 @@
       "entrypoint:packages/cli/src/index.ts",
       "file.packages.app.package.json",
       "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.doctor.ts",
       "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.migrate.ts",
       "file.packages.cli.src.propose.ts",
       "file.packages.cli.src.servehost.ts",
       "file.packages.core.src.index.ts",
       "import:./apiState.js",
+      "import:./doctor.js",
+      "import:./migrate.js",
       "import:./propose.js",
       "import:./serveHost.js",
       "import:@abstraction-tree/core",
       "import:commander",
-      "import:node:fs",
       "import:node:http",
       "import:node:path",
-      "import:node:url",
       "import:sirv",
       "manifest:packages/app/package.json",
       "manifest:packages/cli/package.json",
@@ -6465,10 +6976,8 @@
       "package:@abstraction-tree/cli",
       "package:@abstraction-tree/core",
       "package:commander",
-      "package:node:fs",
       "package:node:http",
       "package:node:path",
-      "package:node:url",
       "package:sirv"
     ],
     "dependsOn": [
@@ -6479,19 +6988,21 @@
       "entrypoint:packages/cli/src/index.ts",
       "file.packages.app.package.json",
       "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.doctor.ts",
       "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.migrate.ts",
       "file.packages.cli.src.propose.ts",
       "file.packages.cli.src.servehost.ts",
       "file.packages.core.src.index.ts",
       "import:./apiState.js",
+      "import:./doctor.js",
+      "import:./migrate.js",
       "import:./propose.js",
       "import:./serveHost.js",
       "import:@abstraction-tree/core",
       "import:commander",
-      "import:node:fs",
       "import:node:http",
       "import:node:path",
-      "import:node:url",
       "import:sirv",
       "manifest:packages/app/package.json",
       "manifest:packages/cli/package.json",
@@ -6499,10 +7010,8 @@
       "package:@abstraction-tree/cli",
       "package:@abstraction-tree/core",
       "package:commander",
-      "package:node:fs",
       "package:node:http",
       "package:node:path",
-      "package:node:url",
       "package:sirv"
     ],
     "changeLog": [],
@@ -6901,7 +7410,9 @@
       "file.packages.app.src.styles.css",
       "file.packages.cli.package.json",
       "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.doctor.ts",
       "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.migrate.ts",
       "file.packages.cli.src.propose.ts",
       "file.packages.cli.src.servehost.ts",
       "file.packages.core.package.json",
@@ -6916,6 +7427,7 @@
       "file.packages.core.src.llm.abstractionbuilder.ts",
       "file.packages.core.src.llm.proposals.ts",
       "file.packages.core.src.llm.types.ts",
+      "file.packages.core.src.migrations.ts",
       "file.packages.core.src.runreports.ts",
       "file.packages.core.src.runtimeschema.ts",
       "file.packages.core.src.scanner.ts",
@@ -6932,11 +7444,14 @@
       "import:./context.js",
       "import:./contextLimits.js",
       "import:./diffSummary.js",
+      "import:./doctor.js",
       "import:./evaluator.js",
       "import:./importGraph.js",
       "import:./llm/abstractionBuilder.js",
       "import:./llm/proposals.js",
       "import:./llm/types.js",
+      "import:./migrate.js",
+      "import:./migrations.js",
       "import:./propose.js",
       "import:./runReports.js",
       "import:./runtimeSchema.js",
@@ -6950,10 +7465,8 @@
       "import:@abstraction-tree/cli",
       "import:@abstraction-tree/core",
       "import:commander",
-      "import:node:fs",
       "import:node:http",
       "import:node:path",
-      "import:node:url",
       "import:react-dom/client",
       "import:sirv",
       "manifest:packages/app/package.json",
@@ -6971,10 +7484,8 @@
       "package:commander",
       "package:ignore",
       "package:lucide-react",
-      "package:node:fs",
       "package:node:http",
       "package:node:path",
-      "package:node:url",
       "package:react",
       "package:react-dom",
       "package:sirv",
@@ -7005,7 +7516,9 @@
       "file.packages.app.src.styles.css",
       "file.packages.cli.package.json",
       "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.doctor.ts",
       "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.migrate.ts",
       "file.packages.cli.src.propose.ts",
       "file.packages.cli.src.servehost.ts",
       "file.packages.core.package.json",
@@ -7020,6 +7533,7 @@
       "file.packages.core.src.llm.abstractionbuilder.ts",
       "file.packages.core.src.llm.proposals.ts",
       "file.packages.core.src.llm.types.ts",
+      "file.packages.core.src.migrations.ts",
       "file.packages.core.src.runreports.ts",
       "file.packages.core.src.runtimeschema.ts",
       "file.packages.core.src.scanner.ts",
@@ -7036,11 +7550,14 @@
       "import:./context.js",
       "import:./contextLimits.js",
       "import:./diffSummary.js",
+      "import:./doctor.js",
       "import:./evaluator.js",
       "import:./importGraph.js",
       "import:./llm/abstractionBuilder.js",
       "import:./llm/proposals.js",
       "import:./llm/types.js",
+      "import:./migrate.js",
+      "import:./migrations.js",
       "import:./propose.js",
       "import:./runReports.js",
       "import:./runtimeSchema.js",
@@ -7054,10 +7571,8 @@
       "import:@abstraction-tree/cli",
       "import:@abstraction-tree/core",
       "import:commander",
-      "import:node:fs",
       "import:node:http",
       "import:node:path",
-      "import:node:url",
       "import:react-dom/client",
       "import:sirv",
       "manifest:packages/app/package.json",
@@ -7075,10 +7590,8 @@
       "package:commander",
       "package:ignore",
       "package:lucide-react",
-      "package:node:fs",
       "package:node:http",
       "package:node:path",
-      "package:node:url",
       "package:react",
       "package:react-dom",
       "package:sirv",
@@ -7286,7 +7799,7 @@
     "title": "Tree",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 23 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 25 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
@@ -7294,8 +7807,10 @@
       "README.md",
       "adapters/codex/AGENTS.md",
       "adapters/local-json/index.mjs",
+      "docs/CI_INTEGRATION.md",
       "docs/DATA_MODEL.md",
       "docs/MISSION_RUNNER.md",
+      "examples/github-actions/abstraction-tree-validate.yml",
       "packages/app/src/components/TreeList.tsx",
       "packages/app/src/styles.css",
       "packages/cli/src/propose.test.ts",
@@ -7319,8 +7834,10 @@
       "README.md",
       "adapters/codex/AGENTS.md",
       "adapters/local-json/index.mjs",
+      "docs/CI_INTEGRATION.md",
       "docs/DATA_MODEL.md",
       "docs/MISSION_RUNNER.md",
+      "examples/github-actions/abstraction-tree-validate.yml",
       "packages/app/src/components/TreeList.tsx",
       "packages/app/src/styles.css",
       "packages/cli/src/propose.test.ts",
@@ -7346,13 +7863,16 @@
     "dependencies": [
       "module.adapters",
       "module.docs",
+      "module.examples",
       "module.packages",
       "module.root",
       "module.scripts",
       "file.adapters.codex.agents.md",
       "file.adapters.local.json.index.mjs",
+      "file.docs.ci.integration.md",
       "file.docs.data.model.md",
       "file.docs.mission.runner.md",
+      "file.examples.github.actions.abstraction.tree.validate.yml",
       "file.packages.app.src.components.treelist.tsx",
       "file.packages.app.src.styles.css",
       "file.packages.cli.src.propose.test.ts",
@@ -7379,13 +7899,16 @@
     "dependsOn": [
       "module.adapters",
       "module.docs",
+      "module.examples",
       "module.packages",
       "module.root",
       "module.scripts",
       "file.adapters.codex.agents.md",
       "file.adapters.local.json.index.mjs",
+      "file.docs.ci.integration.md",
       "file.docs.data.model.md",
       "file.docs.mission.runner.md",
+      "file.examples.github.actions.abstraction.tree.validate.yml",
       "file.packages.app.src.components.treelist.tsx",
       "file.packages.app.src.styles.css",
       "file.packages.cli.src.propose.test.ts",
@@ -7425,13 +7948,14 @@
     "title": "Context",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 19 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 20 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
     "sourceFiles": [
       "README.md",
       "docs/AGENT_PROTOCOL.md",
+      "docs/CI_INTEGRATION.md",
       "docs/DATA_MODEL.md",
       "packages/cli/src/index.ts",
       "packages/core/src/context.test.ts",
@@ -7453,6 +7977,7 @@
     "ownedFiles": [
       "README.md",
       "docs/AGENT_PROTOCOL.md",
+      "docs/CI_INTEGRATION.md",
       "docs/DATA_MODEL.md",
       "packages/cli/src/index.ts",
       "packages/core/src/context.test.ts",
@@ -7480,6 +8005,7 @@
       "module.root",
       "module.scripts",
       "file.docs.agent.protocol.md",
+      "file.docs.ci.integration.md",
       "file.docs.data.model.md",
       "file.packages.cli.src.index.ts",
       "file.packages.core.src.context.test.ts",
@@ -7510,6 +8036,7 @@
       "module.root",
       "module.scripts",
       "file.docs.agent.protocol.md",
+      "file.docs.ci.integration.md",
       "file.docs.data.model.md",
       "file.packages.cli.src.index.ts",
       "file.packages.core.src.context.test.ts",
@@ -7533,6 +8060,103 @@
       "architecture.scanner.tree.context.pipeline",
       "architecture.visual.app.api",
       "architecture.package.distribution"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.mission",
+    "name": "Mission",
+    "title": "Mission",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 14 file(s) using doc, export, path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "docs/MISSION_RUNNER.md",
+      "packages/cli/src/apiState.ts",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/automationValidation.ts",
+      "scripts/create-assessment-pack.mjs",
+      "scripts/import-assessment-missions.mjs",
+      "scripts/import-assessment-missions.test.mjs",
+      "scripts/mission-schema.mjs",
+      "scripts/mission-schema.test.mjs",
+      "scripts/run-codex-missions.ps1",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
+      "scripts/run-missions.mjs",
+      "scripts/run-missions.test.mjs"
+    ],
+    "ownedFiles": [
+      "docs/MISSION_RUNNER.md",
+      "packages/cli/src/apiState.ts",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/automationValidation.ts",
+      "scripts/create-assessment-pack.mjs",
+      "scripts/import-assessment-missions.mjs",
+      "scripts/import-assessment-missions.test.mjs",
+      "scripts/mission-schema.mjs",
+      "scripts/mission-schema.test.mjs",
+      "scripts/run-codex-missions.ps1",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
+      "scripts/run-missions.mjs",
+      "scripts/run-missions.test.mjs"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Mission concept across related files."
+    ],
+    "dependencies": [
+      "module.docs",
+      "module.packages",
+      "module.scripts",
+      "file.docs.mission.runner.md",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.automationvalidation.ts",
+      "file.scripts.create.assessment.pack.mjs",
+      "file.scripts.import.assessment.missions.mjs",
+      "file.scripts.import.assessment.missions.test.mjs",
+      "file.scripts.mission.schema.mjs",
+      "file.scripts.mission.schema.test.mjs",
+      "file.scripts.run.codex.missions.ps1",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "file.scripts.run.missions.mjs",
+      "file.scripts.run.missions.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine"
+    ],
+    "dependsOn": [
+      "module.docs",
+      "module.packages",
+      "module.scripts",
+      "file.docs.mission.runner.md",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.automationvalidation.ts",
+      "file.scripts.create.assessment.pack.mjs",
+      "file.scripts.import.assessment.missions.mjs",
+      "file.scripts.import.assessment.missions.test.mjs",
+      "file.scripts.mission.schema.mjs",
+      "file.scripts.mission.schema.test.mjs",
+      "file.scripts.run.codex.missions.ps1",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "file.scripts.run.missions.mjs",
+      "file.scripts.run.missions.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine"
     ],
     "changeLog": [],
     "invariants": [
@@ -7704,7 +8328,7 @@
     "title": "Abstraction",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 15 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 17 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
@@ -7713,7 +8337,9 @@
       "adapters/codex/AGENTS.md",
       "adapters/local-json/index.mjs",
       "docs/ARCHITECTURE.md",
+      "docs/CI_INTEGRATION.md",
       "docs/MISSION_RUNNER.md",
+      "examples/github-actions/abstraction-tree-validate.yml",
       "packages/app/src/hooks/useAbstractionState.ts",
       "packages/cli/src/propose.ts",
       "packages/core/src/llm/abstractionBuilder.ts",
@@ -7730,7 +8356,9 @@
       "adapters/codex/AGENTS.md",
       "adapters/local-json/index.mjs",
       "docs/ARCHITECTURE.md",
+      "docs/CI_INTEGRATION.md",
       "docs/MISSION_RUNNER.md",
+      "examples/github-actions/abstraction-tree-validate.yml",
       "packages/app/src/hooks/useAbstractionState.ts",
       "packages/cli/src/propose.ts",
       "packages/core/src/llm/abstractionBuilder.ts",
@@ -7748,13 +8376,16 @@
     "dependencies": [
       "module.adapters",
       "module.docs",
+      "module.examples",
       "module.packages",
       "module.root",
       "module.scripts",
       "file.adapters.codex.agents.md",
       "file.adapters.local.json.index.mjs",
       "file.docs.architecture.md",
+      "file.docs.ci.integration.md",
       "file.docs.mission.runner.md",
+      "file.examples.github.actions.abstraction.tree.validate.yml",
       "file.packages.app.src.hooks.useabstractionstate.ts",
       "file.packages.cli.src.propose.ts",
       "file.packages.core.src.llm.abstractionbuilder.ts",
@@ -7773,13 +8404,16 @@
     "dependsOn": [
       "module.adapters",
       "module.docs",
+      "module.examples",
       "module.packages",
       "module.root",
       "module.scripts",
       "file.adapters.codex.agents.md",
       "file.adapters.local.json.index.mjs",
       "file.docs.architecture.md",
+      "file.docs.ci.integration.md",
       "file.docs.mission.runner.md",
+      "file.examples.github.actions.abstraction.tree.validate.yml",
       "file.packages.app.src.hooks.useabstractionstate.ts",
       "file.packages.cli.src.propose.ts",
       "file.packages.core.src.llm.abstractionbuilder.ts",
@@ -7794,6 +8428,200 @@
       "architecture.cli.surface",
       "architecture.core.engine",
       "architecture.visual.app.ui"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.memory",
+    "name": "Memory",
+    "title": "Memory",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 21 file(s) using export, path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "CONTRIBUTING.md",
+      "README.md",
+      "adapters/codex/AGENTS.md",
+      "docs/ARCHITECTURE.md",
+      "docs/MISSION_RUNNER.md",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/doctor.ts",
+      "packages/cli/src/propose.test.ts",
+      "packages/cli/src/propose.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/create-assessment-pack.test.mjs",
+      "scripts/generated-memory-fixtures.test.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
+      "scripts/run-missions.mjs",
+      "scripts/run-missions.test.mjs",
+      "scripts/small-web-app-fixture.test.mjs"
+    ],
+    "ownedFiles": [
+      "CONTRIBUTING.md",
+      "README.md",
+      "adapters/codex/AGENTS.md",
+      "docs/ARCHITECTURE.md",
+      "docs/MISSION_RUNNER.md",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/doctor.ts",
+      "packages/cli/src/propose.test.ts",
+      "packages/cli/src/propose.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/create-assessment-pack.test.mjs",
+      "scripts/generated-memory-fixtures.test.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
+      "scripts/run-missions.mjs",
+      "scripts/run-missions.test.mjs",
+      "scripts/small-web-app-fixture.test.mjs"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Memory concept across related files."
+    ],
+    "dependencies": [
+      "module.adapters",
+      "module.docs",
+      "module.packages",
+      "module.root",
+      "module.scripts",
+      "file.adapters.codex.agents.md",
+      "file.contributing.md",
+      "file.docs.architecture.md",
+      "file.docs.mission.runner.md",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.doctor.ts",
+      "file.packages.cli.src.propose.test.ts",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.migrations.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.readme.md",
+      "file.scripts.create.assessment.pack.test.mjs",
+      "file.scripts.generated.memory.fixtures.test.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "file.scripts.run.missions.mjs",
+      "file.scripts.run.missions.test.mjs",
+      "file.scripts.small.web.app.fixture.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine"
+    ],
+    "dependsOn": [
+      "module.adapters",
+      "module.docs",
+      "module.packages",
+      "module.root",
+      "module.scripts",
+      "file.adapters.codex.agents.md",
+      "file.contributing.md",
+      "file.docs.architecture.md",
+      "file.docs.mission.runner.md",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.doctor.ts",
+      "file.packages.cli.src.propose.test.ts",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.migrations.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.readme.md",
+      "file.scripts.create.assessment.pack.test.mjs",
+      "file.scripts.generated.memory.fixtures.test.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "file.scripts.run.missions.mjs",
+      "file.scripts.run.missions.test.mjs",
+      "file.scripts.small.web.app.fixture.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.atree",
+    "name": "Atree",
+    "title": "Atree",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 6 file(s) using export, path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "README.md",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts",
+      "packages/full/bin/atree.js"
+    ],
+    "ownedFiles": [
+      "README.md",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts",
+      "packages/full/bin/atree.js"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Atree concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "module.root",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.packages.full.bin.atree.js",
+      "file.readme.md",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.package.distribution"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "module.root",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.packages.full.bin.atree.js",
+      "file.readme.md",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.package.distribution"
     ],
     "changeLog": [],
     "invariants": [
@@ -7869,222 +8697,12 @@
     "confidence": 0.65
   },
   {
-    "id": "concept-node.mission",
-    "name": "Mission",
-    "title": "Mission",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 12 file(s) using doc, export, path, symbol signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "docs/MISSION_RUNNER.md",
-      "packages/cli/src/apiState.ts",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/automationValidation.ts",
-      "scripts/create-assessment-pack.mjs",
-      "scripts/import-assessment-missions.mjs",
-      "scripts/import-assessment-missions.test.mjs",
-      "scripts/run-codex-missions.ps1",
-      "scripts/run-full-self-improvement-loop.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs",
-      "scripts/run-missions.mjs",
-      "scripts/run-missions.test.mjs"
-    ],
-    "ownedFiles": [
-      "docs/MISSION_RUNNER.md",
-      "packages/cli/src/apiState.ts",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/automationValidation.ts",
-      "scripts/create-assessment-pack.mjs",
-      "scripts/import-assessment-missions.mjs",
-      "scripts/import-assessment-missions.test.mjs",
-      "scripts/run-codex-missions.ps1",
-      "scripts/run-full-self-improvement-loop.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs",
-      "scripts/run-missions.mjs",
-      "scripts/run-missions.test.mjs"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Mission concept across related files."
-    ],
-    "dependencies": [
-      "module.docs",
-      "module.packages",
-      "module.scripts",
-      "file.docs.mission.runner.md",
-      "file.packages.cli.src.apistate.ts",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.scripts.create.assessment.pack.mjs",
-      "file.scripts.import.assessment.missions.mjs",
-      "file.scripts.import.assessment.missions.test.mjs",
-      "file.scripts.run.codex.missions.ps1",
-      "file.scripts.run.full.self.improvement.loop.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "file.scripts.run.missions.mjs",
-      "file.scripts.run.missions.test.mjs",
-      "architecture.cli.surface",
-      "architecture.core.engine"
-    ],
-    "dependsOn": [
-      "module.docs",
-      "module.packages",
-      "module.scripts",
-      "file.docs.mission.runner.md",
-      "file.packages.cli.src.apistate.ts",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.scripts.create.assessment.pack.mjs",
-      "file.scripts.import.assessment.missions.mjs",
-      "file.scripts.import.assessment.missions.test.mjs",
-      "file.scripts.run.codex.missions.ps1",
-      "file.scripts.run.full.self.improvement.loop.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "file.scripts.run.missions.mjs",
-      "file.scripts.run.missions.test.mjs",
-      "architecture.cli.surface",
-      "architecture.core.engine"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.memory",
-    "name": "Memory",
-    "title": "Memory",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 18 file(s) using export, path, symbol signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "CONTRIBUTING.md",
-      "README.md",
-      "adapters/codex/AGENTS.md",
-      "docs/ARCHITECTURE.md",
-      "docs/MISSION_RUNNER.md",
-      "packages/cli/src/apiState.test.ts",
-      "packages/cli/src/index.ts",
-      "packages/cli/src/propose.test.ts",
-      "packages/cli/src/propose.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/workspace.ts",
-      "scripts/create-assessment-pack.test.mjs",
-      "scripts/generated-memory-fixtures.test.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs",
-      "scripts/run-missions.mjs",
-      "scripts/run-missions.test.mjs",
-      "scripts/small-web-app-fixture.test.mjs"
-    ],
-    "ownedFiles": [
-      "CONTRIBUTING.md",
-      "README.md",
-      "adapters/codex/AGENTS.md",
-      "docs/ARCHITECTURE.md",
-      "docs/MISSION_RUNNER.md",
-      "packages/cli/src/apiState.test.ts",
-      "packages/cli/src/index.ts",
-      "packages/cli/src/propose.test.ts",
-      "packages/cli/src/propose.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/workspace.ts",
-      "scripts/create-assessment-pack.test.mjs",
-      "scripts/generated-memory-fixtures.test.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs",
-      "scripts/run-missions.mjs",
-      "scripts/run-missions.test.mjs",
-      "scripts/small-web-app-fixture.test.mjs"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Memory concept across related files."
-    ],
-    "dependencies": [
-      "module.adapters",
-      "module.docs",
-      "module.packages",
-      "module.root",
-      "module.scripts",
-      "file.adapters.codex.agents.md",
-      "file.contributing.md",
-      "file.docs.architecture.md",
-      "file.docs.mission.runner.md",
-      "file.packages.cli.src.apistate.test.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.cli.src.propose.test.ts",
-      "file.packages.cli.src.propose.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.readme.md",
-      "file.scripts.create.assessment.pack.test.mjs",
-      "file.scripts.generated.memory.fixtures.test.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "file.scripts.run.missions.mjs",
-      "file.scripts.run.missions.test.mjs",
-      "file.scripts.small.web.app.fixture.test.mjs",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "architecture.visual.app.api",
-      "architecture.package.distribution"
-    ],
-    "dependsOn": [
-      "module.adapters",
-      "module.docs",
-      "module.packages",
-      "module.root",
-      "module.scripts",
-      "file.adapters.codex.agents.md",
-      "file.contributing.md",
-      "file.docs.architecture.md",
-      "file.docs.mission.runner.md",
-      "file.packages.cli.src.apistate.test.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.cli.src.propose.test.ts",
-      "file.packages.cli.src.propose.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.readme.md",
-      "file.scripts.create.assessment.pack.test.mjs",
-      "file.scripts.generated.memory.fixtures.test.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "file.scripts.run.missions.mjs",
-      "file.scripts.run.missions.test.mjs",
-      "file.scripts.small.web.app.fixture.test.mjs",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "architecture.visual.app.api",
-      "architecture.package.distribution"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
     "id": "concept-node.import.graph",
     "name": "Import Graph",
     "title": "Import Graph",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 15 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 17 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
@@ -8092,6 +8710,8 @@
       "docs/DATA_MODEL.md",
       "packages/cli/src/apiState.test.ts",
       "packages/cli/src/apiState.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/doctor.ts",
       "packages/cli/src/index.ts",
       "packages/cli/src/propose.test.ts",
       "packages/core/src/evaluator.test.ts",
@@ -8109,6 +8729,8 @@
       "docs/DATA_MODEL.md",
       "packages/cli/src/apiState.test.ts",
       "packages/cli/src/apiState.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/doctor.ts",
       "packages/cli/src/index.ts",
       "packages/cli/src/propose.test.ts",
       "packages/core/src/evaluator.test.ts",
@@ -8132,6 +8754,8 @@
       "file.docs.data.model.md",
       "file.packages.cli.src.apistate.test.ts",
       "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.doctor.ts",
       "file.packages.cli.src.index.ts",
       "file.packages.cli.src.propose.test.ts",
       "file.packages.core.src.evaluator.test.ts",
@@ -8157,6 +8781,8 @@
       "file.docs.data.model.md",
       "file.packages.cli.src.apistate.test.ts",
       "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.doctor.ts",
       "file.packages.cli.src.index.ts",
       "file.packages.cli.src.propose.test.ts",
       "file.packages.core.src.evaluator.test.ts",
@@ -8174,6 +8800,135 @@
       "architecture.scanner.tree.context.pipeline",
       "architecture.visual.app.api",
       "architecture.package.distribution"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.workspace",
+    "name": "Workspace",
+    "title": "Workspace",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 22 file(s) using export, path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "examples/small-web-app/tests/checkout.test.js",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/migrate.test.ts",
+      "packages/cli/src/propose.test.ts",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/changeReview.test.ts",
+      "packages/core/src/evaluator.test.ts",
+      "packages/core/src/importGraph.test.ts",
+      "packages/core/src/importGraph.ts",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/scanner.test.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.test.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/create-assessment-pack.test.mjs",
+      "scripts/import-assessment-missions.test.mjs",
+      "scripts/mission-schema.test.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
+      "scripts/run-missions.test.mjs"
+    ],
+    "ownedFiles": [
+      "examples/small-web-app/tests/checkout.test.js",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/migrate.test.ts",
+      "packages/cli/src/propose.test.ts",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/changeReview.test.ts",
+      "packages/core/src/evaluator.test.ts",
+      "packages/core/src/importGraph.test.ts",
+      "packages/core/src/importGraph.ts",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/scanner.test.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.test.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/create-assessment-pack.test.mjs",
+      "scripts/import-assessment-missions.test.mjs",
+      "scripts/mission-schema.test.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
+      "scripts/run-missions.test.mjs"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Workspace concept across related files."
+    ],
+    "dependencies": [
+      "module.examples",
+      "module.packages",
+      "module.scripts",
+      "file.examples.small.web.app.tests.checkout.test.js",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.migrate.test.ts",
+      "file.packages.cli.src.propose.test.ts",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.changereview.test.ts",
+      "file.packages.core.src.evaluator.test.ts",
+      "file.packages.core.src.importgraph.test.ts",
+      "file.packages.core.src.importgraph.ts",
+      "file.packages.core.src.migrations.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.scanner.test.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.test.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.scripts.create.assessment.pack.test.mjs",
+      "file.scripts.import.assessment.missions.test.mjs",
+      "file.scripts.mission.schema.test.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "file.scripts.run.missions.test.mjs",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline"
+    ],
+    "dependsOn": [
+      "module.examples",
+      "module.packages",
+      "module.scripts",
+      "file.examples.small.web.app.tests.checkout.test.js",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.migrate.test.ts",
+      "file.packages.cli.src.propose.test.ts",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.changereview.test.ts",
+      "file.packages.core.src.evaluator.test.ts",
+      "file.packages.core.src.importgraph.test.ts",
+      "file.packages.core.src.importgraph.ts",
+      "file.packages.core.src.migrations.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.scanner.test.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.test.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.scripts.create.assessment.pack.test.mjs",
+      "file.scripts.import.assessment.missions.test.mjs",
+      "file.scripts.mission.schema.test.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "file.scripts.run.missions.test.mjs",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline"
     ],
     "changeLog": [],
     "invariants": [
@@ -8465,6 +9220,158 @@
     "confidence": 0.65
   },
   {
+    "id": "concept-node.migration",
+    "name": "Migration",
+    "title": "Migration",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 5 file(s) using export, path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "docs/DATA_MODEL.md",
+      "packages/cli/src/migrate.ts",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.ts"
+    ],
+    "ownedFiles": [
+      "docs/DATA_MODEL.md",
+      "packages/cli/src/migrate.ts",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Migration concept across related files."
+    ],
+    "dependencies": [
+      "module.docs",
+      "module.packages",
+      "file.docs.data.model.md",
+      "file.packages.cli.src.migrate.ts",
+      "file.packages.core.src.migrations.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "architecture.cli.surface",
+      "architecture.core.engine"
+    ],
+    "dependsOn": [
+      "module.docs",
+      "module.packages",
+      "file.docs.data.model.md",
+      "file.packages.cli.src.migrate.ts",
+      "file.packages.core.src.migrations.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "architecture.cli.surface",
+      "architecture.core.engine"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.context.pack",
+    "name": "Context Pack",
+    "title": "Context Pack",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 13 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "docs/AGENT_PROTOCOL.md",
+      "docs/CI_INTEGRATION.md",
+      "docs/DATA_MODEL.md",
+      "packages/core/src/context.ts",
+      "packages/core/src/contextLimits.ts",
+      "packages/core/src/evaluator.test.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/validator.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/generated-memory-fixtures.test.mjs"
+    ],
+    "ownedFiles": [
+      "docs/AGENT_PROTOCOL.md",
+      "docs/CI_INTEGRATION.md",
+      "docs/DATA_MODEL.md",
+      "packages/core/src/context.ts",
+      "packages/core/src/contextLimits.ts",
+      "packages/core/src/evaluator.test.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/validator.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/generated-memory-fixtures.test.mjs"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Context Pack concept across related files."
+    ],
+    "dependencies": [
+      "module.docs",
+      "module.packages",
+      "module.scripts",
+      "file.docs.agent.protocol.md",
+      "file.docs.ci.integration.md",
+      "file.docs.data.model.md",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.contextlimits.ts",
+      "file.packages.core.src.evaluator.test.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.validator.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.scripts.generated.memory.fixtures.test.mjs",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline"
+    ],
+    "dependsOn": [
+      "module.docs",
+      "module.packages",
+      "module.scripts",
+      "file.docs.agent.protocol.md",
+      "file.docs.ci.integration.md",
+      "file.docs.data.model.md",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.contextlimits.ts",
+      "file.packages.core.src.evaluator.test.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.validator.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.scripts.generated.memory.fixtures.test.mjs",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
     "id": "concept-node.loop",
     "name": "Loop",
     "title": "Loop",
@@ -8560,54 +9467,84 @@
     "confidence": 0.65
   },
   {
-    "id": "concept-node.atree",
-    "name": "Atree",
-    "title": "Atree",
+    "id": "concept-node.command",
+    "name": "Command",
+    "title": "Command",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 5 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 12 file(s) using export, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
     "sourceFiles": [
       "README.md",
-      "packages/core/src/runtimeSchema.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/workspace.ts",
-      "packages/full/bin/atree.js"
+      "packages/cli/src/index.ts",
+      "packages/cli/src/migrate.ts",
+      "packages/cli/src/propose.ts",
+      "scripts/create-assessment-pack.mjs",
+      "scripts/create-assessment-pack.test.mjs",
+      "scripts/pack-smoke-test.mjs",
+      "scripts/release-dry-run.mjs",
+      "scripts/run-abstraction-loop.ps1",
+      "scripts/run-codex-missions.ps1",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs"
     ],
     "ownedFiles": [
       "README.md",
-      "packages/core/src/runtimeSchema.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/workspace.ts",
-      "packages/full/bin/atree.js"
+      "packages/cli/src/index.ts",
+      "packages/cli/src/migrate.ts",
+      "packages/cli/src/propose.ts",
+      "scripts/create-assessment-pack.mjs",
+      "scripts/create-assessment-pack.test.mjs",
+      "scripts/pack-smoke-test.mjs",
+      "scripts/release-dry-run.mjs",
+      "scripts/run-abstraction-loop.ps1",
+      "scripts/run-codex-missions.ps1",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs"
     ],
     "responsibilities": [
-      "Represent the cross-cutting Atree concept across related files."
+      "Represent the cross-cutting Command concept across related files."
     ],
     "dependencies": [
       "module.packages",
       "module.root",
-      "file.packages.core.src.runtimeschema.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.packages.full.bin.atree.js",
+      "module.scripts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.migrate.ts",
+      "file.packages.cli.src.propose.ts",
       "file.readme.md",
+      "file.scripts.create.assessment.pack.mjs",
+      "file.scripts.create.assessment.pack.test.mjs",
+      "file.scripts.pack.smoke.test.mjs",
+      "file.scripts.release.dry.run.mjs",
+      "file.scripts.run.abstraction.loop.ps1",
+      "file.scripts.run.codex.missions.ps1",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
       "architecture.cli.surface",
-      "architecture.core.engine",
+      "architecture.visual.app.api",
       "architecture.package.distribution"
     ],
     "dependsOn": [
       "module.packages",
       "module.root",
-      "file.packages.core.src.runtimeschema.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.packages.full.bin.atree.js",
+      "module.scripts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.migrate.ts",
+      "file.packages.cli.src.propose.ts",
       "file.readme.md",
+      "file.scripts.create.assessment.pack.mjs",
+      "file.scripts.create.assessment.pack.test.mjs",
+      "file.scripts.pack.smoke.test.mjs",
+      "file.scripts.release.dry.run.mjs",
+      "file.scripts.run.abstraction.loop.ps1",
+      "file.scripts.run.codex.missions.ps1",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
       "architecture.cli.surface",
-      "architecture.core.engine",
+      "architecture.visual.app.api",
       "architecture.package.distribution"
     ],
     "changeLog": [],
@@ -8621,83 +9558,152 @@
     "confidence": 0.65
   },
   {
-    "id": "concept-node.context.pack",
-    "name": "Context Pack",
-    "title": "Context Pack",
+    "id": "concept-node.validation",
+    "name": "Validation",
+    "title": "Validation",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 12 file(s) using export, symbol signals.",
+    "summary": "Durable concept inferred from 12 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
     "sourceFiles": [
-      "docs/AGENT_PROTOCOL.md",
-      "docs/DATA_MODEL.md",
-      "packages/core/src/context.ts",
-      "packages/core/src/contextLimits.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/runtimeSchema.test.ts",
+      "docs/CI_INTEGRATION.md",
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/cli/src/apiState.ts",
+      "packages/cli/src/doctor.ts",
+      "packages/cli/src/propose.ts",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/automationValidation.ts",
+      "packages/core/src/llm/proposals.ts",
+      "packages/core/src/llmProposalValidation.test.ts",
+      "packages/core/src/migrations.ts",
       "packages/core/src/runtimeSchema.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/validator.ts",
-      "packages/core/src/workspace.ts",
-      "scripts/generated-memory-fixtures.test.mjs"
+      "packages/core/src/schema.ts"
     ],
     "ownedFiles": [
-      "docs/AGENT_PROTOCOL.md",
-      "docs/DATA_MODEL.md",
-      "packages/core/src/context.ts",
-      "packages/core/src/contextLimits.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/runtimeSchema.test.ts",
+      "docs/CI_INTEGRATION.md",
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/cli/src/apiState.ts",
+      "packages/cli/src/doctor.ts",
+      "packages/cli/src/propose.ts",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/automationValidation.ts",
+      "packages/core/src/llm/proposals.ts",
+      "packages/core/src/llmProposalValidation.test.ts",
+      "packages/core/src/migrations.ts",
       "packages/core/src/runtimeSchema.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/validator.ts",
-      "packages/core/src/workspace.ts",
-      "scripts/generated-memory-fixtures.test.mjs"
+      "packages/core/src/schema.ts"
     ],
     "responsibilities": [
-      "Represent the cross-cutting Context Pack concept across related files."
+      "Represent the cross-cutting Validation concept across related files."
+    ],
+    "dependencies": [
+      "module.docs",
+      "module.packages",
+      "file.docs.ci.integration.md",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.doctor.ts",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.automationvalidation.ts",
+      "file.packages.core.src.llm.proposals.ts",
+      "file.packages.core.src.llmproposalvalidation.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.visual.app.ui"
+    ],
+    "dependsOn": [
+      "module.docs",
+      "module.packages",
+      "file.docs.ci.integration.md",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.doctor.ts",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.automationvalidation.ts",
+      "file.packages.core.src.llm.proposals.ts",
+      "file.packages.core.src.llmproposalvalidation.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.visual.app.ui"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.version",
+    "name": "Version",
+    "title": "Version",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 7 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "docs/ROADMAP.md",
+      "packages/cli/src/doctor.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "scripts/check-changelog.mjs",
+      "scripts/check-changelog.test.mjs",
+      "scripts/release-dry-run.mjs"
+    ],
+    "ownedFiles": [
+      "docs/ROADMAP.md",
+      "packages/cli/src/doctor.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "scripts/check-changelog.mjs",
+      "scripts/check-changelog.test.mjs",
+      "scripts/release-dry-run.mjs"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Version concept across related files."
     ],
     "dependencies": [
       "module.docs",
       "module.packages",
       "module.scripts",
-      "file.docs.agent.protocol.md",
-      "file.docs.data.model.md",
-      "file.packages.core.src.context.ts",
-      "file.packages.core.src.contextlimits.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
+      "file.docs.roadmap.md",
+      "file.packages.cli.src.doctor.ts",
+      "file.packages.core.src.migrations.ts",
       "file.packages.core.src.runtimeschema.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.validator.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.scripts.generated.memory.fixtures.test.mjs",
-      "architecture.core.engine",
-      "architecture.scanner.tree.context.pipeline"
+      "file.scripts.check.changelog.mjs",
+      "file.scripts.check.changelog.test.mjs",
+      "file.scripts.release.dry.run.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine"
     ],
     "dependsOn": [
       "module.docs",
       "module.packages",
       "module.scripts",
-      "file.docs.agent.protocol.md",
-      "file.docs.data.model.md",
-      "file.packages.core.src.context.ts",
-      "file.packages.core.src.contextlimits.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
+      "file.docs.roadmap.md",
+      "file.packages.cli.src.doctor.ts",
+      "file.packages.core.src.migrations.ts",
       "file.packages.core.src.runtimeschema.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.validator.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.scripts.generated.memory.fixtures.test.mjs",
-      "architecture.core.engine",
-      "architecture.scanner.tree.context.pipeline"
+      "file.scripts.check.changelog.mjs",
+      "file.scripts.check.changelog.test.mjs",
+      "file.scripts.release.dry.run.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine"
     ],
     "changeLog": [],
     "invariants": [
@@ -8753,103 +9759,131 @@
     "confidence": 0.65
   },
   {
-    "id": "concept-node.workspace",
-    "name": "Workspace",
-    "title": "Workspace",
+    "id": "concept-node.cli",
+    "name": "Cli",
+    "title": "Cli",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 17 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 23 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
     "sourceFiles": [
-      "examples/small-web-app/tests/checkout.test.js",
+      "README.md",
+      "docs/ARCHITECTURE.md",
+      "packages/cli/package.json",
+      "packages/cli/src/agentHealth.test.ts",
+      "packages/cli/src/agentHealth.ts",
       "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/apiState.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/doctor.ts",
+      "packages/cli/src/index.ts",
+      "packages/cli/src/migrate.test.ts",
+      "packages/cli/src/migrate.ts",
       "packages/cli/src/propose.test.ts",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/changeReview.test.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/importGraph.test.ts",
-      "packages/core/src/importGraph.ts",
-      "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/scanner.test.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/workspace.test.ts",
-      "packages/core/src/workspace.ts",
-      "scripts/create-assessment-pack.test.mjs",
-      "scripts/import-assessment-missions.test.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs",
-      "scripts/run-missions.test.mjs"
+      "packages/cli/src/propose.ts",
+      "packages/cli/src/serveHost.test.ts",
+      "packages/cli/src/serveHost.ts",
+      "packages/cli/tsconfig.json",
+      "scripts/create-assessment-pack.mjs",
+      "scripts/import-assessment-missions.mjs",
+      "scripts/pack-smoke-test.mjs",
+      "scripts/release-dry-run.mjs",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-missions.mjs"
     ],
     "ownedFiles": [
-      "examples/small-web-app/tests/checkout.test.js",
+      "README.md",
+      "docs/ARCHITECTURE.md",
+      "packages/cli/package.json",
+      "packages/cli/src/agentHealth.test.ts",
+      "packages/cli/src/agentHealth.ts",
       "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/apiState.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/doctor.ts",
+      "packages/cli/src/index.ts",
+      "packages/cli/src/migrate.test.ts",
+      "packages/cli/src/migrate.ts",
       "packages/cli/src/propose.test.ts",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/changeReview.test.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/importGraph.test.ts",
-      "packages/core/src/importGraph.ts",
-      "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/scanner.test.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/workspace.test.ts",
-      "packages/core/src/workspace.ts",
-      "scripts/create-assessment-pack.test.mjs",
-      "scripts/import-assessment-missions.test.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs",
-      "scripts/run-missions.test.mjs"
+      "packages/cli/src/propose.ts",
+      "packages/cli/src/serveHost.test.ts",
+      "packages/cli/src/serveHost.ts",
+      "packages/cli/tsconfig.json",
+      "scripts/create-assessment-pack.mjs",
+      "scripts/import-assessment-missions.mjs",
+      "scripts/pack-smoke-test.mjs",
+      "scripts/release-dry-run.mjs",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-missions.mjs"
     ],
     "responsibilities": [
-      "Represent the cross-cutting Workspace concept across related files."
+      "Represent the cross-cutting Cli concept across related files."
     ],
     "dependencies": [
-      "module.examples",
+      "module.docs",
       "module.packages",
+      "module.root",
       "module.scripts",
-      "file.examples.small.web.app.tests.checkout.test.js",
+      "file.docs.architecture.md",
+      "file.packages.cli.package.json",
+      "file.packages.cli.src.agenthealth.test.ts",
+      "file.packages.cli.src.agenthealth.ts",
       "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.doctor.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.migrate.test.ts",
+      "file.packages.cli.src.migrate.ts",
       "file.packages.cli.src.propose.test.ts",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.changereview.test.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.importgraph.test.ts",
-      "file.packages.core.src.importgraph.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.scanner.test.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.workspace.test.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.scripts.create.assessment.pack.test.mjs",
-      "file.scripts.import.assessment.missions.test.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "file.scripts.run.missions.test.mjs",
-      "architecture.core.engine",
-      "architecture.scanner.tree.context.pipeline"
+      "file.packages.cli.src.propose.ts",
+      "file.packages.cli.src.servehost.test.ts",
+      "file.packages.cli.src.servehost.ts",
+      "file.packages.cli.tsconfig.json",
+      "file.readme.md",
+      "file.scripts.create.assessment.pack.mjs",
+      "file.scripts.import.assessment.missions.mjs",
+      "file.scripts.pack.smoke.test.mjs",
+      "file.scripts.release.dry.run.mjs",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.missions.mjs",
+      "architecture.cli.surface",
+      "architecture.visual.app.api",
+      "architecture.package.distribution"
     ],
     "dependsOn": [
-      "module.examples",
+      "module.docs",
       "module.packages",
+      "module.root",
       "module.scripts",
-      "file.examples.small.web.app.tests.checkout.test.js",
+      "file.docs.architecture.md",
+      "file.packages.cli.package.json",
+      "file.packages.cli.src.agenthealth.test.ts",
+      "file.packages.cli.src.agenthealth.ts",
       "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.doctor.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.migrate.test.ts",
+      "file.packages.cli.src.migrate.ts",
       "file.packages.cli.src.propose.test.ts",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.changereview.test.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.importgraph.test.ts",
-      "file.packages.core.src.importgraph.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.scanner.test.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.workspace.test.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.scripts.create.assessment.pack.test.mjs",
-      "file.scripts.import.assessment.missions.test.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "file.scripts.run.missions.test.mjs",
-      "architecture.core.engine",
-      "architecture.scanner.tree.context.pipeline"
+      "file.packages.cli.src.propose.ts",
+      "file.packages.cli.src.servehost.test.ts",
+      "file.packages.cli.src.servehost.ts",
+      "file.packages.cli.tsconfig.json",
+      "file.readme.md",
+      "file.scripts.create.assessment.pack.mjs",
+      "file.scripts.import.assessment.missions.mjs",
+      "file.scripts.pack.smoke.test.mjs",
+      "file.scripts.release.dry.run.mjs",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.missions.mjs",
+      "architecture.cli.surface",
+      "architecture.visual.app.api",
+      "architecture.package.distribution"
     ],
     "changeLog": [],
     "invariants": [
@@ -8862,81 +9896,43 @@
     "confidence": 0.65
   },
   {
-    "id": "concept-node.command",
-    "name": "Command",
-    "title": "Command",
+    "id": "concept-node.doctor",
+    "name": "Doctor",
+    "title": "Doctor",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 11 file(s) using export, symbol signals.",
+    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
     "sourceFiles": [
       "README.md",
-      "packages/cli/src/index.ts",
-      "packages/cli/src/propose.ts",
-      "scripts/create-assessment-pack.mjs",
-      "scripts/create-assessment-pack.test.mjs",
-      "scripts/pack-smoke-test.mjs",
-      "scripts/release-dry-run.mjs",
-      "scripts/run-abstraction-loop.ps1",
-      "scripts/run-codex-missions.ps1",
-      "scripts/run-full-self-improvement-loop.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs"
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/doctor.ts"
     ],
     "ownedFiles": [
       "README.md",
-      "packages/cli/src/index.ts",
-      "packages/cli/src/propose.ts",
-      "scripts/create-assessment-pack.mjs",
-      "scripts/create-assessment-pack.test.mjs",
-      "scripts/pack-smoke-test.mjs",
-      "scripts/release-dry-run.mjs",
-      "scripts/run-abstraction-loop.ps1",
-      "scripts/run-codex-missions.ps1",
-      "scripts/run-full-self-improvement-loop.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs"
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/doctor.ts"
     ],
     "responsibilities": [
-      "Represent the cross-cutting Command concept across related files."
+      "Represent the cross-cutting Doctor concept across related files."
     ],
     "dependencies": [
       "module.packages",
       "module.root",
-      "module.scripts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.cli.src.propose.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.doctor.ts",
       "file.readme.md",
-      "file.scripts.create.assessment.pack.mjs",
-      "file.scripts.create.assessment.pack.test.mjs",
-      "file.scripts.pack.smoke.test.mjs",
-      "file.scripts.release.dry.run.mjs",
-      "file.scripts.run.abstraction.loop.ps1",
-      "file.scripts.run.codex.missions.ps1",
-      "file.scripts.run.full.self.improvement.loop.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "architecture.cli.surface",
-      "architecture.visual.app.api",
-      "architecture.package.distribution"
+      "architecture.cli.surface"
     ],
     "dependsOn": [
       "module.packages",
       "module.root",
-      "module.scripts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.cli.src.propose.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.doctor.ts",
       "file.readme.md",
-      "file.scripts.create.assessment.pack.mjs",
-      "file.scripts.create.assessment.pack.test.mjs",
-      "file.scripts.pack.smoke.test.mjs",
-      "file.scripts.release.dry.run.mjs",
-      "file.scripts.run.abstraction.loop.ps1",
-      "file.scripts.run.codex.missions.ps1",
-      "file.scripts.run.full.self.improvement.loop.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "architecture.cli.surface",
-      "architecture.visual.app.api",
-      "architecture.package.distribution"
+      "architecture.cli.surface"
     ],
     "changeLog": [],
     "invariants": [
@@ -9009,6 +10005,314 @@
       "file.scripts.create.assessment.pack.test.mjs",
       "architecture.cli.surface",
       "architecture.core.engine",
+      "architecture.visual.app.ui"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.error",
+    "name": "Error",
+    "title": "Error",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 12 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/app/src/App.tsx",
+      "packages/app/src/hooks/useAbstractionState.ts",
+      "packages/app/src/styles.css",
+      "packages/cli/src/propose.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "scripts/diff-summary.mjs",
+      "scripts/format.mjs",
+      "scripts/pack-smoke-test.mjs",
+      "scripts/release-dry-run.mjs",
+      "scripts/run-codex-missions.ps1",
+      "scripts/run-missions.mjs"
+    ],
+    "ownedFiles": [
+      "packages/app/src/App.tsx",
+      "packages/app/src/hooks/useAbstractionState.ts",
+      "packages/app/src/styles.css",
+      "packages/cli/src/propose.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "scripts/diff-summary.mjs",
+      "scripts/format.mjs",
+      "scripts/pack-smoke-test.mjs",
+      "scripts/release-dry-run.mjs",
+      "scripts/run-codex-missions.ps1",
+      "scripts/run-missions.mjs"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Error concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "module.scripts",
+      "file.packages.app.src.app.tsx",
+      "file.packages.app.src.hooks.useabstractionstate.ts",
+      "file.packages.app.src.styles.css",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.scripts.diff.summary.mjs",
+      "file.scripts.format.mjs",
+      "file.scripts.pack.smoke.test.mjs",
+      "file.scripts.release.dry.run.mjs",
+      "file.scripts.run.codex.missions.ps1",
+      "file.scripts.run.missions.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.visual.app.ui"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "module.scripts",
+      "file.packages.app.src.app.tsx",
+      "file.packages.app.src.hooks.useabstractionstate.ts",
+      "file.packages.app.src.styles.css",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.scripts.diff.summary.mjs",
+      "file.scripts.format.mjs",
+      "file.scripts.pack.smoke.test.mjs",
+      "file.scripts.release.dry.run.mjs",
+      "file.scripts.run.codex.missions.ps1",
+      "file.scripts.run.missions.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.visual.app.ui"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.plan",
+    "name": "Plan",
+    "title": "Plan",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 8 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "docs/MISSION_RUNNER.md",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
+      "scripts/import-assessment-missions.mjs",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
+      "scripts/run-missions.mjs",
+      "scripts/run-missions.test.mjs"
+    ],
+    "ownedFiles": [
+      "docs/MISSION_RUNNER.md",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
+      "scripts/import-assessment-missions.mjs",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
+      "scripts/run-missions.mjs",
+      "scripts/run-missions.test.mjs"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Plan concept across related files."
+    ],
+    "dependencies": [
+      "module.docs",
+      "module.packages",
+      "module.scripts",
+      "file.docs.mission.runner.md",
+      "file.packages.core.src.migrations.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.scripts.import.assessment.missions.mjs",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "file.scripts.run.missions.mjs",
+      "file.scripts.run.missions.test.mjs",
+      "architecture.core.engine"
+    ],
+    "dependsOn": [
+      "module.docs",
+      "module.packages",
+      "module.scripts",
+      "file.docs.mission.runner.md",
+      "file.packages.core.src.migrations.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.scripts.import.assessment.missions.mjs",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "file.scripts.run.missions.mjs",
+      "file.scripts.run.missions.test.mjs",
+      "architecture.core.engine"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.automation",
+    "name": "Automation",
+    "title": "Automation",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 12 file(s) using export, path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "CONTRIBUTING.md",
+      "README.md",
+      "docs/ARCHITECTURE.md",
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/cli/src/apiState.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/doctor.ts",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/automationValidation.ts",
+      "packages/core/src/evaluator.test.ts",
+      "packages/core/src/evaluator.ts",
+      "scripts/cross-platform-automation.test.mjs"
+    ],
+    "ownedFiles": [
+      "CONTRIBUTING.md",
+      "README.md",
+      "docs/ARCHITECTURE.md",
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/cli/src/apiState.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/doctor.ts",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/automationValidation.ts",
+      "packages/core/src/evaluator.test.ts",
+      "packages/core/src/evaluator.ts",
+      "scripts/cross-platform-automation.test.mjs"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Automation concept across related files."
+    ],
+    "dependencies": [
+      "module.docs",
+      "module.packages",
+      "module.root",
+      "module.scripts",
+      "file.contributing.md",
+      "file.docs.architecture.md",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.doctor.ts",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.automationvalidation.ts",
+      "file.packages.core.src.evaluator.test.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.readme.md",
+      "file.scripts.cross.platform.automation.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.visual.app.ui"
+    ],
+    "dependsOn": [
+      "module.docs",
+      "module.packages",
+      "module.root",
+      "module.scripts",
+      "file.contributing.md",
+      "file.docs.architecture.md",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.doctor.ts",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.automationvalidation.ts",
+      "file.packages.core.src.evaluator.test.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.readme.md",
+      "file.scripts.cross.platform.automation.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.visual.app.ui"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65
+  },
+  {
+    "id": "concept-node.panel",
+    "name": "Panel",
+    "title": "Panel",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 5 file(s) using export, path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/app/src/components/ConceptPanel.tsx",
+      "packages/app/src/components/InvariantPanel.tsx",
+      "packages/app/src/components/Panel.tsx",
+      "packages/app/src/styles.css"
+    ],
+    "ownedFiles": [
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/app/src/components/ConceptPanel.tsx",
+      "packages/app/src/components/InvariantPanel.tsx",
+      "packages/app/src/components/Panel.tsx",
+      "packages/app/src/styles.css"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Panel concept across related files."
+    ],
+    "dependencies": [
+      "module.packages",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.app.src.components.conceptpanel.tsx",
+      "file.packages.app.src.components.invariantpanel.tsx",
+      "file.packages.app.src.components.panel.tsx",
+      "file.packages.app.src.styles.css",
+      "architecture.visual.app.ui"
+    ],
+    "dependsOn": [
+      "module.packages",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.app.src.components.conceptpanel.tsx",
+      "file.packages.app.src.components.invariantpanel.tsx",
+      "file.packages.app.src.components.panel.tsx",
+      "file.packages.app.src.styles.css",
       "architecture.visual.app.ui"
     ],
     "changeLog": [],
@@ -9097,115 +10401,85 @@
     "confidence": 0.65
   },
   {
-    "id": "concept-node.cli",
-    "name": "Cli",
-    "title": "Cli",
+    "id": "concept-node.agent",
+    "name": "Agent",
+    "title": "Agent",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 19 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 11 file(s) using doc, export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
     "sourceFiles": [
-      "README.md",
-      "docs/ARCHITECTURE.md",
-      "packages/cli/package.json",
+      "adapters/codex/AGENTS.md",
+      "docs/AGENT_PROTOCOL.md",
+      "packages/app/src/components/AgentHealthPanel.tsx",
       "packages/cli/src/agentHealth.test.ts",
       "packages/cli/src/agentHealth.ts",
       "packages/cli/src/apiState.test.ts",
       "packages/cli/src/apiState.ts",
-      "packages/cli/src/index.ts",
-      "packages/cli/src/propose.test.ts",
-      "packages/cli/src/propose.ts",
-      "packages/cli/src/serveHost.test.ts",
-      "packages/cli/src/serveHost.ts",
-      "packages/cli/tsconfig.json",
-      "scripts/create-assessment-pack.mjs",
-      "scripts/import-assessment-missions.mjs",
-      "scripts/pack-smoke-test.mjs",
-      "scripts/release-dry-run.mjs",
-      "scripts/run-full-self-improvement-loop.mjs",
+      "packages/core/src/context.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/schema.ts",
       "scripts/run-missions.mjs"
     ],
     "ownedFiles": [
-      "README.md",
-      "docs/ARCHITECTURE.md",
-      "packages/cli/package.json",
+      "adapters/codex/AGENTS.md",
+      "docs/AGENT_PROTOCOL.md",
+      "packages/app/src/components/AgentHealthPanel.tsx",
       "packages/cli/src/agentHealth.test.ts",
       "packages/cli/src/agentHealth.ts",
       "packages/cli/src/apiState.test.ts",
       "packages/cli/src/apiState.ts",
-      "packages/cli/src/index.ts",
-      "packages/cli/src/propose.test.ts",
-      "packages/cli/src/propose.ts",
-      "packages/cli/src/serveHost.test.ts",
-      "packages/cli/src/serveHost.ts",
-      "packages/cli/tsconfig.json",
-      "scripts/create-assessment-pack.mjs",
-      "scripts/import-assessment-missions.mjs",
-      "scripts/pack-smoke-test.mjs",
-      "scripts/release-dry-run.mjs",
-      "scripts/run-full-self-improvement-loop.mjs",
+      "packages/core/src/context.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/schema.ts",
       "scripts/run-missions.mjs"
     ],
     "responsibilities": [
-      "Represent the cross-cutting Cli concept across related files."
+      "Represent the cross-cutting Agent concept across related files."
     ],
     "dependencies": [
+      "module.adapters",
       "module.docs",
       "module.packages",
-      "module.root",
       "module.scripts",
-      "file.docs.architecture.md",
-      "file.packages.cli.package.json",
+      "file.adapters.codex.agents.md",
+      "file.docs.agent.protocol.md",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
       "file.packages.cli.src.agenthealth.test.ts",
       "file.packages.cli.src.agenthealth.ts",
       "file.packages.cli.src.apistate.test.ts",
       "file.packages.cli.src.apistate.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.cli.src.propose.test.ts",
-      "file.packages.cli.src.propose.ts",
-      "file.packages.cli.src.servehost.test.ts",
-      "file.packages.cli.src.servehost.ts",
-      "file.packages.cli.tsconfig.json",
-      "file.readme.md",
-      "file.scripts.create.assessment.pack.mjs",
-      "file.scripts.import.assessment.missions.mjs",
-      "file.scripts.pack.smoke.test.mjs",
-      "file.scripts.release.dry.run.mjs",
-      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.schema.ts",
       "file.scripts.run.missions.mjs",
       "architecture.cli.surface",
-      "architecture.visual.app.api",
-      "architecture.package.distribution"
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline",
+      "architecture.visual.app.ui"
     ],
     "dependsOn": [
+      "module.adapters",
       "module.docs",
       "module.packages",
-      "module.root",
       "module.scripts",
-      "file.docs.architecture.md",
-      "file.packages.cli.package.json",
+      "file.adapters.codex.agents.md",
+      "file.docs.agent.protocol.md",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
       "file.packages.cli.src.agenthealth.test.ts",
       "file.packages.cli.src.agenthealth.ts",
       "file.packages.cli.src.apistate.test.ts",
       "file.packages.cli.src.apistate.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.cli.src.propose.test.ts",
-      "file.packages.cli.src.propose.ts",
-      "file.packages.cli.src.servehost.test.ts",
-      "file.packages.cli.src.servehost.ts",
-      "file.packages.cli.tsconfig.json",
-      "file.readme.md",
-      "file.scripts.create.assessment.pack.mjs",
-      "file.scripts.import.assessment.missions.mjs",
-      "file.scripts.pack.smoke.test.mjs",
-      "file.scripts.release.dry.run.mjs",
-      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.schema.ts",
       "file.scripts.run.missions.mjs",
       "architecture.cli.surface",
-      "architecture.visual.app.api",
-      "architecture.package.distribution"
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline",
+      "architecture.visual.app.ui"
     ],
     "changeLog": [],
     "invariants": [
@@ -9218,136 +10492,65 @@
     "confidence": 0.65
   },
   {
-    "id": "concept-node.version",
-    "name": "Version",
-    "title": "Version",
+    "id": "concept-node.health",
+    "name": "Health",
+    "title": "Health",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 5 file(s) using export, symbol signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "docs/ROADMAP.md",
-      "packages/core/src/runtimeSchema.ts",
-      "scripts/check-changelog.mjs",
-      "scripts/check-changelog.test.mjs",
-      "scripts/release-dry-run.mjs"
-    ],
-    "ownedFiles": [
-      "docs/ROADMAP.md",
-      "packages/core/src/runtimeSchema.ts",
-      "scripts/check-changelog.mjs",
-      "scripts/check-changelog.test.mjs",
-      "scripts/release-dry-run.mjs"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Version concept across related files."
-    ],
-    "dependencies": [
-      "module.docs",
-      "module.packages",
-      "module.scripts",
-      "file.docs.roadmap.md",
-      "file.packages.core.src.runtimeschema.ts",
-      "file.scripts.check.changelog.mjs",
-      "file.scripts.check.changelog.test.mjs",
-      "file.scripts.release.dry.run.mjs",
-      "architecture.core.engine"
-    ],
-    "dependsOn": [
-      "module.docs",
-      "module.packages",
-      "module.scripts",
-      "file.docs.roadmap.md",
-      "file.packages.core.src.runtimeschema.ts",
-      "file.scripts.check.changelog.mjs",
-      "file.scripts.check.changelog.test.mjs",
-      "file.scripts.release.dry.run.mjs",
-      "architecture.core.engine"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.validation",
-    "name": "Validation",
-    "title": "Validation",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 10 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 8 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
     "sourceFiles": [
       "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/app/src/styles.css",
+      "packages/cli/src/agentHealth.test.ts",
+      "packages/cli/src/agentHealth.ts",
+      "packages/cli/src/apiState.test.ts",
       "packages/cli/src/apiState.ts",
-      "packages/cli/src/index.ts",
-      "packages/cli/src/propose.ts",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/automationValidation.ts",
-      "packages/core/src/llm/proposals.ts",
-      "packages/core/src/llmProposalValidation.test.ts",
-      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/runtimeSchema.test.ts",
       "packages/core/src/schema.ts"
     ],
     "ownedFiles": [
       "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/app/src/styles.css",
+      "packages/cli/src/agentHealth.test.ts",
+      "packages/cli/src/agentHealth.ts",
+      "packages/cli/src/apiState.test.ts",
       "packages/cli/src/apiState.ts",
-      "packages/cli/src/index.ts",
-      "packages/cli/src/propose.ts",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/automationValidation.ts",
-      "packages/core/src/llm/proposals.ts",
-      "packages/core/src/llmProposalValidation.test.ts",
-      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/runtimeSchema.test.ts",
       "packages/core/src/schema.ts"
     ],
     "responsibilities": [
-      "Represent the cross-cutting Validation concept across related files."
+      "Represent the cross-cutting Health concept across related files."
     ],
     "dependencies": [
       "module.packages",
       "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.app.src.styles.css",
+      "file.packages.cli.src.agenthealth.test.ts",
+      "file.packages.cli.src.agenthealth.ts",
+      "file.packages.cli.src.apistate.test.ts",
       "file.packages.cli.src.apistate.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.cli.src.propose.ts",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.packages.core.src.llm.proposals.ts",
-      "file.packages.core.src.llmproposalvalidation.test.ts",
-      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
       "file.packages.core.src.schema.ts",
       "architecture.cli.surface",
       "architecture.core.engine",
-      "architecture.visual.app.api",
-      "architecture.visual.app.ui",
-      "architecture.package.distribution"
+      "architecture.visual.app.ui"
     ],
     "dependsOn": [
       "module.packages",
       "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.app.src.styles.css",
+      "file.packages.cli.src.agenthealth.test.ts",
+      "file.packages.cli.src.agenthealth.ts",
+      "file.packages.cli.src.apistate.test.ts",
       "file.packages.cli.src.apistate.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.cli.src.propose.ts",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.packages.core.src.llm.proposals.ts",
-      "file.packages.core.src.llmproposalvalidation.test.ts",
-      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
       "file.packages.core.src.schema.ts",
       "architecture.cli.surface",
       "architecture.core.engine",
-      "architecture.visual.app.api",
-      "architecture.visual.app.ui",
-      "architecture.package.distribution"
+      "architecture.visual.app.ui"
     ],
     "changeLog": [],
     "invariants": [

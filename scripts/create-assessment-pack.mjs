@@ -8,10 +8,28 @@ import { promisify } from "node:util";
 const execFileAsync = promisify(execFile);
 
 export const assessmentPackRoot = ".abstraction-tree/assessment-packs";
+export const defaultMaxBytesPerArtifact = 50_000;
+export const defaultMaxTotalBytes = 250_000;
+
+export const defaultRedactionPatternDefinitions = [
+  {
+    label: "secret-assignment",
+    description: "Assignments for keys ending in TOKEN, SECRET, or API_KEY, including OPENAI_API_KEY and GITHUB_TOKEN.",
+    regex: /\b([A-Z0-9_]*(?:TOKEN|SECRET|API_KEY)\b["']?\s*[:=]\s*["']?)([^"'\s,;]+)/gi,
+    replacement: "$1[REDACTED]"
+  },
+  {
+    label: "authorization-bearer",
+    description: "Authorization: Bearer credential headers.",
+    regex: /\b(Authorization\s*:\s*Bearer\s+)([^\s"'`,;]+)/gi,
+    replacement: "$1[REDACTED]"
+  }
+];
 
 export const requiredPackFiles = [
   "assessment-prompt.md",
   "repo-summary.json",
+  "pack-safety.json",
   "tree-summary.md",
   "latest-evaluation.json",
   "diff-summary.md",
@@ -34,18 +52,38 @@ export async function runCli(argv = [], io = {}) {
   const result = await createAssessmentPack({
     cwd,
     outputRoot: options.outputRoot,
+    maxBytesPerArtifact: options.maxBytesPerArtifact,
+    maxTotalBytes: options.maxTotalBytes,
+    redactPatterns: options.redactPatterns,
+    redactFiles: options.redactFiles,
+    includeDiff: options.includeDiff,
+    includeRuns: options.includeRuns,
+    includeLessons: options.includeLessons,
+    includeMissionRuntime: options.includeMissionRuntime,
     createdAt: io.now ?? new Date(),
     runCommand: io.command ?? command
   });
 
   stdout.write(`Assessment pack created: ${relative(cwd, result.packDir)}\n`);
   stdout.write(`Assessment prompt: ${relative(cwd, path.join(result.packDir, "assessment-prompt.md"))}\n`);
+  stdout.write(`Pack safety: ${relative(cwd, path.join(result.packDir, "pack-safety.json"))}\n`);
+  if (result.safety.noticeCount > 0) {
+    stdout.write(`Safety notices: ${result.safety.noticeCount} redaction/truncation/omission notice(s). Review pack-safety.json before sharing.\n`);
+  }
   return result;
 }
 
 export function parseArgs(argv = []) {
   const options = {
-    outputRoot: assessmentPackRoot
+    outputRoot: assessmentPackRoot,
+    maxBytesPerArtifact: defaultMaxBytesPerArtifact,
+    maxTotalBytes: defaultMaxTotalBytes,
+    redactPatterns: [],
+    redactFiles: [],
+    includeDiff: true,
+    includeRuns: true,
+    includeLessons: true,
+    includeMissionRuntime: true
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -53,6 +91,42 @@ export function parseArgs(argv = []) {
     if (arg === "--output-root") {
       options.outputRoot = valueAt(argv, index + 1, arg);
       index += 1;
+      continue;
+    }
+    if (arg === "--max-bytes-per-artifact") {
+      options.maxBytesPerArtifact = parsePositiveInteger(valueAt(argv, index + 1, arg), arg);
+      index += 1;
+      continue;
+    }
+    if (arg === "--max-total-bytes") {
+      options.maxTotalBytes = parsePositiveInteger(valueAt(argv, index + 1, arg), arg);
+      index += 1;
+      continue;
+    }
+    if (arg === "--redact") {
+      options.redactPatterns.push(valueAt(argv, index + 1, arg));
+      index += 1;
+      continue;
+    }
+    if (arg === "--redact-file") {
+      options.redactFiles.push(valueAt(argv, index + 1, arg));
+      index += 1;
+      continue;
+    }
+    if (arg === "--no-diff") {
+      options.includeDiff = false;
+      continue;
+    }
+    if (arg === "--no-runs") {
+      options.includeRuns = false;
+      continue;
+    }
+    if (arg === "--no-lessons") {
+      options.includeLessons = false;
+      continue;
+    }
+    if (arg === "--no-mission-runtime") {
+      options.includeMissionRuntime = false;
       continue;
     }
     throw new Error(`Unknown option: ${arg}`);
@@ -66,36 +140,75 @@ export async function createAssessmentPack(input = {}) {
   const createdAt = input.createdAt ?? new Date();
   const outputRoot = input.outputRoot ?? assessmentPackRoot;
   const runCommand = input.runCommand ?? command;
+  const safetyOptions = await prepareSafetyOptions(cwd, input);
   const packDir = path.join(cwd, outputRoot, timestampForPath(createdAt));
 
   await mkdir(packDir, { recursive: true });
 
-  const context = await collectAssessmentPackContext(cwd, runCommand, createdAt);
+  const context = await collectAssessmentPackContext(cwd, runCommand, createdAt, safetyOptions);
   const packRelativeDir = relative(cwd, packDir);
+  const safetyState = createSafetyState(cwd, packRelativeDir, safetyOptions);
+  addConfiguredOmissions(safetyState, safetyOptions);
 
-  await Promise.all([
-    writeText(path.join(packDir, "assessment-prompt.md"), buildAssessmentPrompt({
+  const artifactTexts = [
+    ["repo-summary.json", jsonText(buildRepoSummary(context, packRelativeDir))],
+    ["tree-summary.md", buildTreeSummary(context)],
+    ["latest-evaluation.json", jsonText(latestEvaluationArtifact(context.latestEvaluation))],
+    [
+      "diff-summary.md",
+      safetyOptions.includeDiff
+        ? buildDiffSummaryMarkdown(context.diffSummary)
+        : buildOmittedMarkdown("Diff Summary", "Omitted because --no-diff was passed.")
+    ],
+    [
+      "latest-runs.md",
+      safetyOptions.includeRuns
+        ? buildLatestMarkdown("Latest Runs", context.latestRuns, ".abstraction-tree/runs/*.md")
+        : buildOmittedMarkdown("Latest Runs", "Omitted because --no-runs was passed.")
+    ],
+    [
+      "latest-lessons.md",
+      safetyOptions.includeLessons
+        ? buildLatestMarkdown("Latest Lessons", context.latestLessons, ".abstraction-tree/lessons/*.md")
+        : buildOmittedMarkdown("Latest Lessons", "Omitted because --no-lessons was passed.")
+    ],
+    ["mission-authoring-schema.md", buildMissionAuthoringSchema()]
+  ];
+
+  for (const [file, text] of artifactTexts) {
+    await writeRedactedTextArtifact({
+      filePath: path.join(packDir, file),
+      artifact: file,
+      text,
+      safetyState
+    });
+  }
+
+  await writeRedactedTextArtifact({
+    filePath: path.join(packDir, "assessment-prompt.md"),
+    artifact: "assessment-prompt.md",
+    text: buildAssessmentPrompt({
       packRelativeDir,
       createdAt,
-      context
-    })),
-    writeJson(path.join(packDir, "repo-summary.json"), buildRepoSummary(context, packRelativeDir)),
-    writeText(path.join(packDir, "tree-summary.md"), buildTreeSummary(context)),
-    writeJson(path.join(packDir, "latest-evaluation.json"), latestEvaluationArtifact(context.latestEvaluation)),
-    writeText(path.join(packDir, "diff-summary.md"), buildDiffSummaryMarkdown(context.diffSummary)),
-    writeText(path.join(packDir, "latest-runs.md"), buildLatestMarkdown("Latest Runs", context.latestRuns, ".abstraction-tree/runs/*.md")),
-    writeText(path.join(packDir, "latest-lessons.md"), buildLatestMarkdown("Latest Lessons", context.latestLessons, ".abstraction-tree/lessons/*.md")),
-    writeText(path.join(packDir, "mission-authoring-schema.md"), buildMissionAuthoringSchema())
-  ]);
+      context,
+      safety: buildPromptSafetySummary(safetyState, safetyOptions)
+    }),
+    safetyState
+  });
+
+  const packSafety = buildPackSafetyArtifact(safetyState, createdAt);
+  await writeJson(path.join(packDir, "pack-safety.json"), packSafety);
 
   return {
     packDir,
     files: requiredPackFiles.map(file => path.join(packDir, file)),
-    context
+    context,
+    safety: packSafety
   };
 }
 
-export async function collectAssessmentPackContext(cwd, runCommand = command, createdAt = new Date()) {
+export async function collectAssessmentPackContext(cwd, runCommand = command, createdAt = new Date(), options = {}) {
+  const safetyOptions = normalizeSafetyOptions(options);
   const [
     packageJson,
     config,
@@ -118,12 +231,14 @@ export async function collectAssessmentPackContext(cwd, runCommand = command, cr
     readJsonArtifact(cwd, ".abstraction-tree/concepts.json"),
     runCommand("git", ["status", "--short", "--branch"], { cwd, allowFailure: true }),
     runCommand("git", ["log", "--oneline", "-1"], { cwd, allowFailure: true }),
-    diffSummaryCommand(cwd, runCommand),
+    safetyOptions.includeDiff ? diffSummaryCommand(cwd, runCommand) : omittedCommandArtifact("--no-diff", "Diff summary collection was disabled."),
     changeReviewCommand(cwd, runCommand),
     readLatestJsonFile(cwd, ".abstraction-tree/evaluations"),
-    readLatestMarkdownFiles(cwd, ".abstraction-tree/runs", 3),
-    readLatestMarkdownFiles(cwd, ".abstraction-tree/lessons", 5),
-    readJsonArtifact(cwd, ".abstraction-tree/automation/mission-runtime.json")
+    safetyOptions.includeRuns ? readLatestMarkdownFiles(cwd, ".abstraction-tree/runs", 3) : [],
+    safetyOptions.includeLessons ? readLatestMarkdownFiles(cwd, ".abstraction-tree/lessons", 5) : [],
+    safetyOptions.includeMissionRuntime
+      ? readJsonArtifact(cwd, ".abstraction-tree/automation/mission-runtime.json")
+      : omittedJsonArtifact(".abstraction-tree/automation/mission-runtime.json", "--no-mission-runtime")
   ]);
 
   return {
@@ -167,12 +282,15 @@ Created: ${input.createdAt.toISOString()}
 ## Evidence Files
 
 - \`repo-summary.json\`: package, Git status, mission runtime, change-record review, and compact source availability.
+- \`pack-safety.json\`: redaction, omission, truncation, and approximate byte-size metadata.
 - \`tree-summary.md\`: relevant abstraction memory summaries from config, tree, files, and concepts.
 - \`latest-evaluation.json\`: latest deterministic evaluation, or a missing-artifact marker.
 - \`diff-summary.md\`: current Git diff summary, or a command failure note.
 - \`latest-runs.md\`: recent durable run reports.
 - \`latest-lessons.md\`: recent reusable lessons.
 - \`mission-authoring-schema.md\`: mission frontmatter and body contract.
+
+${buildAssessmentPromptSafetySection(input.safety)}
 
 ## Required Output
 
@@ -344,6 +462,103 @@ export function buildLatestMarkdown(title, files, globDescription) {
   return lines.join("\n");
 }
 
+export function redactText(text, patterns = []) {
+  let redactedText = text;
+  const patternCounts = [];
+
+  for (const pattern of patterns) {
+    const regex = globalRegExp(pattern.regex);
+    const matches = redactedText.match(regex);
+    const count = matches?.length ?? 0;
+    if (!count) continue;
+    redactedText = redactedText.replace(globalRegExp(pattern.regex), pattern.replacement ?? "[REDACTED]");
+    patternCounts.push({
+      label: pattern.label,
+      count
+    });
+  }
+
+  return {
+    text: redactedText,
+    replacementCount: patternCounts.reduce((total, pattern) => total + pattern.count, 0),
+    patterns: patternCounts
+  };
+}
+
+export function truncateText(text, maxBytes = defaultMaxBytesPerArtifact) {
+  const originalBytes = byteLength(text);
+  if (!Number.isFinite(maxBytes) || originalBytes <= maxBytes) {
+    return {
+      text,
+      truncated: false,
+      originalBytes,
+      writtenBytes: originalBytes
+    };
+  }
+
+  const marker = `\n\n[TRUNCATED: original artifact exceeded ${maxBytes} bytes; original size ${originalBytes} bytes]\n`;
+  const markerBytes = byteLength(marker);
+  const contentBudget = Math.max(0, maxBytes - markerBytes);
+  const truncatedContent = Buffer.from(text, "utf8").subarray(0, contentBudget).toString("utf8");
+  const truncatedText = `${truncatedContent}${marker}`;
+  return {
+    text: truncatedText,
+    truncated: true,
+    originalBytes,
+    writtenBytes: byteLength(truncatedText),
+    maxBytes
+  };
+}
+
+export async function writeRedactedTextArtifact({ filePath, artifact, text, safetyState }) {
+  const originalBytes = byteLength(text);
+  const redacted = redactText(text, safetyState.patterns);
+  const truncated = truncateText(redacted.text, safetyState.maxBytesPerArtifact);
+  await writeText(filePath, truncated.text);
+
+  const writtenBytes = byteLength(truncated.text);
+  safetyState.totalBytesWritten += writtenBytes;
+  safetyState.artifacts.push({
+    artifact,
+    path: relative(safetyState.cwd, filePath),
+    originalBytes,
+    redactedBytes: byteLength(redacted.text),
+    writtenBytes
+  });
+
+  if (redacted.replacementCount > 0) {
+    safetyState.redactions.push({
+      artifact,
+      path: relative(safetyState.cwd, filePath),
+      replacementCount: redacted.replacementCount,
+      patterns: redacted.patterns
+    });
+  }
+
+  if (truncated.truncated) {
+    safetyState.truncatedArtifacts.push({
+      artifact,
+      path: relative(safetyState.cwd, filePath),
+      originalBytes: truncated.originalBytes,
+      maxBytes: truncated.maxBytes,
+      writtenBytes: truncated.writtenBytes
+    });
+  }
+
+  return {
+    redacted,
+    truncated,
+    writtenBytes
+  };
+}
+
+export function redactionSummary(redactions = []) {
+  return {
+    totalReplacementCount: redactions.reduce((total, artifact) => total + artifact.replacementCount, 0),
+    artifacts: redactions
+  };
+}
+
 export function buildMissionAuthoringSchema() {
   return `# Mission Authoring Schema
 
@@ -406,6 +621,267 @@ function latestEvaluationArtifact(latestEvaluation) {
     available: true,
     source: latestEvaluation.path,
     evaluation: latestEvaluation.value
+  };
+}
+
+async function prepareSafetyOptions(cwd, input = {}) {
+  const options = normalizeSafetyOptions(input);
+  const filePatterns = await readRedactFilePatterns(cwd, options.redactFiles);
+  const customPatternInputs = [
+    ...options.redactPatterns.map((pattern, index) => ({
+      pattern,
+      label: `custom-redact-${index + 1}`,
+      source: "--redact"
+    })),
+    ...filePatterns
+  ];
+  const defaultPatterns = defaultRedactionPatternDefinitions.map(definition => ({
+    label: definition.label,
+    regex: definition.regex,
+    replacement: definition.replacement,
+    summary: {
+      label: definition.label,
+      source: "default",
+      description: definition.description
+    }
+  }));
+  const customPatterns = customPatternInputs.map(compileCustomRedactionPattern);
+
+  return {
+    ...options,
+    patterns: [...defaultPatterns, ...customPatterns],
+    redactionPatternsUsed: [
+      ...defaultPatterns.map(pattern => pattern.summary),
+      ...customPatterns.map(pattern => pattern.summary)
+    ]
+  };
+}
+
+function normalizeSafetyOptions(options = {}) {
+  return {
+    maxBytesPerArtifact: positiveIntegerOrDefault(options.maxBytesPerArtifact, defaultMaxBytesPerArtifact),
+    maxTotalBytes: positiveIntegerOrDefault(options.maxTotalBytes, defaultMaxTotalBytes),
+    redactPatterns: arrayValue(options.redactPatterns).map(value => String(value)).filter(Boolean),
+    redactFiles: arrayValue(options.redactFiles).map(value => String(value)).filter(Boolean),
+    includeDiff: options.includeDiff !== false,
+    includeRuns: options.includeRuns !== false,
+    includeLessons: options.includeLessons !== false,
+    includeMissionRuntime: options.includeMissionRuntime !== false
+  };
+}
+
+async function readRedactFilePatterns(cwd, redactFiles) {
+  const patterns = [];
+  for (let fileIndex = 0; fileIndex < redactFiles.length; fileIndex += 1) {
+    const requestedPath = redactFiles[fileIndex];
+    const filePath = path.resolve(cwd, requestedPath);
+    let raw;
+    try {
+      raw = await readFile(filePath, "utf8");
+    } catch (error) {
+      throw new Error(`Unable to read --redact-file ${requestedPath}: ${errorMessage(error)}`);
+    }
+
+    const lines = raw.split(/\r?\n/u);
+    for (let lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {
+      const pattern = lines[lineIndex].trim();
+      if (!pattern || pattern.startsWith("#")) continue;
+      patterns.push({
+        pattern,
+        label: `custom-redact-file-${fileIndex + 1}-line-${lineIndex + 1}`,
+        source: "--redact-file"
+      });
+    }
+  }
+  return patterns;
+}
+
+function compileCustomRedactionPattern(input) {
+  try {
+    return {
+      label: input.label,
+      regex: new RegExp(input.pattern, "g"),
+      replacement: "[REDACTED]",
+      summary: {
+        label: input.label,
+        source: input.source,
+        description: "Custom redaction pattern; raw pattern hidden to avoid leaking sensitive values."
+      }
+    };
+  } catch (error) {
+    throw new Error(`Invalid redaction pattern ${input.label}: ${errorMessage(error)}`);
+  }
+}
+
+function createSafetyState(cwd, packRelativeDir, options) {
+  return {
+    cwd,
+    packRelativeDir,
+    maxBytesPerArtifact: options.maxBytesPerArtifact,
+    maxTotalBytes: options.maxTotalBytes,
+    patterns: options.patterns,
+    redactionPatternsUsed: options.redactionPatternsUsed,
+    artifacts: [],
+    redactions: [],
+    truncatedArtifacts: [],
+    omittedArtifacts: [],
+    totalBytesWritten: 0
+  };
+}
+
+function addConfiguredOmissions(safetyState, options) {
+  if (!options.includeDiff) {
+    safetyState.omittedArtifacts.push({
+      artifact: "diff-summary.md",
+      flag: "--no-diff",
+      reason: "Diff summary omitted by --no-diff."
+    });
+  }
+  if (!options.includeRuns) {
+    safetyState.omittedArtifacts.push({
+      artifact: "latest-runs.md",
+      flag: "--no-runs",
+      reason: "Latest run report content omitted by --no-runs."
+    });
+  }
+  if (!options.includeLessons) {
+    safetyState.omittedArtifacts.push({
+      artifact: "latest-lessons.md",
+      flag: "--no-lessons",
+      reason: "Latest lesson content omitted by --no-lessons."
+    });
+  }
+  if (!options.includeMissionRuntime) {
+    safetyState.omittedArtifacts.push({
+      artifact: "repo-summary.json",
+      flag: "--no-mission-runtime",
+      reason: "Mission runtime content omitted from repo-summary.json by --no-mission-runtime."
+    });
+  }
+}
+
+function buildPromptSafetySummary(safetyState, options) {
+  const redactions = redactionSummary(safetyState.redactions);
+  return {
+    maxBytesPerArtifact: options.maxBytesPerArtifact,
+    maxTotalBytes: options.maxTotalBytes,
+    approximateBytesWrittenBeforePrompt: safetyState.totalBytesWritten,
+    totalBudgetExceededBeforePrompt: safetyState.totalBytesWritten > options.maxTotalBytes,
+    omittedArtifacts: safetyState.omittedArtifacts,
+    truncatedArtifacts: safetyState.truncatedArtifacts,
+    redactedArtifactCount: redactions.artifacts.length,
+    redactionReplacementCount: redactions.totalReplacementCount
+  };
+}
+
+function buildPackSafetyArtifact(safetyState, createdAt) {
+  const redactions = redactionSummary(safetyState.redactions);
+  const artifactBytesWritten = safetyState.totalBytesWritten;
+  const packSafety = {
+    createdAt: createdAt.toISOString(),
+    pack: safetyState.packRelativeDir,
+    redactionPatternsUsed: safetyState.redactionPatternsUsed,
+    redaction: redactions,
+    omittedArtifacts: safetyState.omittedArtifacts,
+    truncatedArtifacts: safetyState.truncatedArtifacts,
+    artifacts: safetyState.artifacts,
+    limits: {
+      maxBytesPerArtifact: safetyState.maxBytesPerArtifact,
+      maxTotalBytes: safetyState.maxTotalBytes,
+      approximateArtifactBytesWritten: artifactBytesWritten,
+      packSafetyBytesWritten: 0,
+      approximateTotalBytesWritten: artifactBytesWritten,
+      totalBudgetExceeded: artifactBytesWritten > safetyState.maxTotalBytes
+    },
+    safetyAssessment: {
+      safeToReview: artifactBytesWritten <= safetyState.maxTotalBytes,
+      requiresManualInspection: true,
+      reason: artifactBytesWritten > safetyState.maxTotalBytes
+        ? "The pack exceeded the configured total byte warning limit. Inspect and reduce before sharing."
+        : "Default redaction and byte limits were applied, but assessment packs can still include local context. Inspect before sharing."
+    },
+    noticeCount: 0
+  };
+  const packSafetyBytesWritten = byteLength(jsonText(packSafety));
+  const approximateTotalBytesWritten = artifactBytesWritten + packSafetyBytesWritten;
+  const totalBudgetExceeded = approximateTotalBytesWritten > safetyState.maxTotalBytes;
+  packSafety.limits.packSafetyBytesWritten = packSafetyBytesWritten;
+  packSafety.limits.approximateTotalBytesWritten = approximateTotalBytesWritten;
+  packSafety.limits.totalBudgetExceeded = totalBudgetExceeded;
+  packSafety.safetyAssessment.safeToReview = !totalBudgetExceeded;
+  packSafety.safetyAssessment.reason = totalBudgetExceeded
+    ? "The pack exceeded the configured total byte warning limit. Inspect and reduce before sharing."
+    : "Default redaction and byte limits were applied, but assessment packs can still include local context. Inspect before sharing.";
+  packSafety.noticeCount =
+    redactions.artifacts.length +
+    safetyState.truncatedArtifacts.length +
+    safetyState.omittedArtifacts.length +
+    (totalBudgetExceeded ? 1 : 0);
+  return packSafety;
+}
+
+function buildAssessmentPromptSafetySection(safety) {
+  const lines = [
+    "## Pack Safety",
+    "",
+    "- Inspect `pack-safety.json` before pasting this pack into ChatGPT or sharing it externally."
+  ];
+
+  if (!safety) {
+    lines.push("- Secret-like redaction and byte-limit controls may be applied by the pack generator.");
+    return lines.join("\n");
+  }
+
+  lines.push(
+    `- Per-artifact byte limit: ${safety.maxBytesPerArtifact}; total warning limit: ${safety.maxTotalBytes}.`,
+    `- Approximate bytes written before this prompt: ${safety.approximateBytesWrittenBeforePrompt}.`
+  );
+
+  if (safety.omittedArtifacts.length) {
+    lines.push(`- Omitted artifacts: ${safety.omittedArtifacts.map(artifact => artifact.artifact).join(", ")}.`);
+  } else {
+    lines.push("- Omitted artifacts: none recorded before this prompt was written.");
+  }
+
+  if (safety.truncatedArtifacts.length) {
+    lines.push(`- Truncated artifacts: ${safety.truncatedArtifacts.map(artifact => artifact.artifact).join(", ")}.`);
+  } else {
+    lines.push("- Truncated artifacts: none recorded before this prompt was written.");
+  }
+
+  if (safety.redactionReplacementCount > 0) {
+    lines.push(`- Redactions applied before this prompt: ${safety.redactionReplacementCount} replacement(s) across ${safety.redactedArtifactCount} artifact(s).`);
+  } else {
+    lines.push("- Redactions applied before this prompt: none recorded.");
+  }
+
+  if (safety.totalBudgetExceededBeforePrompt) {
+    lines.push("- Total warning limit was already exceeded before this prompt was written.");
+  }
+
+  return lines.join("\n");
+}
+
+function buildOmittedMarkdown(title, reason) {
+  return `# ${title}\n\n[OMITTED: ${reason}]\n`;
+}
+
+function omittedCommandArtifact(flag, reason) {
+  return {
+    exitCode: 0,
+    output: "",
+    source: `omitted by ${flag}`,
+    omitted: true,
+    reason
+  };
+}
+
+function omittedJsonArtifact(relativePath, flag) {
+  return {
+    available: false,
+    path: relativePath,
+    omitted: true,
+    reason: `Omitted by ${flag}.`
   };
 }
 
@@ -621,6 +1097,10 @@ async function writeText(filePath, value) {
   await writeFile(filePath, value, "utf8");
 }
 
+function jsonText(value) {
+  return `${JSON.stringify(value, null, 2)}\n`;
+}
+
 function appendNodeLines(lines, nodes) {
   if (!nodes.length) {
     lines.push("- No nodes found.");
@@ -668,6 +1148,15 @@ function stringValue(value) {
   return typeof value === "string" ? value : "";
 }
 
+function byteLength(value) {
+  return Buffer.byteLength(value, "utf8");
+}
+
+function globalRegExp(regex) {
+  const flags = regex.flags.includes("g") ? regex.flags : `${regex.flags}g`;
+  return new RegExp(regex.source, flags);
+}
+
 function stripJsonBom(value) {
   return value.charCodeAt(0) === 0xfeff ? value.slice(1) : value;
 }
@@ -688,6 +1177,19 @@ function valueAt(argv, index, flag) {
   const value = argv[index];
   if (!value || value.startsWith("--")) throw new Error(`${flag} requires a value.`);
   return value;
+}
+
+function parsePositiveInteger(value, flag) {
+  const parsed = Number(value);
+  if (!Number.isInteger(parsed) || parsed <= 0) {
+    throw new Error(`${flag} requires a positive integer.`);
+  }
+  return parsed;
+}
+
+function positiveIntegerOrDefault(value, fallback) {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
 }
 
 function errorMessage(error) {

@@ -188,7 +188,7 @@ const DOC_FILLER_WORDS = new Set([
 
 const SHADOWED_BY_COMPOUND_WORDS = new Set(["graph", "import", "pack", "runtime", "schema"]);
 
-const MAX_CONCEPTS = 24;
+const MAX_CONCEPTS = 32;
 const MAX_CONCEPT_EVIDENCE = 40;
 const CONCEPT_SIGNAL_WEIGHT: Record<ConceptEvidenceKind, number> = {
   path: 2,

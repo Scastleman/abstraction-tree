@@ -1,6 +1,7 @@
 export * from "./schema.js";
 export * from "./runtimeSchema.js";
 export * from "./workspace.js";
+export * from "./migrations.js";
 export * from "./scanner.js";
 export * from "./importGraph.js";
 export * from "./treeBuilder.js";

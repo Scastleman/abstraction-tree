@@ -6,9 +6,32 @@ A project using Abstraction Tree stores its semantic memory in `.abstraction-tre
 
 Project-level configuration. It includes the current install mode: `core` for abstraction-only usage, or `full` when the local visual app is enabled.
 
+`version` is the schema version for committed `.abstraction-tree/` memory. The current schema version is `0.1.0`. The CLI validates this value before loading memory: future versions are blocked because an older CLI cannot safely interpret them, and unsupported older versions must be migrated before normal commands continue.
+
 `sourceRoot` selects the directory the scanner walks. File paths written to `files.json` remain relative to the project root, so a `sourceRoot` of `src` still emits paths such as `src/app.ts`.
 
 `ignored` contains `.gitignore`-style patterns evaluated against project-relative paths. Defaults exclude generated and local-only directories such as `node_modules`, `dist`, `.git`, `.abstraction-tree`, and `coverage`. Set `respectGitignore` to `true` to also apply patterns from the project root `.gitignore`.
+
+## Schema migrations
+
+Use `atree migrate` to inspect or apply schema migrations for `.abstraction-tree/` memory:
+
+```sh
+atree migrate --project .
+atree migrate --project . --dry-run
+atree migrate --project . --from 0.1.0 --to 0.1.0
+```
+
+The first migration system is intentionally structural: schema `0.1.0` is already current, so the plan is a no-op unless a workspace uses an unsupported or future version. Future schema changes should add explicit migration steps instead of silently rewriting memory during `scan`, `validate`, or `serve`.
+
+Migration policy:
+
+- every committed memory schema version is SemVer;
+- compatible readers may tolerate optional fields, but breaking memory shape changes require a new schema version and a migration step;
+- `atree migrate --dry-run` prints the plan and never writes files;
+- `atree migrate` validates `config.json` before and after migration;
+- when a migration writes files, the CLI backs up overwritten memory under `.abstraction-tree/backups/<timestamp>/`;
+- if migration is blocked, keep the existing memory unchanged and upgrade the CLI or fix the reported schema issue.
 
 ## `ontology.json`
 

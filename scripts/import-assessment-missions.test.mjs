@@ -122,6 +122,20 @@ test("affected files, affected nodes, and dependsOn must be arrays", async t => 
   );
 });
 
+test("mission body must include required schema headings", async t => {
+  const root = await tempWorkspace(t);
+  await writeFileAt(
+    root,
+    "chatgpt-missions/mission-one.md",
+    validMissionMarkdown().replace("\n## Scope\n\nImport validation only.\n", "\n")
+  );
+
+  await assert.rejects(
+    () => importAssessmentMissions({ cwd: root, from: "chatgpt-missions", name: "review" }),
+    /mission-one\.md is missing required body heading ## Scope\./
+  );
+});
+
 test("duplicate mission ids fail validation", async t => {
   const root = await tempWorkspace(t);
   await writeFileAt(root, "chatgpt-missions/mission-one.md", validMissionMarkdown());
@@ -232,6 +246,30 @@ parallelGroupSafe: true
 ## Goal
 
 Import a bounded assessment mission.
+
+## Abstraction Tree Position
+
+Scripts and docs.
+
+## Why This Matters
+
+Consistent validation keeps imported missions executable.
+
+## Scope
+
+Import validation only.
+
+## Out of Scope
+
+No mission runner execution changes.
+
+## Required Checks
+
+- node scripts/import-assessment-missions.test.mjs
+
+## Success Criteria
+
+Invalid imported missions are rejected.
 `;
 }
 

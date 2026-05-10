@@ -19,6 +19,7 @@ Add Abstraction Tree to any repo, build the initial memory tree, and make the pr
 cd your-existing-project
 npx atree init --with-app
 npx atree scan
+npx atree doctor
 npx atree serve
 ```
 
@@ -59,8 +60,11 @@ The preferred strategic workflow is staged:
 
 Codex is the bounded executor. ChatGPT and humans are the preferred strategic assessment layer. Abstraction Tree is the memory, evidence, validation, and scope boundary between strategy and execution. Treat assessment output as a proposal: validate mission files and review the resulting diff before accepting changes.
 
+Assessment packs include `pack-safety.json` with redaction, omission, truncation, and byte-size metadata. The pack generator applies default redaction for common secret-like values and supports `--redact`, `--redact-file`, `--max-bytes-per-artifact`, `--max-total-bytes`, `--no-diff`, `--no-runs`, `--no-lessons`, and `--no-mission-runtime`. Inspect `pack-safety.json` and the artifacts before pasting a pack into ChatGPT or sharing it externally.
+
 Related workflow docs:
 
+- [CI integration](docs/CI_INTEGRATION.md)
 - [Mission runner](docs/MISSION_RUNNER.md)
 - [Agent protocol and LLM-assisted proposals](docs/AGENT_PROTOCOL.md)
 - [LLM abstraction interface](docs/ARCHITECTURE.md#llm-abstraction-interface)
@@ -78,6 +82,7 @@ Use this when you only want the abstraction tree, agent context packs, validatio
 npm install -D @abstraction-tree/cli
 npx atree init --core
 npx atree scan
+npx atree doctor
 npx atree validate
 npx atree context --target checkout
 ```
@@ -197,6 +202,7 @@ Run the CLI from this repo:
 ```bash
 npm run atree -- init --with-app --project examples/small-web-app
 npm run atree -- scan --project examples/small-web-app
+npm run atree -- doctor --project examples/small-web-app
 npm run atree -- validate --project examples/small-web-app
 npm run atree -- context --project examples/small-web-app --target checkout
 npm run atree -- serve --project examples/small-web-app
@@ -253,6 +259,7 @@ Useful cross-platform dogfooding commands:
 
 ```bash
 npm run assessment:pack
+npm run assessment:pack -- --no-diff --no-runs --no-lessons --no-mission-runtime
 npm run self:loop -- --assessment-pack-only
 npm run assessment:import -- --from ./chatgpt-missions --name review-2026-05-10 --dry-run
 npm run assessment:import -- --from ./chatgpt-missions --name review-2026-05-10
@@ -264,7 +271,7 @@ npm run atree:evaluate
 npm run diff:summary
 ```
 
-`npm run assessment:pack` creates a local evidence pack for ChatGPT or human strategy review. `npm run self:loop -- --assessment-pack-only` creates the same style of evidence pack inside a full-loop run directory, prints the pack path, and exits before any Codex assessment, mission planning, mission execution, coherence review, or durable loop report. The reviewer authors the broad assessment and bounded mission files; `npm run assessment:import` validates and stages that folder under `.abstraction-tree/missions/<name>/`; `npm run missions:plan:manual` validates and batches the staged missions before `npm run missions:run:manual` sends those scoped prompts to Codex. Run `npm run atree:evaluate` afterward so narrative run reports are checked against objective project-memory signals.
+`npm run assessment:pack` creates a local evidence pack for ChatGPT or human strategy review. It writes `pack-safety.json` and applies basic redaction and artifact size caps; use the `--no-*` flags when diff, run, lesson, or mission-runtime evidence is too sensitive or too large to export. `npm run self:loop -- --assessment-pack-only` creates the same style of evidence pack inside a full-loop run directory, prints the pack path, and exits before any Codex assessment, mission planning, mission execution, coherence review, or durable loop report. The reviewer authors the broad assessment and bounded mission files; `npm run assessment:import` validates and stages that folder under `.abstraction-tree/missions/<name>/`; `npm run missions:plan:manual` validates and batches the staged missions before `npm run missions:run:manual` sends those scoped prompts to Codex. Run `npm run atree:evaluate` afterward so narrative run reports are checked against objective project-memory signals.
 
 Windows-only local loop commands:
 
@@ -342,6 +349,18 @@ Test files are recognized through common paths and language conventions: `test`,
 atree scan --project /path/to/project
 ```
 
+### `atree doctor`
+
+Aggregates setup and readiness checks for humans and CI. Use it when you want to know whether the current repo is initialized, scanned, schema-valid, drift-free, automation-boundary-safe, and ready for the next command.
+
+```bash
+atree doctor --project /path/to/project
+atree doctor --project /path/to/project --json
+atree doctor --project /path/to/project --strict
+```
+
+`doctor` summarizes Node version support, config and memory-file presence, runtime schema issues, validation issue counts, automation runtime-boundary warnings, visual-app availability in full mode, and a suggested next command. `--json` returns a stable `{ status, checks, nextSteps }` payload for CI. `--strict` exits nonzero when the report has warnings or errors.
+
 ### `atree serve`
 
 Starts the local visual app. This requires the full install package or a built `@abstraction-tree/app` workspace. The server binds to `127.0.0.1` by default so `/api/state` stays local to your machine.
@@ -354,7 +373,7 @@ Use `--host 0.0.0.0` only when you intentionally want LAN access; the CLI prints
 
 ### `atree validate`
 
-Checks whether tracked files and tree nodes still align, then compares stored file summaries against a fresh scan to detect stale abstraction memory.
+Checks whether tracked files and tree nodes still align, then compares stored file summaries against a fresh scan to detect stale abstraction memory. Use `validate` as the focused correctness gate after `doctor` has confirmed the workspace is initialized and memory files exist.
 
 ```bash
 atree validate --project /path/to/project

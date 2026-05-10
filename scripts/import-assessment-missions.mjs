@@ -2,22 +2,15 @@
 import { copyFile, mkdir, readFile, readdir, rm, stat } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { parseMissionMarkdown } from "./run-missions.mjs";
+import { validateMissionMarkdown } from "./mission-schema.mjs";
+
+export {
+  validMissionCategories,
+  validateMissionFrontmatter
+} from "./mission-schema.mjs";
 
 export const defaultMissionImportRoot = ".abstraction-tree/missions";
 
-export const validMissionCategories = new Set([
-  "product-value",
-  "safety",
-  "quality",
-  "developer-experience",
-  "automation-maintenance"
-]);
-
-const validPriorities = new Set(["P0", "P1", "P2", "P3"]);
-const validRisks = new Set(["low", "medium", "high"]);
-const requiredStringFields = ["id", "title", "priority", "risk", "category", "parallelGroup"];
-const requiredArrayFields = ["affectedFiles", "affectedNodes", "dependsOn"];
 const blockedDestinationPrefixes = [
   ".abstraction-tree/assessment-packs",
   ".abstraction-tree/automation/full-loop-runs",
@@ -168,12 +161,7 @@ export async function validateMissionEntries(entries) {
 
   for (const entry of entries) {
     const markdown = await readFile(entry.sourcePath, "utf8");
-    if (!hasDelimitedFrontmatter(markdown)) {
-      throw new Error(`${entry.relativePath} is missing frontmatter delimited by ---.`);
-    }
-
-    const { frontmatter } = parseMissionMarkdown(markdown);
-    const mission = validateMissionFrontmatter(frontmatter, entry.relativePath);
+    const { frontmatter: mission } = validateMissionMarkdown(markdown, entry.relativePath);
     const existing = ids.get(mission.id);
     if (existing) {
       throw new Error(`Mission id ${mission.id} is duplicated in ${existing} and ${entry.relativePath}.`);
@@ -183,38 +171,6 @@ export async function validateMissionEntries(entries) {
   }
 
   return missions.sort((left, right) => comparePaths(left.relativePath, right.relativePath));
-}
-
-export function validateMissionFrontmatter(frontmatter, missionLabel = "mission") {
-  const mission = {};
-  for (const field of requiredStringFields) {
-    mission[field] = requiredString(frontmatter, field, missionLabel);
-  }
-  for (const field of requiredArrayFields) {
-    mission[field] = requiredArray(frontmatter, field, missionLabel);
-  }
-
-  if (!Object.hasOwn(frontmatter, "parallelGroupSafe")) {
-    throw new Error(`${missionLabel} is missing required frontmatter field parallelGroupSafe.`);
-  }
-  if (typeof frontmatter.parallelGroupSafe !== "boolean") {
-    throw new Error(`${missionLabel} frontmatter field parallelGroupSafe must be boolean true or false.`);
-  }
-  mission.parallelGroupSafe = frontmatter.parallelGroupSafe;
-
-  if (!validPriorities.has(mission.priority)) {
-    throw new Error(`${missionLabel} frontmatter field priority must be one of: ${[...validPriorities].join(", ")}.`);
-  }
-  if (!validRisks.has(mission.risk)) {
-    throw new Error(`${missionLabel} frontmatter field risk must be one of: ${[...validRisks].join(", ")}.`);
-  }
-  if (!validMissionCategories.has(mission.category)) {
-    throw new Error(
-      `${missionLabel} frontmatter field category must be one of: ${[...validMissionCategories].join(", ")}.`
-    );
-  }
-
-  return mission;
 }
 
 async function walkSourceFiles(directory) {
@@ -271,32 +227,6 @@ function assertDistinctSourceAndDestination(cwd, sourceDir, destinationDir) {
       `--from and destination must not overlap: ${relative(cwd, sourceDir)} -> ${relative(cwd, destinationDir)}.`
     );
   }
-}
-
-function hasDelimitedFrontmatter(markdown) {
-  const lines = markdown.split(/\r?\n/u);
-  return lines[0]?.trim() === "---" && lines.some((line, index) => index > 0 && line.trim() === "---");
-}
-
-function requiredString(frontmatter, field, missionLabel) {
-  if (!Object.hasOwn(frontmatter, field)) {
-    throw new Error(`${missionLabel} is missing required frontmatter field ${field}.`);
-  }
-  const value = frontmatter[field];
-  if (typeof value !== "string" || !value.trim()) {
-    throw new Error(`${missionLabel} frontmatter field ${field} must be a non-empty string.`);
-  }
-  return value.trim();
-}
-
-function requiredArray(frontmatter, field, missionLabel) {
-  if (!Object.hasOwn(frontmatter, field)) {
-    throw new Error(`${missionLabel} is missing required frontmatter field ${field}.`);
-  }
-  if (!Array.isArray(frontmatter[field])) {
-    throw new Error(`${missionLabel} frontmatter field ${field} must be an array.`);
-  }
-  return frontmatter[field];
 }
 
 function validateSlug(value) {

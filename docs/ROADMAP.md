@@ -16,6 +16,7 @@
 - Provider-neutral LLM abstraction interface with deterministic no-op behavior when no adapter is configured.
 - Explicit `atree propose` review artifacts for provider adapters, with validation before review and no direct canonical memory mutation.
 - Stable automation config, bounded loop scripts, run reports, lessons, and deterministic evaluation reports as committed self-dogfooding memory.
+- Schema migration planning and `atree migrate` for committed `.abstraction-tree/` memory.
 
 ## Current operational boundary
 
@@ -33,6 +34,7 @@ Generated-memory quality fixtures live in example projects under `.abstraction-t
 
 ## Version 0.2
 
+- Add the first non-trivial schema migration only when the memory contract actually changes.
 - Tree-sitter symbol extraction for additional languages.
 - Import graph resolution by language.
 - Better concept clustering.

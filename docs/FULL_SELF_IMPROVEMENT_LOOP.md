@@ -35,6 +35,18 @@ Use the generated `assessment-prompt.md` in ChatGPT or with a human reviewer, th
 
 The pack includes Git status, diff summary, the latest deterministic evaluation, recent run reports, recent lessons, mission runtime, change-record review, and abstraction memory summaries. Its prompt asks ChatGPT or a human to produce the repository assessment, prioritized recommendations, and a mission folder using the mission frontmatter schema.
 
+Assessment packs apply basic safety controls before writing artifacts. By default, obvious secret-like values such as `OPENAI_API_KEY=...`, `GITHUB_TOKEN=...`, `*_TOKEN=...`, `*_SECRET=...`, and `Authorization: Bearer ...` are redacted, each artifact is capped at 50000 bytes, and the pack reports a 250000 byte total warning limit. The pack includes `pack-safety.json`, which lists redaction patterns, omitted artifacts, truncated artifacts, approximate bytes written, and whether manual inspection is required. Always inspect `pack-safety.json` and the generated artifacts before pasting the pack into ChatGPT or sharing it externally.
+
+Use safety flags to reduce high-risk or high-volume evidence:
+
+```bash
+npm run assessment:pack -- --max-bytes-per-artifact 50000 --max-total-bytes 250000
+npm run assessment:pack -- --redact "internal-[A-Za-z0-9_-]+" --redact-file ./redactions.txt
+npm run assessment:pack -- --no-diff --no-runs --no-lessons --no-mission-runtime
+```
+
+Custom redaction patterns are regular expressions. Blank lines and `#` comments are ignored in `--redact-file` files. Omitted and truncated artifacts remain visible through marker text such as `[OMITTED: ...]` or `[TRUNCATED: ...]` so reviewers can see when evidence is incomplete.
+
 Codex is the bounded executor. ChatGPT and humans are the preferred strategic assessment layer. Abstraction Tree is the memory, evidence, validation, and scope boundary. Do not trust generated assessment or mission output by default: validate and plan the mission folder, run checks, and review diffs before accepting changes.
 
 To create the assessment evidence pack through the full-loop wrapper and stop before any Codex assessment or mission execution, use:

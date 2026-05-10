@@ -1,0 +1,22 @@
+{
+  "version": "0.1.0",
+  "projectName": "migration-fixture",
+  "createdAt": "2026-05-01T00:00:00.000Z",
+  "sourceRoot": ".",
+  "ignored": [
+    "node_modules",
+    "dist",
+    "dist-ts",
+    "build",
+    ".git",
+    ".abstraction-tree",
+    "coverage"
+  ],
+  "respectGitignore": false,
+  "treeBuilder": "deterministic",
+  "installMode": "core",
+  "visualApp": {
+    "enabled": false,
+    "defaultPort": 4317
+  }
+}
