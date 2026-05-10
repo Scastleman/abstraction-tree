@@ -3,7 +3,11 @@ import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test, { type TestContext } from "node:test";
-import { buildChangeRecordReviewSummary, reviewChangeRecords } from "./changeReview.js";
+import {
+  buildChangeRecordReviewSummary,
+  limitChangeRecordReviewReport,
+  reviewChangeRecords
+} from "./changeReview.js";
 
 test("reviewChangeRecords marks older generated scans as consolidation candidates", async t => {
   const root = await workspace(t);
@@ -42,6 +46,23 @@ test("buildChangeRecordReviewSummary returns compact deterministic counts", asyn
     retainedGeneratedScanRecordId: "scan.2",
     issueCount: 1
   });
+});
+
+test("limitChangeRecordReviewReport bounds generated scan details while preserving counts", async t => {
+  const root = await workspace(t);
+  await writeChange(root, "scan.1", "2026-05-04T10:00:00.000Z");
+  await writeChange(root, "scan.2", "2026-05-04T11:00:00.000Z");
+  await writeChange(root, "scan.3", "2026-05-04T12:00:00.000Z");
+  await writeChange(root, "scan.4", "2026-05-04T13:00:00.000Z");
+
+  const report = await reviewChangeRecords(root);
+  const limited = limitChangeRecordReviewReport(report, 2);
+
+  assert.equal(limited.generatedScanRecordCount, 4);
+  assert.equal(limited.eligibleGeneratedScanRecordCount, 3);
+  assert.equal(limited.eligibleGeneratedScanRecords.length, 2);
+  assert.deepEqual(limited.eligibleGeneratedScanRecords.map(record => record.id), ["scan.1", "scan.2"]);
+  assert.equal(report.eligibleGeneratedScanRecords.length, 3);
 });
 
 test("reviewChangeRecords reports malformed change files without mutating them", async t => {

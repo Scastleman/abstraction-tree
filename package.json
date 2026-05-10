@@ -31,6 +31,8 @@
     "missions:run": "node scripts/run-missions.mjs",
     "missions:plan:manual": "node scripts/run-missions.mjs --missions .abstraction-tree/missions --plan",
     "missions:run:manual": "node scripts/run-missions.mjs --missions .abstraction-tree/missions",
+    "assessment:pack": "node scripts/create-assessment-pack.mjs",
+    "assessment:import": "node scripts/import-assessment-missions.mjs",
     "self:loop": "node scripts/run-full-self-improvement-loop.mjs",
     "diff:summary": "node scripts/diff-summary.mjs",
     "diff:summary:windows": "powershell -ExecutionPolicy Bypass -File scripts/summarize-diff.ps1",

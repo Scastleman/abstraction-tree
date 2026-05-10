@@ -28,6 +28,7 @@ const MISSION_RUNTIME_PATH = `${AUTOMATION_DIR}/mission-runtime.json`;
 const MISSION_LOGS_PATH = `${AUTOMATION_DIR}/mission-logs/`;
 const FULL_LOOP_LIVE_PID_PATH = `${AUTOMATION_DIR}/full-loop-live.pid`;
 const FULL_LOOP_RUNS_PATH = `${AUTOMATION_DIR}/full-loop-runs/`;
+const ASSESSMENT_PACKS_PATH = ".abstraction-tree/assessment-packs/";
 const MISSION_RUNS_PATH = ".abstraction-tree/mission-runs/";
 const WORKTREES_PATH = ".abstraction-tree/worktrees/";
 
@@ -37,6 +38,7 @@ const localRuntimePaths = [
   { path: MISSION_LOGS_PATH, label: "Automation mission-logs/" },
   { path: FULL_LOOP_LIVE_PID_PATH, label: "Automation full-loop-live.pid" },
   { path: FULL_LOOP_RUNS_PATH, label: "Automation full-loop-runs/" },
+  { path: ASSESSMENT_PACKS_PATH, label: "Assessment packs/" },
   { path: MISSION_RUNS_PATH, label: "Automation mission-runs/" },
   { path: WORKTREES_PATH, label: "Automation worktrees/" }
 ];

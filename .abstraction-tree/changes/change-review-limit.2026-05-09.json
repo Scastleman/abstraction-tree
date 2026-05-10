@@ -1,0 +1,22 @@
+{
+  "id": "change-review-limit.2026-05-09",
+  "timestamp": "2026-05-09T08:55:53-04:00",
+  "title": "Bound change-review detail output",
+  "reason": "Added a limit option so agents can inspect a small sample of generated scan consolidation candidates without printing the full eligible record list.",
+  "affectedNodeIds": [
+    "file.packages.cli.src.index.ts",
+    "file.packages.core.src.changereview.test.ts",
+    "file.packages.core.src.changereview.ts",
+    "file.readme.md"
+  ],
+  "filesChanged": [
+    "README.md",
+    "packages/cli/src/index.ts",
+    "packages/core/src/changeReview.test.ts",
+    "packages/core/src/changeReview.ts"
+  ],
+  "invariantsPreserved": [
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

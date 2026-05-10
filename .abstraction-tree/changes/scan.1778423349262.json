@@ -1,0 +1,23 @@
+{
+  "id": "scan.1778423349262",
+  "timestamp": "2026-05-10T14:29:09.262Z",
+  "title": "Deterministic scan",
+  "reason": "Generated abstraction tree from project files, imports, symbols, tests, and folders.",
+  "affectedNodeIds": [
+    "project.intent",
+    "project.architecture",
+    "project.code"
+  ],
+  "filesChanged": [
+    ".abstraction-tree/files.json",
+    ".abstraction-tree/import-graph.json",
+    ".abstraction-tree/ontology.json",
+    ".abstraction-tree/tree.json",
+    ".abstraction-tree/concepts.json",
+    ".abstraction-tree/invariants.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

@@ -65,11 +65,27 @@ The Abstraction Tree repo dogfoods the protocol at the repository root. Changes 
 npm run atree:validate
 ```
 
+## Strategic assessment workflow
+
+For broad repository assessment, do not make Codex invent the strategy and execute it in one pass. Use the staged workflow:
+
+1. Run `npm run assessment:pack`.
+2. Review the generated `assessment-prompt.md` in ChatGPT or with a human reviewer.
+3. Generate a mission folder from that assessment.
+4. Import it with `npm run assessment:import -- --from <folder> --name <name>`.
+5. Run `npm run missions:plan:manual -- --missions .abstraction-tree/missions/<name>` to inspect scope, dependencies, and execution blockers.
+6. Run `npm run missions:run:manual -- --missions .abstraction-tree/missions/<name>` to execute scoped missions through Codex.
+7. Run `npm run atree:evaluate` and review the results.
+
+Codex is the bounded executor. ChatGPT and humans are the preferred strategic assessment layer. Abstraction Tree is the memory, evidence, validation, and scope boundary. Assessment output is still a proposal: validate the mission folder, run the checks requested by each mission, and review the diff before accepting changes.
+
 ## Bounded self-improvement loops
 
 When running an autonomous improvement loop on this repository, start from existing memory before exploring widely:
 
 Bounded loop orchestration in this checkout is Windows PowerShell scoped. Use `npm run abstraction:loop:windows` for the local loop, `powershell -ExecutionPolicy Bypass -File scripts/run-abstraction-loop.ps1 -MaxLoopsThisRun 1` for an attended one-loop smoke run, or `npm run missions:plan` / `npm run missions:run` for the mission queue. Do not run those loop commands in public CI; macOS/Linux contributors can use the Node-based core checks such as `npm run build`, `npm test`, `npm run atree:validate`, and `npm run diff:summary`.
+
+`npm run self:loop` is experimental dogfooding. It remains useful for attended loop testing, but it is not the recommended default for broad strategic assessment; prefer assessment packs and human or ChatGPT mission design first.
 
 1. Check `git diff`, committed loop policy in `.abstraction-tree/automation/loop-config.json`, ignored local counters in `.abstraction-tree/automation/loop-runtime.json`, and the latest files in `.abstraction-tree/runs/` and `.abstraction-tree/lessons/`.
 2. Use targeted reads of `README.md`, `docs/`, `packages/core/src/`, `packages/cli/src/`, and `.abstraction-tree/` before broad repository search.

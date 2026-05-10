@@ -72,6 +72,17 @@ export function buildChangeRecordReviewSummary(report: ChangeRecordReviewReport)
   };
 }
 
+export function limitChangeRecordReviewReport(
+  report: ChangeRecordReviewReport,
+  limit?: number
+): ChangeRecordReviewReport {
+  if (limit === undefined) return report;
+  return {
+    ...report,
+    eligibleGeneratedScanRecords: report.eligibleGeneratedScanRecords.slice(0, limit)
+  };
+}
+
 function reviewItem(
   change: ChangeRecordReviewInput,
   consolidationCandidateReason?: ChangeRecordReviewItem["consolidationCandidateReason"]

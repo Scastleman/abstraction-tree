@@ -5,6 +5,7 @@ import { mkdir, readFile, readdir, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { promisify } from "node:util";
+import { createAssessmentPack } from "./create-assessment-pack.mjs";
 
 const execFileAsync = promisify(execFile);
 
@@ -25,12 +26,38 @@ export async function runCli(argv = [], io = {}) {
   const stderr = io.stderr ?? process.stderr;
   const options = parseArgs(argv);
   const runCommand = io.command ?? command;
-  const createdAt = new Date();
+  const createdAt = io.now ?? new Date();
   const timestamp = timestampForPath(createdAt);
   const runDir = path.join(cwd, fullLoopRoot, timestamp);
-  const missionsDir = path.join(runDir, "missions");
+  const generatedMissionsDir = path.join(runDir, "missions");
+  const missionsDir = options.skipCodexAssessment
+    ? path.resolve(cwd, options.missions)
+    : generatedMissionsDir;
 
-  await mkdir(missionsDir, { recursive: true });
+  if (options.assessmentPackOnly) {
+    await mkdir(runDir, { recursive: true });
+    const pack = await createAssessmentPack({
+      cwd,
+      outputRoot: relative(cwd, path.join(runDir, "assessment-pack")),
+      createdAt,
+      runCommand
+    });
+    await writeJson(path.join(runDir, "assessment-pack.json"), {
+      packDir: relative(cwd, pack.packDir),
+      files: pack.files.map(filePath => relative(cwd, filePath))
+    });
+    stdout.write(`Assessment pack created: ${relative(cwd, pack.packDir)}\n`);
+    stdout.write(`Assessment prompt: ${relative(cwd, path.join(pack.packDir, "assessment-prompt.md"))}\n`);
+    return {
+      runDir,
+      assessmentPackDir: pack.packDir,
+      assessmentPackOnly: true,
+      dryRun: false,
+      strategySource: "assessment-pack-only"
+    };
+  }
+
+  await mkdir(options.skipCodexAssessment ? runDir : missionsDir, { recursive: true });
 
   const status = await runCommand("git", ["status", "--short"], { cwd });
   if (status.stdout.trim() && !options.allowDirty) {
@@ -40,42 +67,67 @@ export async function runCli(argv = [], io = {}) {
   const context = await collectAssessmentContext(cwd, runCommand);
   await writeJson(path.join(runDir, "assessment-inputs.json"), context);
 
-  const assessmentPrompt = buildAssessmentPrompt({
-    repoRoot: cwd,
-    runDir,
-    missionsDir,
-    maxMissions: options.maxMissions,
-    allowMultipleAutomationMaintenance: options.allowMultipleAutomationMaintenance,
-    context
+  const strategySource = options.skipCodexAssessment ? "external" : "codex-assessment";
+  await writeJson(path.join(runDir, "strategy-source.json"), {
+    strategySource,
+    codexAssessmentSkipped: options.skipCodexAssessment,
+    missionsDir: relative(cwd, missionsDir)
   });
-  await writeFile(path.join(runDir, "assessment-prompt.md"), assessmentPrompt, "utf8");
 
-  if (options.dryRun) {
-    stdout.write(`Full self-improvement loop dry run created ${relative(cwd, runDir)}\n`);
-    stdout.write(`Assessment prompt: ${relative(cwd, path.join(runDir, "assessment-prompt.md"))}\n`);
-    return { runDir, missionsDir, dryRun: true };
+  let selectedMissions;
+  if (options.skipCodexAssessment) {
+    selectedMissions = await discoverExternalMissions({
+      cwd,
+      missionsDir,
+      maxMissions: options.maxMissions
+    });
+    await writeJson(path.join(runDir, "external-missions.json"), {
+      sourceDir: relative(cwd, missionsDir),
+      missionFiles: selectedMissions.map(filePath => relative(cwd, filePath))
+    });
+    stdout.write(`Using externally-authored missions from ${relative(cwd, missionsDir)}; Codex assessment skipped.\n`);
+    if (options.dryRun) {
+      stdout.write(`Full self-improvement loop dry run created ${relative(cwd, runDir)}\n`);
+      stdout.write(`External mission folder: ${relative(cwd, missionsDir)}\n`);
+      return { runDir, missionsDir, dryRun: true, strategySource };
+    }
+  } else {
+    const assessmentPrompt = buildAssessmentPrompt({
+      repoRoot: cwd,
+      runDir,
+      missionsDir,
+      maxMissions: options.maxMissions,
+      allowMultipleAutomationMaintenance: options.allowMultipleAutomationMaintenance,
+      context
+    });
+    await writeFile(path.join(runDir, "assessment-prompt.md"), assessmentPrompt, "utf8");
+
+    if (options.dryRun) {
+      stdout.write(`Full self-improvement loop dry run created ${relative(cwd, runDir)}\n`);
+      stdout.write(`Assessment prompt: ${relative(cwd, path.join(runDir, "assessment-prompt.md"))}\n`);
+      return { runDir, missionsDir, dryRun: true, strategySource };
+    }
+
+    stdout.write(`Writing assessment and mission folder in ${relative(cwd, runDir)}\n`);
+    await runCodexPrompt({
+      cwd,
+      codexBin: options.codexBin,
+      sandbox: "workspace-write",
+      reasoningEffort: options.reasoningEffort,
+      prompt: assessmentPrompt,
+      stdoutPath: path.join(runDir, "assessment-codex.jsonl"),
+      stderrPath: path.join(runDir, "assessment-codex.stderr.log"),
+      spawnProcess: io.spawnProcess ?? spawn
+    });
+
+    selectedMissions = await validateAssessmentOutput({
+      cwd,
+      runDir,
+      missionsDir,
+      maxMissions: options.maxMissions,
+      allowMultipleAutomationMaintenance: options.allowMultipleAutomationMaintenance
+    });
   }
-
-  stdout.write(`Writing assessment and mission folder in ${relative(cwd, runDir)}\n`);
-  await runCodexPrompt({
-    cwd,
-    codexBin: options.codexBin,
-    sandbox: "workspace-write",
-    reasoningEffort: options.reasoningEffort,
-    prompt: assessmentPrompt,
-    stdoutPath: path.join(runDir, "assessment-codex.jsonl"),
-    stderrPath: path.join(runDir, "assessment-codex.stderr.log"),
-    spawnProcess: io.spawnProcess ?? spawn
-  });
-
-  const missions = await validateAssessmentOutput({
-    cwd,
-    runDir,
-    missionsDir,
-    maxMissions: options.maxMissions,
-    allowMultipleAutomationMaintenance: options.allowMultipleAutomationMaintenance
-  });
-  const selectedMissions = missions;
   const selectedIds = selectedMissions.map(filePath => path.basename(filePath, ".md"));
   await writeJson(path.join(runDir, "selected-missions.json"), selectedIds);
 
@@ -129,20 +181,36 @@ export async function runCli(argv = [], io = {}) {
     repoRoot: cwd,
     runDir,
     missionsDir,
+    strategySource,
     context: afterContext
   });
   await writeFile(path.join(runDir, "coherence-prompt.md"), coherencePrompt, "utf8");
-  const coherence = await runCodexPrompt({
-    cwd,
-    codexBin: options.codexBin,
-    sandbox: "read-only",
-    reasoningEffort: options.reasoningEffort,
-    prompt: coherencePrompt,
-    stdoutPath: path.join(runDir, "coherence-codex.jsonl"),
-    stderrPath: path.join(runDir, "coherence-codex.stderr.log"),
-    spawnProcess: io.spawnProcess ?? spawn
-  });
-  await writeFile(path.join(runDir, "coherence-assessment.md"), coherence.finalText, "utf8");
+  const coherenceReviewStatus = options.externalCoherenceReview
+    ? "pending-external-review"
+    : "codex-review-written";
+  if (options.externalCoherenceReview) {
+    await writeJson(path.join(runDir, "coherence-inputs.json"), {
+      status: coherenceReviewStatus,
+      runDir: relative(cwd, runDir),
+      missionsDir: relative(cwd, missionsDir),
+      strategySource,
+      selectedMissionIds: selectedIds,
+      postRunContext: afterContext
+    });
+    stdout.write(`External coherence review pending. Prompt: ${relative(cwd, path.join(runDir, "coherence-prompt.md"))}\n`);
+  } else {
+    const coherence = await runCodexPrompt({
+      cwd,
+      codexBin: options.codexBin,
+      sandbox: "read-only",
+      reasoningEffort: options.reasoningEffort,
+      prompt: coherencePrompt,
+      stdoutPath: path.join(runDir, "coherence-codex.jsonl"),
+      stderrPath: path.join(runDir, "coherence-codex.stderr.log"),
+      spawnProcess: io.spawnProcess ?? spawn
+    });
+    await writeFile(path.join(runDir, "coherence-assessment.md"), coherence.finalText, "utf8");
+  }
 
   const changeReview = await runCommand("node", [
     "packages/cli/dist/index.js",
@@ -168,16 +236,19 @@ export async function runCli(argv = [], io = {}) {
     durableReportPath,
     buildDurableRunReport({
       runDir: relative(cwd, runDir),
+      missionsDir: relative(cwd, missionsDir),
+      strategySource,
       selectedIds,
       missionRunnerFailed: didMissionRunnerFail,
       changeReviewExitCode: changeReview.exitCode,
+      coherenceReviewStatus,
       decision
     })
   );
 
   stdout.write(`Full self-improvement loop finished. Artifacts: ${relative(cwd, runDir)}\n`);
   stdout.write(`Durable run report: ${relative(cwd, durableReportPath)}\n`);
-  return { runDir, missionsDir, dryRun: false };
+  return { runDir, missionsDir, dryRun: false, strategySource, coherenceReviewStatus };
 }
 
 export function parseArgs(argv) {
@@ -190,6 +261,10 @@ export function parseArgs(argv) {
     allowDirty: false,
     allowDangerFullAccess: false,
     allowMultipleAutomationMaintenance: false,
+    assessmentPackOnly: false,
+    externalCoherenceReview: false,
+    skipCodexAssessment: false,
+    missions: "",
     dryRun: false,
     skipMissions: false,
     worktrees: false,
@@ -226,6 +301,18 @@ export function parseArgs(argv) {
       case "--allow-multiple-automation-maintenance":
         options.allowMultipleAutomationMaintenance = true;
         break;
+      case "--assessment-pack-only":
+        options.assessmentPackOnly = true;
+        break;
+      case "--external-coherence-review":
+        options.externalCoherenceReview = true;
+        break;
+      case "--skip-codex-assessment":
+        options.skipCodexAssessment = true;
+        break;
+      case "--missions":
+        options.missions = valueAt(argv, ++index, arg);
+        break;
       case "--dry-run":
         options.dryRun = true;
         break;
@@ -242,6 +329,24 @@ export function parseArgs(argv) {
 
   if (options.sandbox === "danger-full-access" && !options.allowDangerFullAccess) {
     throw new Error("--sandbox danger-full-access requires --allow-danger-full-access.");
+  }
+  if (options.assessmentPackOnly && options.skipCodexAssessment) {
+    throw new Error("--assessment-pack-only cannot be combined with --skip-codex-assessment.");
+  }
+  if (options.assessmentPackOnly && options.missions) {
+    throw new Error("--missions is not supported with --assessment-pack-only.");
+  }
+  if (options.assessmentPackOnly && options.externalCoherenceReview) {
+    throw new Error("--external-coherence-review cannot be combined with --assessment-pack-only.");
+  }
+  if (options.dryRun && options.externalCoherenceReview) {
+    throw new Error("--external-coherence-review cannot be combined with --dry-run.");
+  }
+  if (options.skipCodexAssessment && !options.missions) {
+    throw new Error("--skip-codex-assessment requires --missions <folder>.");
+  }
+  if (options.missions && !options.skipCodexAssessment) {
+    throw new Error("--missions is only supported with --skip-codex-assessment.");
   }
 
   return options;
@@ -345,6 +450,9 @@ ${JSON.stringify(input.context, null, 2)}
 }
 
 export function buildCoherencePrompt(input) {
+  const strategyLabel = input.strategySource === "external"
+    ? "Externally-authored mission folder; Codex assessment was skipped."
+    : "Codex-generated assessment and mission folder.";
   return `# Full Abstraction Tree Self-Improvement Loop: Coherence Review
 
 Review the just-completed full-loop work for coherence.
@@ -364,6 +472,7 @@ Assess:
 
 Run directory: ${relative(input.repoRoot, input.runDir)}
 Mission directory: ${relative(input.repoRoot, input.missionsDir)}
+Strategy source: ${strategyLabel}
 
 ## Post-Run Context
 
@@ -374,18 +483,40 @@ ${JSON.stringify(input.context, null, 2)}
 }
 
 export function buildDurableRunReport(input) {
-  const result = input.missionRunnerFailed ? "partial" : "success";
+  const result = input.coherenceReviewStatus === "pending-external-review"
+    ? input.missionRunnerFailed
+      ? "partial; external-coherence-review-pending"
+      : "external-coherence-review-pending"
+    : input.missionRunnerFailed
+      ? "partial"
+      : "success";
   const selected = input.selectedIds.length ? input.selectedIds.map(id => `- ${id}`).join("\n") : "- none";
   const changeReview = input.changeReviewExitCode === 0 ? "passed" : `exited ${input.changeReviewExitCode}`;
+  const coherenceReview = input.coherenceReviewStatus === "pending-external-review"
+    ? "pending external ChatGPT/human review"
+    : "written to the local run artifact folder";
+  const strategySource = input.strategySource === "external"
+    ? "external ChatGPT/human-authored mission folder; Codex assessment skipped"
+    : "Codex-generated assessment and mission folder";
+  const missionsDir = input.missionsDir ?? `${input.runDir}/missions`;
+  const taskChosen = input.strategySource === "external"
+    ? "Run one bounded full self-improvement loop using an externally-authored mission folder: plan and execute selected missions, review coherence, review change records, then stop for human review."
+    : "Run one bounded full self-improvement loop: assess the project, write a mission folder, execute selected missions, review coherence, review change records, then stop for human review.";
   return `# Full Self-Improvement Loop Report
 
 ## Task Chosen
 
-Run one bounded full self-improvement loop: assess the project, write a mission folder, execute selected missions, review coherence, review change records, then stop for human review.
+${taskChosen}
 
 ## Why This Task
 
 The project goal is to integrate an abstraction tree into any project so developers understand prompt scope, agents avoid unnecessary overreach, and the repository can improve itself through bounded loops.
+
+## Strategy Source
+
+${strategySource}
+
+Mission folder: \`${missionsDir}\`
 
 ## Missions Selected
 
@@ -403,7 +534,7 @@ Detailed per-run artifacts live at \`${input.runDir}\` as ignored local runtime 
 
 - Mission runner: ${input.missionRunnerFailed ? "needs review" : "completed without a runner failure"}
 - Change-record review: ${changeReview}
-- Coherence review: written to the local run artifact folder
+- Coherence review: ${coherenceReview}
 
 ## Decision
 
@@ -470,6 +601,30 @@ export async function validateAssessmentOutput(input) {
   if (automationMaintenanceMissions.length > 1 && !input.allowMultipleAutomationMaintenance) {
     throw new Error(
       `Assessment created ${automationMaintenanceMissions.length} automation-maintenance mission files, but at most one is allowed by default. Pass --allow-multiple-automation-maintenance to override: ${automationMaintenanceMissions.map(mission => relative(cwd, mission.path)).join(", ")}.`
+    );
+  }
+
+  return missions;
+}
+
+async function discoverExternalMissions(input) {
+  const cwd = path.resolve(input.cwd ?? process.cwd());
+  const missionsDir = path.resolve(input.missionsDir);
+  const missionsDirStat = await stat(missionsDir).catch(error => {
+    if (error?.code === "ENOENT") return undefined;
+    throw error;
+  });
+  if (!missionsDirStat?.isDirectory()) {
+    throw new Error(`--missions must point to an existing folder: ${relative(cwd, missionsDir)}.`);
+  }
+
+  const missions = await missionFiles(missionsDir);
+  if (!missions.length) {
+    throw new Error(`External mission folder has no mission Markdown files: ${relative(cwd, missionsDir)}.`);
+  }
+  if (missions.length > input.maxMissions) {
+    throw new Error(
+      `External mission folder contains ${missions.length} mission files, but the configured maximum is ${input.maxMissions}.`
     );
   }
 

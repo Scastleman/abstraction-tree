@@ -1,0 +1,31 @@
+{
+  "id": "chatgpt-first-mission-batch.2026-05-10",
+  "timestamp": "2026-05-10T10:42:00-04:00",
+  "title": "Implement ChatGPT-first mission workflow",
+  "reason": "Add assessment evidence packs, ChatGPT/human-authored mission import, and full-loop modes for external missions and coherence review evidence so Codex remains a bounded executor.",
+  "affectedNodeIds": [
+    "module.scripts",
+    "module.docs",
+    "module.root",
+    "architecture.core.engine",
+    "architecture.package.distribution"
+  ],
+  "filesChanged": [
+    "README.md",
+    "docs/AGENT_PROTOCOL.md",
+    "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+    "docs/MISSION_RUNNER.md",
+    "package.json",
+    "scripts/create-assessment-pack.mjs",
+    "scripts/create-assessment-pack.test.mjs",
+    "scripts/import-assessment-missions.mjs",
+    "scripts/import-assessment-missions.test.mjs",
+    "scripts/run-full-self-improvement-loop.mjs",
+    "scripts/run-full-self-improvement-loop.test.mjs"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "medium"
+}

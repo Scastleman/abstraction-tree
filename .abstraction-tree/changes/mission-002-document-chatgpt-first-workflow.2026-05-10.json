@@ -1,0 +1,31 @@
+{
+  "id": "mission-002.document-chatgpt-first-workflow",
+  "timestamp": "2026-05-10T00:00:00.000-04:00",
+  "title": "Document ChatGPT-first assessment workflow",
+  "reason": "User-facing docs now recommend ChatGPT or human strategic assessment from an assessment pack before bounded Codex mission execution, while keeping the full self-improvement loop documented as experimental dogfooding.",
+  "affectedNodeIds": [
+    "file.docs.agent.protocol.md",
+    "file.docs.full.self.improvement.loop.md",
+    "file.docs.mission.runner.md",
+    "file.readme.md",
+    "module.docs",
+    "module.root"
+  ],
+  "filesChanged": [
+    "README.md",
+    "docs/AGENT_PROTOCOL.md",
+    "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+    "docs/MISSION_RUNNER.md",
+    ".abstraction-tree/files.json",
+    ".abstraction-tree/tree.json",
+    ".abstraction-tree/concepts.json",
+    ".abstraction-tree/invariants.json",
+    ".abstraction-tree/import-graph.json",
+    ".abstraction-tree/changes/mission-002-document-chatgpt-first-workflow.2026-05-10.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

@@ -14,6 +14,7 @@ const missionRuntimePath = ".abstraction-tree/automation/mission-runtime.json";
 const missionLogsPath = ".abstraction-tree/automation/mission-logs/";
 const fullLoopLivePidPath = ".abstraction-tree/automation/full-loop-live.pid";
 const fullLoopRunsPath = ".abstraction-tree/automation/full-loop-runs/";
+const assessmentPacksPath = ".abstraction-tree/assessment-packs/";
 const missionRunsPath = ".abstraction-tree/mission-runs/";
 const worktreesPath = ".abstraction-tree/worktrees/";
 
@@ -23,6 +24,7 @@ const localRuntimePaths = [
   missionLogsPath,
   fullLoopLivePidPath,
   fullLoopRunsPath,
+  assessmentPacksPath,
   missionRunsPath,
   worktreesPath
 ];
@@ -143,7 +145,7 @@ test("validateAutomation reports missing config and runtime example files", asyn
   assert.ok(hasIssue(issues, missionRuntimeExamplePath, "mission runtime example is missing"));
 });
 
-test("validateAutomation reports local runtime paths when they are not ignored", async t => {
+test("validateAutomation reports local runtime artifact paths when they are not ignored", async t => {
   const root = await workspace(t, { ignoreRuntime: false });
   await writeValidAutomationFiles(root, {}, { writeGitignore: false });
 
@@ -154,7 +156,7 @@ test("validateAutomation reports local runtime paths when they are not ignored",
   }
 });
 
-test("validateAutomation uses root gitignore fallback for mission and full-loop runtime paths", async t => {
+test("validateAutomation uses root gitignore fallback for runtime artifact paths", async t => {
   const root = await workspace(t);
   await writeValidAutomationFiles(root);
 
@@ -165,7 +167,7 @@ test("validateAutomation uses root gitignore fallback for mission and full-loop 
   }
 });
 
-test("validateAutomation warns when mission and full-loop runtime paths are tracked", async t => {
+test("validateAutomation warns when local runtime artifact paths are tracked", async t => {
   const root = await workspace(t);
   await writeValidAutomationFiles(root);
   const runGit = fakeGitRunner([
@@ -173,6 +175,7 @@ test("validateAutomation warns when mission and full-loop runtime paths are trac
     ".abstraction-tree/automation/mission-logs/run.log",
     fullLoopLivePidPath,
     ".abstraction-tree/automation/full-loop-runs/2026/status.json",
+    ".abstraction-tree/assessment-packs/2026/assessment-prompt.md",
     ".abstraction-tree/mission-runs/2026/status.json",
     ".abstraction-tree/worktrees/2026/status.txt"
   ]);
@@ -184,6 +187,7 @@ test("validateAutomation warns when mission and full-loop runtime paths are trac
     missionLogsPath,
     fullLoopLivePidPath,
     fullLoopRunsPath,
+    assessmentPacksPath,
     missionRunsPath,
     worktreesPath
   ]) {

@@ -39,12 +39,25 @@ Start at Level 1 for the safest adoption path. Each higher level assumes the ear
 ```text
 Level 1: scan / validate / context
 Level 2: visual app
-Level 3: mission runner
-Level 4: proposal adapters through atree propose
-Level 5: full self-improvement loop
+Level 3: ChatGPT/human assessment packs
+Level 4: mission runner
+Level 5: proposal adapters through atree propose
+Level 6: experimental full self-improvement loop
 ```
 
 LLM inference is not part of the default scan pipeline. The repo includes an explicit `atree propose` review workflow for provider adapters, but proposals are validated and saved for review rather than directly mutating canonical memory.
+
+The preferred strategic workflow is staged:
+
+1. Run `npm run assessment:pack`.
+2. Review `assessment-prompt.md` in ChatGPT or with a human reviewer.
+3. Generate a bounded mission folder from that assessment.
+4. Import and validate it with `npm run assessment:import -- --from ./chatgpt-missions --name review-2026-05-10`.
+5. Run `npm run missions:plan:manual` to inspect scope, dependencies, and execution blockers.
+6. Run `npm run missions:run:manual` to execute scoped missions through Codex.
+7. Run `npm run atree:evaluate` and review the objective results.
+
+Codex is the bounded executor. ChatGPT and humans are the preferred strategic assessment layer. Abstraction Tree is the memory, evidence, validation, and scope boundary between strategy and execution. Treat assessment output as a proposal: validate mission files and review the resulting diff before accepting changes.
 
 Related workflow docs:
 
@@ -140,9 +153,10 @@ This repository is a working starter implementation. It includes:
 - validation and stale-memory drift checks;
 - relevance-scored context-pack generation for coding agents;
 - an optional Vite/React visual app;
+- ChatGPT/human assessment packs for strategic review;
 - an explicit `atree propose` review workflow for provider adapters;
 - a mission runner for bounded Codex work queues;
-- a full self-improvement loop for local dogfooding;
+- an experimental full self-improvement loop for local dogfooding;
 - Codex/agent instructions;
 - an example project.
 
@@ -221,6 +235,7 @@ The repo should not commit local runtime state. Keep these local or ignored:
 - live loop counters such as `.abstraction-tree/automation/loop-runtime.json`;
 - local mission runner state such as `.abstraction-tree/automation/mission-runtime.json`, `.abstraction-tree/automation/mission-logs/`, and `.abstraction-tree/mission-runs/`;
 - full-loop live state such as `.abstraction-tree/automation/full-loop-live.pid` and `.abstraction-tree/automation/full-loop-runs/`;
+- ChatGPT/human assessment packs under `.abstraction-tree/assessment-packs/`;
 - local mission worktrees under `.abstraction-tree/worktrees/`;
 - secrets, `.env` files, and API keys;
 - local Codex state outside the project memory contract.
@@ -237,10 +252,19 @@ Mission folders follow two conventions:
 Useful cross-platform dogfooding commands:
 
 ```bash
+npm run assessment:pack
+npm run self:loop -- --assessment-pack-only
+npm run assessment:import -- --from ./chatgpt-missions --name review-2026-05-10 --dry-run
+npm run assessment:import -- --from ./chatgpt-missions --name review-2026-05-10
+npm run missions:plan:manual
+npm run missions:run:manual
+npm run self:loop -- --skip-codex-assessment --missions .abstraction-tree/missions/review-2026-05-10 --allow-dirty
 npm run atree:validate
 npm run atree:evaluate
 npm run diff:summary
 ```
+
+`npm run assessment:pack` creates a local evidence pack for ChatGPT or human strategy review. `npm run self:loop -- --assessment-pack-only` creates the same style of evidence pack inside a full-loop run directory, prints the pack path, and exits before any Codex assessment, mission planning, mission execution, coherence review, or durable loop report. The reviewer authors the broad assessment and bounded mission files; `npm run assessment:import` validates and stages that folder under `.abstraction-tree/missions/<name>/`; `npm run missions:plan:manual` validates and batches the staged missions before `npm run missions:run:manual` sends those scoped prompts to Codex. Run `npm run atree:evaluate` afterward so narrative run reports are checked against objective project-memory signals.
 
 Windows-only local loop commands:
 
@@ -254,7 +278,11 @@ npm run codex:missions:windows
 
 `npm run abstraction:loop:windows` runs a bounded local Codex improvement loop. It is Windows PowerShell automation around local Codex state, not a public CI entrypoint. It reads the stable loop config and prompt, starts a Codex cycle, runs post-loop checks, updates ignored runtime counters, and can optionally auto-commit only when configured and when required checks pass.
 
-`npm run self:loop` runs the full self-improvement loop that authors missions, invokes the mission runner, and performs a read-only coherence review. The mission runner and full loop both reject `--sandbox danger-full-access` unless `--allow-danger-full-access` is also passed, including dry runs, so elevated sandbox access is always explicit.
+`npm run self:loop` runs the experimental full self-improvement loop that authors missions, invokes the mission runner, and performs a read-only coherence review. It remains local dogfooding, not the recommended strategic default. Prefer `assessment:pack` plus ChatGPT/human mission design for broad repository assessment. The mission runner and full loop both reject `--sandbox danger-full-access` unless `--allow-danger-full-access` is also passed, including dry runs, so elevated sandbox access is always explicit.
+
+Use `npm run self:loop -- --assessment-pack-only` when you want full-loop-local assessment evidence but no Codex invocation. It creates a full-loop run directory and assessment pack, prints the pack path, and stops before assessment spawning, mission planning, mission execution, post-run context, coherence review, and durable report writing.
+
+To reuse an imported ChatGPT/human-authored mission folder while keeping the full-loop evidence, coherence review, change review, and durable report stages, pass `--skip-codex-assessment --missions <folder>`. That mode requires an explicit mission folder, skips the Codex assessment prompt and assessment spawn, and labels the run artifacts as externally authored.
 
 Generated full-loop missions must declare a value category: `product-value`, `safety`, `quality`, `developer-experience`, or `automation-maintenance`. The loop rejects more than one `automation-maintenance` mission by default so process upkeep cannot crowd out product value, safety, quality, or developer experience; `--allow-multiple-automation-maintenance` is the explicit attended override.
 
@@ -346,6 +374,18 @@ Prints a read-only JSON report for `.abstraction-tree/changes/`, including gener
 
 ```bash
 atree changes review --project /path/to/project
+```
+
+Use `--summary` for a compact count-only report before deciding whether the full candidate list is needed:
+
+```bash
+atree changes review --project /path/to/project --summary
+```
+
+Use `--limit <n>` to inspect only the first generated scan candidates while keeping total counts in the report:
+
+```bash
+atree changes review --project /path/to/project --limit 5
 ```
 
 ### `atree propose`

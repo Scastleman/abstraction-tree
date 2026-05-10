@@ -1,0 +1,32 @@
+{
+  "id": "mission-007.assessment-pack-artifact-validation",
+  "timestamp": "2026-05-10T10:40:00-04:00",
+  "title": "Validate assessment-pack artifact boundary",
+  "reason": "Automation validation now treats assessment packs as ignored local runtime evidence, and docs distinguish local assessment-pack evidence from durable run or lesson summaries.",
+  "affectedNodeIds": [
+    "architecture.core.engine",
+    "file.docs.full.self.improvement.loop.md",
+    "file.packages.core.src.automationvalidation.test.ts",
+    "file.packages.core.src.automationvalidation.ts",
+    "module.docs",
+    "module.packages",
+    "module.root"
+  ],
+  "filesChanged": [
+    ".gitignore",
+    "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+    "packages/core/src/automationValidation.ts",
+    "packages/core/src/automationValidation.test.ts",
+    ".abstraction-tree/files.json",
+    ".abstraction-tree/tree.json",
+    ".abstraction-tree/concepts.json",
+    ".abstraction-tree/invariants.json",
+    ".abstraction-tree/import-graph.json",
+    ".abstraction-tree/changes/mission-007-assessment-pack-artifact-validation.2026-05-10.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

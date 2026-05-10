@@ -10,6 +10,7 @@ import {
   buildContextPack,
   buildChangeRecordReviewSummary,
   formatContextPackMarkdown,
+  limitChangeRecordReviewReport,
   reviewChangeRecords,
   buildImportGraph,
   buildDeterministicTree,
@@ -55,6 +56,12 @@ function contextOutputFormat(input: unknown): ContextOutputFormat | undefined {
 }
 
 function contextMaxTokens(input: unknown): number | undefined {
+  if (input === undefined) return undefined;
+  const parsed = Number(input);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : undefined;
+}
+
+function positiveIntegerOption(input: unknown): number | undefined {
   if (input === undefined) return undefined;
   const parsed = Number(input);
   return Number.isInteger(parsed) && parsed > 0 ? parsed : undefined;
@@ -216,10 +223,21 @@ changesCommand.command("review")
   .description("List generated scan change records eligible for consolidation")
   .option("-p, --project <path>", "project root")
   .option("--summary", "print compact counts instead of generated scan record details")
+  .option("--limit <n>", "limit generated scan record details in the full report")
   .action(async opts => {
+    const limit = positiveIntegerOption(opts.limit);
+    if (opts.limit !== undefined && limit === undefined) {
+      console.error("Change review limit must be a positive integer.");
+      process.exitCode = 1;
+      return;
+    }
     const root = projectPath(opts.project);
     const report = await reviewChangeRecords(root);
-    console.log(JSON.stringify(opts.summary ? buildChangeRecordReviewSummary(report) : report, null, 2));
+    console.log(JSON.stringify(
+      opts.summary ? buildChangeRecordReviewSummary(report) : limitChangeRecordReviewReport(report, limit),
+      null,
+      2
+    ));
   });
 
 program.command("serve")

@@ -7,11 +7,12 @@ dist-ts/
 coverage/
 packages/app/.vite/
 
-# Local autonomous Codex mission runtime state
+# Local automation and assessment runtime state
 .abstraction-tree/automation/mission-runtime.json
 .abstraction-tree/automation/mission-logs/
 .abstraction-tree/automation/full-loop-live.pid
 .abstraction-tree/automation/full-loop-runs/
+.abstraction-tree/assessment-packs/
 .abstraction-tree/mission-runs/
 .abstraction-tree/worktrees/
 

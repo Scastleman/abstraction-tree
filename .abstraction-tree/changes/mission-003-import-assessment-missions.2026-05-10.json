@@ -1,0 +1,36 @@
+{
+  "id": "mission-003.import-assessment-missions",
+  "timestamp": "2026-05-10T10:16:00.000-04:00",
+  "title": "Import and validate assessment mission folders",
+  "reason": "Assessment mission folders can now be validated and staged under the manual mission structure before Codex execution, reducing malformed frontmatter, duplicate mission ids, non-Markdown files, and unsafe destination writes.",
+  "affectedNodeIds": [
+    "architecture.package.distribution",
+    "file.docs.mission.runner.md",
+    "file.package.json",
+    "file.readme.md",
+    "file.scripts.import.assessment.missions.mjs",
+    "file.scripts.import.assessment.missions.test.mjs",
+    "module.docs",
+    "module.root",
+    "module.scripts"
+  ],
+  "filesChanged": [
+    "README.md",
+    "docs/MISSION_RUNNER.md",
+    "package.json",
+    "scripts/import-assessment-missions.mjs",
+    "scripts/import-assessment-missions.test.mjs",
+    ".abstraction-tree/files.json",
+    ".abstraction-tree/tree.json",
+    ".abstraction-tree/concepts.json",
+    ".abstraction-tree/invariants.json",
+    ".abstraction-tree/import-graph.json",
+    ".abstraction-tree/changes/scan.1778422664850.json",
+    ".abstraction-tree/changes/mission-003-import-assessment-missions.2026-05-10.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "medium"
+}

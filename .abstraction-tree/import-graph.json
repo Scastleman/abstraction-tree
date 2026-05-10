@@ -799,6 +799,12 @@
       "kind": "relative"
     },
     {
+      "from": "scripts/create-assessment-pack.test.mjs",
+      "to": "scripts/create-assessment-pack.mjs",
+      "specifier": "./create-assessment-pack.mjs",
+      "kind": "relative"
+    },
+    {
       "from": "scripts/cross-platform-automation.test.mjs",
       "to": "scripts/diff-summary.mjs",
       "specifier": "./diff-summary.mjs",
@@ -816,6 +822,18 @@
       "specifier": "../packages/core/dist/index.js",
       "kind": "workspace-package",
       "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "scripts/import-assessment-missions.mjs",
+      "to": "scripts/run-missions.mjs",
+      "specifier": "./run-missions.mjs",
+      "kind": "relative"
+    },
+    {
+      "from": "scripts/import-assessment-missions.test.mjs",
+      "to": "scripts/import-assessment-missions.mjs",
+      "specifier": "./import-assessment-missions.mjs",
+      "kind": "relative"
     },
     {
       "from": "scripts/lint.mjs",
@@ -839,6 +857,18 @@
       "from": "scripts/release-dry-run.mjs",
       "to": "scripts/check-changelog.mjs",
       "specifier": "./check-changelog.mjs",
+      "kind": "relative"
+    },
+    {
+      "from": "scripts/run-full-self-improvement-loop.mjs",
+      "to": "scripts/create-assessment-pack.mjs",
+      "specifier": "./create-assessment-pack.mjs",
+      "kind": "relative"
+    },
+    {
+      "from": "scripts/run-full-self-improvement-loop.test.mjs",
+      "to": "scripts/create-assessment-pack.mjs",
+      "specifier": "./create-assessment-pack.mjs",
       "kind": "relative"
     },
     {
@@ -1524,6 +1554,56 @@
       "packageName": "node:test"
     },
     {
+      "from": "scripts/create-assessment-pack.mjs",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "scripts/create-assessment-pack.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/create-assessment-pack.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/create-assessment-pack.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/create-assessment-pack.mjs",
+      "specifier": "node:util",
+      "packageName": "node:util"
+    },
+    {
+      "from": "scripts/create-assessment-pack.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/create-assessment-pack.test.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/create-assessment-pack.test.mjs",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "scripts/create-assessment-pack.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/create-assessment-pack.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
       "from": "scripts/cross-platform-automation.test.mjs",
       "specifier": "node:assert/strict",
       "packageName": "node:assert/strict"
@@ -1617,6 +1697,46 @@
       "from": "scripts/generated-memory-fixtures.test.mjs",
       "specifier": "node:url",
       "packageName": "node:url"
+    },
+    {
+      "from": "scripts/import-assessment-missions.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/import-assessment-missions.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/import-assessment-missions.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/import-assessment-missions.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/import-assessment-missions.test.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/import-assessment-missions.test.mjs",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "scripts/import-assessment-missions.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/import-assessment-missions.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
     },
     {
       "from": "scripts/lint.mjs",
@@ -1770,6 +1890,11 @@
     },
     {
       "from": "scripts/run-full-self-improvement-loop.test.mjs",
+      "specifier": "node:events",
+      "packageName": "node:events"
+    },
+    {
+      "from": "scripts/run-full-self-improvement-loop.test.mjs",
       "specifier": "node:fs/promises",
       "packageName": "node:fs/promises"
     },
@@ -1782,6 +1907,11 @@
       "from": "scripts/run-full-self-improvement-loop.test.mjs",
       "specifier": "node:path",
       "packageName": "node:path"
+    },
+    {
+      "from": "scripts/run-full-self-improvement-loop.test.mjs",
+      "specifier": "node:stream",
+      "packageName": "node:stream"
     },
     {
       "from": "scripts/run-full-self-improvement-loop.test.mjs",
