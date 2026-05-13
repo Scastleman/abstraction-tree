@@ -34,6 +34,7 @@ npm install
 npm run build
 npm run atree -- scan --project .
 npm run atree -- doctor --project .
+npm run atree -- export --project . --format mermaid
 npm run atree -- serve --project .
 ```
 
@@ -259,6 +260,7 @@ This repository is a working starter implementation. It includes:
 - a local `.abstraction-tree/` schema;
 - validation and stale-memory drift checks;
 - relevance-scored context-pack generation for coding agents;
+- Mermaid and Graphviz DOT export for generated tree memory;
 - an optional Vite/React visual app;
 - ChatGPT/human assessment packs for strategic review;
 - an explicit `atree propose` review workflow for provider adapters;
@@ -310,8 +312,26 @@ npm run atree -- scan --project examples/small-web-app
 npm run atree -- doctor --project examples/small-web-app
 npm run atree -- validate --project examples/small-web-app
 npm run atree -- context --project examples/small-web-app --target checkout
+npm run atree -- export --project examples/small-web-app --format mermaid --output docs/tree.mmd
 npm run atree -- serve --project examples/small-web-app
 ```
+
+## Codex adoption checklist
+
+When Codex or another coding agent is asked to add Abstraction Tree to a project, first decide whether the task is changing this repository or adopting this tool inside a separate target project. Do not infer the target from the cloned `abstraction-tree` checkout. Use the user's workspace, explicit path, or current project context as the target.
+
+For a separate target project:
+
+- Run the CLI from this repository if needed, but always pass the target path with `--project /absolute/path/to/target`.
+- Start with `atree init --core` or `atree init --with-app` in the target project. This creates blank project-local memory.
+- Run `atree scan --project /absolute/path/to/target` so the target's own files generate `tree.json`, `files.json`, concepts, invariants, and changes.
+- Never copy this repository's root `.abstraction-tree/` folder into the target. It is committed dogfooding memory for `abstraction-tree` only.
+- Never serve this repository unless the task is explicitly dogfooding or developing Abstraction Tree itself.
+- Run `atree doctor --project /absolute/path/to/target` and confirm the project name, file count, node count, and `Self dogfooding memory: not detected`.
+- If scanning hits generated artifacts, dependency bundles, release folders, caches, or permission errors, add target-specific ignores to the target `.abstraction-tree/config.json` and scan again. Do not work around the problem by copying memory from this repo.
+- When starting the visual app, read the `atree serve` startup summary. The printed project name and root must match the target before opening or reloading the browser.
+- Quote paths with spaces carefully. On Windows PowerShell, prefer quoted arguments such as `--project 'C:\Users\Sam\Documents\corr matrix test'`.
+- If a target already has suspicious memory, inspect it first. Delete generated `.abstraction-tree` memory only when it is clearly stale or contaminated and the user has asked for cleanup.
 
 ## Canonical example fixture
 
@@ -501,6 +521,8 @@ Starts the local visual app. This requires the full install package or a built `
 atree serve --project /path/to/project --port 4317
 ```
 
+At startup, `serve` prints the resolved project root, project name, memory counts, and warnings for unscanned memory or accidental serving of this repository's dogfooding memory. Check those lines when replacing an existing preview; the browser should show the same project name as the startup summary.
+
 Use `--host 0.0.0.0` only when you intentionally want LAN access; the CLI prints a risk warning for wildcard or non-loopback hosts.
 
 ### `atree validate`
@@ -517,6 +539,16 @@ Builds a compact context pack for coding agents.
 
 ```bash
 atree context --project /path/to/project --target checkout
+```
+
+### `atree export`
+
+Renders generated tree memory as a Mermaid or Graphviz DOT diagram. This command reads `.abstraction-tree/tree.json` and does not rescan or mutate canonical memory.
+
+```bash
+atree export --project /path/to/project --format mermaid
+atree export --project /path/to/project --format dot --direction LR --output docs/tree.dot
+atree export --project /path/to/project --format mermaid --with-summaries --output docs/tree.mmd
 ```
 
 ### `atree changes review`

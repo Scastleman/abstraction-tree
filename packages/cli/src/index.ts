@@ -33,7 +33,9 @@ import { formatMigrationResult, migrationExitCode, runMigrateCommand } from "./m
 import { runProposeCommand } from "./propose.js";
 import { runRouteCommand } from "./routeCommand.js";
 import { formatServeUrl, selectServeHost } from "./serveHost.js";
+import { buildServeProjectSummary, formatServeProjectSummary } from "./serveProject.js";
 import { runScopeCheckCommand, runScopeCreateCommand } from "./scopeCommand.js";
+import { runTreeExportCommand } from "./treeExportCommand.js";
 
 const program = new Command();
 program.name("atree").description("Build and visualize an abstraction tree for a codebase.").version("0.1.0");
@@ -234,6 +236,24 @@ program.command("evaluate")
     console.log(JSON.stringify(report, null, 2));
   });
 
+program.command("export")
+  .description("Export the abstraction tree as Mermaid or Graphviz DOT")
+  .option("-p, --project <path>", "project root")
+  .option("--format <format>", "output format: mermaid or dot", "mermaid")
+  .option("--direction <direction>", "diagram direction: TD, TB, BT, LR, or RL")
+  .option("--with-summaries", "include node summaries in diagram labels")
+  .option("-o, --output <path>", "write the diagram to a file instead of stdout")
+  .action(async opts => {
+    const root = projectPath(opts.project);
+    process.exitCode = await runTreeExportCommand({
+      projectRoot: root,
+      format: opts.format,
+      output: opts.output,
+      direction: opts.direction,
+      withSummaries: Boolean(opts.withSummaries)
+    });
+  });
+
 program.command("goal")
   .description("Compile a complex user goal into assessment, affected-tree mapping, and bounded missions")
   .option("-p, --project <path>", "project root")
@@ -350,6 +370,7 @@ program.command("serve")
       console.log("Visual app is available, but this project is in core mode. Enabling full mode for this workspace.");
       await setInstallMode(root, "full");
     }
+    process.stdout.write(formatServeProjectSummary(await buildServeProjectSummary(root)));
     const serveStatic = sirv(appDist, { dev: true });
     const server = createServer(async (req, res) => {
       if (!req.url) return res.end();

@@ -147,9 +147,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "1bc8b80f07e2ffc32549497adbb6f4e5e1400db2eee2106f1cd3e99fc53e5aa5",
-    "sizeBytes": 737,
-    "lines": 21,
+    "contentHash": "060d70ca9f37db84730770f8f8acbe13476295f0ec72fd6e3770f78b1044395a",
+    "sizeBytes": 1128,
+    "lines": 27,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -233,9 +233,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "f7ee20e6a537bca181bd4c29013021a99caef270428a375cdcb1c6beb89538bb",
-    "sizeBytes": 11624,
-    "lines": 145,
+    "contentHash": "45aaf0b5dbdb62b54fc338284b03b52ccae9ba6deabe9a72b6495bb89b94b4a8",
+    "sizeBytes": 11722,
+    "lines": 147,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -521,8 +521,8 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "f97ac8a9ec0b7ed3fb2cec46a899fa48620e89674e2440dd14f4efc480827d1c",
-    "sizeBytes": 7291,
+    "contentHash": "fb7ed5475d0949c3e82e3a14fcdd0ba990da049278c641fba31d4b9d9d6017f6",
+    "sizeBytes": 7329,
     "lines": 81,
     "imports": [],
     "exports": [],
@@ -2276,9 +2276,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "7ad70b75268c6f847c4afb045e1cc93774b4bbc3e3a169496123dde07aee3769",
-    "sizeBytes": 16458,
-    "lines": 382,
+    "contentHash": "e83046498df3a22ae39d5322bb176c5be74c7cc337c864a4bec9f24d95c1855b",
+    "sizeBytes": 17460,
+    "lines": 403,
     "imports": [
       "commander",
       "node:path",
@@ -2293,7 +2293,9 @@
       "./propose.js",
       "./routeCommand.js",
       "./serveHost.js",
-      "./scopeCommand.js"
+      "./serveProject.js",
+      "./scopeCommand.js",
+      "./treeExportCommand.js"
     ],
     "exports": [],
     "symbols": [
@@ -2820,6 +2822,175 @@
       "subsystem.cli.local.api",
       "subsystem.cli.local.api.slice.cli.support",
       "subsystem.cli.local.api.file.packages.cli.src.servehost.ts"
+    ]
+  },
+  {
+    "path": "packages/cli/src/serveProject.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "7994ec4191650c726c1217f64b7b436405404129a77d5b6a1eea03eaf211d5e9",
+    "sizeBytes": 3258,
+    "lines": 90,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:test",
+      "@abstraction-tree/core",
+      "./serveProject.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "root",
+      "summary",
+      "output",
+      "workspace",
+      "node",
+      "escapeRegExp"
+    ],
+    "isTest": true,
+    "summary": "serveProject.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, summary, output, workspace, node. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.serveproject.test.ts",
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.serveproject.test.ts"
+    ]
+  },
+  {
+    "path": "packages/cli/src/serveProject.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "24c01f6862aaea432de2c3bb8febabdb488d70f06833e1236178145c1ec3fc86",
+    "sizeBytes": 3647,
+    "lines": 109,
+    "imports": [
+      "node:fs",
+      "node:fs/promises",
+      "node:path",
+      "@abstraction-tree/core"
+    ],
+    "exports": [
+      "ServeProjectSummary",
+      "buildServeProjectSummary",
+      "formatServeProjectSummary"
+    ],
+    "symbols": [
+      "ServeProjectSummary",
+      "REQUIRED_MEMORY_FILES",
+      "ABSTRACTION_TREE_PACKAGE_NAMES",
+      "buildServeProjectSummary",
+      "root",
+      "memory",
+      "missingMemoryFiles",
+      "packageName",
+      "formatServeProjectSummary",
+      "lines",
+      "readPackageName",
+      "packagePath",
+      "value",
+      "memoryCounts",
+      "objectRecord"
+    ],
+    "isTest": false,
+    "summary": "serveProject.ts is a TypeScript implementation file. AST-backed scan. Defines ServeProjectSummary, REQUIRED_MEMORY_FILES, ABSTRACTION_TREE_PACKAGE_NAMES, buildServeProjectSummary, root. Depends on node:fs, node:fs/promises, node:path, @abstraction-tree/core.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.serveproject.ts",
+      "module.packages",
+      "architecture.cli.surface",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.packages.cli.src.serveproject.ts"
+    ]
+  },
+  {
+    "path": "packages/cli/src/treeExportCommand.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "f4d00454b779a29f8977f3f3255a7680d1e2334d7d190dafdb04f75a37c62205",
+    "sizeBytes": 3143,
+    "lines": 110,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:test",
+      "@abstraction-tree/core",
+      "./treeExportCommand.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "root",
+      "capture",
+      "exitCode",
+      "output",
+      "workspace",
+      "writeTree",
+      "node",
+      "captureIo",
+      "stdout",
+      "stderr"
+    ],
+    "isTest": true,
+    "summary": "treeExportCommand.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, capture, exitCode, output, workspace. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.treeexportcommand.test.ts",
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.treeexportcommand.test.ts"
+    ]
+  },
+  {
+    "path": "packages/cli/src/treeExportCommand.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "d65a92d0b0eacae08d283ff899c33bf037784dcadbf02177f71c95451d682805",
+    "sizeBytes": 2586,
+    "lines": 84,
+    "imports": [
+      "node:fs/promises",
+      "node:path",
+      "@abstraction-tree/core"
+    ],
+    "exports": [
+      "TreeExportCommandOptions",
+      "TreeExportCommandIo",
+      "runTreeExportCommand"
+    ],
+    "symbols": [
+      "TreeExportCommandOptions",
+      "TreeExportCommandIo",
+      "diagramFormats",
+      "diagramDirections",
+      "runTreeExportCommand",
+      "format",
+      "direction",
+      "nodes",
+      "content",
+      "outputPath",
+      "parseFormat",
+      "value",
+      "parseDirection",
+      "relativePath",
+      "defaultIo"
+    ],
+    "isTest": false,
+    "summary": "treeExportCommand.ts is a TypeScript implementation file. AST-backed scan. Defines TreeExportCommandOptions, TreeExportCommandIo, diagramFormats, diagramDirections, runTreeExportCommand. Depends on node:fs/promises, node:path, @abstraction-tree/core.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.treeexportcommand.ts",
+      "module.packages",
+      "architecture.cli.surface",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.packages.cli.src.treeexportcommand.ts"
     ]
   },
   {
@@ -3745,9 +3916,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "1ce1fda83af19176d91835874b2cc0bb781f19ebca718071c8221cb5ba4ecaf9",
-    "sizeBytes": 706,
-    "lines": 22,
+    "contentHash": "5dcb7d4c7b9239f419b023ac612a900dc47e93111d3937510db767355aa99081",
+    "sizeBytes": 739,
+    "lines": 23,
     "imports": [
       "./schema.js",
       "./runtimeSchema.js",
@@ -3756,6 +3927,7 @@
       "./scanner.js",
       "./importGraph.js",
       "./treeBuilder.js",
+      "./treeExport.js",
       "./context.js",
       "./contextLimits.js",
       "./changeReview.js",
@@ -4927,6 +5099,95 @@
     ]
   },
   {
+    "path": "packages/core/src/treeExport.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "bd8abbcb049ee2d80c675405acb8d79aca365289e74277ec0e5218dbe97ea803",
+    "sizeBytes": 1749,
+    "lines": 62,
+    "imports": [
+      "node:assert/strict",
+      "node:test",
+      "./treeExport.js",
+      "./schema.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "output",
+      "node"
+    ],
+    "isTest": true,
+    "summary": "treeExport.test.ts is a TypeScript test coverage file. AST-backed scan. Defines output, node. Depends on node:assert/strict, node:test, ./treeExport.js, ./schema.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.treeexport.test.ts",
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.treeexport.test.ts"
+    ]
+  },
+  {
+    "path": "packages/core/src/treeExport.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "396f0fa8d477c5b42fe36dab141badc290b45b5b4378b84b21d41c58df23e633",
+    "sizeBytes": 4159,
+    "lines": 144,
+    "imports": [
+      "./schema.js"
+    ],
+    "exports": [
+      "TreeDiagramFormat",
+      "TreeDiagramDirection",
+      "TreeDiagramOptions",
+      "formatTreeDiagram",
+      "formatTreeAsMermaid",
+      "formatTreeAsDot"
+    ],
+    "symbols": [
+      "TreeDiagramFormat",
+      "TreeDiagramDirection",
+      "TreeDiagramOptions",
+      "TreeEdge",
+      "formatTreeDiagram",
+      "formatTreeAsMermaid",
+      "direction",
+      "nodeIds",
+      "lines",
+      "node",
+      "edge",
+      "formatTreeAsDot",
+      "diagramNodeIds",
+      "treeEdges",
+      "edgeKeys",
+      "edges",
+      "addEdge",
+      "key",
+      "childId",
+      "mermaidLabel",
+      "dotLabel",
+      "labelParts",
+      "title",
+      "summary",
+      "truncateSummary",
+      "normalizeLabelText",
+      "escapeMermaidText",
+      "escapeDotText"
+    ],
+    "isTest": false,
+    "summary": "treeExport.ts is a TypeScript implementation file. AST-backed scan. Defines TreeDiagramFormat, TreeDiagramDirection, TreeDiagramOptions, TreeEdge, formatTreeDiagram. Depends on ./schema.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.treeexport.ts",
+      "module.packages",
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.core.support",
+      "subsystem.core.engine.file.packages.core.src.treeexport.ts"
+    ]
+  },
+  {
     "path": "packages/core/src/validator.test.ts",
     "extension": ".ts",
     "language": "TypeScript",
@@ -5300,9 +5561,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "ca30830f5d7bb73e6a06829af4e5ccd3827d2f1c6de0bc66c9d16132a9886a16",
-    "sizeBytes": 29159,
-    "lines": 594,
+    "contentHash": "de051dc2ac6303453eed6cf9a7605c4ddaf6fee303f8ed54546aaef81b5edb23",
+    "sizeBytes": 32100,
+    "lines": 626,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -5321,6 +5582,7 @@
       "MVP status",
       "Repository layout",
       "Install for development",
+      "Codex adoption checklist",
       "Canonical example fixture",
       "Dogfooding",
       "Committed memory and local runtime state",
@@ -5333,6 +5595,7 @@
       "`atree serve`",
       "`atree validate`",
       "`atree context`",
+      "`atree export`",
       "`atree changes review`",
       "`atree propose`",
       "The `.abstraction-tree/` folder",
@@ -5341,6 +5604,7 @@
       "shields",
       "md",
       "json",
+      "mmd",
       "test",
       "example"
     ],

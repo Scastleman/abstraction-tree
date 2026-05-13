@@ -25,6 +25,7 @@
 - Schema migration planning and `atree migrate` for committed `.abstraction-tree/` memory.
 - Goal-driven mission planning through `atree goal`, which stores the original prompt, maps it to abstraction memory, writes a mission folder, and keeps execution review-gated.
 - Prompt routing through `atree route`, which classifies prompts as direct, goal-driven, assessment-pack, or manual-review before any Codex execution.
+- Mermaid and Graphviz DOT export for deterministic tree memory.
 
 ## Current operational boundary
 
@@ -56,7 +57,6 @@ Evaluation also tracks explanation completeness with counts for missing explanat
 - Tree-sitter symbol extraction for additional languages.
 - Import graph resolution by language.
 - Better concept clustering.
-- Mermaid/Graphviz export.
 - Markdown/YAML output option.
 - Git diff based semantic change records.
 - Assisted application workflow for human-approved adapter proposal artifacts after existing `atree propose` validation.

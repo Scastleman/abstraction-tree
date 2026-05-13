@@ -8,7 +8,13 @@ This repository uses synchronized SemVer versions across the publishable package
 
 ## [Unreleased]
 
-- No unreleased changes yet.
+- Added `atree export` for Mermaid and Graphviz DOT diagrams generated from
+  `.abstraction-tree/tree.json`.
+- Added `atree serve` startup diagnostics that print the resolved project,
+  memory counts, and dogfooding-memory adoption warnings.
+- Added README guidance for Codex and other agents adopting Abstraction Tree into
+  a separate target project without copying dogfooding memory or serving the
+  wrong workspace.
 
 ## [0.1.0] - 2026-05-08
 

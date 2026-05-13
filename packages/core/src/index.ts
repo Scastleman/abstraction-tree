@@ -5,6 +5,7 @@ export * from "./migrations.js";
 export * from "./scanner.js";
 export * from "./importGraph.js";
 export * from "./treeBuilder.js";
+export * from "./treeExport.js";
 export * from "./context.js";
 export * from "./contextLimits.js";
 export * from "./changeReview.js";
