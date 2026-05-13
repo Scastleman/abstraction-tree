@@ -25,6 +25,8 @@ When setup is uncertain, run `atree doctor --project .` before editing. It is a 
 
 Use `--format markdown` when the next consumer is an agent prompt or report. Use `--why` to include selection diagnostics for every selected node, file, concept, invariant, and recent change, plus nearby candidates excluded by hard limits or token budget. Use `--max-tokens <n>` to apply an approximate selected-item budget. The first-pass estimator is documented as `approximate-json-chars-div-4`, so it is a deterministic character-count approximation and does not require a tokenizer package.
 
+Selected nodes include `summary`, `explanation`, and `separationLogic` when available. Read the summary for a quick label, then read the explanation for ownership, dependencies, parent/child context, invariants, and safe-change guidance. Read the separation logic to understand the partition rule for the child nodes and which child boundary best matches the prompt. Treat these fields as scope boundary aids: they should help you avoid editing sibling modules unless the dependency evidence says the change really crosses that boundary.
+
 ## During editing
 
 1. Stay inside relevant ownership boundaries when possible.
@@ -36,7 +38,7 @@ Use `--format markdown` when the next consumer is an agent prompt or report. Use
 
 1. Run the relevant tests or validation commands.
 2. Update file summaries if ownership changed.
-3. Update affected tree nodes.
+3. Update affected tree nodes, including `explanation` and `separationLogic` when node ownership, dependencies, child boundaries, or safe-change guidance changed.
 4. Add concepts or invariants if new durable ideas were introduced.
 5. Write a semantic change record in `.abstraction-tree/changes/`.
 6. Run `atree validate`.

@@ -1,7 +1,7 @@
 import { existsSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
-import type { Concept, ContextPack, FileSummary, ImportGraph, Invariant, TreeNode, ValidationIssue } from "./schema.js";
+import { TREE_NODE_THIN_EXPLANATION_CHAR_THRESHOLD, type Concept, type ContextPack, type FileSummary, type ImportGraph, type Invariant, type TreeNode, type ValidationIssue } from "./schema.js";
 import { scanProject } from "./scanner.js";
 import { validateAutomation } from "./automationValidation.js";
 import { buildChangeRecordReviewSummary, reviewChangeRecords, type ChangeRecordReviewSummary } from "./changeReview.js";
@@ -26,6 +26,9 @@ export interface EvaluationReport {
     nodeCount: number;
     orphanNodeCount: number;
     nodesWithoutSummaries: number;
+    nodesWithoutExplanations: number;
+    thinExplanationCount: number;
+    averageExplanationLength: number;
     filesWithoutOwners: number;
   };
   context: {
@@ -295,10 +298,14 @@ export function formatEvaluationTimestamp(date: Date): string {
 }
 
 function evaluateTree(nodes: TreeNode[], files: FileSummary[]): EvaluationReport["tree"] {
+  const explanationLengths = nodes.map(node => node.explanation?.trim().length ?? 0);
   return {
     nodeCount: nodes.length,
     orphanNodeCount: orphanNodeCount(nodes),
     nodesWithoutSummaries: nodes.filter(node => !nonEmptyString(node.summary)).length,
+    nodesWithoutExplanations: explanationLengths.filter(length => length === 0).length,
+    thinExplanationCount: explanationLengths.filter(length => length > 0 && length < TREE_NODE_THIN_EXPLANATION_CHAR_THRESHOLD).length,
+    averageExplanationLength: average(explanationLengths),
     filesWithoutOwners: files.filter(file => !Array.isArray(file.ownedByNodeIds) || file.ownedByNodeIds.length === 0).length
   };
 }

@@ -19,9 +19,9 @@
   ],
   "expectedConceptIds": [
     "abstraction",
-    "assessment",
     "context.pack",
     "evaluation",
+    "goal",
     "import.graph",
     "memory",
     "tree"

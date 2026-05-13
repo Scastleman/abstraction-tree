@@ -2,7 +2,7 @@
   {
     "id": "change",
     "title": "Change",
-    "summary": "Durable concept inferred from 30 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 31 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.adapters",
       "module.docs",
@@ -17,6 +17,7 @@
       "file.packages.cli.src.apistate.ts",
       "file.packages.cli.src.changereviewcli.test.ts",
       "file.packages.cli.src.changereviewcommand.ts",
+      "file.packages.cli.src.goalcommand.ts",
       "file.packages.cli.src.index.ts",
       "file.packages.core.src.changereview.test.ts",
       "file.packages.core.src.changereview.ts",
@@ -56,6 +57,7 @@
       "packages/cli/src/apiState.ts",
       "packages/cli/src/changeReviewCli.test.ts",
       "packages/cli/src/changeReviewCommand.ts",
+      "packages/cli/src/goalCommand.ts",
       "packages/cli/src/index.ts",
       "packages/core/src/changeReview.test.ts",
       "packages/core/src/changeReview.ts",
@@ -367,7 +369,7 @@
   {
     "id": "tree",
     "title": "Tree",
-    "summary": "Durable concept inferred from 25 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 26 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.adapters",
       "module.docs",
@@ -385,6 +387,7 @@
       "file.packages.app.src.styles.css",
       "file.packages.cli.src.propose.test.ts",
       "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.goal.ts",
       "file.packages.core.src.llm.abstractionbuilder.ts",
       "file.packages.core.src.llm.proposals.ts",
       "file.packages.core.src.llm.types.ts",
@@ -416,6 +419,7 @@
       "packages/app/src/styles.css",
       "packages/cli/src/propose.test.ts",
       "packages/core/src/evaluator.ts",
+      "packages/core/src/goal.ts",
       "packages/core/src/llm/abstractionBuilder.ts",
       "packages/core/src/llm/proposals.ts",
       "packages/core/src/llm/types.ts",
@@ -486,6 +490,13 @@
       },
       {
         "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalAffectedTree",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "export",
         "filePath": "packages/core/src/llm/types.ts",
         "value": "ProposedTreeChange",
         "term": "tree",
@@ -509,6 +520,13 @@
         "kind": "export",
         "filePath": "packages/core/src/schema.ts",
         "value": "AbstractionTreeState",
+        "term": "tree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "TREE_NODE_THIN_EXPLANATION_CHAR_THRESHOLD",
         "term": "tree",
         "score": 4
       },
@@ -700,19 +718,1358 @@
         "value": "TreeItem",
         "term": "tree",
         "score": 3
+      }
+    ]
+  },
+  {
+    "id": "command",
+    "title": "Command",
+    "summary": "Durable concept inferred from 21 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.docs",
+      "module.packages",
+      "module.root",
+      "module.scripts",
+      "file.docs.goal.driven.autopilot.md",
+      "file.packages.cli.src.changereviewcommand.ts",
+      "file.packages.cli.src.goalcommand.test.ts",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.migrate.ts",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.cli.src.routecommand.test.ts",
+      "file.packages.cli.src.routecommand.ts",
+      "file.packages.cli.src.scopecommand.test.ts",
+      "file.packages.cli.src.scopecommand.ts",
+      "file.packages.core.src.goal.ts",
+      "file.readme.md",
+      "file.scripts.create.assessment.pack.mjs",
+      "file.scripts.create.assessment.pack.test.mjs",
+      "file.scripts.pack.smoke.test.mjs",
+      "file.scripts.release.dry.run.mjs",
+      "file.scripts.run.abstraction.loop.ps1",
+      "file.scripts.run.codex.missions.ps1",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.visual.app.api",
+      "architecture.package.distribution"
+    ],
+    "relatedFiles": [
+      "README.md",
+      "docs/GOAL_DRIVEN_AUTOPILOT.md",
+      "packages/cli/src/changeReviewCommand.ts",
+      "packages/cli/src/goalCommand.test.ts",
+      "packages/cli/src/goalCommand.ts",
+      "packages/cli/src/index.ts",
+      "packages/cli/src/migrate.ts",
+      "packages/cli/src/propose.ts",
+      "packages/cli/src/routeCommand.test.ts",
+      "packages/cli/src/routeCommand.ts",
+      "packages/cli/src/scopeCommand.test.ts",
+      "packages/cli/src/scopeCommand.ts",
+      "packages/core/src/goal.ts",
+      "scripts/create-assessment-pack.mjs",
+      "scripts/create-assessment-pack.test.mjs",
+      "scripts/pack-smoke-test.mjs",
+      "scripts/release-dry-run.mjs",
+      "scripts/run-abstraction-loop.ps1",
+      "scripts/run-codex-missions.ps1",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs"
+    ],
+    "tags": [
+      "command"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "ChangeReviewCommandIo",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "ChangeReviewCommandOptions",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "runChangeReviewCommand",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandIo",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandOptions",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandResult",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "runGoalCommand",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/migrate.ts",
+        "value": "runMigrateCommand",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/migrate.ts",
+        "value": "RunMigrateCommandOptions",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "runProposeCommand",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "RunProposeCommandOptions",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "RunProposeCommandResult",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "RouteCommandIo",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "RouteCommandOptions",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "runRouteCommand",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "runScopeCheckCommand",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "runScopeCreateCommand",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "ScopeCheckCommandOptions",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "ScopeCommandIo",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "ScopeCreateCommandOptions",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "packages/cli/src/changeReviewCommand.ts",
+        "term": "command",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "packages/cli/src/goalCommand.test.ts",
+        "term": "command",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "packages/cli/src/goalCommand.ts",
+        "term": "command",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/routeCommand.test.ts",
+        "value": "packages/cli/src/routeCommand.test.ts",
+        "term": "command",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "packages/cli/src/routeCommand.ts",
+        "term": "command",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/scopeCommand.test.ts",
+        "value": "packages/cli/src/scopeCommand.test.ts",
+        "term": "command",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "packages/cli/src/scopeCommand.ts",
+        "term": "command",
+        "score": 2
       },
       {
         "kind": "symbol",
-        "filePath": "packages/app/src/components/TreeList.tsx",
-        "value": "treeItems",
-        "term": "tree",
+        "filePath": "docs/GOAL_DRIVEN_AUTOPILOT.md",
+        "value": "Commands",
+        "term": "command",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/app/src/components/TreeList.tsx",
-        "value": "TreeList",
-        "term": "tree",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "ChangeReviewCommandIo",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "ChangeReviewCommandOptions",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "runChangeReviewCommand",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "formatGoalCommandResult",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandIo",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandOptions",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandResult",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "runGoalCommand",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/index.ts",
+        "value": "changesCommand",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/index.ts",
+        "value": "scopeCommand",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/migrate.ts",
+        "value": "runMigrateCommand",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/migrate.ts",
+        "value": "RunMigrateCommandOptions",
+        "term": "command",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "mission",
+    "title": "Mission",
+    "summary": "Durable concept inferred from 18 file(s) using doc, export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.docs",
+      "module.packages",
+      "module.scripts",
+      "file.docs.mission.runner.md",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.goalcommand.test.ts",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.automationvalidation.ts",
+      "file.packages.core.src.goal.test.ts",
+      "file.packages.core.src.goal.ts",
+      "file.scripts.create.assessment.pack.mjs",
+      "file.scripts.import.assessment.missions.mjs",
+      "file.scripts.import.assessment.missions.test.mjs",
+      "file.scripts.mission.schema.mjs",
+      "file.scripts.mission.schema.test.mjs",
+      "file.scripts.run.codex.missions.ps1",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "file.scripts.run.missions.mjs",
+      "file.scripts.run.missions.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine"
+    ],
+    "relatedFiles": [
+      "docs/MISSION_RUNNER.md",
+      "packages/cli/src/apiState.ts",
+      "packages/cli/src/goalCommand.test.ts",
+      "packages/cli/src/goalCommand.ts",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/automationValidation.ts",
+      "packages/core/src/goal.test.ts",
+      "packages/core/src/goal.ts",
+      "scripts/create-assessment-pack.mjs",
+      "scripts/import-assessment-missions.mjs",
+      "scripts/import-assessment-missions.test.mjs",
+      "scripts/mission-schema.mjs",
+      "scripts/mission-schema.test.mjs",
+      "scripts/run-codex-missions.ps1",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
+      "scripts/run-missions.mjs",
+      "scripts/run-missions.test.mjs"
+    ],
+    "tags": [
+      "mission"
+    ],
+    "evidence": [
+      {
+        "kind": "doc",
+        "filePath": "docs/MISSION_RUNNER.md",
+        "value": "docs/MISSION_RUNNER.md",
+        "term": "mission",
+        "score": 0.5
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "validateMissionRuntime",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionCategory",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionFile",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionPlan",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionPriority",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionRisk",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionSummary",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "buildMissionAuthoringSchema",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/import-assessment-missions.mjs",
+        "value": "defaultMissionImportRoot",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/import-assessment-missions.mjs",
+        "value": "importAssessmentMissions",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/import-assessment-missions.mjs",
+        "value": "validateMissionEntries",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/import-assessment-missions.mjs",
+        "value": "validateMissionFrontmatter",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/import-assessment-missions.mjs",
+        "value": "validMissionCategories",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/mission-schema.mjs",
+        "value": "missionCategoryDescriptions",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/mission-schema.mjs",
+        "value": "parseMissionMarkdown",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/mission-schema.mjs",
+        "value": "requiredMissionArrayFields",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/mission-schema.mjs",
+        "value": "requiredMissionBodyHeadings",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/mission-schema.mjs",
+        "value": "requiredMissionBooleanFields",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/mission-schema.mjs",
+        "value": "requiredMissionStringFields",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/mission-schema.mjs",
+        "value": "validateMissionBody",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/mission-schema.mjs",
+        "value": "validateMissionFolder",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/mission-schema.mjs",
+        "value": "validateMissionFrontmatter",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/mission-schema.mjs",
+        "value": "validateMissionMarkdown",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/mission-schema.mjs",
+        "value": "validMissionCategories",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/mission-schema.mjs",
+        "value": "validMissionPriorities",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/mission-schema.mjs",
+        "value": "validMissionRisks",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "createMissionPlan",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "discoverMissions",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "emptyMissionRuntime",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "executeMission",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "filterMissionsByRuntime",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "parseMissionMarkdown",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "readMissionFile",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "readMissionRuntime",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "updateMissionRuntime",
+        "term": "mission",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/import-assessment-missions.mjs",
+        "value": "scripts/import-assessment-missions.mjs",
+        "term": "mission",
+        "score": 1
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/import-assessment-missions.test.mjs",
+        "value": "scripts/import-assessment-missions.test.mjs",
+        "term": "mission",
+        "score": 1
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/mission-schema.mjs",
+        "value": "scripts/mission-schema.mjs",
+        "term": "mission",
+        "score": 1
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/mission-schema.test.mjs",
+        "value": "scripts/mission-schema.test.mjs",
+        "term": "mission",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "id": "goal",
+    "title": "Goal",
+    "summary": "Durable concept inferred from 8 file(s) using doc, export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.docs",
+      "module.packages",
+      "module.root",
+      "file.docs.full.self.improvement.loop.md",
+      "file.docs.goal.driven.autopilot.md",
+      "file.docs.mission.runner.md",
+      "file.packages.cli.src.goalcommand.test.ts",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.core.src.goal.test.ts",
+      "file.packages.core.src.goal.ts",
+      "file.readme.md",
+      "architecture.cli.surface",
+      "architecture.core.engine"
+    ],
+    "relatedFiles": [
+      "README.md",
+      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+      "docs/GOAL_DRIVEN_AUTOPILOT.md",
+      "docs/MISSION_RUNNER.md",
+      "packages/cli/src/goalCommand.test.ts",
+      "packages/cli/src/goalCommand.ts",
+      "packages/core/src/goal.test.ts",
+      "packages/core/src/goal.ts"
+    ],
+    "tags": [
+      "goal"
+    ],
+    "evidence": [
+      {
+        "kind": "doc",
+        "filePath": "docs/GOAL_DRIVEN_AUTOPILOT.md",
+        "value": "docs/GOAL_DRIVEN_AUTOPILOT.md",
+        "term": "goal",
+        "score": 1
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandIo",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandOptions",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandResult",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "runGoalCommand",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "writeGoalWorkspace",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "buildGoalWorkspacePlan",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalAffectedTree",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalLayer",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMetadata",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionCategory",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionFile",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionPlan",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionPriority",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionRisk",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionSummary",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMode",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalPlanningInput",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalStatus",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalWorkspacePlan",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "packages/cli/src/goalCommand.test.ts",
+        "term": "goal",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "packages/cli/src/goalCommand.ts",
+        "term": "goal",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/goal.test.ts",
+        "value": "packages/core/src/goal.test.ts",
+        "term": "goal",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "packages/core/src/goal.ts",
+        "term": "goal",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+        "value": "Goal-Driven Autopilot",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/GOAL_DRIVEN_AUTOPILOT.md",
+        "value": "Goal-Driven Autopilot",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/MISSION_RUNNER.md",
+        "value": "Goal",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/MISSION_RUNNER.md",
+        "value": "Goal-Generated Mission Folders",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "goalDir",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "goalText",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "writeGoal",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "formatGoalCommandResult",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandIo",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandOptions",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandResult",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "goalFile",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "goalFilePath",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "goalText",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "resolveGoalMode",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "runGoalCommand",
+        "term": "goal",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "memory",
+    "title": "Memory",
+    "summary": "Durable concept inferred from 29 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.adapters",
+      "module.docs",
+      "module.packages",
+      "module.root",
+      "module.scripts",
+      "file.adapters.codex.agents.md",
+      "file.contributing.md",
+      "file.docs.architecture.md",
+      "file.docs.mission.runner.md",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.doctor.ts",
+      "file.packages.cli.src.goalcommand.test.ts",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.cli.src.propose.test.ts",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.cli.src.routecommand.test.ts",
+      "file.packages.cli.src.routecommand.ts",
+      "file.packages.cli.src.scopecommand.test.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.migrations.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.promptrouter.test.ts",
+      "file.packages.core.src.promptrouter.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.scope.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.readme.md",
+      "file.scripts.create.assessment.pack.test.mjs",
+      "file.scripts.generated.memory.fixtures.test.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "file.scripts.run.missions.mjs",
+      "file.scripts.run.missions.test.mjs",
+      "file.scripts.small.web.app.fixture.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine"
+    ],
+    "relatedFiles": [
+      "CONTRIBUTING.md",
+      "README.md",
+      "adapters/codex/AGENTS.md",
+      "docs/ARCHITECTURE.md",
+      "docs/MISSION_RUNNER.md",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/doctor.ts",
+      "packages/cli/src/goalCommand.test.ts",
+      "packages/cli/src/goalCommand.ts",
+      "packages/cli/src/propose.test.ts",
+      "packages/cli/src/propose.ts",
+      "packages/cli/src/routeCommand.test.ts",
+      "packages/cli/src/routeCommand.ts",
+      "packages/cli/src/scopeCommand.test.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/promptRouter.test.ts",
+      "packages/core/src/promptRouter.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/scope.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/create-assessment-pack.test.mjs",
+      "scripts/generated-memory-fixtures.test.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
+      "scripts/run-missions.mjs",
+      "scripts/run-missions.test.mjs",
+      "scripts/small-web-app-fixture.test.mjs"
+    ],
+    "tags": [
+      "memory"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "PromptRouteMemory",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "readPromptRouteMemory",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "evaluateGeneratedMemoryQuality",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "EvaluateGeneratedMemoryQualityInput",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "GeneratedMemoryQualityFixture",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "GeneratedMemoryQualityReport",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "AtreeMigrationMemory",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "AtreeMemory",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadAtreeMemory",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "MemoryLoadResult",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "readAbstractionMemory",
+        "term": "memory",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/generated-memory-fixtures.test.mjs",
+        "value": "scripts/generated-memory-fixtures.test.mjs",
+        "term": "memory",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "adapters/codex/AGENTS.md",
+        "value": "Memory and runtime boundaries",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "CONTRIBUTING.md",
+        "value": "Dogfooding memory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/ARCHITECTURE.md",
+        "value": "Repository memory contract",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/MISSION_RUNNER.md",
+        "value": "Abstraction Tree Memory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.test.ts",
+        "value": "writeFixtureMemory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/doctor.test.ts",
+        "value": "writeDeterministicMemory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/doctor.ts",
+        "value": "memory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/doctor.ts",
+        "value": "memoryCheck",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/doctor.ts",
+        "value": "missingRequiredMemory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/doctor.ts",
+        "value": "REQUIRED_MEMORY_FILES",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "writeFixtureMemory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "memory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.test.ts",
+        "value": "writeDeterministicMemory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "memory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "memoryErrors",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.test.ts",
+        "value": "writeFixtureMemory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "memory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "memoryIssues",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "PromptRouteMemory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "readMemoryArray",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "readPromptRouteMemory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/scopeCommand.test.ts",
+        "value": "writeFixtureMemory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "evaluateGeneratedMemoryQuality",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "EvaluateGeneratedMemoryQualityInput",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "GeneratedMemoryQualityFixture",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "GeneratedMemoryQualityReport",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "memory",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.test.ts",
+        "value": "copyFixtureMemory",
+        "term": "memory",
         "score": 3
       }
     ]
@@ -1380,333 +2737,6 @@
     ]
   },
   {
-    "id": "mission",
-    "title": "Mission",
-    "summary": "Durable concept inferred from 14 file(s) using doc, export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.docs",
-      "module.packages",
-      "module.scripts",
-      "file.docs.mission.runner.md",
-      "file.packages.cli.src.apistate.ts",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.scripts.create.assessment.pack.mjs",
-      "file.scripts.import.assessment.missions.mjs",
-      "file.scripts.import.assessment.missions.test.mjs",
-      "file.scripts.mission.schema.mjs",
-      "file.scripts.mission.schema.test.mjs",
-      "file.scripts.run.codex.missions.ps1",
-      "file.scripts.run.full.self.improvement.loop.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "file.scripts.run.missions.mjs",
-      "file.scripts.run.missions.test.mjs",
-      "architecture.cli.surface",
-      "architecture.core.engine"
-    ],
-    "relatedFiles": [
-      "docs/MISSION_RUNNER.md",
-      "packages/cli/src/apiState.ts",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/automationValidation.ts",
-      "scripts/create-assessment-pack.mjs",
-      "scripts/import-assessment-missions.mjs",
-      "scripts/import-assessment-missions.test.mjs",
-      "scripts/mission-schema.mjs",
-      "scripts/mission-schema.test.mjs",
-      "scripts/run-codex-missions.ps1",
-      "scripts/run-full-self-improvement-loop.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs",
-      "scripts/run-missions.mjs",
-      "scripts/run-missions.test.mjs"
-    ],
-    "tags": [
-      "mission"
-    ],
-    "evidence": [
-      {
-        "kind": "doc",
-        "filePath": "docs/MISSION_RUNNER.md",
-        "value": "docs/MISSION_RUNNER.md",
-        "term": "mission",
-        "score": 0.5
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "validateMissionRuntime",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/create-assessment-pack.mjs",
-        "value": "buildMissionAuthoringSchema",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/import-assessment-missions.mjs",
-        "value": "defaultMissionImportRoot",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/import-assessment-missions.mjs",
-        "value": "importAssessmentMissions",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/import-assessment-missions.mjs",
-        "value": "validateMissionEntries",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/import-assessment-missions.mjs",
-        "value": "validateMissionFrontmatter",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/import-assessment-missions.mjs",
-        "value": "validMissionCategories",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/mission-schema.mjs",
-        "value": "missionCategoryDescriptions",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/mission-schema.mjs",
-        "value": "parseMissionMarkdown",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/mission-schema.mjs",
-        "value": "requiredMissionArrayFields",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/mission-schema.mjs",
-        "value": "requiredMissionBodyHeadings",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/mission-schema.mjs",
-        "value": "requiredMissionBooleanFields",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/mission-schema.mjs",
-        "value": "requiredMissionStringFields",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/mission-schema.mjs",
-        "value": "validateMissionBody",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/mission-schema.mjs",
-        "value": "validateMissionFolder",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/mission-schema.mjs",
-        "value": "validateMissionFrontmatter",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/mission-schema.mjs",
-        "value": "validateMissionMarkdown",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/mission-schema.mjs",
-        "value": "validMissionCategories",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/mission-schema.mjs",
-        "value": "validMissionPriorities",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/mission-schema.mjs",
-        "value": "validMissionRisks",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "createMissionPlan",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "discoverMissions",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "emptyMissionRuntime",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "executeMission",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "filterMissionsByRuntime",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "parseMissionMarkdown",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "readMissionFile",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "readMissionRuntime",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "updateMissionRuntime",
-        "term": "mission",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "scripts/import-assessment-missions.mjs",
-        "value": "scripts/import-assessment-missions.mjs",
-        "term": "mission",
-        "score": 1
-      },
-      {
-        "kind": "path",
-        "filePath": "scripts/import-assessment-missions.test.mjs",
-        "value": "scripts/import-assessment-missions.test.mjs",
-        "term": "mission",
-        "score": 1
-      },
-      {
-        "kind": "path",
-        "filePath": "scripts/mission-schema.mjs",
-        "value": "scripts/mission-schema.mjs",
-        "term": "mission",
-        "score": 1
-      },
-      {
-        "kind": "path",
-        "filePath": "scripts/mission-schema.test.mjs",
-        "value": "scripts/mission-schema.test.mjs",
-        "term": "mission",
-        "score": 1
-      },
-      {
-        "kind": "path",
-        "filePath": "scripts/run-codex-missions.ps1",
-        "value": "scripts/run-codex-missions.ps1",
-        "term": "mission",
-        "score": 1
-      },
-      {
-        "kind": "path",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "scripts/run-missions.mjs",
-        "term": "mission",
-        "score": 1
-      },
-      {
-        "kind": "path",
-        "filePath": "scripts/run-missions.test.mjs",
-        "value": "scripts/run-missions.test.mjs",
-        "term": "mission",
-        "score": 1
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/MISSION_RUNNER.md",
-        "value": "Mission Folder",
-        "term": "mission",
-        "score": 1.5
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/MISSION_RUNNER.md",
-        "value": "Mission Runner",
-        "term": "mission",
-        "score": 1.5
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/apiState.ts",
-        "value": "missions",
-        "term": "mission",
-        "score": 1.5
-      }
-    ]
-  },
-  {
     "id": "proposal",
     "title": "Proposal",
     "summary": "Durable concept inferred from 9 file(s) using export, path, symbol signals.",
@@ -2024,678 +3054,360 @@
     ]
   },
   {
-    "id": "command",
-    "title": "Command",
-    "summary": "Durable concept inferred from 15 file(s) using export, path, symbol signals.",
+    "id": "workspace",
+    "title": "Workspace",
+    "summary": "Durable concept inferred from 29 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
-      "module.packages",
-      "module.root",
-      "module.scripts",
-      "file.packages.cli.src.changereviewcommand.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.cli.src.migrate.ts",
-      "file.packages.cli.src.propose.ts",
-      "file.packages.cli.src.scopecommand.test.ts",
-      "file.packages.cli.src.scopecommand.ts",
-      "file.readme.md",
-      "file.scripts.create.assessment.pack.mjs",
-      "file.scripts.create.assessment.pack.test.mjs",
-      "file.scripts.pack.smoke.test.mjs",
-      "file.scripts.release.dry.run.mjs",
-      "file.scripts.run.abstraction.loop.ps1",
-      "file.scripts.run.codex.missions.ps1",
-      "file.scripts.run.full.self.improvement.loop.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "architecture.cli.surface",
-      "architecture.visual.app.api",
-      "architecture.package.distribution"
-    ],
-    "relatedFiles": [
-      "README.md",
-      "packages/cli/src/changeReviewCommand.ts",
-      "packages/cli/src/index.ts",
-      "packages/cli/src/migrate.ts",
-      "packages/cli/src/propose.ts",
-      "packages/cli/src/scopeCommand.test.ts",
-      "packages/cli/src/scopeCommand.ts",
-      "scripts/create-assessment-pack.mjs",
-      "scripts/create-assessment-pack.test.mjs",
-      "scripts/pack-smoke-test.mjs",
-      "scripts/release-dry-run.mjs",
-      "scripts/run-abstraction-loop.ps1",
-      "scripts/run-codex-missions.ps1",
-      "scripts/run-full-self-improvement-loop.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs"
-    ],
-    "tags": [
-      "command"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/changeReviewCommand.ts",
-        "value": "ChangeReviewCommandIo",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/changeReviewCommand.ts",
-        "value": "ChangeReviewCommandOptions",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/changeReviewCommand.ts",
-        "value": "runChangeReviewCommand",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/migrate.ts",
-        "value": "runMigrateCommand",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/migrate.ts",
-        "value": "RunMigrateCommandOptions",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/propose.ts",
-        "value": "runProposeCommand",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/propose.ts",
-        "value": "RunProposeCommandOptions",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/propose.ts",
-        "value": "RunProposeCommandResult",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "runScopeCheckCommand",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "runScopeCreateCommand",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "ScopeCheckCommandOptions",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "ScopeCommandIo",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "ScopeCreateCommandOptions",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/changeReviewCommand.ts",
-        "value": "packages/cli/src/changeReviewCommand.ts",
-        "term": "command",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/scopeCommand.test.ts",
-        "value": "packages/cli/src/scopeCommand.test.ts",
-        "term": "command",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "packages/cli/src/scopeCommand.ts",
-        "term": "command",
-        "score": 2
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/changeReviewCommand.ts",
-        "value": "ChangeReviewCommandIo",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/changeReviewCommand.ts",
-        "value": "ChangeReviewCommandOptions",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/changeReviewCommand.ts",
-        "value": "runChangeReviewCommand",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/index.ts",
-        "value": "changesCommand",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/index.ts",
-        "value": "scopeCommand",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/migrate.ts",
-        "value": "runMigrateCommand",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/migrate.ts",
-        "value": "RunMigrateCommandOptions",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/propose.ts",
-        "value": "runProposeCommand",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/propose.ts",
-        "value": "RunProposeCommandOptions",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/propose.ts",
-        "value": "RunProposeCommandResult",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "runScopeCheckCommand",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "runScopeCreateCommand",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "ScopeCheckCommandOptions",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "ScopeCommandIo",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "ScopeCreateCommandOptions",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "CLI commands",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/create-assessment-pack.mjs",
-        "value": "runCommand",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/create-assessment-pack.test.mjs",
-        "value": "commands",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/create-assessment-pack.test.mjs",
-        "value": "failingContextCommand",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/create-assessment-pack.test.mjs",
-        "value": "sensitiveCommand",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/create-assessment-pack.test.mjs",
-        "value": "successfulCommand",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/pack-smoke-test.mjs",
-        "value": "runCommand",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/pack-smoke-test.mjs",
-        "value": "runInstalledCommands",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/release-dry-run.mjs",
-        "value": "runCommand",
-        "term": "command",
-        "score": 3
-      }
-    ]
-  },
-  {
-    "id": "memory",
-    "title": "Memory",
-    "summary": "Durable concept inferred from 23 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.adapters",
       "module.docs",
+      "module.examples",
       "module.packages",
-      "module.root",
       "module.scripts",
-      "file.adapters.codex.agents.md",
-      "file.contributing.md",
-      "file.docs.architecture.md",
-      "file.docs.mission.runner.md",
+      "file.docs.goal.driven.autopilot.md",
+      "file.examples.small.web.app.tests.checkout.test.js",
       "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.changereviewcli.test.ts",
       "file.packages.cli.src.doctor.test.ts",
-      "file.packages.cli.src.doctor.ts",
+      "file.packages.cli.src.goalcommand.test.ts",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.cli.src.migrate.test.ts",
       "file.packages.cli.src.propose.test.ts",
-      "file.packages.cli.src.propose.ts",
+      "file.packages.cli.src.routecommand.test.ts",
       "file.packages.cli.src.scopecommand.test.ts",
-      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.changereview.test.ts",
+      "file.packages.core.src.evaluator.test.ts",
+      "file.packages.core.src.goal.ts",
+      "file.packages.core.src.importgraph.test.ts",
+      "file.packages.core.src.importgraph.ts",
       "file.packages.core.src.migrations.test.ts",
       "file.packages.core.src.migrations.ts",
       "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.scope.ts",
+      "file.packages.core.src.scanner.test.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.test.ts",
       "file.packages.core.src.workspace.ts",
-      "file.readme.md",
       "file.scripts.create.assessment.pack.test.mjs",
-      "file.scripts.generated.memory.fixtures.test.mjs",
+      "file.scripts.import.assessment.missions.test.mjs",
+      "file.scripts.mission.schema.test.mjs",
       "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "file.scripts.run.missions.mjs",
       "file.scripts.run.missions.test.mjs",
-      "file.scripts.small.web.app.fixture.test.mjs",
       "architecture.cli.surface",
-      "architecture.core.engine"
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline"
     ],
     "relatedFiles": [
-      "CONTRIBUTING.md",
-      "README.md",
-      "adapters/codex/AGENTS.md",
-      "docs/ARCHITECTURE.md",
-      "docs/MISSION_RUNNER.md",
+      "docs/GOAL_DRIVEN_AUTOPILOT.md",
+      "examples/small-web-app/tests/checkout.test.js",
       "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/changeReviewCli.test.ts",
       "packages/cli/src/doctor.test.ts",
-      "packages/cli/src/doctor.ts",
+      "packages/cli/src/goalCommand.test.ts",
+      "packages/cli/src/goalCommand.ts",
+      "packages/cli/src/migrate.test.ts",
       "packages/cli/src/propose.test.ts",
-      "packages/cli/src/propose.ts",
+      "packages/cli/src/routeCommand.test.ts",
       "packages/cli/src/scopeCommand.test.ts",
-      "packages/core/src/evaluator.ts",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/changeReview.test.ts",
+      "packages/core/src/evaluator.test.ts",
+      "packages/core/src/goal.ts",
+      "packages/core/src/importGraph.test.ts",
+      "packages/core/src/importGraph.ts",
       "packages/core/src/migrations.test.ts",
       "packages/core/src/migrations.ts",
       "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/scope.ts",
+      "packages/core/src/scanner.test.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.test.ts",
       "packages/core/src/workspace.ts",
       "scripts/create-assessment-pack.test.mjs",
-      "scripts/generated-memory-fixtures.test.mjs",
+      "scripts/import-assessment-missions.test.mjs",
+      "scripts/mission-schema.test.mjs",
       "scripts/run-full-self-improvement-loop.test.mjs",
-      "scripts/run-missions.mjs",
-      "scripts/run-missions.test.mjs",
-      "scripts/small-web-app-fixture.test.mjs"
+      "scripts/run-missions.test.mjs"
     ],
     "tags": [
-      "memory"
+      "workspace"
     ],
     "evidence": [
       {
         "kind": "export",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "evaluateGeneratedMemoryQuality",
-        "term": "memory",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "writeGoalWorkspace",
+        "term": "workspace",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "EvaluateGeneratedMemoryQualityInput",
-        "term": "memory",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "buildGoalWorkspacePlan",
+        "term": "workspace",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "GeneratedMemoryQualityFixture",
-        "term": "memory",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalWorkspacePlan",
+        "term": "workspace",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "GeneratedMemoryQualityReport",
-        "term": "memory",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "discoverWorkspacePackages",
+        "term": "workspace",
         "score": 4
       },
       {
         "kind": "export",
         "filePath": "packages/core/src/migrations.ts",
-        "value": "AtreeMigrationMemory",
-        "term": "memory",
+        "value": "migrateAtreeWorkspace",
+        "term": "workspace",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrateAtreeWorkspaceOptions",
+        "term": "workspace",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "WorkspacePackage",
+        "term": "workspace",
         "score": 4
       },
       {
         "kind": "export",
         "filePath": "packages/core/src/workspace.ts",
-        "value": "AtreeMemory",
-        "term": "memory",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "loadAtreeMemory",
-        "term": "memory",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "MemoryLoadResult",
-        "term": "memory",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "readAbstractionMemory",
-        "term": "memory",
+        "value": "ensureWorkspace",
+        "term": "workspace",
         "score": 4
       },
       {
         "kind": "path",
-        "filePath": "scripts/generated-memory-fixtures.test.mjs",
-        "value": "scripts/generated-memory-fixtures.test.mjs",
-        "term": "memory",
+        "filePath": "packages/core/src/workspace.test.ts",
+        "value": "packages/core/src/workspace.test.ts",
+        "term": "workspace",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "packages/core/src/workspace.ts",
+        "term": "workspace",
         "score": 2
       },
       {
         "kind": "symbol",
-        "filePath": "adapters/codex/AGENTS.md",
-        "value": "Memory and runtime boundaries",
-        "term": "memory",
+        "filePath": "docs/GOAL_DRIVEN_AUTOPILOT.md",
+        "value": "Workspace",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "CONTRIBUTING.md",
-        "value": "Dogfooding memory",
-        "term": "memory",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/ARCHITECTURE.md",
-        "value": "Repository memory contract",
-        "term": "memory",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/MISSION_RUNNER.md",
-        "value": "Abstraction Tree Memory",
-        "term": "memory",
+        "filePath": "examples/small-web-app/tests/checkout.test.js",
+        "value": "makeWorkspace",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "packages/cli/src/apiState.test.ts",
-        "value": "writeFixtureMemory",
-        "term": "memory",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/changeReviewCli.test.ts",
+        "value": "workspace",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "packages/cli/src/doctor.test.ts",
-        "value": "writeDeterministicMemory",
-        "term": "memory",
+        "value": "workspace",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "memory",
-        "term": "memory",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "workspace",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "memoryCheck",
-        "term": "memory",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "workspacePath",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "missingRequiredMemory",
-        "term": "memory",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "writeGoalWorkspace",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "REQUIRED_MEMORY_FILES",
-        "term": "memory",
+        "filePath": "packages/cli/src/migrate.test.ts",
+        "value": "workspace",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "packages/cli/src/propose.test.ts",
-        "value": "writeDeterministicMemory",
-        "term": "memory",
+        "value": "workspace",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/propose.ts",
-        "value": "memory",
-        "term": "memory",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/propose.ts",
-        "value": "memoryErrors",
-        "term": "memory",
+        "filePath": "packages/cli/src/routeCommand.test.ts",
+        "value": "workspace",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "packages/cli/src/scopeCommand.test.ts",
-        "value": "writeFixtureMemory",
-        "term": "memory",
+        "value": "workspace",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "evaluateGeneratedMemoryQuality",
-        "term": "memory",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "workspace",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "EvaluateGeneratedMemoryQualityInput",
-        "term": "memory",
+        "filePath": "packages/core/src/changeReview.test.ts",
+        "value": "workspace",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "GeneratedMemoryQualityFixture",
-        "term": "memory",
+        "filePath": "packages/core/src/evaluator.test.ts",
+        "value": "workspace",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "GeneratedMemoryQualityReport",
-        "term": "memory",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "buildGoalWorkspacePlan",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "memory",
-        "term": "memory",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalWorkspacePlan",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "workspaceRelativePath",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "discoverWorkspacePackages",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "workspaceByName",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "workspacePackage",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "workspacePackages",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "workspaceResolution",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "packages/core/src/migrations.test.ts",
-        "value": "copyFixtureMemory",
-        "term": "memory",
+        "value": "workspace",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "packages/core/src/migrations.ts",
-        "value": "AtreeMigrationMemory",
-        "term": "memory",
+        "value": "migrateAtreeWorkspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrateAtreeWorkspaceOptions",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "packages/core/src/runtimeSchema.test.ts",
-        "value": "memory",
-        "term": "memory",
+        "value": "workspace",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "nonMemoryFiles",
-        "term": "memory",
+        "filePath": "packages/core/src/scanner.test.ts",
+        "value": "workspace",
+        "term": "workspace",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "AtreeMemory",
-        "term": "memory",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "loadAtreeMemory",
-        "term": "memory",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "MemoryLoadResult",
-        "term": "memory",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "Committed memory and local runtime state",
-        "term": "memory",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/create-assessment-pack.test.mjs",
-        "value": "writeBaseMemory",
-        "term": "memory",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
-        "value": "writeBaseAssessmentMemory",
-        "term": "memory",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "memory",
-        "term": "memory",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "WorkspacePackage",
+        "term": "workspace",
         "score": 3
       }
     ]
@@ -3661,6 +4373,343 @@
     ]
   },
   {
+    "id": "invariant",
+    "title": "Invariant",
+    "summary": "Durable concept inferred from 21 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.docs",
+      "module.packages",
+      "file.docs.data.model.md",
+      "file.packages.app.src.components.invariantpanel.tsx",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.goalcommand.test.ts",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.routecommand.ts",
+      "file.packages.core.src.context.test.ts",
+      "file.packages.core.src.context.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.goal.test.ts",
+      "file.packages.core.src.goal.ts",
+      "file.packages.core.src.promptrouter.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.treebuilder.ts",
+      "file.packages.core.src.validator.test.ts",
+      "file.packages.core.src.validator.ts",
+      "file.packages.core.src.workspace.ts",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline",
+      "architecture.visual.app.api",
+      "architecture.visual.app.ui",
+      "architecture.package.distribution"
+    ],
+    "relatedFiles": [
+      "docs/DATA_MODEL.md",
+      "packages/app/src/components/InvariantPanel.tsx",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/apiState.ts",
+      "packages/cli/src/goalCommand.test.ts",
+      "packages/cli/src/goalCommand.ts",
+      "packages/cli/src/index.ts",
+      "packages/cli/src/routeCommand.ts",
+      "packages/core/src/context.test.ts",
+      "packages/core/src/context.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/goal.test.ts",
+      "packages/core/src/goal.ts",
+      "packages/core/src/promptRouter.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/treeBuilder.ts",
+      "packages/core/src/validator.test.ts",
+      "packages/core/src/validator.ts",
+      "packages/core/src/workspace.ts"
+    ],
+    "tags": [
+      "invariant"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/InvariantPanel.tsx",
+        "value": "InvariantPanel",
+        "term": "invariant",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/components/InvariantPanel.tsx",
+        "value": "InvariantPanelProps",
+        "term": "invariant",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateInvariantsSchema",
+        "term": "invariant",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "Invariant",
+        "term": "invariant",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/validator.ts",
+        "value": "validateInvariants",
+        "term": "invariant",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readInvariants",
+        "term": "invariant",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/app/src/components/InvariantPanel.tsx",
+        "value": "packages/app/src/components/InvariantPanel.tsx",
+        "term": "invariant",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/DATA_MODEL.md",
+        "value": "`invariants.json`",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/InvariantPanel.tsx",
+        "value": "InvariantPanel",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/InvariantPanel.tsx",
+        "value": "InvariantPanelProps",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.test.ts",
+        "value": "fixtureInvariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "fixtureInvariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/index.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/context.test.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/context.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/context.ts",
+        "value": "invariantSelection",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "expectedInvariantIds",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "invariantIds",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/goal.test.ts",
+        "value": "fixtureInvariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "selectedInvariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "invariant",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateInvariantsSchema",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "Invariant",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/treeBuilder.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/treeBuilder.ts",
+        "value": "invariantsById",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.test.ts",
+        "value": "invariant",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.test.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.test.ts",
+        "value": "staleInvariant",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.ts",
+        "value": "invariant",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.ts",
+        "value": "invariantId",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.ts",
+        "value": "invariantIds",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/validator.ts",
+        "value": "validateInvariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "invariants",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readInvariants",
+        "term": "invariant",
+        "score": 3
+      }
+    ]
+  },
+  {
     "id": "change.record",
     "title": "Change Record",
     "summary": "Durable concept inferred from 7 file(s) using export, symbol signals.",
@@ -4244,325 +5293,6 @@
     ]
   },
   {
-    "id": "workspace",
-    "title": "Workspace",
-    "summary": "Durable concept inferred from 24 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.examples",
-      "module.packages",
-      "module.scripts",
-      "file.examples.small.web.app.tests.checkout.test.js",
-      "file.packages.cli.src.apistate.test.ts",
-      "file.packages.cli.src.changereviewcli.test.ts",
-      "file.packages.cli.src.doctor.test.ts",
-      "file.packages.cli.src.migrate.test.ts",
-      "file.packages.cli.src.propose.test.ts",
-      "file.packages.cli.src.scopecommand.test.ts",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.changereview.test.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.importgraph.test.ts",
-      "file.packages.core.src.importgraph.ts",
-      "file.packages.core.src.migrations.test.ts",
-      "file.packages.core.src.migrations.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.scanner.test.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.workspace.test.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.scripts.create.assessment.pack.test.mjs",
-      "file.scripts.import.assessment.missions.test.mjs",
-      "file.scripts.mission.schema.test.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "file.scripts.run.missions.test.mjs",
-      "architecture.core.engine",
-      "architecture.scanner.tree.context.pipeline"
-    ],
-    "relatedFiles": [
-      "examples/small-web-app/tests/checkout.test.js",
-      "packages/cli/src/apiState.test.ts",
-      "packages/cli/src/changeReviewCli.test.ts",
-      "packages/cli/src/doctor.test.ts",
-      "packages/cli/src/migrate.test.ts",
-      "packages/cli/src/propose.test.ts",
-      "packages/cli/src/scopeCommand.test.ts",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/changeReview.test.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/importGraph.test.ts",
-      "packages/core/src/importGraph.ts",
-      "packages/core/src/migrations.test.ts",
-      "packages/core/src/migrations.ts",
-      "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/scanner.test.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/workspace.test.ts",
-      "packages/core/src/workspace.ts",
-      "scripts/create-assessment-pack.test.mjs",
-      "scripts/import-assessment-missions.test.mjs",
-      "scripts/mission-schema.test.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs",
-      "scripts/run-missions.test.mjs"
-    ],
-    "tags": [
-      "workspace"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/importGraph.ts",
-        "value": "discoverWorkspacePackages",
-        "term": "workspace",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "migrateAtreeWorkspace",
-        "term": "workspace",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrateAtreeWorkspaceOptions",
-        "term": "workspace",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "WorkspacePackage",
-        "term": "workspace",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "ensureWorkspace",
-        "term": "workspace",
-        "score": 4
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/core/src/workspace.test.ts",
-        "value": "packages/core/src/workspace.test.ts",
-        "term": "workspace",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "packages/core/src/workspace.ts",
-        "term": "workspace",
-        "score": 2
-      },
-      {
-        "kind": "symbol",
-        "filePath": "examples/small-web-app/tests/checkout.test.js",
-        "value": "makeWorkspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/apiState.test.ts",
-        "value": "workspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/changeReviewCli.test.ts",
-        "value": "workspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.test.ts",
-        "value": "workspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/migrate.test.ts",
-        "value": "workspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/propose.test.ts",
-        "value": "workspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.test.ts",
-        "value": "workspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.test.ts",
-        "value": "workspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/changeReview.test.ts",
-        "value": "workspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.test.ts",
-        "value": "workspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/importGraph.test.ts",
-        "value": "workspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/importGraph.ts",
-        "value": "discoverWorkspacePackages",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/importGraph.ts",
-        "value": "workspaceByName",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/importGraph.ts",
-        "value": "workspacePackage",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/importGraph.ts",
-        "value": "workspacePackages",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/importGraph.ts",
-        "value": "workspaceResolution",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.test.ts",
-        "value": "workspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "migrateAtreeWorkspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrateAtreeWorkspaceOptions",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.test.ts",
-        "value": "workspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/scanner.test.ts",
-        "value": "workspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "WorkspacePackage",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.test.ts",
-        "value": "workspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "ensureWorkspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/create-assessment-pack.test.mjs",
-        "value": "tempWorkspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/import-assessment-missions.test.mjs",
-        "value": "tempWorkspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/mission-schema.test.mjs",
-        "value": "tempWorkspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
-        "value": "tempWorkspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.test.mjs",
-        "value": "tempWorkspace",
-        "term": "workspace",
-        "score": 3
-      }
-    ]
-  },
-  {
     "id": "diff",
     "title": "Diff",
     "summary": "Durable concept inferred from 9 file(s) using export, path, symbol signals.",
@@ -5057,13 +5787,6 @@
       {
         "kind": "symbol",
         "filePath": "packages/core/src/treeBuilder.ts",
-        "value": "inferOntology",
-        "term": "ontology",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/treeBuilder.ts",
         "value": "ontology",
         "term": "ontology",
         "score": 3
@@ -5115,282 +5838,6 @@
         "filePath": "packages/core/src/workspace.ts",
         "value": "readOntology",
         "term": "ontology",
-        "score": 3
-      }
-    ]
-  },
-  {
-    "id": "invariant",
-    "title": "Invariant",
-    "summary": "Durable concept inferred from 15 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.docs",
-      "module.packages",
-      "file.docs.data.model.md",
-      "file.packages.app.src.components.invariantpanel.tsx",
-      "file.packages.cli.src.apistate.test.ts",
-      "file.packages.cli.src.apistate.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.core.src.context.test.ts",
-      "file.packages.core.src.context.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.runtimeschema.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.treebuilder.ts",
-      "file.packages.core.src.validator.test.ts",
-      "file.packages.core.src.validator.ts",
-      "file.packages.core.src.workspace.ts",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "architecture.scanner.tree.context.pipeline",
-      "architecture.visual.app.api",
-      "architecture.visual.app.ui",
-      "architecture.package.distribution"
-    ],
-    "relatedFiles": [
-      "docs/DATA_MODEL.md",
-      "packages/app/src/components/InvariantPanel.tsx",
-      "packages/cli/src/apiState.test.ts",
-      "packages/cli/src/apiState.ts",
-      "packages/cli/src/index.ts",
-      "packages/core/src/context.test.ts",
-      "packages/core/src/context.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/runtimeSchema.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/treeBuilder.ts",
-      "packages/core/src/validator.test.ts",
-      "packages/core/src/validator.ts",
-      "packages/core/src/workspace.ts"
-    ],
-    "tags": [
-      "invariant"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/app/src/components/InvariantPanel.tsx",
-        "value": "InvariantPanel",
-        "term": "invariant",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/app/src/components/InvariantPanel.tsx",
-        "value": "InvariantPanelProps",
-        "term": "invariant",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateInvariantsSchema",
-        "term": "invariant",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "Invariant",
-        "term": "invariant",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/validator.ts",
-        "value": "validateInvariants",
-        "term": "invariant",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "readInvariants",
-        "term": "invariant",
-        "score": 4
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/app/src/components/InvariantPanel.tsx",
-        "value": "packages/app/src/components/InvariantPanel.tsx",
-        "term": "invariant",
-        "score": 2
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/DATA_MODEL.md",
-        "value": "`invariants.json`",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/InvariantPanel.tsx",
-        "value": "InvariantPanel",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/InvariantPanel.tsx",
-        "value": "InvariantPanelProps",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/apiState.test.ts",
-        "value": "fixtureInvariants",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/apiState.ts",
-        "value": "invariants",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/index.ts",
-        "value": "invariants",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/context.test.ts",
-        "value": "invariants",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/context.ts",
-        "value": "invariants",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/context.ts",
-        "value": "invariantSelection",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "expectedInvariantIds",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "invariantIds",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.test.ts",
-        "value": "invariant",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.test.ts",
-        "value": "invariants",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateInvariantsSchema",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "Invariant",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/treeBuilder.ts",
-        "value": "invariants",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/validator.test.ts",
-        "value": "invariant",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/validator.test.ts",
-        "value": "invariants",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/validator.test.ts",
-        "value": "staleInvariant",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/validator.ts",
-        "value": "invariant",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/validator.ts",
-        "value": "invariantId",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/validator.ts",
-        "value": "invariantIds",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/validator.ts",
-        "value": "validateInvariants",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "invariants",
-        "term": "invariant",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "readInvariants",
-        "term": "invariant",
         "score": 3
       }
     ]
@@ -5629,6 +6076,257 @@
         "filePath": "packages/core/src/runtimeSchema.ts",
         "value": "RuntimeMigration",
         "term": "migration",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "plan",
+    "title": "Plan",
+    "summary": "Durable concept inferred from 11 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.docs",
+      "module.packages",
+      "module.scripts",
+      "file.docs.mission.runner.md",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.core.src.goal.test.ts",
+      "file.packages.core.src.goal.ts",
+      "file.packages.core.src.migrations.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.scripts.import.assessment.missions.mjs",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "file.scripts.run.missions.mjs",
+      "file.scripts.run.missions.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine"
+    ],
+    "relatedFiles": [
+      "docs/MISSION_RUNNER.md",
+      "packages/cli/src/goalCommand.ts",
+      "packages/core/src/goal.test.ts",
+      "packages/core/src/goal.ts",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
+      "scripts/import-assessment-missions.mjs",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
+      "scripts/run-missions.mjs",
+      "scripts/run-missions.test.mjs"
+    ],
+    "tags": [
+      "plan"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "buildGoalWorkspacePlan",
+        "term": "plan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionPlan",
+        "term": "plan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalWorkspacePlan",
+        "term": "plan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationPlan",
+        "term": "plan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationPlanOptions",
+        "term": "plan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "planAtreeMigration",
+        "term": "plan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "createMissionPlan",
+        "term": "plan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "executePlan",
+        "term": "plan",
+        "score": 4
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/MISSION_RUNNER.md",
+        "value": "Future Modularization Plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/goal.test.ts",
+        "value": "plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "buildGoalWorkspacePlan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionPlan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalWorkspacePlan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "missionPlan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.test.ts",
+        "value": "plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationPlan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationPlanOptions",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "planAtreeMigration",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/import-assessment-missions.mjs",
+        "value": "copyPlan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "missionPlanArgs",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
+        "value": "missionPlanCommand",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
+        "value": "planMissionsFlagIndex",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.test.mjs",
+        "value": "plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.test.mjs",
+        "value": "planInput",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.test.mjs",
+        "value": "printedPlan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.test.mjs",
+        "value": "writtenPlan",
+        "term": "plan",
         "score": 3
       }
     ]
@@ -6168,7 +6866,7 @@
   {
     "id": "cli",
     "title": "Cli",
-    "summary": "Durable concept inferred from 27 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 31 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.docs",
       "module.packages",
@@ -6184,11 +6882,15 @@
       "file.packages.cli.src.changereviewcommand.ts",
       "file.packages.cli.src.doctor.test.ts",
       "file.packages.cli.src.doctor.ts",
+      "file.packages.cli.src.goalcommand.test.ts",
+      "file.packages.cli.src.goalcommand.ts",
       "file.packages.cli.src.index.ts",
       "file.packages.cli.src.migrate.test.ts",
       "file.packages.cli.src.migrate.ts",
       "file.packages.cli.src.propose.test.ts",
       "file.packages.cli.src.propose.ts",
+      "file.packages.cli.src.routecommand.test.ts",
+      "file.packages.cli.src.routecommand.ts",
       "file.packages.cli.src.scopecommand.test.ts",
       "file.packages.cli.src.scopecommand.ts",
       "file.packages.cli.src.servehost.test.ts",
@@ -6217,11 +6919,15 @@
       "packages/cli/src/changeReviewCommand.ts",
       "packages/cli/src/doctor.test.ts",
       "packages/cli/src/doctor.ts",
+      "packages/cli/src/goalCommand.test.ts",
+      "packages/cli/src/goalCommand.ts",
       "packages/cli/src/index.ts",
       "packages/cli/src/migrate.test.ts",
       "packages/cli/src/migrate.ts",
       "packages/cli/src/propose.test.ts",
       "packages/cli/src/propose.ts",
+      "packages/cli/src/routeCommand.test.ts",
+      "packages/cli/src/routeCommand.ts",
       "packages/cli/src/scopeCommand.test.ts",
       "packages/cli/src/scopeCommand.ts",
       "packages/cli/src/serveHost.test.ts",
@@ -6331,6 +7037,20 @@
       },
       {
         "kind": "path",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "packages/cli/src/goalCommand.test.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "packages/cli/src/goalCommand.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
         "filePath": "packages/cli/src/index.ts",
         "value": "packages/cli/src/index.ts",
         "term": "cli",
@@ -6361,6 +7081,20 @@
         "kind": "path",
         "filePath": "packages/cli/src/propose.ts",
         "value": "packages/cli/src/propose.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/routeCommand.test.ts",
+        "value": "packages/cli/src/routeCommand.test.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "packages/cli/src/routeCommand.ts",
         "term": "cli",
         "score": 2
       },
@@ -6474,6 +7208,471 @@
         "filePath": "scripts/run-missions.mjs",
         "value": "runCli",
         "term": "cli",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "route",
+    "title": "Route",
+    "summary": "Durable concept inferred from 4 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.cli.src.routecommand.test.ts",
+      "file.packages.cli.src.routecommand.ts",
+      "file.packages.core.src.promptrouter.ts",
+      "architecture.cli.surface",
+      "architecture.core.engine"
+    ],
+    "relatedFiles": [
+      "packages/cli/src/goalCommand.ts",
+      "packages/cli/src/routeCommand.test.ts",
+      "packages/cli/src/routeCommand.ts",
+      "packages/core/src/promptRouter.ts"
+    ],
+    "tags": [
+      "route"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "PromptRouteMemory",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "readPromptRouteMemory",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "RouteCommandIo",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "RouteCommandOptions",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "runRouteCommand",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "toRouteJson",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "formatPromptRouteResult",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteComplexity",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteDecision",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteInput",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteResult",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteRisk",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "routePrompt",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/routeCommand.test.ts",
+        "value": "packages/cli/src/routeCommand.test.ts",
+        "term": "route",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "packages/cli/src/routeCommand.ts",
+        "term": "route",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "route",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "PromptRouteMemory",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "readPromptRouteMemory",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "RouteCommandIo",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "RouteCommandOptions",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "runRouteCommand",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "toRouteJson",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteComplexity",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteDecision",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteInput",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteResult",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteRisk",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "routePrompt",
+        "term": "route",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "statu",
+    "title": "Statu",
+    "summary": "Durable concept inferred from 14 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "module.root",
+      "module.scripts",
+      "file.packages.app.src.app.tsx",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.app.src.hooks.useabstractionstate.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.doctor.ts",
+      "file.packages.cli.src.scopecommand.ts",
+      "file.packages.core.src.goal.ts",
+      "file.packages.core.src.llm.types.ts",
+      "file.packages.core.src.scope.ts",
+      "file.readme.md",
+      "file.scripts.create.assessment.pack.mjs",
+      "file.scripts.diff.summary.mjs",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.missions.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.visual.app.ui"
+    ],
+    "relatedFiles": [
+      "README.md",
+      "packages/app/src/App.tsx",
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/app/src/hooks/useAbstractionState.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/doctor.ts",
+      "packages/cli/src/scopeCommand.ts",
+      "packages/core/src/goal.ts",
+      "packages/core/src/llm/types.ts",
+      "packages/core/src/scope.ts",
+      "scripts/create-assessment-pack.mjs",
+      "scripts/diff-summary.mjs",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-missions.test.mjs"
+    ],
+    "tags": [
+      "statu"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "AbstractionStateStatus",
+        "term": "statu",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/doctor.ts",
+        "value": "DoctorStatus",
+        "term": "statu",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalStatus",
+        "term": "statu",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "DetectedChangeStatus",
+        "term": "statu",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "ScopeCheckStatus",
+        "term": "statu",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "ScopeContractStatus",
+        "term": "statu",
+        "score": 4
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/App.tsx",
+        "value": "status",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "scopeStatus",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "AbstractionStateStatus",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "setStatus",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "status",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "statusText",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/doctor.test.ts",
+        "value": "checkStatus",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/doctor.ts",
+        "value": "DoctorStatus",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/doctor.ts",
+        "value": "status",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "nameStatus",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalStatus",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "DetectedChangeStatus",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "ScopeCheckStatus",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "ScopeContractStatus",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "README.md",
+        "value": "MVP status",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "gitStatus",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/diff-summary.mjs",
+        "value": "nameStatus",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "coherenceReviewStatus",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "status",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.test.mjs",
+        "value": "batchStatus",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.test.mjs",
+        "value": "status",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.test.mjs",
+        "value": "writtenStatus",
+        "term": "statu",
         "score": 3
       }
     ]
@@ -7128,234 +8327,6 @@
     ]
   },
   {
-    "id": "statu",
-    "title": "Statu",
-    "summary": "Durable concept inferred from 13 file(s) using export, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "module.root",
-      "module.scripts",
-      "file.packages.app.src.app.tsx",
-      "file.packages.app.src.components.agenthealthpanel.tsx",
-      "file.packages.app.src.hooks.useabstractionstate.ts",
-      "file.packages.cli.src.doctor.test.ts",
-      "file.packages.cli.src.doctor.ts",
-      "file.packages.cli.src.scopecommand.ts",
-      "file.packages.core.src.llm.types.ts",
-      "file.packages.core.src.scope.ts",
-      "file.readme.md",
-      "file.scripts.create.assessment.pack.mjs",
-      "file.scripts.diff.summary.mjs",
-      "file.scripts.run.full.self.improvement.loop.mjs",
-      "file.scripts.run.missions.test.mjs",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "architecture.visual.app.ui"
-    ],
-    "relatedFiles": [
-      "README.md",
-      "packages/app/src/App.tsx",
-      "packages/app/src/components/AgentHealthPanel.tsx",
-      "packages/app/src/hooks/useAbstractionState.ts",
-      "packages/cli/src/doctor.test.ts",
-      "packages/cli/src/doctor.ts",
-      "packages/cli/src/scopeCommand.ts",
-      "packages/core/src/llm/types.ts",
-      "packages/core/src/scope.ts",
-      "scripts/create-assessment-pack.mjs",
-      "scripts/diff-summary.mjs",
-      "scripts/run-full-self-improvement-loop.mjs",
-      "scripts/run-missions.test.mjs"
-    ],
-    "tags": [
-      "statu"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
-        "value": "AbstractionStateStatus",
-        "term": "statu",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorStatus",
-        "term": "statu",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/llm/types.ts",
-        "value": "DetectedChangeStatus",
-        "term": "statu",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "ScopeCheckStatus",
-        "term": "statu",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "ScopeContractStatus",
-        "term": "statu",
-        "score": 4
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/App.tsx",
-        "value": "status",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "scopeStatus",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
-        "value": "AbstractionStateStatus",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
-        "value": "setStatus",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
-        "value": "status",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
-        "value": "statusText",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.test.ts",
-        "value": "checkStatus",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorStatus",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "status",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "nameStatus",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/llm/types.ts",
-        "value": "DetectedChangeStatus",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "ScopeCheckStatus",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "ScopeContractStatus",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "MVP status",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/create-assessment-pack.mjs",
-        "value": "gitStatus",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/diff-summary.mjs",
-        "value": "nameStatus",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-full-self-improvement-loop.mjs",
-        "value": "coherenceReviewStatus",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-full-self-improvement-loop.mjs",
-        "value": "status",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.test.mjs",
-        "value": "batchStatus",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.test.mjs",
-        "value": "status",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.test.mjs",
-        "value": "writtenStatus",
-        "term": "statu",
-        "score": 3
-      }
-    ]
-  },
-  {
     "id": "git",
     "title": "Git",
     "summary": "Durable concept inferred from 9 file(s) using export, symbol signals.",
@@ -7568,6 +8539,197 @@
     ]
   },
   {
+    "id": "evaluation",
+    "title": "Evaluation",
+    "summary": "Durable concept inferred from 9 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "module.scripts",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.scripts.create.assessment.pack.mjs",
+      "file.scripts.create.assessment.pack.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.visual.app.ui"
+    ],
+    "relatedFiles": [
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/cli/src/apiState.ts",
+      "packages/cli/src/goalCommand.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/create-assessment-pack.mjs",
+      "scripts/create-assessment-pack.test.mjs"
+    ],
+    "tags": [
+      "evaluation"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "EvaluationIssue",
+        "term": "evaluation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "EvaluationReport",
+        "term": "evaluation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "formatEvaluationTimestamp",
+        "term": "evaluation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "writeEvaluationReport",
+        "term": "evaluation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "WrittenEvaluationReport",
+        "term": "evaluation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateEvaluationReportSchema",
+        "term": "evaluation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateEvaluationReportsSchema",
+        "term": "evaluation",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readEvaluationReports",
+        "term": "evaluation",
+        "score": 4
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "evaluationDetail",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "loadLatestEvaluation",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "evaluations",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "changeEvaluation",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "EvaluationIssue",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "EvaluationReport",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "WrittenEvaluationReport",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "evaluation",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "evaluationReport",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "legacyEvaluation",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "EVALUATION_HINT",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "evaluations",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "latestEvaluation",
+        "term": "evaluation",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/create-assessment-pack.test.mjs",
+        "value": "latestEvaluation",
+        "term": "evaluation",
+        "score": 3
+      }
+    ]
+  },
+  {
     "id": "doctor",
     "title": "Doctor",
     "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
@@ -7745,924 +8907,200 @@
     ]
   },
   {
-    "id": "evaluation",
-    "title": "Evaluation",
-    "summary": "Durable concept inferred from 8 file(s) using export, symbol signals.",
+    "id": "assessment",
+    "title": "Assessment",
+    "summary": "Durable concept inferred from 10 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
+      "module.docs",
       "module.packages",
       "module.scripts",
-      "file.packages.app.src.components.agenthealthpanel.tsx",
-      "file.packages.cli.src.apistate.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.runtimeschema.ts",
-      "file.packages.core.src.workspace.ts",
+      "file.docs.agent.protocol.md",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.automationvalidation.ts",
+      "file.packages.core.src.promptrouter.ts",
       "file.scripts.create.assessment.pack.mjs",
       "file.scripts.create.assessment.pack.test.mjs",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "architecture.visual.app.ui"
+      "file.scripts.import.assessment.missions.mjs",
+      "file.scripts.import.assessment.missions.test.mjs",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "architecture.core.engine"
     ],
     "relatedFiles": [
-      "packages/app/src/components/AgentHealthPanel.tsx",
-      "packages/cli/src/apiState.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/runtimeSchema.ts",
-      "packages/core/src/workspace.ts",
+      "docs/AGENT_PROTOCOL.md",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/automationValidation.ts",
+      "packages/core/src/promptRouter.ts",
       "scripts/create-assessment-pack.mjs",
-      "scripts/create-assessment-pack.test.mjs"
+      "scripts/create-assessment-pack.test.mjs",
+      "scripts/import-assessment-missions.mjs",
+      "scripts/import-assessment-missions.test.mjs",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs"
     ],
     "tags": [
-      "evaluation"
+      "assessment"
     ],
     "evidence": [
       {
         "kind": "export",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "EvaluationIssue",
-        "term": "evaluation",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "assessmentPackRoot",
+        "term": "assessment",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "EvaluationReport",
-        "term": "evaluation",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "buildAssessmentPrompt",
+        "term": "assessment",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "formatEvaluationTimestamp",
-        "term": "evaluation",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "collectAssessmentPackContext",
+        "term": "assessment",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "writeEvaluationReport",
-        "term": "evaluation",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "createAssessmentPack",
+        "term": "assessment",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "WrittenEvaluationReport",
-        "term": "evaluation",
+        "filePath": "scripts/import-assessment-missions.mjs",
+        "value": "importAssessmentMissions",
+        "term": "assessment",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateEvaluationReportSchema",
-        "term": "evaluation",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "buildAssessmentPrompt",
+        "term": "assessment",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateEvaluationReportsSchema",
-        "term": "evaluation",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "validateAssessmentOutput",
+        "term": "assessment",
         "score": 4
       },
       {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "readEvaluationReports",
-        "term": "evaluation",
-        "score": 4
+        "kind": "path",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "scripts/create-assessment-pack.mjs",
+        "term": "assessment",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/create-assessment-pack.test.mjs",
+        "value": "scripts/create-assessment-pack.test.mjs",
+        "term": "assessment",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/import-assessment-missions.mjs",
+        "value": "scripts/import-assessment-missions.mjs",
+        "term": "assessment",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/import-assessment-missions.test.mjs",
+        "value": "scripts/import-assessment-missions.test.mjs",
+        "term": "assessment",
+        "score": 2
       },
       {
         "kind": "symbol",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "evaluationDetail",
-        "term": "evaluation",
+        "filePath": "docs/AGENT_PROTOCOL.md",
+        "value": "Strategic assessment workflow",
+        "term": "assessment",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/apiState.ts",
-        "value": "loadLatestEvaluation",
-        "term": "evaluation",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "assessmentPacksPath",
+        "term": "assessment",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "changeEvaluation",
-        "term": "evaluation",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "ASSESSMENT_PACKS_PATH",
+        "term": "assessment",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "EvaluationIssue",
-        "term": "evaluation",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "assessmentReasons",
+        "term": "assessment",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "EvaluationReport",
-        "term": "evaluation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "WrittenEvaluationReport",
-        "term": "evaluation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.test.ts",
-        "value": "evaluation",
-        "term": "evaluation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.test.ts",
-        "value": "evaluationReport",
-        "term": "evaluation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.test.ts",
-        "value": "legacyEvaluation",
-        "term": "evaluation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "EVALUATION_HINT",
-        "term": "evaluation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "evaluations",
-        "term": "evaluation",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "assessmentTerms",
+        "term": "assessment",
         "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "scripts/create-assessment-pack.mjs",
-        "value": "latestEvaluation",
-        "term": "evaluation",
+        "value": "assessmentPackRoot",
+        "term": "assessment",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "scripts/create-assessment-pack.test.mjs",
-        "value": "latestEvaluation",
-        "term": "evaluation",
-        "score": 3
-      }
-    ]
-  },
-  {
-    "id": "health",
-    "title": "Health",
-    "summary": "Durable concept inferred from 8 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "file.packages.app.src.components.agenthealthpanel.tsx",
-      "file.packages.app.src.styles.css",
-      "file.packages.cli.src.agenthealth.test.ts",
-      "file.packages.cli.src.agenthealth.ts",
-      "file.packages.cli.src.apistate.test.ts",
-      "file.packages.cli.src.apistate.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.schema.ts",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "architecture.visual.app.ui"
-    ],
-    "relatedFiles": [
-      "packages/app/src/components/AgentHealthPanel.tsx",
-      "packages/app/src/styles.css",
-      "packages/cli/src/agentHealth.test.ts",
-      "packages/cli/src/agentHealth.ts",
-      "packages/cli/src/apiState.test.ts",
-      "packages/cli/src/apiState.ts",
-      "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/schema.ts"
-    ],
-    "tags": [
-      "health"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "AgentHealthPanel",
-        "term": "health",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "AgentHealthPanelProps",
-        "term": "health",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/apiState.ts",
-        "value": "AgentHealthLoader",
-        "term": "health",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/apiState.ts",
-        "value": "loadApiAgentHealth",
-        "term": "health",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "AgentHealth",
-        "term": "health",
-        "score": 4
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "packages/app/src/components/AgentHealthPanel.tsx",
-        "term": "health",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/agentHealth.test.ts",
-        "value": "packages/cli/src/agentHealth.test.ts",
-        "term": "health",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/agentHealth.ts",
-        "value": "packages/cli/src/agentHealth.ts",
-        "term": "health",
-        "score": 2
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "AgentHealthPanel",
-        "term": "health",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "collectAssessmentPackContext",
+        "term": "assessment",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "AgentHealthPanelProps",
-        "term": "health",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "HealthItem",
-        "term": "health",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/styles.css",
-        "value": "health-grid",
-        "term": "health",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/styles.css",
-        "value": "health-item",
-        "term": "health",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/apiState.test.ts",
-        "value": "agentHealth",
-        "term": "health",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/apiState.test.ts",
-        "value": "health",
-        "term": "health",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/apiState.ts",
-        "value": "agentHealth",
-        "term": "health",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/apiState.ts",
-        "value": "AgentHealthLoader",
-        "term": "health",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/apiState.ts",
-        "value": "loadApiAgentHealth",
-        "term": "health",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/apiState.ts",
-        "value": "loadAutomationHealth",
-        "term": "health",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/apiState.ts",
-        "value": "loadScopeHealth",
-        "term": "health",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.test.ts",
-        "value": "agentHealthRecord",
-        "term": "health",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "AgentHealth",
-        "term": "health",
-        "score": 3
-      }
-    ]
-  },
-  {
-    "id": "plan",
-    "title": "Plan",
-    "summary": "Durable concept inferred from 8 file(s) using export, symbol signals.",
-    "relatedNodeIds": [
-      "module.docs",
-      "module.packages",
-      "module.scripts",
-      "file.docs.mission.runner.md",
-      "file.packages.core.src.migrations.test.ts",
-      "file.packages.core.src.migrations.ts",
-      "file.scripts.import.assessment.missions.mjs",
-      "file.scripts.run.full.self.improvement.loop.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "file.scripts.run.missions.mjs",
-      "file.scripts.run.missions.test.mjs",
-      "architecture.core.engine"
-    ],
-    "relatedFiles": [
-      "docs/MISSION_RUNNER.md",
-      "packages/core/src/migrations.test.ts",
-      "packages/core/src/migrations.ts",
-      "scripts/import-assessment-missions.mjs",
-      "scripts/run-full-self-improvement-loop.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs",
-      "scripts/run-missions.mjs",
-      "scripts/run-missions.test.mjs"
-    ],
-    "tags": [
-      "plan"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationPlan",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationPlanOptions",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "planAtreeMigration",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "createMissionPlan",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "executePlan",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/MISSION_RUNNER.md",
-        "value": "Future Modularization Plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.test.ts",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationPlan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationPlanOptions",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "planAtreeMigration",
-        "term": "plan",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "createAssessmentPack",
+        "term": "assessment",
         "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "scripts/import-assessment-missions.mjs",
-        "value": "copyPlan",
-        "term": "plan",
+        "value": "importAssessmentMissions",
+        "term": "assessment",
         "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "scripts/run-full-self-improvement-loop.mjs",
-        "value": "missionPlanArgs",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-full-self-improvement-loop.mjs",
-        "value": "plan",
-        "term": "plan",
+        "value": "assessmentPrompt",
+        "term": "assessment",
         "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
-        "value": "missionPlanCommand",
-        "term": "plan",
+        "value": "assessmentPaths",
+        "term": "assessment",
         "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
-        "value": "planMissionsFlagIndex",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.test.mjs",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.test.mjs",
-        "value": "planInput",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.test.mjs",
-        "value": "printedPlan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.test.mjs",
-        "value": "writtenPlan",
-        "term": "plan",
-        "score": 3
-      }
-    ]
-  },
-  {
-    "id": "automation",
-    "title": "Automation",
-    "summary": "Durable concept inferred from 12 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.docs",
-      "module.packages",
-      "module.root",
-      "module.scripts",
-      "file.contributing.md",
-      "file.docs.architecture.md",
-      "file.packages.app.src.components.agenthealthpanel.tsx",
-      "file.packages.cli.src.apistate.ts",
-      "file.packages.cli.src.doctor.test.ts",
-      "file.packages.cli.src.doctor.ts",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.readme.md",
-      "file.scripts.cross.platform.automation.test.mjs",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "architecture.visual.app.ui"
-    ],
-    "relatedFiles": [
-      "CONTRIBUTING.md",
-      "README.md",
-      "docs/ARCHITECTURE.md",
-      "packages/app/src/components/AgentHealthPanel.tsx",
-      "packages/cli/src/apiState.ts",
-      "packages/cli/src/doctor.test.ts",
-      "packages/cli/src/doctor.ts",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/automationValidation.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/evaluator.ts",
-      "scripts/cross-platform-automation.test.mjs"
-    ],
-    "tags": [
-      "automation"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "AutomationValidationOptions",
-        "term": "automation",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "validateAutomation",
-        "term": "automation",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "validateAutomationConfig",
-        "term": "automation",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "validateAutomationRuntime",
-        "term": "automation",
-        "score": 4
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/core/src/automationValidation.test.ts",
-        "value": "packages/core/src/automationValidation.test.ts",
-        "term": "automation",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "packages/core/src/automationValidation.ts",
-        "term": "automation",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "scripts/cross-platform-automation.test.mjs",
-        "value": "scripts/cross-platform-automation.test.mjs",
-        "term": "automation",
-        "score": 2
-      },
-      {
-        "kind": "symbol",
-        "filePath": "CONTRIBUTING.md",
-        "value": "Automation files",
-        "term": "automation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/ARCHITECTURE.md",
-        "value": "Automation and metrics",
-        "term": "automation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "automationDetail",
-        "term": "automation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "automationLimit",
-        "term": "automation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/apiState.ts",
-        "value": "loadAutomationHealth",
-        "term": "automation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.test.ts",
-        "value": "writeHealthyAutomationFiles",
-        "term": "automation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "automationCheck",
-        "term": "automation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.test.ts",
-        "value": "writeValidAutomationFiles",
-        "term": "automation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "AUTOMATION_DIR",
-        "term": "automation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "AutomationValidationOptions",
-        "term": "automation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "validateAutomation",
-        "term": "automation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "validateAutomationConfig",
-        "term": "automation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.test.ts",
-        "value": "writeValidAutomationFiles",
-        "term": "automation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "automationIssues",
-        "term": "automation",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "Automation maturity ladder",
-        "term": "automation",
-        "score": 3
-      }
-    ]
-  },
-  {
-    "id": "panel",
-    "title": "Panel",
-    "summary": "Durable concept inferred from 5 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "file.packages.app.src.components.agenthealthpanel.tsx",
-      "file.packages.app.src.components.conceptpanel.tsx",
-      "file.packages.app.src.components.invariantpanel.tsx",
-      "file.packages.app.src.components.panel.tsx",
-      "file.packages.app.src.styles.css",
-      "architecture.visual.app.ui"
-    ],
-    "relatedFiles": [
-      "packages/app/src/components/AgentHealthPanel.tsx",
-      "packages/app/src/components/ConceptPanel.tsx",
-      "packages/app/src/components/InvariantPanel.tsx",
-      "packages/app/src/components/Panel.tsx",
-      "packages/app/src/styles.css"
-    ],
-    "tags": [
-      "panel"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "AgentHealthPanel",
-        "term": "panel",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "AgentHealthPanelProps",
-        "term": "panel",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/app/src/components/ConceptPanel.tsx",
-        "value": "ConceptPanel",
-        "term": "panel",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/app/src/components/ConceptPanel.tsx",
-        "value": "ConceptPanelProps",
-        "term": "panel",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/app/src/components/InvariantPanel.tsx",
-        "value": "InvariantPanel",
-        "term": "panel",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/app/src/components/InvariantPanel.tsx",
-        "value": "InvariantPanelProps",
-        "term": "panel",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/app/src/components/Panel.tsx",
-        "value": "Panel",
-        "term": "panel",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/app/src/components/Panel.tsx",
-        "value": "PanelProps",
-        "term": "panel",
-        "score": 4
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "packages/app/src/components/AgentHealthPanel.tsx",
-        "term": "panel",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/app/src/components/ConceptPanel.tsx",
-        "value": "packages/app/src/components/ConceptPanel.tsx",
-        "term": "panel",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/app/src/components/InvariantPanel.tsx",
-        "value": "packages/app/src/components/InvariantPanel.tsx",
-        "term": "panel",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/app/src/components/Panel.tsx",
-        "value": "packages/app/src/components/Panel.tsx",
-        "term": "panel",
-        "score": 2
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "AgentHealthPanel",
-        "term": "panel",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "AgentHealthPanelProps",
-        "term": "panel",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/ConceptPanel.tsx",
-        "value": "ConceptPanel",
-        "term": "panel",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/ConceptPanel.tsx",
-        "value": "ConceptPanelProps",
-        "term": "panel",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/InvariantPanel.tsx",
-        "value": "InvariantPanel",
-        "term": "panel",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/InvariantPanel.tsx",
-        "value": "InvariantPanelProps",
-        "term": "panel",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/Panel.tsx",
-        "value": "Panel",
-        "term": "panel",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/Panel.tsx",
-        "value": "PanelProps",
-        "term": "panel",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/styles.css",
-        "value": "panel",
-        "term": "panel",
+        "value": "writeBaseAssessmentMemory",
+        "term": "assessment",
         "score": 3
       }
     ]

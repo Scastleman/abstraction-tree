@@ -49,6 +49,47 @@ Custom redaction patterns are regular expressions. Blank lines and `#` comments 
 
 Codex is the bounded executor. ChatGPT and humans are the preferred strategic assessment layer. Abstraction Tree is the memory, evidence, validation, and scope boundary. Do not trust generated assessment or mission output by default: validate and plan the mission folder, run checks, and review diffs before accepting changes.
 
+## Goal-Driven Autopilot
+
+`atree goal` is a sibling workflow to the repository self-improvement loop. It does not replace assessment packs or the full dogfooding loop. Instead, it starts from a specific user goal and compiles that goal into reviewable mission files grounded in the current abstraction memory:
+
+```bash
+npm run atree:route -- --file prompts/complex-goal.md
+npm run atree:goal -- --file prompts/complex-goal.md --auto-route
+npm run atree:goal -- --file prompts/complex-goal.md --plan-only
+npm run atree:goal -- --file prompts/complex-goal.md --review-required
+```
+
+The distinction is:
+
+```text
+self-improvement loop input = repo state
+goal-driven loop input = user goal + repo state
+```
+
+The generated workspace lives under `.abstraction-tree/goals/YYYY-MM-DD-HHMM-<slug>/` and includes the original `goal.md`, deterministic assessment, affected-tree map, mission plan, mission folder, coherence review placeholder, and final report. `--create-pr` also writes `pr-body.md` without pushing, opening, or merging anything.
+
+The safe default is review-required planning. `--full-auto` currently refuses after planning with an explicit message, because mission execution still needs to be reviewed through the mission runner guardrails before it should be attached to this command.
+
+## Prompt Routing
+
+Prompt routing is the decision layer before goal planning:
+
+```text
+simple prompt -> direct
+complex prompt -> goal-driven autopilot
+strategy prompt -> assessment pack
+risky prompt -> manual review
+```
+
+Run:
+
+```bash
+npm run atree:route -- --file prompt.md
+```
+
+The router is deterministic and read-only. It uses `.abstraction-tree/tree.json`, `files.json`, `concepts.json`, and `invariants.json` when available, lowers confidence when memory is missing, and recommends exactly one next command. It does not run Codex or write project files.
+
 To create the assessment evidence pack through the full-loop wrapper and stop before any Codex assessment or mission execution, use:
 
 ```bash

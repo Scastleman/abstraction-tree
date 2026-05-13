@@ -10,6 +10,7 @@ The core engine is responsible for a deterministic project-understanding baselin
 - extract imports, exports, symbols, tests, and basic summaries;
 - infer a project-specific abstraction ontology;
 - build an initial abstraction tree using that ontology;
+- generate human-readable node explanations from deterministic scanner facts;
 - infer concepts from path, symbol, and export signals;
 - validate drift;
 - generate relevance-scored context packs for agents.
@@ -35,7 +36,9 @@ The deterministic architecture pass adds a runtime/dataflow layer beneath `proje
 
 The architecture pass is intentionally evidence-limited. It can identify runtime boundaries that are visible in manifests, paths, imports, and local package metadata, but it does not infer hidden business semantics, dynamic routes assembled at runtime, bundler aliases not represented in the import graph, environment-specific deployment topology, or complete user journeys. When the evidence is broad, architecture nodes should be read as deterministic ownership and dependency groupings rather than a complete design document.
 
-Context packs use the same facts to rank nodes, concepts, files, and invariants. A target can match through concept summaries, symbols, exports, ownership, or file paths instead of only exact node text.
+Generated tree nodes expose `summary` for compact labels, `explanation` for human-readable comprehension, and `separationLogic` to describe the partition rule for a parent node's children. Explanations are template-driven from available evidence: node type, parent/children, owned files, scanner symbols, imports, exports, related concepts, dependency refs, and invariants. Separation logic names the child-boundary rule, such as concept clustering, architecture surface separation, module ownership, or file-level edit control. They are useful project guides, but they should still be read as deterministic evidence summaries rather than LLM-quality design analysis.
+
+Context packs use the same facts to rank nodes, concepts, files, and invariants. A target can match through node explanations, concept summaries, symbols, exports, ownership, or file paths instead of only exact node text.
 
 The protocol is fixed, but the abstraction layers are not. Every tree node follows the same machine-readable schema, while level names come from repository inspection today and should be refined by LLM abstraction providers later. A small web app may produce product, domain, UI runtime, package, and component/file layers; a quant repo may instead produce research objective, data universe, feature engineering, backtesting, portfolio, and reporting layers when an LLM builder is available.
 
@@ -118,6 +121,8 @@ The visual app is the human-readable interface to `.abstraction-tree/`.
 It shows:
 
 - abstraction hierarchy;
+- selected-node summaries and richer explanations;
+- separation logic for child nodes;
 - file ownership;
 - concepts;
 - invariants;

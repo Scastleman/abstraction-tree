@@ -298,12 +298,16 @@ h1 {
   gap: 14px;
 }
 
-.node-summary {
+.node-summary,
+.node-explanation,
+.node-evidence {
   border-bottom: 1px solid #e5e7eb;
   padding-bottom: 14px;
 }
 
-.node-summary span {
+.node-summary span,
+.node-explanation span,
+.node-evidence span {
   color: #2563eb;
   display: block;
   font-size: 12px;
@@ -313,20 +317,44 @@ h1 {
   text-transform: uppercase;
 }
 
-.node-summary p {
+.node-summary p,
+.node-explanation p {
   color: #334155;
   line-height: 1.5;
   margin: 0;
 }
 
-.node-summary ul {
+.node-evidence ul {
   color: #475569;
-  margin: 10px 0 0;
+  margin: 0;
   padding-left: 18px;
 }
 
-.node-summary li {
+.node-evidence li {
   margin-top: 6px;
+}
+
+.node-evidence-row {
+  display: grid;
+  gap: 4px;
+  grid-template-columns: 110px minmax(0, 1fr);
+  margin-top: 8px;
+}
+
+.node-evidence-row strong {
+  color: #475569;
+  font-size: 13px;
+}
+
+.node-evidence-row span {
+  color: #475569;
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  text-transform: none;
 }
 
 .details div,

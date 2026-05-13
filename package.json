@@ -26,6 +26,8 @@
     "atree:scan": "node packages/cli/dist/index.js scan --project .",
     "atree:validate": "node packages/cli/dist/index.js validate --project . --strict",
     "atree:evaluate": "node packages/cli/dist/index.js evaluate --project .",
+    "atree:goal": "node packages/cli/dist/index.js goal --project .",
+    "atree:route": "node packages/cli/dist/index.js route --project .",
     "atree:scope:check": "node packages/cli/dist/index.js scope check --project . --scope latest",
     "test": "node scripts/run-tests.mjs",
     "missions:plan": "node scripts/run-missions.mjs --plan",

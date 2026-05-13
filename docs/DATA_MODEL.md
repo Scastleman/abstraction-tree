@@ -80,6 +80,8 @@ Each node has:
 - children;
 - source files;
 - summary;
+- explanation;
+- separation logic;
 - responsibilities;
 - invariants;
 - change policy;
@@ -88,6 +90,12 @@ Each node has:
 - confidence.
 
 For compatibility with older consumers, nodes may also expose alias fields such as `title`, `level`, `parentId`, `ownedFiles`, and `dependsOn`. New consumers should prefer `name`, `abstractionLevel`, `parent`, `sourceFiles`, and `dependencies`.
+
+`summary` is the short fallback text for compact surfaces. `explanation` is the richer human-readable project-comprehension field. It explains what the node represents, why it exists, what it owns, how it relates to parent and child nodes, which dependencies or invariants matter, and what developers or agents should know before changing it.
+
+`separationLogic` describes the partition rule used for the children below a node. This helps humans and agents understand whether child nodes are separated by concept cluster, architecture surface, module ownership zone, file-level edit boundary, or another deterministic scope rule.
+
+Fresh deterministic scans populate `explanation` from available facts such as node type, owned files, child nodes, scanner symbols, imports, exports, concepts, and invariants. Older trees without `explanation` remain readable; validation treats missing or thin explanations on high-level nodes as migration warnings rather than hard schema failures.
 
 ## `import-graph.json`
 
@@ -134,6 +142,8 @@ Deterministic scans also write generated records with ids beginning `scan.`. The
 ## `context-packs/`
 
 Compressed bundles of relevant tree nodes, files, concepts, invariants, and recent changes for coding agents.
+
+Context packs include each selected node's short `summary` and, when present, its richer `explanation` so agents can understand the intended scope boundary before editing.
 
 ## `/api/state`
 

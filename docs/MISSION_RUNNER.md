@@ -59,6 +59,40 @@ npm run missions:plan:manual
 npm run missions:run:manual
 ```
 
+## Goal-Generated Mission Folders
+
+For a complex user prompt, `atree goal` can write a goal-specific mission folder directly:
+
+```bash
+npm run atree:route -- --file prompts/complex-goal.md
+npm run atree:goal -- --file prompts/complex-goal.md --auto-route
+npm run atree:goal -- --file prompts/complex-goal.md --review-required
+```
+
+That creates:
+
+```text
+.abstraction-tree/goals/YYYY-MM-DD-HHMM-<slug>/
+  goal.md
+  goal-assessment.md
+  affected-tree.json
+  mission-plan.json
+  missions/
+  coherence-review.md
+  final-report.md
+```
+
+The original `goal.md` is preserved exactly. The generated `missions/` folder uses the same frontmatter and required headings as every other mission runner queue. Review the assessment and mission plan, then run the printed commands:
+
+```bash
+npm run missions:plan -- --missions .abstraction-tree/goals/<goal-id>/missions
+npm run missions:run -- --missions .abstraction-tree/goals/<goal-id>/missions
+```
+
+`--plan-only` writes artifacts without printing an execution recommendation. `--create-pr` writes a draft `pr-body.md` for later manual use. `--full-auto` currently refuses execution after planning until the runner can be called through this command with equivalent safety guarantees.
+
+`atree route` is the read-only decision layer before goal planning. It recommends direct execution for small prompts, `atree goal` for complex implementation prompts, `assessment:pack` for broad strategy prompts, and manual review for risky prompts. The router never invokes Codex or the mission runner by itself.
+
 The runner discovers Markdown files recursively, excludes `README.md`, and never deletes mission files after running them. By default, it also reads `.abstraction-tree/automation/mission-runtime.json` and skips missions already listed as completed or failed. You can point it at another folder:
 
 ```bash

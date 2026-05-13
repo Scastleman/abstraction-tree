@@ -311,6 +311,32 @@
       "packageName": "@abstraction-tree/core"
     },
     {
+      "from": "packages/cli/src/goalCommand.test.ts",
+      "to": "packages/cli/src/goalCommand.ts",
+      "specifier": "./goalCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.ts",
+      "to": "packages/cli/src/routeCommand.ts",
+      "specifier": "./routeCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
       "from": "packages/cli/src/index.ts",
       "to": "packages/cli/src/apiState.ts",
       "specifier": "./apiState.js",
@@ -330,6 +356,12 @@
     },
     {
       "from": "packages/cli/src/index.ts",
+      "to": "packages/cli/src/goalCommand.ts",
+      "specifier": "./goalCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
       "to": "packages/cli/src/migrate.ts",
       "specifier": "./migrate.js",
       "kind": "relative"
@@ -338,6 +370,12 @@
       "from": "packages/cli/src/index.ts",
       "to": "packages/cli/src/propose.ts",
       "specifier": "./propose.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "to": "packages/cli/src/routeCommand.ts",
+      "specifier": "./routeCommand.js",
       "kind": "relative"
     },
     {
@@ -394,6 +432,32 @@
     },
     {
       "from": "packages/cli/src/propose.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.test.ts",
+      "to": "packages/cli/src/goalCommand.ts",
+      "specifier": "./goalCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.test.ts",
+      "to": "packages/cli/src/routeCommand.ts",
+      "specifier": "./routeCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.ts",
       "to": "packages/core/src/index.ts",
       "specifier": "@abstraction-tree/core",
       "kind": "workspace-package",
@@ -564,6 +628,18 @@
       "kind": "relative"
     },
     {
+      "from": "packages/core/src/goal.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "./index.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/goal.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
       "from": "packages/core/src/importGraph.test.ts",
       "to": "packages/core/src/importGraph.ts",
       "specifier": "./importGraph.js",
@@ -625,6 +701,12 @@
     },
     {
       "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/goal.ts",
+      "specifier": "./goal.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
       "to": "packages/core/src/importGraph.ts",
       "specifier": "./importGraph.js",
       "kind": "relative"
@@ -651,6 +733,12 @@
       "from": "packages/core/src/index.ts",
       "to": "packages/core/src/migrations.ts",
       "specifier": "./migrations.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/promptRouter.ts",
+      "specifier": "./promptRouter.js",
       "kind": "relative"
     },
     {
@@ -795,6 +883,18 @@
       "from": "packages/core/src/migrations.ts",
       "to": "packages/core/src/workspace.ts",
       "specifier": "./workspace.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/promptRouter.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "./index.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/promptRouter.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
       "kind": "relative"
     },
     {
@@ -1322,6 +1422,46 @@
       "packageName": "node:url"
     },
     {
+      "from": "packages/cli/src/goalCommand.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
       "from": "packages/cli/src/index.ts",
       "specifier": "commander",
       "packageName": "commander"
@@ -1417,6 +1557,46 @@
       "packageName": "node:url"
     },
     {
+      "from": "packages/cli/src/routeCommand.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
       "from": "packages/cli/src/scopeCommand.test.ts",
       "specifier": "node:assert/strict",
       "packageName": "node:assert/strict"
@@ -1608,6 +1788,21 @@
     },
     {
       "from": "packages/core/src/evaluator.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/goal.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/goal.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/goal.ts",
       "specifier": "node:path",
       "packageName": "node:path"
     },
@@ -1710,6 +1905,16 @@
       "from": "packages/core/src/migrations.ts",
       "specifier": "node:path",
       "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/promptRouter.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/promptRouter.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
     },
     {
       "from": "packages/core/src/runReports.test.ts",
@@ -2023,6 +2228,31 @@
     },
     {
       "from": "scripts/cross-platform-automation.test.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/data-model-explanations.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/data-model-explanations.test.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/data-model-explanations.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/data-model-explanations.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "scripts/data-model-explanations.test.mjs",
       "specifier": "node:url",
       "packageName": "node:url"
     },

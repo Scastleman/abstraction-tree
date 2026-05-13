@@ -85,7 +85,303 @@ export function buildDeterministicTree(projectName: string, files: FileSummary[]
     for (const nodeId of inv.nodeIds) nodes.get(nodeId)?.invariants.push(inv.id);
   }
 
-  return { ontology, nodes: [...nodes.values()], concepts, invariants, files };
+  const builtNodes = [...nodes.values()];
+  populateNodeExplanations(projectName, builtNodes, files, concepts, invariants);
+
+  return { ontology, nodes: builtNodes, concepts, invariants, files };
+}
+
+function populateNodeExplanations(
+  projectName: string,
+  nodes: TreeNode[],
+  files: FileSummary[],
+  concepts: Concept[],
+  invariants: Invariant[]
+): void {
+  const nodeById = new Map(nodes.map(node => [node.id, node]));
+  const fileByPath = new Map(files.map(file => [file.path, file]));
+  const conceptByNodeId = new Map(concepts.map(concept => [`concept-node.${concept.id}`, concept]));
+  const invariantsById = new Map(invariants.map(invariant => [invariant.id, invariant]));
+
+  for (const treeNode of nodes) {
+    const explanationArgs = {
+      projectName,
+      node: treeNode,
+      nodes,
+      nodeById,
+      fileByPath,
+      concept: conceptByNodeId.get(treeNode.id),
+      invariantsById
+    };
+    treeNode.explanation = buildNodeExplanation(explanationArgs);
+    treeNode.separationLogic = buildNodeSeparationLogic(explanationArgs);
+  }
+}
+
+function buildNodeExplanation(args: {
+  projectName: string;
+  node: TreeNode;
+  nodes: TreeNode[];
+  nodeById: Map<string, TreeNode>;
+  fileByPath: Map<string, FileSummary>;
+  concept?: Concept;
+  invariantsById: Map<string, Invariant>;
+}): string {
+  if (args.node.id === "project.intent") return projectIntentExplanation(args);
+  if (args.node.id === "project.domain") return domainExplanation(args);
+  if (args.node.id === "project.architecture") return projectArchitectureExplanation(args);
+  if (args.node.id === "project.code") return projectCodeExplanation(args);
+  if (args.node.id.startsWith("architecture.")) return architectureExplanation(args);
+  if (args.node.id.startsWith("module.")) return moduleExplanation(args);
+  if (args.node.id.startsWith("file.")) return fileExplanation(args);
+  if (args.node.id.startsWith("concept-node.")) return conceptExplanation(args);
+  return genericExplanation(args);
+}
+
+function buildNodeSeparationLogic(args: ExplanationArgs): string | undefined {
+  if (!args.node.children.length) return undefined;
+  if (args.node.id === "project.intent") return projectIntentSeparationLogic(args);
+  if (args.node.id === "project.domain") return domainSeparationLogic(args);
+  if (args.node.id === "project.architecture") return architectureSeparationLogic(args);
+  if (args.node.id === "project.code") return projectCodeSeparationLogic(args);
+  if (args.node.id.startsWith("module.")) return moduleSeparationLogic(args);
+  return genericSeparationLogic(args);
+}
+
+function projectIntentExplanation(args: ExplanationArgs): string {
+  const childNames = childNodeNames(args.node, args.nodeById);
+  return compactExplanation([
+    `This node represents the project-level purpose of ${args.projectName}.`,
+    "It exists so humans and agents start from the repository's durable outcome before narrowing a prompt to architecture, concept, module, or file scope.",
+    childNames.length ? `Its child nodes are ${sampleList(childNames, 4)}, which split the project into domain meaning, runtime architecture, and concrete code ownership.` : "",
+    "Use this node when deciding whether a request is truly project-wide; otherwise move down the tree and constrain the change to the smallest responsible subtree.",
+    "Before changing it, check README positioning, public docs, and abstraction memory so the stated product direction remains aligned."
+  ]);
+}
+
+function projectIntentSeparationLogic(args: ExplanationArgs): string {
+  return compactExplanation([
+    "Separation logic: child nodes are partitioned by the kind of project question they answer.",
+    "Domain Concept Layer captures recurring vocabulary and cross-cutting ideas; Runtime / Dataflow Layer captures system boundaries and execution surfaces; Package / Workspace Layer captures concrete folder and file ownership.",
+    childSummary(args, "Current partitions"),
+    "Choose the child whose partition matches the prompt before widening scope."
+  ]);
+}
+
+function domainExplanation(args: ExplanationArgs): string {
+  const childNames = childNodeNames(args.node, args.nodeById);
+  return compactExplanation([
+    "This node represents the human-level concepts inferred from repository paths, symbols, exports, tests, and documentation names.",
+    "It exists to collect domain vocabulary that may cut across folders, so an agent can find related files without treating the whole repository as the change boundary.",
+    childNames.length ? `It owns concept nodes such as ${sampleList(childNames, 6)}.` : "It currently has no concept children, so the scan did not find enough repeated vocabulary to create concept nodes.",
+    "Use this layer when a prompt names a behavior, product idea, or recurring term rather than a specific file.",
+    "Concept nodes are deterministic evidence, not a complete semantic model; confirm the related files before editing."
+  ]);
+}
+
+function domainSeparationLogic(args: ExplanationArgs): string {
+  return compactExplanation([
+    "Separation logic: each child is a concept cluster created from repeated evidence in paths, symbols, exports, tests, or documentation names.",
+    childSummary(args, "Current concept partitions"),
+    "Concepts are separated by vocabulary signal rather than package layout, so one cross-cutting idea can be inspected without pulling in unrelated concepts."
+  ]);
+}
+
+function projectArchitectureExplanation(args: ExplanationArgs): string {
+  const childNames = childNodeNames(args.node, args.nodeById);
+  return compactExplanation([
+    "This node represents the repository's runtime and package architecture as inferred from package metadata, source paths, imports, entrypoints, and local API boundaries.",
+    "It exists to show the system-level surfaces where overreach is most likely: CLI entrypoints, core engines, visual app boundaries, distribution, and runtime dataflow.",
+    childNames.length ? `Its architecture children include ${sampleList(childNames, 6)}.` : "No architecture children were inferred from the current scan.",
+    "Use this node to understand cross-module impact before changing command surfaces, APIs, package boundaries, or shared engines.",
+    "Before modifying architecture-level nodes, check dependent docs, tests, and invariants because changes here often affect multiple lower-level modules."
+  ]);
+}
+
+function architectureSeparationLogic(args: ExplanationArgs): string {
+  return compactExplanation([
+    "Separation logic: architecture children are partitioned by runtime surface, package boundary, API boundary, and dependency-flow evidence.",
+    childSummary(args, "Current architecture partitions"),
+    "CLI, core engine, scanner/context pipeline, visual app, distribution, and dataflow surfaces stay separate so a prompt can target one integration boundary instead of blending multiple system contracts."
+  ]);
+}
+
+function projectCodeExplanation(args: ExplanationArgs): string {
+  const childNames = childNodeNames(args.node, args.nodeById);
+  return compactExplanation([
+    "This node represents concrete package, folder, and file ownership extracted from the repository.",
+    "It exists to turn the project into bounded subtrees that agents can use as change limits for ordinary implementation work.",
+    childNames.length ? `It owns top-level module nodes such as ${sampleList(childNames, 6)}.` : "It currently has no module children, which usually means there are no scanned source files.",
+    "Start here when a prompt names a folder, package, script, or file family.",
+    "Move from this node to a module or file node before editing whenever the requested change can be localized."
+  ]);
+}
+
+function projectCodeSeparationLogic(args: ExplanationArgs): string {
+  return compactExplanation([
+    "Separation logic: module children are partitioned by top-level repository path or package folder.",
+    childSummary(args, "Current module partitions"),
+    "Each child owns the files under one top-level path, then file children provide the next narrower boundary for implementation."
+  ]);
+}
+
+function architectureExplanation(args: ExplanationArgs): string {
+  const files = nodeFiles(args.node);
+  const dependents = dependentNodeNames(args.node, args.nodes);
+  return compactExplanation([
+    `This node represents the ${args.node.title} architecture boundary.`,
+    `It exists because deterministic evidence connected this boundary to ${files.length ? `${files.length} file(s)` : "repository structure"} and related dependency references.`,
+    files.length ? `Owned or cited files include ${sampleList(files, 6)}.` : "",
+    args.node.responsibilities.length ? `Its main responsibilities are ${sampleList(args.node.responsibilities.map(trimSentenceEnd), 3)}.` : "",
+    args.node.dependencies.length ? `It depends on evidence such as ${sampleList(args.node.dependencies, 6)}.` : "",
+    dependents.length ? `Other nodes depending on it include ${sampleList(dependents, 4)}.` : "",
+    invariantTitles(args.node, args.invariantsById).length ? `Relevant invariants include ${sampleList(invariantTitles(args.node, args.invariantsById), 4)}.` : "",
+    "Treat this node as a system boundary: changes should preserve command/API compatibility, package responsibilities, and the lower-level file ownership it summarizes."
+  ]);
+}
+
+function moduleExplanation(args: ExplanationArgs): string {
+  const files = nodeFiles(args.node);
+  const childNames = childNodeNames(args.node, args.nodeById);
+  const parent = args.node.parent ? args.nodeById.get(args.node.parent) : undefined;
+  const modulePath = args.node.id === "module.root" ? "the repository root" : `${args.node.id.replace(/^module\./, "").replace(/\./g, "/")}/`;
+  return compactExplanation([
+    `This node represents the ${args.node.title} module or folder within ${parent?.title ?? "the project code tree"}.`,
+    `It exists to group files under ${modulePath} so changes can be scoped to a concrete ownership boundary instead of the whole repository.`,
+    files.length ? `Owned files include ${sampleList(files, 6)}${files.length > 6 ? ` out of ${files.length} total` : ""}.` : "It currently does not own scanned files.",
+    childNames.length ? `Its child nodes map file-level responsibilities such as ${sampleList(childNames, 6)}.` : "",
+    "Use this node when a prompt targets a package, folder, or local subsystem.",
+    "Before broad edits here, check whether an architecture node also owns the affected files and whether tests or docs under the same module need to move with the change."
+  ]);
+}
+
+function moduleSeparationLogic(args: ExplanationArgs): string {
+  const files = nodeFiles(args.node);
+  return compactExplanation([
+    "Separation logic: file children are partitioned one scanned file per node.",
+    childSummary(args, "Current file partitions"),
+    files.length ? `This mirrors ${files.length} owned file(s), making each child the narrowest durable edit boundary available to the deterministic scanner.` : "",
+    "Sibling files stay separate unless imports, tests, invariants, or shared symbols show that a prompt crosses file boundaries."
+  ]);
+}
+
+function genericSeparationLogic(args: ExplanationArgs): string {
+  return compactExplanation([
+    "Separation logic: children partition this node into smaller responsibilities.",
+    childSummary(args, "Current child partitions"),
+    "Select the child whose title, files, dependencies, or concepts match the prompt, then widen only when dependency or invariant evidence requires it."
+  ]);
+}
+
+function fileExplanation(args: ExplanationArgs): string {
+  const files = nodeFiles(args.node);
+  const file = files[0] ? args.fileByPath.get(files[0]) : undefined;
+  const parent = args.node.parent ? args.nodeById.get(args.node.parent) : undefined;
+  const relatedConcepts = relatedConceptNames(file?.path, args.nodes);
+  const dependents = dependentNodeNames(args.node, args.nodes);
+  return compactExplanation([
+    `This node represents ${files[0] ?? args.node.title}, a file-level ownership boundary under ${parent?.title ?? "the code tree"}.`,
+    "It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed.",
+    file ? `Scanner facts show ${file.language} content with ${file.lines} line(s), ${file.imports.length} import(s), ${file.exports.length} export(s), and ${file.symbols.length} symbol(s).` : "Scanner facts are limited for this node, so use its ownership and dependency evidence before editing.",
+    file?.symbols.length ? `Important symbols include ${sampleList(file.symbols, 6)}.` : "",
+    file?.exports.length ? `Exports include ${sampleList(file.exports, 6)}.` : "",
+    file?.imports.length ? `Imports include ${sampleList(file.imports, 6)}, so callers should check those dependencies before changing behavior.` : "",
+    dependents.length ? `Higher-level nodes depending on this file include ${sampleList(dependents, 5)}.` : "",
+    relatedConcepts.length ? `Related concept nodes include ${sampleList(relatedConcepts, 4)}.` : "",
+    invariantTitles(args.node, args.invariantsById).length ? `Relevant invariants include ${sampleList(invariantTitles(args.node, args.invariantsById), 4)}.` : "",
+    "Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it."
+  ]);
+}
+
+function conceptExplanation(args: ExplanationArgs): string {
+  const concept = args.concept;
+  const files = concept?.relatedFiles ?? nodeFiles(args.node);
+  const relatedNodes = (concept?.relatedNodeIds ?? args.node.dependencies)
+    .map(nodeId => args.nodeById.get(nodeId)?.title ?? nodeId)
+    .filter(Boolean);
+  return compactExplanation([
+    `This node represents the ${args.node.title} concept across the project.`,
+    "It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names.",
+    files.length ? `Related files include ${sampleList(files, 6)}.` : "",
+    relatedNodes.length ? `It connects to tree nodes such as ${sampleList(relatedNodes, 6)}.` : "",
+    "Use this node when a prompt names a product concept or cross-cutting term rather than a single module.",
+    "Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics."
+  ]);
+}
+
+function genericExplanation(args: ExplanationArgs): string {
+  const files = nodeFiles(args.node);
+  const childNames = childNodeNames(args.node, args.nodeById);
+  return compactExplanation([
+    `This node represents ${args.node.title} at the ${args.node.level} abstraction level.`,
+    "It exists as a deterministic grouping in the current abstraction tree.",
+    files.length ? `Owned files include ${sampleList(files, 6)}.` : "",
+    childNames.length ? `Child nodes include ${sampleList(childNames, 6)}.` : "",
+    args.node.dependencies.length ? `Dependency references include ${sampleList(args.node.dependencies, 6)}.` : "",
+    "Use it as a scope boundary when the prompt matches this responsibility more closely than its parent or siblings."
+  ]);
+}
+
+type ExplanationArgs = {
+  projectName: string;
+  node: TreeNode;
+  nodes: TreeNode[];
+  nodeById: Map<string, TreeNode>;
+  fileByPath: Map<string, FileSummary>;
+  concept?: Concept;
+  invariantsById: Map<string, Invariant>;
+};
+
+function nodeFiles(treeNode: TreeNode): string[] {
+  return treeNode.sourceFiles.length ? treeNode.sourceFiles : treeNode.ownedFiles;
+}
+
+function childNodeNames(treeNode: TreeNode, nodeById: Map<string, TreeNode>): string[] {
+  return treeNode.children.map(childId => nodeById.get(childId)?.title ?? childId).filter(Boolean);
+}
+
+function dependentNodeNames(treeNode: TreeNode, nodes: TreeNode[]): string[] {
+  const dependencyIds = new Set([treeNode.id, fileNodeIdForExistingId(treeNode.id)]);
+  return nodes
+    .filter(candidate => candidate.id !== treeNode.id)
+    .filter(candidate => [...(candidate.dependencies ?? []), ...(candidate.dependsOn ?? [])].some(dependency => dependencyIds.has(dependency)))
+    .map(candidate => candidate.title);
+}
+
+function fileNodeIdForExistingId(nodeId: string): string {
+  return nodeId.startsWith("file.") ? nodeId : "";
+}
+
+function invariantTitles(treeNode: TreeNode, invariantsById: Map<string, Invariant>): string[] {
+  return (treeNode.invariants ?? []).map(invariantId => invariantsById.get(invariantId)?.title ?? invariantId);
+}
+
+function relatedConceptNames(filePath: string | undefined, nodes: TreeNode[]): string[] {
+  if (!filePath) return [];
+  return nodes
+    .filter(node => node.id.startsWith("concept-node.") && nodeFiles(node).includes(filePath))
+    .map(node => node.title);
+}
+
+function compactExplanation(parts: string[]): string {
+  return parts.map(part => part.trim()).filter(Boolean).join(" ");
+}
+
+function childSummary(args: ExplanationArgs, prefix: string): string {
+  const childNames = childNodeNames(args.node, args.nodeById);
+  if (!childNames.length) return "";
+  return `${prefix} ${sampleList(childNames, 6)}.`;
+}
+
+function sampleList(values: string[], limit: number): string {
+  const unique = uniqueStrings(values.filter(value => value.trim().length > 0));
+  const shown = unique.slice(0, limit);
+  const suffix = unique.length > shown.length ? `, and ${unique.length - shown.length} more` : "";
+  return `${shown.join(", ")}${suffix}`;
+}
+
+function trimSentenceEnd(value: string): string {
+  return value.trim().replace(/[.!?]+$/g, "");
 }
 
 function inferOntology(files: FileSummary[]): AbstractionOntologyLevel[] {

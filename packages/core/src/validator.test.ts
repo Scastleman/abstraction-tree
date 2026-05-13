@@ -177,6 +177,30 @@ test("validateTree reports invalid node confidence values", () => {
   assert.ok(issues.some(issue => issue.nodeId === "runtime" && issue.message.includes("Node runtime must use a confidence between 0 and 1")));
 });
 
+test("validateTree warns gently for missing or thin high-level explanations", () => {
+  const projectNode = node("project.intent", undefined, ["file.local", "module.src"]);
+  const fileNode = node("file.local", "project.intent", []);
+  const moduleNode = {
+    ...node("module.src", "project.intent", []),
+    explanation: "Too short."
+  };
+
+  const issues = validateTree([projectNode, fileNode, moduleNode], []);
+
+  assert.ok(issues.some(issue =>
+    issue.severity === "warning" &&
+    issue.nodeId === "project.intent" &&
+    issue.message.includes("missing a human-readable explanation")
+  ));
+  assert.ok(issues.some(issue =>
+    issue.severity === "warning" &&
+    issue.nodeId === "module.src" &&
+    issue.message.includes("thin explanation")
+  ));
+  assert.equal(issues.some(issue => issue.nodeId === "file.local" && issue.message.includes("explanation")), false);
+  assert.equal(issues.some(issue => issue.severity === "error" && issue.message.includes("explanation")), false);
+});
+
 test("validateConcepts reports duplicate concept ids before context de-duplication", () => {
   const concepts = [
     concept("checkout"),

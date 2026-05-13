@@ -33,6 +33,23 @@ test("buildDeterministicTree uses README purpose for the root project node", () 
   assert.equal(root?.summary, "Demo Project helps agents understand code before making changes.");
 });
 
+test("buildDeterministicTree generates human-readable explanations for high-level and ownership nodes", () => {
+  const result = buildDeterministicTree("demo-project", [
+    file("src/app.ts", ["AppShell"], ["AppShell"], ["./runtime"]),
+    file("src/runtime.ts", ["runApp"], ["runApp"])
+  ]);
+  const nodes = new Map(result.nodes.map(candidate => [candidate.id, candidate]));
+
+  assert.match(nodes.get("project.intent")?.explanation ?? "", /project-level purpose/i);
+  assert.match(nodes.get("project.architecture")?.explanation ?? "", /runtime and package architecture/i);
+  assert.match(nodes.get("project.code")?.explanation ?? "", /concrete package, folder, and file ownership/i);
+  assert.match(nodes.get("module.src")?.explanation ?? "", /Owned files include src\/app\.ts/);
+  assert.match(nodes.get("file.src.app.ts")?.explanation ?? "", /Important symbols include AppShell/);
+  assert.match(nodes.get("project.intent")?.separationLogic ?? "", /partitioned by the kind of project question/i);
+  assert.match(nodes.get("module.src")?.separationLogic ?? "", /one scanned file per node/i);
+  assert.equal(nodes.get("file.src.app.ts")?.separationLogic, undefined);
+});
+
 test("buildDeterministicTree keeps repo concept fixtures stable and filters documentation filler", () => {
   const result = buildDeterministicTree("abstraction-tree", [
     file("packages/core/src/importGraph.ts", ["ImportGraph", "ImportGraphEdge", "buildImportGraph"], ["buildImportGraph"]),

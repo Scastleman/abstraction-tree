@@ -41,7 +41,9 @@ test("AppExplorer renders the selected node summary once", () => {
   );
 
   assert.equal(html.match(/Root project purpose\./g)?.length, 1);
-  assert.ok(html.indexOf("What this represents") < html.indexOf("Root project purpose."));
+  assert.ok(html.indexOf("Summary") < html.indexOf("Root project purpose."));
+  assert.match(html, /Explanation/);
+  assert.match(html, /Separation Logic/);
 });
 
 test("TreeList builds and renders nested parent child relationships", () => {
@@ -103,7 +105,9 @@ test("mission panels render independently", () => {
   ].join("\n");
 
   assert.match(html, /Confidence/);
-  assert.match(html, /What this represents/);
+  assert.match(html, /Summary/);
+  assert.match(html, /Separation Logic/);
+  assert.match(html, /Scope Evidence/);
   assert.match(html, /Latest run/);
   assert.match(html, /Scope contract/);
   assert.match(html, /Navigation/);
@@ -114,8 +118,10 @@ test("mission panels render independently", () => {
 test("NodeDetails starts with the selected node representation summary", () => {
   const html = renderToStaticMarkup(<NodeDetails node={sampleNodes()[0]} />);
 
-  assert.ok(html.indexOf("What this represents") < html.indexOf("Level"));
+  assert.ok(html.indexOf("Summary") < html.indexOf("Level"));
   assert.ok(html.indexOf("Root project purpose.") < html.indexOf("Confidence"));
+  assert.ok(html.indexOf("Explanation") > html.indexOf("Root project purpose."));
+  assert.ok(html.indexOf("Separation Logic") > html.indexOf("Explanation"));
 });
 
 function sampleState(): State {
@@ -221,6 +227,8 @@ function node(
     abstractionLevel: level,
     level,
     summary,
+    explanation: `${title} explains its role, owned scope, relationships, and safe change guidance for human and agent readers.`,
+    separationLogic: children.length ? `${title} children are partitioned by the next narrower scope boundary.` : undefined,
     children,
     parent,
     sourceFiles: ownedFiles,

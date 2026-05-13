@@ -28,8 +28,10 @@ import {
 import { loadApiAgentHealth, loadApiState } from "./apiState.js";
 import { runChangeReviewCommand } from "./changeReviewCommand.js";
 import { collectValidationIssues, doctorExitCode, findVisualAppDist, formatDoctorReport, runDoctor } from "./doctor.js";
+import { runGoalCommand } from "./goalCommand.js";
 import { formatMigrationResult, migrationExitCode, runMigrateCommand } from "./migrate.js";
 import { runProposeCommand } from "./propose.js";
+import { runRouteCommand } from "./routeCommand.js";
 import { formatServeUrl, selectServeHost } from "./serveHost.js";
 import { runScopeCheckCommand, runScopeCreateCommand } from "./scopeCommand.js";
 
@@ -230,6 +232,48 @@ program.command("evaluate")
     const { report, filePath } = await writeEvaluationReport(root);
     console.log(`Wrote evaluation report to ${path.relative(root, filePath).replaceAll(path.sep, "/")}`);
     console.log(JSON.stringify(report, null, 2));
+  });
+
+program.command("goal")
+  .description("Compile a complex user goal into assessment, affected-tree mapping, and bounded missions")
+  .option("-p, --project <path>", "project root")
+  .requiredOption("--file <path>", "Markdown file containing the original user goal")
+  .option("--plan-only", "create the goal workspace and mission plan without execution")
+  .option("--review-required", "create the plan and print the mission runner commands")
+  .option("--full-auto", "plan the goal, then run missions when safe runner integration is available")
+  .option("--create-pr", "write a draft PR body without pushing or merging")
+  .option("--auto-route", "route the prompt before goal planning and stop when goal-driven planning is not recommended")
+  .option("--force-goal", "force goal planning even when auto-route recommends another workflow")
+  .action(async opts => {
+    const root = projectPath(opts.project);
+    process.exitCode = await runGoalCommand({
+      projectRoot: root,
+      file: opts.file,
+      planOnly: Boolean(opts.planOnly),
+      reviewRequired: Boolean(opts.reviewRequired),
+      fullAuto: Boolean(opts.fullAuto),
+      createPr: Boolean(opts.createPr),
+      autoRoute: Boolean(opts.autoRoute),
+      forceGoal: Boolean(opts.forceGoal)
+    });
+  });
+
+program.command("route")
+  .description("Classify a prompt as direct, goal-driven, assessment-pack, or manual-review")
+  .option("-p, --project <path>", "project root")
+  .option("--file <path>", "Markdown file containing the prompt to route")
+  .option("--text <text>", "prompt text to route")
+  .option("--json", "print machine-readable routing output")
+  .option("--explain", "include affected node, concept, and file estimates in readable output")
+  .action(async opts => {
+    const root = projectPath(opts.project);
+    process.exitCode = await runRouteCommand({
+      projectRoot: root,
+      file: opts.file,
+      text: opts.text,
+      json: Boolean(opts.json),
+      explain: Boolean(opts.explain)
+    });
   });
 
 const changesCommand = program.command("changes")

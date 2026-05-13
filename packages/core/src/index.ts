@@ -14,6 +14,8 @@ export * from "./automationValidation.js";
 export * from "./evaluator.js";
 export * from "./diffSummary.js";
 export * from "./scope.js";
+export * from "./goal.js";
+export * from "./promptRouter.js";
 export * from "./llm/types.js";
 export * from "./llm/abstractionBuilder.js";
 export * from "./llm/proposals.js";

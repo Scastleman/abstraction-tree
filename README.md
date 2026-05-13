@@ -11,6 +11,8 @@ The default layer is structured project facts, deterministic tree generation, va
 
 The source of truth is always the project-local `.abstraction-tree/` folder. The visual app is optional: it reads the same tree data and displays it as an interactive project map.
 
+Tree nodes keep a short `summary`, a richer `explanation`, and, when the node has children, `separationLogic`. The summary is compact fallback text; the explanation describes the node's role, ownership, dependencies, constraints, parent/child context, and safe-change guidance. Separation logic describes the partition rule used for the child nodes below it, such as concept clusters, architecture surfaces, module ownership zones, or file-level edit boundaries. The first implementation is deterministic and evidence-based rather than LLM-inferred, so future adapters can improve explanation quality without changing the default local scan path.
+
 ## Core promise
 
 Add Abstraction Tree to any repo, build the initial memory tree, and make the project easier to inspect, prompt, and safely change.
@@ -26,6 +28,7 @@ npx atree serve
 The local visual app shows:
 
 - project structure as an abstraction tree;
+- richer node explanations for human and agent project comprehension;
 - concepts and cross-cutting dependencies;
 - file ownership by tree node;
 - inferred invariants;
@@ -42,8 +45,10 @@ Level 1: scan / validate / context
 Level 2: visual app
 Level 3: ChatGPT/human assessment packs
 Level 4: mission runner
-Level 5: proposal adapters through atree propose
-Level 6: experimental full self-improvement loop
+Level 5: prompt routing
+Level 6: goal-driven autopilot planning
+Level 7: proposal adapters through atree propose
+Level 8: experimental full self-improvement loop
 ```
 
 LLM inference is not part of the default scan pipeline. The repo includes an explicit `atree propose` review workflow for provider adapters, but proposals are validated and saved for review rather than directly mutating canonical memory.
@@ -62,10 +67,59 @@ Codex is the bounded executor. ChatGPT and humans are the preferred strategic as
 
 Assessment packs include `pack-safety.json` with redaction, omission, truncation, and byte-size metadata. The pack generator applies default redaction for common secret-like values and supports `--redact`, `--redact-file`, `--max-bytes-per-artifact`, `--max-total-bytes`, `--no-diff`, `--no-runs`, `--no-lessons`, and `--no-mission-runtime`. Inspect `pack-safety.json` and the artifacts before pasting a pack into ChatGPT or sharing it externally.
 
+## Prompt Routing
+
+Before sending a prompt to Codex, route it:
+
+```bash
+npm run atree:route -- --file prompts/complex-goal.md
+npm run atree:route -- --text "Fix the typo in README." --json
+```
+
+The router is deterministic and read-only. It uses `.abstraction-tree/` memory when available and classifies prompts into four outcomes:
+
+```text
+simple prompt -> direct
+complex prompt -> goal-driven autopilot
+strategy prompt -> assessment pack
+risky prompt -> manual review
+```
+
+Use this when you are unsure whether a prompt is safe to execute directly or should be decomposed first. The router does not run Codex, edit files, push, or merge.
+
+## Goal-Driven Autopilot
+
+For complex prompts, Abstraction Tree can compile the user goal into a goal workspace, assessment, affected-tree map, and mission-runner-compatible Markdown files:
+
+```bash
+npm run atree:goal -- --file prompts/complex-goal.md --auto-route
+npm run atree:goal -- --file prompts/complex-goal.md --plan-only
+npm run atree:goal -- --file prompts/complex-goal.md --review-required
+npm run atree:goal -- --file prompts/complex-goal.md --create-pr
+```
+
+The command stores the original prompt unchanged under:
+
+```text
+.abstraction-tree/goals/YYYY-MM-DD-HHMM-<slug>/
+```
+
+It then writes `goal-assessment.md`, `affected-tree.json`, `mission-plan.json`, `missions/`, `coherence-review.md`, and `final-report.md`. `--review-required` prints the mission runner commands to inspect and execute the generated folder. `--full-auto` currently plans the goal and refuses execution with a clear message until safe runner integration is implemented.
+
+`--auto-route` calls `atree route` first. If the prompt is direct, strategy-oriented, or manual-review-only, goal planning stops unless `--force-goal` is passed.
+
+```text
+self-improvement loop input = repo state
+goal-driven loop input = user goal + repo state
+```
+
+Use goal-driven autopilot when a user request mixes product behavior, architecture, CLI/API surface, tests, docs, and safety concerns. It is designed to reduce overreach by mapping the prompt onto committed abstraction memory before Codex receives bounded missions.
+
 Related workflow docs:
 
 - [CI integration](docs/CI_INTEGRATION.md)
 - [Mission runner](docs/MISSION_RUNNER.md)
+- [Goal-driven autopilot](docs/GOAL_DRIVEN_AUTOPILOT.md)
 - [Scope contracts](docs/SCOPE_CONTRACTS.md)
 - [Agent protocol and LLM-assisted proposals](docs/AGENT_PROTOCOL.md)
 - [LLM abstraction interface](docs/ARCHITECTURE.md#llm-abstraction-interface)
@@ -162,6 +216,8 @@ This repository is a working starter implementation. It includes:
 - ChatGPT/human assessment packs for strategic review;
 - an explicit `atree propose` review workflow for provider adapters;
 - a mission runner for bounded Codex work queues;
+- a deterministic prompt router for direct, goal-driven, assessment-pack, and manual-review decisions;
+- a goal-driven autopilot planner for complex user prompts;
 - an experimental full self-improvement loop for local dogfooding;
 - Codex/agent instructions;
 - an example project.
@@ -186,6 +242,7 @@ abstraction-tree/
     DATA_MODEL.md
     AGENT_PROTOCOL.md
     MISSION_RUNNER.md
+    GOAL_DRIVEN_AUTOPILOT.md
     FULL_SELF_IMPROVEMENT_LOOP.md
     ROADMAP.md
     PACKAGING.md
