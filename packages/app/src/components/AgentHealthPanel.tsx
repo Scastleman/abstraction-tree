@@ -33,6 +33,12 @@ export function AgentHealthPanel({ health }: AgentHealthPanelProps) {
         detail={automationDetail(health.automation)}
         tone={health.automation?.stopRequested ? "warn" : undefined}
       />
+      <HealthItem
+        label="Scope contract"
+        value={scopeStatus(health.scope)}
+        detail={scopeDetail(health.scope)}
+        tone={scopeTone(health.scope)}
+      />
     </div>
   );
 }
@@ -95,6 +101,29 @@ function automationDetail(automation?: AgentHealth["automation"]): string {
     automation.stopRequested ? "stop requested" : undefined
   ].filter(Boolean);
   return pieces.join("; ") || "No runtime limits reported.";
+}
+
+function scopeStatus(scope?: AgentHealth["scope"]): string {
+  return scope?.status ?? "Unknown";
+}
+
+function scopeDetail(scope?: AgentHealth["scope"]): string {
+  if (!scope) return "No scope contract found.";
+  const pieces = [
+    scope.requiresClarification ? "clarification requested" : undefined,
+    typeof scope.violationCount === "number" ? `${scope.violationCount} violations` : undefined,
+    typeof scope.allowedFileCount === "number" ? `${scope.allowedFileCount} allowed files` : undefined,
+    scope.prompt
+  ].filter(Boolean);
+  return pieces.join("; ");
+}
+
+function scopeTone(scope?: AgentHealth["scope"]): "good" | "warn" | "bad" | undefined {
+  if (!scope) return undefined;
+  if (scope.status === "blocked") return "bad";
+  if (scope.status === "warning" || scope.status === "needs-clarification") return "warn";
+  if (scope.status === "clean" || scope.status === "ready") return "good";
+  return undefined;
 }
 
 function limitPair(current?: number, max?: number): string | undefined {

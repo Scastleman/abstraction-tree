@@ -184,6 +184,16 @@ export interface AgentHealth {
     completedMissions?: number;
     failedMissions?: number;
   };
+  scope?: {
+    file: string;
+    prompt: string;
+    status: "draft" | "needs-clarification" | "ready" | "clean" | "warning" | "blocked";
+    requiresClarification?: boolean;
+    affectedNodeCount?: number;
+    allowedFileCount?: number;
+    violationCount?: number;
+    checkedAt?: string;
+  };
 }
 
 export interface AbstractionTreeState {

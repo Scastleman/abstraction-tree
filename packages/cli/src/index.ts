@@ -6,10 +6,7 @@ import sirv from "sirv";
 import {
   atreePath,
   buildContextPack,
-  buildChangeRecordReviewSummary,
   formatContextPackMarkdown,
-  limitChangeRecordReviewReport,
-  reviewChangeRecords,
   buildImportGraph,
   buildDeterministicTree,
   ensureWorkspace,
@@ -29,10 +26,12 @@ import {
   type InstallMode
 } from "@abstraction-tree/core";
 import { loadApiAgentHealth, loadApiState } from "./apiState.js";
+import { runChangeReviewCommand } from "./changeReviewCommand.js";
 import { collectValidationIssues, doctorExitCode, findVisualAppDist, formatDoctorReport, runDoctor } from "./doctor.js";
 import { formatMigrationResult, migrationExitCode, runMigrateCommand } from "./migrate.js";
 import { runProposeCommand } from "./propose.js";
 import { formatServeUrl, selectServeHost } from "./serveHost.js";
+import { runScopeCheckCommand, runScopeCreateCommand } from "./scopeCommand.js";
 
 const program = new Command();
 program.name("atree").description("Build and visualize an abstraction tree for a codebase.").version("0.1.0");
@@ -48,12 +47,6 @@ function contextOutputFormat(input: unknown): ContextOutputFormat | undefined {
 }
 
 function contextMaxTokens(input: unknown): number | undefined {
-  if (input === undefined) return undefined;
-  const parsed = Number(input);
-  return Number.isInteger(parsed) && parsed > 0 ? parsed : undefined;
-}
-
-function positiveIntegerOption(input: unknown): number | undefined {
   if (input === undefined) return undefined;
   const parsed = Number(input);
   return Number.isInteger(parsed) && parsed > 0 ? parsed : undefined;
@@ -248,19 +241,45 @@ changesCommand.command("review")
   .option("--summary", "print compact counts instead of generated scan record details")
   .option("--limit <n>", "limit generated scan record details in the full report")
   .action(async opts => {
-    const limit = positiveIntegerOption(opts.limit);
-    if (opts.limit !== undefined && limit === undefined) {
-      console.error("Change review limit must be a positive integer.");
+    const root = projectPath(opts.project);
+    process.exitCode = await runChangeReviewCommand({
+      projectRoot: root,
+      summary: Boolean(opts.summary),
+      limit: opts.limit
+    });
+  });
+
+const scopeCommand = program.command("scope")
+  .description("Create and check prompt scope contracts for overreach control")
+  .option("-p, --project <path>", "project root")
+  .option("--prompt <text>", "user prompt to map into an abstraction-tree scope contract")
+  .option("--json", "print machine-readable JSON")
+  .action(async opts => {
+    if (!opts.prompt) {
+      console.error("Use `atree scope --prompt \"...\"` or `atree scope check`.");
       process.exitCode = 1;
       return;
     }
     const root = projectPath(opts.project);
-    const report = await reviewChangeRecords(root);
-    console.log(JSON.stringify(
-      opts.summary ? buildChangeRecordReviewSummary(report) : limitChangeRecordReviewReport(report, limit),
-      null,
-      2
-    ));
+    process.exitCode = await runScopeCreateCommand({
+      projectRoot: root,
+      prompt: opts.prompt,
+      json: Boolean(opts.json)
+    });
+  });
+
+scopeCommand.command("check")
+  .description("Compare the current Git diff against a scope contract")
+  .option("-p, --project <path>", "project root")
+  .option("--scope <path>", "scope JSON path, or `latest`", "latest")
+  .option("--json", "print machine-readable JSON")
+  .action(async opts => {
+    const root = projectPath(opts.project);
+    process.exitCode = await runScopeCheckCommand({
+      projectRoot: root,
+      scope: opts.scope,
+      json: Boolean(opts.json)
+    });
   });
 
 program.command("serve")

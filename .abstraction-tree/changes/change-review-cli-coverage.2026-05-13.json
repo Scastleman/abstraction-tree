@@ -1,0 +1,20 @@
+{
+  "id": "change-review-cli-coverage.2026-05-13",
+  "timestamp": "2026-05-13T11:09:59-04:00",
+  "title": "Cover change-review CLI limit behavior",
+  "reason": "Added CLI-package coverage for bounded change-review output and invalid limit handling so the documented agent-facing option is protected beyond the core slicing helper.",
+  "affectedNodeIds": [
+    "file.packages.cli.src.changereviewcli.test.ts",
+    "file.packages.cli.src.changereviewcommand.ts",
+    "file.packages.cli.src.index.ts"
+  ],
+  "filesChanged": [
+    "packages/cli/src/changeReviewCli.test.ts",
+    "packages/cli/src/changeReviewCommand.ts",
+    "packages/cli/src/index.ts"
+  ],
+  "invariantsPreserved": [
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "low"
+}

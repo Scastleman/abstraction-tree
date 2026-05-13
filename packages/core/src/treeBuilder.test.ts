@@ -18,6 +18,21 @@ test("buildDeterministicTree infers concepts from repo-specific paths and symbol
   assertIncludes(concept.evidence.map(evidence => evidence.kind), ["path", "symbol", "export"]);
 });
 
+test("buildDeterministicTree uses README purpose for the root project node", () => {
+  const result = buildDeterministicTree("demo-project", [
+    file("README.md", [], [], [], {
+      extension: ".md",
+      language: "Markdown",
+      parseStrategy: "regex",
+      summary: "Demo Project helps agents understand code before making changes."
+    })
+  ]);
+
+  const root = result.nodes.find(node => node.id === "project.intent");
+
+  assert.equal(root?.summary, "Demo Project helps agents understand code before making changes.");
+});
+
 test("buildDeterministicTree keeps repo concept fixtures stable and filters documentation filler", () => {
   const result = buildDeterministicTree("abstraction-tree", [
     file("packages/core/src/importGraph.ts", ["ImportGraph", "ImportGraphEdge", "buildImportGraph"], ["buildImportGraph"]),

@@ -14,9 +14,9 @@
   ],
   "respectGitignore": false,
   "treeBuilder": "deterministic",
-  "installMode": "core",
+  "installMode": "full",
   "visualApp": {
-    "enabled": false,
+    "enabled": true,
     "defaultPort": 4317
   }
 }

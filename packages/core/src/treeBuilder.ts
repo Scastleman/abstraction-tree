@@ -19,7 +19,7 @@ export function buildDeterministicTree(projectName: string, files: FileSummary[]
   const rootId = "project.intent";
   const nodes = new Map<string, TreeNode>();
 
-  const root = node(rootId, projectName, levels[0], `Top-level purpose and semantic map for ${projectName}.`);
+  const root = node(rootId, projectName, levels[0], inferProjectSummary(projectName, files));
   nodes.set(root.id, root);
 
   const domain = node("project.domain", ontology[1].name, levels[1], "Human-level concepts inferred from names, folders, and code symbols.", root.id);
@@ -141,6 +141,12 @@ function inferOntology(files: FileSummary[]): AbstractionOntologyLevel[] {
       confidence: 0.75
     }
   ];
+}
+
+function inferProjectSummary(projectName: string, files: FileSummary[]): string {
+  const readme = files.find(file => file.path.toLowerCase() === "readme.md");
+  if (readme && !readme.summary.startsWith("README.md is ")) return readme.summary;
+  return `Top-level purpose and semantic map for ${projectName}.`;
 }
 
 interface ConceptCandidate {

@@ -266,6 +266,25 @@
     },
     {
       "from": "packages/cli/src/apiState.ts",
+      "to": "packages/cli/src/scopeCommand.ts",
+      "specifier": "./scopeCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/apiState.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCli.test.ts",
+      "to": "packages/cli/src/changeReviewCommand.ts",
+      "specifier": "./changeReviewCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCommand.ts",
       "to": "packages/core/src/index.ts",
       "specifier": "@abstraction-tree/core",
       "kind": "workspace-package",
@@ -299,6 +318,12 @@
     },
     {
       "from": "packages/cli/src/index.ts",
+      "to": "packages/cli/src/changeReviewCommand.ts",
+      "specifier": "./changeReviewCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
       "to": "packages/cli/src/doctor.ts",
       "specifier": "./doctor.js",
       "kind": "relative"
@@ -313,6 +338,12 @@
       "from": "packages/cli/src/index.ts",
       "to": "packages/cli/src/propose.ts",
       "specifier": "./propose.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "to": "packages/cli/src/scopeCommand.ts",
+      "specifier": "./scopeCommand.js",
       "kind": "relative"
     },
     {
@@ -363,6 +394,26 @@
     },
     {
       "from": "packages/cli/src/propose.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.test.ts",
+      "to": "packages/cli/src/scopeCommand.ts",
+      "specifier": "./scopeCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.ts",
       "to": "packages/core/src/index.ts",
       "specifier": "@abstraction-tree/core",
       "kind": "workspace-package",
@@ -628,6 +679,12 @@
     },
     {
       "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/scope.ts",
+      "specifier": "./scope.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
       "to": "packages/core/src/treeBuilder.ts",
       "specifier": "./treeBuilder.js",
       "kind": "relative"
@@ -792,6 +849,30 @@
       "from": "packages/core/src/scanner.ts",
       "to": "packages/core/src/workspace.ts",
       "specifier": "./workspace.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/scope.test.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/scope.test.ts",
+      "to": "packages/core/src/scope.ts",
+      "specifier": "./scope.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/scope.ts",
+      "to": "packages/core/src/diffSummary.ts",
+      "specifier": "./diffSummary.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/scope.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
       "kind": "relative"
     },
     {
@@ -1102,6 +1183,11 @@
     },
     {
       "from": "packages/app/src/components/TreeList.tsx",
+      "specifier": "lucide-react",
+      "packageName": "lucide-react"
+    },
+    {
+      "from": "packages/app/src/components/TreeList.tsx",
       "specifier": "react",
       "packageName": "react"
     },
@@ -1164,6 +1250,31 @@
       "from": "packages/cli/src/apiState.ts",
       "specifier": "node:path",
       "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCli.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCli.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCli.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCli.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCli.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
     },
     {
       "from": "packages/cli/src/doctor.test.ts",
@@ -1304,6 +1415,56 @@
       "from": "packages/cli/src/propose.ts",
       "specifier": "node:url",
       "packageName": "node:url"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.ts",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.ts",
+      "specifier": "node:util",
+      "packageName": "node:util"
     },
     {
       "from": "packages/cli/src/serveHost.test.ts",
@@ -1634,6 +1795,16 @@
       "from": "packages/core/src/scanner.ts",
       "specifier": "typescript",
       "packageName": "typescript"
+    },
+    {
+      "from": "packages/core/src/scope.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/scope.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
     },
     {
       "from": "packages/core/src/treeBuilder.test.ts",

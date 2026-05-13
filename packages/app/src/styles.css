@@ -93,6 +93,34 @@ input:focus-visible {
   padding-left: 6px;
 }
 
+.tree-row {
+  align-items: stretch;
+  display: flex;
+  gap: 6px;
+}
+
+.tree-toggle,
+.tree-toggle-spacer {
+  flex: 0 0 30px;
+  min-height: 56px;
+}
+
+.tree-toggle {
+  align-items: center;
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 10px;
+  color: #93c5fd;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+
+.tree-toggle:hover {
+  border-color: #60a5fa;
+  color: white;
+}
+
 .tree-item {
   background: #111827;
   border: 1px solid #1f2937;
@@ -100,8 +128,10 @@ input:focus-visible {
   color: #d1d5db;
   cursor: pointer;
   display: block;
+  flex: 1 1 auto;
   min-height: 56px;
   padding-bottom: 10px;
+  padding-left: 10px;
   padding-right: 12px;
   padding-top: 10px;
   text-align: left;
@@ -261,6 +291,42 @@ h1 {
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(2, 1fr);
+}
+
+.node-details {
+  display: grid;
+  gap: 14px;
+}
+
+.node-summary {
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 14px;
+}
+
+.node-summary span {
+  color: #2563eb;
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.node-summary p {
+  color: #334155;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.node-summary ul {
+  color: #475569;
+  margin: 10px 0 0;
+  padding-left: 18px;
+}
+
+.node-summary li {
+  margin-top: 6px;
 }
 
 .details div,

@@ -19,6 +19,7 @@ import {
   type ValidationIssue,
   validateApiStateSchema
 } from "@abstraction-tree/core";
+import { latestScopeSummary } from "./scopeCommand.js";
 
 export type ApiState = AbstractionTreeState;
 export type AgentHealthLoader = (root: string) => Promise<AgentHealth>;
@@ -78,7 +79,24 @@ export async function loadApiAgentHealth(
       errorCount: issues.filter(issue => issue.severity === "error").length,
       warningCount: issues.filter(issue => issue.severity === "warning").length
     } : undefined,
-    automation: await loadAutomationHealth(root)
+    automation: await loadAutomationHealth(root),
+    scope: await loadScopeHealth(root)
+  };
+}
+
+async function loadScopeHealth(root: string): Promise<AgentHealth["scope"]> {
+  const latest = await latestScopeSummary(root).catch(() => undefined);
+  if (!latest) return undefined;
+  const report = latest.report;
+  return {
+    file: report ? `.abstraction-tree/scopes/${report.id}.json` : latest.file,
+    prompt: latest.contract.prompt,
+    status: report?.status ?? latest.contract.status,
+    requiresClarification: latest.contract.requiresClarification,
+    affectedNodeCount: latest.contract.affectedNodeIds.length,
+    allowedFileCount: latest.contract.allowedFiles.length,
+    violationCount: report?.violations.length,
+    checkedAt: report?.checkedAt
   };
 }
 

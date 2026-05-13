@@ -66,6 +66,7 @@ Related workflow docs:
 
 - [CI integration](docs/CI_INTEGRATION.md)
 - [Mission runner](docs/MISSION_RUNNER.md)
+- [Scope contracts](docs/SCOPE_CONTRACTS.md)
 - [Agent protocol and LLM-assisted proposals](docs/AGENT_PROTOCOL.md)
 - [LLM abstraction interface](docs/ARCHITECTURE.md#llm-abstraction-interface)
 - [Full self-improvement loop](docs/FULL_SELF_IMPROVEMENT_LOOP.md)

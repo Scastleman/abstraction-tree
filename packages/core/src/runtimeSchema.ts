@@ -313,6 +313,20 @@ function validateAgentHealth(
       expectOptionalString(automation, "currentMission", filePath, `${fieldPath}.automation`, hint, issues);
     }
   }
+
+  if ("scope" in health && health.scope !== undefined) {
+    const scope = expectRecordField(health, "scope", filePath, fieldPath, hint, issues);
+    if (scope) {
+      expectString(scope, "file", filePath, `${fieldPath}.scope`, hint, issues);
+      expectString(scope, "prompt", filePath, `${fieldPath}.scope`, hint, issues);
+      expectEnum(scope, "status", ["draft", "needs-clarification", "ready", "clean", "warning", "blocked"], filePath, `${fieldPath}.scope`, hint, issues);
+      expectOptionalBoolean(scope, "requiresClarification", filePath, `${fieldPath}.scope`, hint, issues);
+      expectOptionalInteger(scope, "affectedNodeCount", filePath, `${fieldPath}.scope`, hint, issues);
+      expectOptionalInteger(scope, "allowedFileCount", filePath, `${fieldPath}.scope`, hint, issues);
+      expectOptionalInteger(scope, "violationCount", filePath, `${fieldPath}.scope`, hint, issues);
+      expectOptionalString(scope, "checkedAt", filePath, `${fieldPath}.scope`, hint, issues);
+    }
+  }
 }
 
 function validateFileSummary(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
