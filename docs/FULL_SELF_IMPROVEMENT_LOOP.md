@@ -35,7 +35,60 @@ Use the generated `assessment-prompt.md` in ChatGPT or with a human reviewer, th
 
 The pack includes Git status, diff summary, the latest deterministic evaluation, recent run reports, recent lessons, mission runtime, change-record review, and abstraction memory summaries. Its prompt asks ChatGPT or a human to produce the repository assessment, prioritized recommendations, and a mission folder using the mission frontmatter schema.
 
+Assessment packs apply basic safety controls before writing artifacts. By default, obvious secret-like values such as `OPENAI_API_KEY=...`, `GITHUB_TOKEN=...`, `*_TOKEN=...`, `*_SECRET=...`, and `Authorization: Bearer ...` are redacted, each artifact is capped at 50000 bytes, and the pack reports a 250000 byte total warning limit. The pack includes `pack-safety.json`, which lists redaction patterns, omitted artifacts, truncated artifacts, approximate bytes written, and whether manual inspection is required. Always inspect `pack-safety.json` and the generated artifacts before pasting the pack into ChatGPT or sharing it externally.
+
+Use safety flags to reduce high-risk or high-volume evidence:
+
+```bash
+npm run assessment:pack -- --max-bytes-per-artifact 50000 --max-total-bytes 250000
+npm run assessment:pack -- --redact "internal-[A-Za-z0-9_-]+" --redact-file ./redactions.txt
+npm run assessment:pack -- --no-diff --no-runs --no-lessons --no-mission-runtime
+```
+
+Custom redaction patterns are regular expressions. Blank lines and `#` comments are ignored in `--redact-file` files. Omitted and truncated artifacts remain visible through marker text such as `[OMITTED: ...]` or `[TRUNCATED: ...]` so reviewers can see when evidence is incomplete.
+
 Codex is the bounded executor. ChatGPT and humans are the preferred strategic assessment layer. Abstraction Tree is the memory, evidence, validation, and scope boundary. Do not trust generated assessment or mission output by default: validate and plan the mission folder, run checks, and review diffs before accepting changes.
+
+## Goal-Driven Autopilot
+
+`atree goal` is a sibling workflow to the repository self-improvement loop. It does not replace assessment packs or the full dogfooding loop. Instead, it starts from a specific user goal and compiles that goal into reviewable mission files grounded in the current abstraction memory:
+
+```bash
+npm run atree:route -- --file prompts/complex-goal.md
+npm run atree:goal -- --file prompts/complex-goal.md --auto-route
+npm run atree:goal -- --file prompts/complex-goal.md --plan-only
+npm run atree:goal -- --file prompts/complex-goal.md --review-required
+```
+
+The distinction is:
+
+```text
+self-improvement loop input = repo state
+goal-driven loop input = user goal + repo state
+```
+
+The generated workspace lives under `.abstraction-tree/goals/YYYY-MM-DD-HHMM-<slug>/` and includes the original `goal.md`, deterministic assessment, affected-tree map, mission plan, mission folder, coherence review placeholder, and final report. `--create-pr` also writes `pr-body.md` without pushing, opening, or merging anything.
+
+The safe default is review-required planning. `--full-auto` currently refuses after planning with an explicit message, because mission execution still needs to be reviewed through the mission runner guardrails before it should be attached to this command.
+
+## Prompt Routing
+
+Prompt routing is the decision layer before goal planning:
+
+```text
+simple prompt -> direct
+complex prompt -> goal-driven autopilot
+strategy prompt -> assessment pack
+risky prompt -> manual review
+```
+
+Run:
+
+```bash
+npm run atree:route -- --file prompt.md
+```
+
+The router is deterministic and read-only. It uses `.abstraction-tree/tree.json`, `files.json`, `concepts.json`, and `invariants.json` when available, lowers confidence when memory is missing, and recommends exactly one next command. It does not run Codex or write project files.
 
 To create the assessment evidence pack through the full-loop wrapper and stop before any Codex assessment or mission execution, use:
 

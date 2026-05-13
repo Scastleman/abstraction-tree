@@ -2,22 +2,15 @@
 import { Command } from "commander";
 import path from "node:path";
 import { createServer } from "node:http";
-import { existsSync } from "node:fs";
-import { fileURLToPath } from "node:url";
 import sirv from "sirv";
 import {
   atreePath,
   buildContextPack,
-  buildChangeRecordReviewSummary,
   formatContextPackMarkdown,
-  limitChangeRecordReviewReport,
-  reviewChangeRecords,
   buildImportGraph,
   buildDeterministicTree,
-  detectFileDrift,
   ensureWorkspace,
   formatRuntimeValidationIssue,
-  loadAtreeMemory,
   writeEvaluationReport,
   readConfig,
   readChangeRecords,
@@ -27,20 +20,20 @@ import {
   readTreeNodes,
   scanProject,
   setInstallMode,
-  validateChanges,
-  validateAutomation,
-  validateConcepts,
-  validateInvariants,
-  validateTree,
   writeJson,
   RuntimeSchemaValidationError,
   type ChangeRecord,
-  type InstallMode,
-  type ValidationIssue
+  type InstallMode
 } from "@abstraction-tree/core";
 import { loadApiAgentHealth, loadApiState } from "./apiState.js";
+import { runChangeReviewCommand } from "./changeReviewCommand.js";
+import { collectValidationIssues, doctorExitCode, findVisualAppDist, formatDoctorReport, runDoctor } from "./doctor.js";
+import { runGoalCommand } from "./goalCommand.js";
+import { formatMigrationResult, migrationExitCode, runMigrateCommand } from "./migrate.js";
 import { runProposeCommand } from "./propose.js";
+import { runRouteCommand } from "./routeCommand.js";
 import { formatServeUrl, selectServeHost } from "./serveHost.js";
+import { runScopeCheckCommand, runScopeCreateCommand } from "./scopeCommand.js";
 
 const program = new Command();
 program.name("atree").description("Build and visualize an abstraction tree for a codebase.").version("0.1.0");
@@ -56,12 +49,6 @@ function contextOutputFormat(input: unknown): ContextOutputFormat | undefined {
 }
 
 function contextMaxTokens(input: unknown): number | undefined {
-  if (input === undefined) return undefined;
-  const parsed = Number(input);
-  return Number.isInteger(parsed) && parsed > 0 ? parsed : undefined;
-}
-
-function positiveIntegerOption(input: unknown): number | undefined {
   if (input === undefined) return undefined;
   const parsed = Number(input);
   return Number.isInteger(parsed) && parsed > 0 ? parsed : undefined;
@@ -144,6 +131,37 @@ program.command("validate")
     process.exitCode = issues.some(i => i.severity === "error" || (opts.strict && i.severity === "warning")) ? 1 : 0;
   });
 
+program.command("doctor")
+  .description("Diagnose installation, memory, runtime boundaries, and validation readiness")
+  .option("-p, --project <path>", "project root")
+  .option("--json", "print machine-readable diagnostics")
+  .option("--strict", "treat warnings as failures")
+  .action(async opts => {
+    const root = projectPath(opts.project);
+    const report = await runDoctor(root);
+    if (opts.json) console.log(JSON.stringify(report, null, 2));
+    else process.stdout.write(formatDoctorReport(report));
+    process.exitCode = doctorExitCode(report, Boolean(opts.strict));
+  });
+
+program.command("migrate")
+  .description("Plan and apply .abstraction-tree schema migrations")
+  .option("-p, --project <path>", "project root")
+  .option("--dry-run", "print the migration plan without writing files")
+  .option("--from <version>", "expected source schema version")
+  .option("--to <version>", "target schema version")
+  .action(async opts => {
+    const root = projectPath(opts.project);
+    const result = await runMigrateCommand({
+      projectRoot: root,
+      dryRun: Boolean(opts.dryRun),
+      fromVersion: opts.from,
+      toVersion: opts.to
+    });
+    process.stdout.write(formatMigrationResult(result));
+    process.exitCode = migrationExitCode(result);
+  });
+
 program.command("context")
   .description("Generate a compact context pack for an agent")
   .option("-p, --project <path>", "project root")
@@ -216,6 +234,48 @@ program.command("evaluate")
     console.log(JSON.stringify(report, null, 2));
   });
 
+program.command("goal")
+  .description("Compile a complex user goal into assessment, affected-tree mapping, and bounded missions")
+  .option("-p, --project <path>", "project root")
+  .requiredOption("--file <path>", "Markdown file containing the original user goal")
+  .option("--plan-only", "create the goal workspace and mission plan without execution")
+  .option("--review-required", "create the plan and print the mission runner commands")
+  .option("--full-auto", "plan the goal, then run missions when safe runner integration is available")
+  .option("--create-pr", "write a draft PR body without pushing or merging")
+  .option("--auto-route", "route the prompt before goal planning and stop when goal-driven planning is not recommended")
+  .option("--force-goal", "force goal planning even when auto-route recommends another workflow")
+  .action(async opts => {
+    const root = projectPath(opts.project);
+    process.exitCode = await runGoalCommand({
+      projectRoot: root,
+      file: opts.file,
+      planOnly: Boolean(opts.planOnly),
+      reviewRequired: Boolean(opts.reviewRequired),
+      fullAuto: Boolean(opts.fullAuto),
+      createPr: Boolean(opts.createPr),
+      autoRoute: Boolean(opts.autoRoute),
+      forceGoal: Boolean(opts.forceGoal)
+    });
+  });
+
+program.command("route")
+  .description("Classify a prompt as direct, goal-driven, assessment-pack, or manual-review")
+  .option("-p, --project <path>", "project root")
+  .option("--file <path>", "Markdown file containing the prompt to route")
+  .option("--text <text>", "prompt text to route")
+  .option("--json", "print machine-readable routing output")
+  .option("--explain", "include affected node, concept, and file estimates in readable output")
+  .action(async opts => {
+    const root = projectPath(opts.project);
+    process.exitCode = await runRouteCommand({
+      projectRoot: root,
+      file: opts.file,
+      text: opts.text,
+      json: Boolean(opts.json),
+      explain: Boolean(opts.explain)
+    });
+  });
+
 const changesCommand = program.command("changes")
   .description("Inspect semantic change records");
 
@@ -225,19 +285,45 @@ changesCommand.command("review")
   .option("--summary", "print compact counts instead of generated scan record details")
   .option("--limit <n>", "limit generated scan record details in the full report")
   .action(async opts => {
-    const limit = positiveIntegerOption(opts.limit);
-    if (opts.limit !== undefined && limit === undefined) {
-      console.error("Change review limit must be a positive integer.");
+    const root = projectPath(opts.project);
+    process.exitCode = await runChangeReviewCommand({
+      projectRoot: root,
+      summary: Boolean(opts.summary),
+      limit: opts.limit
+    });
+  });
+
+const scopeCommand = program.command("scope")
+  .description("Create and check prompt scope contracts for overreach control")
+  .option("-p, --project <path>", "project root")
+  .option("--prompt <text>", "user prompt to map into an abstraction-tree scope contract")
+  .option("--json", "print machine-readable JSON")
+  .action(async opts => {
+    if (!opts.prompt) {
+      console.error("Use `atree scope --prompt \"...\"` or `atree scope check`.");
       process.exitCode = 1;
       return;
     }
     const root = projectPath(opts.project);
-    const report = await reviewChangeRecords(root);
-    console.log(JSON.stringify(
-      opts.summary ? buildChangeRecordReviewSummary(report) : limitChangeRecordReviewReport(report, limit),
-      null,
-      2
-    ));
+    process.exitCode = await runScopeCreateCommand({
+      projectRoot: root,
+      prompt: opts.prompt,
+      json: Boolean(opts.json)
+    });
+  });
+
+scopeCommand.command("check")
+  .description("Compare the current Git diff against a scope contract")
+  .option("-p, --project <path>", "project root")
+  .option("--scope <path>", "scope JSON path, or `latest`", "latest")
+  .option("--json", "print machine-readable JSON")
+  .action(async opts => {
+    const root = projectPath(opts.project);
+    process.exitCode = await runScopeCheckCommand({
+      projectRoot: root,
+      scope: opts.scope,
+      json: Boolean(opts.json)
+    });
   });
 
 program.command("serve")
@@ -276,45 +362,6 @@ program.command("serve")
     if (warning) console.warn(warning);
     server.listen(port, host, () => console.log(`Abstraction Tree app: ${formatServeUrl(host, port)}`));
   });
-
-async function collectValidationIssues(root: string): Promise<ValidationIssue[]> {
-  const memory = await loadAtreeMemory(root);
-  if (memory.issues.some(issue => issue.severity === "error")) return memory.issues;
-
-  const { ontology, nodes, files, concepts, invariants, changes } = memory;
-  const existingConceptFilePaths = concepts
-    .flatMap(concept => concept.relatedFiles ?? [])
-    .filter(filePath => existsSync(path.resolve(root, filePath)));
-  const existingInvariantFilePaths = invariants
-    .flatMap(invariant => invariant.filePaths ?? [])
-    .filter(filePath => existsSync(path.resolve(root, filePath)));
-  const existingChangeFilePaths = changes
-    .flatMap(change => change.filesChanged)
-    .filter(filePath => existsSync(path.resolve(root, filePath)));
-  const currentScan = await scanProject(root);
-
-  return [
-    ...memory.issues,
-    ...(await validateAutomation(root)),
-    ...validateTree(nodes, files, ontology),
-    ...validateConcepts(concepts, nodes, files, existingConceptFilePaths),
-    ...validateInvariants(invariants, nodes, files, existingInvariantFilePaths),
-    ...validateChanges(changes, nodes, files, invariants, existingChangeFilePaths),
-    ...detectFileDrift(files, currentScan.files, nodes)
-  ];
-}
-
-function findVisualAppDist(): string | undefined {
-  const cliDir = path.dirname(fileURLToPath(import.meta.url));
-  const candidates = [
-    path.resolve(process.cwd(), "packages/app/dist"),
-    path.resolve(process.cwd(), "node_modules/@abstraction-tree/app/dist"),
-    path.resolve(cliDir, "../../app/dist"),
-    path.resolve(cliDir, "../../../app/dist"),
-    path.resolve(cliDir, "../../@abstraction-tree/app/dist")
-  ];
-  return candidates.find(existsSync);
-}
 
 function fallback(res: import("node:http").ServerResponse) {
   res.statusCode = 200;

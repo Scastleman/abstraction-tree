@@ -189,7 +189,7 @@ export function summarizeFile(filePath: string, extension: string, text: string,
 
   const isTest = isTestFile(filePath, extension, descriptor);
   const language = descriptor?.language ?? "Text";
-  const summary = inferSummary(filePath, language, facts.symbols, facts.imports, isTest, facts.parseStrategy);
+  const summary = inferSummary(filePath, language, facts.symbols, facts.imports, isTest, facts.parseStrategy, text);
 
   return {
     path: filePath,
@@ -402,11 +402,82 @@ function take(values: Set<string>, limit: number): string[] {
   return [...values].filter(Boolean).slice(0, limit);
 }
 
-function inferSummary(filePath: string, language: string, symbols: string[], imports: string[], isTest: boolean, parseStrategy: ParseStrategy): string {
+function inferSummary(
+  filePath: string,
+  language: string,
+  symbols: string[],
+  imports: string[],
+  isTest: boolean,
+  parseStrategy: ParseStrategy,
+  text: string
+): string {
   const name = path.basename(filePath);
+  if (language === "Markdown" && name.toLowerCase() === "readme.md") {
+    const readmeSummary = readmePurposeSummary(text);
+    if (readmeSummary) return readmeSummary;
+  }
+
   const role = isTest ? "test coverage" : filePath.includes("config") ? "configuration" : filePath.includes("schema") ? "data/schema" : "implementation";
   const parserText = parseStrategy === "typescript-ast" ? " AST-backed scan." : "";
   const symbolText = symbols.length ? ` Defines ${symbols.slice(0, 5).join(", ")}.` : "";
   const importText = imports.length ? ` Depends on ${imports.slice(0, 4).join(", ")}.` : "";
   return `${name} is a ${language} ${role} file.${parserText}${symbolText}${importText}`;
+}
+
+function readmePurposeSummary(text: string): string | undefined {
+  const paragraphs = markdownParagraphs(text).slice(0, 2);
+  if (!paragraphs.length) return undefined;
+  return truncateSummary(paragraphs.join(" "));
+}
+
+function markdownParagraphs(text: string): string[] {
+  const paragraphs: string[] = [];
+  let current: string[] = [];
+  let inFence = false;
+
+  function flush() {
+    if (!current.length) return;
+    paragraphs.push(current.join(" ").replace(/\s+/g, " ").trim());
+    current = [];
+  }
+
+  for (const rawLine of text.split(/\r?\n/u)) {
+    const line = rawLine.trim();
+    if (line.startsWith("```")) {
+      inFence = !inFence;
+      flush();
+      continue;
+    }
+    if (inFence) continue;
+    if (!line) {
+      flush();
+      continue;
+    }
+    if (
+      line.startsWith("#") ||
+      line.startsWith("[![") ||
+      line.startsWith("![") ||
+      line.startsWith("- ") ||
+      line.startsWith("* ") ||
+      line.startsWith(">") ||
+      line.startsWith("|") ||
+      line.startsWith("```")
+    ) {
+      flush();
+      continue;
+    }
+    current.push(line);
+  }
+
+  flush();
+  return paragraphs.filter(paragraph => paragraph.length >= 20);
+}
+
+function truncateSummary(summary: string): string {
+  const maxLength = 600;
+  if (summary.length <= maxLength) return summary;
+  const truncated = summary.slice(0, maxLength);
+  const sentenceEnd = Math.max(truncated.lastIndexOf(". "), truncated.lastIndexOf("? "), truncated.lastIndexOf("! "));
+  const trimmed = (sentenceEnd > 120 ? truncated.slice(0, sentenceEnd + 1) : truncated).trim();
+  return /[.!?]$/u.test(trimmed) ? `${trimmed.slice(0, -1)}...` : `${trimmed}...`;
 }

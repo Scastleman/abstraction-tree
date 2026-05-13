@@ -2,13 +2,13 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { LoadError } from "./App.js";
+import { AppExplorer, LoadError } from "./App.js";
 import { AgentHealthPanel } from "./components/AgentHealthPanel.js";
 import { ChangeHistory } from "./components/ChangeHistory.js";
 import { ConceptPanel } from "./components/ConceptPanel.js";
 import { InvariantPanel } from "./components/InvariantPanel.js";
 import { NodeDetails } from "./components/NodeDetails.js";
-import { TreeList, buildTreeItems, flattenTreeItems, moveTreeSelection } from "./components/TreeList.js";
+import { TreeList, buildTreeItems, flattenTreeItems, flattenVisibleTreeItems, moveTreeSelection } from "./components/TreeList.js";
 import { fetchAbstractionState } from "./hooks/useAbstractionState.js";
 import type { AbstractionTreeState as State, TreeNode } from "@abstraction-tree/core";
 
@@ -28,10 +28,29 @@ test("LoadError renders a useful /api/state error and retry control", () => {
   assert.match(html, /role="alert"/);
 });
 
+test("AppExplorer renders the selected node summary once", () => {
+  const html = renderToStaticMarkup(
+    <AppExplorer
+      error={null}
+      isRefreshing={false}
+      onRefresh={() => undefined}
+      onRetry={() => undefined}
+      state={sampleState()}
+      status="ready"
+    />
+  );
+
+  assert.equal(html.match(/Root project purpose\./g)?.length, 1);
+  assert.ok(html.indexOf("Summary") < html.indexOf("Root project purpose."));
+  assert.match(html, /Explanation/);
+  assert.match(html, /Separation Logic/);
+});
+
 test("TreeList builds and renders nested parent child relationships", () => {
   const html = renderToStaticMarkup(
     <TreeList nodes={sampleNodes()} onSelect={() => undefined} selectedId="feature.checkout" />
   );
+  const visibleIds = flattenVisibleTreeItems(buildTreeItems(sampleNodes()), new Set(["project.intent"])).map(item => item.node.id);
 
   assert.deepEqual(flattenTreeItems(buildTreeItems(sampleNodes())).map(item => item.node.id), [
     "project.intent",
@@ -42,15 +61,27 @@ test("TreeList builds and renders nested parent child relationships", () => {
   assert.match(html, /role="tree"/);
   assert.match(html, /aria-level="1"/);
   assert.match(html, /aria-level="2"/);
-  assert.match(html, /aria-level="3"/);
+  assert.doesNotMatch(html, /aria-level="3"/);
+  assert.match(html, /aria-label="Collapse Project intent"/);
+  assert.match(html, /aria-label="Expand Visual app"/);
+  assert.deepEqual(visibleIds, ["project.intent", "architecture.app"]);
   assert.ok(html.indexOf("Project intent") < html.indexOf("Visual app"));
-  assert.ok(html.indexOf("Visual app") < html.indexOf("Checkout explorer"));
+  assert.equal(html.indexOf("Checkout explorer"), -1);
 });
 
 test("TreeList keeps ancestor branches visible when a descendant matches search", () => {
   const visibleIds = flattenTreeItems(buildTreeItems(sampleNodes(), "checkout")).map(item => item.node.id);
 
   assert.deepEqual(visibleIds, ["project.intent", "architecture.app", "feature.checkout"]);
+});
+
+test("flattenVisibleTreeItems hides descendants until their branch is expanded", () => {
+  const items = buildTreeItems(sampleNodes());
+  const rootOnly = flattenVisibleTreeItems(items, new Set(["project.intent"])).map(item => item.node.id);
+  const expandedApp = flattenVisibleTreeItems(items, new Set(["project.intent", "architecture.app"])).map(item => item.node.id);
+
+  assert.deepEqual(rootOnly, ["project.intent", "architecture.app"]);
+  assert.deepEqual(expandedApp, ["project.intent", "architecture.app", "feature.checkout", "feature.search"]);
 });
 
 test("moveTreeSelection handles arrow and boundary keys", () => {
@@ -74,10 +105,25 @@ test("mission panels render independently", () => {
   ].join("\n");
 
   assert.match(html, /Confidence/);
+  assert.match(html, /Summary/);
+  assert.match(html, /Reason For Its Existence/);
+  assert.match(html, /Separation Logic/);
+  assert.match(html, /Scope Evidence/);
   assert.match(html, /Latest run/);
+  assert.match(html, /Scope contract/);
   assert.match(html, /Navigation/);
   assert.match(html, /Tree memory/);
   assert.match(html, /Visual app refactor/);
+});
+
+test("NodeDetails starts with the selected node representation summary", () => {
+  const html = renderToStaticMarkup(<NodeDetails node={sampleNodes()[0]} />);
+
+  assert.ok(html.indexOf("Summary") < html.indexOf("Level"));
+  assert.ok(html.indexOf("Root project purpose.") < html.indexOf("Confidence"));
+  assert.ok(html.indexOf("Explanation") > html.indexOf("Root project purpose."));
+  assert.ok(html.indexOf("Reason For Its Existence") > html.indexOf("Explanation"));
+  assert.ok(html.indexOf("Separation Logic") > html.indexOf("Reason For Its Existence"));
 });
 
 function sampleState(): State {
@@ -92,6 +138,16 @@ function sampleState(): State {
         issueCount: 0,
         errorCount: 0,
         warningCount: 0
+      },
+      scope: {
+        file: ".abstraction-tree/scopes/2026-05-13-1200-scope-check.json",
+        prompt: "Refactor visual app",
+        status: "clean",
+        requiresClarification: false,
+        affectedNodeCount: 1,
+        allowedFileCount: 3,
+        violationCount: 0,
+        checkedAt: "2026-05-13T12:10:00.000Z"
       }
     },
     changes: [{
@@ -173,6 +229,9 @@ function node(
     abstractionLevel: level,
     level,
     summary,
+    explanation: `${title} explains its role, owned scope, relationships, and safe change guidance for human and agent readers.`,
+    reasonForExistence: `${title} exists to make this project area understandable and safely scoped for humans and agents.`,
+    separationLogic: children.length ? `${title} children are partitioned by the next narrower scope boundary.` : undefined,
     children,
     parent,
     sourceFiles: ownedFiles,

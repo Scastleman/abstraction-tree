@@ -11,6 +11,8 @@ The default layer is structured project facts, deterministic tree generation, va
 
 The source of truth is always the project-local `.abstraction-tree/` folder. The visual app is optional: it reads the same tree data and displays it as an interactive project map.
 
+Tree nodes keep a short `summary`, a richer `explanation`, an explicit `reasonForExistence`, and, when the node has children, `separationLogic`. The summary is compact fallback text; the explanation describes the node's role, ownership, dependencies, constraints, parent/child context, and safe-change guidance. `reasonForExistence` explains why the node deserves to exist in the project at all, such as why a visual app is useful instead of only storing JSON memory. Separation logic describes the partition rule used for the child nodes below it, such as concept clusters, architecture surfaces, module ownership zones, or file-level edit boundaries. The first implementation is deterministic and evidence-based rather than LLM-inferred, so future adapters can improve explanation quality without changing the default local scan path.
+
 ## Core promise
 
 Add Abstraction Tree to any repo, build the initial memory tree, and make the project easier to inspect, prompt, and safely change.
@@ -19,12 +21,14 @@ Add Abstraction Tree to any repo, build the initial memory tree, and make the pr
 cd your-existing-project
 npx atree init --with-app
 npx atree scan
+npx atree doctor
 npx atree serve
 ```
 
 The local visual app shows:
 
 - project structure as an abstraction tree;
+- richer node explanations for human and agent project comprehension;
 - concepts and cross-cutting dependencies;
 - file ownership by tree node;
 - inferred invariants;
@@ -41,8 +45,10 @@ Level 1: scan / validate / context
 Level 2: visual app
 Level 3: ChatGPT/human assessment packs
 Level 4: mission runner
-Level 5: proposal adapters through atree propose
-Level 6: experimental full self-improvement loop
+Level 5: prompt routing
+Level 6: goal-driven autopilot planning
+Level 7: proposal adapters through atree propose
+Level 8: experimental full self-improvement loop
 ```
 
 LLM inference is not part of the default scan pipeline. The repo includes an explicit `atree propose` review workflow for provider adapters, but proposals are validated and saved for review rather than directly mutating canonical memory.
@@ -59,9 +65,62 @@ The preferred strategic workflow is staged:
 
 Codex is the bounded executor. ChatGPT and humans are the preferred strategic assessment layer. Abstraction Tree is the memory, evidence, validation, and scope boundary between strategy and execution. Treat assessment output as a proposal: validate mission files and review the resulting diff before accepting changes.
 
+Assessment packs include `pack-safety.json` with redaction, omission, truncation, and byte-size metadata. The pack generator applies default redaction for common secret-like values and supports `--redact`, `--redact-file`, `--max-bytes-per-artifact`, `--max-total-bytes`, `--no-diff`, `--no-runs`, `--no-lessons`, and `--no-mission-runtime`. Inspect `pack-safety.json` and the artifacts before pasting a pack into ChatGPT or sharing it externally.
+
+## Prompt Routing
+
+Before sending a prompt to Codex, route it:
+
+```bash
+npm run atree:route -- --file prompts/complex-goal.md
+npm run atree:route -- --text "Fix the typo in README." --json
+```
+
+The router is deterministic and read-only. It uses `.abstraction-tree/` memory when available and classifies prompts into four outcomes:
+
+```text
+simple prompt -> direct
+complex prompt -> goal-driven autopilot
+strategy prompt -> assessment pack
+risky prompt -> manual review
+```
+
+Use this when you are unsure whether a prompt is safe to execute directly or should be decomposed first. The router does not run Codex, edit files, push, or merge.
+
+## Goal-Driven Autopilot
+
+For complex prompts, Abstraction Tree can compile the user goal into a goal workspace, assessment, affected-tree map, and mission-runner-compatible Markdown files:
+
+```bash
+npm run atree:goal -- --file prompts/complex-goal.md --auto-route
+npm run atree:goal -- --file prompts/complex-goal.md --plan-only
+npm run atree:goal -- --file prompts/complex-goal.md --review-required
+npm run atree:goal -- --file prompts/complex-goal.md --create-pr
+```
+
+The command stores the original prompt unchanged under:
+
+```text
+.abstraction-tree/goals/YYYY-MM-DD-HHMM-<slug>/
+```
+
+It then writes `goal-assessment.md`, `affected-tree.json`, `mission-plan.json`, `missions/`, `coherence-review.md`, and `final-report.md`. `--review-required` prints the mission runner commands to inspect and execute the generated folder. `--full-auto` currently plans the goal and refuses execution with a clear message until safe runner integration is implemented.
+
+`--auto-route` calls `atree route` first. If the prompt is direct, strategy-oriented, or manual-review-only, goal planning stops unless `--force-goal` is passed.
+
+```text
+self-improvement loop input = repo state
+goal-driven loop input = user goal + repo state
+```
+
+Use goal-driven autopilot when a user request mixes product behavior, architecture, CLI/API surface, tests, docs, and safety concerns. It is designed to reduce overreach by mapping the prompt onto committed abstraction memory before Codex receives bounded missions.
+
 Related workflow docs:
 
+- [CI integration](docs/CI_INTEGRATION.md)
 - [Mission runner](docs/MISSION_RUNNER.md)
+- [Goal-driven autopilot](docs/GOAL_DRIVEN_AUTOPILOT.md)
+- [Scope contracts](docs/SCOPE_CONTRACTS.md)
 - [Agent protocol and LLM-assisted proposals](docs/AGENT_PROTOCOL.md)
 - [LLM abstraction interface](docs/ARCHITECTURE.md#llm-abstraction-interface)
 - [Full self-improvement loop](docs/FULL_SELF_IMPROVEMENT_LOOP.md)
@@ -78,6 +137,7 @@ Use this when you only want the abstraction tree, agent context packs, validatio
 npm install -D @abstraction-tree/cli
 npx atree init --core
 npx atree scan
+npx atree doctor
 npx atree validate
 npx atree context --target checkout
 ```
@@ -127,20 +187,24 @@ Most codebases are understood through a mix of folders, stale documentation, tri
 
 Abstraction Tree creates a shared semantic map for humans and agents. The node schema is fixed, but the abstraction layers should become adaptive: a frontend, compiler, game engine, Kubernetes operator, and quant research repo should not be forced into the same hierarchy.
 
-Today, the baseline tree is deterministic. It uses folder structure, package layout, file names, AST-backed TypeScript/JavaScript imports and symbols, regex fallback scanning for other languages, tests, and configured ontology data. Optional proposal adapters can use those facts through `atree propose`, but that path produces review artifacts rather than direct memory edits.
+Today, the baseline tree is deterministic. It uses folder structure, package layout, file names, AST-backed TypeScript/JavaScript imports and symbols, regex fallback scanning for other languages, tests, and configured ontology data. The first layer is an inferred human subsystem layer, so a repo with UI evidence may show an app/explorer node while a library, engine, docs-only tool, or service repo gets different evidence-backed subsystem nodes. Optional proposal adapters can use those facts through `atree propose`, but that path produces review artifacts rather than direct memory edits.
 
 ```txt
 Intent
-`-- Product / Domain Concepts
-    `-- Architecture
-        `-- Modules
-            `-- Files
-                `-- Symbols
+|-- Human subsystem nodes inferred from repo evidence
+|   |-- App / Explorer, if UI evidence exists
+|   |   `-- Responsibility slices
+|   |       `-- File leaves
+|   `-- Core Engine, CLI, Logs, Docs, Tests, or other detected responsibilities
+`-- Project Indexes
+    |-- Domain Concepts
+    |-- Architecture
+    `-- Modules / Files
 ```
 
 The visual app is not a separate documentation site. It is the human-readable interface to the same `.abstraction-tree/` data consumed by agents.
 
-In practice, the stored tree is shaped by `.abstraction-tree/ontology.json`, so the displayed labels might be "Application / UI Runtime Layer" for one repo and "Backtesting Engine" or "Rendering Pipeline" for another.
+In practice, the stored tree is shaped by `.abstraction-tree/ontology.json` and by deterministic subsystem inference, so the displayed labels might be "Visual App / Explorer" for this repo, "Backtesting Engine" for a quant repo, "Rendering Pipeline" for a game, or no app node at all when there is no app evidence.
 
 ## MVP status
 
@@ -148,7 +212,7 @@ This repository is a working starter implementation. It includes:
 
 - a Node/TypeScript CLI;
 - an AST-backed scanner for TypeScript/JavaScript files, with regex fallback for other supported text files;
-- a deterministic ontology and initial tree builder with repo-specific concept extraction;
+- a deterministic ontology and initial tree builder with evidence-backed human subsystems and repo-specific concept extraction;
 - a local `.abstraction-tree/` schema;
 - validation and stale-memory drift checks;
 - relevance-scored context-pack generation for coding agents;
@@ -156,6 +220,8 @@ This repository is a working starter implementation. It includes:
 - ChatGPT/human assessment packs for strategic review;
 - an explicit `atree propose` review workflow for provider adapters;
 - a mission runner for bounded Codex work queues;
+- a deterministic prompt router for direct, goal-driven, assessment-pack, and manual-review decisions;
+- a goal-driven autopilot planner for complex user prompts;
 - an experimental full self-improvement loop for local dogfooding;
 - Codex/agent instructions;
 - an example project.
@@ -180,6 +246,7 @@ abstraction-tree/
     DATA_MODEL.md
     AGENT_PROTOCOL.md
     MISSION_RUNNER.md
+    GOAL_DRIVEN_AUTOPILOT.md
     FULL_SELF_IMPROVEMENT_LOOP.md
     ROADMAP.md
     PACKAGING.md
@@ -197,6 +264,7 @@ Run the CLI from this repo:
 ```bash
 npm run atree -- init --with-app --project examples/small-web-app
 npm run atree -- scan --project examples/small-web-app
+npm run atree -- doctor --project examples/small-web-app
 npm run atree -- validate --project examples/small-web-app
 npm run atree -- context --project examples/small-web-app --target checkout
 npm run atree -- serve --project examples/small-web-app
@@ -253,6 +321,7 @@ Useful cross-platform dogfooding commands:
 
 ```bash
 npm run assessment:pack
+npm run assessment:pack -- --no-diff --no-runs --no-lessons --no-mission-runtime
 npm run self:loop -- --assessment-pack-only
 npm run assessment:import -- --from ./chatgpt-missions --name review-2026-05-10 --dry-run
 npm run assessment:import -- --from ./chatgpt-missions --name review-2026-05-10
@@ -264,7 +333,7 @@ npm run atree:evaluate
 npm run diff:summary
 ```
 
-`npm run assessment:pack` creates a local evidence pack for ChatGPT or human strategy review. `npm run self:loop -- --assessment-pack-only` creates the same style of evidence pack inside a full-loop run directory, prints the pack path, and exits before any Codex assessment, mission planning, mission execution, coherence review, or durable loop report. The reviewer authors the broad assessment and bounded mission files; `npm run assessment:import` validates and stages that folder under `.abstraction-tree/missions/<name>/`; `npm run missions:plan:manual` validates and batches the staged missions before `npm run missions:run:manual` sends those scoped prompts to Codex. Run `npm run atree:evaluate` afterward so narrative run reports are checked against objective project-memory signals.
+`npm run assessment:pack` creates a local evidence pack for ChatGPT or human strategy review. It writes `pack-safety.json` and applies basic redaction and artifact size caps; use the `--no-*` flags when diff, run, lesson, or mission-runtime evidence is too sensitive or too large to export. `npm run self:loop -- --assessment-pack-only` creates the same style of evidence pack inside a full-loop run directory, prints the pack path, and exits before any Codex assessment, mission planning, mission execution, coherence review, or durable loop report. The reviewer authors the broad assessment and bounded mission files; `npm run assessment:import` validates and stages that folder under `.abstraction-tree/missions/<name>/`; `npm run missions:plan:manual` validates and batches the staged missions before `npm run missions:run:manual` sends those scoped prompts to Codex. Run `npm run atree:evaluate` afterward so narrative run reports are checked against objective project-memory signals.
 
 Windows-only local loop commands:
 
@@ -342,6 +411,18 @@ Test files are recognized through common paths and language conventions: `test`,
 atree scan --project /path/to/project
 ```
 
+### `atree doctor`
+
+Aggregates setup and readiness checks for humans and CI. Use it when you want to know whether the current repo is initialized, scanned, schema-valid, drift-free, automation-boundary-safe, and ready for the next command.
+
+```bash
+atree doctor --project /path/to/project
+atree doctor --project /path/to/project --json
+atree doctor --project /path/to/project --strict
+```
+
+`doctor` summarizes Node version support, config and memory-file presence, runtime schema issues, validation issue counts, automation runtime-boundary warnings, visual-app availability in full mode, and a suggested next command. `--json` returns a stable `{ status, checks, nextSteps }` payload for CI. `--strict` exits nonzero when the report has warnings or errors.
+
 ### `atree serve`
 
 Starts the local visual app. This requires the full install package or a built `@abstraction-tree/app` workspace. The server binds to `127.0.0.1` by default so `/api/state` stays local to your machine.
@@ -354,7 +435,7 @@ Use `--host 0.0.0.0` only when you intentionally want LAN access; the CLI prints
 
 ### `atree validate`
 
-Checks whether tracked files and tree nodes still align, then compares stored file summaries against a fresh scan to detect stale abstraction memory.
+Checks whether tracked files and tree nodes still align, then compares stored file summaries against a fresh scan to detect stale abstraction memory. Use `validate` as the focused correctness gate after `doctor` has confirmed the workspace is initialized and memory files exist.
 
 ```bash
 atree validate --project /path/to/project

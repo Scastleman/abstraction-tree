@@ -5,6 +5,7 @@ import path from "node:path";
 import test from "node:test";
 import {
   createAssessmentPack,
+  parseArgs,
   requiredPackFiles,
   runCli
 } from "./create-assessment-pack.mjs";
@@ -71,6 +72,137 @@ test("assessment prompt states ChatGPT/human strategy and bounded Codex executio
   assert.match(prompt, /Codex should not author the strategic assessment/);
 });
 
+test("assessment prompt and required files include pack safety metadata", async t => {
+  const root = await tempWorkspace(t);
+  await writeBaseMemory(root);
+
+  const result = await createAssessmentPack({
+    cwd: root,
+    createdAt: fixedDate,
+    runCommand: successfulCommand()
+  });
+
+  const prompt = await readFile(path.join(result.packDir, "assessment-prompt.md"), "utf8");
+  const packSafety = JSON.parse(await readFile(path.join(result.packDir, "pack-safety.json"), "utf8"));
+
+  assert.equal(requiredPackFiles.includes("pack-safety.json"), true);
+  assert.match(prompt, /pack-safety\.json/);
+  assert.match(prompt, /Inspect `pack-safety\.json` before pasting this pack into ChatGPT/);
+  assert.equal(packSafety.limits.maxBytesPerArtifact, 50_000);
+  assert.equal(packSafety.safetyAssessment.requiresManualInspection, true);
+});
+
+test("parseArgs accepts assessment pack safety controls", () => {
+  const parsed = parseArgs([
+    "--max-bytes-per-artifact",
+    "1000",
+    "--max-total-bytes",
+    "2000",
+    "--redact",
+    "private-[a-z]+",
+    "--redact-file",
+    "redactions.txt",
+    "--no-diff",
+    "--no-runs",
+    "--no-lessons",
+    "--no-mission-runtime"
+  ]);
+
+  assert.equal(parsed.maxBytesPerArtifact, 1000);
+  assert.equal(parsed.maxTotalBytes, 2000);
+  assert.deepEqual(parsed.redactPatterns, ["private-[a-z]+"]);
+  assert.deepEqual(parsed.redactFiles, ["redactions.txt"]);
+  assert.equal(parsed.includeDiff, false);
+  assert.equal(parsed.includeRuns, false);
+  assert.equal(parsed.includeLessons, false);
+  assert.equal(parsed.includeMissionRuntime, false);
+});
+
+test("assessment pack redacts default and custom sensitive values", async t => {
+  const root = await tempWorkspace(t);
+  await writeBaseMemory(root);
+  await writeFileAt(root, ".abstraction-tree/runs/2026-05-10-run.md", "Authorization: Bearer run-token\nprivate-value\n");
+  await writeFileAt(root, ".abstraction-tree/automation/mission-runtime.json", JSON.stringify({
+    GITHUB_TOKEN: "ghp_secret",
+    completed: []
+  }));
+
+  const result = await createAssessmentPack({
+    cwd: root,
+    createdAt: fixedDate,
+    redactPatterns: ["private-value"],
+    runCommand: sensitiveCommand()
+  });
+
+  const diffSummary = await readFile(path.join(result.packDir, "diff-summary.md"), "utf8");
+  const latestRuns = await readFile(path.join(result.packDir, "latest-runs.md"), "utf8");
+  const repoSummaryText = await readFile(path.join(result.packDir, "repo-summary.json"), "utf8");
+  const repoSummary = JSON.parse(repoSummaryText);
+  const packSafety = JSON.parse(await readFile(path.join(result.packDir, "pack-safety.json"), "utf8"));
+
+  assert.doesNotMatch(diffSummary, /sk-test-secret/);
+  assert.match(diffSummary, /OPENAI_API_KEY=\[REDACTED\]/);
+  assert.doesNotMatch(latestRuns, /run-token/);
+  assert.doesNotMatch(latestRuns, /private-value/);
+  assert.match(latestRuns, /Authorization: Bearer \[REDACTED\]/);
+  assert.match(latestRuns, /\[REDACTED\]/);
+  assert.doesNotMatch(repoSummaryText, /ghp_secret/);
+  assert.equal(repoSummary.missionRuntime.value.GITHUB_TOKEN, "[REDACTED]");
+  assert.ok(packSafety.redaction.totalReplacementCount >= 4);
+  assert.equal(packSafety.redactionPatternsUsed.some(pattern => pattern.label === "custom-redact-1"), true);
+});
+
+test("assessment pack truncates large artifacts with visible markers", async t => {
+  const root = await tempWorkspace(t);
+  await writeBaseMemory(root);
+  await writeFileAt(root, ".abstraction-tree/runs/2026-05-10-run.md", `${"x".repeat(1000)}\n`);
+
+  const result = await createAssessmentPack({
+    cwd: root,
+    createdAt: fixedDate,
+    maxBytesPerArtifact: 300,
+    runCommand: successfulCommand()
+  });
+
+  const latestRuns = await readFile(path.join(result.packDir, "latest-runs.md"), "utf8");
+  const packSafety = JSON.parse(await readFile(path.join(result.packDir, "pack-safety.json"), "utf8"));
+
+  assert.match(latestRuns, /\[TRUNCATED: original artifact exceeded 300 bytes/);
+  assert.equal(packSafety.truncatedArtifacts.some(artifact => artifact.artifact === "latest-runs.md"), true);
+});
+
+test("assessment pack can omit high-risk artifact classes", async t => {
+  const root = await tempWorkspace(t);
+  await writeBaseMemory(root);
+  await writeFileAt(root, ".abstraction-tree/runs/2026-05-10-run.md", "# Run\n");
+  await writeFileAt(root, ".abstraction-tree/lessons/2026-05-10-lesson.md", "# Lesson\n");
+  await writeFileAt(root, ".abstraction-tree/automation/mission-runtime.json", JSON.stringify({ current: "mission" }));
+
+  const commands = [];
+  const result = await createAssessmentPack({
+    cwd: root,
+    createdAt: fixedDate,
+    includeDiff: false,
+    includeRuns: false,
+    includeLessons: false,
+    includeMissionRuntime: false,
+    runCommand: successfulCommand(commands)
+  });
+
+  const diffSummary = await readFile(path.join(result.packDir, "diff-summary.md"), "utf8");
+  const latestRuns = await readFile(path.join(result.packDir, "latest-runs.md"), "utf8");
+  const latestLessons = await readFile(path.join(result.packDir, "latest-lessons.md"), "utf8");
+  const repoSummary = JSON.parse(await readFile(path.join(result.packDir, "repo-summary.json"), "utf8"));
+  const packSafety = JSON.parse(await readFile(path.join(result.packDir, "pack-safety.json"), "utf8"));
+
+  assert.match(diffSummary, /\[OMITTED: Omitted because --no-diff was passed\.\]/);
+  assert.match(latestRuns, /\[OMITTED: Omitted because --no-runs was passed\.\]/);
+  assert.match(latestLessons, /\[OMITTED: Omitted because --no-lessons was passed\.\]/);
+  assert.equal(repoSummary.missionRuntime.omitted, true);
+  assert.equal(packSafety.omittedArtifacts.length, 4);
+  assert.equal(commands.some(command => command.file === "node" && command.args[0] === "scripts/diff-summary.mjs"), false);
+});
+
 test("missing optional source artifacts degrade gracefully", async t => {
   const root = await tempWorkspace(t);
   await writeBaseMemory(root);
@@ -109,6 +241,22 @@ test("runCli reports the generated prompt path", async t => {
 
   assert.match(stdout.text, /Assessment pack created: \.abstraction-tree\/assessment-packs\/2026-05-10T12-00-00-000Z/);
   assert.match(stdout.text, /Assessment prompt: \.abstraction-tree\/assessment-packs\/2026-05-10T12-00-00-000Z\/assessment-prompt\.md/);
+  assert.match(stdout.text, /Pack safety: \.abstraction-tree\/assessment-packs\/2026-05-10T12-00-00-000Z\/pack-safety\.json/);
+});
+
+test("runCli reports safety notices for omitted artifacts", async t => {
+  const root = await tempWorkspace(t);
+  await writeBaseMemory(root);
+  const stdout = captureStream();
+
+  await runCli(["--no-diff"], {
+    cwd: root,
+    now: fixedDate,
+    stdout,
+    command: successfulCommand()
+  });
+
+  assert.match(stdout.text, /Safety notices: 1 redaction\/truncation\/omission notice\(s\)/);
 });
 
 async function tempWorkspace(t) {
@@ -175,8 +323,9 @@ async function writeFileAt(root, relativePath, text) {
   return filePath;
 }
 
-function successfulCommand() {
+function successfulCommand(calls = []) {
   return async (file, args) => {
+    calls.push({ file, args });
     if (file === "git" && args[0] === "status") {
       return { exitCode: 0, stdout: "## main\n", stderr: "" };
     }
@@ -185,6 +334,24 @@ function successfulCommand() {
     }
     if (file === "node" && args[0] === "scripts/diff-summary.mjs") {
       return { exitCode: 0, stdout: "Base: abcdef1\nNo changed files.\n", stderr: "" };
+    }
+    if (file === "node" && args[0] === "packages/cli/dist/index.js") {
+      return { exitCode: 0, stdout: "{\"generatedScanRecords\":0}\n", stderr: "" };
+    }
+    return { exitCode: 0, stdout: "", stderr: "" };
+  };
+}
+
+function sensitiveCommand() {
+  return async (file, args) => {
+    if (file === "git" && args[0] === "status") {
+      return { exitCode: 0, stdout: "## main\n", stderr: "" };
+    }
+    if (file === "git" && args[0] === "log") {
+      return { exitCode: 0, stdout: "abcdef1 test commit\n", stderr: "" };
+    }
+    if (file === "node" && args[0] === "scripts/diff-summary.mjs") {
+      return { exitCode: 0, stdout: "OPENAI_API_KEY=sk-test-secret\n", stderr: "" };
     }
     if (file === "node" && args[0] === "packages/cli/dist/index.js") {
       return { exitCode: 0, stdout: "{\"generatedScanRecords\":0}\n", stderr: "" };

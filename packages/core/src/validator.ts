@@ -1,4 +1,4 @@
-import type { AbstractionOntologyLevel, ChangeRecord, Concept, ContextPack, FileSummary, Invariant, TreeNode, ValidationIssue } from "./schema.js";
+import { TREE_NODE_THIN_EXPLANATION_CHAR_THRESHOLD, type AbstractionOntologyLevel, type ChangeRecord, type Concept, type ContextPack, type FileSummary, type Invariant, type TreeNode, type ValidationIssue } from "./schema.js";
 
 export function validateTree(nodes: TreeNode[], files: FileSummary[], ontology: AbstractionOntologyLevel[] = []): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
@@ -22,6 +22,7 @@ export function validateTree(nodes: TreeNode[], files: FileSummary[], ontology: 
   issues.push(...validateOntologyRankShape(ontology));
   issues.push(...validateOntologyConfidence(ontology));
   issues.push(...validateNodeConfidence(nodes));
+  issues.push(...validateNodeExplanations(nodes));
 
   for (const n of nodes) {
     if (!n.id) issues.push({ severity: "error", message: "Node is missing id." });
@@ -728,6 +729,45 @@ function validateNodeConfidence(nodes: TreeNode[]): ValidationIssue[] {
       message: `Node ${node.id || "(missing id)"} must use a confidence between 0 and 1.`
     }];
   });
+}
+
+function validateNodeExplanations(nodes: TreeNode[]): ValidationIssue[] {
+  return nodes.flatMap(node => {
+    if (!requiresHumanReadableExplanation(node)) return [];
+    const explanation = node.explanation?.trim() ?? "";
+    if (!explanation) {
+      return [{
+        severity: "warning" as const,
+        nodeId: node.id,
+        fieldPath: "explanation",
+        message: `High-level node ${node.id || "(missing id)"} is missing a human-readable explanation. Run \`atree scan\` to backfill explanations.`
+      }];
+    }
+    if (explanation.length < TREE_NODE_THIN_EXPLANATION_CHAR_THRESHOLD) {
+      return [{
+        severity: "warning" as const,
+        nodeId: node.id,
+        fieldPath: "explanation",
+        message: `High-level node ${node.id || "(missing id)"} has a thin explanation (${explanation.length} characters; expected at least ${TREE_NODE_THIN_EXPLANATION_CHAR_THRESHOLD}).`
+      }];
+    }
+    return [];
+  });
+}
+
+function requiresHumanReadableExplanation(node: TreeNode): boolean {
+  const level = nodeLevel(node);
+  return (
+    node.id.startsWith("project.") ||
+    node.id.startsWith("subsystem.") ||
+    node.id.startsWith("architecture.") ||
+    node.id.startsWith("module.") ||
+    level === "project-purpose" ||
+    level === "human-subsystems" ||
+    level === "subsystem-responsibilities" ||
+    level === "system-architecture-layer" ||
+    level === "package-module-layer"
+  );
 }
 
 function detectParentCycles(nodes: TreeNode[], nodeById: Map<string, TreeNode>): ValidationIssue[] {

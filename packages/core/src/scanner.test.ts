@@ -93,6 +93,27 @@ def write_report():
   assert.ok(goTest.symbols.includes("TestCheckout"));
 });
 
+test("summarizeFile uses README intro prose as project purpose evidence", () => {
+  const source = `# Demo Project
+
+[![CI](https://example.com/badge.svg)](https://example.com)
+
+Demo Project helps agents understand code before making changes.
+
+It keeps scope, validation, and project memory visible.
+
+## Usage
+
+\`\`\`bash
+npm test
+\`\`\`
+`;
+
+  const summary = summarizeFile("README.md", ".md", source, Buffer.byteLength(source));
+
+  assert.equal(summary.summary, "Demo Project helps agents understand code before making changes. It keeps scope, validation, and project memory visible.");
+});
+
 test("summarizeFile labels expanded regex extension coverage", () => {
   const cases = [
     { path: "docs/component.mdx", extension: ".mdx", language: "MDX", source: "import Demo from './Demo';\n# Component\n" },

@@ -10,6 +10,15 @@ import {
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { promisify } from "node:util";
+import {
+  parseMissionMarkdown,
+  parseSimpleFrontmatter
+} from "./mission-schema.mjs";
+
+export {
+  parseMissionMarkdown,
+  parseSimpleFrontmatter
+};
 
 const execFileAsync = promisify(execFile);
 
@@ -321,63 +330,6 @@ export async function readMissionFile(repoRoot, filePath, memory) {
     originalMarkdown: original,
     body
   };
-}
-
-export function parseMissionMarkdown(markdown) {
-  if (!markdown.startsWith("---")) return { frontmatter: {}, body: markdown };
-  const lines = markdown.split(/\r?\n/);
-  if (lines[0].trim() !== "---") return { frontmatter: {}, body: markdown };
-
-  const endIndex = lines.findIndex((line, index) => index > 0 && line.trim() === "---");
-  if (endIndex === -1) return { frontmatter: {}, body: markdown };
-
-  const frontmatterText = lines.slice(1, endIndex).join("\n");
-  const body = lines.slice(endIndex + 1).join("\n").replace(/^\s*\n/u, "");
-  return { frontmatter: parseSimpleFrontmatter(frontmatterText), body };
-}
-
-export function parseSimpleFrontmatter(text) {
-  const result = {};
-  const lines = text.split(/\r?\n/);
-  let currentArrayKey;
-
-  for (const rawLine of lines) {
-    const line = rawLine.replace(/\s+$/u, "");
-    if (!line.trim() || line.trimStart().startsWith("#")) continue;
-
-    const arrayItem = line.match(/^\s*-\s*(.*)$/u);
-    if (arrayItem && currentArrayKey) {
-      result[currentArrayKey].push(unquote(arrayItem[1].trim()));
-      continue;
-    }
-
-    currentArrayKey = undefined;
-    const field = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/u);
-    if (!field) continue;
-
-    const key = field[1];
-    const value = field[2].trim();
-    if (value === "[]") {
-      result[key] = [];
-      continue;
-    }
-    if (!value) {
-      result[key] = [];
-      currentArrayKey = key;
-      continue;
-    }
-    if (value === "true") {
-      result[key] = true;
-      continue;
-    }
-    if (value === "false") {
-      result[key] = false;
-      continue;
-    }
-    result[key] = unquote(value);
-  }
-
-  return result;
 }
 
 export function createMissionPlan(input) {
@@ -1153,10 +1105,6 @@ function array(value) {
 
 function isString(value) {
   return typeof value === "string";
-}
-
-function unquote(value) {
-  return value.replace(/^["']|["']$/gu, "");
 }
 
 function uniqueSorted(values) {

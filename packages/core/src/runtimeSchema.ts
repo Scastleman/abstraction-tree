@@ -313,6 +313,20 @@ function validateAgentHealth(
       expectOptionalString(automation, "currentMission", filePath, `${fieldPath}.automation`, hint, issues);
     }
   }
+
+  if ("scope" in health && health.scope !== undefined) {
+    const scope = expectRecordField(health, "scope", filePath, fieldPath, hint, issues);
+    if (scope) {
+      expectString(scope, "file", filePath, `${fieldPath}.scope`, hint, issues);
+      expectString(scope, "prompt", filePath, `${fieldPath}.scope`, hint, issues);
+      expectEnum(scope, "status", ["draft", "needs-clarification", "ready", "clean", "warning", "blocked"], filePath, `${fieldPath}.scope`, hint, issues);
+      expectOptionalBoolean(scope, "requiresClarification", filePath, `${fieldPath}.scope`, hint, issues);
+      expectOptionalInteger(scope, "affectedNodeCount", filePath, `${fieldPath}.scope`, hint, issues);
+      expectOptionalInteger(scope, "allowedFileCount", filePath, `${fieldPath}.scope`, hint, issues);
+      expectOptionalInteger(scope, "violationCount", filePath, `${fieldPath}.scope`, hint, issues);
+      expectOptionalString(scope, "checkedAt", filePath, `${fieldPath}.scope`, hint, issues);
+    }
+  }
 }
 
 function validateFileSummary(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
@@ -356,6 +370,9 @@ function validateTreeNode(value: unknown, filePath: string, fieldPath: string, h
   expectString(record, "abstractionLevel", filePath, fieldPath, hint, issues);
   expectString(record, "level", filePath, fieldPath, hint, issues);
   expectString(record, "summary", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "explanation", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "reasonForExistence", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "separationLogic", filePath, fieldPath, hint, issues);
   expectOptionalString(record, "parent", filePath, fieldPath, hint, issues);
   expectOptionalString(record, "parentId", filePath, fieldPath, hint, issues);
   expectStringArray(record, "children", filePath, fieldPath, hint, issues);
@@ -510,6 +527,7 @@ function validateEvaluationReport(value: unknown, filePath: string, fieldPath: s
 
   expectTimestamp(record, "timestamp", filePath, fieldPath, hint, issues);
   validateEvaluationCountGroup(record, "tree", ["nodeCount", "orphanNodeCount", "nodesWithoutSummaries", "filesWithoutOwners"], filePath, fieldPath, hint, issues);
+  validateOptionalEvaluationExplanationMetrics(record, filePath, fieldPath, hint, issues);
   validateEvaluationNumberGroup(record, "context", ["lastPackCount", "averageFilesPerPack", "averageConceptsPerPack", "possibleOverBroadPacks"], filePath, fieldPath, hint, issues);
   validateEvaluationCountGroup(record, "drift", ["staleFileCount", "missingFileCount"], filePath, fieldPath, hint, issues);
   validateEvaluationCountGroup(record, "runs", ["runReportCount", "successCount", "partialCount", "failedCount", "noOpCount"], filePath, fieldPath, hint, issues);
@@ -537,6 +555,23 @@ function validateEvaluationReport(value: unknown, filePath: string, fieldPath: s
   const evaluationIssues = expectArrayField(record, "issues", filePath, fieldPath, hint, issues);
   if (evaluationIssues) {
     evaluationIssues.forEach((item, index) => validateEvaluationIssue(item, filePath, `${fieldPath}.issues[${index}]`, hint, issues));
+  }
+}
+
+function validateOptionalEvaluationExplanationMetrics(
+  record: Record<string, unknown>,
+  filePath: string,
+  fieldPath: string,
+  hint: string,
+  issues: ValidationIssue[]
+): void {
+  const tree = record.tree;
+  if (!objectRecord(tree)) return;
+  for (const key of ["nodesWithoutExplanations", "thinExplanationCount"]) {
+    expectOptionalInteger(tree, key, filePath, `${fieldPath}.tree`, hint, issues, { min: 0 });
+  }
+  if ("averageExplanationLength" in tree) {
+    expectNumber(tree, "averageExplanationLength", filePath, `${fieldPath}.tree`, hint, issues, { min: 0 });
   }
 }
 

@@ -11,17 +11,21 @@ The agent adapter should perform this protocol internally.
 ## Before editing
 
 1. Read `.abstraction-tree/config.json`.
-2. Search tree nodes and concepts relevant to the request.
+2. Search tree nodes and concepts relevant to the request. Prefer the root's human subsystem children for first-pass scope, descend into subsystem responsibility slices and file leaves for edit boundaries, then cross-check Project Indexes when the prompt needs concept, architecture, or file ownership lookup.
 3. Generate or load a context pack.
 4. Identify likely affected files.
 5. Identify invariants and must-not-change boundaries.
 6. Explain the planned scope if the change is large.
+
+When setup is uncertain, run `atree doctor --project .` before editing. It is a read-only readiness check for initialization, memory files, runtime schema, validation summary, automation runtime boundaries, install mode, and the suggested next command.
 
 ## Context packs
 
 `atree context --target <query>` emits JSON by default and writes the canonical JSON pack under `.abstraction-tree/context-packs/`.
 
 Use `--format markdown` when the next consumer is an agent prompt or report. Use `--why` to include selection diagnostics for every selected node, file, concept, invariant, and recent change, plus nearby candidates excluded by hard limits or token budget. Use `--max-tokens <n>` to apply an approximate selected-item budget. The first-pass estimator is documented as `approximate-json-chars-div-4`, so it is a deterministic character-count approximation and does not require a tokenizer package.
+
+Selected nodes include `summary`, `explanation`, `reasonForExistence`, and `separationLogic` when available. Read the summary for a quick label, the explanation for ownership, dependencies, parent/child context, invariants, and safe-change guidance, and the reason for existence to understand why the project has that node or subsystem in the first place. Read the separation logic to understand the partition rule for the child nodes and which child boundary best matches the prompt. Treat these fields as scope boundary aids: they should help you avoid editing sibling modules unless the dependency evidence says the change really crosses that boundary.
 
 ## During editing
 
@@ -34,10 +38,12 @@ Use `--format markdown` when the next consumer is an agent prompt or report. Use
 
 1. Run the relevant tests or validation commands.
 2. Update file summaries if ownership changed.
-3. Update affected tree nodes.
+3. Update affected tree nodes, including `explanation`, `reasonForExistence`, and `separationLogic` when node purpose, ownership, dependencies, child boundaries, or safe-change guidance changed.
 4. Add concepts or invariants if new durable ideas were introduced.
 5. Write a semantic change record in `.abstraction-tree/changes/`.
 6. Run `atree validate`.
+
+Use `atree doctor` when you need the aggregate setup/readiness view. Use `atree validate` as the focused memory-alignment gate after files, tree nodes, concepts, invariants, or change records are updated.
 
 ## LLM-assisted proposals
 

@@ -18,6 +18,120 @@ test("buildDeterministicTree infers concepts from repo-specific paths and symbol
   assertIncludes(concept.evidence.map(evidence => evidence.kind), ["path", "symbol", "export"]);
 });
 
+test("buildDeterministicTree uses README purpose for the root project node", () => {
+  const result = buildDeterministicTree("demo-project", [
+    file("README.md", [], [], [], {
+      extension: ".md",
+      language: "Markdown",
+      parseStrategy: "regex",
+      summary: "Demo Project helps agents understand code before making changes."
+    })
+  ]);
+
+  const root = result.nodes.find(node => node.id === "project.intent");
+
+  assert.equal(root?.summary, "Demo Project helps agents understand code before making changes.");
+});
+
+test("buildDeterministicTree generates human-readable explanations for high-level and ownership nodes", () => {
+  const result = buildDeterministicTree("demo-project", [
+    file("src/app.ts", ["AppShell"], ["AppShell"], ["./runtime"]),
+    file("src/runtime.ts", ["runApp"], ["runApp"])
+  ]);
+  const nodes = new Map(result.nodes.map(candidate => [candidate.id, candidate]));
+
+  assert.match(nodes.get("project.intent")?.explanation ?? "", /project-level purpose/i);
+  assert.match(nodes.get("project.intent")?.reasonForExistence ?? "", /durable purpose/i);
+  assert.match(nodes.get("project.architecture")?.explanation ?? "", /runtime and package architecture/i);
+  assert.match(nodes.get("project.code")?.explanation ?? "", /concrete package, folder, and file ownership/i);
+  assert.match(nodes.get("module.src")?.explanation ?? "", /Owned files include src\/app\.ts/);
+  assert.match(nodes.get("file.src.app.ts")?.explanation ?? "", /Important symbols include AppShell/);
+  assert.match(nodes.get("project.intent")?.separationLogic ?? "", /human-facing subsystem ownership/i);
+  assert.match(nodes.get("module.src")?.separationLogic ?? "", /one scanned file per node/i);
+  assert.equal(nodes.get("file.src.app.ts")?.separationLogic, undefined);
+});
+
+test("buildDeterministicTree puts inferred human subsystems at the first layer", () => {
+  const files = [
+    file("package.json"),
+    file("packages/core/package.json"),
+    file("packages/core/src/index.ts", [], ["scanProject"], ["./scanner.js", "./treeBuilder.js", "./context.js"]),
+    file("packages/core/src/scanner.ts", ["scanProject"], ["scanProject"], ["node:fs/promises", "ignore", "typescript"]),
+    file("packages/core/src/treeBuilder.ts", ["buildDeterministicTree"], ["buildDeterministicTree"], ["node:path"]),
+    file("packages/core/src/goal.ts", ["buildGoalWorkspacePlan"], ["buildGoalWorkspacePlan"]),
+    file("packages/core/src/promptRouter.ts", ["routePrompt"], ["routePrompt"]),
+    file("packages/core/src/runtimeSchema.ts", ["validateRuntimeSchema"], ["validateRuntimeSchema"]),
+    file("packages/core/src/evaluator.ts", ["evaluateProject"], ["evaluateProject"]),
+    file("packages/core/src/treeBuilder.test.ts", ["buildDeterministicTree"], []),
+    file("packages/cli/package.json"),
+    file("packages/cli/src/index.ts", ["program"], [], ["commander", "node:http", "sirv", "@abstraction-tree/core"]),
+    file("packages/app/package.json"),
+    file("packages/app/src/main.tsx", ["App"], [], ["react", "react-dom/client", "lucide-react"]),
+    file("packages/app/src/styles.css", [], []),
+    file("packages/full/package.json"),
+    file("packages/full/bin/atree.js", [], [], ["@abstraction-tree/cli"]),
+    markdownFile("README.md"),
+    markdownFile("docs/MISSION_RUNNER.md"),
+    markdownFile("docs/DATA_MODEL.md"),
+    file("scripts/run-missions.mjs", [], []),
+    file("scripts/lint.mjs", [], [])
+  ];
+
+  const result = buildDeterministicTree("abstraction-tree", files, { importGraph: monorepoImportGraph() });
+  const nodes = new Map(result.nodes.map(node => [node.id, node]));
+  const root = nodes.get("project.intent");
+  const indexes = nodes.get("project.indexes");
+
+  assert.ok(root);
+  assert.ok(indexes);
+  assertIncludes(root.children, [
+    "subsystem.visual.app",
+    "subsystem.core.engine",
+    "subsystem.cli.local.api",
+    "subsystem.goal.mission.automation",
+    "subsystem.memory.validation.logs",
+    "subsystem.docs.examples",
+    "subsystem.packaging.adapters",
+    "subsystem.tests.quality",
+    "project.indexes"
+  ]);
+  assertIncludes(indexes.children, ["project.domain", "project.architecture", "project.code"]);
+  assert.equal(nodes.get("project.domain")?.parent, "project.indexes");
+  assert.match(nodes.get("subsystem.visual.app")?.explanation ?? "", /human subsystem/i);
+  assert.match(nodes.get("subsystem.visual.app")?.reasonForExistence ?? "", /inspectable by humans/i);
+  assertIncludes(nodes.get("subsystem.visual.app")?.children ?? [], [
+    "subsystem.visual.app.slice.app.shell.state",
+    "subsystem.visual.app.slice.styling"
+  ]);
+  assertIncludes(nodes.get("subsystem.visual.app.slice.app.shell.state")?.children ?? [], [
+    "subsystem.visual.app.file.packages.app.src.main.tsx"
+  ]);
+  assert.match(nodes.get("subsystem.visual.app.slice.app.shell.state")?.explanation ?? "", /responsibility slice/i);
+  assert.match(nodes.get("subsystem.visual.app.file.packages.app.src.main.tsx")?.explanation ?? "", /file leaf/i);
+  assert.match(nodes.get("project.indexes")?.separationLogic ?? "", /index style/i);
+  assertIncludes(result.files.find(candidate => candidate.path === "packages/app/src/main.tsx")?.ownedByNodeIds ?? [], [
+    "subsystem.visual.app",
+    "subsystem.visual.app.slice.app.shell.state",
+    "subsystem.visual.app.file.packages.app.src.main.tsx"
+  ]);
+  assertIncludes(result.files.find(candidate => candidate.path === "packages/core/src/treeBuilder.ts")?.ownedByNodeIds ?? [], [
+    "subsystem.core.engine",
+    "subsystem.core.engine.slice.understanding.pipeline",
+    "subsystem.core.engine.file.packages.core.src.treebuilder.ts"
+  ]);
+});
+
+test("buildDeterministicTree does not invent an app subsystem without app evidence", () => {
+  const result = buildDeterministicTree("library", [
+    file("src/engine.ts", ["runEngine"], ["runEngine"]),
+    file("src/engine.test.ts", ["runEngine"], []),
+    markdownFile("README.md")
+  ]);
+
+  assert.equal(result.nodes.some(node => node.id === "subsystem.visual.app"), false);
+  assert.ok(result.nodes.some(node => node.id === "project.indexes"));
+});
+
 test("buildDeterministicTree keeps repo concept fixtures stable and filters documentation filler", () => {
   const result = buildDeterministicTree("abstraction-tree", [
     file("packages/core/src/importGraph.ts", ["ImportGraph", "ImportGraphEdge", "buildImportGraph"], ["buildImportGraph"]),

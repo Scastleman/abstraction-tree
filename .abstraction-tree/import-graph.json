@@ -266,6 +266,71 @@
     },
     {
       "from": "packages/cli/src/apiState.ts",
+      "to": "packages/cli/src/scopeCommand.ts",
+      "specifier": "./scopeCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/apiState.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCli.test.ts",
+      "to": "packages/cli/src/changeReviewCommand.ts",
+      "specifier": "./changeReviewCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCommand.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/doctor.test.ts",
+      "to": "packages/cli/src/doctor.ts",
+      "specifier": "./doctor.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/doctor.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/doctor.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.test.ts",
+      "to": "packages/cli/src/goalCommand.ts",
+      "specifier": "./goalCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.ts",
+      "to": "packages/cli/src/routeCommand.ts",
+      "specifier": "./routeCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.ts",
       "to": "packages/core/src/index.ts",
       "specifier": "@abstraction-tree/core",
       "kind": "workspace-package",
@@ -279,8 +344,44 @@
     },
     {
       "from": "packages/cli/src/index.ts",
+      "to": "packages/cli/src/changeReviewCommand.ts",
+      "specifier": "./changeReviewCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "to": "packages/cli/src/doctor.ts",
+      "specifier": "./doctor.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "to": "packages/cli/src/goalCommand.ts",
+      "specifier": "./goalCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "to": "packages/cli/src/migrate.ts",
+      "specifier": "./migrate.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
       "to": "packages/cli/src/propose.ts",
       "specifier": "./propose.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "to": "packages/cli/src/routeCommand.ts",
+      "specifier": "./routeCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "to": "packages/cli/src/scopeCommand.ts",
+      "specifier": "./scopeCommand.js",
       "kind": "relative"
     },
     {
@@ -291,6 +392,26 @@
     },
     {
       "from": "packages/cli/src/index.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/migrate.test.ts",
+      "to": "packages/cli/src/migrate.ts",
+      "specifier": "./migrate.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/migrate.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/migrate.ts",
       "to": "packages/core/src/index.ts",
       "specifier": "@abstraction-tree/core",
       "kind": "workspace-package",
@@ -311,6 +432,52 @@
     },
     {
       "from": "packages/cli/src/propose.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.test.ts",
+      "to": "packages/cli/src/goalCommand.ts",
+      "specifier": "./goalCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.test.ts",
+      "to": "packages/cli/src/routeCommand.ts",
+      "specifier": "./routeCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.test.ts",
+      "to": "packages/cli/src/scopeCommand.ts",
+      "specifier": "./scopeCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.ts",
       "to": "packages/core/src/index.ts",
       "specifier": "@abstraction-tree/core",
       "kind": "workspace-package",
@@ -461,6 +628,18 @@
       "kind": "relative"
     },
     {
+      "from": "packages/core/src/goal.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "./index.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/goal.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
       "from": "packages/core/src/importGraph.test.ts",
       "to": "packages/core/src/importGraph.ts",
       "specifier": "./importGraph.js",
@@ -522,6 +701,12 @@
     },
     {
       "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/goal.ts",
+      "specifier": "./goal.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
       "to": "packages/core/src/importGraph.ts",
       "specifier": "./importGraph.js",
       "kind": "relative"
@@ -546,6 +731,18 @@
     },
     {
       "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/migrations.ts",
+      "specifier": "./migrations.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/promptRouter.ts",
+      "specifier": "./promptRouter.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
       "to": "packages/core/src/runReports.ts",
       "specifier": "./runReports.js",
       "kind": "relative"
@@ -566,6 +763,12 @@
       "from": "packages/core/src/index.ts",
       "to": "packages/core/src/schema.ts",
       "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/scope.ts",
+      "specifier": "./scope.js",
       "kind": "relative"
     },
     {
@@ -647,6 +850,54 @@
       "kind": "relative"
     },
     {
+      "from": "packages/core/src/migrations.test.ts",
+      "to": "packages/core/src/migrations.ts",
+      "specifier": "./migrations.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/migrations.test.ts",
+      "to": "packages/core/src/runtimeSchema.ts",
+      "specifier": "./runtimeSchema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/migrations.test.ts",
+      "to": "packages/core/src/workspace.ts",
+      "specifier": "./workspace.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/migrations.ts",
+      "to": "packages/core/src/runtimeSchema.ts",
+      "specifier": "./runtimeSchema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/migrations.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/migrations.ts",
+      "to": "packages/core/src/workspace.ts",
+      "specifier": "./workspace.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/promptRouter.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "./index.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/promptRouter.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
       "from": "packages/core/src/runReports.test.ts",
       "to": "packages/core/src/runReports.ts",
       "specifier": "./runReports.js",
@@ -698,6 +949,30 @@
       "from": "packages/core/src/scanner.ts",
       "to": "packages/core/src/workspace.ts",
       "specifier": "./workspace.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/scope.test.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/scope.test.ts",
+      "to": "packages/core/src/scope.ts",
+      "specifier": "./scope.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/scope.ts",
+      "to": "packages/core/src/diffSummary.ts",
+      "specifier": "./diffSummary.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/scope.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
       "kind": "relative"
     },
     {
@@ -825,8 +1100,8 @@
     },
     {
       "from": "scripts/import-assessment-missions.mjs",
-      "to": "scripts/run-missions.mjs",
-      "specifier": "./run-missions.mjs",
+      "to": "scripts/mission-schema.mjs",
+      "specifier": "./mission-schema.mjs",
       "kind": "relative"
     },
     {
@@ -848,6 +1123,12 @@
       "kind": "relative"
     },
     {
+      "from": "scripts/mission-schema.test.mjs",
+      "to": "scripts/mission-schema.mjs",
+      "specifier": "./mission-schema.mjs",
+      "kind": "relative"
+    },
+    {
       "from": "scripts/project-text-files.test.mjs",
       "to": "scripts/project-text-files.mjs",
       "specifier": "./project-text-files.mjs",
@@ -860,9 +1141,21 @@
       "kind": "relative"
     },
     {
+      "from": "scripts/run-coverage.test.mjs",
+      "to": "scripts/run-coverage.mjs",
+      "specifier": "./run-coverage.mjs",
+      "kind": "relative"
+    },
+    {
       "from": "scripts/run-full-self-improvement-loop.mjs",
       "to": "scripts/create-assessment-pack.mjs",
       "specifier": "./create-assessment-pack.mjs",
+      "kind": "relative"
+    },
+    {
+      "from": "scripts/run-full-self-improvement-loop.mjs",
+      "to": "scripts/mission-schema.mjs",
+      "specifier": "./mission-schema.mjs",
       "kind": "relative"
     },
     {
@@ -875,6 +1168,12 @@
       "from": "scripts/run-full-self-improvement-loop.test.mjs",
       "to": "scripts/run-full-self-improvement-loop.mjs",
       "specifier": "./run-full-self-improvement-loop.mjs",
+      "kind": "relative"
+    },
+    {
+      "from": "scripts/run-missions.mjs",
+      "to": "scripts/mission-schema.mjs",
+      "specifier": "./mission-schema.mjs",
       "kind": "relative"
     },
     {
@@ -990,6 +1289,11 @@
     },
     {
       "from": "packages/app/src/components/TreeList.tsx",
+      "specifier": "lucide-react",
+      "packageName": "lucide-react"
+    },
+    {
+      "from": "packages/app/src/components/TreeList.tsx",
       "specifier": "react",
       "packageName": "react"
     },
@@ -1054,14 +1358,119 @@
       "packageName": "node:path"
     },
     {
-      "from": "packages/cli/src/index.ts",
-      "specifier": "commander",
-      "packageName": "commander"
+      "from": "packages/cli/src/changeReviewCli.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCli.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCli.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCli.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCli.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/doctor.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/doctor.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/doctor.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/cli/src/doctor.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/doctor.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/doctor.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/cli/src/doctor.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/doctor.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/doctor.ts",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
     },
     {
       "from": "packages/cli/src/index.ts",
-      "specifier": "node:fs",
-      "packageName": "node:fs"
+      "specifier": "commander",
+      "packageName": "commander"
     },
     {
       "from": "packages/cli/src/index.ts",
@@ -1075,13 +1484,38 @@
     },
     {
       "from": "packages/cli/src/index.ts",
-      "specifier": "node:url",
-      "packageName": "node:url"
-    },
-    {
-      "from": "packages/cli/src/index.ts",
       "specifier": "sirv",
       "packageName": "sirv"
+    },
+    {
+      "from": "packages/cli/src/migrate.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/migrate.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/migrate.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/cli/src/migrate.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/migrate.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/migrate.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
     },
     {
       "from": "packages/cli/src/propose.test.ts",
@@ -1127,6 +1561,96 @@
       "from": "packages/cli/src/propose.ts",
       "specifier": "node:url",
       "packageName": "node:url"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/routeCommand.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.ts",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/scopeCommand.ts",
+      "specifier": "node:util",
+      "packageName": "node:util"
     },
     {
       "from": "packages/cli/src/serveHost.test.ts",
@@ -1274,6 +1798,21 @@
       "packageName": "node:path"
     },
     {
+      "from": "packages/core/src/goal.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/goal.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/goal.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
       "from": "packages/core/src/importGraph.test.ts",
       "specifier": "node:assert/strict",
       "packageName": "node:assert/strict"
@@ -1325,6 +1864,61 @@
     },
     {
       "from": "packages/core/src/llmProposalValidation.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/migrations.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/migrations.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/migrations.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/core/src/migrations.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/migrations.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/migrations.test.ts",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "packages/core/src/migrations.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/core/src/migrations.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/migrations.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/promptRouter.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/promptRouter.test.ts",
       "specifier": "node:test",
       "packageName": "node:test"
     },
@@ -1412,6 +2006,16 @@
       "from": "packages/core/src/scanner.ts",
       "specifier": "typescript",
       "packageName": "typescript"
+    },
+    {
+      "from": "packages/core/src/scope.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/scope.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
     },
     {
       "from": "packages/core/src/treeBuilder.test.ts",
@@ -1634,6 +2238,31 @@
       "packageName": "node:url"
     },
     {
+      "from": "scripts/data-model-explanations.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/data-model-explanations.test.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/data-model-explanations.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/data-model-explanations.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "scripts/data-model-explanations.test.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
       "from": "scripts/diff-summary.mjs",
       "specifier": "node:child_process",
       "packageName": "node:child_process"
@@ -1769,6 +2398,41 @@
       "packageName": "node:test"
     },
     {
+      "from": "scripts/mission-schema.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/mission-schema.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/mission-schema.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/mission-schema.test.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/mission-schema.test.mjs",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "scripts/mission-schema.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/mission-schema.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
       "from": "scripts/pack-smoke-test.mjs",
       "specifier": "node:child_process",
       "packageName": "node:child_process"
@@ -1852,6 +2516,41 @@
       "from": "scripts/release-dry-run.mjs",
       "specifier": "node:url",
       "packageName": "node:url"
+    },
+    {
+      "from": "scripts/run-coverage.mjs",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "scripts/run-coverage.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/run-coverage.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/run-coverage.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/run-coverage.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/run-coverage.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/run-coverage.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
     },
     {
       "from": "scripts/run-full-self-improvement-loop.mjs",

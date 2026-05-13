@@ -6,6 +6,12 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { promisify } from "node:util";
 import { createAssessmentPack } from "./create-assessment-pack.mjs";
+import {
+  missionCategoryDescriptions,
+  requiredMissionBodyHeadings,
+  validMissionCategories,
+  validateMissionFolder
+} from "./mission-schema.mjs";
 
 const execFileAsync = promisify(execFile);
 
@@ -352,6 +358,20 @@ export function parseArgs(argv) {
   return options;
 }
 
+function missionCategoryValues() {
+  return [...validMissionCategories].join(" | ");
+}
+
+function missionCategoryDescriptionsForPrompt() {
+  return Object.entries(missionCategoryDescriptions)
+    .map(([category, description]) => `- ${category}: ${description}`)
+    .join("\n");
+}
+
+function missionBodyHeadingsForPrompt() {
+  return requiredMissionBodyHeadings.join("\n\n");
+}
+
 export function buildAssessmentPrompt(input) {
   return `# Full Abstraction Tree Self-Improvement Loop: Assessment and Mission Authoring
 
@@ -401,7 +421,7 @@ id: mission-slug
 title: Human title
 priority: P0/P1/P2/P3
 risk: low/medium/high
-category: product-value | safety | quality | developer-experience | automation-maintenance
+category: ${missionCategoryValues()}
 affectedFiles:
   - path/from/repo/root
 affectedNodes:
@@ -413,31 +433,13 @@ parallelGroupSafe: true/false
 
 The category must identify the mission's primary value:
 
-- product-value: improves capabilities or outcomes for project users/adopters.
-- safety: reduces overreach, security, sandbox, data-loss, or operational risk.
-- quality: improves correctness, validation, test coverage, drift detection, or reliability.
-- developer-experience: improves docs, diagnostics, ergonomics, or maintainer workflow.
-- automation-maintenance: maintains loop, runner, prompt, runtime, or process automation machinery without a clearer product, safety, quality, or developer-experience outcome.
+${missionCategoryDescriptionsForPrompt()}
 
 Prefer product-value, safety, quality, and developer-experience missions. Use automation-maintenance only when it is the best fit for the primary value of the work. ${input.allowMultipleAutomationMaintenance ? "This run explicitly allows multiple automation-maintenance missions, but they should still be justified by concrete repository value." : "Create at most one automation-maintenance mission in this full loop."}
 
 Then include:
 
-# Mission
-
-## Goal
-
-## Abstraction Tree Position
-
-## Why This Matters
-
-## Scope
-
-## Out of Scope
-
-## Required Checks
-
-## Success Criteria
+${missionBodyHeadingsForPrompt()}
 
 Make missions small, testable, and independently useful. Prefer missions that directly improve product value, safety, quality, or developer experience. Mission quality, assessment quality, context-pack quality, validation, drift detection, and anti-overreach behavior are useful when framed through those value categories; do not let process-only automation maintenance dominate the mission set.
 
@@ -588,16 +590,10 @@ export async function validateAssessmentOutput(input) {
   }
 
   const validatedMissions = [];
-  for (const missionPath of missions) {
-    const markdown = await readFile(missionPath, "utf8");
-    validatedMissions.push({
-      path: missionPath,
-      frontmatter: validateGeneratedMissionContract(markdown, relative(cwd, missionPath))
-    });
-  }
+  validatedMissions.push(...await validateMissionFolder({ root: cwd, folder: missionsDir, strict: true }));
 
   const automationMaintenanceMissions = validatedMissions
-    .filter(mission => mission.frontmatter.category === "automation-maintenance");
+    .filter(mission => mission.category === "automation-maintenance");
   if (automationMaintenanceMissions.length > 1 && !input.allowMultipleAutomationMaintenance) {
     throw new Error(
       `Assessment created ${automationMaintenanceMissions.length} automation-maintenance mission files, but at most one is allowed by default. Pass --allow-multiple-automation-maintenance to override: ${automationMaintenanceMissions.map(mission => relative(cwd, mission.path)).join(", ")}.`
@@ -629,144 +625,6 @@ async function discoverExternalMissions(input) {
   }
 
   return missions;
-}
-
-const validMissionCategories = new Set([
-  "product-value",
-  "safety",
-  "quality",
-  "developer-experience",
-  "automation-maintenance"
-]);
-const requiredMissionStringFields = ["id", "title", "priority", "risk", "category", "parallelGroup"];
-const requiredMissionArrayFields = ["affectedFiles", "affectedNodes", "dependsOn"];
-const requiredMissionBodyHeadings = [
-  "# Mission",
-  "## Goal",
-  "## Abstraction Tree Position",
-  "## Why This Matters",
-  "## Scope",
-  "## Out of Scope",
-  "## Required Checks",
-  "## Success Criteria"
-];
-
-function validateGeneratedMissionContract(markdown, missionLabel) {
-  const parsed = parseGeneratedMissionMarkdown(markdown);
-  if (!parsed.hasFrontmatter) {
-    throw new Error(`${missionLabel} is missing frontmatter delimited by ---.`);
-  }
-
-  for (const field of requiredMissionStringFields) {
-    if (!Object.hasOwn(parsed.frontmatter, field)) {
-      throw new Error(`${missionLabel} is missing required frontmatter field ${field}.`);
-    }
-    if (typeof parsed.frontmatter[field] !== "string" || !parsed.frontmatter[field].trim()) {
-      throw new Error(`${missionLabel} frontmatter field ${field} must be a non-empty string.`);
-    }
-  }
-
-  for (const field of requiredMissionArrayFields) {
-    if (!Object.hasOwn(parsed.frontmatter, field)) {
-      throw new Error(`${missionLabel} is missing required frontmatter field ${field}.`);
-    }
-    if (!Array.isArray(parsed.frontmatter[field])) {
-      throw new Error(`${missionLabel} frontmatter field ${field} must be an array.`);
-    }
-  }
-
-  if (!Object.hasOwn(parsed.frontmatter, "parallelGroupSafe")) {
-    throw new Error(`${missionLabel} is missing required frontmatter field parallelGroupSafe.`);
-  }
-  if (typeof parsed.frontmatter.parallelGroupSafe !== "boolean") {
-    throw new Error(`${missionLabel} frontmatter field parallelGroupSafe must be boolean true or false.`);
-  }
-
-  if (!validMissionCategories.has(parsed.frontmatter.category)) {
-    throw new Error(
-      `${missionLabel} frontmatter field category must be one of: ${[...validMissionCategories].join(", ")}.`
-    );
-  }
-
-  const headings = new Set(parsed.body.split(/\r?\n/u).map(line => line.trim()));
-  for (const heading of requiredMissionBodyHeadings) {
-    if (!headings.has(heading)) {
-      throw new Error(`${missionLabel} is missing required body heading ${heading}.`);
-    }
-  }
-
-  return parsed.frontmatter;
-}
-
-function parseGeneratedMissionMarkdown(markdown) {
-  const lines = markdown.split(/\r?\n/u);
-  if (lines[0]?.trim() !== "---") {
-    return { hasFrontmatter: false, frontmatter: {}, body: markdown };
-  }
-
-  const endIndex = lines.findIndex((line, index) => index > 0 && line.trim() === "---");
-  if (endIndex === -1) {
-    return { hasFrontmatter: false, frontmatter: {}, body: markdown };
-  }
-
-  return {
-    hasFrontmatter: true,
-    frontmatter: parseGeneratedMissionFrontmatter(lines.slice(1, endIndex).join("\n")),
-    body: lines.slice(endIndex + 1).join("\n").replace(/^\s*\n/u, "")
-  };
-}
-
-function parseGeneratedMissionFrontmatter(text) {
-  const result = {};
-  let currentArrayKey;
-
-  for (const rawLine of text.split(/\r?\n/u)) {
-    const line = rawLine.replace(/\s+$/u, "");
-    if (!line.trim() || line.trimStart().startsWith("#")) continue;
-
-    const arrayItem = line.match(/^\s*-\s*(.*)$/u);
-    if (arrayItem && currentArrayKey) {
-      result[currentArrayKey].push(unquoteFrontmatterValue(arrayItem[1].trim()));
-      continue;
-    }
-
-    currentArrayKey = undefined;
-    const field = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/u);
-    if (!field) continue;
-
-    const key = field[1];
-    const value = field[2].trim();
-    if (value === "[]") {
-      result[key] = [];
-      continue;
-    }
-    if (!value) {
-      result[key] = [];
-      currentArrayKey = key;
-      continue;
-    }
-    if (value === "true") {
-      result[key] = true;
-      continue;
-    }
-    if (value === "false") {
-      result[key] = false;
-      continue;
-    }
-    result[key] = unquoteFrontmatterValue(value);
-  }
-
-  return result;
-}
-
-function unquoteFrontmatterValue(value) {
-  if (
-    (value.startsWith('"') && value.endsWith('"')) ||
-    (value.startsWith("'") && value.endsWith("'"))
-  ) {
-    return value.slice(1, -1);
-  }
-  return value;
 }
 
 function missionRunnerArgs(input) {

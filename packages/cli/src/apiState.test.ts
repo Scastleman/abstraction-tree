@@ -113,6 +113,74 @@ test("/api/state supplies stable defaults when optional health files are missing
   assert.deepEqual(validateApiStateSchema(state), []);
 });
 
+test("/api/state agent health surfaces the latest scope contract status", async t => {
+  const root = await workspace(t);
+  await ensureWorkspace(root, { installMode: "full", projectName: "Scope Health Project" });
+  await writeJson(atreePath(root, "scopes", "2026-05-13-1200-scope.json"), {
+    id: "2026-05-13-1200-scope",
+    createdAt: "2026-05-13T12:00:00.000Z",
+    prompt: "make the tree UI collapsible",
+    intent: "make the tree UI collapsible.",
+    status: "ready",
+    affectedNodeIds: ["architecture.visual.app"],
+    allowedFiles: ["packages/app/src/components/TreeList.tsx"],
+    allowedAreas: ["app"],
+    forbiddenAreas: ["core"],
+    ambiguities: [],
+    requiresClarification: false,
+    maxFilesChanged: 3,
+    maxDiffLines: 600,
+    allowGeneratedMemory: true,
+    requiredChecks: ["npm.cmd test"],
+    rationale: ["Test fixture."]
+  });
+  await writeJson(atreePath(root, "scopes", "2026-05-13-1200-scope-check.json"), {
+    id: "2026-05-13-1200-scope-check",
+    checkedAt: "2026-05-13T12:10:00.000Z",
+    contractId: "2026-05-13-1200-scope",
+    status: "clean",
+    prompt: "make the tree UI collapsible",
+    changedFiles: ["packages/app/src/components/TreeList.tsx"],
+    affectedNodeIds: ["architecture.visual.app"],
+    allowedFiles: ["packages/app/src/components/TreeList.tsx"],
+    violations: [],
+    diffSummary: {
+      changedFileCount: 1,
+      addedLines: 1,
+      deletedLines: 0,
+      changedLines: 1,
+      changedSourceFiles: 1,
+      changedTestFiles: 0,
+      changedDocsFiles: 0,
+      changedMemoryFiles: 0,
+      changedGeneratedMemoryFiles: 0,
+      changedAutomationFiles: 0,
+      changedPackageFiles: 0,
+      changedCiFiles: 0,
+      changedAppFiles: 1,
+      changedAreas: ["app", "source"],
+      dangerousFileChanges: [],
+      overreach: [],
+      thresholds: {
+        maxDiffLines: 600,
+        maxFiles: 3,
+        broadAreaCount: 4
+      },
+      files: []
+    }
+  });
+
+  const health = await loadApiAgentHealth(root, async () => []);
+
+  assert.equal(health.scope?.status, "clean");
+  assert.equal(health.scope?.violationCount, 0);
+  assert.equal(health.scope?.allowedFileCount, 1);
+  assert.deepEqual(validateApiStateSchema({
+    ...(await loadApiState(root, async () => health)),
+    agentHealth: health
+  }), []);
+});
+
 test("/api/state contract rejects missing app-required top-level fields", async t => {
   const root = await workspace(t);
   await ensureWorkspace(root, { installMode: "full", projectName: "Contract Project" });

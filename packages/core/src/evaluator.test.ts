@@ -25,6 +25,22 @@ test("evaluateProject counts tree nodes", async t => {
   assert.equal(report.tree.orphanNodeCount, 0);
 });
 
+test("evaluateProject reports explanation completeness metrics", async t => {
+  const root = await workspace(t);
+  await writeValidAutomationFiles(root);
+  await writeJson(root, ".abstraction-tree/tree.json", [
+    { ...node("root", undefined, ["feature"]), explanation: "This explanation is long enough to describe the node role, ownership, relationships, constraints, and safe change guidance for developers and agents. It also names why the node exists and how to use it before making edits." },
+    { ...node("feature", "root", []), explanation: "Thin explanation." },
+    node("legacy", "root", [])
+  ]);
+
+  const report = await evaluateProject(root, { now: fixedNow() });
+
+  assert.equal(report.tree.nodesWithoutExplanations, 1);
+  assert.equal(report.tree.thinExplanationCount, 1);
+  assert.ok(report.tree.averageExplanationLength > 0);
+});
+
 test("evaluateProject detects missing ownership", async t => {
   const root = await workspace(t);
   await writeValidAutomationFiles(root);

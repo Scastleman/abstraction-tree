@@ -86,7 +86,7 @@ export function AppExplorer({
           <div>
             <p className="eyebrow">Project map</p>
             <h1>{selected ? nodeName(selected) : "No tree built yet"}</h1>
-            <p>{selected?.summary ?? "Run `atree scan` to generate the initial abstraction tree."}</p>
+            {selected ? null : <p>Run `atree scan` to generate the initial abstraction tree.</p>}
           </div>
           <div className="hero-side">
             <button

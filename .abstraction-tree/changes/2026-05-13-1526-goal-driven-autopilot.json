@@ -1,0 +1,33 @@
+{
+  "id": "2026-05-13-1526-goal-driven-autopilot",
+  "timestamp": "2026-05-13T19:27:04.154Z",
+  "title": "Goal-driven autopilot planning",
+  "reason": "Added a deterministic atree goal workflow that preserves a complex prompt, maps it to abstraction memory, generates mission-runner-compatible missions, and keeps execution review-gated.",
+  "affectedNodeIds": [
+    "project.intent",
+    "architecture.cli.surface",
+    "architecture.core.engine",
+    "concept-node.goal",
+    "concept-node.mission"
+  ],
+  "filesChanged": [
+    "packages/core/src/goal.ts",
+    "packages/core/src/goal.test.ts",
+    "packages/cli/src/goalCommand.ts",
+    "packages/cli/src/goalCommand.test.ts",
+    "packages/cli/src/index.ts",
+    "packages/core/src/index.ts",
+    "packages/core/src/workspace.ts",
+    "package.json",
+    "README.md",
+    "docs/GOAL_DRIVEN_AUTOPILOT.md",
+    "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+    "docs/MISSION_RUNNER.md",
+    "docs/ROADMAP.md"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "medium"
+}

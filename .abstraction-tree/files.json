@@ -16,7 +16,10 @@
     "summary": "ci.yml is a YAML implementation file. Defines x.",
     "ownedByNodeIds": [
       "file.github.workflows.ci.yml",
-      "module.github"
+      "module.github",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.ci",
+      "subsystem.tests.quality.file.github.workflows.ci.yml"
     ]
   },
   {
@@ -36,7 +39,10 @@
     "summary": "release.yml is a YAML implementation file. Defines x.",
     "ownedByNodeIds": [
       "file.github.workflows.release.yml",
-      "module.github"
+      "module.github",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.ci",
+      "subsystem.tests.quality.file.github.workflows.release.yml"
     ]
   },
   {
@@ -60,7 +66,13 @@
     "summary": "AGENTS.md is a Markdown implementation file. Defines Codex Agent Instructions for Abstraction Tree, Required behavior, Memory and runtime boundaries, Prompt expansion, Anti-overreach rule.",
     "ownedByNodeIds": [
       "file.adapters.codex.agents.md",
-      "module.adapters"
+      "module.adapters",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.adapters.codex.agents.md",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.adapters",
+      "subsystem.packaging.adapters.file.adapters.codex.agents.md"
     ]
   },
   {
@@ -100,7 +112,10 @@
     "summary": "index.mjs is a JavaScript implementation file. AST-backed scan. Defines createAdapter, LocalJsonLlmAbstractionBuilder, proposeOntology, proposal, proposeTree. Depends on node:fs/promises, node:path.",
     "ownedByNodeIds": [
       "file.adapters.local.json.index.mjs",
-      "module.adapters"
+      "module.adapters",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.adapters",
+      "subsystem.packaging.adapters.file.adapters.local.json.index.mjs"
     ]
   },
   {
@@ -118,7 +133,10 @@
     "summary": "proposal.example.json is a JSON implementation file.",
     "ownedByNodeIds": [
       "file.adapters.local.json.proposal.example.json",
-      "module.adapters"
+      "module.adapters",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.adapters",
+      "subsystem.packaging.adapters.file.adapters.local.json.proposal.example.json"
     ]
   },
   {
@@ -174,9 +192,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "b59bac4918ac63d8d4260817ed7d32d2f78a6ad8aab3e69495c7621c7ba5db7b",
-    "sizeBytes": 6043,
-    "lines": 105,
+    "contentHash": "b56d28dc723489b734e44825dd759903cb55e18285fb19929735f15c4b740fc5",
+    "sizeBytes": 7575,
+    "lines": 111,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -198,7 +216,13 @@
     "summary": "AGENT_PROTOCOL.md is a Markdown implementation file. Defines rather, Agent Protocol, Before editing, Context packs, During editing.",
     "ownedByNodeIds": [
       "file.docs.agent.protocol.md",
-      "module.docs"
+      "module.docs",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.memory.docs",
+      "subsystem.memory.validation.logs.file.docs.agent.protocol.md",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.agent.protocol.md"
     ]
   },
   {
@@ -206,9 +230,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "affdca7a2a490f7987263dba89bb1e9d0557ae64168575a142a3b6b30f060808",
-    "sizeBytes": 9721,
-    "lines": 138,
+    "contentHash": "052705d4e6af065e46a5ce278b8dca67ebc047795652fd025839ded2a7fa3b12",
+    "sizeBytes": 11497,
+    "lines": 145,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -231,7 +255,45 @@
     "summary": "ARCHITECTURE.md is a Markdown implementation file. Defines The, for, accepts, to, without.",
     "ownedByNodeIds": [
       "file.docs.architecture.md",
-      "module.docs"
+      "module.docs",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.memory.docs",
+      "subsystem.memory.validation.logs.file.docs.architecture.md",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.architecture.md"
+    ]
+  },
+  {
+    "path": "docs/CI_INTEGRATION.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "ff4351768d65c2493795392d8fc1ce2b0a24ce103c9c45b7340ad175eed029d2",
+    "sizeBytes": 5691,
+    "lines": 174,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "CI Integration",
+      "One-time setup",
+      "Minimal validation",
+      "Strict drift gate",
+      "PR context pack artifact",
+      "Choosing a strategy",
+      "x",
+      "json",
+      "abstraction-tree",
+      "md"
+    ],
+    "isTest": false,
+    "summary": "CI_INTEGRATION.md is a Markdown implementation file. Defines CI Integration, One-time setup, Minimal validation, Strict drift gate, PR context pack artifact.",
+    "ownedByNodeIds": [
+      "file.docs.ci.integration.md",
+      "module.docs",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.ci.integration.md"
     ]
   },
   {
@@ -239,14 +301,15 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "365914791c07a948fe0126952f1a7d3c74b9f23a77f0a15876406fa30d470fb0",
-    "sizeBytes": 4932,
-    "lines": 132,
+    "contentHash": "c905bc1b0620127cd49f02fc1da720b979dd5838a04013876f08cbb08fcad5c7",
+    "sizeBytes": 8288,
+    "lines": 168,
     "imports": [],
     "exports": [],
     "symbols": [
       "Data Model",
       "`config.json`",
+      "Schema migrations",
       "`ontology.json`",
       "`files.json`",
       "`tree.json`",
@@ -258,10 +321,16 @@
       "`/api/state`"
     ],
     "isTest": false,
-    "summary": "DATA_MODEL.md is a Markdown implementation file. Defines Data Model, `config.json`, `ontology.json`, `files.json`, `tree.json`.",
+    "summary": "DATA_MODEL.md is a Markdown implementation file. Defines Data Model, `config.json`, Schema migrations, `ontology.json`, `files.json`.",
     "ownedByNodeIds": [
       "file.docs.data.model.md",
-      "module.docs"
+      "module.docs",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.memory.docs",
+      "subsystem.memory.validation.logs.file.docs.data.model.md",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.data.model.md"
     ]
   },
   {
@@ -281,7 +350,10 @@
     "summary": "FORMATTING.md is a Markdown implementation file. Defines Formatting.",
     "ownedByNodeIds": [
       "file.docs.formatting.md",
-      "module.docs"
+      "module.docs",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.formatting.md"
     ]
   },
   {
@@ -289,24 +361,64 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "638d6105885c0a8f36678640e71216fc546f068e59ed1bcbcb41999e302e0e2b",
-    "sizeBytes": 7288,
-    "lines": 129,
+    "contentHash": "c3ee3fc23d56d9eee404a270d5d46974f03f320e5a439497f85bc680202d581a",
+    "sizeBytes": 10397,
+    "lines": 182,
     "imports": [],
     "exports": [],
     "symbols": [
       "Full Self-Improvement Loop",
       "Recommended Workflow",
+      "Goal-Driven Autopilot",
+      "Prompt Routing",
       "Experimental Dogfooding Loop",
       "Safety",
       "Dry Run",
+      "txt",
       "md"
     ],
     "isTest": false,
-    "summary": "FULL_SELF_IMPROVEMENT_LOOP.md is a Markdown implementation file. Defines Full Self-Improvement Loop, Recommended Workflow, Experimental Dogfooding Loop, Safety, Dry Run.",
+    "summary": "FULL_SELF_IMPROVEMENT_LOOP.md is a Markdown implementation file. Defines Full Self-Improvement Loop, Recommended Workflow, Goal-Driven Autopilot, Prompt Routing, Experimental Dogfooding Loop.",
     "ownedByNodeIds": [
       "file.docs.full.self.improvement.loop.md",
-      "module.docs"
+      "module.docs",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.docs.full.self.improvement.loop.md",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.full.self.improvement.loop.md"
+    ]
+  },
+  {
+    "path": "docs/GOAL_DRIVEN_AUTOPILOT.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "95d1acd3d7d7134df974667fae56a162819c0f4bfd7815cf9cb2e32ebc9be6ed",
+    "sizeBytes": 2696,
+    "lines": 67,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "Goal-Driven Autopilot",
+      "Commands",
+      "Workspace",
+      "Safety Boundary",
+      "md",
+      "json"
+    ],
+    "isTest": false,
+    "summary": "GOAL_DRIVEN_AUTOPILOT.md is a Markdown implementation file. Defines Goal-Driven Autopilot, Commands, Workspace, Safety Boundary, md.",
+    "ownedByNodeIds": [
+      "file.docs.goal.driven.autopilot.md",
+      "module.docs",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.automation.docs",
+      "subsystem.goal.mission.automation.file.docs.goal.driven.autopilot.md",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.goal.driven.autopilot.md"
     ]
   },
   {
@@ -314,38 +426,51 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "75ef5936d0c7a10fefc051cb4f32f5f3fceee49f8dae90c468b23b436f2a893d",
-    "sizeBytes": 15544,
-    "lines": 279,
+    "contentHash": "6129653443e2882b571ab240fc0c8c1ff3d7ec80fd3e7aa63c8bbadb8081ec4e",
+    "sizeBytes": 17905,
+    "lines": 340,
     "imports": [],
     "exports": [],
     "symbols": [
       "Mission Runner",
       "Role in the Workflow",
       "Mission Folder",
+      "Goal-Generated Mission Folders",
       "Frontmatter",
       "Goal",
+      "Abstraction Tree Position",
+      "Why This Matters",
+      "Scope",
+      "Out of Scope",
+      "Required Checks",
+      "Success Criteria",
       "Planning",
       "Execution",
       "Writable Parallelism",
       "Git Ignore",
       "Abstraction Tree Memory",
       "Future Modularization Plan",
+      "md",
+      "json",
       "mjs",
       "ts",
-      "json",
       "example",
-      "md",
       "jsonl",
       "log",
       "pid",
       "test"
     ],
     "isTest": false,
-    "summary": "MISSION_RUNNER.md is a Markdown implementation file. Defines Mission Runner, Role in the Workflow, Mission Folder, Frontmatter, Goal.",
+    "summary": "MISSION_RUNNER.md is a Markdown implementation file. Defines Mission Runner, Role in the Workflow, Mission Folder, Goal-Generated Mission Folders, Frontmatter.",
     "ownedByNodeIds": [
       "file.docs.mission.runner.md",
-      "module.docs"
+      "module.docs",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.docs.mission.runner.md",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.mission.runner.md"
     ]
   },
   {
@@ -374,7 +499,10 @@
     "summary": "PACKAGING.md is a Markdown implementation file. Defines Packaging and install modes, Core-only package, Full package, Source of truth, Switching modes.",
     "ownedByNodeIds": [
       "file.docs.packaging.md",
-      "module.docs"
+      "module.docs",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.packaging.md"
     ]
   },
   {
@@ -382,9 +510,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "5d243375c1fc0f4e24a7081601713f7a0e79ecb1c2c1bfbf19b06025a68ab1a1",
-    "sizeBytes": 3712,
-    "lines": 59,
+    "contentHash": "c0d79283a3bc71bcad3571f8a6682d0939cd9b1fe197fe754d2eab335d6a4af9",
+    "sizeBytes": 6679,
+    "lines": 78,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -402,7 +530,64 @@
     "summary": "ROADMAP.md is a Markdown implementation file. Defines with, and, Roadmap, MVP, Current operational boundary.",
     "ownedByNodeIds": [
       "file.docs.roadmap.md",
-      "module.docs"
+      "module.docs",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.automation.docs",
+      "subsystem.goal.mission.automation.file.docs.roadmap.md",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.roadmap.md"
+    ]
+  },
+  {
+    "path": "docs/SCOPE_CONTRACTS.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "774f59d5be0ac0a24f1307287b8a9b3a43cd17e22c4175716ef2dec2e5ae848b",
+    "sizeBytes": 2208,
+    "lines": 61,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "Scope Contracts",
+      "Create a Contract",
+      "Check the Current Diff",
+      "App Visibility",
+      "Intended Workflow",
+      "user"
+    ],
+    "isTest": false,
+    "summary": "SCOPE_CONTRACTS.md is a Markdown implementation file. Defines Scope Contracts, Create a Contract, Check the Current Diff, App Visibility, Intended Workflow.",
+    "ownedByNodeIds": [
+      "file.docs.scope.contracts.md",
+      "module.docs",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.scope.contracts.md"
+    ]
+  },
+  {
+    "path": "examples/github-actions/abstraction-tree-validate.yml",
+    "extension": ".yml",
+    "language": "YAML",
+    "parseStrategy": "regex",
+    "contentHash": "c2f2eb831056579404abf8c28b3cf7f35ed3e089c8dae381b813f189c9d109af",
+    "sizeBytes": 346,
+    "lines": 19,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "x"
+    ],
+    "isTest": false,
+    "summary": "abstraction-tree-validate.yml is a YAML implementation file. Defines x.",
+    "ownedByNodeIds": [
+      "file.examples.github.actions.abstraction.tree.validate.yml",
+      "module.examples",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.github.actions.abstraction.tree.validate.yml"
     ]
   },
   {
@@ -423,7 +608,13 @@
     "ownedByNodeIds": [
       "file.examples.inventory.api.package.json",
       "module.examples",
-      "architecture.package.distribution"
+      "architecture.package.distribution",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.inventory.api.package.json",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.manifests",
+      "subsystem.packaging.adapters.file.examples.inventory.api.package.json"
     ]
   },
   {
@@ -453,7 +644,13 @@
       "file.examples.inventory.api.src.api.inventory.ts",
       "module.examples",
       "architecture.local.api.routes",
-      "architecture.runtime.dataflow"
+      "architecture.runtime.dataflow",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.examples.inventory.api.src.api.inventory.ts",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.inventory.api.src.api.inventory.ts"
     ]
   },
   {
@@ -478,7 +675,10 @@
     "ownedByNodeIds": [
       "file.examples.inventory.api.src.services.audit.ts",
       "module.examples",
-      "architecture.runtime.dataflow"
+      "architecture.runtime.dataflow",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.inventory.api.src.services.audit.ts"
     ]
   },
   {
@@ -503,7 +703,10 @@
     "ownedByNodeIds": [
       "file.examples.inventory.api.src.services.catalog.ts",
       "module.examples",
-      "architecture.runtime.dataflow"
+      "architecture.runtime.dataflow",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.inventory.api.src.services.catalog.ts"
     ]
   },
   {
@@ -528,7 +731,10 @@
     "ownedByNodeIds": [
       "file.examples.inventory.api.src.services.stock.ts",
       "module.examples",
-      "architecture.runtime.dataflow"
+      "architecture.runtime.dataflow",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.inventory.api.src.services.stock.ts"
     ]
   },
   {
@@ -549,7 +755,13 @@
     "summary": "inventory.test.js is a JavaScript test coverage file. AST-backed scan. Depends on node:assert/strict, node:test.",
     "ownedByNodeIds": [
       "file.examples.inventory.api.tests.inventory.test.js",
-      "module.examples"
+      "module.examples",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.inventory.api.tests.inventory.test.js",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.example.tests",
+      "subsystem.tests.quality.file.examples.inventory.api.tests.inventory.test.js"
     ]
   },
   {
@@ -570,7 +782,13 @@
     "ownedByNodeIds": [
       "file.examples.small.web.app.package.json",
       "module.examples",
-      "architecture.package.distribution"
+      "architecture.package.distribution",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.small.web.app.package.json",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.manifests",
+      "subsystem.packaging.adapters.file.examples.small.web.app.package.json"
     ]
   },
   {
@@ -600,7 +818,13 @@
       "file.examples.small.web.app.src.api.checkout.ts",
       "module.examples",
       "architecture.local.api.routes",
-      "architecture.runtime.dataflow"
+      "architecture.runtime.dataflow",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.examples.small.web.app.src.api.checkout.ts",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.small.web.app.src.api.checkout.ts"
     ]
   },
   {
@@ -623,7 +847,13 @@
     "ownedByNodeIds": [
       "file.examples.small.web.app.src.components.checkoutform.tsx",
       "module.examples",
-      "architecture.visual.app.ui"
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.examples.small.web.app.src.components.checkoutform.tsx",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.small.web.app.src.components.checkoutform.tsx"
     ]
   },
   {
@@ -646,7 +876,10 @@
     "ownedByNodeIds": [
       "file.examples.small.web.app.src.services.cart.ts",
       "module.examples",
-      "architecture.runtime.dataflow"
+      "architecture.runtime.dataflow",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.small.web.app.src.services.cart.ts"
     ]
   },
   {
@@ -669,7 +902,10 @@
     "ownedByNodeIds": [
       "file.examples.small.web.app.src.services.orders.ts",
       "module.examples",
-      "architecture.runtime.dataflow"
+      "architecture.runtime.dataflow",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.small.web.app.src.services.orders.ts"
     ]
   },
   {
@@ -692,7 +928,10 @@
     "ownedByNodeIds": [
       "file.examples.small.web.app.src.services.payment.ts",
       "module.examples",
-      "architecture.runtime.dataflow"
+      "architecture.runtime.dataflow",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.small.web.app.src.services.payment.ts"
     ]
   },
   {
@@ -739,7 +978,13 @@
     "summary": "checkout.test.js is a JavaScript test coverage file. AST-backed scan. Defines testDir, exampleRoot, compilerOptions, root, calls. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.examples.small.web.app.tests.checkout.test.js",
-      "module.examples"
+      "module.examples",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.small.web.app.tests.checkout.test.js",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.example.tests",
+      "subsystem.tests.quality.file.examples.small.web.app.tests.checkout.test.js"
     ]
   },
   {
@@ -760,7 +1005,10 @@
     "ownedByNodeIds": [
       "file.package.lock.json",
       "module.root",
-      "architecture.package.distribution"
+      "architecture.package.distribution",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.manifests",
+      "subsystem.packaging.adapters.file.package.lock.json"
     ]
   },
   {
@@ -768,9 +1016,9 @@
     "extension": ".json",
     "language": "JSON",
     "parseStrategy": "regex",
-    "contentHash": "9a9d98224d937a9fed48163aebc28675930be815231e7ee65510f33096cf6386",
-    "sizeBytes": 2519,
-    "lines": 48,
+    "contentHash": "73d6eebf3c7df31fe76c965bc49e9e22c072a579422d94030d3cbf3cbaaaedb9",
+    "sizeBytes": 2777,
+    "lines": 51,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -782,7 +1030,10 @@
     "ownedByNodeIds": [
       "file.package.json",
       "module.root",
-      "architecture.package.distribution"
+      "architecture.package.distribution",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.manifests",
+      "subsystem.packaging.adapters.file.package.json"
     ]
   },
   {
@@ -805,7 +1056,10 @@
     "ownedByNodeIds": [
       "file.packages.app.index.html",
       "module.packages",
-      "architecture.visual.app.ui"
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.visual.support",
+      "subsystem.visual.app.file.packages.app.index.html"
     ]
   },
   {
@@ -828,7 +1082,13 @@
       "module.packages",
       "architecture.visual.app.api",
       "architecture.visual.app.ui",
-      "architecture.package.distribution"
+      "architecture.package.distribution",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.app.shell.state",
+      "subsystem.visual.app.file.packages.app.package.json",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.manifests",
+      "subsystem.packaging.adapters.file.packages.app.package.json"
     ]
   },
   {
@@ -836,9 +1096,9 @@
     "extension": ".tsx",
     "language": "TypeScript React",
     "parseStrategy": "typescript-ast",
-    "contentHash": "dec1c4a4702f3f36bc6e880a3170fb738e3b8b612f084418777f33f8a968d5da",
-    "sizeBytes": 6598,
-    "lines": 192,
+    "contentHash": "6d6428c4557c9bd3291780f3943d8c6148e90914fd9ec02aa1209da24d247e0e",
+    "sizeBytes": 9507,
+    "lines": 251,
     "imports": [
       "node:assert/strict",
       "node:test",
@@ -858,16 +1118,22 @@
     "symbols": [
       "html",
       "visibleIds",
+      "items",
+      "rootOnly",
+      "expandedApp",
       "state",
       "sampleState",
       "sampleNodes",
       "node"
     ],
     "isTest": true,
-    "summary": "app.test.tsx is a TypeScript React test coverage file. AST-backed scan. Defines html, visibleIds, state, sampleState, sampleNodes. Depends on node:assert/strict, node:test, react, react-dom/server.",
+    "summary": "app.test.tsx is a TypeScript React test coverage file. AST-backed scan. Defines html, visibleIds, items, rootOnly, expandedApp. Depends on node:assert/strict, node:test, react, react-dom/server.",
     "ownedByNodeIds": [
       "file.packages.app.src.app.test.tsx",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.app.tests",
+      "subsystem.tests.quality.file.packages.app.src.app.test.tsx"
     ]
   },
   {
@@ -875,8 +1141,8 @@
     "extension": ".tsx",
     "language": "TypeScript React",
     "parseStrategy": "typescript-ast",
-    "contentHash": "99e41be680db528185446152512a901ec17c51820a58d8e3f58fbee9e711f1bb",
-    "sizeBytes": 6469,
+    "contentHash": "a743f33d698661a18b6a7e23b1991bf2a17a96756fa45106011f49d567514fbe",
+    "sizeBytes": 6464,
     "lines": 172,
     "imports": [
       "react",
@@ -927,7 +1193,10 @@
     "ownedByNodeIds": [
       "file.packages.app.src.app.tsx",
       "module.packages",
-      "architecture.visual.app.ui"
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.app.shell.state",
+      "subsystem.visual.app.file.packages.app.src.app.tsx"
     ]
   },
   {
@@ -935,9 +1204,9 @@
     "extension": ".tsx",
     "language": "TypeScript React",
     "parseStrategy": "typescript-ast",
-    "contentHash": "8ae8ef0689408ffaf18e5f8e1c0880d2bbe4625da470e4d609ac5d4619ca4012",
-    "sizeBytes": 3923,
-    "lines": 112,
+    "contentHash": "dc0e9f4d0c0a802b4dfe473bce06f56096ab91674e349d55c35d9ad8ea864de3",
+    "sizeBytes": 5035,
+    "lines": 141,
     "imports": [
       "@abstraction-tree/core"
     ],
@@ -963,6 +1232,9 @@
       "automationDetail",
       "failed",
       "pieces",
+      "scopeStatus",
+      "scopeDetail",
+      "scopeTone",
       "limitPair",
       "toneForRun"
     ],
@@ -971,7 +1243,10 @@
     "ownedByNodeIds": [
       "file.packages.app.src.components.agenthealthpanel.tsx",
       "module.packages",
-      "architecture.visual.app.ui"
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.packages.app.src.components.agenthealthpanel.tsx"
     ]
   },
   {
@@ -1000,7 +1275,10 @@
     "ownedByNodeIds": [
       "file.packages.app.src.components.changehistory.tsx",
       "module.packages",
-      "architecture.visual.app.ui"
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.packages.app.src.components.changehistory.tsx"
     ]
   },
   {
@@ -1027,7 +1305,10 @@
     "ownedByNodeIds": [
       "file.packages.app.src.components.conceptpanel.tsx",
       "module.packages",
-      "architecture.visual.app.ui"
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.packages.app.src.components.conceptpanel.tsx"
     ]
   },
   {
@@ -1054,7 +1335,10 @@
     "ownedByNodeIds": [
       "file.packages.app.src.components.invariantpanel.tsx",
       "module.packages",
-      "architecture.visual.app.ui"
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.packages.app.src.components.invariantpanel.tsx"
     ]
   },
   {
@@ -1062,9 +1346,9 @@
     "extension": ".tsx",
     "language": "TypeScript React",
     "parseStrategy": "typescript-ast",
-    "contentHash": "3020a07a787d9f8eea239f3306dca170a876d70074d093556d6d1dadbb797745",
-    "sizeBytes": 797,
-    "lines": 32,
+    "contentHash": "4e2dabb58ac2b144adcadff1315a7487a951fec2ca10b366b3bd36f7a699909e",
+    "sizeBytes": 3024,
+    "lines": 87,
     "imports": [
       "@abstraction-tree/core",
       "../nodeAccessors.js"
@@ -1075,14 +1359,20 @@
     ],
     "symbols": [
       "NodeDetailsProps",
-      "NodeDetails"
+      "NodeDetails",
+      "CompactList",
+      "shown",
+      "remainder"
     ],
     "isTest": false,
-    "summary": "NodeDetails.tsx is a TypeScript React implementation file. AST-backed scan. Defines NodeDetailsProps, NodeDetails. Depends on @abstraction-tree/core, ../nodeAccessors.js.",
+    "summary": "NodeDetails.tsx is a TypeScript React implementation file. AST-backed scan. Defines NodeDetailsProps, NodeDetails, CompactList, shown, remainder. Depends on @abstraction-tree/core, ../nodeAccessors.js.",
     "ownedByNodeIds": [
       "file.packages.app.src.components.nodedetails.tsx",
       "module.packages",
-      "architecture.visual.app.ui"
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.packages.app.src.components.nodedetails.tsx"
     ]
   },
   {
@@ -1109,7 +1399,10 @@
     "ownedByNodeIds": [
       "file.packages.app.src.components.panel.tsx",
       "module.packages",
-      "architecture.visual.app.ui"
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.packages.app.src.components.panel.tsx"
     ]
   },
   {
@@ -1134,7 +1427,10 @@
     "ownedByNodeIds": [
       "file.packages.app.src.components.stat.tsx",
       "module.packages",
-      "architecture.visual.app.ui"
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.packages.app.src.components.stat.tsx"
     ]
   },
   {
@@ -1142,11 +1438,12 @@
     "extension": ".tsx",
     "language": "TypeScript React",
     "parseStrategy": "typescript-ast",
-    "contentHash": "e78a9875c772550d0a91efab83d0fec6807b4484c9a12829b14369e293e9fdf9",
-    "sizeBytes": 7247,
-    "lines": 213,
+    "contentHash": "ffcb10ddddda57eb7403432fc0430a90e75889151e6d36280886bff54755fc1e",
+    "sizeBytes": 11195,
+    "lines": 316,
     "imports": [
       "react",
+      "lucide-react",
       "@abstraction-tree/core",
       "../nodeAccessors.js"
     ],
@@ -1156,16 +1453,26 @@
       "TreeList",
       "buildTreeItems",
       "flattenTreeItems",
+      "flattenVisibleTreeItems",
       "moveTreeSelection"
     ],
     "symbols": [
       "TreeListProps",
       "TreeItem",
       "TreeList",
+      "fullTreeItems",
       "treeItems",
+      "expandedIds",
+      "setExpandedIds",
+      "isSearching",
       "flatItems",
       "visibleIds",
       "focusId",
+      "next",
+      "validIds",
+      "id",
+      "toggleTreeItem",
+      "shouldExpand",
       "buildTreeItems",
       "byId",
       "order",
@@ -1184,24 +1491,22 @@
       "childIds",
       "children",
       "flattenTreeItems",
+      "flattenVisibleTreeItems",
+      "visible",
       "moveTreeSelection",
       "currentIndex",
       "TreeBranch",
-      "hasChildren",
-      "isSelected",
-      "filterTreeItem",
-      "matchesNode",
-      "handleTreeKeyDown",
-      "nextId",
-      "treeButtonClassName",
-      "treeButtonId"
+      "hasChildren"
     ],
     "isTest": false,
-    "summary": "TreeList.tsx is a TypeScript React implementation file. AST-backed scan. Defines TreeListProps, TreeItem, TreeList, treeItems, flatItems. Depends on react, @abstraction-tree/core, ../nodeAccessors.js.",
+    "summary": "TreeList.tsx is a TypeScript React implementation file. AST-backed scan. Defines TreeListProps, TreeItem, TreeList, fullTreeItems, treeItems. Depends on react, lucide-react, @abstraction-tree/core, ../nodeAccessors.js.",
     "ownedByNodeIds": [
       "file.packages.app.src.components.treelist.tsx",
       "module.packages",
-      "architecture.visual.app.ui"
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.packages.app.src.components.treelist.tsx"
     ]
   },
   {
@@ -1253,7 +1558,10 @@
     "ownedByNodeIds": [
       "file.packages.app.src.hooks.useabstractionstate.ts",
       "module.packages",
-      "architecture.visual.app.ui"
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.visual.support",
+      "subsystem.visual.app.file.packages.app.src.hooks.useabstractionstate.ts"
     ]
   },
   {
@@ -1277,7 +1585,10 @@
       "file.packages.app.src.main.tsx",
       "module.packages",
       "architecture.visual.app.ui",
-      "architecture.package.distribution"
+      "architecture.package.distribution",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.app.shell.state",
+      "subsystem.visual.app.file.packages.app.src.main.tsx"
     ]
   },
   {
@@ -1310,7 +1621,10 @@
     "ownedByNodeIds": [
       "file.packages.app.src.nodeaccessors.ts",
       "module.packages",
-      "architecture.visual.app.ui"
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.app.shell.state",
+      "subsystem.visual.app.file.packages.app.src.nodeaccessors.ts"
     ]
   },
   {
@@ -1318,9 +1632,9 @@
     "extension": ".css",
     "language": "CSS",
     "parseStrategy": "regex",
-    "contentHash": "48cfcdab65097876c74cecdf3420116ed3e730356dac7f6f6524b767709ce96e",
-    "sizeBytes": 6070,
-    "lines": 438,
+    "contentHash": "f28dda28ce6b324da693a0f781115e6e994ab6a2005d1ae372e913b1f272e4f6",
+    "sizeBytes": 7487,
+    "lines": 532,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -1331,6 +1645,9 @@
       "tree-list",
       "tree-items",
       "tree-children",
+      "tree-row",
+      "tree-toggle",
+      "tree-toggle-spacer",
       "tree-item",
       "has-children",
       "active",
@@ -1348,6 +1665,11 @@
       "panel",
       "wide",
       "details",
+      "node-details",
+      "node-summary",
+      "node-explanation",
+      "node-evidence",
+      "node-evidence-row",
       "card",
       "change",
       "health-grid",
@@ -1355,19 +1677,17 @@
       "good",
       "warn",
       "bad",
-      "pill",
-      "high",
-      "medium",
-      "muted",
-      "load-state",
-      "error-state"
+      "pill"
     ],
     "isTest": false,
     "summary": "styles.css is a CSS implementation file. Defines app, sidebar, brand, search, tree-list.",
     "ownedByNodeIds": [
       "file.packages.app.src.styles.css",
       "module.packages",
-      "architecture.visual.app.ui"
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.styling",
+      "subsystem.visual.app.file.packages.app.src.styles.css"
     ]
   },
   {
@@ -1388,7 +1708,10 @@
     "ownedByNodeIds": [
       "file.packages.app.tsconfig.json",
       "module.packages",
-      "architecture.visual.app.ui"
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.visual.support",
+      "subsystem.visual.app.file.packages.app.tsconfig.json"
     ]
   },
   {
@@ -1413,7 +1736,13 @@
       "file.packages.cli.package.json",
       "module.packages",
       "architecture.cli.surface",
-      "architecture.package.distribution"
+      "architecture.package.distribution",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.package",
+      "subsystem.cli.local.api.file.packages.cli.package.json",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.manifests",
+      "subsystem.packaging.adapters.file.packages.cli.package.json"
     ]
   },
   {
@@ -1437,7 +1766,10 @@
     "summary": "agentHealth.test.ts is a TypeScript test coverage file. AST-backed scan. Defines summary. Depends on node:assert/strict, node:test, ./agentHealth.js.",
     "ownedByNodeIds": [
       "file.packages.cli.src.agenthealth.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.agenthealth.test.ts"
     ]
   },
   {
@@ -1462,7 +1794,10 @@
     "ownedByNodeIds": [
       "file.packages.cli.src.agenthealth.ts",
       "module.packages",
-      "architecture.cli.surface"
+      "architecture.cli.surface",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.packages.cli.src.agenthealth.ts"
     ]
   },
   {
@@ -1470,9 +1805,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "e031142f1185f1f1f661027ce03244663d869399d2a45e9cef876d1b6229b81a",
-    "sizeBytes": 10193,
-    "lines": 316,
+    "contentHash": "24f08df40ee6488b3d0004eee697d28f5250c7bcc772039e42c72bec18aaa31f",
+    "sizeBytes": 12475,
+    "lines": 384,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
@@ -1509,7 +1844,10 @@
     "summary": "apiState.test.ts is a TypeScript test coverage file. AST-backed scan. Defines ExactApiStateContract, apiStateMatchesSharedState, root, agentHealth, state. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.packages.cli.src.apistate.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.apistate.test.ts"
     ]
   },
   {
@@ -1517,14 +1855,15 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "746aa3a37cebb0288ebd1893650cb1c90de20b00c7a453e146aa1f89ba7247d9",
-    "sizeBytes": 6346,
-    "lines": 174,
+    "contentHash": "7d30ae2b64ea183a2159f86305f5b300dce48c2fd0f3500fc2a9fd1e207f6463",
+    "sizeBytes": 7113,
+    "lines": 192,
     "imports": [
       "node:fs",
       "node:fs/promises",
       "node:path",
-      "@abstraction-tree/core"
+      "@abstraction-tree/core",
+      "./scopeCommand.js"
     ],
     "exports": [
       "ApiState",
@@ -1550,12 +1889,13 @@
       "state",
       "loadApiAgentHealth",
       "issues",
-      "loadLatestRun",
+      "loadScopeHealth",
       "latest",
+      "report",
+      "loadLatestRun",
       "text",
       "summary",
       "loadLatestEvaluation",
-      "report",
       "drift",
       "loadAutomationHealth",
       "configPath",
@@ -1572,15 +1912,331 @@
       "record",
       "fieldValue",
       "numberField",
-      "booleanField",
-      "timestampFromName"
+      "booleanField"
     ],
     "isTest": false,
     "summary": "apiState.ts is a TypeScript implementation file. AST-backed scan. Defines ApiState, AgentHealthLoader, ValidationIssuesLoader, loadApiState, config. Depends on node:fs, node:fs/promises, node:path, @abstraction-tree/core.",
     "ownedByNodeIds": [
       "file.packages.cli.src.apistate.ts",
       "module.packages",
-      "architecture.cli.surface"
+      "architecture.cli.surface",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.local.api",
+      "subsystem.cli.local.api.file.packages.cli.src.apistate.ts"
+    ]
+  },
+  {
+    "path": "packages/cli/src/changeReviewCli.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "b2ef59b8bbbc4717b500a5bc27772616c443cdaaef3a827684634dcef3082f33",
+    "sizeBytes": 3070,
+    "lines": 83,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:test",
+      "./changeReviewCommand.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "root",
+      "capture",
+      "exitCode",
+      "report",
+      "workspace",
+      "writeChange",
+      "change",
+      "captureIo",
+      "stdout",
+      "stderr"
+    ],
+    "isTest": true,
+    "summary": "changeReviewCli.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, capture, exitCode, report, workspace. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.changereviewcli.test.ts",
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.changereviewcli.test.ts"
+    ]
+  },
+  {
+    "path": "packages/cli/src/changeReviewCommand.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "1e2b09b434be4a90eeb7d1a2d5337472c805b28fcdf807f9410566ceb64c3817",
+    "sizeBytes": 1280,
+    "lines": 47,
+    "imports": [
+      "@abstraction-tree/core"
+    ],
+    "exports": [
+      "ChangeReviewCommandOptions",
+      "ChangeReviewCommandIo",
+      "runChangeReviewCommand"
+    ],
+    "symbols": [
+      "ChangeReviewCommandOptions",
+      "ChangeReviewCommandIo",
+      "runChangeReviewCommand",
+      "limit",
+      "report",
+      "defaultIo",
+      "positiveIntegerOption",
+      "parsed"
+    ],
+    "isTest": false,
+    "summary": "changeReviewCommand.ts is a TypeScript implementation file. AST-backed scan. Defines ChangeReviewCommandOptions, ChangeReviewCommandIo, runChangeReviewCommand, limit, report. Depends on @abstraction-tree/core.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.changereviewcommand.ts",
+      "module.packages",
+      "architecture.cli.surface",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.packages.cli.src.changereviewcommand.ts"
+    ]
+  },
+  {
+    "path": "packages/cli/src/doctor.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "310f17e014a3014520698f6defef4a56c650d5b63aab1e48bee0eed248ec5bbf",
+    "sizeBytes": 5942,
+    "lines": 163,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:test",
+      "@abstraction-tree/core",
+      "./doctor.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "doctorOptions",
+      "root",
+      "report",
+      "checkedRoot",
+      "workspace",
+      "writeDeterministicMemory",
+      "scan",
+      "importGraph",
+      "built",
+      "writeHealthyAutomationFiles",
+      "cleanRuntimeBoundaryGit",
+      "checkStatus"
+    ],
+    "isTest": true,
+    "summary": "doctor.test.ts is a TypeScript test coverage file. AST-backed scan. Defines doctorOptions, root, report, checkedRoot, workspace. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.doctor.test.ts",
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.doctor.test.ts"
+    ]
+  },
+  {
+    "path": "packages/cli/src/doctor.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "7818fb38cb03069d85d7b8776e1f2bec2aa6072ce5205e9aa1e0230e0c68eba6",
+    "sizeBytes": 15006,
+    "lines": 461,
+    "imports": [
+      "node:fs",
+      "node:fs/promises",
+      "node:path",
+      "node:url",
+      "@abstraction-tree/core"
+    ],
+    "exports": [
+      "DoctorStatus",
+      "DoctorIssueSummary",
+      "DoctorCheck",
+      "DoctorCounts",
+      "DoctorReport",
+      "DoctorOptions",
+      "runDoctor",
+      "collectValidationIssues",
+      "formatDoctorReport",
+      "doctorExitCode",
+      "findVisualAppDist"
+    ],
+    "symbols": [
+      "DoctorStatus",
+      "DoctorIssueSummary",
+      "DoctorCheck",
+      "DoctorCounts",
+      "DoctorReport",
+      "DoctorOptions",
+      "REQUIRED_MEMORY_FILES",
+      "MINIMUM_NODE_VERSION",
+      "runDoctor",
+      "root",
+      "configPath",
+      "configExists",
+      "memory",
+      "counts",
+      "missingRequiredMemory",
+      "importGraphExists",
+      "scanHasRun",
+      "runtimeIssues",
+      "runtimeSummary",
+      "configIssues",
+      "validationReady",
+      "nodeCheck",
+      "configCheck",
+      "memoryCheck",
+      "importGraphCheck",
+      "runtimeCheck",
+      "validationCheck",
+      "automationCheck",
+      "visualCheck",
+      "checks",
+      "status",
+      "projectName",
+      "collectValidationIssues",
+      "formatDoctorReport",
+      "lines",
+      "issuePreview",
+      "doctorExitCode",
+      "findVisualAppDist",
+      "cliDir",
+      "candidates"
+    ],
+    "isTest": false,
+    "summary": "doctor.ts is a TypeScript implementation file. AST-backed scan. Defines DoctorStatus, DoctorIssueSummary, DoctorCheck, DoctorCounts, DoctorReport. Depends on node:fs, node:fs/promises, node:path, node:url.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.doctor.ts",
+      "module.packages",
+      "architecture.cli.surface",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.doctor.ts"
+    ]
+  },
+  {
+    "path": "packages/cli/src/goalCommand.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "4b2be8cdebd0c06c47d120db2e546949a5727a4e6e4f629098ab9e935d2b18c9",
+    "sizeBytes": 8339,
+    "lines": 234,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:test",
+      "@abstraction-tree/core",
+      "./goalCommand.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "root",
+      "goalText",
+      "capture",
+      "exitCode",
+      "goalDir",
+      "missions",
+      "prBody",
+      "workspace",
+      "writeGoal",
+      "absolutePath",
+      "writeFixtureMemory",
+      "fixtureNodes",
+      "fixtureFiles",
+      "fixtureConcepts",
+      "fixtureInvariants",
+      "node",
+      "file",
+      "captureIo",
+      "stdout",
+      "stderr"
+    ],
+    "isTest": true,
+    "summary": "goalCommand.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, goalText, capture, exitCode, goalDir. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.goalcommand.test.ts",
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts"
+    ]
+  },
+  {
+    "path": "packages/cli/src/goalCommand.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "c8c95c970ad05d77f8b3ba6b61f24a1ff47fda00185ab9ed9168fc0bb31a060c",
+    "sizeBytes": 6568,
+    "lines": 188,
+    "imports": [
+      "node:fs",
+      "node:fs/promises",
+      "node:path",
+      "@abstraction-tree/core",
+      "./routeCommand.js"
+    ],
+    "exports": [
+      "GoalCommandOptions",
+      "GoalCommandIo",
+      "GoalCommandResult",
+      "runGoalCommand",
+      "writeGoalWorkspace"
+    ],
+    "symbols": [
+      "GoalCommandOptions",
+      "GoalCommandIo",
+      "GoalCommandResult",
+      "runGoalCommand",
+      "mode",
+      "projectRoot",
+      "goalFilePath",
+      "goalText",
+      "goalFile",
+      "memory",
+      "route",
+      "nodes",
+      "files",
+      "concepts",
+      "invariants",
+      "changes",
+      "evaluations",
+      "plan",
+      "writeGoalWorkspace",
+      "workspacePath",
+      "missionDirPath",
+      "mission",
+      "resolveGoalMode",
+      "selected",
+      "formatGoalCommandResult",
+      "lines",
+      "relativeOrAbsolute",
+      "relative",
+      "normalizePath",
+      "defaultIo"
+    ],
+    "isTest": false,
+    "summary": "goalCommand.ts is a TypeScript implementation file. AST-backed scan. Defines GoalCommandOptions, GoalCommandIo, GoalCommandResult, runGoalCommand, mode. Depends on node:fs, node:fs/promises, node:path, @abstraction-tree/core.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.goalcommand.ts",
+      "module.packages",
+      "architecture.cli.surface",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts"
     ]
   },
   {
@@ -1588,20 +2244,24 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "43b5161ecd98c3920a16cc79e4b64eb534a81e7a0bc43510e39965e4f87e5e4a",
-    "sizeBytes": 13959,
-    "lines": 333,
+    "contentHash": "45baafbf13c1c4a4cde8143ed94005d2d6d1ede7f64975c90923e493710b110d",
+    "sizeBytes": 16327,
+    "lines": 380,
     "imports": [
       "commander",
       "node:path",
       "node:http",
-      "node:fs",
-      "node:url",
       "sirv",
       "@abstraction-tree/core",
       "./apiState.js",
+      "./changeReviewCommand.js",
+      "./doctor.js",
+      "./goalCommand.js",
+      "./migrate.js",
       "./propose.js",
-      "./serveHost.js"
+      "./routeCommand.js",
+      "./serveHost.js",
+      "./scopeCommand.js"
     ],
     "exports": [],
     "symbols": [
@@ -1611,7 +2271,6 @@
       "contextOutputFormat",
       "contextMaxTokens",
       "parsed",
-      "positiveIntegerOption",
       "root",
       "mode",
       "config",
@@ -1621,6 +2280,8 @@
       "change",
       "issues",
       "i",
+      "report",
+      "result",
       "format",
       "maxTokens",
       "nodes",
@@ -1630,12 +2291,10 @@
       "changes",
       "pack",
       "out",
-      "result",
       "issue",
-      "report",
       "filePath",
       "changesCommand",
-      "limit",
+      "scopeCommand",
       "port",
       "host",
       "warning",
@@ -1643,17 +2302,93 @@
       "serveStatic",
       "server",
       "state",
-      "collectValidationIssues",
-      "memory"
+      "fallback"
     ],
     "isTest": false,
-    "summary": "index.ts is a TypeScript implementation file. AST-backed scan. Defines program, projectPath, ContextOutputFormat, contextOutputFormat, contextMaxTokens. Depends on commander, node:path, node:http, node:fs.",
+    "summary": "index.ts is a TypeScript implementation file. AST-backed scan. Defines program, projectPath, ContextOutputFormat, contextOutputFormat, contextMaxTokens. Depends on commander, node:path, node:http, sirv.",
     "ownedByNodeIds": [
       "file.packages.cli.src.index.ts",
       "module.packages",
       "architecture.cli.surface",
       "architecture.visual.app.api",
-      "architecture.package.distribution"
+      "architecture.package.distribution",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.local.api",
+      "subsystem.cli.local.api.file.packages.cli.src.index.ts"
+    ]
+  },
+  {
+    "path": "packages/cli/src/migrate.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "88c2b611af5bee1d91008048d45d8c6114e4cce25efef97e0e1124b66cbef56d",
+    "sizeBytes": 2718,
+    "lines": 69,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:test",
+      "@abstraction-tree/core",
+      "./migrate.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "root",
+      "before",
+      "result",
+      "output",
+      "after",
+      "workspace"
+    ],
+    "isTest": true,
+    "summary": "migrate.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, before, result, output, after. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.migrate.test.ts",
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.migrate.test.ts"
+    ]
+  },
+  {
+    "path": "packages/cli/src/migrate.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "53399015e3837ea1de0649daa6ae1df95199946b48cdc57a6ee49aa42cbbe1fc",
+    "sizeBytes": 2132,
+    "lines": 70,
+    "imports": [
+      "node:path",
+      "@abstraction-tree/core"
+    ],
+    "exports": [
+      "RunMigrateCommandOptions",
+      "runMigrateCommand",
+      "formatMigrationResult",
+      "migrationExitCode"
+    ],
+    "symbols": [
+      "RunMigrateCommandOptions",
+      "runMigrateCommand",
+      "formatMigrationResult",
+      "lines",
+      "issueLines",
+      "migrationExitCode",
+      "relativePath"
+    ],
+    "isTest": false,
+    "summary": "migrate.ts is a TypeScript implementation file. AST-backed scan. Defines RunMigrateCommandOptions, runMigrateCommand, formatMigrationResult, lines, issueLines. Depends on node:path, @abstraction-tree/core.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.migrate.ts",
+      "module.packages",
+      "architecture.cli.surface",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.migrate.ts"
     ]
   },
   {
@@ -1696,7 +2431,10 @@
     "summary": "propose.test.ts is a TypeScript test coverage file. AST-backed scan. Defines projectRoot, treeBefore, inputPath, result, treeAfter. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.packages.cli.src.propose.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.propose.test.ts"
     ]
   },
   {
@@ -1747,7 +2485,239 @@
     "ownedByNodeIds": [
       "file.packages.cli.src.propose.ts",
       "module.packages",
-      "architecture.cli.surface"
+      "architecture.cli.surface",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.propose.ts"
+    ]
+  },
+  {
+    "path": "packages/cli/src/routeCommand.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "b96682bdb27c3e5d0cbe6b1869a40ba885fce9d5c89221573606eb9f6398eed3",
+    "sizeBytes": 7014,
+    "lines": 214,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:test",
+      "@abstraction-tree/core",
+      "./goalCommand.js",
+      "./routeCommand.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "root",
+      "capture",
+      "exitCode",
+      "output",
+      "workspace",
+      "writePrompt",
+      "absolutePath",
+      "writeFixtureMemory",
+      "fixtureNodes",
+      "fixtureFiles",
+      "fixtureConcepts",
+      "node",
+      "file",
+      "captureIo",
+      "stdout",
+      "stderr"
+    ],
+    "isTest": true,
+    "summary": "routeCommand.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, capture, exitCode, output, workspace. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.routecommand.test.ts",
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.routecommand.test.ts"
+    ]
+  },
+  {
+    "path": "packages/cli/src/routeCommand.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "b720d58c5c0f09192838d9949e53319d298e184fcfe7b1e684c5005f1ca19e66",
+    "sizeBytes": 4630,
+    "lines": 151,
+    "imports": [
+      "node:fs",
+      "node:fs/promises",
+      "node:path",
+      "@abstraction-tree/core"
+    ],
+    "exports": [
+      "RouteCommandOptions",
+      "RouteCommandIo",
+      "PromptRouteMemory",
+      "runRouteCommand",
+      "readPromptRouteMemory",
+      "toRouteJson"
+    ],
+    "symbols": [
+      "RouteCommandOptions",
+      "RouteCommandIo",
+      "PromptRouteMemory",
+      "runRouteCommand",
+      "source",
+      "memory",
+      "result",
+      "readPromptRouteMemory",
+      "root",
+      "memoryIssues",
+      "nodes",
+      "files",
+      "concepts",
+      "invariants",
+      "toRouteJson",
+      "readPromptSource",
+      "prompt",
+      "projectRoot",
+      "promptPath",
+      "readMemoryArray",
+      "filePath",
+      "value",
+      "relativeOrAbsolute",
+      "relative",
+      "normalizePath",
+      "defaultIo"
+    ],
+    "isTest": false,
+    "summary": "routeCommand.ts is a TypeScript implementation file. AST-backed scan. Defines RouteCommandOptions, RouteCommandIo, PromptRouteMemory, runRouteCommand, source. Depends on node:fs, node:fs/promises, node:path, @abstraction-tree/core.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.routecommand.ts",
+      "module.packages",
+      "architecture.cli.surface",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.routecommand.ts"
+    ]
+  },
+  {
+    "path": "packages/cli/src/scopeCommand.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "586a335f10cfb9e39a01d38a6da2dbfbb503eb550ce5a46ca651329c39fe8e13",
+    "sizeBytes": 4923,
+    "lines": 159,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:test",
+      "@abstraction-tree/core",
+      "./scopeCommand.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "root",
+      "capture",
+      "exitCode",
+      "output",
+      "workspace",
+      "writeFixtureMemory",
+      "fixtureNodes",
+      "fixtureFiles",
+      "node",
+      "file",
+      "captureIo",
+      "stdout",
+      "stderr"
+    ],
+    "isTest": true,
+    "summary": "scopeCommand.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, capture, exitCode, output, workspace. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.scopecommand.test.ts",
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.scopecommand.test.ts"
+    ]
+  },
+  {
+    "path": "packages/cli/src/scopeCommand.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "328bc7af3f008bfcfebb7c687de73a4a905a66343fa5ce1b76b0a7cff9f189c1",
+    "sizeBytes": 7141,
+    "lines": 210,
+    "imports": [
+      "node:child_process",
+      "node:fs",
+      "node:fs/promises",
+      "node:path",
+      "node:util",
+      "@abstraction-tree/core"
+    ],
+    "exports": [
+      "ScopeCreateCommandOptions",
+      "ScopeCheckCommandOptions",
+      "ScopeCommandIo",
+      "GitInputProvider",
+      "runScopeCreateCommand",
+      "runScopeCheckCommand",
+      "latestScopeSummary"
+    ],
+    "symbols": [
+      "ScopeCreateCommandOptions",
+      "ScopeCheckCommandOptions",
+      "ScopeCommandIo",
+      "GitInputProvider",
+      "execFileAsync",
+      "runScopeCreateCommand",
+      "nodes",
+      "files",
+      "concepts",
+      "contract",
+      "written",
+      "runScopeCheckCommand",
+      "contractPath",
+      "gitInput",
+      "report",
+      "latestScopeSummary",
+      "reportPath",
+      "writeScopeContract",
+      "dir",
+      "jsonPath",
+      "markdownPath",
+      "writeScopeCheckReport",
+      "resolveScopePath",
+      "candidate",
+      "names",
+      "latest",
+      "collectGitInput",
+      "numstat",
+      "nameStatus",
+      "untrackedFiles",
+      "git",
+      "stdout",
+      "lineCountsForUntracked",
+      "counts",
+      "normalized",
+      "textLineCount",
+      "buffer",
+      "lines",
+      "byte",
+      "relativeAtree"
+    ],
+    "isTest": false,
+    "summary": "scopeCommand.ts is a TypeScript implementation file. AST-backed scan. Defines ScopeCreateCommandOptions, ScopeCheckCommandOptions, ScopeCommandIo, GitInputProvider, execFileAsync. Depends on node:child_process, node:fs, node:fs/promises, node:path.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.scopecommand.ts",
+      "module.packages",
+      "architecture.cli.surface",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.scopecommand.ts"
     ]
   },
   {
@@ -1773,7 +2743,10 @@
     "summary": "serveHost.test.ts is a TypeScript test coverage file. AST-backed scan. Defines wildcard, ipv6Wildcard, lanHost. Depends on node:assert/strict, node:test, ./serveHost.js.",
     "ownedByNodeIds": [
       "file.packages.cli.src.servehost.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.servehost.test.ts"
     ]
   },
   {
@@ -1811,7 +2784,10 @@
     "ownedByNodeIds": [
       "file.packages.cli.src.servehost.ts",
       "module.packages",
-      "architecture.cli.surface"
+      "architecture.cli.surface",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.packages.cli.src.servehost.ts"
     ]
   },
   {
@@ -1832,7 +2808,10 @@
     "ownedByNodeIds": [
       "file.packages.cli.tsconfig.json",
       "module.packages",
-      "architecture.cli.surface"
+      "architecture.cli.surface",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.packages.cli.tsconfig.json"
     ]
   },
   {
@@ -1857,7 +2836,13 @@
       "file.packages.core.package.json",
       "module.packages",
       "architecture.core.engine",
-      "architecture.package.distribution"
+      "architecture.package.distribution",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.public.api",
+      "subsystem.core.engine.file.packages.core.package.json",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.manifests",
+      "subsystem.packaging.adapters.file.packages.core.package.json"
     ]
   },
   {
@@ -1911,7 +2896,10 @@
     "summary": "automationValidation.test.ts is a TypeScript test coverage file. AST-backed scan. Defines loopConfigPath, loopRuntimeExamplePath, loopRuntimePath, loopStatePath, missionRuntimeExamplePath. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.packages.core.src.automationvalidation.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.automationvalidation.test.ts"
     ]
   },
   {
@@ -1986,7 +2974,13 @@
     "ownedByNodeIds": [
       "file.packages.core.src.automationvalidation.ts",
       "module.packages",
-      "architecture.core.engine"
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.automationvalidation.ts",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.validation.evaluation",
+      "subsystem.memory.validation.logs.file.packages.core.src.automationvalidation.ts"
     ]
   },
   {
@@ -2019,7 +3013,10 @@
     "summary": "changeReview.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, report, summary, limited, workspace. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.packages.core.src.changereview.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.changereview.test.ts"
     ]
   },
   {
@@ -2069,7 +3066,13 @@
     "ownedByNodeIds": [
       "file.packages.core.src.changereview.ts",
       "module.packages",
-      "architecture.core.engine"
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.changereview.ts",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.validation.evaluation",
+      "subsystem.memory.validation.logs.file.packages.core.src.changereview.ts"
     ]
   },
   {
@@ -2077,9 +3080,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "01ca956f4c1c9eca5d7f22d44223279cef7f18f9d6aed96fe5653282a94fc6c7",
-    "sizeBytes": 9761,
-    "lines": 240,
+    "contentHash": "6a3d1e66326c1deee28ebf3f269c7ab0bfe51208a430382c494f702e8c185a7e",
+    "sizeBytes": 12008,
+    "lines": 278,
     "imports": [
       "node:assert/strict",
       "node:test",
@@ -2094,11 +3097,11 @@
       "concepts",
       "invariants",
       "pack",
+      "markdown",
       "unlimited",
       "baseEstimate",
       "firstItem",
       "budgeted",
-      "markdown",
       "file",
       "node",
       "conceptEvidence",
@@ -2112,7 +3115,10 @@
     "summary": "context.test.ts is a TypeScript test coverage file. AST-backed scan. Defines files, nodes, concepts, invariants, pack. Depends on node:assert/strict, node:test, ./context.js, ./contextLimits.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.context.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.context.test.ts"
     ]
   },
   {
@@ -2120,9 +3126,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "155fde36c8b8a69b5cce95ff57212c818a5efe4811e93e4fcbbf08d9c9852a3f",
-    "sizeBytes": 22446,
-    "lines": 644,
+    "contentHash": "4ac29ad1836addd103498e33a50df3f1f3bed156dc4e55617ba2c7344869bee8",
+    "sizeBytes": 23260,
+    "lines": 661,
     "imports": [
       "./schema.js",
       "./contextLimits.js"
@@ -2180,7 +3186,10 @@
       "file.packages.core.src.context.ts",
       "module.packages",
       "architecture.core.engine",
-      "architecture.scanner.tree.context.pipeline"
+      "architecture.scanner.tree.context.pipeline",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.understanding.pipeline",
+      "subsystem.core.engine.file.packages.core.src.context.ts"
     ]
   },
   {
@@ -2206,7 +3215,13 @@
       "file.packages.core.src.contextlimits.ts",
       "module.packages",
       "architecture.core.engine",
-      "architecture.scanner.tree.context.pipeline"
+      "architecture.scanner.tree.context.pipeline",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.understanding.pipeline",
+      "subsystem.core.engine.file.packages.core.src.contextlimits.ts",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.memory.support",
+      "subsystem.memory.validation.logs.file.packages.core.src.contextlimits.ts"
     ]
   },
   {
@@ -2233,7 +3248,10 @@
     "summary": "diffSummary.test.ts is a TypeScript test coverage file. AST-backed scan. Defines changes, summary, assertDanger, change. Depends on node:assert/strict, node:test, ./diffSummary.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.diffsummary.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.diffsummary.test.ts"
     ]
   },
   {
@@ -2304,7 +3322,13 @@
     "ownedByNodeIds": [
       "file.packages.core.src.diffsummary.ts",
       "module.packages",
-      "architecture.core.engine"
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.goal.routing",
+      "subsystem.core.engine.file.packages.core.src.diffsummary.ts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.automation.support",
+      "subsystem.goal.mission.automation.file.packages.core.src.diffsummary.ts"
     ]
   },
   {
@@ -2312,9 +3336,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "95934a9353d7af20069859cbd8d26acfa105b7730464233495328a6986b99e5b",
-    "sizeBytes": 17985,
-    "lines": 465,
+    "contentHash": "e11bfa7557c93b0455654b5425659f4aeb17dac04b7f479633b49e1996b24824",
+    "sizeBytes": 18834,
+    "lines": 481,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
@@ -2355,7 +3379,10 @@
     "summary": "evaluator.test.ts is a TypeScript test coverage file. AST-backed scan. Defines loopConfigPath, loopRuntimeExamplePath, loopRuntimePath, root, report. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.packages.core.src.evaluator.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.evaluator.test.ts"
     ]
   },
   {
@@ -2363,9 +3390,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "64608678a0bf396c64c1b9ce08802dec7b0c63d259b5a2d0e0ccb432c0a5680f",
-    "sizeBytes": 33371,
-    "lines": 880,
+    "contentHash": "40dd5a762cfb8b790f6061e7557c1884b8a743d60cfd9d3c3f9ad683cc4feb7b",
+    "sizeBytes": 33923,
+    "lines": 887,
     "imports": [
       "node:fs",
       "node:fs/promises",
@@ -2440,7 +3467,131 @@
     "ownedByNodeIds": [
       "file.packages.core.src.evaluator.ts",
       "module.packages",
-      "architecture.core.engine"
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.evaluator.ts",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.validation.evaluation",
+      "subsystem.memory.validation.logs.file.packages.core.src.evaluator.ts"
+    ]
+  },
+  {
+    "path": "packages/core/src/goal.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "5bdf98cc786a751613ffe3f5228569ab80ce43ee5c07116d7e22ba54f35dac1d",
+    "sizeBytes": 5312,
+    "lines": 143,
+    "imports": [
+      "node:assert/strict",
+      "node:test",
+      "./index.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "plan",
+      "mission",
+      "fixtureNodes",
+      "fixtureFiles",
+      "fixtureConcepts",
+      "fixtureInvariants",
+      "node",
+      "file"
+    ],
+    "isTest": true,
+    "summary": "goal.test.ts is a TypeScript test coverage file. AST-backed scan. Defines plan, mission, fixtureNodes, fixtureFiles, fixtureConcepts. Depends on node:assert/strict, node:test, ./index.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.goal.test.ts",
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.goal.test.ts"
+    ]
+  },
+  {
+    "path": "packages/core/src/goal.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "79538167f6d6777c20ce697356dd6692981f9e45dacc0a1e63bbfd013e32b85e",
+    "sizeBytes": 37412,
+    "lines": 1038,
+    "imports": [
+      "node:path",
+      "./schema.js"
+    ],
+    "exports": [
+      "GoalMode",
+      "GoalStatus",
+      "GoalLayer",
+      "GoalMissionPriority",
+      "GoalMissionRisk",
+      "GoalMissionCategory",
+      "GoalPlanningInput",
+      "GoalMetadata",
+      "GoalAffectedTree",
+      "GoalMissionSummary",
+      "GoalMissionPlan",
+      "GoalMissionFile",
+      "GoalWorkspacePlan",
+      "buildGoalWorkspacePlan"
+    ],
+    "symbols": [
+      "GoalMode",
+      "GoalStatus",
+      "GoalLayer",
+      "GoalMissionPriority",
+      "GoalMissionRisk",
+      "GoalMissionCategory",
+      "GoalPlanningInput",
+      "GoalMetadata",
+      "GoalAffectedTree",
+      "GoalMissionSummary",
+      "GoalMissionPlan",
+      "GoalMissionFile",
+      "GoalWorkspacePlan",
+      "ScoredItem",
+      "stopWords",
+      "allLayers",
+      "buildGoalWorkspacePlan",
+      "createdAt",
+      "createdAtIso",
+      "slug",
+      "id",
+      "workspaceRelativePath",
+      "goalRelativePath",
+      "goalJsonRelativePath",
+      "missionDirRelativePath",
+      "tokens",
+      "scoredFiles",
+      "scoredNodes",
+      "scoredConcepts",
+      "selectedFiles",
+      "selectedNodes",
+      "selectedConcepts",
+      "selectedInvariants",
+      "selectedLayers",
+      "affectedTree",
+      "metadata",
+      "missions",
+      "missionPlan",
+      "reviewCommands",
+      "buildAffectedTree"
+    ],
+    "isTest": false,
+    "summary": "goal.ts is a TypeScript implementation file. AST-backed scan. Defines GoalMode, GoalStatus, GoalLayer, GoalMissionPriority, GoalMissionRisk. Depends on node:path, ./schema.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.goal.ts",
+      "module.packages",
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.goal.routing",
+      "subsystem.core.engine.file.packages.core.src.goal.ts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
+      "subsystem.goal.mission.automation.file.packages.core.src.goal.ts"
     ]
   },
   {
@@ -2472,7 +3623,10 @@
     "summary": "importGraph.test.ts is a TypeScript test coverage file. AST-backed scan. Defines graph, root, workspace, file. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.packages.core.src.importgraph.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.importgraph.test.ts"
     ]
   },
   {
@@ -2543,7 +3697,10 @@
       "file.packages.core.src.importgraph.ts",
       "module.packages",
       "architecture.core.engine",
-      "architecture.scanner.tree.context.pipeline"
+      "architecture.scanner.tree.context.pipeline",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.understanding.pipeline",
+      "subsystem.core.engine.file.packages.core.src.importgraph.ts"
     ]
   },
   {
@@ -2551,13 +3708,14 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "ba73c63e00fd4b874dc7ff7f830dc451f7a03f9139d801a6de93805a95b3ba7f",
-    "sizeBytes": 583,
-    "lines": 18,
+    "contentHash": "1ce1fda83af19176d91835874b2cc0bb781f19ebca718071c8221cb5ba4ecaf9",
+    "sizeBytes": 706,
+    "lines": 22,
     "imports": [
       "./schema.js",
       "./runtimeSchema.js",
       "./workspace.js",
+      "./migrations.js",
       "./scanner.js",
       "./importGraph.js",
       "./treeBuilder.js",
@@ -2569,6 +3727,9 @@
       "./automationValidation.js",
       "./evaluator.js",
       "./diffSummary.js",
+      "./scope.js",
+      "./goal.js",
+      "./promptRouter.js",
       "./llm/types.js",
       "./llm/abstractionBuilder.js",
       "./llm/proposals.js"
@@ -2576,12 +3737,15 @@
     "exports": [],
     "symbols": [],
     "isTest": false,
-    "summary": "index.ts is a TypeScript implementation file. AST-backed scan. Depends on ./schema.js, ./runtimeSchema.js, ./workspace.js, ./scanner.js.",
+    "summary": "index.ts is a TypeScript implementation file. AST-backed scan. Depends on ./schema.js, ./runtimeSchema.js, ./workspace.js, ./migrations.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.index.ts",
       "module.packages",
       "architecture.core.engine",
-      "architecture.package.distribution"
+      "architecture.package.distribution",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.public.api",
+      "subsystem.core.engine.file.packages.core.src.index.ts"
     ]
   },
   {
@@ -2613,7 +3777,10 @@
     "ownedByNodeIds": [
       "file.packages.core.src.llm.abstractionbuilder.ts",
       "module.packages",
-      "architecture.core.engine"
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.llm.proposals",
+      "subsystem.core.engine.file.packages.core.src.llm.abstractionbuilder.ts"
     ]
   },
   {
@@ -2692,7 +3859,10 @@
     "ownedByNodeIds": [
       "file.packages.core.src.llm.proposals.ts",
       "module.packages",
-      "architecture.core.engine"
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.llm.proposals",
+      "subsystem.core.engine.file.packages.core.src.llm.proposals.ts"
     ]
   },
   {
@@ -2754,7 +3924,10 @@
     "ownedByNodeIds": [
       "file.packages.core.src.llm.types.ts",
       "module.packages",
-      "architecture.core.engine"
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.llm.proposals",
+      "subsystem.core.engine.file.packages.core.src.llm.types.ts"
     ]
   },
   {
@@ -2784,7 +3957,10 @@
     "summary": "llmAbstractionBuilder.test.ts is a TypeScript test coverage file. AST-backed scan. Defines builder, input, ontology, tree, classificationInput. Depends on node:assert/strict, node:test, ./index.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.llmabstractionbuilder.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.llmabstractionbuilder.test.ts"
     ]
   },
   {
@@ -2817,7 +3993,241 @@
     "summary": "llmProposalValidation.test.ts is a TypeScript test coverage file. AST-backed scan. Defines validation, unsafeNode, proposals, record, validBundle. Depends on node:assert/strict, node:test, ./index.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.llmproposalvalidation.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.llmproposalvalidation.test.ts"
+    ]
+  },
+  {
+    "path": "packages/core/src/migrations.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "85aff334cdcfaa4d8b976df4e3778b648d782b054c8813c2dcf0e82d61108350",
+    "sizeBytes": 4213,
+    "lines": 113,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:url",
+      "node:test",
+      "./runtimeSchema.js",
+      "./workspace.js",
+      "./migrations.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "config",
+      "plan",
+      "root",
+      "result",
+      "written",
+      "configPath",
+      "before",
+      "after",
+      "workspace",
+      "copyFixtureMemory",
+      "readFixtureConfig",
+      "writeConfig",
+      "fixtureRoot"
+    ],
+    "isTest": true,
+    "summary": "migrations.test.ts is a TypeScript test coverage file. AST-backed scan. Defines config, plan, root, result, written. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.migrations.test.ts",
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.migrations.test.ts"
+    ]
+  },
+  {
+    "path": "packages/core/src/migrations.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "8f31e2c1345c312d82a6f05fc17a23b79c15cd4780bf61134df4aae7a1126ddf",
+    "sizeBytes": 11094,
+    "lines": 350,
+    "imports": [
+      "node:fs/promises",
+      "node:fs",
+      "node:path",
+      "./schema.js",
+      "./runtimeSchema.js",
+      "./workspace.js"
+    ],
+    "exports": [
+      "MigrationStep",
+      "MigrationPlan",
+      "AtreeMigrationMemory",
+      "MigrationPlanOptions",
+      "MigrateAtreeWorkspaceOptions",
+      "MigrationResult",
+      "planAtreeMigration",
+      "migrateAtreeWorkspace",
+      "summarizeMigrationIssues"
+    ],
+    "symbols": [
+      "CONFIG_RELATIVE_PATH",
+      "MIGRATION_HINT",
+      "MigrationStep",
+      "MigrationPlan",
+      "AtreeMigrationMemory",
+      "MigrationPlanOptions",
+      "MigrateAtreeWorkspaceOptions",
+      "MigrationResult",
+      "planAtreeMigration",
+      "config",
+      "configVersion",
+      "fromVersion",
+      "toVersion",
+      "issues",
+      "steps",
+      "changedFiles",
+      "migrateAtreeWorkspace",
+      "root",
+      "configPath",
+      "dryRun",
+      "plan",
+      "preValidationIssues",
+      "migratedConfig",
+      "error",
+      "postValidationIssues",
+      "backupDir",
+      "summarizeMigrationIssues",
+      "buildConfigMigrationSteps",
+      "seen",
+      "currentVersion",
+      "migration",
+      "backupChangedFiles",
+      "relativePath",
+      "source",
+      "target",
+      "emptyResult",
+      "migrationIssue",
+      "hasErrors",
+      "filterMigratableVersionIssues",
+      "objectRecord"
+    ],
+    "isTest": false,
+    "summary": "migrations.ts is a TypeScript implementation file. AST-backed scan. Defines CONFIG_RELATIVE_PATH, MIGRATION_HINT, MigrationStep, MigrationPlan, AtreeMigrationMemory. Depends on node:fs/promises, node:fs, node:path, ./schema.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.migrations.ts",
+      "module.packages",
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.core.support",
+      "subsystem.core.engine.file.packages.core.src.migrations.ts"
+    ]
+  },
+  {
+    "path": "packages/core/src/promptRouter.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "9ed018f38b948abdab2cfe21f00e18402796b77a0c6409f146f83418ab6f380f",
+    "sizeBytes": 6431,
+    "lines": 183,
+    "imports": [
+      "node:assert/strict",
+      "node:test",
+      "./index.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "result",
+      "fixtureMemory",
+      "node",
+      "file"
+    ],
+    "isTest": true,
+    "summary": "promptRouter.test.ts is a TypeScript test coverage file. AST-backed scan. Defines result, fixtureMemory, node, file. Depends on node:assert/strict, node:test, ./index.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.promptrouter.test.ts",
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.promptrouter.test.ts"
+    ]
+  },
+  {
+    "path": "packages/core/src/promptRouter.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "2227b4b8da698ecefd5b914dac72c7b1000887794b10f658b1cc51dafc05c5dd",
+    "sizeBytes": 21399,
+    "lines": 519,
+    "imports": [
+      "./schema.js"
+    ],
+    "exports": [
+      "PromptRouteDecision",
+      "PromptRouteRisk",
+      "PromptRouteComplexity",
+      "PromptRouteInput",
+      "PromptRouteResult",
+      "routePrompt",
+      "formatPromptRouteResult"
+    ],
+    "symbols": [
+      "PromptRouteDecision",
+      "PromptRouteRisk",
+      "PromptRouteComplexity",
+      "PromptRouteInput",
+      "PromptRouteResult",
+      "ScoredItem",
+      "stopWords",
+      "orderedLayers",
+      "directTerms",
+      "complexTerms",
+      "assessmentTerms",
+      "destructiveTerms",
+      "bypassTerms",
+      "sensitiveTerms",
+      "broadTerms",
+      "routePrompt",
+      "prompt",
+      "lowerPrompt",
+      "tokens",
+      "nodes",
+      "files",
+      "concepts",
+      "invariants",
+      "memoryAvailable",
+      "scoredFiles",
+      "scoredNodes",
+      "scoredConcepts",
+      "estimatedFiles",
+      "estimatedAffectedNodes",
+      "estimatedAffectedConcepts",
+      "estimatedAffectedLayers",
+      "areaCount",
+      "complexScore",
+      "directScore",
+      "manualReasons",
+      "assessmentReasons",
+      "sensitiveRisk",
+      "reasons",
+      "decision",
+      "strongDirect"
+    ],
+    "isTest": false,
+    "summary": "promptRouter.ts is a TypeScript implementation file. AST-backed scan. Defines PromptRouteDecision, PromptRouteRisk, PromptRouteComplexity, PromptRouteInput, PromptRouteResult. Depends on ./schema.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.promptrouter.ts",
+      "module.packages",
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.goal.routing",
+      "subsystem.core.engine.file.packages.core.src.promptrouter.ts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
+      "subsystem.goal.mission.automation.file.packages.core.src.promptrouter.ts"
     ]
   },
   {
@@ -2841,7 +4251,10 @@
     "summary": "runReports.test.ts is a TypeScript test coverage file. AST-backed scan. Defines summary. Depends on node:assert/strict, node:test, ./runReports.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.runreports.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.runreports.test.ts"
     ]
   },
   {
@@ -2873,7 +4286,13 @@
     "ownedByNodeIds": [
       "file.packages.core.src.runreports.ts",
       "module.packages",
-      "architecture.core.engine"
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.runreports.ts",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.validation.evaluation",
+      "subsystem.memory.validation.logs.file.packages.core.src.runreports.ts"
     ]
   },
   {
@@ -2930,7 +4349,10 @@
     "summary": "runtimeSchema.test.ts is a TypeScript test coverage file. AST-backed scan. Defines config, ontology, files, importGraph, nodes. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.packages.core.src.runtimeschema.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.runtimeschema.test.ts"
     ]
   },
   {
@@ -2938,9 +4360,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "c5b6ade2361cb4892f8f831b613c70a64d04a6ed70d1bb1231421eb38e9f75b5",
-    "sizeBytes": 42122,
-    "lines": 944,
+    "contentHash": "6cae8253945d92edf764f95b75877f3befb84bed257680c7ef5e5f198e95dae4",
+    "sizeBytes": 44052,
+    "lines": 979,
     "imports": [
       "./schema.js"
     ],
@@ -3019,7 +4441,13 @@
     "ownedByNodeIds": [
       "file.packages.core.src.runtimeschema.ts",
       "module.packages",
-      "architecture.core.engine"
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.runtimeschema.ts",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
+      "subsystem.memory.validation.logs.file.packages.core.src.runtimeschema.ts"
     ]
   },
   {
@@ -3027,9 +4455,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "c384018ba386d77f22f8a4a1ba6ce8051c8505121d7026975d937579e6514462",
-    "sizeBytes": 13498,
-    "lines": 279,
+    "contentHash": "4925247ea3c0af6eb33c88eec7aa730272e925e6ef8a533d34ad3abf6b00b1cc",
+    "sizeBytes": 14090,
+    "lines": 300,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
@@ -3066,7 +4494,10 @@
     "summary": "scanner.test.ts is a TypeScript test coverage file. AST-backed scan. Defines source, summary, cases, testCase, dottedPyTest. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.packages.core.src.scanner.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.scanner.test.ts"
     ]
   },
   {
@@ -3074,9 +4505,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "73c60e950739ee52fc49361f54094b9da441e1ed08315da053507ebb3e01b044",
-    "sizeBytes": 15405,
-    "lines": 413,
+    "contentHash": "e930b27d7707303fac902f0c45fbaa91b3dec6205c10f811b245fe11ef54b44b",
+    "sizeBytes": 17267,
+    "lines": 484,
     "imports": [
       "node:fs/promises",
       "node:crypto",
@@ -3140,7 +4571,10 @@
       "file.packages.core.src.scanner.ts",
       "module.packages",
       "architecture.core.engine",
-      "architecture.scanner.tree.context.pipeline"
+      "architecture.scanner.tree.context.pipeline",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.understanding.pipeline",
+      "subsystem.core.engine.file.packages.core.src.scanner.ts"
     ]
   },
   {
@@ -3148,12 +4582,13 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "d1bb33b0868a621db5ce50aa9262e4dd6b2a7261367e3e8c63015fdee4e1dc1e",
-    "sizeBytes": 5275,
-    "lines": 244,
+    "contentHash": "8460bb6993c657a761b7cd8e370b25b3ca00df8df89516ef5927a7946f3661ed",
+    "sizeBytes": 5718,
+    "lines": 259,
     "imports": [],
     "exports": [
       "AbstractionLevel",
+      "TREE_NODE_THIN_EXPLANATION_CHAR_THRESHOLD",
       "AbstractionOntologyLevel",
       "InstallMode",
       "AtreeConfig",
@@ -3181,6 +4616,7 @@
     ],
     "symbols": [
       "AbstractionLevel",
+      "TREE_NODE_THIN_EXPLANATION_CHAR_THRESHOLD",
       "AbstractionOntologyLevel",
       "InstallMode",
       "AtreeConfig",
@@ -3207,11 +4643,132 @@
       "ValidationIssue"
     ],
     "isTest": false,
-    "summary": "schema.ts is a TypeScript data/schema file. AST-backed scan. Defines AbstractionLevel, AbstractionOntologyLevel, InstallMode, AtreeConfig, FileSummary.",
+    "summary": "schema.ts is a TypeScript data/schema file. AST-backed scan. Defines AbstractionLevel, TREE_NODE_THIN_EXPLANATION_CHAR_THRESHOLD, AbstractionOntologyLevel, InstallMode, AtreeConfig.",
     "ownedByNodeIds": [
       "file.packages.core.src.schema.ts",
       "module.packages",
-      "architecture.core.engine"
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.schema.ts",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
+      "subsystem.memory.validation.logs.file.packages.core.src.schema.ts"
+    ]
+  },
+  {
+    "path": "packages/core/src/scope.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "7076963e510859a69c0ccd00f9c1219965af7ae9654c4ae5d4ecd708de55bf6f",
+    "sizeBytes": 4753,
+    "lines": 139,
+    "imports": [
+      "node:assert/strict",
+      "node:test",
+      "./scope.js",
+      "./schema.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "contract",
+      "report",
+      "fixtureNodes",
+      "fixtureFiles",
+      "node",
+      "file"
+    ],
+    "isTest": true,
+    "summary": "scope.test.ts is a TypeScript test coverage file. AST-backed scan. Defines contract, report, fixtureNodes, fixtureFiles, node. Depends on node:assert/strict, node:test, ./scope.js, ./schema.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.scope.test.ts",
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.scope.test.ts"
+    ]
+  },
+  {
+    "path": "packages/core/src/scope.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "5fa68f5eb719085f7dfa3432505ed17ab8b5ace907f9d503de773760762a3ec2",
+    "sizeBytes": 18674,
+    "lines": 532,
+    "imports": [
+      "./schema.js",
+      "./diffSummary.js"
+    ],
+    "exports": [
+      "ScopeContractStatus",
+      "ScopeCheckStatus",
+      "ScopeViolationSeverity",
+      "ScopeContract",
+      "ScopeBuildInput",
+      "ScopeViolation",
+      "ScopeCheckInput",
+      "ScopeCheckReport",
+      "buildScopeContract",
+      "checkScope",
+      "formatScopeContractMarkdown",
+      "formatScopeCheckMarkdown"
+    ],
+    "symbols": [
+      "ScopeContractStatus",
+      "ScopeCheckStatus",
+      "ScopeViolationSeverity",
+      "ScopeContract",
+      "ScopeBuildInput",
+      "ScopeViolation",
+      "ScopeCheckInput",
+      "ScopeCheckReport",
+      "allAreas",
+      "stopWords",
+      "buildScopeContract",
+      "createdAt",
+      "promptTokens",
+      "fileScores",
+      "nodeScores",
+      "selectedNodes",
+      "affectedNodeIds",
+      "allowedFiles",
+      "allowedAreas",
+      "ambiguities",
+      "requiresClarification",
+      "checkScope",
+      "contract",
+      "diffSummary",
+      "violations",
+      "changedFiles",
+      "nonMemoryFiles",
+      "file",
+      "dangerous",
+      "formatScopeContractMarkdown",
+      "lines",
+      "formatScopeCheckMarkdown",
+      "scoreFiles",
+      "haystack",
+      "scoreNodes",
+      "fileScoreMap",
+      "nodeFiles",
+      "fileScore",
+      "directScore",
+      "breadthPenalty"
+    ],
+    "isTest": false,
+    "summary": "scope.ts is a TypeScript implementation file. AST-backed scan. Defines ScopeContractStatus, ScopeCheckStatus, ScopeViolationSeverity, ScopeContract, ScopeBuildInput. Depends on ./schema.js, ./diffSummary.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.scope.ts",
+      "module.packages",
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.understanding.pipeline",
+      "subsystem.core.engine.file.packages.core.src.scope.ts",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.validation.evaluation",
+      "subsystem.memory.validation.logs.file.packages.core.src.scope.ts"
     ]
   },
   {
@@ -3219,9 +4776,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "d78a1146cfa652446fb31cf607f5d6ce93a452ef905051abd56861ffba3ff84a",
-    "sizeBytes": 10746,
-    "lines": 244,
+    "contentHash": "bc2b8eaac7c0f6f5be34abd199e0f1c0c7275fadbdd61a158aa02f3efa8d2126",
+    "sizeBytes": 16819,
+    "lines": 358,
     "imports": [
       "node:assert/strict",
       "node:test",
@@ -3232,9 +4789,11 @@
     "symbols": [
       "result",
       "concept",
-      "concepts",
-      "files",
+      "root",
       "nodes",
+      "files",
+      "indexes",
+      "concepts",
       "architecture",
       "nodeId",
       "architectureNode",
@@ -3250,10 +4809,13 @@
       "assertAbsentConcepts"
     ],
     "isTest": true,
-    "summary": "treeBuilder.test.ts is a TypeScript test coverage file. AST-backed scan. Defines result, concept, concepts, files, nodes. Depends on node:assert/strict, node:test, ./treeBuilder.js, ./schema.js.",
+    "summary": "treeBuilder.test.ts is a TypeScript test coverage file. AST-backed scan. Defines result, concept, root, nodes, files. Depends on node:assert/strict, node:test, ./treeBuilder.js, ./schema.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.treebuilder.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.treebuilder.test.ts"
     ]
   },
   {
@@ -3261,9 +4823,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "81401d5e3d9ff722b0f6399e4a0b608be134d7f2a69fadd8de86db842408a186",
-    "sizeBytes": 31367,
-    "lines": 776,
+    "contentHash": "b1c7bb7e2ceecdb08467ae3334b68b1fe7210df16933359eb51ce37784894064",
+    "sizeBytes": 91392,
+    "lines": 1832,
     "imports": [
       "node:path",
       "./schema.js"
@@ -3282,6 +4844,7 @@
       "rootId",
       "nodes",
       "root",
+      "indexes",
       "domain",
       "arch",
       "code",
@@ -3295,25 +4858,24 @@
       "architectureNode",
       "sourceFile",
       "file",
+      "subsystemTree",
+      "subsystemNode",
       "concepts",
       "c",
       "cn",
       "invariants",
       "inv",
       "nodeId",
-      "inferOntology",
-      "paths",
-      "languages",
-      "hasUi",
-      "hasTests",
-      "hasPackages",
-      "hasData",
-      "runtimeName",
-      "packageName",
-      "codeName",
-      "ConceptCandidate",
-      "CONCEPT_STOP_WORDS",
-      "SINGLE_WORD_CONCEPT_STOP_WORDS"
+      "builtNodes",
+      "populateNodeExplanations",
+      "nodeById",
+      "fileByPath",
+      "conceptByNodeId",
+      "invariantsById",
+      "treeNode",
+      "explanationArgs",
+      "buildNodeExplanation",
+      "buildNodeExistenceReason"
     ],
     "isTest": false,
     "summary": "treeBuilder.ts is a TypeScript implementation file. AST-backed scan. Defines BuildTreeResult, BuildTreeOptions, buildDeterministicTree, ontology, levels. Depends on node:path, ./schema.js.",
@@ -3321,7 +4883,10 @@
       "file.packages.core.src.treebuilder.ts",
       "module.packages",
       "architecture.core.engine",
-      "architecture.scanner.tree.context.pipeline"
+      "architecture.scanner.tree.context.pipeline",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.understanding.pipeline",
+      "subsystem.core.engine.file.packages.core.src.treebuilder.ts"
     ]
   },
   {
@@ -3329,9 +4894,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "92200970a53daefe0b2e11da1e3fb16ec6ef98bdd69d8d17af27005b06231fb7",
-    "sizeBytes": 14147,
-    "lines": 366,
+    "contentHash": "5b95d9d948555bcfaa5635344188a8111a54ca04041bf10f7ac1e78e9899767c",
+    "sizeBytes": 15140,
+    "lines": 390,
     "imports": [
       "node:assert/strict",
       "node:test",
@@ -3354,6 +4919,9 @@
       "gappedOntology",
       "nonIntegerIssues",
       "gappedIssues",
+      "projectNode",
+      "fileNode",
+      "moduleNode",
       "concepts",
       "existingFile",
       "staleConcept",
@@ -3372,7 +4940,10 @@
     "summary": "validator.test.ts is a TypeScript test coverage file. AST-backed scan. Defines stored, current, added, issues, legacyNode. Depends on node:assert/strict, node:test, ./scanner.js, ./validator.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.validator.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.validator.test.ts"
     ]
   },
   {
@@ -3380,9 +4951,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "b9470db3f84813c07ad30fb708bf50c2a27819ca358f742c36f1879b62722026",
-    "sizeBytes": 26891,
-    "lines": 804,
+    "contentHash": "4e80be98a83bf7a760f54fcdfd7f99ed67babaaf125171743fd82b8c1dbceb4e",
+    "sizeBytes": 28438,
+    "lines": 844,
     "imports": [
       "./schema.js"
     ],
@@ -3441,7 +5012,13 @@
     "ownedByNodeIds": [
       "file.packages.core.src.validator.ts",
       "module.packages",
-      "architecture.core.engine"
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.validator.ts",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.validation.evaluation",
+      "subsystem.memory.validation.logs.file.packages.core.src.validator.ts"
     ]
   },
   {
@@ -3470,7 +5047,10 @@
     "summary": "workspace.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, filePath, workspace. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.packages.core.src.workspace.test.ts",
-      "module.packages"
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.workspace.test.ts"
     ]
   },
   {
@@ -3478,9 +5058,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "e63ad248dc2dbc6e0e3cc89b29051c32305f3ef31fb1036f7539d3c0039adebb",
-    "sizeBytes": 14355,
-    "lines": 400,
+    "contentHash": "e814250fb5787a7327d99cfc296bcc55162ac90196b36b2275452b4e2556ff31",
+    "sizeBytes": 14494,
+    "lines": 402,
     "imports": [
       "node:fs/promises",
       "node:fs",
@@ -3562,7 +5142,13 @@
     "ownedByNodeIds": [
       "file.packages.core.src.workspace.ts",
       "module.packages",
-      "architecture.core.engine"
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.workspace.ts",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
+      "subsystem.memory.validation.logs.file.packages.core.src.workspace.ts"
     ]
   },
   {
@@ -3604,7 +5190,13 @@
       "file.packages.full.bin.atree.js",
       "module.packages",
       "architecture.cli.surface",
-      "architecture.package.distribution"
+      "architecture.package.distribution",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.packages.full.bin.atree.js",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.full.package",
+      "subsystem.packaging.adapters.file.packages.full.bin.atree.js"
     ]
   },
   {
@@ -3624,7 +5216,13 @@
       "file.packages.full.package.json",
       "module.packages",
       "architecture.cli.surface",
-      "architecture.package.distribution"
+      "architecture.package.distribution",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.package",
+      "subsystem.cli.local.api.file.packages.full.package.json",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.full.package",
+      "subsystem.packaging.adapters.file.packages.full.package.json"
     ]
   },
   {
@@ -3641,10 +5239,13 @@
       "abstraction-tree"
     ],
     "isTest": false,
-    "summary": "README.md is a Markdown implementation file. Defines abstraction-tree.",
+    "summary": "Full install package for Abstraction Tree. It includes: Use it in an existing project:",
     "ownedByNodeIds": [
       "file.packages.full.readme.md",
-      "module.packages"
+      "module.packages",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.full.package",
+      "subsystem.packaging.adapters.file.packages.full.readme.md"
     ]
   },
   {
@@ -3652,9 +5253,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "8ad7dc0a6e4a6bd89f4ec7d72bc23662e36214343fb706607c119e8e4b93dc66",
-    "sizeBytes": 19977,
-    "lines": 443,
+    "contentHash": "07bcac43c939966fa083e29d781a6dd4145060c8032050f9004672eb2f526370",
+    "sizeBytes": 25680,
+    "lines": 524,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -3662,6 +5263,8 @@
       "Abstraction Tree",
       "Core promise",
       "Automation maturity ladder",
+      "Prompt Routing",
+      "Goal-Driven Autopilot",
       "Two install modes",
       "1. Core-only mode",
       "2. Full mode: core + visual app",
@@ -3677,6 +5280,7 @@
       "`atree init`",
       "`atree mode`",
       "`atree scan`",
+      "`atree doctor`",
       "`atree serve`",
       "`atree validate`",
       "`atree context`",
@@ -3693,10 +5297,13 @@
       "example"
     ],
     "isTest": false,
-    "summary": "README.md is a Markdown implementation file. Defines to, Abstraction Tree, Core promise, Automation maturity ladder, Two install modes.",
+    "summary": "Abstraction Tree is a local-first codebase understanding system. It scans an existing software project, builds a deterministic abstraction-memory baseline, and gives both humans and coding agents a shared map of the codebase. The default layer is structured project facts, deterministic tree generation, validation, and agent context packs without requiring an API key. Higher automation is explicit and review-oriented rather than part of the default scan path.",
     "ownedByNodeIds": [
       "file.readme.md",
-      "module.root"
+      "module.root",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.readme",
+      "subsystem.docs.examples.file.readme.md"
     ]
   },
   {
@@ -3721,7 +5328,10 @@
     "summary": "app-node-accessors.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines node, item. Depends on node:assert/strict, node:test, ../packages/app/dist-ts/nodeAccessors.js.",
     "ownedByNodeIds": [
       "file.scripts.app.node.accessors.test.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.app.node.accessors.test.mjs"
     ]
   },
   {
@@ -3782,7 +5392,13 @@
     "summary": "check-changelog.mjs is a JavaScript implementation file. AST-backed scan. Defines repoRoot, publishablePackages, main, expectedVersion, issues. Depends on node:fs/promises, node:path, node:url.",
     "ownedByNodeIds": [
       "file.scripts.check.changelog.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.check.changelog.mjs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.check.changelog.mjs"
     ]
   },
   {
@@ -3816,7 +5432,13 @@
     "summary": "check-changelog.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines root, versionIssues, changelogIssues, createReleaseFixture, version. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.scripts.check.changelog.test.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.check.changelog.test.mjs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.check.changelog.test.mjs"
     ]
   },
   {
@@ -3863,7 +5485,10 @@
     "summary": "check-unicode.mjs is a JavaScript implementation file. AST-backed scan. Defines repoRoot, bidiControls, findings, finding, scanProject. Depends on node:fs/promises, node:path, node:url, ./project-text-files.mjs.",
     "ownedByNodeIds": [
       "file.scripts.check.unicode.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.check.unicode.mjs"
     ]
   },
   {
@@ -3888,7 +5513,10 @@
     "summary": "check-unicode.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines marker, findings. Depends on node:assert/strict, node:test, ./check-unicode.mjs.",
     "ownedByNodeIds": [
       "file.scripts.check.unicode.test.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.check.unicode.test.mjs"
     ]
   },
   {
@@ -3896,9 +5524,9 @@
     "extension": ".mjs",
     "language": "JavaScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "9ffa206f0de3329576c7e9f7a45451143831957f9fe2e4c8331d50258b924a6f",
-    "sizeBytes": 22963,
-    "lines": 696,
+    "contentHash": "6f18c8c9de63f065d0a38b428b282925394a3842597ddffa84d0af265aedbf02",
+    "sizeBytes": 39972,
+    "lines": 1198,
     "imports": [
       "node:child_process",
       "node:fs/promises",
@@ -3908,6 +5536,9 @@
     ],
     "exports": [
       "assessmentPackRoot",
+      "defaultMaxBytesPerArtifact",
+      "defaultMaxTotalBytes",
+      "defaultRedactionPatternDefinitions",
       "requiredPackFiles",
       "runCli",
       "parseArgs",
@@ -3918,11 +5549,18 @@
       "buildTreeSummary",
       "buildDiffSummaryMarkdown",
       "buildLatestMarkdown",
+      "redactText",
+      "truncateText",
+      "writeRedactedTextArtifact",
+      "redactionSummary",
       "buildMissionAuthoringSchema"
     ],
     "symbols": [
       "execFileAsync",
       "assessmentPackRoot",
+      "defaultMaxBytesPerArtifact",
+      "defaultMaxTotalBytes",
+      "defaultRedactionPatternDefinitions",
       "requiredPackFiles",
       "runCli",
       "cwd",
@@ -3936,9 +5574,15 @@
       "createdAt",
       "outputRoot",
       "runCommand",
+      "safetyOptions",
       "packDir",
       "context",
       "packRelativeDir",
+      "safetyState",
+      "artifactTexts",
+      "file",
+      "text",
+      "packSafety",
       "collectAssessmentPackContext",
       "packageJson",
       "config",
@@ -3951,22 +5595,19 @@
       "changeReview",
       "latestEvaluation",
       "latestRuns",
-      "latestLessons",
-      "missionRuntime",
-      "buildAssessmentPrompt",
-      "buildRepoSummary",
-      "packageValue",
-      "configValue",
-      "treeNodes",
-      "fileEntries",
-      "conceptEntries",
-      "latestEvaluationSource"
+      "latestLessons"
     ],
     "isTest": false,
-    "summary": "create-assessment-pack.mjs is a JavaScript implementation file. AST-backed scan. Defines execFileAsync, assessmentPackRoot, requiredPackFiles, runCli, cwd. Depends on node:child_process, node:fs/promises, node:path, node:url.",
+    "summary": "create-assessment-pack.mjs is a JavaScript implementation file. AST-backed scan. Defines execFileAsync, assessmentPackRoot, defaultMaxBytesPerArtifact, defaultMaxTotalBytes, defaultRedactionPatternDefinitions. Depends on node:child_process, node:fs/promises, node:path, node:url.",
     "ownedByNodeIds": [
       "file.scripts.create.assessment.pack.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.scripts.create.assessment.pack.mjs",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.create.assessment.pack.mjs"
     ]
   },
   {
@@ -3974,9 +5615,9 @@
     "extension": ".mjs",
     "language": "JavaScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "5fd2a67e051deb25807543f3e6f32a6146da3be9543a2039d82960dbed86ea6e",
-    "sizeBytes": 7404,
-    "lines": 223,
+    "contentHash": "bc61257d073ffcdb323778d41e3095b3d8e78c7346c0dd217a1e090f6d045cdd",
+    "sizeBytes": 14421,
+    "lines": 390,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
@@ -3993,17 +5634,22 @@
       "file",
       "filePath",
       "prompt",
-      "latestEvaluation",
-      "repoSummary",
-      "latestRuns",
-      "latestLessons",
+      "packSafety",
+      "parsed",
       "diffSummary",
+      "latestRuns",
+      "repoSummaryText",
+      "repoSummary",
+      "commands",
+      "latestLessons",
+      "latestEvaluation",
       "stdout",
       "tempWorkspace",
       "writeBaseMemory",
       "writeJsonAt",
       "writeFileAt",
       "successfulCommand",
+      "sensitiveCommand",
       "failingContextCommand",
       "relativePath",
       "captureStream",
@@ -4013,7 +5659,13 @@
     "summary": "create-assessment-pack.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines fixedDate, root, result, file, filePath. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.scripts.create.assessment.pack.test.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.create.assessment.pack.test.mjs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.create.assessment.pack.test.mjs"
     ]
   },
   {
@@ -4050,7 +5702,41 @@
     "summary": "cross-platform-automation.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines repoRoot, packageJson, scripts, windowsScopedScripts, tempRoot. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.scripts.cross.platform.automation.test.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.cross.platform.automation.test.mjs"
+    ]
+  },
+  {
+    "path": "scripts/data-model-explanations.test.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "5c37913da9d050f63935ee271dbf1aeb6ee40e54ab1e8aade460d9eaab02cc32",
+    "sizeBytes": 1015,
+    "lines": 19,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:path",
+      "node:test",
+      "node:url"
+    ],
+    "exports": [],
+    "symbols": [
+      "repoRoot",
+      "dataModel",
+      "readme"
+    ],
+    "isTest": true,
+    "summary": "data-model-explanations.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines repoRoot, dataModel, readme. Depends on node:assert/strict, node:fs/promises, node:path, node:test.",
+    "ownedByNodeIds": [
+      "file.scripts.data.model.explanations.test.mjs",
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.data.model.explanations.test.mjs"
     ]
   },
   {
@@ -4118,7 +5804,10 @@
     "summary": "diff-summary.mjs is a JavaScript implementation file. AST-backed scan. Defines execFileAsync, repoRoot, exitCode, main, result. Depends on node:child_process, node:fs/promises, node:path, node:url.",
     "ownedByNodeIds": [
       "file.scripts.diff.summary.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.scripts.diff.summary.mjs"
     ]
   },
   {
@@ -4164,7 +5853,10 @@
     "summary": "format.mjs is a JavaScript implementation file. AST-backed scan. Defines repoRoot, mode, formatText, normalized, readableTextIssue. Depends on node:fs/promises, node:path, node:url, ./project-text-files.mjs.",
     "ownedByNodeIds": [
       "file.scripts.format.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.format.mjs"
     ]
   },
   {
@@ -4202,7 +5894,10 @@
     "summary": "generated-memory-fixtures.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines repoRoot, fixturePath, fixtures, fixtureProject, quality. Depends on node:assert/strict, node:fs/promises, node:path, node:test.",
     "ownedByNodeIds": [
       "file.scripts.generated.memory.fixtures.test.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.generated.memory.fixtures.test.mjs"
     ]
   },
   {
@@ -4210,31 +5905,26 @@
     "extension": ".mjs",
     "language": "JavaScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "24b377f64e75acb8dff5d2541197147609f9fe4a411c0fab042b8bff0cd27b83",
-    "sizeBytes": 12128,
-    "lines": 338,
+    "contentHash": "0528925012ab053fc2e873c3fb842ede6bd3a18c0a9d99bc584debaa51f252c9",
+    "sizeBytes": 9357,
+    "lines": 268,
     "imports": [
       "node:fs/promises",
       "node:path",
       "node:url",
-      "./run-missions.mjs"
+      "./mission-schema.mjs"
     ],
     "exports": [
-      "defaultMissionImportRoot",
       "validMissionCategories",
+      "validateMissionFrontmatter",
+      "defaultMissionImportRoot",
       "runCli",
       "parseArgs",
       "importAssessmentMissions",
-      "validateMissionEntries",
-      "validateMissionFrontmatter"
+      "validateMissionEntries"
     ],
     "symbols": [
       "defaultMissionImportRoot",
-      "validMissionCategories",
-      "validPriorities",
-      "validRisks",
-      "requiredStringFields",
-      "requiredArrayFields",
       "blockedDestinationPrefixes",
       "runCli",
       "cwd",
@@ -4264,17 +5954,25 @@
       "ids",
       "entry",
       "markdown",
-      "frontmatter",
       "mission",
       "existing",
-      "validateMissionFrontmatter",
-      "field"
+      "walkSourceFiles",
+      "entries",
+      "files",
+      "absolutePath",
+      "assertDirectory",
+      "value",
+      "pathExists",
+      "assertSafeDestination"
     ],
     "isTest": false,
-    "summary": "import-assessment-missions.mjs is a JavaScript implementation file. AST-backed scan. Defines defaultMissionImportRoot, validMissionCategories, validPriorities, validRisks, requiredStringFields. Depends on node:fs/promises, node:path, node:url, ./run-missions.mjs.",
+    "summary": "import-assessment-missions.mjs is a JavaScript implementation file. AST-backed scan. Defines defaultMissionImportRoot, blockedDestinationPrefixes, runCli, cwd, stdout. Depends on node:fs/promises, node:path, node:url, ./mission-schema.mjs.",
     "ownedByNodeIds": [
       "file.scripts.import.assessment.missions.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.scripts.import.assessment.missions.mjs"
     ]
   },
   {
@@ -4282,9 +5980,9 @@
     "extension": ".mjs",
     "language": "JavaScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "5fdf931887c9ae7826af619c131d79240ec6eafe15355ba9973c7b95be97ca4a",
-    "sizeBytes": 7302,
-    "lines": 246,
+    "contentHash": "229921a16f8eb97a0378fd2cd170172c1ce052ded89d4e958eae1f3567484c8b",
+    "sizeBytes": 8119,
+    "lines": 284,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
@@ -4312,7 +6010,10 @@
     "summary": "import-assessment-missions.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines root, result, stdout, tempWorkspace, writeFileAt. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.scripts.import.assessment.missions.test.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.import.assessment.missions.test.mjs"
     ]
   },
   {
@@ -4379,7 +6080,10 @@
     "summary": "lint.mjs is a JavaScript implementation file. AST-backed scan. Defines repoRoot, lintableExtensions, lintablePrefixes, nodeNextImportPrefixes, generatedSegments. Depends on node:fs/promises, node:path, node:url, typescript.",
     "ownedByNodeIds": [
       "file.scripts.lint.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.lint.mjs"
     ]
   },
   {
@@ -4403,7 +6107,129 @@
     "summary": "lint.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines issues. Depends on node:assert/strict, node:test, ./lint.mjs.",
     "ownedByNodeIds": [
       "file.scripts.lint.test.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.lint.test.mjs"
+    ]
+  },
+  {
+    "path": "scripts/mission-schema.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "a5cb509b884bfd4fcc689786c41aa17c49d8466803e41ec69925779df0e76b7d",
+    "sizeBytes": 8440,
+    "lines": 233,
+    "imports": [
+      "node:fs/promises",
+      "node:path"
+    ],
+    "exports": [
+      "missionCategoryDescriptions",
+      "validMissionCategories",
+      "validMissionPriorities",
+      "validMissionRisks",
+      "requiredMissionStringFields",
+      "requiredMissionArrayFields",
+      "requiredMissionBooleanFields",
+      "requiredMissionBodyHeadings",
+      "parseMissionMarkdown",
+      "parseSimpleFrontmatter",
+      "validateMissionFrontmatter",
+      "validateMissionBody",
+      "validateMissionMarkdown",
+      "validateMissionFolder"
+    ],
+    "symbols": [
+      "missionCategoryDescriptions",
+      "validMissionCategories",
+      "validMissionPriorities",
+      "validMissionRisks",
+      "requiredMissionStringFields",
+      "requiredMissionArrayFields",
+      "requiredMissionBooleanFields",
+      "requiredMissionBodyHeadings",
+      "parseMissionMarkdown",
+      "cleanMarkdown",
+      "lines",
+      "endIndex",
+      "frontmatterText",
+      "body",
+      "parseSimpleFrontmatter",
+      "result",
+      "currentArrayKey",
+      "rawLine",
+      "line",
+      "arrayItem",
+      "field",
+      "key",
+      "value",
+      "validateMissionFrontmatter",
+      "mission",
+      "stringFields",
+      "arrayFields",
+      "booleanFields",
+      "validateMissionBody",
+      "requiredHeadings",
+      "headings",
+      "heading",
+      "validateMissionMarkdown",
+      "strict",
+      "parsed",
+      "frontmatter",
+      "validateMissionFolder",
+      "root",
+      "folder",
+      "files"
+    ],
+    "isTest": false,
+    "summary": "mission-schema.mjs is a JavaScript data/schema file. AST-backed scan. Defines missionCategoryDescriptions, validMissionCategories, validMissionPriorities, validMissionRisks, requiredMissionStringFields. Depends on node:fs/promises, node:path.",
+    "ownedByNodeIds": [
+      "file.scripts.mission.schema.mjs",
+      "module.scripts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.scripts.mission.schema.mjs"
+    ]
+  },
+  {
+    "path": "scripts/mission-schema.test.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "740a0cfe348c08a65f5f337954683e803e8bdb22b2d491cd9c8c82c307d58d0e",
+    "sizeBytes": 4433,
+    "lines": 158,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:test",
+      "./mission-schema.mjs"
+    ],
+    "exports": [],
+    "symbols": [
+      "parsed",
+      "missing",
+      "root",
+      "tempWorkspace",
+      "writeFileAt",
+      "filePath",
+      "validMissionMarkdown",
+      "id",
+      "title",
+      "category"
+    ],
+    "isTest": true,
+    "summary": "mission-schema.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines parsed, missing, root, tempWorkspace, writeFileAt. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "ownedByNodeIds": [
+      "file.scripts.mission.schema.test.mjs",
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.mission.schema.test.mjs"
     ]
   },
   {
@@ -4469,7 +6295,13 @@
     "summary": "pack-smoke-test.mjs is a JavaScript implementation file. AST-backed scan. Defines root, npmCliPath, npmCacheDir, packages, main. Depends on node:fs/promises, node:fs, node:os, node:path.",
     "ownedByNodeIds": [
       "file.scripts.pack.smoke.test.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.pack.smoke.test.mjs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs"
     ]
   },
   {
@@ -4548,7 +6380,10 @@
     "summary": "project-text-files.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines root. Depends on node:assert/strict, node:fs/promises, node:path, node:test.",
     "ownedByNodeIds": [
       "file.scripts.project.text.files.test.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.project.text.files.test.mjs"
     ]
   },
   {
@@ -4584,7 +6419,10 @@
     "summary": "release-dry-run.mjs is a JavaScript implementation file. AST-backed scan. Defines repoRoot, npmCliPath, main, expectedVersion, issues. Depends on node:child_process, node:path, node:url, ./check-changelog.mjs.",
     "ownedByNodeIds": [
       "file.scripts.release.dry.run.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.release.dry.run.mjs"
     ]
   },
   {
@@ -4605,7 +6443,10 @@
     "summary": "run-abstraction-loop-scheduled.ps1 is a PowerShell implementation file. Defines Write, Write-LoopLog.",
     "ownedByNodeIds": [
       "file.scripts.run.abstraction.loop.scheduled.ps1",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.scripts.run.abstraction.loop.scheduled.ps1"
     ]
   },
   {
@@ -4664,7 +6505,10 @@
     "summary": "run-abstraction-loop.ps1 is a PowerShell implementation file. Defines Read, Save, New, Ensure, Normalize.",
     "ownedByNodeIds": [
       "file.scripts.run.abstraction.loop.ps1",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.scripts.run.abstraction.loop.ps1"
     ]
   },
   {
@@ -4722,7 +6566,83 @@
     "summary": "run-codex-missions.ps1 is a PowerShell implementation file. Defines Ensure, Read, Save, Normalize, Add.",
     "ownedByNodeIds": [
       "file.scripts.run.codex.missions.ps1",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.scripts.run.codex.missions.ps1"
+    ]
+  },
+  {
+    "path": "scripts/run-coverage.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "8852e7293e85831c4400be892464dd436064dc61c5a5125b0e71b6a83b4fd0f1",
+    "sizeBytes": 2077,
+    "lines": 74,
+    "imports": [
+      "node:child_process",
+      "node:fs/promises",
+      "node:path",
+      "node:url"
+    ],
+    "exports": [
+      "main",
+      "coverageDirectory",
+      "buildCoverageEnv",
+      "isCoverageArtifact"
+    ],
+    "symbols": [
+      "defaultCoverageDirectory",
+      "main",
+      "coverageDirectoryPath",
+      "testScriptPath",
+      "exitCode",
+      "artifacts",
+      "coverageArtifacts",
+      "coverageDirectory",
+      "buildCoverageEnv",
+      "isCoverageArtifact",
+      "runNode",
+      "child",
+      "formatPath"
+    ],
+    "isTest": false,
+    "summary": "run-coverage.mjs is a JavaScript implementation file. AST-backed scan. Defines defaultCoverageDirectory, main, coverageDirectoryPath, testScriptPath, exitCode. Depends on node:child_process, node:fs/promises, node:path, node:url.",
+    "ownedByNodeIds": [
+      "file.scripts.run.coverage.mjs",
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.run.coverage.mjs"
+    ]
+  },
+  {
+    "path": "scripts/run-coverage.test.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "80edd29b6eee6bf02ea9e6d48d0c2988e928697fe00d1990dd642b97ca171ea6",
+    "sizeBytes": 939,
+    "lines": 26,
+    "imports": [
+      "node:assert/strict",
+      "node:path",
+      "node:test",
+      "./run-coverage.mjs"
+    ],
+    "exports": [],
+    "symbols": [
+      "root"
+    ],
+    "isTest": true,
+    "summary": "run-coverage.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines root. Depends on node:assert/strict, node:path, node:test, ./run-coverage.mjs.",
+    "ownedByNodeIds": [
+      "file.scripts.run.coverage.test.mjs",
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.run.coverage.test.mjs"
     ]
   },
   {
@@ -4730,9 +6650,9 @@
     "extension": ".mjs",
     "language": "JavaScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "b3f0e30b6d3cc4278788e5c7834d0b560e69341de7e4edc673da994332789601",
-    "sizeBytes": 40304,
-    "lines": 1145,
+    "contentHash": "418b78b05c1559147a86a4770b774e3ada8921782ca709a572caa4c9f4a8565a",
+    "sizeBytes": 35805,
+    "lines": 1003,
     "imports": [
       "node:child_process",
       "node:fs",
@@ -4740,7 +6660,8 @@
       "node:path",
       "node:url",
       "node:util",
-      "./create-assessment-pack.mjs"
+      "./create-assessment-pack.mjs",
+      "./mission-schema.mjs"
     ],
     "exports": [
       "runCli",
@@ -4788,15 +6709,18 @@
       "parseArgs",
       "index",
       "arg",
-      "buildAssessmentPrompt",
-      "buildCoherencePrompt",
-      "strategyLabel"
+      "missionCategoryValues",
+      "missionCategoryDescriptionsForPrompt",
+      "missionBodyHeadingsForPrompt"
     ],
     "isTest": false,
     "summary": "run-full-self-improvement-loop.mjs is a JavaScript implementation file. AST-backed scan. Defines execFileAsync, fullLoopRoot, durableRunRoot, defaultCodexBin, runCli. Depends on node:child_process, node:fs, node:fs/promises, node:path.",
     "ownedByNodeIds": [
       "file.scripts.run.full.self.improvement.loop.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.scripts.run.full.self.improvement.loop.mjs"
     ]
   },
   {
@@ -4865,7 +6789,10 @@
     "summary": "run-full-self-improvement-loop.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines fixedDate, parsed, prompt, report, root. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs"
     ]
   },
   {
@@ -4873,18 +6800,21 @@
     "extension": ".mjs",
     "language": "JavaScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "859bcdf3add8516cc3de3f52b6d06c45ba73c946a9bbc4a2e35b9d44bfd7245c",
-    "sizeBytes": 39219,
-    "lines": 1190,
+    "contentHash": "92b55b62b5acb979211b187b73e25ab6ca464369bc2697bf8aeb4a128898bbf2",
+    "sizeBytes": 37658,
+    "lines": 1138,
     "imports": [
       "node:child_process",
       "node:fs",
       "node:fs/promises",
       "node:path",
       "node:url",
-      "node:util"
+      "node:util",
+      "./mission-schema.mjs"
     ],
     "exports": [
+      "parseMissionMarkdown",
+      "parseSimpleFrontmatter",
       "runCli",
       "parseArgs",
       "discoverMissions",
@@ -4893,8 +6823,6 @@
       "filterMissionsByRuntime",
       "updateMissionRuntime",
       "readMissionFile",
-      "parseMissionMarkdown",
-      "parseSimpleFrontmatter",
       "createMissionPlan",
       "executePlan",
       "executeMission",
@@ -4948,7 +6876,10 @@
     "summary": "run-missions.mjs is a JavaScript implementation file. AST-backed scan. Defines execFileAsync, defaultMissionsDir, defaultRuntimePath, runRoot, worktreeRoot. Depends on node:child_process, node:fs, node:fs/promises, node:path.",
     "ownedByNodeIds": [
       "file.scripts.run.missions.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.scripts.run.missions.mjs"
     ]
   },
   {
@@ -5016,7 +6947,10 @@
     "summary": "run-missions.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines execFileAsync, parsed, root, memory, missions. Depends on node:assert/strict, node:child_process, node:events, node:fs/promises.",
     "ownedByNodeIds": [
       "file.scripts.run.missions.test.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.run.missions.test.mjs"
     ]
   },
   {
@@ -5053,7 +6987,10 @@
     "summary": "run-tests.mjs is a JavaScript implementation file. AST-backed scan. Defines defaultTestSearches, main, testFiles, filePath, collectTestFiles. Depends on node:fs/promises, node:path, node:url.",
     "ownedByNodeIds": [
       "file.scripts.run.tests.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.run.tests.mjs"
     ]
   },
   {
@@ -5081,7 +7018,10 @@
     "summary": "run-tests.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines relativePaths, root, matches. Depends on node:assert/strict, node:fs/promises, node:path, node:test.",
     "ownedByNodeIds": [
       "file.scripts.run.tests.test.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.run.tests.test.mjs"
     ]
   },
   {
@@ -5128,7 +7068,10 @@
     "summary": "small-web-app-fixture.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines repoRoot, exampleRoot, generatedMemoryPaths, scan, files. Depends on node:assert/strict, node:path, node:test, node:url.",
     "ownedByNodeIds": [
       "file.scripts.small.web.app.fixture.test.mjs",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.small.web.app.fixture.test.mjs"
     ]
   },
   {
@@ -5152,7 +7095,10 @@
     "summary": "summarize-diff.ps1 is a PowerShell implementation file. Defines Get, Get-TextLineCount, Path, IO, Length.",
     "ownedByNodeIds": [
       "file.scripts.summarize.diff.ps1",
-      "module.scripts"
+      "module.scripts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.scripts.summarize.diff.ps1"
     ]
   },
   {

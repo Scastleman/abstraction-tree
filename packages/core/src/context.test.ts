@@ -48,6 +48,35 @@ test("buildContextPack scores symbols and exports, not just file paths", () => {
   assert.deepEqual(pack.relevantFiles.map(f => f.path), ["src/ui/form.tsx"]);
 });
 
+test("buildContextPack scores and emits node explanations", () => {
+  const files = [file("src/scope/guard.ts", ["ScopeGuard"], ["ScopeGuard"])];
+  const nodes = [{
+    ...node("file.scope.guard", "Scope Guard", "Local guard component.", ["src/scope/guard.ts"]),
+    explanation: "This node explains prompt overreach restriction and safe scope boundaries for implementation agents.",
+    reasonForExistence: "This node exists so agents can understand why scope control matters before editing.",
+    separationLogic: "Children would be partitioned by scope boundary."
+  }];
+
+  const pack = buildContextPack({ target: "overreach restriction", nodes, files, concepts: [], invariants: [], changes: [] });
+  const markdown = formatContextPackMarkdown(pack);
+
+  assert.deepEqual(pack.relevantNodes.map(n => n.id), ["file.scope.guard"]);
+  assert.match(markdown, /Explanation: This node explains prompt overreach restriction/);
+  assert.match(markdown, /Reason for existence: This node exists so agents can understand why scope control matters/);
+  assert.match(markdown, /Separation logic: Children would be partitioned by scope boundary/);
+});
+
+test("buildContextPack uses the project explanation as project summary when available", () => {
+  const nodes = [{
+    ...node("project.intent", "Project", "Short project summary.", []),
+    explanation: "This project explanation describes the purpose in enough detail for agents."
+  }];
+
+  const pack = buildContextPack({ target: "project", nodes, files: [], concepts: [], invariants: [], changes: [] });
+
+  assert.equal(pack.projectSummary, "This project explanation describes the purpose in enough detail for agents.");
+});
+
 test("buildContextPack falls back to owned files when source files are empty", () => {
   const files = [file("src/legacy/report.ts", ["renderReport"], [])];
   const nodes = [{
@@ -162,7 +191,11 @@ test("buildContextPack applies max token budget to selected context items", () =
 
 test("formatContextPackMarkdown emits markdown context packs", () => {
   const files = [file("src/ui/form.tsx", ["CheckoutForm"], ["CheckoutForm"])];
-  const nodes = [node("file.form", "Form", "UI form component.", ["src/ui/form.tsx"])];
+  const nodes = [{
+    ...node("file.form", "Form", "UI form component.", ["src/ui/form.tsx"]),
+    explanation: "Checkout form node explanation for context markdown.",
+    reasonForExistence: "Checkout form exists so checkout UI scope can be reviewed before editing."
+  }];
   const pack = buildContextPack({ target: "checkout", nodes, files, concepts: [], invariants: [], changes: [], includeDiagnostics: true });
 
   const markdown = formatContextPackMarkdown(pack);
@@ -170,6 +203,8 @@ test("formatContextPackMarkdown emits markdown context packs", () => {
   assert.match(markdown, /^# Context Pack: checkout/);
   assert.match(markdown, /## Relevant Files/);
   assert.match(markdown, /`src\/ui\/form.tsx`/);
+  assert.match(markdown, /Explanation:/);
+  assert.match(markdown, /Reason for existence:/);
   assert.match(markdown, /## Why/);
 });
 
@@ -198,6 +233,9 @@ function node(id: string, title: string, summary: string, sourceFiles: string[])
     abstractionLevel: "component",
     level: "component",
     summary,
+    explanation: `${title} explains ownership, dependencies, and safe edits for context-pack consumers.`,
+    reasonForExistence: `${title} exists to explain why this scope boundary belongs in the tree.`,
+    separationLogic: "Children are partitioned by the narrowest available context boundary.",
     children: [],
     sourceFiles,
     ownedFiles: sourceFiles,

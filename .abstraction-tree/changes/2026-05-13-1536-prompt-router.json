@@ -1,0 +1,34 @@
+{
+  "id": "2026-05-13-1536-prompt-router",
+  "timestamp": "2026-05-13T19:36:36.832Z",
+  "title": "Prompt routing before goal-driven autopilot",
+  "reason": "Added a deterministic prompt router that classifies prompts as direct, goal-driven, assessment-pack, or manual-review before Codex execution or goal planning.",
+  "affectedNodeIds": [
+    "project.intent",
+    "architecture.cli.surface",
+    "architecture.core.engine",
+    "concept-node.route",
+    "concept-node.goal",
+    "concept-node.mission"
+  ],
+  "filesChanged": [
+    "packages/core/src/promptRouter.ts",
+    "packages/core/src/promptRouter.test.ts",
+    "packages/cli/src/routeCommand.ts",
+    "packages/cli/src/routeCommand.test.ts",
+    "packages/cli/src/goalCommand.ts",
+    "packages/cli/src/index.ts",
+    "packages/core/src/index.ts",
+    "package.json",
+    "README.md",
+    "docs/GOAL_DRIVEN_AUTOPILOT.md",
+    "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+    "docs/MISSION_RUNNER.md",
+    "docs/ROADMAP.md"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "medium"
+}

@@ -1,0 +1,49 @@
+{
+  "id": "v1-phase1-mission-batch.2026-05-10",
+  "timestamp": "2026-05-10T13:37:00-04:00",
+  "title": "Implement v1 Phase 1 mission batch",
+  "reason": "Stabilize the v1 substrate with shared mission schema validation, safe assessment packs, diagnostics, schema migration scaffolding, and adopter CI guidance.",
+  "affectedNodeIds": [
+    "module.scripts",
+    "module.docs",
+    "module.examples",
+    "module.packages",
+    "module.root",
+    "architecture.cli.surface",
+    "architecture.core.engine",
+    "architecture.package.distribution"
+  ],
+  "filesChanged": [
+    "README.md",
+    "docs/AGENT_PROTOCOL.md",
+    "docs/CI_INTEGRATION.md",
+    "docs/DATA_MODEL.md",
+    "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+    "docs/MISSION_RUNNER.md",
+    "docs/ROADMAP.md",
+    "examples/github-actions/abstraction-tree-validate.yml",
+    "packages/cli/src/doctor.test.ts",
+    "packages/cli/src/doctor.ts",
+    "packages/cli/src/index.ts",
+    "packages/cli/src/migrate.test.ts",
+    "packages/cli/src/migrate.ts",
+    "packages/core/src/fixtures/memory-v0.1.0/.abstraction-tree/config.json",
+    "packages/core/src/index.ts",
+    "packages/core/src/migrations.test.ts",
+    "packages/core/src/migrations.ts",
+    "packages/core/src/treeBuilder.ts",
+    "scripts/create-assessment-pack.mjs",
+    "scripts/create-assessment-pack.test.mjs",
+    "scripts/import-assessment-missions.mjs",
+    "scripts/import-assessment-missions.test.mjs",
+    "scripts/mission-schema.mjs",
+    "scripts/mission-schema.test.mjs",
+    "scripts/run-full-self-improvement-loop.mjs",
+    "scripts/run-missions.mjs"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "high"
+}

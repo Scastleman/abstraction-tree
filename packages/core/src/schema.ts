@@ -1,5 +1,7 @@
 export type AbstractionLevel = string;
 
+export const TREE_NODE_THIN_EXPLANATION_CHAR_THRESHOLD = 160;
+
 export interface AbstractionOntologyLevel {
   id: AbstractionLevel;
   name: string;
@@ -50,6 +52,9 @@ export interface TreeNode {
   abstractionLevel: AbstractionLevel;
   level: AbstractionLevel;
   summary: string;
+  explanation?: string;
+  reasonForExistence?: string;
+  separationLogic?: string;
   parent?: string;
   children: string[];
   parentId?: string;
@@ -183,6 +188,16 @@ export interface AgentHealth {
     currentMission?: string;
     completedMissions?: number;
     failedMissions?: number;
+  };
+  scope?: {
+    file: string;
+    prompt: string;
+    status: "draft" | "needs-clarification" | "ready" | "clean" | "warning" | "blocked";
+    requiresClarification?: boolean;
+    affectedNodeCount?: number;
+    allowedFileCount?: number;
+    violationCount?: number;
+    checkedAt?: string;
   };
 }
 
