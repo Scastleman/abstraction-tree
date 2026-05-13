@@ -79,11 +79,11 @@
     "children": [
       "concept-node.change",
       "concept-node.tree",
-      "concept-node.command",
       "concept-node.goal",
+      "concept-node.command",
       "concept-node.mission",
-      "concept-node.scope",
       "concept-node.memory",
+      "concept-node.scope",
       "concept-node.context",
       "concept-node.proposal",
       "concept-node.workspace",
@@ -122,9 +122,9 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents the human-level concepts inferred from repository paths, symbols, exports, tests, and documentation names. It exists to collect domain vocabulary that may cut across folders, so an agent can find related files without treating the whole repository as the change boundary. It owns concept nodes such as Change, Tree, Command, Goal, Mission, Scope, and 26 more. Use this layer when a prompt names a behavior, product idea, or recurring term rather than a specific file. Concept nodes are deterministic evidence, not a complete semantic model; confirm the related files before editing.",
+    "explanation": "This node represents the human-level concepts inferred from repository paths, symbols, exports, tests, and documentation names. It exists to collect domain vocabulary that may cut across folders, so an agent can find related files without treating the whole repository as the change boundary. It owns concept nodes such as Change, Tree, Goal, Command, Mission, Memory, and 26 more. Use this layer when a prompt names a behavior, product idea, or recurring term rather than a specific file. Concept nodes are deterministic evidence, not a complete semantic model; confirm the related files before editing.",
     "reasonForExistence": "This node exists so recurring project vocabulary can be inspected across folders without widening every concept-related prompt to the full repository.",
-    "separationLogic": "Separation logic: each child is a concept cluster created from repeated evidence in paths, symbols, exports, tests, or documentation names. Current concept partitions Change, Tree, Command, Goal, Mission, Scope, and 26 more. Concepts are separated by vocabulary signal rather than package layout, so one cross-cutting idea can be inspected without pulling in unrelated concepts."
+    "separationLogic": "Separation logic: each child is a concept cluster created from repeated evidence in paths, symbols, exports, tests, or documentation names. Current concept partitions Change, Tree, Goal, Command, Mission, Memory, and 26 more. Concepts are separated by vocabulary signal rather than package layout, so one cross-cutting idea can be inspected without pulling in unrelated concepts."
   },
   {
     "id": "project.architecture",
@@ -1344,7 +1344,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents docs/AGENT_PROTOCOL.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 111 line(s), 0 import(s), 0 export(s), and 13 symbol(s). Important symbols include rather, Agent Protocol, Before editing, Context packs, During editing, After editing, and 7 more. Higher-level nodes depending on this file include Memory, Validation, and Logs, Memory Docs, AGENT_PROTOCOL.md, Docs and Examples, Guides, and 6 more. Related concept nodes include Context, Proposal, Llm, Context Pack, and 2 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents docs/AGENT_PROTOCOL.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 113 line(s), 0 import(s), 0 export(s), and 13 symbol(s). Important symbols include rather, Agent Protocol, Before editing, Context packs, During editing, After editing, and 7 more. Higher-level nodes depending on this file include Memory, Validation, and Logs, Memory Docs, AGENT_PROTOCOL.md, Docs and Examples, Guides, and 6 more. Related concept nodes include Context, Proposal, Llm, Context Pack, and 2 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make docs/AGENT_PROTOCOL.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -1423,7 +1423,7 @@
     "title": "DATA_MODEL.md",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "DATA_MODEL.md is a Markdown implementation file. Defines Data Model, `config.json`, Schema migrations, `ontology.json`, `files.json`.",
+    "summary": "DATA_MODEL.md is a Markdown implementation file. Defines Data Model, Workspace ownership, `config.json`, Schema migrations, `ontology.json`.",
     "parent": "module.docs",
     "parentId": "module.docs",
     "children": [],
@@ -1434,7 +1434,7 @@
       "docs/DATA_MODEL.md"
     ],
     "responsibilities": [
-      "DATA_MODEL.md is a Markdown implementation file. Defines Data Model, `config.json`, Schema migrations, `ontology.json`, `files.json`."
+      "DATA_MODEL.md is a Markdown implementation file. Defines Data Model, Workspace ownership, `config.json`, Schema migrations, `ontology.json`."
     ],
     "dependencies": [],
     "dependsOn": [],
@@ -1449,7 +1449,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents docs/DATA_MODEL.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 168 line(s), 0 import(s), 0 export(s), and 12 symbol(s). Important symbols include Data Model, `config.json`, Schema migrations, `ontology.json`, `files.json`, `tree.json`, and 6 more. Higher-level nodes depending on this file include Memory, Validation, and Logs, Memory Docs, DATA_MODEL.md, Docs and Examples, Guides, and 8 more. Related concept nodes include Change, Tree, Context, Invariant, and 4 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents docs/DATA_MODEL.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 176 line(s), 0 import(s), 0 export(s), and 13 symbol(s). Important symbols include Data Model, Workspace ownership, `config.json`, Schema migrations, `ontology.json`, `files.json`, and 7 more. Higher-level nodes depending on this file include Memory, Validation, and Logs, Memory Docs, DATA_MODEL.md, Docs and Examples, Guides, and 9 more. Related concept nodes include Change, Tree, Context, Workspace, and 5 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make docs/DATA_MODEL.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -1554,7 +1554,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents docs/GOAL_DRIVEN_AUTOPILOT.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 114 line(s), 0 import(s), 0 export(s), and 10 symbol(s). Important symbols include Goal-Driven Mission Workflow, What This Is, What This Is Not, Commands, Workspace, Recommended Review Flow, and 4 more. Higher-level nodes depending on this file include Goal and Mission Automation, Automation Docs, GOAL_DRIVEN_AUTOPILOT.md, Docs and Examples, Guides, and 4 more. Related concept nodes include Command, Goal, Mission, Workspace. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents docs/GOAL_DRIVEN_AUTOPILOT.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 114 line(s), 0 import(s), 0 export(s), and 10 symbol(s). Important symbols include Goal-Driven Mission Workflow, What This Is, What This Is Not, Commands, Workspace, Recommended Review Flow, and 4 more. Higher-level nodes depending on this file include Goal and Mission Automation, Automation Docs, GOAL_DRIVEN_AUTOPILOT.md, Docs and Examples, Guides, and 4 more. Related concept nodes include Goal, Command, Mission, Workspace. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make docs/GOAL_DRIVEN_AUTOPILOT.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -1589,7 +1589,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents docs/MISSION_RUNNER.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 348 line(s), 0 import(s), 0 export(s), and 27 symbol(s). Important symbols include Mission Runner, Role in the Workflow, Mission Folder, Goal-Generated Mission Folders, Frontmatter, Goal, and 21 more. Higher-level nodes depending on this file include Goal and Mission Automation, Mission Runner and Loop Scripts, MISSION_RUNNER.md, Docs and Examples, Guides, and 8 more. Related concept nodes include Tree, Goal, Mission, Scope, and 4 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents docs/MISSION_RUNNER.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 348 line(s), 0 import(s), 0 export(s), and 27 symbol(s). Important symbols include Mission Runner, Role in the Workflow, Mission Folder, Goal-Generated Mission Folders, Frontmatter, Goal, and 21 more. Higher-level nodes depending on this file include Goal and Mission Automation, Mission Runner and Loop Scripts, MISSION_RUNNER.md, Docs and Examples, Guides, and 8 more. Related concept nodes include Tree, Goal, Mission, Memory, and 4 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make docs/MISSION_RUNNER.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -1624,7 +1624,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents docs/PACKAGING.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 175 line(s), 0 import(s), 0 export(s), and 10 symbol(s). Important symbols include Packaging and install modes, Core-only package, Full package, Source of truth, Switching modes, Publishable packages, and 4 more. Higher-level nodes depending on this file include Docs and Examples, Guides, PACKAGING.md. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents docs/PACKAGING.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 190 line(s), 0 import(s), 0 export(s), and 12 symbol(s). Important symbols include Packaging and install modes, Core-only package, Full package, Source of truth, Switching modes, Publishable packages, and 6 more. Higher-level nodes depending on this file include Docs and Examples, Guides, PACKAGING.md, Memory. Related concept nodes include Memory. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make docs/PACKAGING.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -1659,7 +1659,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents docs/ROADMAP.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 80 line(s), 0 import(s), 0 export(s), and 9 symbol(s). Important symbols include with, and, Roadmap, MVP, Current operational boundary, Version 0.2, and 3 more. Higher-level nodes depending on this file include Goal and Mission Automation, Automation Docs, ROADMAP.md, Docs and Examples, Guides, and 1 more. Related concept nodes include Version. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents docs/ROADMAP.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 81 line(s), 0 import(s), 0 export(s), and 9 symbol(s). Important symbols include with, and, Roadmap, MVP, Current operational boundary, Version 0.2, and 3 more. Higher-level nodes depending on this file include Goal and Mission Automation, Automation Docs, ROADMAP.md, Docs and Examples, Guides, and 1 more. Related concept nodes include Version. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make docs/ROADMAP.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -3313,7 +3313,7 @@
     "title": "doctor.test.ts",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "doctor.test.ts is a TypeScript test coverage file. AST-backed scan. Defines doctorOptions, root, report, checkedRoot, workspace. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "summary": "doctor.test.ts is a TypeScript test coverage file. AST-backed scan. Defines doctorOptions, root, report, scan, importGraph. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "parent": "module.packages",
     "parentId": "module.packages",
     "children": [],
@@ -3324,7 +3324,7 @@
       "packages/cli/src/doctor.test.ts"
     ],
     "responsibilities": [
-      "doctor.test.ts is a TypeScript test coverage file. AST-backed scan. Defines doctorOptions, root, report, checkedRoot, workspace. Depends on node:assert/strict, node:fs/promises, node:os, node:path."
+      "doctor.test.ts is a TypeScript test coverage file. AST-backed scan. Defines doctorOptions, root, report, scan, importGraph. Depends on node:assert/strict, node:fs/promises, node:os, node:path."
     ],
     "dependencies": [
       "import:node:assert/strict",
@@ -3355,7 +3355,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents packages/cli/src/doctor.test.ts, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 163 line(s), 7 import(s), 0 export(s), and 12 symbol(s). Important symbols include doctorOptions, root, report, checkedRoot, workspace, writeDeterministicMemory, and 6 more. Imports include node:assert/strict, node:fs/promises, node:os, node:path, node:test, @abstraction-tree/core, and 1 more, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Tests and Quality Gates, CLI Tests, doctor.test.ts, Memory, Workspace, and 5 more. Related concept nodes include Memory, Workspace, Import Graph, Cli, and 3 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents packages/cli/src/doctor.test.ts, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 189 line(s), 7 import(s), 0 export(s), and 12 symbol(s). Important symbols include doctorOptions, root, report, scan, importGraph, built, and 6 more. Imports include node:assert/strict, node:fs/promises, node:os, node:path, node:test, @abstraction-tree/core, and 1 more, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Tests and Quality Gates, CLI Tests, doctor.test.ts, Memory, Workspace, and 5 more. Related concept nodes include Memory, Workspace, Import Graph, Cli, and 3 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make packages/cli/src/doctor.test.ts a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -3402,7 +3402,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents packages/cli/src/doctor.ts, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 461 line(s), 5 import(s), 11 export(s), and 40 symbol(s). Important symbols include DoctorStatus, DoctorIssueSummary, DoctorCheck, DoctorCounts, DoctorReport, DoctorOptions, and 34 more. Exports include DoctorStatus, DoctorIssueSummary, DoctorCheck, DoctorCounts, DoctorReport, DoctorOptions, and 5 more. Imports include node:fs, node:fs/promises, node:path, node:url, @abstraction-tree/core, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include CLI Surface, Visual App API, Package Distribution, CLI and Local API, Local API and Serve Runtime, and 11 more. Related concept nodes include Memory, Import Graph, Cli, Statu, and 3 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents packages/cli/src/doctor.ts, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 534 line(s), 5 import(s), 11 export(s), and 40 symbol(s). Important symbols include DoctorStatus, DoctorIssueSummary, DoctorCheck, DoctorCounts, DoctorReport, DoctorOptions, and 34 more. Exports include DoctorStatus, DoctorIssueSummary, DoctorCheck, DoctorCounts, DoctorReport, DoctorOptions, and 5 more. Imports include node:fs, node:fs/promises, node:path, node:url, @abstraction-tree/core, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include CLI Surface, Visual App API, Package Distribution, CLI and Local API, Local API and Serve Runtime, and 11 more. Related concept nodes include Memory, Import Graph, Cli, Statu, and 3 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make packages/cli/src/doctor.ts a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -3455,7 +3455,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents packages/cli/src/goalCommand.test.ts, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 374 line(s), 8 import(s), 0 export(s), and 27 symbol(s). Important symbols include root, goalText, capture, exitCode, goalDir, missions, and 21 more. Imports include node:assert/strict, node:fs, node:fs/promises, node:os, node:path, node:test, and 2 more, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Tests and Quality Gates, CLI Tests, goalCommand.test.ts, Command, Goal, and 7 more. Related concept nodes include Command, Goal, Mission, Scope, and 5 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents packages/cli/src/goalCommand.test.ts, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 374 line(s), 8 import(s), 0 export(s), and 27 symbol(s). Important symbols include root, goalText, capture, exitCode, goalDir, missions, and 21 more. Imports include node:assert/strict, node:fs, node:fs/promises, node:os, node:path, node:test, and 2 more, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Tests and Quality Gates, CLI Tests, goalCommand.test.ts, Goal, Command, and 7 more. Related concept nodes include Goal, Command, Mission, Memory, and 5 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make packages/cli/src/goalCommand.test.ts a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -3502,7 +3502,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents packages/cli/src/goalCommand.ts, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 701 line(s), 5 import(s), 5 export(s), and 40 symbol(s). Important symbols include GoalCommandOptions, GoalCommandIo, GoalCommandResult, runGoalCommand, mode, projectRoot, and 34 more. Exports include GoalCommandOptions, GoalCommandIo, GoalCommandResult, runGoalCommand, writeGoalWorkspace. Imports include node:fs, node:fs/promises, node:path, @abstraction-tree/core, ./routeCommand.js, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include CLI Surface, Visual App API, Package Distribution, CLI and Local API, Local API and Serve Runtime, and 17 more. Related concept nodes include Change, Command, Goal, Mission, and 9 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents packages/cli/src/goalCommand.ts, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 701 line(s), 5 import(s), 5 export(s), and 40 symbol(s). Important symbols include GoalCommandOptions, GoalCommandIo, GoalCommandResult, runGoalCommand, mode, projectRoot, and 34 more. Exports include GoalCommandOptions, GoalCommandIo, GoalCommandResult, runGoalCommand, writeGoalWorkspace. Imports include node:fs, node:fs/promises, node:path, @abstraction-tree/core, ./routeCommand.js, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include CLI Surface, Visual App API, Package Distribution, CLI and Local API, Local API and Serve Runtime, and 17 more. Related concept nodes include Change, Goal, Command, Mission, and 9 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make packages/cli/src/goalCommand.ts a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -3906,7 +3906,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents packages/cli/src/scopeCommand.test.ts, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 159 line(s), 7 import(s), 0 export(s), and 13 symbol(s). Important symbols include root, capture, exitCode, output, workspace, writeFixtureMemory, and 7 more. Imports include node:assert/strict, node:fs/promises, node:os, node:path, node:test, @abstraction-tree/core, and 1 more, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Tests and Quality Gates, CLI Tests, scopeCommand.test.ts, Command, Scope, and 3 more. Related concept nodes include Command, Scope, Memory, Workspace, and 1 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents packages/cli/src/scopeCommand.test.ts, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 159 line(s), 7 import(s), 0 export(s), and 13 symbol(s). Important symbols include root, capture, exitCode, output, workspace, writeFixtureMemory, and 7 more. Imports include node:assert/strict, node:fs/promises, node:os, node:path, node:test, @abstraction-tree/core, and 1 more, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Tests and Quality Gates, CLI Tests, scopeCommand.test.ts, Command, Memory, and 3 more. Related concept nodes include Command, Memory, Scope, Workspace, and 1 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make packages/cli/src/scopeCommand.test.ts a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -5661,7 +5661,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents packages/core/src/scope.ts, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 532 line(s), 2 import(s), 12 export(s), and 40 symbol(s). Important symbols include ScopeContractStatus, ScopeCheckStatus, ScopeViolationSeverity, ScopeContract, ScopeBuildInput, ScopeViolation, and 34 more. Exports include ScopeContractStatus, ScopeCheckStatus, ScopeViolationSeverity, ScopeContract, ScopeBuildInput, ScopeViolation, and 6 more. Imports include ./schema.js, ./diffSummary.js, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Core Engine, Package Distribution, Understanding Pipeline, scope.ts, Public API Boundary, and 11 more. Related concept nodes include Scope, Memory, Diff, Statu. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents packages/core/src/scope.ts, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 532 line(s), 2 import(s), 12 export(s), and 40 symbol(s). Important symbols include ScopeContractStatus, ScopeCheckStatus, ScopeViolationSeverity, ScopeContract, ScopeBuildInput, ScopeViolation, and 34 more. Exports include ScopeContractStatus, ScopeCheckStatus, ScopeViolationSeverity, ScopeContract, ScopeBuildInput, ScopeViolation, and 6 more. Imports include ./schema.js, ./diffSummary.js, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Core Engine, Package Distribution, Understanding Pipeline, scope.ts, Public API Boundary, and 11 more. Related concept nodes include Memory, Scope, Diff, Statu. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make packages/core/src/scope.ts a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -5842,7 +5842,7 @@
     "title": "workspace.test.ts",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "workspace.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, filePath, workspace. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "summary": "workspace.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, filePath, scan, importGraph, built. Depends on node:assert/strict, node:fs, node:fs/promises, node:os.",
     "parent": "module.packages",
     "parentId": "module.packages",
     "children": [],
@@ -5853,22 +5853,30 @@
       "packages/core/src/workspace.test.ts"
     ],
     "responsibilities": [
-      "workspace.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, filePath, workspace. Depends on node:assert/strict, node:fs/promises, node:os, node:path."
+      "workspace.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, filePath, scan, importGraph, built. Depends on node:assert/strict, node:fs, node:fs/promises, node:os."
     ],
     "dependencies": [
       "import:node:assert/strict",
+      "import:node:fs",
       "import:node:fs/promises",
       "import:node:os",
       "import:node:path",
       "import:node:test",
+      "import:./importGraph.js",
+      "import:./scanner.js",
+      "import:./treeBuilder.js",
       "import:./workspace.js"
     ],
     "dependsOn": [
       "import:node:assert/strict",
+      "import:node:fs",
       "import:node:fs/promises",
       "import:node:os",
       "import:node:path",
       "import:node:test",
+      "import:./importGraph.js",
+      "import:./scanner.js",
+      "import:./treeBuilder.js",
       "import:./workspace.js"
     ],
     "changeLog": [],
@@ -5882,7 +5890,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents packages/core/src/workspace.test.ts, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 21 line(s), 6 import(s), 0 export(s), and 3 symbol(s). Important symbols include root, filePath, workspace. Imports include node:assert/strict, node:fs/promises, node:os, node:path, node:test, ./workspace.js, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Tests and Quality Gates, Core Tests, workspace.test.ts, Workspace. Related concept nodes include Workspace. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents packages/core/src/workspace.test.ts, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 78 line(s), 10 import(s), 0 export(s), and 9 symbol(s). Important symbols include root, filePath, scan, importGraph, built, files, and 3 more. Imports include node:assert/strict, node:fs, node:fs/promises, node:os, node:path, node:test, and 4 more, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Tests and Quality Gates, Core Tests, workspace.test.ts, Tree, Workspace, and 1 more. Related concept nodes include Tree, Workspace, Import Graph. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make packages/core/src/workspace.test.ts a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -5931,7 +5939,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents packages/core/src/workspace.ts, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 402 line(s), 6 import(s), 24 export(s), and 40 symbol(s). Important symbols include ATREE_DIR, atreePath, defaultConfig, ensureWorkspace, configPath, existing, and 34 more. Exports include ATREE_DIR, atreePath, defaultConfig, ensureWorkspace, setInstallMode, readJson, and 18 more. Imports include node:fs/promises, node:fs, node:path, ./schema.js, ./importGraph.js, ./runtimeSchema.js, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Core Engine, Scanner / Tree / Context Pipeline, Package Distribution, Understanding Pipeline, Memory and Quality Engine, and 21 more. Related concept nodes include Change, Tree, Memory, Context, and 8 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents packages/core/src/workspace.ts, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 399 line(s), 6 import(s), 24 export(s), and 40 symbol(s). Important symbols include ATREE_DIR, atreePath, defaultConfig, ensureWorkspace, configPath, existing, and 34 more. Exports include ATREE_DIR, atreePath, defaultConfig, ensureWorkspace, setInstallMode, readJson, and 18 more. Imports include node:fs/promises, node:fs, node:path, ./schema.js, ./importGraph.js, ./runtimeSchema.js, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Core Engine, Scanner / Tree / Context Pipeline, Package Distribution, Understanding Pipeline, Memory and Quality Engine, and 21 more. Related concept nodes include Change, Tree, Memory, Context, and 8 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make packages/core/src/workspace.ts a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -6075,7 +6083,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents packages/full/README.md, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 16 line(s), 0 import(s), 0 export(s), and 1 symbol(s). Important symbols include abstraction-tree. Higher-level nodes depending on this file include Packaging and Adapters, Full Package Shell, README.md, Tree, Abstraction. Related concept nodes include Tree, Abstraction. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents packages/full/README.md, a file-level ownership boundary under Packages. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 18 line(s), 0 import(s), 0 export(s), and 1 symbol(s). Important symbols include abstraction-tree. Higher-level nodes depending on this file include Packaging and Adapters, Full Package Shell, README.md, Tree, Abstraction. Related concept nodes include Tree, Abstraction. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make packages/full/README.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -6110,7 +6118,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents README.md, a file-level ownership boundary under Root. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 560 line(s), 0 import(s), 0 export(s), and 37 symbol(s). Important symbols include to, Abstraction Tree, Core promise, What This Is, What This Is Not, Assisted workflow maturity ladder, and 31 more. Higher-level nodes depending on this file include Docs and Examples, Project README, README.md, Change, Tree, and 11 more. Related concept nodes include Change, Tree, Command, Goal, and 9 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents README.md, a file-level ownership boundary under Root. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 594 line(s), 0 import(s), 0 export(s), and 37 symbol(s). Important symbols include to, Abstraction Tree, Core promise, What This Is, What This Is Not, Assisted workflow maturity ladder, and 31 more. Higher-level nodes depending on this file include Docs and Examples, Project README, README.md, Change, Tree, and 11 more. Related concept nodes include Change, Tree, Goal, Command, and 9 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make README.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -6991,7 +6999,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents scripts/pack-smoke-test.mjs, a file-level ownership boundary under Scripts. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show JavaScript content with 368 line(s), 6 import(s), 0 export(s), and 40 symbol(s). Important symbols include root, npmCliPath, npmCacheDir, packages, main, tempRoot, and 34 more. Imports include node:fs/promises, node:fs, node:os, node:path, node:child_process, node:url, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Packaging and Adapters, Release and Packaging Scripts, pack-smoke-test.mjs, Tests and Quality Gates, Script Quality Gates, and 2 more. Related concept nodes include Command, Cli. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents scripts/pack-smoke-test.mjs, a file-level ownership boundary under Scripts. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show JavaScript content with 431 line(s), 6 import(s), 0 export(s), and 40 symbol(s). Important symbols include root, npmCliPath, npmCacheDir, packages, main, tempRoot, and 34 more. Imports include node:fs/promises, node:fs, node:os, node:path, node:child_process, node:url, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Packaging and Adapters, Release and Packaging Scripts, pack-smoke-test.mjs, Tests and Quality Gates, Script Quality Gates, and 5 more. Related concept nodes include Command, Memory, Workspace, Atree, and 1 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make scripts/pack-smoke-test.mjs a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -7934,7 +7942,7 @@
       "mustNotChange": []
     },
     "confidence": 0.78,
-    "explanation": "This node represents the CLI Surface architecture boundary. It exists because deterministic evidence connected this boundary to 15 file(s) and related dependency references. Owned or cited files include packages/cli/package.json, packages/cli/src/agentHealth.ts, packages/cli/src/apiState.ts, packages/cli/src/changeReviewCommand.ts, packages/cli/src/doctor.ts, packages/cli/src/goalCommand.ts, and 9 more. Its main responsibilities are Expose command-line entrypoints and dispatch user-facing repository operations, Bridge package metadata, command handlers, local scanning, validation, context, and serve commands. It depends on evidence such as bin:abstraction-tree, bin:atree, entrypoint:packages/cli/src/index.ts, entrypoint:packages/full/bin/atree.js, file.packages.cli.package.json, file.packages.cli.src.agenthealth.ts, and 48 more. Other nodes depending on it include Change, Command, Goal, Mission, and 21 more. Relevant invariants include Tests should reflect behavior changes. Treat this node as a system boundary: changes should preserve command/API compatibility, package responsibilities, and the lower-level file ownership it summarizes.",
+    "explanation": "This node represents the CLI Surface architecture boundary. It exists because deterministic evidence connected this boundary to 15 file(s) and related dependency references. Owned or cited files include packages/cli/package.json, packages/cli/src/agentHealth.ts, packages/cli/src/apiState.ts, packages/cli/src/changeReviewCommand.ts, packages/cli/src/doctor.ts, packages/cli/src/goalCommand.ts, and 9 more. Its main responsibilities are Expose command-line entrypoints and dispatch user-facing repository operations, Bridge package metadata, command handlers, local scanning, validation, context, and serve commands. It depends on evidence such as bin:abstraction-tree, bin:atree, entrypoint:packages/cli/src/index.ts, entrypoint:packages/full/bin/atree.js, file.packages.cli.package.json, file.packages.cli.src.agenthealth.ts, and 48 more. Other nodes depending on it include Change, Goal, Command, Mission, and 21 more. Relevant invariants include Tests should reflect behavior changes. Treat this node as a system boundary: changes should preserve command/API compatibility, package responsibilities, and the lower-level file ownership it summarizes.",
     "reasonForExistence": "CLI Surface exists because package metadata, source paths, imports, entrypoints, or runtime evidence identify it as a system boundary. It gives agents one place to inspect the 15 file(s) that participate in that boundary before changing shared behavior."
   },
   {
@@ -11470,7 +11478,7 @@
       "mustNotChange": []
     },
     "confidence": 0.7200000000000001,
-    "explanation": "This node is a subsystem-context file leaf for packages/core/src/workspace.ts. It exists under Memory and Quality Engine so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show TypeScript content with 402 line(s), 6 import(s), 24 export(s), and 40 symbol(s). Important symbols include ATREE_DIR, atreePath, defaultConfig, ensureWorkspace, configPath, existing, and 34 more. Exports include ATREE_DIR, atreePath, defaultConfig, ensureWorkspace, setInstallMode, readJson, and 18 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for packages/core/src/workspace.ts. It exists under Memory and Quality Engine so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show TypeScript content with 399 line(s), 6 import(s), 24 export(s), and 40 symbol(s). Important symbols include ATREE_DIR, atreePath, defaultConfig, ensureWorkspace, configPath, existing, and 34 more. Exports include ATREE_DIR, atreePath, defaultConfig, ensureWorkspace, setInstallMode, readJson, and 18 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Memory and Quality Engine branch reaches packages/core/src/workspace.ts, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -12510,7 +12518,7 @@
       "mustNotChange": []
     },
     "confidence": 0.78,
-    "explanation": "This node represents the CLI and Local API human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include examples/inventory-api/src/api/inventory.ts, examples/small-web-app/src/api/checkout.ts, packages/cli/package.json, packages/cli/src/agentHealth.ts, packages/cli/src/apiState.ts, packages/cli/src/changeReviewCommand.ts, packages/cli/src/doctor.ts, and 10 more out of 17 total. It is decomposed into responsibility slices such as Local API and Serve Runtime, Command Surface, CLI Package Boundary, CLI Support so the branch does not stop at one large aggregate. Its main responsibilities are Expose scan, validate, context, serve, route, goal, evaluation, and maintenance workflows to users, Bridge local project memory between the reusable core engine, scripts, and the visual app. It depends on evidence such as api-route:/api/state, bin:abstraction-tree, bin:atree, entrypoint:packages/cli/src/index.ts, entrypoint:packages/full/bin/atree.js, file.examples.inventory.api.src.api.inventory.ts, and 63 more. Other nodes depending on it include Change, Command, Goal, Mission, and 21 more. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
+    "explanation": "This node represents the CLI and Local API human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include examples/inventory-api/src/api/inventory.ts, examples/small-web-app/src/api/checkout.ts, packages/cli/package.json, packages/cli/src/agentHealth.ts, packages/cli/src/apiState.ts, packages/cli/src/changeReviewCommand.ts, packages/cli/src/doctor.ts, and 10 more out of 17 total. It is decomposed into responsibility slices such as Local API and Serve Runtime, Command Surface, CLI Package Boundary, CLI Support so the branch does not stop at one large aggregate. Its main responsibilities are Expose scan, validate, context, serve, route, goal, evaluation, and maintenance workflows to users, Bridge local project memory between the reusable core engine, scripts, and the visual app. It depends on evidence such as api-route:/api/state, bin:abstraction-tree, bin:atree, entrypoint:packages/cli/src/index.ts, entrypoint:packages/full/bin/atree.js, file.examples.inventory.api.src.api.inventory.ts, and 63 more. Other nodes depending on it include Change, Goal, Command, Mission, and 21 more. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
     "reasonForExistence": "The CLI and local API exist to turn the engine into daily developer workflows: scan, validate, route prompts, plan goals, serve the visual app, and expose project memory without requiring a hosted service.",
     "separationLogic": "Separation logic: children are responsibility slices inside this subsystem. The builder groups files by evidence such as UI component role, app shell/state role, command/API surface, scanner/tree/context pipeline, memory/schema/validation role, mission automation, documentation, package distribution, or test/quality boundary. Current responsibility partitions Local API and Serve Runtime, Command Surface, CLI Package Boundary, CLI Support. Pick the responsibility slice that matches the prompt, then move to its file leaves before editing."
   },
@@ -12917,7 +12925,7 @@
       "mustNotChange": []
     },
     "confidence": 0.7000000000000001,
-    "explanation": "This node is a subsystem-context file leaf for packages/cli/src/doctor.ts. It exists under Command Surface so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show TypeScript content with 461 line(s), 5 import(s), 11 export(s), and 40 symbol(s). Important symbols include DoctorStatus, DoctorIssueSummary, DoctorCheck, DoctorCounts, DoctorReport, DoctorOptions, and 34 more. Exports include DoctorStatus, DoctorIssueSummary, DoctorCheck, DoctorCounts, DoctorReport, DoctorOptions, and 5 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for packages/cli/src/doctor.ts. It exists under Command Surface so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show TypeScript content with 534 line(s), 5 import(s), 11 export(s), and 40 symbol(s). Important symbols include DoctorStatus, DoctorIssueSummary, DoctorCheck, DoctorCounts, DoctorReport, DoctorOptions, and 34 more. Exports include DoctorStatus, DoctorIssueSummary, DoctorCheck, DoctorCounts, DoctorReport, DoctorOptions, and 5 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Command Surface branch reaches packages/cli/src/doctor.ts, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -13912,7 +13920,7 @@
       "mustNotChange": []
     },
     "confidence": 0.74,
-    "explanation": "This node represents the Goal and Mission Automation human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include adapters/codex/AGENTS.md, docs/FULL_SELF_IMPROVEMENT_LOOP.md, docs/GOAL_DRIVEN_AUTOPILOT.md, docs/MISSION_RUNNER.md, docs/ROADMAP.md, packages/core/src/diffSummary.ts, packages/core/src/goal.ts, and 11 more out of 18 total. It is decomposed into responsibility slices such as Prompt Routing and Goal Planning, Mission Runner and Loop Scripts, Automation Docs, Automation Support so the branch does not stop at one large aggregate. Its main responsibilities are Classify prompts, decompose complex goals, plan bounded missions, run safe mission queues, and record loop outcomes, Keep agent-assisted work review-gated by scripts, reports, lessons, and coherence checks. It depends on evidence such as entrypoint:packages/core/src/index.ts, file.adapters.codex.agents.md, file.docs.full.self.improvement.loop.md, file.docs.goal.driven.autopilot.md, file.docs.mission.runner.md, file.docs.roadmap.md, and 37 more. Other nodes depending on it include Change, Tree, Command, Goal, and 17 more. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
+    "explanation": "This node represents the Goal and Mission Automation human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include adapters/codex/AGENTS.md, docs/FULL_SELF_IMPROVEMENT_LOOP.md, docs/GOAL_DRIVEN_AUTOPILOT.md, docs/MISSION_RUNNER.md, docs/ROADMAP.md, packages/core/src/diffSummary.ts, packages/core/src/goal.ts, and 11 more out of 18 total. It is decomposed into responsibility slices such as Prompt Routing and Goal Planning, Mission Runner and Loop Scripts, Automation Docs, Automation Support so the branch does not stop at one large aggregate. Its main responsibilities are Classify prompts, decompose complex goals, plan bounded missions, run safe mission queues, and record loop outcomes, Keep agent-assisted work review-gated by scripts, reports, lessons, and coherence checks. It depends on evidence such as entrypoint:packages/core/src/index.ts, file.adapters.codex.agents.md, file.docs.full.self.improvement.loop.md, file.docs.goal.driven.autopilot.md, file.docs.mission.runner.md, file.docs.roadmap.md, and 37 more. Other nodes depending on it include Change, Tree, Goal, Command, and 17 more. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
     "reasonForExistence": "Goal and mission automation exists to keep complex prompts from becoming one oversized agent instruction. It decomposes goals into bounded missions, reviewable plans, reports, and lessons so agent-assisted work stays scoped and reviewable.",
     "separationLogic": "Separation logic: children are responsibility slices inside this subsystem. The builder groups files by evidence such as UI component role, app shell/state role, command/API surface, scanner/tree/context pipeline, memory/schema/validation role, mission automation, documentation, package distribution, or test/quality boundary. Current responsibility partitions Prompt Routing and Goal Planning, Mission Runner and Loop Scripts, Automation Docs, Automation Support. Pick the responsibility slice that matches the prompt, then move to its file leaves before editing."
   },
@@ -14926,7 +14934,7 @@
       "mustNotChange": []
     },
     "confidence": 0.66,
-    "explanation": "This node is a subsystem-context file leaf for docs/ROADMAP.md. It exists under Automation Docs so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 80 line(s), 0 import(s), 0 export(s), and 9 symbol(s). Important symbols include with, and, Roadmap, MVP, Current operational boundary, Version 0.2, and 3 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for docs/ROADMAP.md. It exists under Automation Docs so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 81 line(s), 0 import(s), 0 export(s), and 9 symbol(s). Important symbols include with, and, Roadmap, MVP, Current operational boundary, Version 0.2, and 3 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Automation Docs branch reaches docs/ROADMAP.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -15181,7 +15189,7 @@
       "mustNotChange": []
     },
     "confidence": 0.72,
-    "explanation": "This node represents the Memory, Validation, and Logs human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include docs/AGENT_PROTOCOL.md, docs/ARCHITECTURE.md, docs/DATA_MODEL.md, packages/core/src/automationValidation.ts, packages/core/src/changeReview.ts, packages/core/src/contextLimits.ts, packages/core/src/evaluator.ts, and 6 more out of 13 total. It is decomposed into responsibility slices such as Memory Schema and Workspace, Validation, Evaluation, and Reports, Memory Docs, Memory Support so the branch does not stop at one large aggregate. Its main responsibilities are Define, load, validate, evaluate, and summarize the committed abstraction memory contract, Protect drift checks, run reports, lessons, changes, evaluations, and other durable memory surfaces from silent inconsistency. It depends on evidence such as entrypoint:packages/core/src/index.ts, file.docs.agent.protocol.md, file.docs.architecture.md, file.docs.data.model.md, file.packages.core.src.automationvalidation.ts, file.packages.core.src.changereview.ts, and 37 more. Other nodes depending on it include Change, Tree, Mission, Scope, and 22 more. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
+    "explanation": "This node represents the Memory, Validation, and Logs human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include docs/AGENT_PROTOCOL.md, docs/ARCHITECTURE.md, docs/DATA_MODEL.md, packages/core/src/automationValidation.ts, packages/core/src/changeReview.ts, packages/core/src/contextLimits.ts, packages/core/src/evaluator.ts, and 6 more out of 13 total. It is decomposed into responsibility slices such as Memory Schema and Workspace, Validation, Evaluation, and Reports, Memory Docs, Memory Support so the branch does not stop at one large aggregate. Its main responsibilities are Define, load, validate, evaluate, and summarize the committed abstraction memory contract, Protect drift checks, run reports, lessons, changes, evaluations, and other durable memory surfaces from silent inconsistency. It depends on evidence such as entrypoint:packages/core/src/index.ts, file.docs.agent.protocol.md, file.docs.architecture.md, file.docs.data.model.md, file.packages.core.src.automationvalidation.ts, file.packages.core.src.changereview.ts, and 37 more. Other nodes depending on it include Change, Tree, Mission, Memory, and 22 more. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
     "reasonForExistence": "Memory, validation, and logs exist so the tree is not just a temporary analysis. They preserve durable project state, check that memory still matches files, and record what agents changed or learned.",
     "separationLogic": "Separation logic: children are responsibility slices inside this subsystem. The builder groups files by evidence such as UI component role, app shell/state role, command/API surface, scanner/tree/context pipeline, memory/schema/validation role, mission automation, documentation, package distribution, or test/quality boundary. Current responsibility partitions Memory Schema and Workspace, Validation, Evaluation, and Reports, Memory Docs, Memory Support. Pick the responsibility slice that matches the prompt, then move to its file leaves before editing."
   },
@@ -15397,7 +15405,7 @@
       "mustNotChange": []
     },
     "confidence": 0.64,
-    "explanation": "This node is a subsystem-context file leaf for packages/core/src/workspace.ts. It exists under Memory Schema and Workspace so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show TypeScript content with 402 line(s), 6 import(s), 24 export(s), and 40 symbol(s). Important symbols include ATREE_DIR, atreePath, defaultConfig, ensureWorkspace, configPath, existing, and 34 more. Exports include ATREE_DIR, atreePath, defaultConfig, ensureWorkspace, setInstallMode, readJson, and 18 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for packages/core/src/workspace.ts. It exists under Memory Schema and Workspace so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show TypeScript content with 399 line(s), 6 import(s), 24 export(s), and 40 symbol(s). Important symbols include ATREE_DIR, atreePath, defaultConfig, ensureWorkspace, configPath, existing, and 34 more. Exports include ATREE_DIR, atreePath, defaultConfig, ensureWorkspace, setInstallMode, readJson, and 18 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Memory Schema and Workspace branch reaches packages/core/src/workspace.ts, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -15907,7 +15915,7 @@
       "mustNotChange": []
     },
     "confidence": 0.64,
-    "explanation": "This node is a subsystem-context file leaf for docs/AGENT_PROTOCOL.md. It exists under Memory Docs so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 111 line(s), 0 import(s), 0 export(s), and 13 symbol(s). Important symbols include rather, Agent Protocol, Before editing, Context packs, During editing, After editing, and 7 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for docs/AGENT_PROTOCOL.md. It exists under Memory Docs so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 113 line(s), 0 import(s), 0 export(s), and 13 symbol(s). Important symbols include rather, Agent Protocol, Before editing, Context packs, During editing, After editing, and 7 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Memory Docs branch reaches docs/AGENT_PROTOCOL.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -15967,7 +15975,7 @@
       "docs/DATA_MODEL.md"
     ],
     "responsibilities": [
-      "DATA_MODEL.md is a Markdown implementation file. Defines Data Model, `config.json`, Schema migrations, `ontology.json`, `files.json`."
+      "DATA_MODEL.md is a Markdown implementation file. Defines Data Model, Workspace ownership, `config.json`, Schema migrations, `ontology.json`."
     ],
     "dependencies": [
       "file.docs.data.model.md"
@@ -15987,7 +15995,7 @@
       "mustNotChange": []
     },
     "confidence": 0.64,
-    "explanation": "This node is a subsystem-context file leaf for docs/DATA_MODEL.md. It exists under Memory Docs so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 168 line(s), 0 import(s), 0 export(s), and 12 symbol(s). Important symbols include Data Model, `config.json`, Schema migrations, `ontology.json`, `files.json`, `tree.json`, and 6 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for docs/DATA_MODEL.md. It exists under Memory Docs so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 176 line(s), 0 import(s), 0 export(s), and 13 symbol(s). Important symbols include Data Model, Workspace ownership, `config.json`, Schema migrations, `ontology.json`, `files.json`, and 7 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Memory Docs branch reaches docs/DATA_MODEL.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -16288,7 +16296,7 @@
       "mustNotChange": []
     },
     "confidence": 0.7,
-    "explanation": "This node represents the Docs and Examples human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include README.md, docs/AGENT_PROTOCOL.md, docs/ARCHITECTURE.md, docs/CI_INTEGRATION.md, docs/DATA_MODEL.md, docs/FORMATTING.md, docs/FULL_SELF_IMPROVEMENT_LOOP.md, and 19 more out of 26 total. It is decomposed into responsibility slices such as Guides, Project README, Examples so the branch does not stop at one large aggregate. Its main responsibilities are Explain install modes, architecture, agent protocols, assisted improvement workflows, data model, examples, and roadmap, Keep public claims aligned with deterministic behavior and current CLI scripts. It depends on evidence such as docs:readme-and-guides, file.docs.agent.protocol.md, file.docs.architecture.md, file.docs.ci.integration.md, file.docs.data.model.md, file.docs.formatting.md, and 41 more. Other nodes depending on it include Change, Tree, Command, Goal, and 24 more. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
+    "explanation": "This node represents the Docs and Examples human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include README.md, docs/AGENT_PROTOCOL.md, docs/ARCHITECTURE.md, docs/CI_INTEGRATION.md, docs/DATA_MODEL.md, docs/FORMATTING.md, docs/FULL_SELF_IMPROVEMENT_LOOP.md, and 19 more out of 26 total. It is decomposed into responsibility slices such as Guides, Project README, Examples so the branch does not stop at one large aggregate. Its main responsibilities are Explain install modes, architecture, agent protocols, assisted improvement workflows, data model, examples, and roadmap, Keep public claims aligned with deterministic behavior and current CLI scripts. It depends on evidence such as docs:readme-and-guides, file.docs.agent.protocol.md, file.docs.architecture.md, file.docs.ci.integration.md, file.docs.data.model.md, file.docs.formatting.md, and 41 more. Other nodes depending on it include Change, Tree, Goal, Command, and 24 more. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
     "reasonForExistence": "Docs and examples exist to make the tool understandable outside the code. They explain install modes, workflows, data contracts, automation boundaries, and example usage for humans and future agents.",
     "separationLogic": "Separation logic: children are responsibility slices inside this subsystem. The builder groups files by evidence such as UI component role, app shell/state role, command/API surface, scanner/tree/context pipeline, memory/schema/validation role, mission automation, documentation, package distribution, or test/quality boundary. Current responsibility partitions Guides, Project README, Examples. Pick the responsibility slice that matches the prompt, then move to its file leaves before editing."
   },
@@ -16432,7 +16440,7 @@
       "mustNotChange": []
     },
     "confidence": 0.62,
-    "explanation": "This node is a subsystem-context file leaf for docs/AGENT_PROTOCOL.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 111 line(s), 0 import(s), 0 export(s), and 13 symbol(s). Important symbols include rather, Agent Protocol, Before editing, Context packs, During editing, After editing, and 7 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for docs/AGENT_PROTOCOL.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 113 line(s), 0 import(s), 0 export(s), and 13 symbol(s). Important symbols include rather, Agent Protocol, Before editing, Context packs, During editing, After editing, and 7 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Guides branch reaches docs/AGENT_PROTOCOL.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -16532,7 +16540,7 @@
       "docs/DATA_MODEL.md"
     ],
     "responsibilities": [
-      "DATA_MODEL.md is a Markdown implementation file. Defines Data Model, `config.json`, Schema migrations, `ontology.json`, `files.json`."
+      "DATA_MODEL.md is a Markdown implementation file. Defines Data Model, Workspace ownership, `config.json`, Schema migrations, `ontology.json`."
     ],
     "dependencies": [
       "file.docs.data.model.md"
@@ -16552,7 +16560,7 @@
       "mustNotChange": []
     },
     "confidence": 0.62,
-    "explanation": "This node is a subsystem-context file leaf for docs/DATA_MODEL.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 168 line(s), 0 import(s), 0 export(s), and 12 symbol(s). Important symbols include Data Model, `config.json`, Schema migrations, `ontology.json`, `files.json`, `tree.json`, and 6 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for docs/DATA_MODEL.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 176 line(s), 0 import(s), 0 export(s), and 13 symbol(s). Important symbols include Data Model, Workspace ownership, `config.json`, Schema migrations, `ontology.json`, `files.json`, and 7 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Guides branch reaches docs/DATA_MODEL.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -16752,7 +16760,7 @@
       "mustNotChange": []
     },
     "confidence": 0.62,
-    "explanation": "This node is a subsystem-context file leaf for docs/PACKAGING.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 175 line(s), 0 import(s), 0 export(s), and 10 symbol(s). Important symbols include Packaging and install modes, Core-only package, Full package, Source of truth, Switching modes, Publishable packages, and 4 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for docs/PACKAGING.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 190 line(s), 0 import(s), 0 export(s), and 12 symbol(s). Important symbols include Packaging and install modes, Core-only package, Full package, Source of truth, Switching modes, Publishable packages, and 6 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Guides branch reaches docs/PACKAGING.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -16792,7 +16800,7 @@
       "mustNotChange": []
     },
     "confidence": 0.62,
-    "explanation": "This node is a subsystem-context file leaf for docs/ROADMAP.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 80 line(s), 0 import(s), 0 export(s), and 9 symbol(s). Important symbols include with, and, Roadmap, MVP, Current operational boundary, Version 0.2, and 3 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for docs/ROADMAP.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 81 line(s), 0 import(s), 0 export(s), and 9 symbol(s). Important symbols include with, and, Roadmap, MVP, Current operational boundary, Version 0.2, and 3 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Guides branch reaches docs/ROADMAP.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -16915,7 +16923,7 @@
       "mustNotChange": []
     },
     "confidence": 0.62,
-    "explanation": "This node is a subsystem-context file leaf for README.md. It exists under Project README so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 560 line(s), 0 import(s), 0 export(s), and 37 symbol(s). Important symbols include to, Abstraction Tree, Core promise, What This Is, What This Is Not, Assisted workflow maturity ladder, and 31 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for README.md. It exists under Project README so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 594 line(s), 0 import(s), 0 export(s), and 37 symbol(s). Important symbols include to, Abstraction Tree, Core promise, What This Is, What This Is Not, Assisted workflow maturity ladder, and 31 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Project README branch reaches README.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -18674,7 +18682,7 @@
       "mustNotChange": []
     },
     "confidence": 0.66,
-    "explanation": "This node is a subsystem-context file leaf for packages/full/README.md. It exists under Full Package Shell so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 16 line(s), 0 import(s), 0 export(s), and 1 symbol(s). Important symbols include abstraction-tree. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for packages/full/README.md. It exists under Full Package Shell so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 18 line(s), 0 import(s), 0 export(s), and 1 symbol(s). Important symbols include abstraction-tree. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Full Package Shell branch reaches packages/full/README.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -19039,7 +19047,7 @@
       "mustNotChange": []
     },
     "confidence": 0.66,
-    "explanation": "This node is a subsystem-context file leaf for scripts/pack-smoke-test.mjs. It exists under Release and Packaging Scripts so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show JavaScript content with 368 line(s), 6 import(s), 0 export(s), and 40 symbol(s). Important symbols include root, npmCliPath, npmCacheDir, packages, main, tempRoot, and 34 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for scripts/pack-smoke-test.mjs. It exists under Release and Packaging Scripts so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show JavaScript content with 431 line(s), 6 import(s), 0 export(s), and 40 symbol(s). Important symbols include root, npmCliPath, npmCacheDir, packages, main, tempRoot, and 34 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Release and Packaging Scripts branch reaches scripts/pack-smoke-test.mjs, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -19678,7 +19686,7 @@
       "mustNotChange": []
     },
     "confidence": 0.7,
-    "explanation": "This node represents the Tests and Quality Gates human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include .github/workflows/ci.yml, .github/workflows/release.yml, examples/inventory-api/tests/inventory.test.js, examples/small-web-app/tests/checkout.test.js, packages/app/src/app.test.tsx, packages/cli/src/agentHealth.test.ts, packages/cli/src/apiState.test.ts, and 49 more out of 56 total. It is decomposed into responsibility slices such as Core Tests, CLI Tests, App Tests, Script Quality Gates, CI Workflows, Example Tests so the branch does not stop at one large aggregate. Its main responsibilities are Verify deterministic behavior, CLI contracts, app rendering, memory schema, fixtures, and quality scripts, Act as the regression boundary before changes are committed, pushed, or run through automation. It depends on evidence such as bin:abstraction-tree, bin:atree, entrypoint:packages/app/src/main.tsx, entrypoint:packages/cli/src/index.ts, entrypoint:packages/core/src/index.ts, file.examples.inventory.api.tests.inventory.test.js, and 184 more. Other nodes depending on it include Change, Tree, Command, Goal, and 27 more. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
+    "explanation": "This node represents the Tests and Quality Gates human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include .github/workflows/ci.yml, .github/workflows/release.yml, examples/inventory-api/tests/inventory.test.js, examples/small-web-app/tests/checkout.test.js, packages/app/src/app.test.tsx, packages/cli/src/agentHealth.test.ts, packages/cli/src/apiState.test.ts, and 49 more out of 56 total. It is decomposed into responsibility slices such as Core Tests, CLI Tests, App Tests, Script Quality Gates, CI Workflows, Example Tests so the branch does not stop at one large aggregate. Its main responsibilities are Verify deterministic behavior, CLI contracts, app rendering, memory schema, fixtures, and quality scripts, Act as the regression boundary before changes are committed, pushed, or run through automation. It depends on evidence such as bin:abstraction-tree, bin:atree, entrypoint:packages/app/src/main.tsx, entrypoint:packages/cli/src/index.ts, entrypoint:packages/core/src/index.ts, file.examples.inventory.api.tests.inventory.test.js, and 184 more. Other nodes depending on it include Change, Tree, Goal, Command, and 28 more. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
     "reasonForExistence": "Tests and quality gates exist to keep deterministic behavior stable as the tree builder, scanner, app, automation, and CLI evolve.",
     "separationLogic": "Separation logic: children are responsibility slices inside this subsystem. The builder groups files by evidence such as UI component role, app shell/state role, command/API surface, scanner/tree/context pipeline, memory/schema/validation role, mission automation, documentation, package distribution, or test/quality boundary. Current responsibility partitions Core Tests, CLI Tests, App Tests, Script Quality Gates, CI Workflows, Example Tests. Pick the responsibility slice that matches the prompt, then move to its file leaves before editing."
   },
@@ -19809,6 +19817,7 @@
       "import:./validator.js",
       "import:./workspace.js",
       "import:node:assert/strict",
+      "import:node:fs",
       "import:node:fs/promises",
       "import:node:os",
       "import:node:path",
@@ -19817,6 +19826,7 @@
       "manifest:packages/core/package.json",
       "package:@abstraction-tree/core",
       "package:node:assert/strict",
+      "package:node:fs",
       "package:node:fs/promises",
       "package:node:os",
       "package:node:path",
@@ -19878,6 +19888,7 @@
       "import:./validator.js",
       "import:./workspace.js",
       "import:node:assert/strict",
+      "import:node:fs",
       "import:node:fs/promises",
       "import:node:os",
       "import:node:path",
@@ -19886,6 +19897,7 @@
       "manifest:packages/core/package.json",
       "package:@abstraction-tree/core",
       "package:node:assert/strict",
+      "package:node:fs",
       "package:node:fs/promises",
       "package:node:os",
       "package:node:path",
@@ -20798,12 +20810,16 @@
       "packages/core/src/workspace.test.ts"
     ],
     "responsibilities": [
-      "workspace.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, filePath, workspace. Depends on node:assert/strict, node:fs/promises, node:os, node:path."
+      "workspace.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, filePath, scan, importGraph, built. Depends on node:assert/strict, node:fs, node:fs/promises, node:os."
     ],
     "dependencies": [
       "file.packages.core.src.workspace.test.ts",
+      "import:./importGraph.js",
+      "import:./scanner.js",
+      "import:./treeBuilder.js",
       "import:./workspace.js",
       "import:node:assert/strict",
+      "import:node:fs",
       "import:node:fs/promises",
       "import:node:os",
       "import:node:path",
@@ -20811,8 +20827,12 @@
     ],
     "dependsOn": [
       "file.packages.core.src.workspace.test.ts",
+      "import:./importGraph.js",
+      "import:./scanner.js",
+      "import:./treeBuilder.js",
       "import:./workspace.js",
       "import:node:assert/strict",
+      "import:node:fs",
       "import:node:fs/promises",
       "import:node:os",
       "import:node:path",
@@ -20830,7 +20850,7 @@
       "mustNotChange": []
     },
     "confidence": 0.62,
-    "explanation": "This node is a subsystem-context file leaf for packages/core/src/workspace.test.ts. It exists under Core Tests so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show TypeScript content with 21 line(s), 6 import(s), 0 export(s), and 3 symbol(s). Important symbols include root, filePath, workspace. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for packages/core/src/workspace.test.ts. It exists under Core Tests so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show TypeScript content with 78 line(s), 10 import(s), 0 export(s), and 9 symbol(s). Important symbols include root, filePath, scan, importGraph, built, files, and 3 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Core Tests branch reaches packages/core/src/workspace.test.ts, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -21183,7 +21203,7 @@
       "packages/cli/src/doctor.test.ts"
     ],
     "responsibilities": [
-      "doctor.test.ts is a TypeScript test coverage file. AST-backed scan. Defines doctorOptions, root, report, checkedRoot, workspace. Depends on node:assert/strict, node:fs/promises, node:os, node:path."
+      "doctor.test.ts is a TypeScript test coverage file. AST-backed scan. Defines doctorOptions, root, report, scan, importGraph. Depends on node:assert/strict, node:fs/promises, node:os, node:path."
     ],
     "dependencies": [
       "file.packages.cli.src.doctor.test.ts",
@@ -21217,7 +21237,7 @@
       "mustNotChange": []
     },
     "confidence": 0.62,
-    "explanation": "This node is a subsystem-context file leaf for packages/cli/src/doctor.test.ts. It exists under CLI Tests so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show TypeScript content with 163 line(s), 7 import(s), 0 export(s), and 12 symbol(s). Important symbols include doctorOptions, root, report, checkedRoot, workspace, writeDeterministicMemory, and 6 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for packages/cli/src/doctor.test.ts. It exists under CLI Tests so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show TypeScript content with 189 line(s), 7 import(s), 0 export(s), and 12 symbol(s). Important symbols include doctorOptions, root, report, scan, importGraph, built, and 6 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the CLI Tests branch reaches packages/cli/src/doctor.test.ts, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -22727,7 +22747,7 @@
       "mustNotChange": []
     },
     "confidence": 0.62,
-    "explanation": "This node is a subsystem-context file leaf for scripts/pack-smoke-test.mjs. It exists under Script Quality Gates so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show JavaScript content with 368 line(s), 6 import(s), 0 export(s), and 40 symbol(s). Important symbols include root, npmCliPath, npmCacheDir, packages, main, tempRoot, and 34 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for scripts/pack-smoke-test.mjs. It exists under Script Quality Gates so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show JavaScript content with 431 line(s), 6 import(s), 0 export(s), and 40 symbol(s). Important symbols include root, npmCliPath, npmCacheDir, packages, main, tempRoot, and 34 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Script Quality Gates branch reaches scripts/pack-smoke-test.mjs, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -23765,7 +23785,7 @@
     "title": "Tree",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 26 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 27 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
@@ -23792,6 +23812,7 @@
       "packages/core/src/treeBuilder.test.ts",
       "packages/core/src/treeBuilder.ts",
       "packages/core/src/validator.ts",
+      "packages/core/src/workspace.test.ts",
       "packages/core/src/workspace.ts",
       "packages/full/README.md",
       "scripts/create-assessment-pack.mjs",
@@ -23820,6 +23841,7 @@
       "packages/core/src/treeBuilder.test.ts",
       "packages/core/src/treeBuilder.ts",
       "packages/core/src/validator.ts",
+      "packages/core/src/workspace.test.ts",
       "packages/core/src/workspace.ts",
       "packages/full/README.md",
       "scripts/create-assessment-pack.mjs",
@@ -23856,6 +23878,7 @@
       "file.packages.core.src.treebuilder.test.ts",
       "file.packages.core.src.treebuilder.ts",
       "file.packages.core.src.validator.ts",
+      "file.packages.core.src.workspace.test.ts",
       "file.packages.core.src.workspace.ts",
       "file.packages.full.readme.md",
       "file.readme.md",
@@ -23924,6 +23947,7 @@
       "subsystem.tests.quality.file.packages.core.src.llmabstractionbuilder.test.ts",
       "subsystem.tests.quality.file.packages.core.src.runtimeschema.test.ts",
       "subsystem.tests.quality.file.packages.core.src.treebuilder.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.workspace.test.ts",
       "subsystem.tests.quality.slice.cli.tests",
       "subsystem.tests.quality.file.packages.cli.src.propose.test.ts"
     ],
@@ -23955,6 +23979,7 @@
       "file.packages.core.src.treebuilder.test.ts",
       "file.packages.core.src.treebuilder.ts",
       "file.packages.core.src.validator.ts",
+      "file.packages.core.src.workspace.test.ts",
       "file.packages.core.src.workspace.ts",
       "file.packages.full.readme.md",
       "file.readme.md",
@@ -24023,6 +24048,7 @@
       "subsystem.tests.quality.file.packages.core.src.llmabstractionbuilder.test.ts",
       "subsystem.tests.quality.file.packages.core.src.runtimeschema.test.ts",
       "subsystem.tests.quality.file.packages.core.src.treebuilder.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.workspace.test.ts",
       "subsystem.tests.quality.slice.cli.tests",
       "subsystem.tests.quality.file.packages.cli.src.propose.test.ts"
     ],
@@ -24035,8 +24061,141 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents the Tree concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include README.md, adapters/codex/AGENTS.md, adapters/local-json/index.mjs, docs/CI_INTEGRATION.md, docs/DATA_MODEL.md, docs/MISSION_RUNNER.md, and 20 more. It connects to tree nodes such as Adapters, Docs, Examples, Packages, Root, Scripts, and 51 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
-    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Tree as a cross-cutting idea. It helps humans and agents find 26 related file(s) without assuming one folder owns the whole concept."
+    "explanation": "This node represents the Tree concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include README.md, adapters/codex/AGENTS.md, adapters/local-json/index.mjs, docs/CI_INTEGRATION.md, docs/DATA_MODEL.md, docs/MISSION_RUNNER.md, and 21 more. It connects to tree nodes such as Adapters, Docs, Examples, Packages, Root, Scripts, and 52 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
+    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Tree as a cross-cutting idea. It helps humans and agents find 27 related file(s) without assuming one folder owns the whole concept."
+  },
+  {
+    "id": "concept-node.goal",
+    "name": "Goal",
+    "title": "Goal",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 9 file(s) using doc, export, path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "README.md",
+      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+      "docs/GOAL_DRIVEN_AUTOPILOT.md",
+      "docs/MISSION_RUNNER.md",
+      "docs/SCOPE_CONTRACTS.md",
+      "packages/cli/src/goalCommand.test.ts",
+      "packages/cli/src/goalCommand.ts",
+      "packages/core/src/goal.test.ts",
+      "packages/core/src/goal.ts"
+    ],
+    "ownedFiles": [
+      "README.md",
+      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+      "docs/GOAL_DRIVEN_AUTOPILOT.md",
+      "docs/MISSION_RUNNER.md",
+      "docs/SCOPE_CONTRACTS.md",
+      "packages/cli/src/goalCommand.test.ts",
+      "packages/cli/src/goalCommand.ts",
+      "packages/core/src/goal.test.ts",
+      "packages/core/src/goal.ts"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Goal concept across related files."
+    ],
+    "dependencies": [
+      "module.docs",
+      "module.packages",
+      "module.root",
+      "file.docs.full.self.improvement.loop.md",
+      "file.docs.goal.driven.autopilot.md",
+      "file.docs.mission.runner.md",
+      "file.docs.scope.contracts.md",
+      "file.packages.cli.src.goalcommand.test.ts",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.core.src.goal.test.ts",
+      "file.packages.core.src.goal.ts",
+      "file.readme.md",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.goal.routing",
+      "subsystem.core.engine.file.packages.core.src.goal.ts",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
+      "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.docs.full.self.improvement.loop.md",
+      "subsystem.goal.mission.automation.file.docs.mission.runner.md",
+      "subsystem.goal.mission.automation.slice.automation.docs",
+      "subsystem.goal.mission.automation.file.docs.goal.driven.autopilot.md",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.full.self.improvement.loop.md",
+      "subsystem.docs.examples.file.docs.goal.driven.autopilot.md",
+      "subsystem.docs.examples.file.docs.mission.runner.md",
+      "subsystem.docs.examples.file.docs.scope.contracts.md",
+      "subsystem.docs.examples.slice.readme",
+      "subsystem.docs.examples.file.readme.md",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.goal.test.ts",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts"
+    ],
+    "dependsOn": [
+      "module.docs",
+      "module.packages",
+      "module.root",
+      "file.docs.full.self.improvement.loop.md",
+      "file.docs.goal.driven.autopilot.md",
+      "file.docs.mission.runner.md",
+      "file.docs.scope.contracts.md",
+      "file.packages.cli.src.goalcommand.test.ts",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.core.src.goal.test.ts",
+      "file.packages.core.src.goal.ts",
+      "file.readme.md",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.goal.routing",
+      "subsystem.core.engine.file.packages.core.src.goal.ts",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
+      "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.docs.full.self.improvement.loop.md",
+      "subsystem.goal.mission.automation.file.docs.mission.runner.md",
+      "subsystem.goal.mission.automation.slice.automation.docs",
+      "subsystem.goal.mission.automation.file.docs.goal.driven.autopilot.md",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.full.self.improvement.loop.md",
+      "subsystem.docs.examples.file.docs.goal.driven.autopilot.md",
+      "subsystem.docs.examples.file.docs.mission.runner.md",
+      "subsystem.docs.examples.file.docs.scope.contracts.md",
+      "subsystem.docs.examples.slice.readme",
+      "subsystem.docs.examples.file.readme.md",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.goal.test.ts",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65,
+    "explanation": "This node represents the Goal concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include README.md, docs/FULL_SELF_IMPROVEMENT_LOOP.md, docs/GOAL_DRIVEN_AUTOPILOT.md, docs/MISSION_RUNNER.md, docs/SCOPE_CONTRACTS.md, packages/cli/src/goalCommand.test.ts, and 3 more. It connects to tree nodes such as Docs, Packages, Root, FULL_SELF_IMPROVEMENT_LOOP.md, GOAL_DRIVEN_AUTOPILOT.md, MISSION_RUNNER.md, and 21 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
+    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Goal as a cross-cutting idea. It helps humans and agents find 9 related file(s) without assuming one folder owns the whole concept."
   },
   {
     "id": "concept-node.command",
@@ -24242,139 +24401,6 @@
     "confidence": 0.65,
     "explanation": "This node represents the Command concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include README.md, docs/GOAL_DRIVEN_AUTOPILOT.md, packages/cli/src/changeReviewCommand.ts, packages/cli/src/goalCommand.test.ts, packages/cli/src/goalCommand.ts, packages/cli/src/index.ts, and 14 more. It connects to tree nodes such as Docs, Packages, Root, Scripts, GOAL_DRIVEN_AUTOPILOT.md, changeReviewCommand.ts, and 36 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
     "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Command as a cross-cutting idea. It helps humans and agents find 20 related file(s) without assuming one folder owns the whole concept."
-  },
-  {
-    "id": "concept-node.goal",
-    "name": "Goal",
-    "title": "Goal",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 9 file(s) using doc, export, path, symbol signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "README.md",
-      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
-      "docs/GOAL_DRIVEN_AUTOPILOT.md",
-      "docs/MISSION_RUNNER.md",
-      "docs/SCOPE_CONTRACTS.md",
-      "packages/cli/src/goalCommand.test.ts",
-      "packages/cli/src/goalCommand.ts",
-      "packages/core/src/goal.test.ts",
-      "packages/core/src/goal.ts"
-    ],
-    "ownedFiles": [
-      "README.md",
-      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
-      "docs/GOAL_DRIVEN_AUTOPILOT.md",
-      "docs/MISSION_RUNNER.md",
-      "docs/SCOPE_CONTRACTS.md",
-      "packages/cli/src/goalCommand.test.ts",
-      "packages/cli/src/goalCommand.ts",
-      "packages/core/src/goal.test.ts",
-      "packages/core/src/goal.ts"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Goal concept across related files."
-    ],
-    "dependencies": [
-      "module.docs",
-      "module.packages",
-      "module.root",
-      "file.docs.full.self.improvement.loop.md",
-      "file.docs.goal.driven.autopilot.md",
-      "file.docs.mission.runner.md",
-      "file.docs.scope.contracts.md",
-      "file.packages.cli.src.goalcommand.test.ts",
-      "file.packages.cli.src.goalcommand.ts",
-      "file.packages.core.src.goal.test.ts",
-      "file.packages.core.src.goal.ts",
-      "file.readme.md",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "subsystem.core.engine",
-      "subsystem.core.engine.slice.goal.routing",
-      "subsystem.core.engine.file.packages.core.src.goal.ts",
-      "subsystem.cli.local.api",
-      "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
-      "subsystem.goal.mission.automation",
-      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
-      "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
-      "subsystem.goal.mission.automation.slice.mission.runner.loop",
-      "subsystem.goal.mission.automation.file.docs.full.self.improvement.loop.md",
-      "subsystem.goal.mission.automation.file.docs.mission.runner.md",
-      "subsystem.goal.mission.automation.slice.automation.docs",
-      "subsystem.goal.mission.automation.file.docs.goal.driven.autopilot.md",
-      "subsystem.docs.examples",
-      "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.full.self.improvement.loop.md",
-      "subsystem.docs.examples.file.docs.goal.driven.autopilot.md",
-      "subsystem.docs.examples.file.docs.mission.runner.md",
-      "subsystem.docs.examples.file.docs.scope.contracts.md",
-      "subsystem.docs.examples.slice.readme",
-      "subsystem.docs.examples.file.readme.md",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.core.tests",
-      "subsystem.tests.quality.file.packages.core.src.goal.test.ts",
-      "subsystem.tests.quality.slice.cli.tests",
-      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts"
-    ],
-    "dependsOn": [
-      "module.docs",
-      "module.packages",
-      "module.root",
-      "file.docs.full.self.improvement.loop.md",
-      "file.docs.goal.driven.autopilot.md",
-      "file.docs.mission.runner.md",
-      "file.docs.scope.contracts.md",
-      "file.packages.cli.src.goalcommand.test.ts",
-      "file.packages.cli.src.goalcommand.ts",
-      "file.packages.core.src.goal.test.ts",
-      "file.packages.core.src.goal.ts",
-      "file.readme.md",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "subsystem.core.engine",
-      "subsystem.core.engine.slice.goal.routing",
-      "subsystem.core.engine.file.packages.core.src.goal.ts",
-      "subsystem.cli.local.api",
-      "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
-      "subsystem.goal.mission.automation",
-      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
-      "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
-      "subsystem.goal.mission.automation.slice.mission.runner.loop",
-      "subsystem.goal.mission.automation.file.docs.full.self.improvement.loop.md",
-      "subsystem.goal.mission.automation.file.docs.mission.runner.md",
-      "subsystem.goal.mission.automation.slice.automation.docs",
-      "subsystem.goal.mission.automation.file.docs.goal.driven.autopilot.md",
-      "subsystem.docs.examples",
-      "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.full.self.improvement.loop.md",
-      "subsystem.docs.examples.file.docs.goal.driven.autopilot.md",
-      "subsystem.docs.examples.file.docs.mission.runner.md",
-      "subsystem.docs.examples.file.docs.scope.contracts.md",
-      "subsystem.docs.examples.slice.readme",
-      "subsystem.docs.examples.file.readme.md",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.core.tests",
-      "subsystem.tests.quality.file.packages.core.src.goal.test.ts",
-      "subsystem.tests.quality.slice.cli.tests",
-      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65,
-    "explanation": "This node represents the Goal concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include README.md, docs/FULL_SELF_IMPROVEMENT_LOOP.md, docs/GOAL_DRIVEN_AUTOPILOT.md, docs/MISSION_RUNNER.md, docs/SCOPE_CONTRACTS.md, packages/cli/src/goalCommand.test.ts, and 3 more. It connects to tree nodes such as Docs, Packages, Root, FULL_SELF_IMPROVEMENT_LOOP.md, GOAL_DRIVEN_AUTOPILOT.md, MISSION_RUNNER.md, and 21 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
-    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Goal as a cross-cutting idea. It helps humans and agents find 9 related file(s) without assuming one folder owns the whole concept."
   },
   {
     "id": "concept-node.mission",
@@ -24602,6 +24628,303 @@
     "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Mission as a cross-cutting idea. It helps humans and agents find 21 related file(s) without assuming one folder owns the whole concept."
   },
   {
+    "id": "concept-node.memory",
+    "name": "Memory",
+    "title": "Memory",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 31 file(s) using export, path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "CONTRIBUTING.md",
+      "README.md",
+      "adapters/codex/AGENTS.md",
+      "docs/ARCHITECTURE.md",
+      "docs/MISSION_RUNNER.md",
+      "docs/PACKAGING.md",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/doctor.ts",
+      "packages/cli/src/goalCommand.test.ts",
+      "packages/cli/src/goalCommand.ts",
+      "packages/cli/src/propose.test.ts",
+      "packages/cli/src/propose.ts",
+      "packages/cli/src/routeCommand.test.ts",
+      "packages/cli/src/routeCommand.ts",
+      "packages/cli/src/scopeCommand.test.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/promptRouter.test.ts",
+      "packages/core/src/promptRouter.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/scope.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/create-assessment-pack.test.mjs",
+      "scripts/generated-memory-fixtures.test.mjs",
+      "scripts/pack-smoke-test.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
+      "scripts/run-missions.mjs",
+      "scripts/run-missions.test.mjs",
+      "scripts/small-web-app-fixture.test.mjs"
+    ],
+    "ownedFiles": [
+      "CONTRIBUTING.md",
+      "README.md",
+      "adapters/codex/AGENTS.md",
+      "docs/ARCHITECTURE.md",
+      "docs/MISSION_RUNNER.md",
+      "docs/PACKAGING.md",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/doctor.ts",
+      "packages/cli/src/goalCommand.test.ts",
+      "packages/cli/src/goalCommand.ts",
+      "packages/cli/src/propose.test.ts",
+      "packages/cli/src/propose.ts",
+      "packages/cli/src/routeCommand.test.ts",
+      "packages/cli/src/routeCommand.ts",
+      "packages/cli/src/scopeCommand.test.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/promptRouter.test.ts",
+      "packages/core/src/promptRouter.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/scope.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/create-assessment-pack.test.mjs",
+      "scripts/generated-memory-fixtures.test.mjs",
+      "scripts/pack-smoke-test.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
+      "scripts/run-missions.mjs",
+      "scripts/run-missions.test.mjs",
+      "scripts/small-web-app-fixture.test.mjs"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Memory concept across related files."
+    ],
+    "dependencies": [
+      "module.adapters",
+      "module.docs",
+      "module.packages",
+      "module.root",
+      "module.scripts",
+      "file.adapters.codex.agents.md",
+      "file.contributing.md",
+      "file.docs.architecture.md",
+      "file.docs.mission.runner.md",
+      "file.docs.packaging.md",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.doctor.ts",
+      "file.packages.cli.src.goalcommand.test.ts",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.cli.src.propose.test.ts",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.cli.src.routecommand.test.ts",
+      "file.packages.cli.src.routecommand.ts",
+      "file.packages.cli.src.scopecommand.test.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.migrations.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.promptrouter.test.ts",
+      "file.packages.core.src.promptrouter.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.scope.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.readme.md",
+      "file.scripts.create.assessment.pack.test.mjs",
+      "file.scripts.generated.memory.fixtures.test.mjs",
+      "file.scripts.pack.smoke.test.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "file.scripts.run.missions.mjs",
+      "file.scripts.run.missions.test.mjs",
+      "file.scripts.small.web.app.fixture.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.understanding.pipeline",
+      "subsystem.core.engine.file.packages.core.src.scope.ts",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.evaluator.ts",
+      "subsystem.core.engine.file.packages.core.src.workspace.ts",
+      "subsystem.core.engine.slice.core.support",
+      "subsystem.core.engine.file.packages.core.src.migrations.ts",
+      "subsystem.core.engine.slice.goal.routing",
+      "subsystem.core.engine.file.packages.core.src.promptrouter.ts",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.doctor.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.propose.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.routecommand.ts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
+      "subsystem.goal.mission.automation.file.packages.core.src.promptrouter.ts",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.adapters.codex.agents.md",
+      "subsystem.goal.mission.automation.file.docs.mission.runner.md",
+      "subsystem.goal.mission.automation.file.scripts.run.missions.mjs",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
+      "subsystem.memory.validation.logs.file.packages.core.src.workspace.ts",
+      "subsystem.memory.validation.logs.slice.validation.evaluation",
+      "subsystem.memory.validation.logs.file.packages.core.src.evaluator.ts",
+      "subsystem.memory.validation.logs.file.packages.core.src.scope.ts",
+      "subsystem.memory.validation.logs.slice.memory.docs",
+      "subsystem.memory.validation.logs.file.docs.architecture.md",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.architecture.md",
+      "subsystem.docs.examples.file.docs.mission.runner.md",
+      "subsystem.docs.examples.file.docs.packaging.md",
+      "subsystem.docs.examples.slice.readme",
+      "subsystem.docs.examples.file.readme.md",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.adapters",
+      "subsystem.packaging.adapters.file.adapters.codex.agents.md",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.create.assessment.pack.test.mjs",
+      "subsystem.packaging.adapters.file.scripts.pack.smoke.test.mjs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.migrations.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.promptrouter.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.runtimeschema.test.ts",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.apistate.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.doctor.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.propose.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.routecommand.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.scopecommand.test.ts",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.create.assessment.pack.test.mjs",
+      "subsystem.tests.quality.file.scripts.generated.memory.fixtures.test.mjs",
+      "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs",
+      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs",
+      "subsystem.tests.quality.file.scripts.run.missions.test.mjs",
+      "subsystem.tests.quality.file.scripts.small.web.app.fixture.test.mjs"
+    ],
+    "dependsOn": [
+      "module.adapters",
+      "module.docs",
+      "module.packages",
+      "module.root",
+      "module.scripts",
+      "file.adapters.codex.agents.md",
+      "file.contributing.md",
+      "file.docs.architecture.md",
+      "file.docs.mission.runner.md",
+      "file.docs.packaging.md",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.doctor.ts",
+      "file.packages.cli.src.goalcommand.test.ts",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.cli.src.propose.test.ts",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.cli.src.routecommand.test.ts",
+      "file.packages.cli.src.routecommand.ts",
+      "file.packages.cli.src.scopecommand.test.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.migrations.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.promptrouter.test.ts",
+      "file.packages.core.src.promptrouter.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.scope.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.readme.md",
+      "file.scripts.create.assessment.pack.test.mjs",
+      "file.scripts.generated.memory.fixtures.test.mjs",
+      "file.scripts.pack.smoke.test.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "file.scripts.run.missions.mjs",
+      "file.scripts.run.missions.test.mjs",
+      "file.scripts.small.web.app.fixture.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.understanding.pipeline",
+      "subsystem.core.engine.file.packages.core.src.scope.ts",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.evaluator.ts",
+      "subsystem.core.engine.file.packages.core.src.workspace.ts",
+      "subsystem.core.engine.slice.core.support",
+      "subsystem.core.engine.file.packages.core.src.migrations.ts",
+      "subsystem.core.engine.slice.goal.routing",
+      "subsystem.core.engine.file.packages.core.src.promptrouter.ts",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.doctor.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.propose.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.routecommand.ts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
+      "subsystem.goal.mission.automation.file.packages.core.src.promptrouter.ts",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.adapters.codex.agents.md",
+      "subsystem.goal.mission.automation.file.docs.mission.runner.md",
+      "subsystem.goal.mission.automation.file.scripts.run.missions.mjs",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
+      "subsystem.memory.validation.logs.file.packages.core.src.workspace.ts",
+      "subsystem.memory.validation.logs.slice.validation.evaluation",
+      "subsystem.memory.validation.logs.file.packages.core.src.evaluator.ts",
+      "subsystem.memory.validation.logs.file.packages.core.src.scope.ts",
+      "subsystem.memory.validation.logs.slice.memory.docs",
+      "subsystem.memory.validation.logs.file.docs.architecture.md",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.architecture.md",
+      "subsystem.docs.examples.file.docs.mission.runner.md",
+      "subsystem.docs.examples.file.docs.packaging.md",
+      "subsystem.docs.examples.slice.readme",
+      "subsystem.docs.examples.file.readme.md",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.adapters",
+      "subsystem.packaging.adapters.file.adapters.codex.agents.md",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.create.assessment.pack.test.mjs",
+      "subsystem.packaging.adapters.file.scripts.pack.smoke.test.mjs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.migrations.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.promptrouter.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.runtimeschema.test.ts",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.apistate.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.doctor.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.propose.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.routecommand.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.scopecommand.test.ts",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.create.assessment.pack.test.mjs",
+      "subsystem.tests.quality.file.scripts.generated.memory.fixtures.test.mjs",
+      "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs",
+      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs",
+      "subsystem.tests.quality.file.scripts.run.missions.test.mjs",
+      "subsystem.tests.quality.file.scripts.small.web.app.fixture.test.mjs"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65,
+    "explanation": "This node represents the Memory concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include CONTRIBUTING.md, README.md, adapters/codex/AGENTS.md, docs/ARCHITECTURE.md, docs/MISSION_RUNNER.md, docs/PACKAGING.md, and 25 more. It connects to tree nodes such as Adapters, Docs, Packages, Root, Scripts, AGENTS.md, and 54 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
+    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Memory as a cross-cutting idea. It helps humans and agents find 31 related file(s) without assuming one folder owns the whole concept."
+  },
+  {
     "id": "concept-node.scope",
     "name": "Scope",
     "title": "Scope",
@@ -24749,289 +25072,6 @@
     "confidence": 0.65,
     "explanation": "This node represents the Scope concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include docs/MISSION_RUNNER.md, docs/SCOPE_CONTRACTS.md, packages/app/src/components/AgentHealthPanel.tsx, packages/cli/src/apiState.ts, packages/cli/src/goalCommand.test.ts, packages/cli/src/goalCommand.ts, and 5 more. It connects to tree nodes such as Docs, Packages, MISSION_RUNNER.md, SCOPE_CONTRACTS.md, AgentHealthPanel.tsx, apiState.ts, and 27 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
     "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Scope as a cross-cutting idea. It helps humans and agents find 11 related file(s) without assuming one folder owns the whole concept."
-  },
-  {
-    "id": "concept-node.memory",
-    "name": "Memory",
-    "title": "Memory",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Durable concept inferred from 29 file(s) using export, path, symbol signals.",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "CONTRIBUTING.md",
-      "README.md",
-      "adapters/codex/AGENTS.md",
-      "docs/ARCHITECTURE.md",
-      "docs/MISSION_RUNNER.md",
-      "packages/cli/src/apiState.test.ts",
-      "packages/cli/src/doctor.test.ts",
-      "packages/cli/src/doctor.ts",
-      "packages/cli/src/goalCommand.test.ts",
-      "packages/cli/src/goalCommand.ts",
-      "packages/cli/src/propose.test.ts",
-      "packages/cli/src/propose.ts",
-      "packages/cli/src/routeCommand.test.ts",
-      "packages/cli/src/routeCommand.ts",
-      "packages/cli/src/scopeCommand.test.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/migrations.test.ts",
-      "packages/core/src/migrations.ts",
-      "packages/core/src/promptRouter.test.ts",
-      "packages/core/src/promptRouter.ts",
-      "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/scope.ts",
-      "packages/core/src/workspace.ts",
-      "scripts/create-assessment-pack.test.mjs",
-      "scripts/generated-memory-fixtures.test.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs",
-      "scripts/run-missions.mjs",
-      "scripts/run-missions.test.mjs",
-      "scripts/small-web-app-fixture.test.mjs"
-    ],
-    "ownedFiles": [
-      "CONTRIBUTING.md",
-      "README.md",
-      "adapters/codex/AGENTS.md",
-      "docs/ARCHITECTURE.md",
-      "docs/MISSION_RUNNER.md",
-      "packages/cli/src/apiState.test.ts",
-      "packages/cli/src/doctor.test.ts",
-      "packages/cli/src/doctor.ts",
-      "packages/cli/src/goalCommand.test.ts",
-      "packages/cli/src/goalCommand.ts",
-      "packages/cli/src/propose.test.ts",
-      "packages/cli/src/propose.ts",
-      "packages/cli/src/routeCommand.test.ts",
-      "packages/cli/src/routeCommand.ts",
-      "packages/cli/src/scopeCommand.test.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/migrations.test.ts",
-      "packages/core/src/migrations.ts",
-      "packages/core/src/promptRouter.test.ts",
-      "packages/core/src/promptRouter.ts",
-      "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/scope.ts",
-      "packages/core/src/workspace.ts",
-      "scripts/create-assessment-pack.test.mjs",
-      "scripts/generated-memory-fixtures.test.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs",
-      "scripts/run-missions.mjs",
-      "scripts/run-missions.test.mjs",
-      "scripts/small-web-app-fixture.test.mjs"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Memory concept across related files."
-    ],
-    "dependencies": [
-      "module.adapters",
-      "module.docs",
-      "module.packages",
-      "module.root",
-      "module.scripts",
-      "file.adapters.codex.agents.md",
-      "file.contributing.md",
-      "file.docs.architecture.md",
-      "file.docs.mission.runner.md",
-      "file.packages.cli.src.apistate.test.ts",
-      "file.packages.cli.src.doctor.test.ts",
-      "file.packages.cli.src.doctor.ts",
-      "file.packages.cli.src.goalcommand.test.ts",
-      "file.packages.cli.src.goalcommand.ts",
-      "file.packages.cli.src.propose.test.ts",
-      "file.packages.cli.src.propose.ts",
-      "file.packages.cli.src.routecommand.test.ts",
-      "file.packages.cli.src.routecommand.ts",
-      "file.packages.cli.src.scopecommand.test.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.migrations.test.ts",
-      "file.packages.core.src.migrations.ts",
-      "file.packages.core.src.promptrouter.test.ts",
-      "file.packages.core.src.promptrouter.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.scope.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.readme.md",
-      "file.scripts.create.assessment.pack.test.mjs",
-      "file.scripts.generated.memory.fixtures.test.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "file.scripts.run.missions.mjs",
-      "file.scripts.run.missions.test.mjs",
-      "file.scripts.small.web.app.fixture.test.mjs",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "subsystem.core.engine",
-      "subsystem.core.engine.slice.understanding.pipeline",
-      "subsystem.core.engine.file.packages.core.src.scope.ts",
-      "subsystem.core.engine.slice.memory.quality",
-      "subsystem.core.engine.file.packages.core.src.evaluator.ts",
-      "subsystem.core.engine.file.packages.core.src.workspace.ts",
-      "subsystem.core.engine.slice.core.support",
-      "subsystem.core.engine.file.packages.core.src.migrations.ts",
-      "subsystem.core.engine.slice.goal.routing",
-      "subsystem.core.engine.file.packages.core.src.promptrouter.ts",
-      "subsystem.cli.local.api",
-      "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.doctor.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.propose.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.routecommand.ts",
-      "subsystem.goal.mission.automation",
-      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
-      "subsystem.goal.mission.automation.file.packages.core.src.promptrouter.ts",
-      "subsystem.goal.mission.automation.slice.mission.runner.loop",
-      "subsystem.goal.mission.automation.file.adapters.codex.agents.md",
-      "subsystem.goal.mission.automation.file.docs.mission.runner.md",
-      "subsystem.goal.mission.automation.file.scripts.run.missions.mjs",
-      "subsystem.memory.validation.logs",
-      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
-      "subsystem.memory.validation.logs.file.packages.core.src.workspace.ts",
-      "subsystem.memory.validation.logs.slice.validation.evaluation",
-      "subsystem.memory.validation.logs.file.packages.core.src.evaluator.ts",
-      "subsystem.memory.validation.logs.file.packages.core.src.scope.ts",
-      "subsystem.memory.validation.logs.slice.memory.docs",
-      "subsystem.memory.validation.logs.file.docs.architecture.md",
-      "subsystem.docs.examples",
-      "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.architecture.md",
-      "subsystem.docs.examples.file.docs.mission.runner.md",
-      "subsystem.docs.examples.slice.readme",
-      "subsystem.docs.examples.file.readme.md",
-      "subsystem.packaging.adapters",
-      "subsystem.packaging.adapters.slice.adapters",
-      "subsystem.packaging.adapters.file.adapters.codex.agents.md",
-      "subsystem.packaging.adapters.slice.release.scripts",
-      "subsystem.packaging.adapters.file.scripts.create.assessment.pack.test.mjs",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.core.tests",
-      "subsystem.tests.quality.file.packages.core.src.migrations.test.ts",
-      "subsystem.tests.quality.file.packages.core.src.promptrouter.test.ts",
-      "subsystem.tests.quality.file.packages.core.src.runtimeschema.test.ts",
-      "subsystem.tests.quality.slice.cli.tests",
-      "subsystem.tests.quality.file.packages.cli.src.apistate.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.doctor.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.propose.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.routecommand.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.scopecommand.test.ts",
-      "subsystem.tests.quality.slice.script.quality",
-      "subsystem.tests.quality.file.scripts.create.assessment.pack.test.mjs",
-      "subsystem.tests.quality.file.scripts.generated.memory.fixtures.test.mjs",
-      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs",
-      "subsystem.tests.quality.file.scripts.run.missions.test.mjs",
-      "subsystem.tests.quality.file.scripts.small.web.app.fixture.test.mjs"
-    ],
-    "dependsOn": [
-      "module.adapters",
-      "module.docs",
-      "module.packages",
-      "module.root",
-      "module.scripts",
-      "file.adapters.codex.agents.md",
-      "file.contributing.md",
-      "file.docs.architecture.md",
-      "file.docs.mission.runner.md",
-      "file.packages.cli.src.apistate.test.ts",
-      "file.packages.cli.src.doctor.test.ts",
-      "file.packages.cli.src.doctor.ts",
-      "file.packages.cli.src.goalcommand.test.ts",
-      "file.packages.cli.src.goalcommand.ts",
-      "file.packages.cli.src.propose.test.ts",
-      "file.packages.cli.src.propose.ts",
-      "file.packages.cli.src.routecommand.test.ts",
-      "file.packages.cli.src.routecommand.ts",
-      "file.packages.cli.src.scopecommand.test.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.migrations.test.ts",
-      "file.packages.core.src.migrations.ts",
-      "file.packages.core.src.promptrouter.test.ts",
-      "file.packages.core.src.promptrouter.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.scope.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.readme.md",
-      "file.scripts.create.assessment.pack.test.mjs",
-      "file.scripts.generated.memory.fixtures.test.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "file.scripts.run.missions.mjs",
-      "file.scripts.run.missions.test.mjs",
-      "file.scripts.small.web.app.fixture.test.mjs",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "subsystem.core.engine",
-      "subsystem.core.engine.slice.understanding.pipeline",
-      "subsystem.core.engine.file.packages.core.src.scope.ts",
-      "subsystem.core.engine.slice.memory.quality",
-      "subsystem.core.engine.file.packages.core.src.evaluator.ts",
-      "subsystem.core.engine.file.packages.core.src.workspace.ts",
-      "subsystem.core.engine.slice.core.support",
-      "subsystem.core.engine.file.packages.core.src.migrations.ts",
-      "subsystem.core.engine.slice.goal.routing",
-      "subsystem.core.engine.file.packages.core.src.promptrouter.ts",
-      "subsystem.cli.local.api",
-      "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.doctor.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.propose.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.routecommand.ts",
-      "subsystem.goal.mission.automation",
-      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
-      "subsystem.goal.mission.automation.file.packages.core.src.promptrouter.ts",
-      "subsystem.goal.mission.automation.slice.mission.runner.loop",
-      "subsystem.goal.mission.automation.file.adapters.codex.agents.md",
-      "subsystem.goal.mission.automation.file.docs.mission.runner.md",
-      "subsystem.goal.mission.automation.file.scripts.run.missions.mjs",
-      "subsystem.memory.validation.logs",
-      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
-      "subsystem.memory.validation.logs.file.packages.core.src.workspace.ts",
-      "subsystem.memory.validation.logs.slice.validation.evaluation",
-      "subsystem.memory.validation.logs.file.packages.core.src.evaluator.ts",
-      "subsystem.memory.validation.logs.file.packages.core.src.scope.ts",
-      "subsystem.memory.validation.logs.slice.memory.docs",
-      "subsystem.memory.validation.logs.file.docs.architecture.md",
-      "subsystem.docs.examples",
-      "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.architecture.md",
-      "subsystem.docs.examples.file.docs.mission.runner.md",
-      "subsystem.docs.examples.slice.readme",
-      "subsystem.docs.examples.file.readme.md",
-      "subsystem.packaging.adapters",
-      "subsystem.packaging.adapters.slice.adapters",
-      "subsystem.packaging.adapters.file.adapters.codex.agents.md",
-      "subsystem.packaging.adapters.slice.release.scripts",
-      "subsystem.packaging.adapters.file.scripts.create.assessment.pack.test.mjs",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.core.tests",
-      "subsystem.tests.quality.file.packages.core.src.migrations.test.ts",
-      "subsystem.tests.quality.file.packages.core.src.promptrouter.test.ts",
-      "subsystem.tests.quality.file.packages.core.src.runtimeschema.test.ts",
-      "subsystem.tests.quality.slice.cli.tests",
-      "subsystem.tests.quality.file.packages.cli.src.apistate.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.doctor.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.propose.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.routecommand.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.scopecommand.test.ts",
-      "subsystem.tests.quality.slice.script.quality",
-      "subsystem.tests.quality.file.scripts.create.assessment.pack.test.mjs",
-      "subsystem.tests.quality.file.scripts.generated.memory.fixtures.test.mjs",
-      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs",
-      "subsystem.tests.quality.file.scripts.run.missions.test.mjs",
-      "subsystem.tests.quality.file.scripts.small.web.app.fixture.test.mjs"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65,
-    "explanation": "This node represents the Memory concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include CONTRIBUTING.md, README.md, adapters/codex/AGENTS.md, docs/ARCHITECTURE.md, docs/MISSION_RUNNER.md, packages/cli/src/apiState.test.ts, and 23 more. It connects to tree nodes such as Adapters, Docs, Packages, Root, Scripts, AGENTS.md, and 52 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
-    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Memory as a cross-cutting idea. It helps humans and agents find 29 related file(s) without assuming one folder owns the whole concept."
   },
   {
     "id": "concept-node.context",
@@ -25397,11 +25437,12 @@
     "title": "Workspace",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 30 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 32 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
     "sourceFiles": [
+      "docs/DATA_MODEL.md",
       "docs/GOAL_DRIVEN_AUTOPILOT.md",
       "docs/SCOPE_CONTRACTS.md",
       "examples/small-web-app/tests/checkout.test.js",
@@ -25430,10 +25471,12 @@
       "scripts/create-assessment-pack.test.mjs",
       "scripts/import-assessment-missions.test.mjs",
       "scripts/mission-schema.test.mjs",
+      "scripts/pack-smoke-test.mjs",
       "scripts/run-full-self-improvement-loop.test.mjs",
       "scripts/run-missions.test.mjs"
     ],
     "ownedFiles": [
+      "docs/DATA_MODEL.md",
       "docs/GOAL_DRIVEN_AUTOPILOT.md",
       "docs/SCOPE_CONTRACTS.md",
       "examples/small-web-app/tests/checkout.test.js",
@@ -25462,6 +25505,7 @@
       "scripts/create-assessment-pack.test.mjs",
       "scripts/import-assessment-missions.test.mjs",
       "scripts/mission-schema.test.mjs",
+      "scripts/pack-smoke-test.mjs",
       "scripts/run-full-self-improvement-loop.test.mjs",
       "scripts/run-missions.test.mjs"
     ],
@@ -25473,6 +25517,7 @@
       "module.examples",
       "module.packages",
       "module.scripts",
+      "file.docs.data.model.md",
       "file.docs.goal.driven.autopilot.md",
       "file.docs.scope.contracts.md",
       "file.examples.small.web.app.tests.checkout.test.js",
@@ -25501,6 +25546,7 @@
       "file.scripts.create.assessment.pack.test.mjs",
       "file.scripts.import.assessment.missions.test.mjs",
       "file.scripts.mission.schema.test.mjs",
+      "file.scripts.pack.smoke.test.mjs",
       "file.scripts.run.full.self.improvement.loop.test.mjs",
       "file.scripts.run.missions.test.mjs",
       "architecture.cli.surface",
@@ -25528,8 +25574,11 @@
       "subsystem.memory.validation.logs.slice.memory.schema.workspace",
       "subsystem.memory.validation.logs.file.packages.core.src.schema.ts",
       "subsystem.memory.validation.logs.file.packages.core.src.workspace.ts",
+      "subsystem.memory.validation.logs.slice.memory.docs",
+      "subsystem.memory.validation.logs.file.docs.data.model.md",
       "subsystem.docs.examples",
       "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.data.model.md",
       "subsystem.docs.examples.file.docs.goal.driven.autopilot.md",
       "subsystem.docs.examples.file.docs.scope.contracts.md",
       "subsystem.docs.examples.slice.examples",
@@ -25537,6 +25586,7 @@
       "subsystem.packaging.adapters",
       "subsystem.packaging.adapters.slice.release.scripts",
       "subsystem.packaging.adapters.file.scripts.create.assessment.pack.test.mjs",
+      "subsystem.packaging.adapters.file.scripts.pack.smoke.test.mjs",
       "subsystem.tests.quality",
       "subsystem.tests.quality.slice.core.tests",
       "subsystem.tests.quality.file.packages.core.src.automationvalidation.test.ts",
@@ -25560,6 +25610,7 @@
       "subsystem.tests.quality.file.scripts.create.assessment.pack.test.mjs",
       "subsystem.tests.quality.file.scripts.import.assessment.missions.test.mjs",
       "subsystem.tests.quality.file.scripts.mission.schema.test.mjs",
+      "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs",
       "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs",
       "subsystem.tests.quality.file.scripts.run.missions.test.mjs",
       "subsystem.tests.quality.slice.example.tests",
@@ -25570,6 +25621,7 @@
       "module.examples",
       "module.packages",
       "module.scripts",
+      "file.docs.data.model.md",
       "file.docs.goal.driven.autopilot.md",
       "file.docs.scope.contracts.md",
       "file.examples.small.web.app.tests.checkout.test.js",
@@ -25598,6 +25650,7 @@
       "file.scripts.create.assessment.pack.test.mjs",
       "file.scripts.import.assessment.missions.test.mjs",
       "file.scripts.mission.schema.test.mjs",
+      "file.scripts.pack.smoke.test.mjs",
       "file.scripts.run.full.self.improvement.loop.test.mjs",
       "file.scripts.run.missions.test.mjs",
       "architecture.cli.surface",
@@ -25625,8 +25678,11 @@
       "subsystem.memory.validation.logs.slice.memory.schema.workspace",
       "subsystem.memory.validation.logs.file.packages.core.src.schema.ts",
       "subsystem.memory.validation.logs.file.packages.core.src.workspace.ts",
+      "subsystem.memory.validation.logs.slice.memory.docs",
+      "subsystem.memory.validation.logs.file.docs.data.model.md",
       "subsystem.docs.examples",
       "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.data.model.md",
       "subsystem.docs.examples.file.docs.goal.driven.autopilot.md",
       "subsystem.docs.examples.file.docs.scope.contracts.md",
       "subsystem.docs.examples.slice.examples",
@@ -25634,6 +25690,7 @@
       "subsystem.packaging.adapters",
       "subsystem.packaging.adapters.slice.release.scripts",
       "subsystem.packaging.adapters.file.scripts.create.assessment.pack.test.mjs",
+      "subsystem.packaging.adapters.file.scripts.pack.smoke.test.mjs",
       "subsystem.tests.quality",
       "subsystem.tests.quality.slice.core.tests",
       "subsystem.tests.quality.file.packages.core.src.automationvalidation.test.ts",
@@ -25657,6 +25714,7 @@
       "subsystem.tests.quality.file.scripts.create.assessment.pack.test.mjs",
       "subsystem.tests.quality.file.scripts.import.assessment.missions.test.mjs",
       "subsystem.tests.quality.file.scripts.mission.schema.test.mjs",
+      "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs",
       "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs",
       "subsystem.tests.quality.file.scripts.run.missions.test.mjs",
       "subsystem.tests.quality.slice.example.tests",
@@ -25671,8 +25729,8 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents the Workspace concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include docs/GOAL_DRIVEN_AUTOPILOT.md, docs/SCOPE_CONTRACTS.md, examples/small-web-app/tests/checkout.test.js, packages/cli/src/apiState.test.ts, packages/cli/src/changeReviewCli.test.ts, packages/cli/src/doctor.test.ts, and 24 more. It connects to tree nodes such as Docs, Examples, Packages, Scripts, GOAL_DRIVEN_AUTOPILOT.md, SCOPE_CONTRACTS.md, and 51 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
-    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Workspace as a cross-cutting idea. It helps humans and agents find 30 related file(s) without assuming one folder owns the whole concept."
+    "explanation": "This node represents the Workspace concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include docs/DATA_MODEL.md, docs/GOAL_DRIVEN_AUTOPILOT.md, docs/SCOPE_CONTRACTS.md, examples/small-web-app/tests/checkout.test.js, packages/cli/src/apiState.test.ts, packages/cli/src/changeReviewCli.test.ts, and 26 more. It connects to tree nodes such as Docs, Examples, Packages, Scripts, DATA_MODEL.md, GOAL_DRIVEN_AUTOPILOT.md, and 54 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
+    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Workspace as a cross-cutting idea. It helps humans and agents find 32 related file(s) without assuming one folder owns the whole concept."
   },
   {
     "id": "concept-node.llm",
@@ -26008,7 +26066,7 @@
     "title": "Atree",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 7 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 8 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
@@ -26019,7 +26077,8 @@
       "packages/core/src/runtimeSchema.ts",
       "packages/core/src/schema.ts",
       "packages/core/src/workspace.ts",
-      "packages/full/bin/atree.js"
+      "packages/full/bin/atree.js",
+      "scripts/pack-smoke-test.mjs"
     ],
     "ownedFiles": [
       "README.md",
@@ -26028,7 +26087,8 @@
       "packages/core/src/runtimeSchema.ts",
       "packages/core/src/schema.ts",
       "packages/core/src/workspace.ts",
-      "packages/full/bin/atree.js"
+      "packages/full/bin/atree.js",
+      "scripts/pack-smoke-test.mjs"
     ],
     "responsibilities": [
       "Represent the cross-cutting Atree concept across related files."
@@ -26036,6 +26096,7 @@
     "dependencies": [
       "module.packages",
       "module.root",
+      "module.scripts",
       "file.packages.cli.src.scopecommand.ts",
       "file.packages.core.src.migrations.ts",
       "file.packages.core.src.runtimeschema.ts",
@@ -26043,6 +26104,7 @@
       "file.packages.core.src.workspace.ts",
       "file.packages.full.bin.atree.js",
       "file.readme.md",
+      "file.scripts.pack.smoke.test.mjs",
       "architecture.cli.surface",
       "architecture.core.engine",
       "architecture.package.distribution",
@@ -26068,11 +26130,17 @@
       "subsystem.docs.examples.file.readme.md",
       "subsystem.packaging.adapters",
       "subsystem.packaging.adapters.slice.full.package",
-      "subsystem.packaging.adapters.file.packages.full.bin.atree.js"
+      "subsystem.packaging.adapters.file.packages.full.bin.atree.js",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.pack.smoke.test.mjs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs"
     ],
     "dependsOn": [
       "module.packages",
       "module.root",
+      "module.scripts",
       "file.packages.cli.src.scopecommand.ts",
       "file.packages.core.src.migrations.ts",
       "file.packages.core.src.runtimeschema.ts",
@@ -26080,6 +26148,7 @@
       "file.packages.core.src.workspace.ts",
       "file.packages.full.bin.atree.js",
       "file.readme.md",
+      "file.scripts.pack.smoke.test.mjs",
       "architecture.cli.surface",
       "architecture.core.engine",
       "architecture.package.distribution",
@@ -26105,7 +26174,12 @@
       "subsystem.docs.examples.file.readme.md",
       "subsystem.packaging.adapters",
       "subsystem.packaging.adapters.slice.full.package",
-      "subsystem.packaging.adapters.file.packages.full.bin.atree.js"
+      "subsystem.packaging.adapters.file.packages.full.bin.atree.js",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.pack.smoke.test.mjs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs"
     ],
     "changeLog": [],
     "invariants": [
@@ -26116,8 +26190,8 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents the Atree concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include README.md, packages/cli/src/scopeCommand.ts, packages/core/src/migrations.ts, packages/core/src/runtimeSchema.ts, packages/core/src/schema.ts, packages/core/src/workspace.ts, and 1 more. It connects to tree nodes such as Packages, Root, scopeCommand.ts, migrations.ts, runtimeSchema.ts, schema.ts, and 17 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
-    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Atree as a cross-cutting idea. It helps humans and agents find 7 related file(s) without assuming one folder owns the whole concept."
+    "explanation": "This node represents the Atree concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include README.md, packages/cli/src/scopeCommand.ts, packages/core/src/migrations.ts, packages/core/src/runtimeSchema.ts, packages/core/src/schema.ts, packages/core/src/workspace.ts, and 2 more. It connects to tree nodes such as Packages, Root, Scripts, scopeCommand.ts, migrations.ts, runtimeSchema.ts, and 22 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
+    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Atree as a cross-cutting idea. It helps humans and agents find 8 related file(s) without assuming one folder owns the whole concept."
   },
   {
     "id": "concept-node.invariant",
@@ -26459,7 +26533,7 @@
     "title": "Import Graph",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 17 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 18 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
@@ -26478,6 +26552,7 @@
       "packages/core/src/runtimeSchema.ts",
       "packages/core/src/schema.ts",
       "packages/core/src/treeBuilder.test.ts",
+      "packages/core/src/workspace.test.ts",
       "packages/core/src/workspace.ts",
       "scripts/generated-memory-fixtures.test.mjs",
       "scripts/small-web-app-fixture.test.mjs"
@@ -26497,6 +26572,7 @@
       "packages/core/src/runtimeSchema.ts",
       "packages/core/src/schema.ts",
       "packages/core/src/treeBuilder.test.ts",
+      "packages/core/src/workspace.test.ts",
       "packages/core/src/workspace.ts",
       "scripts/generated-memory-fixtures.test.mjs",
       "scripts/small-web-app-fixture.test.mjs"
@@ -26522,6 +26598,7 @@
       "file.packages.core.src.runtimeschema.ts",
       "file.packages.core.src.schema.ts",
       "file.packages.core.src.treebuilder.test.ts",
+      "file.packages.core.src.workspace.test.ts",
       "file.packages.core.src.workspace.ts",
       "file.scripts.generated.memory.fixtures.test.mjs",
       "file.scripts.small.web.app.fixture.test.mjs",
@@ -26559,6 +26636,7 @@
       "subsystem.tests.quality.file.packages.core.src.importgraph.test.ts",
       "subsystem.tests.quality.file.packages.core.src.runtimeschema.test.ts",
       "subsystem.tests.quality.file.packages.core.src.treebuilder.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.workspace.test.ts",
       "subsystem.tests.quality.slice.cli.tests",
       "subsystem.tests.quality.file.packages.cli.src.apistate.test.ts",
       "subsystem.tests.quality.file.packages.cli.src.doctor.test.ts",
@@ -26585,6 +26663,7 @@
       "file.packages.core.src.runtimeschema.ts",
       "file.packages.core.src.schema.ts",
       "file.packages.core.src.treebuilder.test.ts",
+      "file.packages.core.src.workspace.test.ts",
       "file.packages.core.src.workspace.ts",
       "file.scripts.generated.memory.fixtures.test.mjs",
       "file.scripts.small.web.app.fixture.test.mjs",
@@ -26622,6 +26701,7 @@
       "subsystem.tests.quality.file.packages.core.src.importgraph.test.ts",
       "subsystem.tests.quality.file.packages.core.src.runtimeschema.test.ts",
       "subsystem.tests.quality.file.packages.core.src.treebuilder.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.workspace.test.ts",
       "subsystem.tests.quality.slice.cli.tests",
       "subsystem.tests.quality.file.packages.cli.src.apistate.test.ts",
       "subsystem.tests.quality.file.packages.cli.src.doctor.test.ts",
@@ -26639,8 +26719,8 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents the Import Graph concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include docs/DATA_MODEL.md, packages/cli/src/apiState.test.ts, packages/cli/src/apiState.ts, packages/cli/src/doctor.test.ts, packages/cli/src/doctor.ts, packages/cli/src/index.ts, and 11 more. It connects to tree nodes such as Docs, Packages, Scripts, DATA_MODEL.md, apiState.test.ts, apiState.ts, and 33 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
-    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Import Graph as a cross-cutting idea. It helps humans and agents find 17 related file(s) without assuming one folder owns the whole concept."
+    "explanation": "This node represents the Import Graph concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include docs/DATA_MODEL.md, packages/cli/src/apiState.test.ts, packages/cli/src/apiState.ts, packages/cli/src/doctor.test.ts, packages/cli/src/doctor.ts, packages/cli/src/index.ts, and 12 more. It connects to tree nodes such as Docs, Packages, Scripts, DATA_MODEL.md, apiState.test.ts, apiState.ts, and 34 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
+    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Import Graph as a cross-cutting idea. It helps humans and agents find 18 related file(s) without assuming one folder owns the whole concept."
   },
   {
     "id": "concept-node.route",

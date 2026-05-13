@@ -17,6 +17,7 @@
 - Basic validation and stale-memory drift detection.
 - Test coverage for scan and validation behavior.
 - Root repository dogfooding through committed `.abstraction-tree/` memory and CI validation.
+- External-project workspace initialization that creates blank project-local memory and rejects obvious Abstraction Tree dogfooding-memory contamination.
 - Agent instructions.
 - Provider-neutral LLM abstraction interface with deterministic no-op behavior when no adapter is configured.
 - Explicit `atree propose` review artifacts for provider adapters, with validation before review and no direct canonical memory mutation.

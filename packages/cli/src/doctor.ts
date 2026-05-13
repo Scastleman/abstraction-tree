@@ -90,6 +90,9 @@ export async function runDoctor(projectRoot: string, options: DoctorOptions = {}
   const validationCheck = validationReady
     ? buildValidationCheck(await collectMemoryValidationIssues(root, memory))
     : buildValidationSkippedCheck(configExists, runtimeSummary, missingRequiredMemory);
+  const contaminationCheck = configExists && !configIssues.some(issue => issue.severity === "error")
+    ? await buildSelfDogfoodingMemoryCheck(root, memory)
+    : skippedCheck("self-memory-contamination", "Self dogfooding memory", "not checked until config is valid");
   const automationCheck = configExists && !configIssues.some(issue => issue.severity === "error")
     ? buildAutomationCheck(await validateAutomation(root, { runGit: options.runGit }))
     : skippedCheck("automation", "Automation runtime boundary", "not checked until config is valid");
@@ -102,6 +105,7 @@ export async function runDoctor(projectRoot: string, options: DoctorOptions = {}
     importGraphCheck,
     runtimeCheck,
     validationCheck,
+    contaminationCheck,
     automationCheck,
     visualCheck
   ];
@@ -122,7 +126,7 @@ export async function runDoctor(projectRoot: string, options: DoctorOptions = {}
       runtimeHasErrors: runtimeCheck.status === "error",
       missingRequiredMemory,
       importGraphMissingAfterScan: scanHasRun && !importGraphExists,
-      validationHasIssues: validationCheck.status !== "ok",
+      validationHasIssues: validationCheck.status !== "ok" || contaminationCheck.status !== "ok",
       visualAppMissing: Boolean(visualCheck.details?.required) && !visualCheck.details?.available
     })
   };
@@ -322,6 +326,65 @@ function buildValidationSkippedCheck(
   };
 }
 
+async function buildSelfDogfoodingMemoryCheck(root: string, memory: AtreeMemory): Promise<DoctorCheck> {
+  const packageName = await readPackageName(root);
+  const isThisRepositoryPackage = new Set([
+    "abstraction-tree-monorepo",
+    "abstraction-tree",
+    "@abstraction-tree/core",
+    "@abstraction-tree/cli",
+    "@abstraction-tree/app"
+  ]).has(packageName);
+  if (isThisRepositoryPackage) {
+    return {
+      id: "self-memory-contamination",
+      label: "Self dogfooding memory",
+      status: "ok",
+      summary: "ok for Abstraction Tree package"
+    };
+  }
+
+  const markerFiles = new Set(memory.files.map(file => file.path));
+  const markerNodeIds = new Set(memory.nodes.map(node => node.id));
+  const suspiciousMarkers = [
+    memory.config.projectName === "abstraction-tree" ? "config projectName is abstraction-tree" : "",
+    markerNodeIds.has("subsystem.goal.mission.automation") ? "contains Abstraction Tree goal/mission subsystem node" : "",
+    markerNodeIds.has("subsystem.cli.local.api") ? "contains Abstraction Tree CLI/local API subsystem node" : "",
+    markerFiles.has("packages/core/src/treeBuilder.ts") ? "contains Abstraction Tree core source file ownership" : "",
+    existsSync(atreePath(root, "automation", "codex-loop-prompt.md")) ? "contains Abstraction Tree automation prompt" : "",
+    existsSync(atreePath(root, "runs")) ? "contains committed run reports" : "",
+    existsSync(atreePath(root, "lessons")) ? "contains committed lessons" : "",
+    existsSync(atreePath(root, "evaluations")) ? "contains committed evaluations" : ""
+  ].filter(Boolean);
+
+  if (!suspiciousMarkers.length) {
+    return {
+      id: "self-memory-contamination",
+      label: "Self dogfooding memory",
+      status: "ok",
+      summary: "not detected"
+    };
+  }
+
+  return {
+    id: "self-memory-contamination",
+    label: "Self dogfooding memory",
+    status: "warning",
+    summary: "possible Abstraction Tree dogfooding memory detected",
+    issues: [{
+      severity: "warning",
+      filePath: ".abstraction-tree",
+      fieldPath: "$",
+      message: "This workspace appears to contain Abstraction Tree's own dogfooding memory instead of project-local memory.",
+      recoveryHint: "Remove stale generated memory from .abstraction-tree, run `atree init`, then run `atree scan` in this project."
+    }],
+    details: {
+      packageName,
+      markers: suspiciousMarkers
+    }
+  };
+}
+
 function buildAutomationCheck(issues: ValidationIssue[]): DoctorCheck {
   const summary = summarizeIssues(issues);
   return {
@@ -442,6 +505,16 @@ async function hasPackageScript(root: string, scriptName: string): Promise<boole
     return typeof manifest.scripts?.[scriptName] === "string";
   } catch {
     return false;
+  }
+}
+
+async function readPackageName(root: string): Promise<string> {
+  try {
+    const raw = await readFile(path.join(root, "package.json"), "utf8");
+    const manifest = JSON.parse(raw) as { name?: unknown };
+    return typeof manifest.name === "string" ? manifest.name : "";
+  } catch {
+    return "";
   }
 }
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -147,6 +147,11 @@ function verifyPackageManifest(packageInfo, files) {
     throw new Error(`${packageInfo.name}: packed package is missing required files: ${missing.join(", ")}`);
   }
 
+  const dogfoodMemory = paths.filter(filePath => filePath === ".abstraction-tree" || filePath.startsWith(".abstraction-tree/"));
+  if (dogfoodMemory.length) {
+    throw new Error(`${packageInfo.name}: packed package includes root dogfooding memory: ${dogfoodMemory.join(", ")}`);
+  }
+
   const forbidden = paths.filter(filePath =>
     packageInfo.forbiddenFiles.some(forbiddenPath => filePath.includes(forbiddenPath))
   );
@@ -218,7 +223,9 @@ async function verifyPackageBin(packageDir, packageName) {
 async function runInstalledCommands(projectDir) {
   const installedCli = path.join(projectDir, "node_modules", "@abstraction-tree", "cli", "dist", "index.js");
   await runCommand(process.execPath, [installedCli, "init", "--core"], projectDir, "installed atree init --core");
+  await verifyCleanInitializedWorkspace(projectDir);
   await runCommand(process.execPath, [installedCli, "scan"], projectDir, "installed atree scan");
+  await verifyProjectLocalScanMemory(projectDir);
   await runCommand(process.execPath, [installedCli, "validate"], projectDir, "installed atree validate");
   await runCommand(process.execPath, [installedCli, "context", "--target", "checkout"], projectDir, "installed atree context --target checkout");
 
@@ -229,6 +236,51 @@ async function runInstalledCommands(projectDir) {
     "installed abstraction-tree bin serve",
     "Abstraction Tree app:"
   );
+}
+
+async function verifyCleanInitializedWorkspace(projectDir) {
+  const atreeDir = path.join(projectDir, ".abstraction-tree");
+  const entries = (await readdir(atreeDir)).sort();
+  assertDeepEqual(entries, ["changes", "config.json", "context-packs"], "installed atree init --core created unexpected starter memory");
+  assertFile(path.join(atreeDir, "config.json"), "installed atree init --core did not create config.json");
+  assertDirectoryEmpty(path.join(atreeDir, "changes"), "installed atree init --core should start with empty changes/");
+  assertDirectoryEmpty(path.join(atreeDir, "context-packs"), "installed atree init --core should start with empty context-packs/");
+
+  for (const forbidden of [
+    "tree.json",
+    "files.json",
+    "concepts.json",
+    "invariants.json",
+    "import-graph.json",
+    "runs",
+    "lessons",
+    "evaluations",
+    "goals",
+    "automation"
+  ]) {
+    if (existsSync(path.join(atreeDir, forbidden))) {
+      throw new Error(`installed atree init --core copied forbidden starter memory: .abstraction-tree/${forbidden}`);
+    }
+  }
+}
+
+async function verifyProjectLocalScanMemory(projectDir) {
+  const files = JSON.parse(await readFile(path.join(projectDir, ".abstraction-tree", "files.json"), "utf8"));
+  const tree = JSON.parse(await readFile(path.join(projectDir, ".abstraction-tree", "tree.json"), "utf8"));
+  const filePaths = files.map(file => file.path).sort();
+  for (const expected of ["package.json", "src/checkout.ts"]) {
+    if (!filePaths.includes(expected)) {
+      throw new Error(`installed atree scan did not include smoke project file ${expected}; got ${filePaths.join(", ")}`);
+    }
+  }
+  if (tree.some(node => node.sourceFiles?.some(filePath => filePath.startsWith("packages/core/")))) {
+    throw new Error("installed atree scan produced Abstraction Tree repository source ownership in the smoke project");
+  }
+  for (const forbidden of ["runs", "lessons", "evaluations", "goals", "automation"]) {
+    if (existsSync(path.join(projectDir, ".abstraction-tree", forbidden))) {
+      throw new Error(`installed atree scan created or copied forbidden dogfooding directory: .abstraction-tree/${forbidden}`);
+    }
+  }
 }
 
 function runCommand(command, args, cwd, label) {
@@ -316,6 +368,17 @@ function runUntilOutput(command, args, cwd, label, expectedOutput) {
 
 function assertFile(filePath, message) {
   if (!existsSync(filePath)) throw new Error(message);
+}
+
+async function assertDirectoryEmpty(directory, message) {
+  const entries = await readdir(directory);
+  if (entries.length) throw new Error(`${message}: ${entries.join(", ")}`);
+}
+
+function assertDeepEqual(actual, expected, message) {
+  if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+    throw new Error(`${message}. Expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}.`);
+  }
 }
 
 function commandEnv() {

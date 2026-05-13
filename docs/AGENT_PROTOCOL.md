@@ -71,6 +71,8 @@ The Abstraction Tree repo dogfoods the protocol at the repository root. Changes 
 npm run atree:validate
 ```
 
+That root `.abstraction-tree/` folder is not a template for users. External projects should start with `atree init`, which creates blank project-local memory, then `atree scan`, which generates tree/files/concepts/invariants from the external project's own files. If `atree doctor` warns that a non-Abstraction-Tree project appears to contain this repo's dogfooding memory, clean the stale generated memory and scan again before using the tree for scope decisions.
+
 ## Strategic assessment workflow
 
 For broad repository assessment, do not make Codex invent the strategy and execute it in one pass. Use the staged workflow:

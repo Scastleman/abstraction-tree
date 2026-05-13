@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test, { type TestContext } from "node:test";
@@ -44,6 +44,7 @@ test("doctor guides an initialized project without a scan to run scan", async t 
 
 test("doctor reports valid memory as ok", async t => {
   const root = await workspace(t);
+  await writeFile(path.join(root, "package.json"), "{\"name\":\"doctor-fixture\"}\n", "utf8");
   await writeFile(path.join(root, "index.ts"), "export const answer = 42;\n", "utf8");
   await writeDeterministicMemory(root);
   await writeHealthyAutomationFiles(root);
@@ -51,14 +52,39 @@ test("doctor reports valid memory as ok", async t => {
   const report = await runDoctor(root, doctorOptions);
 
   assert.equal(report.status, "ok");
-  assert.equal(report.counts.files, 1);
+  assert.equal(report.counts.files, 2);
   assert.ok(report.counts.nodes > 0);
   assert.equal(checkStatus(report, "validation"), "ok");
   assert.equal(checkStatus(report, "automation"), "ok");
 });
 
+test("doctor warns when external projects contain Abstraction Tree dogfooding memory", async t => {
+  const root = await workspace(t);
+  await writeFile(path.join(root, "package.json"), "{\"name\":\"external-project\"}\n", "utf8");
+  await mkdir(path.join(root, "packages", "core", "src"), { recursive: true });
+  await writeFile(path.join(root, "packages", "core", "src", "treeBuilder.ts"), "export const dogfood = true;\n", "utf8");
+  await ensureWorkspace(root, { projectName: "abstraction-tree" });
+  await writeHealthyAutomationFiles(root);
+  const scan = await scanProject(root);
+  const importGraph = await buildImportGraph(root, scan.files);
+  const built = buildDeterministicTree("abstraction-tree", scan.files, { importGraph });
+  await writeJson(atreePath(root, "files.json"), built.files);
+  await writeJson(atreePath(root, "import-graph.json"), importGraph);
+  await writeJson(atreePath(root, "ontology.json"), built.ontology);
+  await writeJson(atreePath(root, "tree.json"), built.nodes);
+  await writeJson(atreePath(root, "concepts.json"), built.concepts);
+  await writeJson(atreePath(root, "invariants.json"), built.invariants);
+
+  const report = await runDoctor(root, doctorOptions);
+
+  assert.equal(report.status, "warning");
+  assert.equal(checkStatus(report, "self-memory-contamination"), "warning");
+  assert.ok(report.checks.find(check => check.id === "self-memory-contamination")?.issues?.[0]?.message.includes("dogfooding memory"));
+});
+
 test("doctor resolves visual app checks from the project root", async t => {
   const root = await workspace(t);
+  await writeFile(path.join(root, "package.json"), "{\"name\":\"doctor-fixture\"}\n", "utf8");
   await writeFile(path.join(root, "index.ts"), "export const answer = 42;\n", "utf8");
   await writeDeterministicMemory(root);
   await writeHealthyAutomationFiles(root);

@@ -13,3 +13,5 @@ npx atree init --with-app
 npx atree scan
 npx atree serve
 ```
+
+`atree init` creates a blank project-local `.abstraction-tree/` workspace. It does not copy Abstraction Tree's own repository memory into your project; `atree scan` generates memory from your files.

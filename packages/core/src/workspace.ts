@@ -52,9 +52,6 @@ export async function ensureWorkspace(projectRoot: string, options?: { projectNa
   await mkdir(atreePath(projectRoot), { recursive: true });
   await mkdir(atreePath(projectRoot, "changes"), { recursive: true });
   await mkdir(atreePath(projectRoot, "context-packs"), { recursive: true });
-  await mkdir(atreePath(projectRoot, "proposals"), { recursive: true });
-  await mkdir(atreePath(projectRoot, "scopes"), { recursive: true });
-  await mkdir(atreePath(projectRoot, "goals"), { recursive: true });
 
   const configPath = atreePath(projectRoot, "config.json");
   if (!existsSync(configPath)) {

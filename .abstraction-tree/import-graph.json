@@ -1031,6 +1031,24 @@
     },
     {
       "from": "packages/core/src/workspace.test.ts",
+      "to": "packages/core/src/importGraph.ts",
+      "specifier": "./importGraph.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/workspace.test.ts",
+      "to": "packages/core/src/scanner.ts",
+      "specifier": "./scanner.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/workspace.test.ts",
+      "to": "packages/core/src/treeBuilder.ts",
+      "specifier": "./treeBuilder.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/workspace.test.ts",
       "to": "packages/core/src/workspace.ts",
       "specifier": "./workspace.js",
       "kind": "relative"
@@ -2063,6 +2081,11 @@
       "from": "packages/core/src/workspace.test.ts",
       "specifier": "node:assert/strict",
       "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/workspace.test.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
     },
     {
       "from": "packages/core/src/workspace.test.ts",

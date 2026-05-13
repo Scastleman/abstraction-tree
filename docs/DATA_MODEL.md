@@ -2,6 +2,14 @@
 
 A project using Abstraction Tree stores its semantic memory in `.abstraction-tree/`.
 
+## Workspace ownership
+
+Every `.abstraction-tree/` folder belongs to exactly one project. In this repository, the root `.abstraction-tree/` folder is dogfooding memory for Abstraction Tree itself. It is committed so this project can use its own tooling, but it is not a starter template for other repositories.
+
+`atree init` creates a blank project-local workspace with `config.json`, `changes/`, and `context-packs/`. It does not prefill `tree.json`, `files.json`, `concepts.json`, `invariants.json`, run reports, lessons, evaluations, goals, or automation state. `atree scan` generates those memory files from the target project's own files.
+
+If a project appears to contain Abstraction Tree's own dogfooding memory, `atree doctor` warns so the workspace can be cleaned and rescanned.
+
 ## `config.json`
 
 Project-level configuration. It includes the current install mode: `core` for abstraction-only usage, or `full` when the local visual app is enabled.

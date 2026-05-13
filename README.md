@@ -176,7 +176,16 @@ npx atree validate
 npx atree context --target checkout
 ```
 
-Core-only mode creates and maintains:
+`init` creates only the neutral local workspace:
+
+```txt
+.abstraction-tree/
+  config.json
+  context-packs/
+  changes/
+```
+
+Then `scan` creates and maintains generated project memory:
 
 ```txt
 .abstraction-tree/
@@ -324,6 +333,31 @@ When core behavior, docs, packaging, or app structure changes, update the root a
 
 CI also smoke tests the newer deterministic workflow surfaces: `atree:evaluate`, `atree doctor --strict`, `atree route`, `atree goal --auto-route --review-required`, scope contract creation, assessment-pack generation, and `self:loop --assessment-pack-only`. These checks do not invoke Codex, run mission execution, push, merge, or require secrets. `npm run coverage` already runs the full test suite through `scripts/run-tests.mjs`, so CI uses that single test pass instead of running `npm test` again.
 
+The root `.abstraction-tree/` folder is dogfooding memory for this repository only. Published packages and `atree init` must never copy it into another project. A consumer project starts with a blank project-local workspace, then `atree scan` generates memory from that project's own files.
+
+If a project is accidentally contaminated with this repo's dogfooding memory, delete the stale generated memory and scan again. On macOS/Linux:
+
+```bash
+rm -rf .abstraction-tree/files.json \
+       .abstraction-tree/tree.json \
+       .abstraction-tree/concepts.json \
+       .abstraction-tree/invariants.json \
+       .abstraction-tree/import-graph.json \
+       .abstraction-tree/runs \
+       .abstraction-tree/lessons \
+       .abstraction-tree/evaluations \
+       .abstraction-tree/goals
+npx atree init --core
+npx atree scan
+```
+
+On Windows PowerShell, delete `.abstraction-tree` if it contains only stale generated Abstraction Tree memory, then run:
+
+```powershell
+npx atree init --core
+npx atree scan
+```
+
 ### Committed memory and local runtime state
 
 The committed `.abstraction-tree/` data is durable project memory. It includes:
@@ -405,7 +439,7 @@ Current limitation: the deterministic MVP is implemented. LLM-inferred abstracti
 
 ### `atree init`
 
-Creates the `.abstraction-tree/` workspace inside the target project.
+Creates a blank `.abstraction-tree/` workspace inside the target project. It writes project-local `config.json` plus empty `changes/` and `context-packs/` folders. It does not copy this repository's dogfooding memory, run reports, lessons, evaluations, goals, automation config, tree, files, concepts, or invariants.
 
 ```bash
 atree init --core --project /path/to/project

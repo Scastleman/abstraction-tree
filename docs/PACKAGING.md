@@ -81,6 +81,21 @@ abstraction-tree
 
 The root package is private and is not published.
 
+## Dogfooding memory boundary
+
+The root `.abstraction-tree/` folder in this repository is committed dogfooding memory for this repository only. It must not be published in npm packages and must not be copied into consumer projects.
+
+Publishable workspace packages use explicit `files` allowlists. The packaging smoke test also inspects `npm pack --json` output and fails if any package includes `.abstraction-tree/` paths. After installing a packed CLI into a temporary project, the smoke test runs `atree init --core` and verifies that the new project starts with only:
+
+```text
+.abstraction-tree/
+  config.json
+  changes/
+  context-packs/
+```
+
+`atree scan` then generates memory from the temporary project's own files. This separation is required for every release.
+
 ## Versioning strategy
 
 Abstraction Tree uses synchronized SemVer across the publishable package set.
@@ -159,7 +174,7 @@ npm run atree:validate
 
 6. Run the `Release Dry Run` GitHub Actions workflow with the same version.
 7. Inspect the dry-run logs and confirm the package file lists contain only
-   intended build artifacts, package manifests, README files, and binaries.
+   intended build artifacts, package manifests, README files, and binaries. They must not contain root `.abstraction-tree/` dogfooding memory.
 8. After packaging smoke tests are stable, publish manually from a clean checkout
    in dependency order:
 
