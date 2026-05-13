@@ -1,8 +1,8 @@
-# Autonomous Abstraction Tree Improvement Loop
+# Bounded Abstraction Tree Assisted Improvement Loop
 
 You are running ONE bounded improvement cycle for this repository.
 
-Your goal is to improve the project's self-implementation of the abstraction-tree idea.
+Your goal is to improve the project's structured implementation and dogfooding of the abstraction-tree idea without claiming autonomous correctness.
 
 You must improve one of:
 

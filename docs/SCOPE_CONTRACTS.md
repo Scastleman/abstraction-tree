@@ -46,6 +46,21 @@ The check blocks when changed source files fall outside the allowed file list or
 
 Generated `.abstraction-tree/` memory refreshes are allowed by default, because normal implementation work often ends with `atree scan`. Automation config under `.abstraction-tree/automation/` is not treated as generated memory.
 
+## Goal Workspaces
+
+`atree goal` also writes a goal-local scope contract:
+
+```text
+.abstraction-tree/goals/<goal-id>/scope-contract.json
+.abstraction-tree/goals/<goal-id>/scope-contract.md
+```
+
+That contract combines the prompt, affected-tree mapping, and mission plan. After manually running a goal mission folder, check that exact contract:
+
+```bash
+npm run atree -- scope check --project . --scope .abstraction-tree/goals/<goal-id>/scope-contract.json
+```
+
 ## App Visibility
 
 The visual app surfaces the latest scope contract in the Agent health panel. It shows the contract status, clarification state, violation count, and allowed file count so reviewers can see whether the current work stayed inside the intended boundary.

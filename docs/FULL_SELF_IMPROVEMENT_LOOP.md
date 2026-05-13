@@ -1,6 +1,6 @@
-# Full Self-Improvement Loop
+# Experimental Local Dogfooding Loop
 
-This page documents the recommended ChatGPT/human assessment workflow and the experimental full self-improvement loop. For broad repository strategy, prefer assessment packs first and use Codex only after missions are bounded.
+This page documents the recommended ChatGPT/human assessment workflow and the experimental local dogfooding loop historically called the "full self-improvement loop." The loop is structured assistance for repository maintenance: it can collect evidence, draft missions, run guarded mission prompts, and review coherence, but it does not safely auto-evolve the project or replace human review. For broad repository strategy, prefer assessment packs first and use Codex only after missions are bounded.
 
 ## Recommended Workflow
 
@@ -49,13 +49,15 @@ Custom redaction patterns are regular expressions. Blank lines and `#` comments 
 
 Codex is the bounded executor. ChatGPT and humans are the preferred strategic assessment layer. Abstraction Tree is the memory, evidence, validation, and scope boundary. Do not trust generated assessment or mission output by default: validate and plan the mission folder, run checks, and review diffs before accepting changes.
 
-## Goal-Driven Autopilot
+## Goal-Driven Mission Workflow
 
-`atree goal` is a sibling workflow to the repository self-improvement loop. It does not replace assessment packs or the full dogfooding loop. Instead, it starts from a specific user goal and compiles that goal into reviewable mission files grounded in the current abstraction memory:
+`atree goal` is a sibling workflow to the repository dogfooding loop. It does not replace assessment packs or the experimental loop. Instead, it starts from a specific user goal and compiles that goal into reviewable mission files grounded in the current abstraction memory:
 
 ```bash
 npm run atree:route -- --file prompts/complex-goal.md
 npm run atree:goal -- --file prompts/complex-goal.md --auto-route
+npm run atree:goal -- --file prompts/complex-goal.md --auto-route --review-required
+npm run atree:goal -- --file prompts/complex-goal.md --auto-route --run
 npm run atree:goal -- --file prompts/complex-goal.md --plan-only
 npm run atree:goal -- --file prompts/complex-goal.md --review-required
 ```
@@ -63,13 +65,13 @@ npm run atree:goal -- --file prompts/complex-goal.md --review-required
 The distinction is:
 
 ```text
-self-improvement loop input = repo state
-goal-driven loop input = user goal + repo state
+dogfooding loop input = repo state
+goal-driven workflow input = user goal + repo state
 ```
 
-The generated workspace lives under `.abstraction-tree/goals/YYYY-MM-DD-HHMM-<slug>/` and includes the original `goal.md`, deterministic assessment, affected-tree map, mission plan, mission folder, coherence review placeholder, and final report. `--create-pr` also writes `pr-body.md` without pushing, opening, or merging anything.
+The generated workspace lives under `.abstraction-tree/goals/YYYY-MM-DD-HHMM-<slug>/` and includes the original `goal.md`, route artifacts when `--auto-route` is used, deterministic assessment, affected-tree map, mission plan, goal-local scope contract, mission folder, coherence review, goal score, and final report. `--create-pr` also writes `pr-body.md` without pushing, opening, or merging anything.
 
-The safe default is review-required planning. `--full-auto` currently refuses after planning with an explicit message, because mission execution still needs to be reviewed through the mission runner guardrails before it should be attached to this command.
+The safe default is review-required planning. `--run` and `--full-auto` currently refuse after planning with an explicit message, because mission execution still needs to be reviewed through the mission runner guardrails before it should be attached to this command. The refusal is recorded in goal-local checks, coherence, score, and final-report artifacts.
 
 ## Prompt Routing
 
@@ -77,7 +79,7 @@ Prompt routing is the decision layer before goal planning:
 
 ```text
 simple prompt -> direct
-complex prompt -> goal-driven autopilot
+complex prompt -> goal-driven mission workflow
 strategy prompt -> assessment pack
 risky prompt -> manual review
 ```
@@ -97,6 +99,8 @@ npm run self:loop -- --assessment-pack-only
 ```
 
 This creates a normal full-loop run directory, writes the assessment pack under `assessment-pack/`, prints the pack and prompt paths, and exits successfully. It does not spawn Codex, plan missions, run missions, collect post-run context, run coherence review, or write a durable loop report. This is the preferred full-loop starting point when you want strategic review context without invoking Codex.
+
+Repository CI includes this mode as a smoke test because it exercises evidence-pack creation through the full-loop wrapper without requiring Codex, secrets, mission execution, or a clean post-smoke working tree.
 
 ## Experimental Dogfooding Loop
 

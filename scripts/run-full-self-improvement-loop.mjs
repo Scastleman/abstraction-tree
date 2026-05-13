@@ -93,7 +93,7 @@ export async function runCli(argv = [], io = {}) {
     });
     stdout.write(`Using externally-authored missions from ${relative(cwd, missionsDir)}; Codex assessment skipped.\n`);
     if (options.dryRun) {
-      stdout.write(`Full self-improvement loop dry run created ${relative(cwd, runDir)}\n`);
+      stdout.write(`Experimental assisted improvement loop dry run created ${relative(cwd, runDir)}\n`);
       stdout.write(`External mission folder: ${relative(cwd, missionsDir)}\n`);
       return { runDir, missionsDir, dryRun: true, strategySource };
     }
@@ -109,7 +109,7 @@ export async function runCli(argv = [], io = {}) {
     await writeFile(path.join(runDir, "assessment-prompt.md"), assessmentPrompt, "utf8");
 
     if (options.dryRun) {
-      stdout.write(`Full self-improvement loop dry run created ${relative(cwd, runDir)}\n`);
+      stdout.write(`Experimental assisted improvement loop dry run created ${relative(cwd, runDir)}\n`);
       stdout.write(`Assessment prompt: ${relative(cwd, path.join(runDir, "assessment-prompt.md"))}\n`);
       return { runDir, missionsDir, dryRun: true, strategySource };
     }
@@ -252,7 +252,7 @@ export async function runCli(argv = [], io = {}) {
     })
   );
 
-  stdout.write(`Full self-improvement loop finished. Artifacts: ${relative(cwd, runDir)}\n`);
+  stdout.write(`Experimental assisted improvement loop finished. Artifacts: ${relative(cwd, runDir)}\n`);
   stdout.write(`Durable run report: ${relative(cwd, durableReportPath)}\n`);
   return { runDir, missionsDir, dryRun: false, strategySource, coherenceReviewStatus };
 }
@@ -373,13 +373,13 @@ function missionBodyHeadingsForPrompt() {
 }
 
 export function buildAssessmentPrompt(input) {
-  return `# Full Abstraction Tree Self-Improvement Loop: Assessment and Mission Authoring
+  return `# Abstraction Tree Assisted Improvement Loop: Assessment and Mission Authoring
 
 You are preparing a fresh mission folder for this repository.
 
 Top project goal:
 
-Integrate an abstraction tree into any project so developers understand the scope of their prompts, agents avoid overreaching changes when unnecessary, and the project introduces a full self-improvement system.
+Integrate an abstraction tree into any project so developers understand the scope of their prompts, agents avoid overreaching changes when unnecessary, and the project supports a structured, reviewable improvement workflow.
 
 ## Required Output Files
 
@@ -455,7 +455,7 @@ export function buildCoherencePrompt(input) {
   const strategyLabel = input.strategySource === "external"
     ? "Externally-authored mission folder; Codex assessment was skipped."
     : "Codex-generated assessment and mission folder.";
-  return `# Full Abstraction Tree Self-Improvement Loop: Coherence Review
+  return `# Abstraction Tree Assisted Improvement Loop: Coherence Review
 
 Review the just-completed full-loop work for coherence.
 
@@ -468,7 +468,7 @@ Assess:
 3. Whether the changes still serve the top project goal:
    - developers understand prompt scope
    - agents avoid unnecessary overreach
-   - the project supports a full self-improvement system
+   - the project supports a structured, reviewable improvement workflow
 4. What is redundant, unnecessary, or risky.
 5. Whether to stop or repeat, and exactly one recommended next loop.
 
@@ -502,9 +502,9 @@ export function buildDurableRunReport(input) {
     : "Codex-generated assessment and mission folder";
   const missionsDir = input.missionsDir ?? `${input.runDir}/missions`;
   const taskChosen = input.strategySource === "external"
-    ? "Run one bounded full self-improvement loop using an externally-authored mission folder: plan and execute selected missions, review coherence, review change records, then stop for human review."
-    : "Run one bounded full self-improvement loop: assess the project, write a mission folder, execute selected missions, review coherence, review change records, then stop for human review.";
-  return `# Full Self-Improvement Loop Report
+    ? "Run one bounded assisted improvement loop using an externally-authored mission folder: plan and execute selected missions, review coherence, review change records, then stop for human review."
+    : "Run one bounded assisted improvement loop: assess the project, write a mission folder, execute selected missions, review coherence, review change records, then stop for human review.";
+  return `# Assisted Improvement Loop Report
 
 ## Task Chosen
 
@@ -512,7 +512,7 @@ ${taskChosen}
 
 ## Why This Task
 
-The project goal is to integrate an abstraction tree into any project so developers understand prompt scope, agents avoid unnecessary overreach, and the repository can improve itself through bounded loops.
+The project goal is to integrate an abstraction tree into any project so developers understand prompt scope, agents avoid unnecessary overreach, and repository changes can be planned and reviewed through bounded loops.
 
 ## Strategy Source
 

@@ -48,7 +48,23 @@ The local visual app shows:
 - drift between current code and stored tree memory;
 - context packs that coding agents can consume.
 
-## Automation maturity ladder
+## What This Is
+
+- A local project-memory layer.
+- A prompt-to-mission planner for complex code changes.
+- A scope and coherence review system for agent work.
+- A way to make Codex changes more reviewable and less likely to overreach.
+- A structured workflow for assisted project improvement.
+
+## What This Is Not
+
+- A guarantee of correct code.
+- A replacement for human review.
+- A fully autonomous self-improving software system.
+- A safe auto-merge system.
+- A perfect semantic understanding engine.
+
+## Assisted workflow maturity ladder
 
 Start at Level 1 for the safest adoption path. Each higher level assumes the earlier levels are understood and validated:
 
@@ -58,9 +74,9 @@ Level 2: visual app
 Level 3: ChatGPT/human assessment packs
 Level 4: mission runner
 Level 5: prompt routing
-Level 6: goal-driven autopilot planning
+Level 6: goal-driven mission planning
 Level 7: proposal adapters through atree propose
-Level 8: experimental full self-improvement loop
+Level 8: experimental local dogfooding loop
 ```
 
 LLM inference is not part of the default scan pipeline. The repo includes an explicit `atree propose` review workflow for provider adapters, but proposals are validated and saved for review rather than directly mutating canonical memory.
@@ -92,21 +108,23 @@ The router is deterministic and read-only. It uses `.abstraction-tree/` memory w
 
 ```text
 simple prompt -> direct
-complex prompt -> goal-driven autopilot
+complex prompt -> goal-driven mission workflow
 strategy prompt -> assessment pack
 risky prompt -> manual review
 ```
 
 Use this when you are unsure whether a prompt is safe to execute directly or should be decomposed first. The router does not run Codex, edit files, push, or merge.
 
-## Goal-Driven Autopilot
+## Goal-Driven Mission Workflow
 
 For complex prompts, Abstraction Tree can compile the user goal into a goal workspace, assessment, affected-tree map, and mission-runner-compatible Markdown files:
 
 ```bash
 npm run atree:goal -- --file prompts/complex-goal.md --auto-route
+npm run atree:goal -- --file prompts/complex-goal.md --auto-route --review-required
 npm run atree:goal -- --file prompts/complex-goal.md --plan-only
 npm run atree:goal -- --file prompts/complex-goal.md --review-required
+npm run atree:goal -- --file prompts/complex-goal.md --auto-route --run
 npm run atree:goal -- --file prompts/complex-goal.md --create-pr
 ```
 
@@ -116,26 +134,28 @@ The command stores the original prompt unchanged under:
 .abstraction-tree/goals/YYYY-MM-DD-HHMM-<slug>/
 ```
 
-It then writes `goal-assessment.md`, `affected-tree.json`, `mission-plan.json`, `missions/`, `coherence-review.md`, and `final-report.md`. `--review-required` prints the mission runner commands to inspect and execute the generated folder. `--full-auto` currently plans the goal and refuses execution with a clear message until safe runner integration is implemented.
+It then writes `goal-assessment.md`, `affected-tree.json`, `mission-plan.json`, `missions/`, `scope-contract.json`, `scope-contract.md`, `coherence-review.md`, `goal-score.json`, and `final-report.md`. If `--auto-route` is used, it also writes `route.json` and `route.md`. `--review-required` prints the mission runner, scope-check, evaluation, and diff-summary commands to inspect and execute the generated folder.
+
+`--run` and `--full-auto` currently plan the goal and refuse execution with a clear message until safe runner integration is implemented. The refusal is recorded in `checks.json`, `checks.md`, `coherence-review.md`, `goal-score.json`, and `final-report.md`; it is not reported as success.
 
 `--auto-route` calls `atree route` first. If the prompt is direct, strategy-oriented, or manual-review-only, goal planning stops unless `--force-goal` is passed.
 
 ```text
-self-improvement loop input = repo state
-goal-driven loop input = user goal + repo state
+dogfooding loop input = repo state
+goal-driven workflow input = user goal + repo state
 ```
 
-Use goal-driven autopilot when a user request mixes product behavior, architecture, CLI/API surface, tests, docs, and safety concerns. It is designed to reduce overreach by mapping the prompt onto committed abstraction memory before Codex receives bounded missions.
+Use the goal-driven mission workflow when a user request mixes product behavior, architecture, CLI/API surface, tests, docs, and safety concerns. It is designed to reduce overreach by mapping the prompt onto committed abstraction memory before Codex receives bounded missions.
 
 Related workflow docs:
 
 - [CI integration](docs/CI_INTEGRATION.md)
 - [Mission runner](docs/MISSION_RUNNER.md)
-- [Goal-driven autopilot](docs/GOAL_DRIVEN_AUTOPILOT.md)
+- [Goal-driven mission workflow](docs/GOAL_DRIVEN_AUTOPILOT.md)
 - [Scope contracts](docs/SCOPE_CONTRACTS.md)
 - [Agent protocol and LLM-assisted proposals](docs/AGENT_PROTOCOL.md)
 - [LLM abstraction interface](docs/ARCHITECTURE.md#llm-abstraction-interface)
-- [Full self-improvement loop](docs/FULL_SELF_IMPROVEMENT_LOOP.md)
+- [Experimental local dogfooding loop](docs/FULL_SELF_IMPROVEMENT_LOOP.md)
 
 ## Planned npm install modes
 
@@ -235,8 +255,8 @@ This repository is a working starter implementation. It includes:
 - an explicit `atree propose` review workflow for provider adapters;
 - a mission runner for bounded Codex work queues;
 - a deterministic prompt router for direct, goal-driven, assessment-pack, and manual-review decisions;
-- a goal-driven autopilot planner for complex user prompts;
-- an experimental full self-improvement loop for local dogfooding;
+- a goal-driven mission planner for complex user prompts;
+- an experimental local dogfooding loop for assisted repository maintenance;
 - Codex/agent instructions;
 - an example project.
 
@@ -302,6 +322,8 @@ npm run atree:validate
 
 When core behavior, docs, packaging, or app structure changes, update the root abstraction memory in the same change.
 
+CI also smoke tests the newer deterministic workflow surfaces: `atree:evaluate`, `atree doctor --strict`, `atree route`, `atree goal --auto-route --review-required`, scope contract creation, assessment-pack generation, and `self:loop --assessment-pack-only`. These checks do not invoke Codex, run mission execution, push, merge, or require secrets. `npm run coverage` already runs the full test suite through `scripts/run-tests.mjs`, so CI uses that single test pass instead of running `npm test` again.
+
 ### Committed memory and local runtime state
 
 The committed `.abstraction-tree/` data is durable project memory. It includes:
@@ -357,11 +379,11 @@ npm run abstraction:loop:visible:windows
 npm run codex:missions:windows
 ```
 
-### Autonomous loop contract
+### Experimental local dogfooding loop contract
 
 `npm run abstraction:loop:windows` runs a bounded local Codex improvement loop. It is Windows PowerShell automation around local Codex state, not a public CI entrypoint. It reads the stable loop config and prompt, starts a Codex cycle, runs post-loop checks, updates ignored runtime counters, and can optionally auto-commit only when configured and when required checks pass.
 
-`npm run self:loop` runs the experimental full self-improvement loop that authors missions, invokes the mission runner, and performs a read-only coherence review. It remains local dogfooding, not the recommended strategic default. Prefer `assessment:pack` plus ChatGPT/human mission design for broad repository assessment. The mission runner and full loop both reject `--sandbox danger-full-access` unless `--allow-danger-full-access` is also passed, including dry runs, so elevated sandbox access is always explicit.
+`npm run self:loop` runs an experimental local dogfooding loop that authors missions, invokes the mission runner, and performs a read-only coherence review. It is structured assistance for repository maintenance, not proof of autonomous correctness and not the recommended strategic default. Prefer `assessment:pack` plus ChatGPT/human mission design for broad repository assessment. The mission runner and full loop both reject `--sandbox danger-full-access` unless `--allow-danger-full-access` is also passed, including dry runs, so elevated sandbox access is always explicit.
 
 Use `npm run self:loop -- --assessment-pack-only` when you want full-loop-local assessment evidence but no Codex invocation. It creates a full-loop run directory and assessment pack, prints the pack path, and stops before assessment spawning, mission planning, mission execution, post-run context, coherence review, and durable report writing.
 
@@ -371,11 +393,11 @@ Generated full-loop missions must declare a value category: `product-value`, `sa
 
 The loop does not push to a remote, does not bypass failed checks, does not make unbounded changes, does not commit ignored runtime state, and does not turn LLM-inferred abstraction into default scanner behavior.
 
-The loop is bounded because autonomous coding work needs explicit stop conditions. The config limits daily loops, elapsed minutes, failed loops, stagnation, repeated test failures, and maximum diff size so a bad prompt or failing change cannot run indefinitely.
+The loop is bounded because agent-assisted coding work needs explicit stop conditions. The config limits daily loops, elapsed minutes, failed loops, stagnation, repeated test failures, and maximum diff size so a bad prompt or failing change cannot run indefinitely.
 
 Run reports are useful but subjective. Objective metrics from `npm run atree:evaluate` are needed as a second signal: they count tree shape, drift, missing ownership, run outcomes, duplicate lesson candidates, context-pack breadth, and automation config health.
 
-Generated scan change records can accumulate during autonomous loops. `npm run atree -- changes review --project .` prints a non-destructive report that keeps the newest generated scan record as the retained baseline and lists older generated scan records that are eligible for consolidation.
+Generated scan change records can accumulate during local dogfooding loops. `npm run atree -- changes review --project .` prints a non-destructive report that keeps the newest generated scan record as the retained baseline and lists older generated scan records that are eligible for consolidation.
 
 Current limitation: the deterministic MVP is implemented. LLM-inferred abstraction is not default behavior. `atree propose` can validate and save adapter proposals for review, but accepted proposal changes are still applied deliberately rather than by the default scanner. No provider adapter is wired into `scan`, `validate`, `context`, `evaluate`, or `serve`.
 

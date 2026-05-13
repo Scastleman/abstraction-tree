@@ -184,7 +184,7 @@ test("durable run report records runtime artifact policy", () => {
     decision: "# Decision\n\nStop."
   });
 
-  assert.match(report, /Full Self-Improvement Loop Report/);
+  assert.match(report, /Assisted Improvement Loop Report/);
   assert.match(report, /- mission-one/);
   assert.match(report, /ignored local runtime state/);
   assert.match(report, /\.abstraction-tree\/runs/);
@@ -442,11 +442,11 @@ test("dry run writes assessment prompt without invoking Codex", async t => {
     command: fakeCommand()
   });
 
-  assert.match(stdout.text, /Full self-improvement loop dry run/);
+  assert.match(stdout.text, /Experimental assisted improvement loop dry run/);
   const promptPath = stdout.text.match(/Assessment prompt: (.+)/)?.[1]?.trim();
   assert.ok(promptPath);
   const prompt = await readFile(path.join(root, ...promptPath.split("/")), "utf8");
-  assert.match(prompt, /Full Abstraction Tree Self-Improvement Loop/);
+  assert.match(prompt, /Abstraction Tree Assisted Improvement Loop/);
 });
 
 test("assessment-pack-only creates pack and exits before Codex or missions", async t => {

@@ -72,7 +72,7 @@ The scanner also ignores `.abstraction-tree/` as source input. That keeps genera
 
 ## Automation and metrics
 
-The autonomous loop is an orchestration layer around Codex, npm scripts, validation, and runtime guards. From this repo, the key commands are:
+The experimental local dogfooding loop is an orchestration layer around Codex, npm scripts, validation, and runtime guards. It supports structured assisted maintenance; it does not guarantee correct changes or replace human review. From this repo, the key commands are:
 
 Cross-platform checks and metrics:
 

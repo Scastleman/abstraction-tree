@@ -305,7 +305,7 @@ Produce Markdown content for:
 
 Assess the current project against this goal:
 
-Integrate an abstraction tree into any project so developers understand prompt scope, agents avoid unnecessary overreach, and the project supports bounded self-improvement.
+Integrate an abstraction tree into any project so developers understand prompt scope, agents avoid unnecessary overreach, and the project supports bounded, reviewable assisted improvement.
 
 For each recommendation:
 

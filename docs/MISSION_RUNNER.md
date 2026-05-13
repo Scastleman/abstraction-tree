@@ -1,6 +1,6 @@
 # Mission Runner
 
-`scripts/run-missions.mjs` turns a folder of Markdown mission files into an Abstraction Tree-aware work queue. It can print a JSON plan, dry-run the Codex CLI commands that would execute, or run each mission non-interactively through Codex CLI.
+`scripts/run-missions.mjs` turns a folder of Markdown mission files into an Abstraction Tree-aware work queue. It can print a JSON plan, dry-run the Codex CLI commands that would execute, or run each mission non-interactively through Codex CLI. It is an execution aid with guardrails, not a guarantee that the resulting code is correct.
 
 ## Role in the Workflow
 
@@ -65,8 +65,7 @@ For a complex user prompt, `atree goal` can write a goal-specific mission folder
 
 ```bash
 npm run atree:route -- --file prompts/complex-goal.md
-npm run atree:goal -- --file prompts/complex-goal.md --auto-route
-npm run atree:goal -- --file prompts/complex-goal.md --review-required
+npm run atree:goal -- --file prompts/complex-goal.md --auto-route --review-required
 ```
 
 That creates:
@@ -74,10 +73,16 @@ That creates:
 ```text
 .abstraction-tree/goals/YYYY-MM-DD-HHMM-<slug>/
   goal.md
+  route.json
+  route.md
   goal-assessment.md
   affected-tree.json
   mission-plan.json
+  scope-contract.json
+  scope-contract.md
   missions/
+  checks.json
+  goal-score.json
   coherence-review.md
   final-report.md
 ```
@@ -85,11 +90,14 @@ That creates:
 The original `goal.md` is preserved exactly. The generated `missions/` folder uses the same frontmatter and required headings as every other mission runner queue. Review the assessment and mission plan, then run the printed commands:
 
 ```bash
-npm run missions:plan -- --missions .abstraction-tree/goals/<goal-id>/missions
-npm run missions:run -- --missions .abstraction-tree/goals/<goal-id>/missions
+npm run missions:plan -- --missions .abstraction-tree/goals/<goal-id>/missions --ignore-runtime
+npm run missions:run -- --missions .abstraction-tree/goals/<goal-id>/missions --ignore-runtime
+npm run atree -- scope check --project . --scope .abstraction-tree/goals/<goal-id>/scope-contract.json
+npm run atree:evaluate
+npm run diff:summary
 ```
 
-`--plan-only` writes artifacts without printing an execution recommendation. `--create-pr` writes a draft `pr-body.md` for later manual use. `--full-auto` currently refuses execution after planning until the runner can be called through this command with equivalent safety guarantees.
+`--plan-only` writes artifacts without printing an execution recommendation. `--create-pr` writes a draft `pr-body.md` for later manual use. `--run` and `--full-auto` currently refuse execution after planning until the runner can be called through this command with equivalent safety guarantees. Refusals are written into goal-local checks, coherence, score, and final-report artifacts.
 
 `atree route` is the read-only decision layer before goal planning. It recommends direct execution for small prompts, `atree goal` for complex implementation prompts, `assessment:pack` for broad strategy prompts, and manual review for risky prompts. The router never invokes Codex or the mission runner by itself.
 
@@ -166,7 +174,7 @@ Full-loop generated missions must include a value `category` so the assessment c
 - `developer-experience`: improves docs, diagnostics, ergonomics, or maintainer workflow.
 - `automation-maintenance`: maintains loop, runner, prompt, runtime, or process automation machinery without a clearer product, safety, quality, or developer-experience outcome.
 
-The full self-improvement loop allows at most one `automation-maintenance` mission by default. Pass `--allow-multiple-automation-maintenance` only for an attended run where multiple automation maintenance tasks are deliberately in scope.
+The experimental dogfooding loop allows at most one `automation-maintenance` mission by default. Pass `--allow-multiple-automation-maintenance` only for an attended run where multiple automation maintenance tasks are deliberately in scope.
 
 Strict import and full-loop generated mission validation use `scripts/mission-schema.mjs` as the canonical schema source. It defines required frontmatter fields, valid priority/risk/category values, required body headings, parsing helpers, and duplicate-id folder validation.
 

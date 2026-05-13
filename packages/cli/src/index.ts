@@ -241,6 +241,7 @@ program.command("goal")
   .option("--plan-only", "create the goal workspace and mission plan without execution")
   .option("--review-required", "create the plan and print the mission runner commands")
   .option("--full-auto", "plan the goal, then run missions when safe runner integration is available")
+  .option("--run", "plan the goal, then execute missions when safe runner integration is available")
   .option("--create-pr", "write a draft PR body without pushing or merging")
   .option("--auto-route", "route the prompt before goal planning and stop when goal-driven planning is not recommended")
   .option("--force-goal", "force goal planning even when auto-route recommends another workflow")
@@ -252,6 +253,7 @@ program.command("goal")
       planOnly: Boolean(opts.planOnly),
       reviewRequired: Boolean(opts.reviewRequired),
       fullAuto: Boolean(opts.fullAuto),
+      run: Boolean(opts.run),
       createPr: Boolean(opts.createPr),
       autoRoute: Boolean(opts.autoRoute),
       forceGoal: Boolean(opts.forceGoal)

@@ -635,8 +635,20 @@
     },
     {
       "from": "packages/core/src/goal.ts",
+      "to": "packages/core/src/promptRouter.ts",
+      "specifier": "./promptRouter.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/goal.ts",
       "to": "packages/core/src/schema.ts",
       "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/goal.ts",
+      "to": "packages/core/src/scope.ts",
+      "specifier": "./scope.js",
       "kind": "relative"
     },
     {
@@ -1431,6 +1443,11 @@
       "from": "packages/cli/src/goalCommand.test.ts",
       "specifier": "node:assert/strict",
       "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/goalCommand.test.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
     },
     {
       "from": "packages/cli/src/goalCommand.test.ts",

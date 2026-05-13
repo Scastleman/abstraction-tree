@@ -22,7 +22,7 @@
 - Explicit `atree propose` review artifacts for provider adapters, with validation before review and no direct canonical memory mutation.
 - Stable automation config, bounded loop scripts, run reports, lessons, and deterministic evaluation reports as committed self-dogfooding memory.
 - Schema migration planning and `atree migrate` for committed `.abstraction-tree/` memory.
-- Goal-driven autopilot planning through `atree goal`, which stores the original prompt, maps it to abstraction memory, writes a mission folder, and keeps execution review-gated.
+- Goal-driven mission planning through `atree goal`, which stores the original prompt, maps it to abstraction memory, writes a mission folder, and keeps execution review-gated.
 - Prompt routing through `atree route`, which classifies prompts as direct, goal-driven, assessment-pack, or manual-review before any Codex execution.
 
 ## Current operational boundary
@@ -35,11 +35,13 @@ LLM-inferred abstraction is not default behavior. This checkout includes the ada
 
 Committed `.abstraction-tree/` memory should include abstraction data, stable automation config, run reports, lessons, and evaluations. Local runtime counters, mission state, secrets, logs, and local Codex state should stay uncommitted.
 
-The autonomous loop should remain bounded by loop count, elapsed time, failed loops, stagnation, repeated test failures, and diff size. Objective metrics should continue to accompany self-reported run results so future agents can see whether the tree, drift state, context packs, and automation health improved.
+CI now covers the deterministic product path beyond build/test/validate: evaluation, doctor diagnostics, prompt routing, goal planning, scope contract creation, assessment-pack generation, and self-loop assessment-pack-only evidence creation. It deliberately does not invoke Codex, run mission execution, push, merge, or depend on secrets.
 
-Prompt routing is distinct from both repository self-improvement and goal-driven autopilot. The router is a read-only classifier: simple prompts route to direct execution, complex implementation prompts route to goal-driven autopilot, broad strategy prompts route to assessment packs, and risky prompts route to manual review.
+The experimental dogfooding loop should remain bounded by loop count, elapsed time, failed loops, stagnation, repeated test failures, and diff size. Objective metrics should continue to accompany self-reported run results so future agents can see whether the tree, drift state, context packs, and automation health improved.
 
-Goal-driven autopilot is distinct from repository self-improvement. The self-improvement loop starts from repo state and asks what should improve next. The goal-driven loop starts from a user goal plus repo state, then generates a deterministic assessment, affected-tree mapping, mission plan, coherence placeholder, and final report under `.abstraction-tree/goals/`. Its current execution boundary is review-required planning; `--full-auto` refuses until mission execution can be safely delegated without weakening runner guardrails.
+Prompt routing is distinct from both repository dogfooding loops and goal-driven mission planning. The router is a read-only classifier: simple prompts route to direct execution, complex implementation prompts route to the goal-driven mission workflow, broad strategy prompts route to assessment packs, and risky prompts route to manual review.
+
+Goal-driven mission planning is distinct from repository dogfooding loops. The dogfooding loop starts from repo state and asks what should improve next. The goal-driven workflow starts from a user goal plus repo state, then generates a deterministic route record, assessment, affected-tree mapping, mission plan, scope contract, coherence review, goal score, and final report under `.abstraction-tree/goals/`. Its current execution boundary is review-required planning; `--run` and `--full-auto` refuse until mission execution can be safely delegated without weakening runner guardrails.
 
 Generated-memory quality fixtures live in example projects under `.abstraction-tree/evaluation-fixture.json`. They list expected tree nodes, architecture nodes, concepts, invariants, and context-pack inclusions for compact projects whose generated memory should stay semantically useful. When scanner, import-graph, tree-builder, concept, or context behavior intentionally changes, update the relevant fixture expectations to describe the new durable behavior rather than copying full generated JSON snapshots. Then run `npm run build`, `node scripts/generated-memory-fixtures.test.mjs`, and `npm test` to confirm the fixture quality metrics still pass.
 
@@ -62,7 +64,7 @@ Evaluation also tracks explanation completeness with counts for missing explanat
 
 - Production LLM provider adapters outside the core deterministic pipeline.
 - PR review mode.
-- Safe `atree goal --full-auto` execution once it can call the mission runner with equivalent review, batching, and coherence guarantees.
+- Safe `atree goal --run` / `--full-auto` execution once it can call the mission runner with equivalent review, batching, scope-check, evaluation, and coherence guarantees.
 - Direct-task mission generation for `atree route` when the router classifies a prompt as simple.
 - Drift detection against Git diffs.
 - VS Code/Cursor panel.

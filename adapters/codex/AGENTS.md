@@ -35,7 +35,7 @@ npm run diff:summary
 npm run abstraction:loop:windows
 ```
 
-The autonomous loop command is Windows PowerShell scoped local automation. It runs bounded Codex cycles and post-loop checks. It does not push to remote, bypass failed checks, commit ignored runtime state, or enable LLM-inferred abstraction as default scanner behavior.
+The local dogfooding loop command is Windows PowerShell scoped automation. It runs bounded Codex cycles and post-loop checks. It does not push to remote, bypass failed checks, commit ignored runtime state, guarantee correct changes, or enable LLM-inferred abstraction as default scanner behavior.
 
 The loop is bounded by configured limits for loop count, elapsed time, failed loops, stagnation, repeated test failures, and diff size. Use objective evaluation metrics alongside run reports because self-reporting alone cannot prove that drift, ownership, context breadth, or automation health improved.
 

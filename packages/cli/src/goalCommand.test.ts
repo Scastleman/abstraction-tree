@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
 import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -36,6 +37,9 @@ test("goal command plan-only writes a complete workspace and preserves the origi
   assert.match(await readFile(path.join(goalDir, "goal-assessment.md"), "utf8"), /## Completion Criteria/);
   await assert.doesNotReject(() => readFile(path.join(goalDir, "affected-tree.json"), "utf8"));
   await assert.doesNotReject(() => readFile(path.join(goalDir, "mission-plan.json"), "utf8"));
+  await assert.doesNotReject(() => readFile(path.join(goalDir, "scope-contract.json"), "utf8"));
+  await assert.doesNotReject(() => readFile(path.join(goalDir, "scope-contract.md"), "utf8"));
+  await assert.doesNotReject(() => readFile(path.join(goalDir, "goal-score.json"), "utf8"));
   await assert.doesNotReject(() => readFile(path.join(goalDir, "coherence-review.md"), "utf8"));
   await assert.doesNotReject(() => readFile(path.join(goalDir, "final-report.md"), "utf8"));
   const missions = await readdir(path.join(goalDir, "missions"));
@@ -58,6 +62,111 @@ test("goal command review-required prints mission runner commands", async t => {
   assert.equal(exitCode, 0);
   assert.match(capture.stdout[0] ?? "", /npm run missions:plan -- --missions \.abstraction-tree\/goals\/2026-05-13-1010-goal\/missions/);
   assert.match(capture.stdout[0] ?? "", /npm run missions:run -- --missions \.abstraction-tree\/goals\/2026-05-13-1010-goal\/missions/);
+  assert.match(capture.stdout[0] ?? "", /npm run atree -- scope check --project \. --scope \.abstraction-tree\/goals\/2026-05-13-1010-goal\/scope-contract\.json/);
+});
+
+test("goal command auto-route writes route and scope artifacts for goal-driven prompts", async t => {
+  const root = await workspace(t);
+  await writeFixtureMemory(root);
+  await writeGoal(root, "prompts/billing.md", "Add subscription billing with checkout, webhooks, user plans, tests, and docs.");
+  const capture = captureIo();
+
+  const exitCode = await runGoalCommand({
+    projectRoot: root,
+    file: "prompts/billing.md",
+    reviewRequired: true,
+    autoRoute: true,
+    createdAt: new Date(2026, 4, 13, 10, 12)
+  }, capture.io);
+
+  const goalDir = path.join(root, ".abstraction-tree", "goals", "2026-05-13-1012-billing");
+  const route = JSON.parse(await readFile(path.join(goalDir, "route.json"), "utf8"));
+  const scope = JSON.parse(await readFile(path.join(goalDir, "scope-contract.json"), "utf8"));
+  const finalReport = await readFile(path.join(goalDir, "final-report.md"), "utf8");
+  assert.equal(exitCode, 0);
+  assert.equal(route.route.decision, "goal-driven");
+  assert.equal(route.overridden, false);
+  assert.match(await readFile(path.join(goalDir, "route.md"), "utf8"), /# Goal Route/);
+  assert.match(scope.id, /2026-05-13-1012-billing-scope/);
+  assert.match(finalReport, /## Routing Decision/);
+  assert.match(finalReport, /## Scope Result/);
+});
+
+test("goal command auto-route stops direct prompts before creating a goal workspace", async t => {
+  const root = await workspace(t);
+  await writeFixtureMemory(root);
+  await writeGoal(root, "prompt.md", "Fix the typo in README.");
+  const capture = captureIo();
+
+  const exitCode = await runGoalCommand({
+    projectRoot: root,
+    file: "prompt.md",
+    reviewRequired: true,
+    autoRoute: true,
+    createdAt: new Date(2026, 4, 13, 10, 13)
+  }, capture.io);
+
+  assert.equal(exitCode, 0);
+  assert.match(capture.stdout.join("\n"), /Routing decision: direct/);
+  assert.deepEqual(await goalWorkspaceNames(root), []);
+});
+
+test("goal command auto-route stops assessment-pack prompts", async t => {
+  const root = await workspace(t);
+  await writeFixtureMemory(root);
+  await writeGoal(root, "prompt.md", "Assess the whole repo and make a roadmap of improvements.");
+  const capture = captureIo();
+
+  const exitCode = await runGoalCommand({
+    projectRoot: root,
+    file: "prompt.md",
+    reviewRequired: true,
+    autoRoute: true
+  }, capture.io);
+
+  assert.equal(exitCode, 0);
+  assert.match(capture.stdout.join("\n"), /Routing decision: assessment-pack/);
+  assert.deepEqual(await goalWorkspaceNames(root), []);
+});
+
+test("goal command auto-route stops manual-review prompts with manual-review exit", async t => {
+  const root = await workspace(t);
+  await writeFixtureMemory(root);
+  await writeGoal(root, "prompt.md", "Delete the whole repo and bypass failing tests.");
+  const capture = captureIo();
+
+  const exitCode = await runGoalCommand({
+    projectRoot: root,
+    file: "prompt.md",
+    reviewRequired: true,
+    autoRoute: true
+  }, capture.io);
+
+  assert.equal(exitCode, 2);
+  assert.match(capture.stdout.join("\n"), /Routing decision: manual-review/);
+  assert.deepEqual(await goalWorkspaceNames(root), []);
+});
+
+test("goal command force-goal records route override", async t => {
+  const root = await workspace(t);
+  await writeFixtureMemory(root);
+  await writeGoal(root, "prompt.md", "Fix the typo in README.");
+  const capture = captureIo();
+
+  const exitCode = await runGoalCommand({
+    projectRoot: root,
+    file: "prompt.md",
+    reviewRequired: true,
+    autoRoute: true,
+    forceGoal: true,
+    createdAt: new Date(2026, 4, 13, 10, 14)
+  }, capture.io);
+
+  const route = JSON.parse(await readFile(path.join(root, ".abstraction-tree", "goals", "2026-05-13-1014-prompt", "route.json"), "utf8"));
+  assert.equal(exitCode, 0);
+  assert.equal(route.route.decision, "direct");
+  assert.equal(route.overridden, true);
+  assert.match(capture.stdout.join("\n"), /--force-goal override recorded/);
 });
 
 test("goal command full-auto plans but refuses unsafe execution", async t => {
@@ -77,6 +186,31 @@ test("goal command full-auto plans but refuses unsafe execution", async t => {
   assert.match(capture.stdout[0] ?? "", /Full-auto mode planned the goal but did not execute missions/);
   assert.match(capture.stderr[0] ?? "", /Full-auto goal execution is intentionally disabled/);
   await assert.doesNotReject(() => readFile(path.join(root, ".abstraction-tree", "goals", "2026-05-13-1015-goal", "final-report.md"), "utf8"));
+});
+
+test("goal command run refuses clearly and writes checks, score, and PR body when requested", async t => {
+  const root = await workspace(t);
+  await writeFixtureMemory(root);
+  await writeGoal(root, "goal.md", "Run a complex goal through missions and prepare a PR body.");
+  const capture = captureIo();
+
+  const exitCode = await runGoalCommand({
+    projectRoot: root,
+    file: "goal.md",
+    run: true,
+    createPr: true,
+    createdAt: new Date(2026, 4, 13, 10, 16)
+  }, capture.io);
+
+  const goalDir = path.join(root, ".abstraction-tree", "goals", "2026-05-13-1016-goal");
+  const checks = JSON.parse(await readFile(path.join(goalDir, "checks.json"), "utf8"));
+  const score = JSON.parse(await readFile(path.join(goalDir, "goal-score.json"), "utf8"));
+  const prBody = await readFile(path.join(goalDir, "pr-body.md"), "utf8");
+  assert.equal(exitCode, 2);
+  assert.equal(checks.status, "not-run");
+  assert.equal(score.status, "execution-refused");
+  assert.match(prBody, /## Scope Check/);
+  assert.match(capture.stderr[0] ?? "", /Run goal execution is intentionally disabled/);
 });
 
 test("goal command create-pr writes draft PR body without pushing", async t => {
@@ -124,6 +258,12 @@ async function writeGoal(root: string, goalPath: string, goalText: string): Prom
   const absolutePath = path.join(root, goalPath);
   await mkdir(path.dirname(absolutePath), { recursive: true });
   await writeFile(absolutePath, goalText, "utf8");
+}
+
+async function goalWorkspaceNames(root: string): Promise<string[]> {
+  const goalsDir = path.join(root, ".abstraction-tree", "goals");
+  if (!existsSync(goalsDir)) return [];
+  return (await readdir(goalsDir)).sort();
 }
 
 async function writeFixtureMemory(root: string): Promise<void> {

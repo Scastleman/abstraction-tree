@@ -854,7 +854,7 @@
   {
     "id": "command",
     "title": "Command",
-    "summary": "Durable concept inferred from 21 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 20 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.docs",
       "module.packages",
@@ -871,7 +871,6 @@
       "file.packages.cli.src.routecommand.ts",
       "file.packages.cli.src.scopecommand.test.ts",
       "file.packages.cli.src.scopecommand.ts",
-      "file.packages.core.src.goal.ts",
       "file.readme.md",
       "file.scripts.create.assessment.pack.mjs",
       "file.scripts.create.assessment.pack.test.mjs",
@@ -882,12 +881,8 @@
       "file.scripts.run.full.self.improvement.loop.mjs",
       "file.scripts.run.full.self.improvement.loop.test.mjs",
       "architecture.cli.surface",
-      "architecture.core.engine",
       "architecture.visual.app.api",
       "architecture.package.distribution",
-      "subsystem.core.engine",
-      "subsystem.core.engine.slice.goal.routing",
-      "subsystem.core.engine.file.packages.core.src.goal.ts",
       "subsystem.cli.local.api",
       "subsystem.cli.local.api.slice.local.api",
       "subsystem.cli.local.api.file.packages.cli.src.index.ts",
@@ -900,8 +895,6 @@
       "subsystem.cli.local.api.slice.cli.support",
       "subsystem.cli.local.api.file.packages.cli.src.changereviewcommand.ts",
       "subsystem.goal.mission.automation",
-      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
-      "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
       "subsystem.goal.mission.automation.slice.mission.runner.loop",
       "subsystem.goal.mission.automation.file.scripts.create.assessment.pack.mjs",
       "subsystem.goal.mission.automation.file.scripts.run.abstraction.loop.ps1",
@@ -943,7 +936,6 @@
       "packages/cli/src/routeCommand.ts",
       "packages/cli/src/scopeCommand.test.ts",
       "packages/cli/src/scopeCommand.ts",
-      "packages/core/src/goal.ts",
       "scripts/create-assessment-pack.mjs",
       "scripts/create-assessment-pack.test.mjs",
       "scripts/pack-smoke-test.mjs",
@@ -1240,13 +1232,360 @@
     ]
   },
   {
-    "id": "mission",
-    "title": "Mission",
-    "summary": "Durable concept inferred from 18 file(s) using doc, export, path, symbol signals.",
+    "id": "goal",
+    "title": "Goal",
+    "summary": "Durable concept inferred from 9 file(s) using doc, export, path, symbol signals.",
     "relatedNodeIds": [
       "module.docs",
       "module.packages",
+      "module.root",
+      "file.docs.full.self.improvement.loop.md",
+      "file.docs.goal.driven.autopilot.md",
+      "file.docs.mission.runner.md",
+      "file.docs.scope.contracts.md",
+      "file.packages.cli.src.goalcommand.test.ts",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.core.src.goal.test.ts",
+      "file.packages.core.src.goal.ts",
+      "file.readme.md",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.goal.routing",
+      "subsystem.core.engine.file.packages.core.src.goal.ts",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
+      "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.docs.full.self.improvement.loop.md",
+      "subsystem.goal.mission.automation.file.docs.mission.runner.md",
+      "subsystem.goal.mission.automation.slice.automation.docs",
+      "subsystem.goal.mission.automation.file.docs.goal.driven.autopilot.md",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.full.self.improvement.loop.md",
+      "subsystem.docs.examples.file.docs.goal.driven.autopilot.md",
+      "subsystem.docs.examples.file.docs.mission.runner.md",
+      "subsystem.docs.examples.file.docs.scope.contracts.md",
+      "subsystem.docs.examples.slice.readme",
+      "subsystem.docs.examples.file.readme.md",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.goal.test.ts",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts"
+    ],
+    "relatedFiles": [
+      "README.md",
+      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+      "docs/GOAL_DRIVEN_AUTOPILOT.md",
+      "docs/MISSION_RUNNER.md",
+      "docs/SCOPE_CONTRACTS.md",
+      "packages/cli/src/goalCommand.test.ts",
+      "packages/cli/src/goalCommand.ts",
+      "packages/core/src/goal.test.ts",
+      "packages/core/src/goal.ts"
+    ],
+    "tags": [
+      "goal"
+    ],
+    "evidence": [
+      {
+        "kind": "doc",
+        "filePath": "docs/GOAL_DRIVEN_AUTOPILOT.md",
+        "value": "docs/GOAL_DRIVEN_AUTOPILOT.md",
+        "term": "goal",
+        "score": 1
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandIo",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandOptions",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandResult",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "runGoalCommand",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "writeGoalWorkspace",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "buildGoalWorkspacePlan",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalAffectedTree",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalChecksRecord",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalCompletionScore",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalLayer",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMetadata",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionCategory",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionFile",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionPlan",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionPriority",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionRisk",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionSummary",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMode",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalPlanningInput",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalRouteRecord",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalStatus",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalWorkspacePlan",
+        "term": "goal",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "packages/cli/src/goalCommand.test.ts",
+        "term": "goal",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "packages/cli/src/goalCommand.ts",
+        "term": "goal",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/goal.test.ts",
+        "value": "packages/core/src/goal.test.ts",
+        "term": "goal",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "packages/core/src/goal.ts",
+        "term": "goal",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+        "value": "Goal-Driven Mission Workflow",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/GOAL_DRIVEN_AUTOPILOT.md",
+        "value": "Goal-Driven Mission Workflow",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/MISSION_RUNNER.md",
+        "value": "Goal",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/MISSION_RUNNER.md",
+        "value": "Goal-Generated Mission Folders",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/SCOPE_CONTRACTS.md",
+        "value": "Goal Workspaces",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "goalDir",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "goalsDir",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "goalText",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "goalWorkspaceNames",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "writeGoal",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "buildGoalRouteRecord",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "buildGoalScopeContract",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "formatGoalCommandResult",
+        "term": "goal",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "mission",
+    "title": "Mission",
+    "summary": "Durable concept inferred from 21 file(s) using doc, export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.docs",
+      "module.packages",
+      "module.root",
       "module.scripts",
+      "file.docs.full.self.improvement.loop.md",
+      "file.docs.goal.driven.autopilot.md",
       "file.docs.mission.runner.md",
       "file.packages.cli.src.apistate.ts",
       "file.packages.cli.src.goalcommand.test.ts",
@@ -1255,6 +1594,7 @@
       "file.packages.core.src.automationvalidation.ts",
       "file.packages.core.src.goal.test.ts",
       "file.packages.core.src.goal.ts",
+      "file.readme.md",
       "file.scripts.create.assessment.pack.mjs",
       "file.scripts.import.assessment.missions.mjs",
       "file.scripts.import.assessment.missions.test.mjs",
@@ -1281,6 +1621,7 @@
       "subsystem.goal.mission.automation.slice.prompt.goal.planning",
       "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
       "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.docs.full.self.improvement.loop.md",
       "subsystem.goal.mission.automation.file.docs.mission.runner.md",
       "subsystem.goal.mission.automation.file.scripts.create.assessment.pack.mjs",
       "subsystem.goal.mission.automation.file.scripts.import.assessment.missions.mjs",
@@ -1288,12 +1629,18 @@
       "subsystem.goal.mission.automation.file.scripts.run.codex.missions.ps1",
       "subsystem.goal.mission.automation.file.scripts.run.full.self.improvement.loop.mjs",
       "subsystem.goal.mission.automation.file.scripts.run.missions.mjs",
+      "subsystem.goal.mission.automation.slice.automation.docs",
+      "subsystem.goal.mission.automation.file.docs.goal.driven.autopilot.md",
       "subsystem.memory.validation.logs",
       "subsystem.memory.validation.logs.slice.validation.evaluation",
       "subsystem.memory.validation.logs.file.packages.core.src.automationvalidation.ts",
       "subsystem.docs.examples",
       "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.full.self.improvement.loop.md",
+      "subsystem.docs.examples.file.docs.goal.driven.autopilot.md",
       "subsystem.docs.examples.file.docs.mission.runner.md",
+      "subsystem.docs.examples.slice.readme",
+      "subsystem.docs.examples.file.readme.md",
       "subsystem.packaging.adapters",
       "subsystem.packaging.adapters.slice.release.scripts",
       "subsystem.packaging.adapters.file.scripts.create.assessment.pack.mjs",
@@ -1310,6 +1657,9 @@
       "subsystem.tests.quality.file.scripts.run.missions.test.mjs"
     ],
     "relatedFiles": [
+      "README.md",
+      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+      "docs/GOAL_DRIVEN_AUTOPILOT.md",
       "docs/MISSION_RUNNER.md",
       "packages/cli/src/apiState.ts",
       "packages/cli/src/goalCommand.test.ts",
@@ -1616,342 +1966,353 @@
     ]
   },
   {
-    "id": "goal",
-    "title": "Goal",
-    "summary": "Durable concept inferred from 8 file(s) using doc, export, path, symbol signals.",
+    "id": "scope",
+    "title": "Scope",
+    "summary": "Durable concept inferred from 11 file(s) using doc, export, path, symbol signals.",
     "relatedNodeIds": [
       "module.docs",
       "module.packages",
-      "module.root",
-      "file.docs.full.self.improvement.loop.md",
-      "file.docs.goal.driven.autopilot.md",
       "file.docs.mission.runner.md",
+      "file.docs.scope.contracts.md",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.cli.src.apistate.ts",
       "file.packages.cli.src.goalcommand.test.ts",
       "file.packages.cli.src.goalcommand.ts",
-      "file.packages.core.src.goal.test.ts",
-      "file.packages.core.src.goal.ts",
-      "file.readme.md",
+      "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.scopecommand.test.ts",
+      "file.packages.cli.src.scopecommand.ts",
+      "file.packages.core.src.scope.test.ts",
+      "file.packages.core.src.scope.ts",
       "architecture.cli.surface",
       "architecture.core.engine",
+      "architecture.visual.app.api",
+      "architecture.visual.app.ui",
+      "architecture.package.distribution",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.packages.app.src.components.agenthealthpanel.tsx",
       "subsystem.core.engine",
-      "subsystem.core.engine.slice.goal.routing",
-      "subsystem.core.engine.file.packages.core.src.goal.ts",
+      "subsystem.core.engine.slice.understanding.pipeline",
+      "subsystem.core.engine.file.packages.core.src.scope.ts",
       "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.local.api",
+      "subsystem.cli.local.api.file.packages.cli.src.apistate.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.index.ts",
       "subsystem.cli.local.api.slice.commands",
       "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.scopecommand.ts",
       "subsystem.goal.mission.automation",
-      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
-      "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
       "subsystem.goal.mission.automation.slice.mission.runner.loop",
-      "subsystem.goal.mission.automation.file.docs.full.self.improvement.loop.md",
       "subsystem.goal.mission.automation.file.docs.mission.runner.md",
-      "subsystem.goal.mission.automation.slice.automation.docs",
-      "subsystem.goal.mission.automation.file.docs.goal.driven.autopilot.md",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.validation.evaluation",
+      "subsystem.memory.validation.logs.file.packages.core.src.scope.ts",
       "subsystem.docs.examples",
       "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.full.self.improvement.loop.md",
-      "subsystem.docs.examples.file.docs.goal.driven.autopilot.md",
       "subsystem.docs.examples.file.docs.mission.runner.md",
-      "subsystem.docs.examples.slice.readme",
-      "subsystem.docs.examples.file.readme.md",
+      "subsystem.docs.examples.file.docs.scope.contracts.md",
       "subsystem.tests.quality",
       "subsystem.tests.quality.slice.core.tests",
-      "subsystem.tests.quality.file.packages.core.src.goal.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.scope.test.ts",
       "subsystem.tests.quality.slice.cli.tests",
-      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts"
+      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.scopecommand.test.ts"
     ],
     "relatedFiles": [
-      "README.md",
-      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
-      "docs/GOAL_DRIVEN_AUTOPILOT.md",
       "docs/MISSION_RUNNER.md",
+      "docs/SCOPE_CONTRACTS.md",
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/cli/src/apiState.ts",
       "packages/cli/src/goalCommand.test.ts",
       "packages/cli/src/goalCommand.ts",
-      "packages/core/src/goal.test.ts",
-      "packages/core/src/goal.ts"
+      "packages/cli/src/index.ts",
+      "packages/cli/src/scopeCommand.test.ts",
+      "packages/cli/src/scopeCommand.ts",
+      "packages/core/src/scope.test.ts",
+      "packages/core/src/scope.ts"
     ],
     "tags": [
-      "goal"
+      "scope"
     ],
     "evidence": [
       {
         "kind": "doc",
-        "filePath": "docs/GOAL_DRIVEN_AUTOPILOT.md",
-        "value": "docs/GOAL_DRIVEN_AUTOPILOT.md",
-        "term": "goal",
+        "filePath": "docs/SCOPE_CONTRACTS.md",
+        "value": "docs/SCOPE_CONTRACTS.md",
+        "term": "scope",
         "score": 1
       },
       {
         "kind": "export",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "GoalCommandIo",
-        "term": "goal",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "latestScopeSummary",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "GoalCommandOptions",
-        "term": "goal",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "runScopeCheckCommand",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "GoalCommandResult",
-        "term": "goal",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "runScopeCreateCommand",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "runGoalCommand",
-        "term": "goal",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "ScopeCheckCommandOptions",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "writeGoalWorkspace",
-        "term": "goal",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "ScopeCommandIo",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "buildGoalWorkspacePlan",
-        "term": "goal",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "ScopeCreateCommandOptions",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalAffectedTree",
-        "term": "goal",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "buildScopeContract",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalLayer",
-        "term": "goal",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "checkScope",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalMetadata",
-        "term": "goal",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "formatScopeCheckMarkdown",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalMissionCategory",
-        "term": "goal",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "formatScopeContractMarkdown",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalMissionFile",
-        "term": "goal",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "ScopeBuildInput",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalMissionPlan",
-        "term": "goal",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "ScopeCheckInput",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalMissionPriority",
-        "term": "goal",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "ScopeCheckReport",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalMissionRisk",
-        "term": "goal",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "ScopeCheckStatus",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalMissionSummary",
-        "term": "goal",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "ScopeContract",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalMode",
-        "term": "goal",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "ScopeContractStatus",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalPlanningInput",
-        "term": "goal",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "ScopeViolation",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalStatus",
-        "term": "goal",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalWorkspacePlan",
-        "term": "goal",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "ScopeViolationSeverity",
+        "term": "scope",
         "score": 4
       },
       {
         "kind": "path",
-        "filePath": "packages/cli/src/goalCommand.test.ts",
-        "value": "packages/cli/src/goalCommand.test.ts",
-        "term": "goal",
+        "filePath": "packages/cli/src/scopeCommand.test.ts",
+        "value": "packages/cli/src/scopeCommand.test.ts",
+        "term": "scope",
         "score": 2
       },
       {
         "kind": "path",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "packages/cli/src/goalCommand.ts",
-        "term": "goal",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "packages/cli/src/scopeCommand.ts",
+        "term": "scope",
         "score": 2
       },
       {
         "kind": "path",
-        "filePath": "packages/core/src/goal.test.ts",
-        "value": "packages/core/src/goal.test.ts",
-        "term": "goal",
+        "filePath": "packages/core/src/scope.test.ts",
+        "value": "packages/core/src/scope.test.ts",
+        "term": "scope",
         "score": 2
       },
       {
         "kind": "path",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "packages/core/src/goal.ts",
-        "term": "goal",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "packages/core/src/scope.ts",
+        "term": "scope",
         "score": 2
       },
       {
         "kind": "symbol",
-        "filePath": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
-        "value": "Goal-Driven Autopilot",
-        "term": "goal",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/GOAL_DRIVEN_AUTOPILOT.md",
-        "value": "Goal-Driven Autopilot",
-        "term": "goal",
+        "filePath": "docs/MISSION_RUNNER.md",
+        "value": "Out of Scope",
+        "term": "scope",
         "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "docs/MISSION_RUNNER.md",
-        "value": "Goal",
-        "term": "goal",
+        "value": "Scope",
+        "term": "scope",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "docs/MISSION_RUNNER.md",
-        "value": "Goal-Generated Mission Folders",
-        "term": "goal",
+        "filePath": "docs/SCOPE_CONTRACTS.md",
+        "value": "Scope Contracts",
+        "term": "scope",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "scopeDetail",
+        "term": "scope",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "scopeStatus",
+        "term": "scope",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "scopeTone",
+        "term": "scope",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "loadScopeHealth",
+        "term": "scope",
         "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "packages/cli/src/goalCommand.test.ts",
-        "value": "goalDir",
-        "term": "goal",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.test.ts",
-        "value": "goalText",
-        "term": "goal",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.test.ts",
-        "value": "writeGoal",
-        "term": "goal",
+        "value": "scope",
+        "term": "scope",
         "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "formatGoalCommandResult",
-        "term": "goal",
+        "value": "buildGoalScopeContract",
+        "term": "scope",
         "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "GoalCommandIo",
-        "term": "goal",
+        "value": "scopeContract",
+        "term": "scope",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "GoalCommandOptions",
-        "term": "goal",
+        "filePath": "packages/cli/src/index.ts",
+        "value": "scopeCommand",
+        "term": "scope",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "GoalCommandResult",
-        "term": "goal",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "latestScopeSummary",
+        "term": "scope",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "goalFile",
-        "term": "goal",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "resolveScopePath",
+        "term": "scope",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "goalFilePath",
-        "term": "goal",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "runScopeCheckCommand",
+        "term": "scope",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "goalText",
-        "term": "goal",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "runScopeCreateCommand",
+        "term": "scope",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "resolveGoalMode",
-        "term": "goal",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "ScopeCheckCommandOptions",
+        "term": "scope",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "runGoalCommand",
-        "term": "goal",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "ScopeCommandIo",
+        "term": "scope",
         "score": 3
       }
     ]
@@ -2770,352 +3131,6 @@
     ]
   },
   {
-    "id": "scope",
-    "title": "Scope",
-    "summary": "Durable concept inferred from 9 file(s) using doc, export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.docs",
-      "module.packages",
-      "file.docs.mission.runner.md",
-      "file.docs.scope.contracts.md",
-      "file.packages.app.src.components.agenthealthpanel.tsx",
-      "file.packages.cli.src.apistate.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.cli.src.scopecommand.test.ts",
-      "file.packages.cli.src.scopecommand.ts",
-      "file.packages.core.src.scope.test.ts",
-      "file.packages.core.src.scope.ts",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "architecture.visual.app.api",
-      "architecture.visual.app.ui",
-      "architecture.package.distribution",
-      "subsystem.visual.app",
-      "subsystem.visual.app.slice.components",
-      "subsystem.visual.app.file.packages.app.src.components.agenthealthpanel.tsx",
-      "subsystem.core.engine",
-      "subsystem.core.engine.slice.understanding.pipeline",
-      "subsystem.core.engine.file.packages.core.src.scope.ts",
-      "subsystem.cli.local.api",
-      "subsystem.cli.local.api.slice.local.api",
-      "subsystem.cli.local.api.file.packages.cli.src.apistate.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.index.ts",
-      "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.scopecommand.ts",
-      "subsystem.goal.mission.automation",
-      "subsystem.goal.mission.automation.slice.mission.runner.loop",
-      "subsystem.goal.mission.automation.file.docs.mission.runner.md",
-      "subsystem.memory.validation.logs",
-      "subsystem.memory.validation.logs.slice.validation.evaluation",
-      "subsystem.memory.validation.logs.file.packages.core.src.scope.ts",
-      "subsystem.docs.examples",
-      "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.mission.runner.md",
-      "subsystem.docs.examples.file.docs.scope.contracts.md",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.core.tests",
-      "subsystem.tests.quality.file.packages.core.src.scope.test.ts",
-      "subsystem.tests.quality.slice.cli.tests",
-      "subsystem.tests.quality.file.packages.cli.src.scopecommand.test.ts"
-    ],
-    "relatedFiles": [
-      "docs/MISSION_RUNNER.md",
-      "docs/SCOPE_CONTRACTS.md",
-      "packages/app/src/components/AgentHealthPanel.tsx",
-      "packages/cli/src/apiState.ts",
-      "packages/cli/src/index.ts",
-      "packages/cli/src/scopeCommand.test.ts",
-      "packages/cli/src/scopeCommand.ts",
-      "packages/core/src/scope.test.ts",
-      "packages/core/src/scope.ts"
-    ],
-    "tags": [
-      "scope"
-    ],
-    "evidence": [
-      {
-        "kind": "doc",
-        "filePath": "docs/SCOPE_CONTRACTS.md",
-        "value": "docs/SCOPE_CONTRACTS.md",
-        "term": "scope",
-        "score": 1
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "latestScopeSummary",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "runScopeCheckCommand",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "runScopeCreateCommand",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "ScopeCheckCommandOptions",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "ScopeCommandIo",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "ScopeCreateCommandOptions",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "buildScopeContract",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "checkScope",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "formatScopeCheckMarkdown",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "formatScopeContractMarkdown",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "ScopeBuildInput",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "ScopeCheckInput",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "ScopeCheckReport",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "ScopeCheckStatus",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "ScopeContract",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "ScopeContractStatus",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "ScopeViolation",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "ScopeViolationSeverity",
-        "term": "scope",
-        "score": 4
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/scopeCommand.test.ts",
-        "value": "packages/cli/src/scopeCommand.test.ts",
-        "term": "scope",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "packages/cli/src/scopeCommand.ts",
-        "term": "scope",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/core/src/scope.test.ts",
-        "value": "packages/core/src/scope.test.ts",
-        "term": "scope",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/core/src/scope.ts",
-        "value": "packages/core/src/scope.ts",
-        "term": "scope",
-        "score": 2
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/MISSION_RUNNER.md",
-        "value": "Out of Scope",
-        "term": "scope",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/MISSION_RUNNER.md",
-        "value": "Scope",
-        "term": "scope",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/SCOPE_CONTRACTS.md",
-        "value": "Scope Contracts",
-        "term": "scope",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "scopeDetail",
-        "term": "scope",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "scopeStatus",
-        "term": "scope",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "scopeTone",
-        "term": "scope",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/apiState.ts",
-        "value": "loadScopeHealth",
-        "term": "scope",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/index.ts",
-        "value": "scopeCommand",
-        "term": "scope",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "latestScopeSummary",
-        "term": "scope",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "resolveScopePath",
-        "term": "scope",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "runScopeCheckCommand",
-        "term": "scope",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "runScopeCreateCommand",
-        "term": "scope",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "ScopeCheckCommandOptions",
-        "term": "scope",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "ScopeCommandIo",
-        "term": "scope",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "ScopeCreateCommandOptions",
-        "term": "scope",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "writeScopeCheckReport",
-        "term": "scope",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "writeScopeContract",
-        "term": "scope",
-        "score": 3
-      }
-    ]
-  },
-  {
     "id": "proposal",
     "title": "Proposal",
     "summary": "Durable concept inferred from 9 file(s) using export, path, symbol signals.",
@@ -3458,13 +3473,14 @@
   {
     "id": "workspace",
     "title": "Workspace",
-    "summary": "Durable concept inferred from 29 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 30 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.docs",
       "module.examples",
       "module.packages",
       "module.scripts",
       "file.docs.goal.driven.autopilot.md",
+      "file.docs.scope.contracts.md",
       "file.examples.small.web.app.tests.checkout.test.js",
       "file.packages.cli.src.apistate.test.ts",
       "file.packages.cli.src.changereviewcli.test.ts",
@@ -3521,6 +3537,7 @@
       "subsystem.docs.examples",
       "subsystem.docs.examples.slice.guides",
       "subsystem.docs.examples.file.docs.goal.driven.autopilot.md",
+      "subsystem.docs.examples.file.docs.scope.contracts.md",
       "subsystem.docs.examples.slice.examples",
       "subsystem.docs.examples.file.examples.small.web.app.tests.checkout.test.js",
       "subsystem.packaging.adapters",
@@ -3556,6 +3573,7 @@
     ],
     "relatedFiles": [
       "docs/GOAL_DRIVEN_AUTOPILOT.md",
+      "docs/SCOPE_CONTRACTS.md",
       "examples/small-web-app/tests/checkout.test.js",
       "packages/cli/src/apiState.test.ts",
       "packages/cli/src/changeReviewCli.test.ts",
@@ -3668,6 +3686,13 @@
       },
       {
         "kind": "symbol",
+        "filePath": "docs/SCOPE_CONTRACTS.md",
+        "value": "Goal Workspaces",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
         "filePath": "examples/small-web-app/tests/checkout.test.js",
         "value": "makeWorkspace",
         "term": "workspace",
@@ -3691,6 +3716,13 @@
         "kind": "symbol",
         "filePath": "packages/cli/src/doctor.test.ts",
         "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "goalWorkspaceNames",
         "term": "workspace",
         "score": 3
       },
@@ -3852,20 +3884,6 @@
         "kind": "symbol",
         "filePath": "packages/core/src/runtimeSchema.test.ts",
         "value": "workspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/scanner.test.ts",
-        "value": "workspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "WorkspacePackage",
         "term": "workspace",
         "score": 3
       }
@@ -5944,6 +5962,289 @@
     ]
   },
   {
+    "id": "route",
+    "title": "Route",
+    "summary": "Durable concept inferred from 6 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "file.packages.cli.src.goalcommand.test.ts",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.cli.src.routecommand.test.ts",
+      "file.packages.cli.src.routecommand.ts",
+      "file.packages.core.src.goal.ts",
+      "file.packages.core.src.promptrouter.ts",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.goal.routing",
+      "subsystem.core.engine.file.packages.core.src.goal.ts",
+      "subsystem.core.engine.file.packages.core.src.promptrouter.ts",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.routecommand.ts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
+      "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
+      "subsystem.goal.mission.automation.file.packages.core.src.promptrouter.ts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.routecommand.test.ts"
+    ],
+    "relatedFiles": [
+      "packages/cli/src/goalCommand.test.ts",
+      "packages/cli/src/goalCommand.ts",
+      "packages/cli/src/routeCommand.test.ts",
+      "packages/cli/src/routeCommand.ts",
+      "packages/core/src/goal.ts",
+      "packages/core/src/promptRouter.ts"
+    ],
+    "tags": [
+      "route"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "PromptRouteMemory",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "readPromptRouteMemory",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "RouteCommandIo",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "RouteCommandOptions",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "runRouteCommand",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "toRouteJson",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalRouteRecord",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "formatPromptRouteResult",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteComplexity",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteDecision",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteInput",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteResult",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteRisk",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "routePrompt",
+        "term": "route",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/routeCommand.test.ts",
+        "value": "packages/cli/src/routeCommand.test.ts",
+        "term": "route",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "packages/cli/src/routeCommand.ts",
+        "term": "route",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "route",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "buildGoalRouteRecord",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "route",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "routeOverridden",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "routeRecord",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "PromptRouteMemory",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "readPromptRouteMemory",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "RouteCommandIo",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "RouteCommandOptions",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "runRouteCommand",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "toRouteJson",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalRouteRecord",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteComplexity",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteDecision",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteInput",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteResult",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteRisk",
+        "term": "route",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "routePrompt",
+        "term": "route",
+        "score": 3
+      }
+    ]
+  },
+  {
     "id": "diff",
     "title": "Diff",
     "summary": "Durable concept inferred from 9 file(s) using export, path, symbol signals.",
@@ -6817,283 +7118,6 @@
     ]
   },
   {
-    "id": "plan",
-    "title": "Plan",
-    "summary": "Durable concept inferred from 11 file(s) using export, symbol signals.",
-    "relatedNodeIds": [
-      "module.docs",
-      "module.packages",
-      "module.scripts",
-      "file.docs.mission.runner.md",
-      "file.packages.cli.src.goalcommand.ts",
-      "file.packages.core.src.goal.test.ts",
-      "file.packages.core.src.goal.ts",
-      "file.packages.core.src.migrations.test.ts",
-      "file.packages.core.src.migrations.ts",
-      "file.scripts.import.assessment.missions.mjs",
-      "file.scripts.run.full.self.improvement.loop.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "file.scripts.run.missions.mjs",
-      "file.scripts.run.missions.test.mjs",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "subsystem.core.engine",
-      "subsystem.core.engine.slice.core.support",
-      "subsystem.core.engine.file.packages.core.src.migrations.ts",
-      "subsystem.core.engine.slice.goal.routing",
-      "subsystem.core.engine.file.packages.core.src.goal.ts",
-      "subsystem.cli.local.api",
-      "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
-      "subsystem.goal.mission.automation",
-      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
-      "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
-      "subsystem.goal.mission.automation.slice.mission.runner.loop",
-      "subsystem.goal.mission.automation.file.docs.mission.runner.md",
-      "subsystem.goal.mission.automation.file.scripts.import.assessment.missions.mjs",
-      "subsystem.goal.mission.automation.file.scripts.run.full.self.improvement.loop.mjs",
-      "subsystem.goal.mission.automation.file.scripts.run.missions.mjs",
-      "subsystem.docs.examples",
-      "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.mission.runner.md",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.core.tests",
-      "subsystem.tests.quality.file.packages.core.src.goal.test.ts",
-      "subsystem.tests.quality.file.packages.core.src.migrations.test.ts",
-      "subsystem.tests.quality.slice.script.quality",
-      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs",
-      "subsystem.tests.quality.file.scripts.run.missions.test.mjs"
-    ],
-    "relatedFiles": [
-      "docs/MISSION_RUNNER.md",
-      "packages/cli/src/goalCommand.ts",
-      "packages/core/src/goal.test.ts",
-      "packages/core/src/goal.ts",
-      "packages/core/src/migrations.test.ts",
-      "packages/core/src/migrations.ts",
-      "scripts/import-assessment-missions.mjs",
-      "scripts/run-full-self-improvement-loop.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs",
-      "scripts/run-missions.mjs",
-      "scripts/run-missions.test.mjs"
-    ],
-    "tags": [
-      "plan"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "buildGoalWorkspacePlan",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalMissionPlan",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalWorkspacePlan",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationPlan",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationPlanOptions",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "planAtreeMigration",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "createMissionPlan",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "executePlan",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/MISSION_RUNNER.md",
-        "value": "Future Modularization Plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/goal.test.ts",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "buildGoalWorkspacePlan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalMissionPlan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalWorkspacePlan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "missionPlan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.test.ts",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationPlan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationPlanOptions",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "planAtreeMigration",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/import-assessment-missions.mjs",
-        "value": "copyPlan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-full-self-improvement-loop.mjs",
-        "value": "missionPlanArgs",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-full-self-improvement-loop.mjs",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
-        "value": "missionPlanCommand",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
-        "value": "planMissionsFlagIndex",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.test.mjs",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.test.mjs",
-        "value": "planInput",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.test.mjs",
-        "value": "printedPlan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.test.mjs",
-        "value": "writtenPlan",
-        "term": "plan",
-        "score": 3
-      }
-    ]
-  },
-  {
     "id": "context.pack",
     "title": "Context Pack",
     "summary": "Durable concept inferred from 13 file(s) using export, symbol signals.",
@@ -7489,7 +7513,7 @@
       {
         "kind": "symbol",
         "filePath": "docs/AGENT_PROTOCOL.md",
-        "value": "Bounded self-improvement loops",
+        "value": "Bounded local dogfooding loops",
         "term": "loop",
         "score": 3
       },
@@ -7503,7 +7527,7 @@
       {
         "kind": "symbol",
         "filePath": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
-        "value": "Full Self-Improvement Loop",
+        "value": "Experimental Local Dogfooding Loop",
         "term": "loop",
         "score": 3
       },
@@ -7636,7 +7660,7 @@
       {
         "kind": "symbol",
         "filePath": "README.md",
-        "value": "Autonomous loop contract",
+        "value": "Experimental local dogfooding loop contract",
         "term": "loop",
         "score": 3
       },
@@ -8094,235 +8118,271 @@
     ]
   },
   {
-    "id": "route",
-    "title": "Route",
-    "summary": "Durable concept inferred from 4 file(s) using export, path, symbol signals.",
+    "id": "plan",
+    "title": "Plan",
+    "summary": "Durable concept inferred from 11 file(s) using export, symbol signals.",
     "relatedNodeIds": [
+      "module.docs",
       "module.packages",
+      "module.scripts",
+      "file.docs.mission.runner.md",
       "file.packages.cli.src.goalcommand.ts",
-      "file.packages.cli.src.routecommand.test.ts",
-      "file.packages.cli.src.routecommand.ts",
-      "file.packages.core.src.promptrouter.ts",
+      "file.packages.core.src.goal.test.ts",
+      "file.packages.core.src.goal.ts",
+      "file.packages.core.src.migrations.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.scripts.import.assessment.missions.mjs",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "file.scripts.run.missions.mjs",
+      "file.scripts.run.missions.test.mjs",
       "architecture.cli.surface",
       "architecture.core.engine",
       "subsystem.core.engine",
+      "subsystem.core.engine.slice.core.support",
+      "subsystem.core.engine.file.packages.core.src.migrations.ts",
       "subsystem.core.engine.slice.goal.routing",
-      "subsystem.core.engine.file.packages.core.src.promptrouter.ts",
+      "subsystem.core.engine.file.packages.core.src.goal.ts",
       "subsystem.cli.local.api",
       "subsystem.cli.local.api.slice.commands",
       "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.routecommand.ts",
       "subsystem.goal.mission.automation",
       "subsystem.goal.mission.automation.slice.prompt.goal.planning",
-      "subsystem.goal.mission.automation.file.packages.core.src.promptrouter.ts",
+      "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.docs.mission.runner.md",
+      "subsystem.goal.mission.automation.file.scripts.import.assessment.missions.mjs",
+      "subsystem.goal.mission.automation.file.scripts.run.full.self.improvement.loop.mjs",
+      "subsystem.goal.mission.automation.file.scripts.run.missions.mjs",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.mission.runner.md",
       "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.cli.tests",
-      "subsystem.tests.quality.file.packages.cli.src.routecommand.test.ts"
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.goal.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.migrations.test.ts",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs",
+      "subsystem.tests.quality.file.scripts.run.missions.test.mjs"
     ],
     "relatedFiles": [
+      "docs/MISSION_RUNNER.md",
       "packages/cli/src/goalCommand.ts",
-      "packages/cli/src/routeCommand.test.ts",
-      "packages/cli/src/routeCommand.ts",
-      "packages/core/src/promptRouter.ts"
+      "packages/core/src/goal.test.ts",
+      "packages/core/src/goal.ts",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
+      "scripts/import-assessment-missions.mjs",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
+      "scripts/run-missions.mjs",
+      "scripts/run-missions.test.mjs"
     ],
     "tags": [
-      "route"
+      "plan"
     ],
     "evidence": [
       {
         "kind": "export",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "PromptRouteMemory",
-        "term": "route",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "buildGoalWorkspacePlan",
+        "term": "plan",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "readPromptRouteMemory",
-        "term": "route",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionPlan",
+        "term": "plan",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "RouteCommandIo",
-        "term": "route",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalWorkspacePlan",
+        "term": "plan",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "RouteCommandOptions",
-        "term": "route",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationPlan",
+        "term": "plan",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "runRouteCommand",
-        "term": "route",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationPlanOptions",
+        "term": "plan",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "toRouteJson",
-        "term": "route",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "planAtreeMigration",
+        "term": "plan",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/promptRouter.ts",
-        "value": "formatPromptRouteResult",
-        "term": "route",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "createMissionPlan",
+        "term": "plan",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/promptRouter.ts",
-        "value": "PromptRouteComplexity",
-        "term": "route",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "executePlan",
+        "term": "plan",
         "score": 4
       },
       {
-        "kind": "export",
-        "filePath": "packages/core/src/promptRouter.ts",
-        "value": "PromptRouteDecision",
-        "term": "route",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/promptRouter.ts",
-        "value": "PromptRouteInput",
-        "term": "route",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/promptRouter.ts",
-        "value": "PromptRouteResult",
-        "term": "route",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/promptRouter.ts",
-        "value": "PromptRouteRisk",
-        "term": "route",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/promptRouter.ts",
-        "value": "routePrompt",
-        "term": "route",
-        "score": 4
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/routeCommand.test.ts",
-        "value": "packages/cli/src/routeCommand.test.ts",
-        "term": "route",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "packages/cli/src/routeCommand.ts",
-        "term": "route",
-        "score": 2
+        "kind": "symbol",
+        "filePath": "docs/MISSION_RUNNER.md",
+        "value": "Future Modularization Plan",
+        "term": "plan",
+        "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "route",
-        "term": "route",
+        "value": "plan",
+        "term": "plan",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "PromptRouteMemory",
-        "term": "route",
+        "filePath": "packages/core/src/goal.test.ts",
+        "value": "plan",
+        "term": "plan",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "readPromptRouteMemory",
-        "term": "route",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "buildGoalWorkspacePlan",
+        "term": "plan",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "RouteCommandIo",
-        "term": "route",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionPlan",
+        "term": "plan",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "RouteCommandOptions",
-        "term": "route",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalWorkspacePlan",
+        "term": "plan",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "runRouteCommand",
-        "term": "route",
+        "filePath": "packages/core/src/migrations.test.ts",
+        "value": "plan",
+        "term": "plan",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "toRouteJson",
-        "term": "route",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationPlan",
+        "term": "plan",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/promptRouter.ts",
-        "value": "PromptRouteComplexity",
-        "term": "route",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationPlanOptions",
+        "term": "plan",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/promptRouter.ts",
-        "value": "PromptRouteDecision",
-        "term": "route",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "plan",
+        "term": "plan",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/promptRouter.ts",
-        "value": "PromptRouteInput",
-        "term": "route",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "planAtreeMigration",
+        "term": "plan",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/promptRouter.ts",
-        "value": "PromptRouteResult",
-        "term": "route",
+        "filePath": "scripts/import-assessment-missions.mjs",
+        "value": "copyPlan",
+        "term": "plan",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/promptRouter.ts",
-        "value": "PromptRouteRisk",
-        "term": "route",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "missionPlanArgs",
+        "term": "plan",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/promptRouter.ts",
-        "value": "routePrompt",
-        "term": "route",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
+        "value": "missionPlanCommand",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
+        "value": "planMissionsFlagIndex",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.test.mjs",
+        "value": "plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.test.mjs",
+        "value": "planInput",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.test.mjs",
+        "value": "printedPlan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.test.mjs",
+        "value": "writtenPlan",
+        "term": "plan",
         "score": 3
       }
     ]
@@ -8330,7 +8390,7 @@
   {
     "id": "statu",
     "title": "Statu",
-    "summary": "Durable concept inferred from 14 file(s) using export, symbol signals.",
+    "summary": "Durable concept inferred from 15 file(s) using export, symbol signals.",
     "relatedNodeIds": [
       "module.packages",
       "module.root",
@@ -8340,6 +8400,7 @@
       "file.packages.app.src.hooks.useabstractionstate.ts",
       "file.packages.cli.src.doctor.test.ts",
       "file.packages.cli.src.doctor.ts",
+      "file.packages.cli.src.goalcommand.ts",
       "file.packages.cli.src.scopecommand.ts",
       "file.packages.core.src.goal.ts",
       "file.packages.core.src.llm.types.ts",
@@ -8369,6 +8430,7 @@
       "subsystem.cli.local.api",
       "subsystem.cli.local.api.slice.commands",
       "subsystem.cli.local.api.file.packages.cli.src.doctor.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
       "subsystem.cli.local.api.file.packages.cli.src.scopecommand.ts",
       "subsystem.goal.mission.automation",
       "subsystem.goal.mission.automation.slice.prompt.goal.planning",
@@ -8399,6 +8461,7 @@
       "packages/app/src/hooks/useAbstractionState.ts",
       "packages/cli/src/doctor.test.ts",
       "packages/cli/src/doctor.ts",
+      "packages/cli/src/goalCommand.ts",
       "packages/cli/src/scopeCommand.ts",
       "packages/core/src/goal.ts",
       "packages/core/src/llm/types.ts",
@@ -8513,6 +8576,13 @@
       {
         "kind": "symbol",
         "filePath": "packages/cli/src/doctor.ts",
+        "value": "status",
+        "term": "statu",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
         "value": "status",
         "term": "statu",
         "score": 3

@@ -267,7 +267,7 @@ function humanSubsystemExistenceReason(args: ExplanationArgs): string {
     return "The CLI and local API exist to turn the engine into daily developer workflows: scan, validate, route prompts, plan goals, serve the visual app, and expose project memory without requiring a hosted service.";
   }
   if (args.node.id === "subsystem.goal.mission.automation") {
-    return "Goal and mission automation exists to keep complex prompts from becoming one oversized agent instruction. It decomposes goals into bounded missions, reviewable plans, reports, and lessons so autonomous work stays scoped.";
+    return "Goal and mission automation exists to keep complex prompts from becoming one oversized agent instruction. It decomposes goals into bounded missions, reviewable plans, reports, and lessons so agent-assisted work stays scoped and reviewable.";
   }
   if (args.node.id === "subsystem.memory.validation.logs") {
     return "Memory, validation, and logs exist so the tree is not just a temporary analysis. They preserve durable project state, check that memory still matches files, and record what agents changed or learned.";
@@ -910,11 +910,11 @@ function inferHumanSubsystemNodes(
     specs.push({
       id: "subsystem.goal.mission.automation",
       title: "Goal and Mission Automation",
-      summary: "Prompt routing, goal planning, mission folders, self-improvement loops, and Codex automation inferred from goal, route, mission, loop, and assessment files.",
+      summary: "Prompt routing, goal planning, mission folders, assisted dogfooding loops, and Codex automation inferred from goal, route, mission, loop, and assessment files.",
       sourceFiles: goalAutomationFiles,
       responsibilities: [
         "Classify prompts, decompose complex goals, plan bounded missions, run safe mission queues, and record loop outcomes.",
-        "Keep autonomous or semi-autonomous work review-gated by scripts, reports, lessons, and coherence checks."
+        "Keep agent-assisted work review-gated by scripts, reports, lessons, and coherence checks."
       ],
       dependencies: ["workflow:prompt-routing", "workflow:mission-runner", "workflow:self-improvement-loop"],
       confidence: 0.74
@@ -945,7 +945,7 @@ function inferHumanSubsystemNodes(
       summary: "Human documentation, examples, protocol docs, roadmap, and usage guides inferred from docs, README, and example project paths.",
       sourceFiles: docsFiles,
       responsibilities: [
-        "Explain install modes, architecture, agent protocols, self-improvement workflows, data model, examples, and roadmap.",
+        "Explain install modes, architecture, agent protocols, assisted improvement workflows, data model, examples, and roadmap.",
         "Keep public claims aligned with deterministic behavior and current CLI scripts."
       ],
       dependencies: ["docs:readme-and-guides"],

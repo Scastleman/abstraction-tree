@@ -66,6 +66,35 @@ jobs:
 missing ownership, missing files, schema issues, and invalid memory references
 block the PR.
 
+## This Repository's CI
+
+The Abstraction Tree repository uses CI as both a normal TypeScript quality gate
+and a smoke test for the product workflows that should remain deterministic and
+local-only. The workflow runs:
+
+- dependency installation with `npm ci`;
+- formatting, Unicode, lint, typecheck, build, and package smoke checks;
+- the full test suite through `npm run coverage`;
+- strict abstraction-memory validation with `npm run atree:validate`;
+- deterministic evaluation with `npm run atree:evaluate`;
+- doctor diagnostics with `npm run atree -- doctor --project . --strict`;
+- prompt routing with `npm run atree:route`;
+- goal planning with `npm run atree:goal -- --auto-route --review-required`;
+- scope contract creation with `npm run atree -- scope --prompt ... --json`;
+- assessment-pack generation with reduced noisy artifacts;
+- `npm run self:loop -- --assessment-pack-only`, which creates evidence and
+  stops before Codex assessment, mission planning, mission execution, and
+  coherence review.
+
+`npm run coverage` invokes `scripts/run-tests.mjs` under V8 coverage, so CI does
+not run `npm test` a second time. That keeps one clear test-suite pass while
+still preserving coverage artifact generation.
+
+The workflow intentionally does not invoke Codex, run mission execution, use
+provider adapters, push, open pull requests, or depend on secrets. Smoke commands
+may create local generated artifacts in the CI checkout, but the workflow does
+not treat those as durable committed memory.
+
 ## Strict drift gate
 
 Use this when you want CI to show exactly which stable generated memory files

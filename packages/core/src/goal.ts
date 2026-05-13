@@ -1,7 +1,9 @@
 import path from "node:path";
+import type { PromptRouteResult } from "./promptRouter.js";
 import type { ChangeRecord, Concept, FileSummary, Invariant, TreeNode } from "./schema.js";
+import type { ScopeContract } from "./scope.js";
 
-export type GoalMode = "plan-only" | "review-required" | "full-auto" | "create-pr";
+export type GoalMode = "plan-only" | "review-required" | "full-auto" | "create-pr" | "run";
 export type GoalStatus = "planned" | "execution-refused" | "success" | "partial" | "failed";
 export type GoalLayer = "project" | "architecture" | "module" | "file" | "function" | "schema" | "cli" | "docs" | "tests";
 export type GoalMissionPriority = "P0" | "P1" | "P2" | "P3";
@@ -110,8 +112,52 @@ export interface GoalWorkspacePlan {
   coherenceReviewMarkdown: string;
   finalReportMarkdown: string;
   prBodyMarkdown?: string;
+  routeJson?: GoalRouteRecord;
+  routeMarkdown?: string;
+  scopeContract?: ScopeContract;
+  scopeContractMarkdown?: string;
+  checksJson?: GoalChecksRecord;
+  checksMarkdown?: string;
+  goalScore?: GoalCompletionScore;
   reviewCommands: string[];
   selectedLayers: GoalLayer[];
+}
+
+export interface GoalRouteRecord {
+  goal_id: string;
+  created_at: string;
+  route: PromptRouteResult;
+  overridden: boolean;
+  override_reason?: string;
+}
+
+export interface GoalChecksRecord {
+  goal_id: string;
+  status: "not-run" | "passed" | "partial" | "failed";
+  commands: Array<{
+    command: string;
+    status: "not-run" | "passed" | "failed";
+    exit_code?: number;
+    summary: string;
+  }>;
+  notes: string[];
+}
+
+export interface GoalCompletionScore {
+  goal_id: string;
+  status: GoalStatus;
+  score: number;
+  breakdown: {
+    missions_completed: number;
+    checks_passed: number;
+    scope_respected: number;
+    validation_passed: number;
+    evaluation_available: number;
+    docs_or_memory_updated: number;
+    coherence_review_written: number;
+  };
+  penalties: string[];
+  evidence: string[];
 }
 
 interface ScoredItem<T> {
@@ -177,7 +223,7 @@ export function buildGoalWorkspacePlan(input: GoalPlanningInput): GoalWorkspaceP
     source: "file",
     goal_file: normalizeRepoPath(input.goalFile ?? ""),
     mode: input.mode,
-    status: input.mode === "full-auto" ? "execution-refused" : "planned",
+    status: input.mode === "full-auto" || input.mode === "run" ? "execution-refused" : "planned",
     project_root: input.projectRoot ?? "."
   };
   const missions = buildMissions({
@@ -221,13 +267,16 @@ export function buildGoalWorkspacePlan(input: GoalPlanningInput): GoalWorkspaceP
     affectedTree,
     missionPlan,
     missions,
-    coherenceReviewMarkdown: formatCoherenceReview(input.mode),
+    coherenceReviewMarkdown: formatCoherenceReview({
+      mode: input.mode,
+      goalText: input.goalText
+    }),
     finalReportMarkdown: formatFinalReport({
       status: metadata.status,
       workspaceRelativePath,
       missionDirRelativePath,
       reviewCommands,
-      fullAutoRefused: input.mode === "full-auto",
+      fullAutoRefused: input.mode === "full-auto" || input.mode === "run",
       createPr: input.mode === "create-pr"
     }),
     prBodyMarkdown: input.mode === "create-pr"
@@ -579,7 +628,7 @@ function formatGoalAssessment(input: {
     ...listOrNone(likelyRequiredChanges(input.tokens, files)),
     "",
     "## Explicit Non-Goals",
-    "- Replacing the existing self-improvement loop.",
+    "- Replacing the existing repository dogfooding loop.",
     "- Running Codex automatically without a review gate in the first safe version.",
     "- Auto-pushing or auto-merging generated changes.",
     "",
@@ -607,34 +656,45 @@ function formatGoalAssessment(input: {
   ].join("\n");
 }
 
-function formatCoherenceReview(mode: GoalMode): string {
-  const status = mode === "full-auto" ? "execution refused in this safe first version" : "pending execution";
+function formatCoherenceReview(input: { mode: GoalMode; goalText: string }): string {
+  const status = input.mode === "full-auto" || input.mode === "run"
+    ? "execution refused in this safe first version"
+    : "pending execution";
   return [
     "# Goal Coherence Review",
     "",
-    "## Did The Missions Match The Original Goal?",
+    "## Original Goal",
+    summarizeGoal(input.goalText),
+    "",
+    "## Mission Plan Alignment",
     status,
     "",
-    "## Did The Missions Stay In Scope?",
+    "## Missions Completed",
+    "None yet.",
+    "",
+    "## Missions Failed",
+    "None yet.",
+    "",
+    "## Scope Check Result",
     status,
     "",
-    "## Were Expected Affected Areas Respected?",
+    "## Validation / Evaluation Result",
     status,
     "",
-    "## Are Docs / Tests / Tree Memory Aligned?",
+    "## Docs / Tests / Tree Memory Alignment",
     status,
     "",
-    "## Did Validation Pass?",
+    "## Expected vs Actual Affected Areas",
     status,
     "",
-    "## Did Evaluation Improve Or Worsen?",
-    status,
+    "## Overreach Risks",
+    "No implementation diff has been reviewed yet.",
     "",
-    "## What Remains Incomplete?",
-    "Mission execution has not been performed by this command.",
+    "## What Remains Incomplete",
+    "Mission execution, checks, scope check, and post-run coherence review have not been performed by this command.",
     "",
     "## Final Verdict",
-    "planned",
+    input.mode === "full-auto" || input.mode === "run" ? "execution-refused" : "planned",
     ""
   ].join("\n");
 }

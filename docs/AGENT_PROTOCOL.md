@@ -85,9 +85,9 @@ For broad repository assessment, do not make Codex invent the strategy and execu
 
 Codex is the bounded executor. ChatGPT and humans are the preferred strategic assessment layer. Abstraction Tree is the memory, evidence, validation, and scope boundary. Assessment output is still a proposal: validate the mission folder, run the checks requested by each mission, and review the diff before accepting changes.
 
-## Bounded self-improvement loops
+## Bounded local dogfooding loops
 
-When running an autonomous improvement loop on this repository, start from existing memory before exploring widely:
+When running an attended or configured repository-maintenance loop on this repository, start from existing memory before exploring widely:
 
 Bounded loop orchestration in this checkout is Windows PowerShell scoped. Use `npm run abstraction:loop:windows` for the local loop, `powershell -ExecutionPolicy Bypass -File scripts/run-abstraction-loop.ps1 -MaxLoopsThisRun 1` for an attended one-loop smoke run, or `npm run missions:plan` / `npm run missions:run` for the mission queue. Do not run those loop commands in public CI; macOS/Linux contributors can use the Node-based core checks such as `npm run build`, `npm test`, `npm run atree:validate`, and `npm run diff:summary`.
 
