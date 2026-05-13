@@ -1141,6 +1141,12 @@
       "kind": "relative"
     },
     {
+      "from": "scripts/run-coverage.test.mjs",
+      "to": "scripts/run-coverage.mjs",
+      "specifier": "./run-coverage.mjs",
+      "kind": "relative"
+    },
+    {
       "from": "scripts/run-full-self-improvement-loop.mjs",
       "to": "scripts/create-assessment-pack.mjs",
       "specifier": "./create-assessment-pack.mjs",
@@ -2510,6 +2516,41 @@
       "from": "scripts/release-dry-run.mjs",
       "specifier": "node:url",
       "packageName": "node:url"
+    },
+    {
+      "from": "scripts/run-coverage.mjs",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "scripts/run-coverage.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/run-coverage.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/run-coverage.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/run-coverage.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/run-coverage.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/run-coverage.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
     },
     {
       "from": "scripts/run-full-self-improvement-loop.mjs",

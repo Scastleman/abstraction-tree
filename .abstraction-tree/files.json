@@ -1016,8 +1016,8 @@
     "extension": ".json",
     "language": "JSON",
     "parseStrategy": "regex",
-    "contentHash": "df8c6c7f8c2c35e76d030cdaa041f6dd422fa99ffaaaf8ccfc68ff103334afc2",
-    "sizeBytes": 2803,
+    "contentHash": "73d6eebf3c7df31fe76c965bc49e9e22c072a579422d94030d3cbf3cbaaaedb9",
+    "sizeBytes": 2777,
     "lines": 51,
     "imports": [],
     "exports": [],
@@ -6570,6 +6570,79 @@
       "subsystem.goal.mission.automation",
       "subsystem.goal.mission.automation.slice.mission.runner.loop",
       "subsystem.goal.mission.automation.file.scripts.run.codex.missions.ps1"
+    ]
+  },
+  {
+    "path": "scripts/run-coverage.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "8852e7293e85831c4400be892464dd436064dc61c5a5125b0e71b6a83b4fd0f1",
+    "sizeBytes": 2077,
+    "lines": 74,
+    "imports": [
+      "node:child_process",
+      "node:fs/promises",
+      "node:path",
+      "node:url"
+    ],
+    "exports": [
+      "main",
+      "coverageDirectory",
+      "buildCoverageEnv",
+      "isCoverageArtifact"
+    ],
+    "symbols": [
+      "defaultCoverageDirectory",
+      "main",
+      "coverageDirectoryPath",
+      "testScriptPath",
+      "exitCode",
+      "artifacts",
+      "coverageArtifacts",
+      "coverageDirectory",
+      "buildCoverageEnv",
+      "isCoverageArtifact",
+      "runNode",
+      "child",
+      "formatPath"
+    ],
+    "isTest": false,
+    "summary": "run-coverage.mjs is a JavaScript implementation file. AST-backed scan. Defines defaultCoverageDirectory, main, coverageDirectoryPath, testScriptPath, exitCode. Depends on node:child_process, node:fs/promises, node:path, node:url.",
+    "ownedByNodeIds": [
+      "file.scripts.run.coverage.mjs",
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.run.coverage.mjs"
+    ]
+  },
+  {
+    "path": "scripts/run-coverage.test.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "80edd29b6eee6bf02ea9e6d48d0c2988e928697fe00d1990dd642b97ca171ea6",
+    "sizeBytes": 939,
+    "lines": 26,
+    "imports": [
+      "node:assert/strict",
+      "node:path",
+      "node:test",
+      "./run-coverage.mjs"
+    ],
+    "exports": [],
+    "symbols": [
+      "root"
+    ],
+    "isTest": true,
+    "summary": "run-coverage.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines root. Depends on node:assert/strict, node:path, node:test, ./run-coverage.mjs.",
+    "ownedByNodeIds": [
+      "file.scripts.run.coverage.test.mjs",
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.run.coverage.test.mjs"
     ]
   },
   {

@@ -15,7 +15,7 @@
     "dev:app": "npm run dev -w @abstraction-tree/app",
     "lint": "node scripts/lint.mjs",
     "typecheck": "npm run build -w @abstraction-tree/core && npm run typecheck -w @abstraction-tree/core && npm run typecheck -w @abstraction-tree/cli && npm run typecheck -w @abstraction-tree/app",
-    "coverage": "node --experimental-test-coverage scripts/run-tests.mjs",
+    "coverage": "node scripts/run-coverage.mjs",
     "format": "node scripts/format.mjs --write",
     "format:check": "node scripts/format.mjs --check",
     "check:unicode": "node scripts/check-unicode.mjs",

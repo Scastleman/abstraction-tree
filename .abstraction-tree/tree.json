@@ -922,6 +922,8 @@
       "file.scripts.run.abstraction.loop.scheduled.ps1",
       "file.scripts.run.abstraction.loop.ps1",
       "file.scripts.run.codex.missions.ps1",
+      "file.scripts.run.coverage.mjs",
+      "file.scripts.run.coverage.test.mjs",
       "file.scripts.run.full.self.improvement.loop.mjs",
       "file.scripts.run.full.self.improvement.loop.test.mjs",
       "file.scripts.run.missions.mjs",
@@ -957,6 +959,8 @@
       "scripts/run-abstraction-loop-scheduled.ps1",
       "scripts/run-abstraction-loop.ps1",
       "scripts/run-codex-missions.ps1",
+      "scripts/run-coverage.mjs",
+      "scripts/run-coverage.test.mjs",
       "scripts/run-full-self-improvement-loop.mjs",
       "scripts/run-full-self-improvement-loop.test.mjs",
       "scripts/run-missions.mjs",
@@ -992,6 +996,8 @@
       "scripts/run-abstraction-loop-scheduled.ps1",
       "scripts/run-abstraction-loop.ps1",
       "scripts/run-codex-missions.ps1",
+      "scripts/run-coverage.mjs",
+      "scripts/run-coverage.test.mjs",
       "scripts/run-full-self-improvement-loop.mjs",
       "scripts/run-full-self-improvement-loop.test.mjs",
       "scripts/run-missions.mjs",
@@ -1037,6 +1043,8 @@
         "scripts/run-abstraction-loop-scheduled.ps1",
         "scripts/run-abstraction-loop.ps1",
         "scripts/run-codex-missions.ps1",
+        "scripts/run-coverage.mjs",
+        "scripts/run-coverage.test.mjs",
         "scripts/run-full-self-improvement-loop.mjs",
         "scripts/run-full-self-improvement-loop.test.mjs",
         "scripts/run-missions.mjs",
@@ -1049,9 +1057,9 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents the Scripts module or folder within Package / Workspace Layer. It exists to group files under scripts/ so changes can be scoped to a concrete ownership boundary instead of the whole repository. Owned files include scripts/app-node-accessors.test.mjs, scripts/check-changelog.mjs, scripts/check-changelog.test.mjs, scripts/check-unicode.mjs, scripts/check-unicode.test.mjs, scripts/create-assessment-pack.mjs, and 27 more out of 33 total. Its child nodes map file-level responsibilities such as app-node-accessors.test.mjs, check-changelog.mjs, check-changelog.test.mjs, check-unicode.mjs, check-unicode.test.mjs, create-assessment-pack.mjs, and 27 more. Use this node when a prompt targets a package, folder, or local subsystem. Before broad edits here, check whether an architecture node also owns the affected files and whether tests or docs under the same module need to move with the change.",
-    "reasonForExistence": "This module node exists to group 33 scanned file(s) under scripts/ so folder-level prompts have a clear ownership boundary.",
-    "separationLogic": "Separation logic: file children are partitioned one scanned file per node. Current file partitions app-node-accessors.test.mjs, check-changelog.mjs, check-changelog.test.mjs, check-unicode.mjs, check-unicode.test.mjs, create-assessment-pack.mjs, and 27 more. This mirrors 33 owned file(s), making each child the narrowest durable edit boundary available to the deterministic scanner. Sibling files stay separate unless imports, tests, invariants, or shared symbols show that a prompt crosses file boundaries."
+    "explanation": "This node represents the Scripts module or folder within Package / Workspace Layer. It exists to group files under scripts/ so changes can be scoped to a concrete ownership boundary instead of the whole repository. Owned files include scripts/app-node-accessors.test.mjs, scripts/check-changelog.mjs, scripts/check-changelog.test.mjs, scripts/check-unicode.mjs, scripts/check-unicode.test.mjs, scripts/create-assessment-pack.mjs, and 29 more out of 35 total. Its child nodes map file-level responsibilities such as app-node-accessors.test.mjs, check-changelog.mjs, check-changelog.test.mjs, check-unicode.mjs, check-unicode.test.mjs, create-assessment-pack.mjs, and 29 more. Use this node when a prompt targets a package, folder, or local subsystem. Before broad edits here, check whether an architecture node also owns the affected files and whether tests or docs under the same module need to move with the change.",
+    "reasonForExistence": "This module node exists to group 35 scanned file(s) under scripts/ so folder-level prompts have a clear ownership boundary.",
+    "separationLogic": "Separation logic: file children are partitioned one scanned file per node. Current file partitions app-node-accessors.test.mjs, check-changelog.mjs, check-changelog.test.mjs, check-unicode.mjs, check-unicode.test.mjs, create-assessment-pack.mjs, and 29 more. This mirrors 35 owned file(s), making each child the narrowest durable edit boundary available to the deterministic scanner. Sibling files stay separate unless imports, tests, invariants, or shared symbols show that a prompt crosses file boundaries."
   },
   {
     "id": "file.github.workflows.ci.yml",
@@ -7221,6 +7229,96 @@
     "confidence": 0.65,
     "explanation": "This node represents scripts/run-codex-missions.ps1, a file-level ownership boundary under Scripts. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show PowerShell content with 241 line(s), 0 import(s), 0 export(s), and 39 symbol(s). Important symbols include Ensure, Read, Save, Normalize, Add, Invoke, and 33 more. Higher-level nodes depending on this file include Goal and Mission Automation, Mission Runner and Loop Scripts, run-codex-missions.ps1, Command, Mission. Related concept nodes include Command, Mission. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make scripts/run-codex-missions.ps1 a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
+  },
+  {
+    "id": "file.scripts.run.coverage.mjs",
+    "name": "run-coverage.mjs",
+    "title": "run-coverage.mjs",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "run-coverage.mjs is a JavaScript implementation file. AST-backed scan. Defines defaultCoverageDirectory, main, coverageDirectoryPath, testScriptPath, exitCode. Depends on node:child_process, node:fs/promises, node:path, node:url.",
+    "parent": "module.scripts",
+    "parentId": "module.scripts",
+    "children": [],
+    "sourceFiles": [
+      "scripts/run-coverage.mjs"
+    ],
+    "ownedFiles": [
+      "scripts/run-coverage.mjs"
+    ],
+    "responsibilities": [
+      "run-coverage.mjs is a JavaScript implementation file. AST-backed scan. Defines defaultCoverageDirectory, main, coverageDirectoryPath, testScriptPath, exitCode. Depends on node:child_process, node:fs/promises, node:path, node:url."
+    ],
+    "dependencies": [
+      "import:node:child_process",
+      "import:node:fs/promises",
+      "import:node:path",
+      "import:node:url"
+    ],
+    "dependsOn": [
+      "import:node:child_process",
+      "import:node:fs/promises",
+      "import:node:path",
+      "import:node:url"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "scripts/run-coverage.mjs"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65,
+    "explanation": "This node represents scripts/run-coverage.mjs, a file-level ownership boundary under Scripts. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show JavaScript content with 74 line(s), 4 import(s), 4 export(s), and 13 symbol(s). Important symbols include defaultCoverageDirectory, main, coverageDirectoryPath, testScriptPath, exitCode, artifacts, and 7 more. Exports include main, coverageDirectory, buildCoverageEnv, isCoverageArtifact. Imports include node:child_process, node:fs/promises, node:path, node:url, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Tests and Quality Gates, Script Quality Gates, run-coverage.mjs. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "reasonForExistence": "This file node exists to make scripts/run-coverage.mjs a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
+  },
+  {
+    "id": "file.scripts.run.coverage.test.mjs",
+    "name": "run-coverage.test.mjs",
+    "title": "run-coverage.test.mjs",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "run-coverage.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines root. Depends on node:assert/strict, node:path, node:test, ./run-coverage.mjs.",
+    "parent": "module.scripts",
+    "parentId": "module.scripts",
+    "children": [],
+    "sourceFiles": [
+      "scripts/run-coverage.test.mjs"
+    ],
+    "ownedFiles": [
+      "scripts/run-coverage.test.mjs"
+    ],
+    "responsibilities": [
+      "run-coverage.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines root. Depends on node:assert/strict, node:path, node:test, ./run-coverage.mjs."
+    ],
+    "dependencies": [
+      "import:node:assert/strict",
+      "import:node:path",
+      "import:node:test",
+      "import:./run-coverage.mjs"
+    ],
+    "dependsOn": [
+      "import:node:assert/strict",
+      "import:node:path",
+      "import:node:test",
+      "import:./run-coverage.mjs"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "scripts/run-coverage.test.mjs"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65,
+    "explanation": "This node represents scripts/run-coverage.test.mjs, a file-level ownership boundary under Scripts. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show JavaScript content with 26 line(s), 4 import(s), 0 export(s), and 1 symbol(s). Important symbols include root. Imports include node:assert/strict, node:path, node:test, ./run-coverage.mjs, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Tests and Quality Gates, Script Quality Gates, run-coverage.test.mjs. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "reasonForExistence": "This file node exists to make scripts/run-coverage.test.mjs a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
     "id": "file.scripts.run.full.self.improvement.loop.mjs",
@@ -19027,6 +19125,8 @@
       "scripts/mission-schema.test.mjs",
       "scripts/pack-smoke-test.mjs",
       "scripts/project-text-files.test.mjs",
+      "scripts/run-coverage.mjs",
+      "scripts/run-coverage.test.mjs",
       "scripts/run-full-self-improvement-loop.test.mjs",
       "scripts/run-missions.test.mjs",
       "scripts/run-tests.mjs",
@@ -19083,6 +19183,8 @@
       "scripts/mission-schema.test.mjs",
       "scripts/pack-smoke-test.mjs",
       "scripts/project-text-files.test.mjs",
+      "scripts/run-coverage.mjs",
+      "scripts/run-coverage.test.mjs",
       "scripts/run-full-self-improvement-loop.test.mjs",
       "scripts/run-missions.test.mjs",
       "scripts/run-tests.mjs",
@@ -19189,6 +19291,8 @@
       "file.scripts.pack.smoke.test.mjs",
       "file.scripts.project.text.files.mjs",
       "file.scripts.project.text.files.test.mjs",
+      "file.scripts.run.coverage.mjs",
+      "file.scripts.run.coverage.test.mjs",
       "file.scripts.run.full.self.improvement.loop.mjs",
       "file.scripts.run.full.self.improvement.loop.test.mjs",
       "file.scripts.run.missions.mjs",
@@ -19231,6 +19335,7 @@
       "import:./project-text-files.mjs",
       "import:./propose.js",
       "import:./routeCommand.js",
+      "import:./run-coverage.mjs",
       "import:./run-full-self-improvement-loop.mjs",
       "import:./run-missions.mjs",
       "import:./run-tests.mjs",
@@ -19378,6 +19483,8 @@
       "file.scripts.pack.smoke.test.mjs",
       "file.scripts.project.text.files.mjs",
       "file.scripts.project.text.files.test.mjs",
+      "file.scripts.run.coverage.mjs",
+      "file.scripts.run.coverage.test.mjs",
       "file.scripts.run.full.self.improvement.loop.mjs",
       "file.scripts.run.full.self.improvement.loop.test.mjs",
       "file.scripts.run.missions.mjs",
@@ -19420,6 +19527,7 @@
       "import:./project-text-files.mjs",
       "import:./propose.js",
       "import:./routeCommand.js",
+      "import:./run-coverage.mjs",
       "import:./run-full-self-improvement-loop.mjs",
       "import:./run-missions.mjs",
       "import:./run-tests.mjs",
@@ -19527,6 +19635,8 @@
         "scripts/mission-schema.test.mjs",
         "scripts/pack-smoke-test.mjs",
         "scripts/project-text-files.test.mjs",
+        "scripts/run-coverage.mjs",
+        "scripts/run-coverage.test.mjs",
         "scripts/run-full-self-improvement-loop.test.mjs",
         "scripts/run-missions.test.mjs",
         "scripts/run-tests.mjs",
@@ -19536,7 +19646,7 @@
       "mustNotChange": []
     },
     "confidence": 0.7,
-    "explanation": "This node represents the Tests and Quality Gates human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include .github/workflows/ci.yml, .github/workflows/release.yml, examples/inventory-api/tests/inventory.test.js, examples/small-web-app/tests/checkout.test.js, packages/app/src/app.test.tsx, packages/cli/src/agentHealth.test.ts, packages/cli/src/apiState.test.ts, and 47 more out of 54 total. It is decomposed into responsibility slices such as Core Tests, CLI Tests, App Tests, Script Quality Gates, CI Workflows, Example Tests so the branch does not stop at one large aggregate. Its main responsibilities are Verify deterministic behavior, CLI contracts, app rendering, memory schema, fixtures, and quality scripts, Act as the regression boundary before changes are committed, pushed, or run through automation. It depends on evidence such as bin:abstraction-tree, bin:atree, entrypoint:packages/app/src/main.tsx, entrypoint:packages/cli/src/index.ts, entrypoint:packages/core/src/index.ts, file.examples.inventory.api.tests.inventory.test.js, and 181 more. Other nodes depending on it include Change, Tree, Command, Mission, and 27 more. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
+    "explanation": "This node represents the Tests and Quality Gates human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include .github/workflows/ci.yml, .github/workflows/release.yml, examples/inventory-api/tests/inventory.test.js, examples/small-web-app/tests/checkout.test.js, packages/app/src/app.test.tsx, packages/cli/src/agentHealth.test.ts, packages/cli/src/apiState.test.ts, and 49 more out of 56 total. It is decomposed into responsibility slices such as Core Tests, CLI Tests, App Tests, Script Quality Gates, CI Workflows, Example Tests so the branch does not stop at one large aggregate. Its main responsibilities are Verify deterministic behavior, CLI contracts, app rendering, memory schema, fixtures, and quality scripts, Act as the regression boundary before changes are committed, pushed, or run through automation. It depends on evidence such as bin:abstraction-tree, bin:atree, entrypoint:packages/app/src/main.tsx, entrypoint:packages/cli/src/index.ts, entrypoint:packages/core/src/index.ts, file.examples.inventory.api.tests.inventory.test.js, and 184 more. Other nodes depending on it include Change, Tree, Command, Mission, and 27 more. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
     "reasonForExistence": "Tests and quality gates exist to keep deterministic behavior stable as the tree builder, scanner, app, automation, and CLI evolve.",
     "separationLogic": "Separation logic: children are responsibility slices inside this subsystem. The builder groups files by evidence such as UI component role, app shell/state role, command/API surface, scanner/tree/context pipeline, memory/schema/validation role, mission automation, documentation, package distribution, or test/quality boundary. Current responsibility partitions Core Tests, CLI Tests, App Tests, Script Quality Gates, CI Workflows, Example Tests. Pick the responsibility slice that matches the prompt, then move to its file leaves before editing."
   },
@@ -21589,6 +21699,8 @@
       "subsystem.tests.quality.file.scripts.mission.schema.test.mjs",
       "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs",
       "subsystem.tests.quality.file.scripts.project.text.files.test.mjs",
+      "subsystem.tests.quality.file.scripts.run.coverage.mjs",
+      "subsystem.tests.quality.file.scripts.run.coverage.test.mjs",
       "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs",
       "subsystem.tests.quality.file.scripts.run.missions.test.mjs",
       "subsystem.tests.quality.file.scripts.run.tests.mjs",
@@ -21612,6 +21724,8 @@
       "scripts/mission-schema.test.mjs",
       "scripts/pack-smoke-test.mjs",
       "scripts/project-text-files.test.mjs",
+      "scripts/run-coverage.mjs",
+      "scripts/run-coverage.test.mjs",
       "scripts/run-full-self-improvement-loop.test.mjs",
       "scripts/run-missions.test.mjs",
       "scripts/run-tests.mjs",
@@ -21635,6 +21749,8 @@
       "scripts/mission-schema.test.mjs",
       "scripts/pack-smoke-test.mjs",
       "scripts/project-text-files.test.mjs",
+      "scripts/run-coverage.mjs",
+      "scripts/run-coverage.test.mjs",
       "scripts/run-full-self-improvement-loop.test.mjs",
       "scripts/run-missions.test.mjs",
       "scripts/run-tests.mjs",
@@ -21668,6 +21784,8 @@
       "file.scripts.pack.smoke.test.mjs",
       "file.scripts.project.text.files.mjs",
       "file.scripts.project.text.files.test.mjs",
+      "file.scripts.run.coverage.mjs",
+      "file.scripts.run.coverage.test.mjs",
       "file.scripts.run.full.self.improvement.loop.mjs",
       "file.scripts.run.full.self.improvement.loop.test.mjs",
       "file.scripts.run.missions.mjs",
@@ -21685,6 +21803,7 @@
       "import:./lint.mjs",
       "import:./mission-schema.mjs",
       "import:./project-text-files.mjs",
+      "import:./run-coverage.mjs",
       "import:./run-full-self-improvement-loop.mjs",
       "import:./run-missions.mjs",
       "import:./run-tests.mjs",
@@ -21739,6 +21858,8 @@
       "file.scripts.pack.smoke.test.mjs",
       "file.scripts.project.text.files.mjs",
       "file.scripts.project.text.files.test.mjs",
+      "file.scripts.run.coverage.mjs",
+      "file.scripts.run.coverage.test.mjs",
       "file.scripts.run.full.self.improvement.loop.mjs",
       "file.scripts.run.full.self.improvement.loop.test.mjs",
       "file.scripts.run.missions.mjs",
@@ -21756,6 +21877,7 @@
       "import:./lint.mjs",
       "import:./mission-schema.mjs",
       "import:./project-text-files.mjs",
+      "import:./run-coverage.mjs",
       "import:./run-full-self-improvement-loop.mjs",
       "import:./run-missions.mjs",
       "import:./run-tests.mjs",
@@ -21809,6 +21931,8 @@
         "scripts/mission-schema.test.mjs",
         "scripts/pack-smoke-test.mjs",
         "scripts/project-text-files.test.mjs",
+        "scripts/run-coverage.mjs",
+        "scripts/run-coverage.test.mjs",
         "scripts/run-full-self-improvement-loop.test.mjs",
         "scripts/run-missions.test.mjs",
         "scripts/run-tests.mjs",
@@ -21818,9 +21942,9 @@
       "mustNotChange": []
     },
     "confidence": 0.66,
-    "explanation": "This node represents the Script Quality Gates responsibility slice within Tests and Quality Gates. It exists to break a large subsystem into a smaller human-editable boundary before reaching concrete files. This slice covers scripts/app-node-accessors.test.mjs, scripts/check-changelog.mjs, scripts/check-changelog.test.mjs, scripts/check-unicode.mjs, scripts/check-unicode.test.mjs, scripts/create-assessment-pack.test.mjs, scripts/cross-platform-automation.test.mjs, and 14 more out of 21 file(s). Its file leaves include app-node-accessors.test.mjs, check-changelog.mjs, check-changelog.test.mjs, check-unicode.mjs, check-unicode.test.mjs, create-assessment-pack.test.mjs, and 15 more. Its responsibility is Verify linting, formatting, mission runner, assessment, and helper scripts. Use this slice when a prompt names this narrower responsibility; inspect its file leaves and sibling slices before widening to the whole subsystem.",
-    "reasonForExistence": "This slice exists to make Tests and Quality Gates smaller and more actionable. It gathers 21 file(s) that share the Script Quality Gates responsibility, so a prompt can stop here before touching the whole subsystem.",
-    "separationLogic": "Separation logic: children are concrete file leaves for this responsibility slice. Current file leaves app-node-accessors.test.mjs, check-changelog.mjs, check-changelog.test.mjs, check-unicode.mjs, check-unicode.test.mjs, create-assessment-pack.test.mjs, and 15 more. These leaves reference the same scanned files that also appear in Project Indexes, but they are shown here in subsystem context for human navigation and scoped agent edits."
+    "explanation": "This node represents the Script Quality Gates responsibility slice within Tests and Quality Gates. It exists to break a large subsystem into a smaller human-editable boundary before reaching concrete files. This slice covers scripts/app-node-accessors.test.mjs, scripts/check-changelog.mjs, scripts/check-changelog.test.mjs, scripts/check-unicode.mjs, scripts/check-unicode.test.mjs, scripts/create-assessment-pack.test.mjs, scripts/cross-platform-automation.test.mjs, and 16 more out of 23 file(s). Its file leaves include app-node-accessors.test.mjs, check-changelog.mjs, check-changelog.test.mjs, check-unicode.mjs, check-unicode.test.mjs, create-assessment-pack.test.mjs, and 17 more. Its responsibility is Verify linting, formatting, mission runner, assessment, and helper scripts. Use this slice when a prompt names this narrower responsibility; inspect its file leaves and sibling slices before widening to the whole subsystem.",
+    "reasonForExistence": "This slice exists to make Tests and Quality Gates smaller and more actionable. It gathers 23 file(s) that share the Script Quality Gates responsibility, so a prompt can stop here before touching the whole subsystem.",
+    "separationLogic": "Separation logic: children are concrete file leaves for this responsibility slice. Current file leaves app-node-accessors.test.mjs, check-changelog.mjs, check-changelog.test.mjs, check-unicode.mjs, check-unicode.test.mjs, create-assessment-pack.test.mjs, and 17 more. These leaves reference the same scanned files that also appear in Project Indexes, but they are shown here in subsystem context for human navigation and scoped agent edits."
   },
   {
     "id": "subsystem.tests.quality.file.scripts.app.node.accessors.test.mjs",
@@ -22617,6 +22741,102 @@
     "confidence": 0.62,
     "explanation": "This node is a subsystem-context file leaf for scripts/project-text-files.test.mjs. It exists under Script Quality Gates so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show JavaScript content with 45 line(s), 5 import(s), 0 export(s), and 1 symbol(s). Important symbols include root. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Script Quality Gates branch reaches scripts/project-text-files.test.mjs, a concrete file an agent can inspect or edit after scope has been narrowed."
+  },
+  {
+    "id": "subsystem.tests.quality.file.scripts.run.coverage.mjs",
+    "name": "run-coverage.mjs",
+    "title": "run-coverage.mjs",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "File leaf for scripts/run-coverage.mjs within Tests and Quality Gates.",
+    "parent": "subsystem.tests.quality.slice.script.quality",
+    "parentId": "subsystem.tests.quality.slice.script.quality",
+    "children": [],
+    "sourceFiles": [
+      "scripts/run-coverage.mjs"
+    ],
+    "ownedFiles": [
+      "scripts/run-coverage.mjs"
+    ],
+    "responsibilities": [
+      "run-coverage.mjs is a JavaScript implementation file. AST-backed scan. Defines defaultCoverageDirectory, main, coverageDirectoryPath, testScriptPath, exitCode. Depends on node:child_process, node:fs/promises, node:path, node:url."
+    ],
+    "dependencies": [
+      "file.scripts.run.coverage.mjs",
+      "import:node:child_process",
+      "import:node:fs/promises",
+      "import:node:path",
+      "import:node:url"
+    ],
+    "dependsOn": [
+      "file.scripts.run.coverage.mjs",
+      "import:node:child_process",
+      "import:node:fs/promises",
+      "import:node:path",
+      "import:node:url"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "scripts/run-coverage.mjs"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.62,
+    "explanation": "This node is a subsystem-context file leaf for scripts/run-coverage.mjs. It exists under Script Quality Gates so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show JavaScript content with 74 line(s), 4 import(s), 4 export(s), and 13 symbol(s). Important symbols include defaultCoverageDirectory, main, coverageDirectoryPath, testScriptPath, exitCode, artifacts, and 7 more. Exports include main, coverageDirectory, buildCoverageEnv, isCoverageArtifact. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "reasonForExistence": "This leaf exists so the Script Quality Gates branch reaches scripts/run-coverage.mjs, a concrete file an agent can inspect or edit after scope has been narrowed."
+  },
+  {
+    "id": "subsystem.tests.quality.file.scripts.run.coverage.test.mjs",
+    "name": "run-coverage.test.mjs",
+    "title": "run-coverage.test.mjs",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "File leaf for scripts/run-coverage.test.mjs within Tests and Quality Gates.",
+    "parent": "subsystem.tests.quality.slice.script.quality",
+    "parentId": "subsystem.tests.quality.slice.script.quality",
+    "children": [],
+    "sourceFiles": [
+      "scripts/run-coverage.test.mjs"
+    ],
+    "ownedFiles": [
+      "scripts/run-coverage.test.mjs"
+    ],
+    "responsibilities": [
+      "run-coverage.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines root. Depends on node:assert/strict, node:path, node:test, ./run-coverage.mjs."
+    ],
+    "dependencies": [
+      "file.scripts.run.coverage.test.mjs",
+      "import:./run-coverage.mjs",
+      "import:node:assert/strict",
+      "import:node:path",
+      "import:node:test"
+    ],
+    "dependsOn": [
+      "file.scripts.run.coverage.test.mjs",
+      "import:./run-coverage.mjs",
+      "import:node:assert/strict",
+      "import:node:path",
+      "import:node:test"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "scripts/run-coverage.test.mjs"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.62,
+    "explanation": "This node is a subsystem-context file leaf for scripts/run-coverage.test.mjs. It exists under Script Quality Gates so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show JavaScript content with 26 line(s), 4 import(s), 0 export(s), and 1 symbol(s). Important symbols include root. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "reasonForExistence": "This leaf exists so the Script Quality Gates branch reaches scripts/run-coverage.test.mjs, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
     "id": "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs",
