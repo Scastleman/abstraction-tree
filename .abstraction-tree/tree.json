@@ -1414,7 +1414,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents docs/CI_INTEGRATION.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 174 line(s), 0 import(s), 0 export(s), and 10 symbol(s). Important symbols include CI Integration, One-time setup, Minimal validation, Strict drift gate, PR context pack artifact, Choosing a strategy, and 4 more. Higher-level nodes depending on this file include Docs and Examples, Guides, CI_INTEGRATION.md, Tree, Context, and 3 more. Related concept nodes include Tree, Context, Abstraction, Context Pack, and 1 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents docs/CI_INTEGRATION.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 183 line(s), 0 import(s), 0 export(s), and 10 symbol(s). Important symbols include CI Integration, One-time setup, Minimal validation, Strict drift gate, PR context pack artifact, Choosing a strategy, and 4 more. Higher-level nodes depending on this file include Docs and Examples, Guides, CI_INTEGRATION.md, Tree, Context, and 3 more. Related concept nodes include Tree, Context, Abstraction, Context Pack, and 1 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make docs/CI_INTEGRATION.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -1624,7 +1624,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents docs/PACKAGING.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 173 line(s), 0 import(s), 0 export(s), and 10 symbol(s). Important symbols include Packaging and install modes, Core-only package, Full package, Source of truth, Switching modes, Publishable packages, and 4 more. Higher-level nodes depending on this file include Docs and Examples, Guides, PACKAGING.md. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents docs/PACKAGING.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 175 line(s), 0 import(s), 0 export(s), and 10 symbol(s). Important symbols include Packaging and install modes, Core-only package, Full package, Source of truth, Switching modes, Publishable packages, and 4 more. Higher-level nodes depending on this file include Docs and Examples, Guides, PACKAGING.md. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make docs/PACKAGING.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -6104,7 +6104,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents README.md, a file-level ownership boundary under Root. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 524 line(s), 0 import(s), 0 export(s), and 36 symbol(s). Important symbols include to, Abstraction Tree, Core promise, Automation maturity ladder, Prompt Routing, Goal-Driven Autopilot, and 30 more. Higher-level nodes depending on this file include Docs and Examples, Project README, README.md, Change, Tree, and 10 more. Related concept nodes include Change, Tree, Command, Goal, and 8 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents README.md, a file-level ownership boundary under Root. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 538 line(s), 0 import(s), 0 export(s), and 35 symbol(s). Important symbols include to, Abstraction Tree, Core promise, Automation maturity ladder, Prompt Routing, Goal-Driven Autopilot, and 29 more. Higher-level nodes depending on this file include Docs and Examples, Project README, README.md, Change, Tree, and 10 more. Related concept nodes include Change, Tree, Command, Goal, and 8 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make README.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -16480,7 +16480,7 @@
       "mustNotChange": []
     },
     "confidence": 0.62,
-    "explanation": "This node is a subsystem-context file leaf for docs/CI_INTEGRATION.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 174 line(s), 0 import(s), 0 export(s), and 10 symbol(s). Important symbols include CI Integration, One-time setup, Minimal validation, Strict drift gate, PR context pack artifact, Choosing a strategy, and 4 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for docs/CI_INTEGRATION.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 183 line(s), 0 import(s), 0 export(s), and 10 symbol(s). Important symbols include CI Integration, One-time setup, Minimal validation, Strict drift gate, PR context pack artifact, Choosing a strategy, and 4 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Guides branch reaches docs/CI_INTEGRATION.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -16720,7 +16720,7 @@
       "mustNotChange": []
     },
     "confidence": 0.62,
-    "explanation": "This node is a subsystem-context file leaf for docs/PACKAGING.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 173 line(s), 0 import(s), 0 export(s), and 10 symbol(s). Important symbols include Packaging and install modes, Core-only package, Full package, Source of truth, Switching modes, Publishable packages, and 4 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for docs/PACKAGING.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 175 line(s), 0 import(s), 0 export(s), and 10 symbol(s). Important symbols include Packaging and install modes, Core-only package, Full package, Source of truth, Switching modes, Publishable packages, and 4 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Guides branch reaches docs/PACKAGING.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -16883,7 +16883,7 @@
       "mustNotChange": []
     },
     "confidence": 0.62,
-    "explanation": "This node is a subsystem-context file leaf for README.md. It exists under Project README so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 524 line(s), 0 import(s), 0 export(s), and 36 symbol(s). Important symbols include to, Abstraction Tree, Core promise, Automation maturity ladder, Prompt Routing, Goal-Driven Autopilot, and 30 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for README.md. It exists under Project README so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 538 line(s), 0 import(s), 0 export(s), and 35 symbol(s). Important symbols include to, Abstraction Tree, Core promise, Automation maturity ladder, Prompt Routing, Goal-Driven Autopilot, and 29 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Project README branch reaches README.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {

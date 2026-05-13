@@ -2,8 +2,7 @@
 
 [![CI](https://github.com/Scastleman/abstraction-tree/actions/workflows/ci.yml/badge.svg)](https://github.com/Scastleman/abstraction-tree/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![npm: abstraction-tree](https://img.shields.io/npm/v/abstraction-tree.svg?label=abstraction-tree)](https://www.npmjs.com/package/abstraction-tree)
-[![npm: @abstraction-tree/cli](https://img.shields.io/npm/v/%40abstraction-tree%2Fcli.svg?label=%40abstraction-tree%2Fcli)](https://www.npmjs.com/package/@abstraction-tree/cli)
+[![npm packages](https://img.shields.io/badge/npm-planned%20not%20published%20yet-lightgrey.svg)](docs/PACKAGING.md)
 
 Abstraction Tree is a local-first codebase understanding system. It scans an existing software project, builds a deterministic abstraction-memory baseline, and gives both humans and coding agents a shared map of the codebase.
 
@@ -17,12 +16,25 @@ Tree nodes keep a short `summary`, a richer `explanation`, an explicit `reasonFo
 
 Add Abstraction Tree to any repo, build the initial memory tree, and make the project easier to inspect, prompt, and safely change.
 
+These are the intended npm commands after the first public package release:
+
 ```bash
 cd your-existing-project
+npm install -D abstraction-tree
 npx atree init --with-app
 npx atree scan
 npx atree doctor
 npx atree serve
+```
+
+The npm package names are planned but not published yet. In this repository today, use the local workspace commands:
+
+```bash
+npm install
+npm run build
+npm run atree -- scan --project .
+npm run atree -- doctor --project .
+npm run atree -- serve --project .
 ```
 
 The local visual app shows:
@@ -125,9 +137,11 @@ Related workflow docs:
 - [LLM abstraction interface](docs/ARCHITECTURE.md#llm-abstraction-interface)
 - [Full self-improvement loop](docs/FULL_SELF_IMPROVEMENT_LOOP.md)
 
-## Two install modes
+## Planned npm install modes
 
 Abstraction Tree is intentionally split into two adoption paths.
+
+The package names in this section are the intended public npm release names. Until the first release is published, `npm install -D @abstraction-tree/cli` and `npm install -D abstraction-tree` will return `E404 package not found`; use the local workspace scripts above.
 
 ### 1. Core-only mode
 

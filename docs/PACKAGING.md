@@ -2,6 +2,8 @@
 
 Abstraction Tree supports two install modes because the abstraction layer should be useful even when a developer does not want a visual interface.
 
+The package names below are the intended public npm package names. They are valid workspace package names in this repository, but they are not installable from the npm registry until the first publish. Before that release, use the repo-local scripts from the root README.
+
 ## Core-only package
 
 Package: `@abstraction-tree/cli`
@@ -68,7 +70,7 @@ This updates `.abstraction-tree/config.json` only.
 
 ## Publishable packages
 
-Releases currently cover these npm packages:
+The planned public release covers these npm packages:
 
 ```txt
 @abstraction-tree/core

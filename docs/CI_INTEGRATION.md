@@ -14,13 +14,22 @@ changes.
 
 ## One-time setup
 
-Install the core CLI and create the initial memory baseline:
+After the first npm release, install the core CLI and create the initial memory baseline:
 
 ```bash
 npm install -D @abstraction-tree/cli
 npx atree init --core
 npx atree scan
 npx atree validate --strict
+```
+
+Before the packages are published, those npm install commands will return `E404 package not found`. Use the repository-local CLI while developing this project itself:
+
+```bash
+npm install
+npm run build
+npm run atree -- scan --project .
+npm run atree -- validate --project . --strict
 ```
 
 Commit the resulting `.abstraction-tree/` files with the package manifest and
