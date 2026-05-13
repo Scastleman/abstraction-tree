@@ -9,8 +9,8 @@ The core engine is responsible for a deterministic project-understanding baselin
 - scan files;
 - extract imports, exports, symbols, tests, and basic summaries;
 - infer a project-specific abstraction ontology;
-- build an initial abstraction tree using that ontology;
-- generate human-readable node explanations from deterministic scanner facts;
+- build an initial abstraction tree using that ontology and evidence-backed human subsystems;
+- generate human-readable node explanations and reasons for existence from deterministic scanner facts;
 - infer concepts from path, symbol, and export signals;
 - validate drift;
 - generate relevance-scored context packs for agents.
@@ -32,15 +32,17 @@ The scanner skips ignored paths, unsupported extensions, files larger than 512,0
 
 The deterministic concept pass is repo-specific rather than a fixed keyword list. It scores candidate concepts from file paths, exported names, and symbols, then connects them back to owning nodes and related files.
 
+The deterministic subsystem pass adds first-level human navigation nodes beneath `project.intent`. It looks for evidence such as UI packages, core engines, CLI/API surfaces, goal or mission automation, memory/validation/log helpers, documentation/examples, packaging/adapters, and tests/quality gates. It only creates a subsystem when there is matching evidence; a repo without an app should not get an app node. If no strong subsystem pattern exists, it falls back to top-level repository areas as a conservative first-pass human boundary. Subsystems then decompose into responsibility slices and file leaves so a large branch like Visual App / Explorer does not stop before concrete editable files.
+
 The deterministic architecture pass adds a runtime/dataflow layer beneath `project.architecture`. It uses package manifests, npm workspace metadata, bin commands, package entrypoints, UI file paths, API/route paths, server imports, and the resolved import graph to create evidence-backed nodes such as CLI surface, core engine, scanner/tree/context pipeline, visual app API, visual app UI, runtime dataflow, and package distribution.
 
 The architecture pass is intentionally evidence-limited. It can identify runtime boundaries that are visible in manifests, paths, imports, and local package metadata, but it does not infer hidden business semantics, dynamic routes assembled at runtime, bundler aliases not represented in the import graph, environment-specific deployment topology, or complete user journeys. When the evidence is broad, architecture nodes should be read as deterministic ownership and dependency groupings rather than a complete design document.
 
-Generated tree nodes expose `summary` for compact labels, `explanation` for human-readable comprehension, and `separationLogic` to describe the partition rule for a parent node's children. Explanations are template-driven from available evidence: node type, parent/children, owned files, scanner symbols, imports, exports, related concepts, dependency refs, and invariants. Separation logic names the child-boundary rule, such as concept clustering, architecture surface separation, module ownership, or file-level edit control. They are useful project guides, but they should still be read as deterministic evidence summaries rather than LLM-quality design analysis.
+Generated tree nodes expose `summary` for compact labels, `explanation` for human-readable comprehension, `reasonForExistence` for why the node deserves to exist, and `separationLogic` to describe the partition rule for a parent node's children. Explanations and existence reasons are template-driven from available evidence: node type, parent/children, owned files, scanner symbols, imports, exports, related concepts, dependency refs, and invariants. Separation logic names the child-boundary rule, such as human subsystem ownership, subsystem responsibility slices, support-index style, concept clustering, architecture surface separation, module ownership, or file-level edit control. They are useful project guides, but they should still be read as deterministic evidence summaries rather than LLM-quality design analysis.
 
 Context packs use the same facts to rank nodes, concepts, files, and invariants. A target can match through node explanations, concept summaries, symbols, exports, ownership, or file paths instead of only exact node text.
 
-The protocol is fixed, but the abstraction layers are not. Every tree node follows the same machine-readable schema, while level names come from repository inspection today and should be refined by LLM abstraction providers later. A small web app may produce product, domain, UI runtime, package, and component/file layers; a quant repo may instead produce research objective, data universe, feature engineering, backtesting, portfolio, and reporting layers when an LLM builder is available.
+The protocol is fixed, but the abstraction layers are not. Every tree node follows the same machine-readable schema, while level names come from repository inspection today and should be refined by LLM abstraction providers later. A small web app may produce app, API, domain, runtime, package, and component/file layers; a quant repo may instead produce research objective, data universe, feature engineering, backtesting, portfolio, and reporting layers when an LLM builder is available.
 
 ## LLM abstraction interface
 

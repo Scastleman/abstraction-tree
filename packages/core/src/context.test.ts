@@ -53,6 +53,7 @@ test("buildContextPack scores and emits node explanations", () => {
   const nodes = [{
     ...node("file.scope.guard", "Scope Guard", "Local guard component.", ["src/scope/guard.ts"]),
     explanation: "This node explains prompt overreach restriction and safe scope boundaries for implementation agents.",
+    reasonForExistence: "This node exists so agents can understand why scope control matters before editing.",
     separationLogic: "Children would be partitioned by scope boundary."
   }];
 
@@ -61,6 +62,7 @@ test("buildContextPack scores and emits node explanations", () => {
 
   assert.deepEqual(pack.relevantNodes.map(n => n.id), ["file.scope.guard"]);
   assert.match(markdown, /Explanation: This node explains prompt overreach restriction/);
+  assert.match(markdown, /Reason for existence: This node exists so agents can understand why scope control matters/);
   assert.match(markdown, /Separation logic: Children would be partitioned by scope boundary/);
 });
 
@@ -191,7 +193,8 @@ test("formatContextPackMarkdown emits markdown context packs", () => {
   const files = [file("src/ui/form.tsx", ["CheckoutForm"], ["CheckoutForm"])];
   const nodes = [{
     ...node("file.form", "Form", "UI form component.", ["src/ui/form.tsx"]),
-    explanation: "Checkout form node explanation for context markdown."
+    explanation: "Checkout form node explanation for context markdown.",
+    reasonForExistence: "Checkout form exists so checkout UI scope can be reviewed before editing."
   }];
   const pack = buildContextPack({ target: "checkout", nodes, files, concepts: [], invariants: [], changes: [], includeDiagnostics: true });
 
@@ -201,6 +204,7 @@ test("formatContextPackMarkdown emits markdown context packs", () => {
   assert.match(markdown, /## Relevant Files/);
   assert.match(markdown, /`src\/ui\/form.tsx`/);
   assert.match(markdown, /Explanation:/);
+  assert.match(markdown, /Reason for existence:/);
   assert.match(markdown, /## Why/);
 });
 
@@ -230,6 +234,7 @@ function node(id: string, title: string, summary: string, sourceFiles: string[])
     level: "component",
     summary,
     explanation: `${title} explains ownership, dependencies, and safe edits for context-pack consumers.`,
+    reasonForExistence: `${title} exists to explain why this scope boundary belongs in the tree.`,
     separationLogic: "Children are partitioned by the narrowest available context boundary.",
     children: [],
     sourceFiles,

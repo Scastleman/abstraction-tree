@@ -37,7 +37,7 @@ Migration policy:
 
 The project-specific abstraction ontology inferred during initialization or scan.
 
-The system does not assume that every repository has the same conceptual layers. A React app, compiler, game engine, Kubernetes operator, and quant research repo can each describe different natural layers.
+The system does not assume that every repository has the same conceptual layers. A React app, compiler, game engine, Kubernetes operator, and quant research repo can each describe different natural layers. The deterministic baseline now includes a human subsystem layer above the concept, architecture, and code indexes, plus a subsystem responsibility layer beneath each subsystem. Subsystem nodes are still evidence-backed: a project without app evidence should not receive an app node.
 
 Each ontology level has:
 
@@ -81,6 +81,7 @@ Each node has:
 - source files;
 - summary;
 - explanation;
+- reason for existence;
 - separation logic;
 - responsibilities;
 - invariants;
@@ -91,11 +92,13 @@ Each node has:
 
 For compatibility with older consumers, nodes may also expose alias fields such as `title`, `level`, `parentId`, `ownedFiles`, and `dependsOn`. New consumers should prefer `name`, `abstractionLevel`, `parent`, `sourceFiles`, and `dependencies`.
 
-`summary` is the short fallback text for compact surfaces. `explanation` is the richer human-readable project-comprehension field. It explains what the node represents, why it exists, what it owns, how it relates to parent and child nodes, which dependencies or invariants matter, and what developers or agents should know before changing it.
+`summary` is the short fallback text for compact surfaces. `explanation` is the richer human-readable project-comprehension field. It explains what the node represents, what it owns, how it relates to parent and child nodes, which dependencies or invariants matter, and what developers or agents should know before changing it.
 
-`separationLogic` describes the partition rule used for the children below a node. This helps humans and agents understand whether child nodes are separated by concept cluster, architecture surface, module ownership zone, file-level edit boundary, or another deterministic scope rule.
+`reasonForExistence` explains why the node deserves to exist in the project or tree at all. For example, a Visual App node can say that the visual app exists so humans can inspect abstraction memory in a browser instead of reading generated JSON.
 
-Fresh deterministic scans populate `explanation` from available facts such as node type, owned files, child nodes, scanner symbols, imports, exports, concepts, and invariants. Older trees without `explanation` remain readable; validation treats missing or thin explanations on high-level nodes as migration warnings rather than hard schema failures.
+`separationLogic` describes the partition rule used for the children below a node. This helps humans and agents understand whether child nodes are separated by human subsystem ownership, subsystem responsibility slice, support-index style, concept cluster, architecture surface, module ownership zone, file-level edit boundary, or another deterministic scope rule.
+
+Fresh deterministic scans populate `explanation` and `reasonForExistence` from available facts such as node type, owned files, child nodes, scanner symbols, imports, exports, concepts, and invariants. Older trees without these optional fields remain readable; validation treats missing or thin explanations on high-level nodes as migration warnings rather than hard schema failures.
 
 ## `import-graph.json`
 
@@ -143,7 +146,7 @@ Deterministic scans also write generated records with ids beginning `scan.`. The
 
 Compressed bundles of relevant tree nodes, files, concepts, invariants, and recent changes for coding agents.
 
-Context packs include each selected node's short `summary` and, when present, its richer `explanation` so agents can understand the intended scope boundary before editing.
+Context packs include each selected node's short `summary` and, when present, its richer `explanation` and `reasonForExistence` so agents can understand the intended scope boundary and why the node belongs in the project before editing.
 
 ## `/api/state`
 

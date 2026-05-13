@@ -759,9 +759,12 @@ function requiresHumanReadableExplanation(node: TreeNode): boolean {
   const level = nodeLevel(node);
   return (
     node.id.startsWith("project.") ||
+    node.id.startsWith("subsystem.") ||
     node.id.startsWith("architecture.") ||
     node.id.startsWith("module.") ||
     level === "project-purpose" ||
+    level === "human-subsystems" ||
+    level === "subsystem-responsibilities" ||
     level === "system-architecture-layer" ||
     level === "package-module-layer"
   );

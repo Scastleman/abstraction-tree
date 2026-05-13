@@ -11,7 +11,7 @@ The agent adapter should perform this protocol internally.
 ## Before editing
 
 1. Read `.abstraction-tree/config.json`.
-2. Search tree nodes and concepts relevant to the request.
+2. Search tree nodes and concepts relevant to the request. Prefer the root's human subsystem children for first-pass scope, descend into subsystem responsibility slices and file leaves for edit boundaries, then cross-check Project Indexes when the prompt needs concept, architecture, or file ownership lookup.
 3. Generate or load a context pack.
 4. Identify likely affected files.
 5. Identify invariants and must-not-change boundaries.
@@ -25,7 +25,7 @@ When setup is uncertain, run `atree doctor --project .` before editing. It is a 
 
 Use `--format markdown` when the next consumer is an agent prompt or report. Use `--why` to include selection diagnostics for every selected node, file, concept, invariant, and recent change, plus nearby candidates excluded by hard limits or token budget. Use `--max-tokens <n>` to apply an approximate selected-item budget. The first-pass estimator is documented as `approximate-json-chars-div-4`, so it is a deterministic character-count approximation and does not require a tokenizer package.
 
-Selected nodes include `summary`, `explanation`, and `separationLogic` when available. Read the summary for a quick label, then read the explanation for ownership, dependencies, parent/child context, invariants, and safe-change guidance. Read the separation logic to understand the partition rule for the child nodes and which child boundary best matches the prompt. Treat these fields as scope boundary aids: they should help you avoid editing sibling modules unless the dependency evidence says the change really crosses that boundary.
+Selected nodes include `summary`, `explanation`, `reasonForExistence`, and `separationLogic` when available. Read the summary for a quick label, the explanation for ownership, dependencies, parent/child context, invariants, and safe-change guidance, and the reason for existence to understand why the project has that node or subsystem in the first place. Read the separation logic to understand the partition rule for the child nodes and which child boundary best matches the prompt. Treat these fields as scope boundary aids: they should help you avoid editing sibling modules unless the dependency evidence says the change really crosses that boundary.
 
 ## During editing
 
@@ -38,7 +38,7 @@ Selected nodes include `summary`, `explanation`, and `separationLogic` when avai
 
 1. Run the relevant tests or validation commands.
 2. Update file summaries if ownership changed.
-3. Update affected tree nodes, including `explanation` and `separationLogic` when node ownership, dependencies, child boundaries, or safe-change guidance changed.
+3. Update affected tree nodes, including `explanation`, `reasonForExistence`, and `separationLogic` when node purpose, ownership, dependencies, child boundaries, or safe-change guidance changed.
 4. Add concepts or invariants if new durable ideas were introduced.
 5. Write a semantic change record in `.abstraction-tree/changes/`.
 6. Run `atree validate`.

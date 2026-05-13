@@ -11,7 +11,7 @@ The default layer is structured project facts, deterministic tree generation, va
 
 The source of truth is always the project-local `.abstraction-tree/` folder. The visual app is optional: it reads the same tree data and displays it as an interactive project map.
 
-Tree nodes keep a short `summary`, a richer `explanation`, and, when the node has children, `separationLogic`. The summary is compact fallback text; the explanation describes the node's role, ownership, dependencies, constraints, parent/child context, and safe-change guidance. Separation logic describes the partition rule used for the child nodes below it, such as concept clusters, architecture surfaces, module ownership zones, or file-level edit boundaries. The first implementation is deterministic and evidence-based rather than LLM-inferred, so future adapters can improve explanation quality without changing the default local scan path.
+Tree nodes keep a short `summary`, a richer `explanation`, an explicit `reasonForExistence`, and, when the node has children, `separationLogic`. The summary is compact fallback text; the explanation describes the node's role, ownership, dependencies, constraints, parent/child context, and safe-change guidance. `reasonForExistence` explains why the node deserves to exist in the project at all, such as why a visual app is useful instead of only storing JSON memory. Separation logic describes the partition rule used for the child nodes below it, such as concept clusters, architecture surfaces, module ownership zones, or file-level edit boundaries. The first implementation is deterministic and evidence-based rather than LLM-inferred, so future adapters can improve explanation quality without changing the default local scan path.
 
 ## Core promise
 
@@ -187,20 +187,24 @@ Most codebases are understood through a mix of folders, stale documentation, tri
 
 Abstraction Tree creates a shared semantic map for humans and agents. The node schema is fixed, but the abstraction layers should become adaptive: a frontend, compiler, game engine, Kubernetes operator, and quant research repo should not be forced into the same hierarchy.
 
-Today, the baseline tree is deterministic. It uses folder structure, package layout, file names, AST-backed TypeScript/JavaScript imports and symbols, regex fallback scanning for other languages, tests, and configured ontology data. Optional proposal adapters can use those facts through `atree propose`, but that path produces review artifacts rather than direct memory edits.
+Today, the baseline tree is deterministic. It uses folder structure, package layout, file names, AST-backed TypeScript/JavaScript imports and symbols, regex fallback scanning for other languages, tests, and configured ontology data. The first layer is an inferred human subsystem layer, so a repo with UI evidence may show an app/explorer node while a library, engine, docs-only tool, or service repo gets different evidence-backed subsystem nodes. Optional proposal adapters can use those facts through `atree propose`, but that path produces review artifacts rather than direct memory edits.
 
 ```txt
 Intent
-`-- Product / Domain Concepts
-    `-- Architecture
-        `-- Modules
-            `-- Files
-                `-- Symbols
+|-- Human subsystem nodes inferred from repo evidence
+|   |-- App / Explorer, if UI evidence exists
+|   |   `-- Responsibility slices
+|   |       `-- File leaves
+|   `-- Core Engine, CLI, Logs, Docs, Tests, or other detected responsibilities
+`-- Project Indexes
+    |-- Domain Concepts
+    |-- Architecture
+    `-- Modules / Files
 ```
 
 The visual app is not a separate documentation site. It is the human-readable interface to the same `.abstraction-tree/` data consumed by agents.
 
-In practice, the stored tree is shaped by `.abstraction-tree/ontology.json`, so the displayed labels might be "Application / UI Runtime Layer" for one repo and "Backtesting Engine" or "Rendering Pipeline" for another.
+In practice, the stored tree is shaped by `.abstraction-tree/ontology.json` and by deterministic subsystem inference, so the displayed labels might be "Visual App / Explorer" for this repo, "Backtesting Engine" for a quant repo, "Rendering Pipeline" for a game, or no app node at all when there is no app evidence.
 
 ## MVP status
 
@@ -208,7 +212,7 @@ This repository is a working starter implementation. It includes:
 
 - a Node/TypeScript CLI;
 - an AST-backed scanner for TypeScript/JavaScript files, with regex fallback for other supported text files;
-- a deterministic ontology and initial tree builder with repo-specific concept extraction;
+- a deterministic ontology and initial tree builder with evidence-backed human subsystems and repo-specific concept extraction;
 - a local `.abstraction-tree/` schema;
 - validation and stale-memory drift checks;
 - relevance-scored context-pack generation for coding agents;

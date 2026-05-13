@@ -246,6 +246,7 @@ function matchesNode(node: TreeNode, normalizedQuery: string): boolean {
     nodeName(node).toLowerCase().includes(normalizedQuery) ||
     node.summary.toLowerCase().includes(normalizedQuery) ||
     (node.explanation?.toLowerCase().includes(normalizedQuery) ?? false) ||
+    (node.reasonForExistence?.toLowerCase().includes(normalizedQuery) ?? false) ||
     (node.separationLogic?.toLowerCase().includes(normalizedQuery) ?? false) ||
     nodeFiles(node).some(filePath => filePath.toLowerCase().includes(normalizedQuery))
   );

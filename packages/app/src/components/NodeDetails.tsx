@@ -20,6 +20,12 @@ export function NodeDetails({ node }: NodeDetailsProps) {
           <p>{node.explanation}</p>
         </section>
       ) : null}
+      {node.reasonForExistence?.trim() ? (
+        <section className="node-explanation" aria-label="Reason this node exists">
+          <span>Reason For Its Existence</span>
+          <p>{node.reasonForExistence}</p>
+        </section>
+      ) : null}
       {node.separationLogic?.trim() ? (
         <section className="node-explanation" aria-label="Child node separation logic">
           <span>Separation Logic</span>

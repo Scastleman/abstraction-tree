@@ -53,6 +53,7 @@ export interface TreeNode {
   level: AbstractionLevel;
   summary: string;
   explanation?: string;
+  reasonForExistence?: string;
   separationLogic?: string;
   parent?: string;
   children: string[];

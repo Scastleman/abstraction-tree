@@ -12,6 +12,7 @@ test("data model docs describe node explanations", async () => {
 
   assert.match(dataModel, /`summary` is the short fallback text/);
   assert.match(dataModel, /`explanation` is the richer human-readable project-comprehension field/);
+  assert.match(dataModel, /`reasonForExistence` explains why the node deserves to exist/);
   assert.match(dataModel, /`separationLogic` describes the partition rule/);
-  assert.match(readme, /Tree nodes keep a short `summary`, a richer `explanation`, and, when the node has children, `separationLogic`/);
+  assert.match(readme, /Tree nodes keep a short `summary`, a richer `explanation`, an explicit `reasonForExistence`, and, when the node has children, `separationLogic`/);
 });

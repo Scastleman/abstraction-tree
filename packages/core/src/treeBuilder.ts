@@ -22,18 +22,31 @@ export function buildDeterministicTree(projectName: string, files: FileSummary[]
   const root = node(rootId, projectName, levels[0], inferProjectSummary(projectName, files));
   nodes.set(root.id, root);
 
-  const domain = node("project.domain", ontology[1].name, levels[1], "Human-level concepts inferred from names, folders, and code symbols.", root.id);
-  const arch = node("project.architecture", ontology[2].name, levels[2], "Runtime systems, dataflow, and implementation boundaries inferred from repository structure.", root.id);
-  const code = node("project.code", ontology[3].name, levels[3], "Package, folder, and file ownership extracted from the repository.", root.id);
-  for (const n of [domain, arch, code]) nodes.set(n.id, n);
-  root.children.push(domain.id, arch.id, code.id);
+  const indexes = node(
+    "project.indexes",
+    "Project Indexes",
+    levels[1],
+    "Deterministic concept, architecture, and code indexes that support subsystem navigation.",
+    root.id
+  );
+  const domain = node("project.domain", ontology[3].name, levels[3], "Human-level concepts inferred from names, folders, and code symbols.", indexes.id);
+  const arch = node(
+    "project.architecture",
+    ontology[4].name,
+    levels[4],
+    "Runtime systems, dataflow, and implementation boundaries inferred from repository structure.",
+    indexes.id
+  );
+  const code = node("project.code", ontology[5].name, levels[5], "Package, folder, and file ownership extracted from the repository.", indexes.id);
+  for (const n of [indexes, domain, arch, code]) nodes.set(n.id, n);
+  indexes.children.push(domain.id, arch.id, code.id);
 
   const topFolders = new Set<string>();
   for (const f of files) topFolders.add(f.path.includes("/") ? f.path.split("/")[0] : "root");
 
   for (const folder of [...topFolders].sort()) {
     const id = `module.${slug(folder)}`;
-    const n = node(id, titleize(folder), levels[3], `Files and functionality under ${folder}.`, code.id);
+    const n = node(id, titleize(folder), levels[5], `Files and functionality under ${folder}.`, code.id);
     n.sourceFiles = files.filter(f => (folder === "root" ? !f.path.includes("/") : f.path.startsWith(folder + "/"))).map(f => f.path);
     n.ownedFiles = n.sourceFiles;
     n.changePolicy.allowedToChange = [...n.ownedFiles];
@@ -46,7 +59,7 @@ export function buildDeterministicTree(projectName: string, files: FileSummary[]
     const folder = f.path.includes("/") ? f.path.split("/")[0] : "root";
     const parentId = `module.${slug(folder)}`;
     const id = `file.${slug(f.path)}`;
-    const n = node(id, path.basename(f.path), levels[4], f.summary, parentId);
+    const n = node(id, path.basename(f.path), levels[6], f.summary, parentId);
     n.sourceFiles = [f.path];
     n.ownedFiles = n.sourceFiles;
     n.changePolicy.allowedToChange = [f.path];
@@ -58,7 +71,7 @@ export function buildDeterministicTree(projectName: string, files: FileSummary[]
     f.ownedByNodeIds = [id, parentId];
   }
 
-  const architectureNodes = inferArchitectureNodes(files, levels[2], arch.id, options.importGraph);
+  const architectureNodes = inferArchitectureNodes(files, levels[4], arch.id, options.importGraph);
   for (const architectureNode of architectureNodes) {
     nodes.set(architectureNode.id, architectureNode);
     arch.children.push(architectureNode.id);
@@ -68,10 +81,20 @@ export function buildDeterministicTree(projectName: string, files: FileSummary[]
     }
   }
 
+  const subsystemTree = inferHumanSubsystemNodes(files, levels[1], levels[2], levels[6], root.id, options.importGraph);
+  for (const subsystemNode of subsystemTree.nodes) {
+    nodes.set(subsystemNode.id, subsystemNode);
+    for (const sourceFile of subsystemNode.sourceFiles) {
+      const file = files.find(candidate => candidate.path === sourceFile);
+      if (file) file.ownedByNodeIds = uniqueStrings([...file.ownedByNodeIds, subsystemNode.id]);
+    }
+  }
+  root.children.push(...subsystemTree.roots.map(subsystemNode => subsystemNode.id), indexes.id);
+
   const concepts = inferConcepts(files, [...nodes.values()]);
   for (const c of concepts) domain.children.push(`concept-node.${c.id}`);
   for (const c of concepts) {
-    const cn = node(`concept-node.${c.id}`, c.title, levels[1], c.summary, domain.id);
+    const cn = node(`concept-node.${c.id}`, c.title, levels[3], c.summary, domain.id);
     cn.sourceFiles = c.relatedFiles;
     cn.ownedFiles = cn.sourceFiles;
     cn.dependencies = c.relatedNodeIds;
@@ -114,20 +137,17 @@ function populateNodeExplanations(
       invariantsById
     };
     treeNode.explanation = buildNodeExplanation(explanationArgs);
+    treeNode.reasonForExistence = buildNodeExistenceReason(explanationArgs);
     treeNode.separationLogic = buildNodeSeparationLogic(explanationArgs);
   }
 }
 
-function buildNodeExplanation(args: {
-  projectName: string;
-  node: TreeNode;
-  nodes: TreeNode[];
-  nodeById: Map<string, TreeNode>;
-  fileByPath: Map<string, FileSummary>;
-  concept?: Concept;
-  invariantsById: Map<string, Invariant>;
-}): string {
+function buildNodeExplanation(args: ExplanationArgs): string {
   if (args.node.id === "project.intent") return projectIntentExplanation(args);
+  if (args.node.id === "project.indexes") return projectIndexesExplanation(args);
+  if (isSubsystemFileLeafNode(args.node)) return subsystemFileLeafExplanation(args);
+  if (isSubsystemSliceNode(args.node)) return subsystemSliceExplanation(args);
+  if (args.node.id.startsWith("subsystem.")) return humanSubsystemExplanation(args);
   if (args.node.id === "project.domain") return domainExplanation(args);
   if (args.node.id === "project.architecture") return projectArchitectureExplanation(args);
   if (args.node.id === "project.code") return projectCodeExplanation(args);
@@ -138,9 +158,38 @@ function buildNodeExplanation(args: {
   return genericExplanation(args);
 }
 
+function buildNodeExistenceReason(args: ExplanationArgs): string {
+  if (args.node.id === "project.intent") {
+    return "This node exists to keep every change tied to the repository's durable purpose before an agent narrows scope or starts editing.";
+  }
+  if (args.node.id === "project.indexes") {
+    return "This node exists so deterministic lookup views remain available even when the main tree is organized around human-facing subsystems.";
+  }
+  if (isSubsystemFileLeafNode(args.node)) return subsystemFileLeafExistenceReason(args);
+  if (isSubsystemSliceNode(args.node)) return subsystemSliceExistenceReason(args);
+  if (args.node.id.startsWith("subsystem.")) return humanSubsystemExistenceReason(args);
+  if (args.node.id === "project.domain") {
+    return "This node exists so recurring project vocabulary can be inspected across folders without widening every concept-related prompt to the full repository.";
+  }
+  if (args.node.id === "project.architecture") {
+    return "This node exists to expose runtime and package boundaries where a small-looking request can affect commands, APIs, packages, or shared engines.";
+  }
+  if (args.node.id === "project.code") {
+    return "This node exists to preserve the concrete folder and file ownership index that agents use when they need the narrowest durable edit boundary.";
+  }
+  if (args.node.id.startsWith("architecture.")) return architectureExistenceReason(args);
+  if (args.node.id.startsWith("module.")) return moduleExistenceReason(args);
+  if (args.node.id.startsWith("file.")) return fileExistenceReason(args);
+  if (args.node.id.startsWith("concept-node.")) return conceptExistenceReason(args);
+  return genericExistenceReason(args);
+}
+
 function buildNodeSeparationLogic(args: ExplanationArgs): string | undefined {
   if (!args.node.children.length) return undefined;
   if (args.node.id === "project.intent") return projectIntentSeparationLogic(args);
+  if (args.node.id === "project.indexes") return projectIndexesSeparationLogic(args);
+  if (isSubsystemSliceNode(args.node)) return subsystemSliceSeparationLogic(args);
+  if (args.node.id.startsWith("subsystem.")) return humanSubsystemSeparationLogic(args);
   if (args.node.id === "project.domain") return domainSeparationLogic(args);
   if (args.node.id === "project.architecture") return architectureSeparationLogic(args);
   if (args.node.id === "project.code") return projectCodeSeparationLogic(args);
@@ -152,8 +201,8 @@ function projectIntentExplanation(args: ExplanationArgs): string {
   const childNames = childNodeNames(args.node, args.nodeById);
   return compactExplanation([
     `This node represents the project-level purpose of ${args.projectName}.`,
-    "It exists so humans and agents start from the repository's durable outcome before narrowing a prompt to architecture, concept, module, or file scope.",
-    childNames.length ? `Its child nodes are ${sampleList(childNames, 4)}, which split the project into domain meaning, runtime architecture, and concrete code ownership.` : "",
+    "It exists so humans and agents start from the repository's durable outcome before narrowing a prompt to a human subsystem, support index, architecture boundary, module, or file scope.",
+    childNames.length ? `Its child nodes are ${sampleList(childNames, 6)}, which split the project into inferred human-facing subsystems plus deterministic support indexes.` : "",
     "Use this node when deciding whether a request is truly project-wide; otherwise move down the tree and constrain the change to the smallest responsible subtree.",
     "Before changing it, check README positioning, public docs, and abstraction memory so the stated product direction remains aligned."
   ]);
@@ -161,11 +210,141 @@ function projectIntentExplanation(args: ExplanationArgs): string {
 
 function projectIntentSeparationLogic(args: ExplanationArgs): string {
   return compactExplanation([
-    "Separation logic: child nodes are partitioned by the kind of project question they answer.",
-    "Domain Concept Layer captures recurring vocabulary and cross-cutting ideas; Runtime / Dataflow Layer captures system boundaries and execution surfaces; Package / Workspace Layer captures concrete folder and file ownership.",
+    "Separation logic: child nodes are partitioned first by human-facing subsystem ownership inferred from package roots, runtime surfaces, scripts, docs, tests, and memory responsibilities.",
+    "Project Indexes is a support partition that preserves deterministic concept, architecture, and code views for agents that need cross-cutting lookup rather than subsystem-first navigation.",
     childSummary(args, "Current partitions"),
     "Choose the child whose partition matches the prompt before widening scope."
   ]);
+}
+
+function projectIndexesExplanation(args: ExplanationArgs): string {
+  const childNames = childNodeNames(args.node, args.nodeById);
+  return compactExplanation([
+    "This node represents deterministic support indexes for the project.",
+    "It exists because the root is optimized for human subsystem navigation, while agents still need stable concept, architecture, and code indexes for scope checks, context packs, validation, and overreach control.",
+    childNames.length ? `Its children are ${sampleList(childNames, 4)}, which index the same repository through vocabulary, runtime boundaries, and concrete ownership.` : "",
+    "Use this node when a prompt is better answered by cross-cutting lookup than by one subsystem, such as finding all files related to a concept or verifying package/file ownership.",
+    "Before changing it, preserve the indexed child views because CLI, context, validation, and agent protocols rely on them as durable lookup surfaces."
+  ]);
+}
+
+function projectIndexesSeparationLogic(args: ExplanationArgs): string {
+  return compactExplanation([
+    "Separation logic: children partition the same project evidence by index style.",
+    "The concept index groups recurring vocabulary, the architecture index groups runtime and package boundaries, and the code index groups concrete folder and file ownership.",
+    childSummary(args, "Current index partitions"),
+    "Use these indexes to cross-check subsystem scope without replacing the subsystem-first view."
+  ]);
+}
+
+function humanSubsystemExplanation(args: ExplanationArgs): string {
+  const files = nodeFiles(args.node);
+  const dependents = dependentNodeNames(args.node, args.nodes);
+  const childNames = childNodeNames(args.node, args.nodeById);
+  return compactExplanation([
+    `This node represents the ${args.node.title} human subsystem.`,
+    "It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category.",
+    files.length ? `Owned or cited files include ${sampleList(files, 7)}${files.length > 7 ? ` out of ${files.length} total` : ""}.` : "It currently has limited file evidence, so treat it as a low-confidence navigation aid.",
+    childNames.length ? `It is decomposed into responsibility slices such as ${sampleList(childNames, 6)} so the branch does not stop at one large aggregate.` : "",
+    args.node.responsibilities.length ? `Its main responsibilities are ${sampleList(args.node.responsibilities.map(trimSentenceEnd), 4)}.` : "",
+    args.node.dependencies.length ? `It depends on evidence such as ${sampleList(args.node.dependencies, 6)}.` : "",
+    dependents.length ? `Other nodes depending on it include ${sampleList(dependents, 4)}.` : "",
+    invariantTitles(args.node, args.invariantsById).length ? `Relevant invariants include ${sampleList(invariantTitles(args.node, args.invariantsById), 4)}.` : "",
+    "Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing."
+  ]);
+}
+
+function humanSubsystemExistenceReason(args: ExplanationArgs): string {
+  const files = nodeFiles(args.node);
+  const childNames = childNodeNames(args.node, args.nodeById);
+  if (args.node.id === "subsystem.visual.app") {
+    return "The visual app exists to make abstraction memory inspectable by humans. Instead of asking people to read generated JSON, it gives them a local browser view of the tree, node explanations, scope evidence, changes, invariants, and automation health so they can judge whether the project map makes sense.";
+  }
+  if (args.node.id === "subsystem.core.engine") {
+    return "The core engine exists so project understanding is reusable and local-first. It gives the CLI, app, automation, and future adapters one shared place for scanning, tree building, validation, context generation, and evaluation instead of duplicating those rules in each surface.";
+  }
+  if (args.node.id === "subsystem.cli.local.api") {
+    return "The CLI and local API exist to turn the engine into daily developer workflows: scan, validate, route prompts, plan goals, serve the visual app, and expose project memory without requiring a hosted service.";
+  }
+  if (args.node.id === "subsystem.goal.mission.automation") {
+    return "Goal and mission automation exists to keep complex prompts from becoming one oversized agent instruction. It decomposes goals into bounded missions, reviewable plans, reports, and lessons so autonomous work stays scoped.";
+  }
+  if (args.node.id === "subsystem.memory.validation.logs") {
+    return "Memory, validation, and logs exist so the tree is not just a temporary analysis. They preserve durable project state, check that memory still matches files, and record what agents changed or learned.";
+  }
+  if (args.node.id === "subsystem.docs.examples") {
+    return "Docs and examples exist to make the tool understandable outside the code. They explain install modes, workflows, data contracts, automation boundaries, and example usage for humans and future agents.";
+  }
+  if (args.node.id === "subsystem.packaging.adapters") {
+    return "Packaging and adapters exist so Abstraction Tree can be installed, distributed, smoke-tested, and extended by provider or agent integrations without coupling those integrations to the core engine.";
+  }
+  if (args.node.id === "subsystem.tests.quality") {
+    return "Tests and quality gates exist to keep deterministic behavior stable as the tree builder, scanner, app, automation, and CLI evolve.";
+  }
+  return compactExplanation([
+    `This subsystem exists because ${files.length ? `${files.length} file(s)` : "the scan"} showed a coherent project responsibility named ${args.node.title}.`,
+    childNames.length ? `Its child slices (${sampleList(childNames, 4)}) keep that responsibility navigable instead of leaving it as one broad bucket.` : "It gives humans and agents a first-pass boundary for prompts that match this area."
+  ]);
+}
+
+function humanSubsystemSeparationLogic(args: ExplanationArgs): string {
+  return compactExplanation([
+    "Separation logic: children are responsibility slices inside this subsystem.",
+    "The builder groups files by evidence such as UI component role, app shell/state role, command/API surface, scanner/tree/context pipeline, memory/schema/validation role, mission automation, documentation, package distribution, or test/quality boundary.",
+    childSummary(args, "Current responsibility partitions"),
+    "Pick the responsibility slice that matches the prompt, then move to its file leaves before editing."
+  ]);
+}
+
+function subsystemSliceExplanation(args: ExplanationArgs): string {
+  const files = nodeFiles(args.node);
+  const parent = args.node.parent ? args.nodeById.get(args.node.parent) : undefined;
+  const childNames = childNodeNames(args.node, args.nodeById);
+  return compactExplanation([
+    `This node represents the ${args.node.title} responsibility slice within ${parent?.title ?? "a human subsystem"}.`,
+    "It exists to break a large subsystem into a smaller human-editable boundary before reaching concrete files.",
+    files.length ? `This slice covers ${sampleList(files, 7)}${files.length > 7 ? ` out of ${files.length} file(s)` : ""}.` : "This slice currently has no file evidence.",
+    childNames.length ? `Its file leaves include ${sampleList(childNames, 6)}.` : "",
+    args.node.responsibilities.length ? `Its responsibility is ${sampleList(args.node.responsibilities.map(trimSentenceEnd), 2)}.` : "",
+    "Use this slice when a prompt names this narrower responsibility; inspect its file leaves and sibling slices before widening to the whole subsystem."
+  ]);
+}
+
+function subsystemSliceExistenceReason(args: ExplanationArgs): string {
+  const parent = args.node.parent ? args.nodeById.get(args.node.parent) : undefined;
+  const files = nodeFiles(args.node);
+  return compactExplanation([
+    `This slice exists to make ${parent?.title ?? "the parent subsystem"} smaller and more actionable.`,
+    files.length ? `It gathers ${files.length} file(s) that share the ${args.node.title} responsibility, so a prompt can stop here before touching the whole subsystem.` : "It marks a narrower responsibility boundary even when file evidence is limited."
+  ]);
+}
+
+function subsystemSliceSeparationLogic(args: ExplanationArgs): string {
+  return compactExplanation([
+    "Separation logic: children are concrete file leaves for this responsibility slice.",
+    childSummary(args, "Current file leaves"),
+    "These leaves reference the same scanned files that also appear in Project Indexes, but they are shown here in subsystem context for human navigation and scoped agent edits."
+  ]);
+}
+
+function subsystemFileLeafExplanation(args: ExplanationArgs): string {
+  const files = nodeFiles(args.node);
+  const file = files[0] ? args.fileByPath.get(files[0]) : undefined;
+  const parent = args.node.parent ? args.nodeById.get(args.node.parent) : undefined;
+  return compactExplanation([
+    `This node is a subsystem-context file leaf for ${files[0] ?? args.node.title}.`,
+    `It exists under ${parent?.title ?? "a responsibility slice"} so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate.`,
+    file ? `Scanner facts show ${file.language} content with ${file.lines} line(s), ${file.imports.length} import(s), ${file.exports.length} export(s), and ${file.symbols.length} symbol(s).` : "Scanner facts are limited for this file leaf.",
+    file?.symbols.length ? `Important symbols include ${sampleList(file.symbols, 6)}.` : "",
+    file?.exports.length ? `Exports include ${sampleList(file.exports, 6)}.` : "",
+    "Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters."
+  ]);
+}
+
+function subsystemFileLeafExistenceReason(args: ExplanationArgs): string {
+  const files = nodeFiles(args.node);
+  const parent = args.node.parent ? args.nodeById.get(args.node.parent) : undefined;
+  return `This leaf exists so the ${parent?.title ?? "subsystem"} branch reaches ${files[0] ?? args.node.title}, a concrete file an agent can inspect or edit after scope has been narrowed.`;
 }
 
 function domainExplanation(args: ExplanationArgs): string {
@@ -273,6 +452,42 @@ function genericSeparationLogic(args: ExplanationArgs): string {
   ]);
 }
 
+function architectureExistenceReason(args: ExplanationArgs): string {
+  const files = nodeFiles(args.node);
+  return compactExplanation([
+    `${args.node.title} exists because package metadata, source paths, imports, entrypoints, or runtime evidence identify it as a system boundary.`,
+    files.length ? `It gives agents one place to inspect the ${files.length} file(s) that participate in that boundary before changing shared behavior.` : "It gives agents a boundary to inspect before changing shared behavior."
+  ]);
+}
+
+function moduleExistenceReason(args: ExplanationArgs): string {
+  const files = nodeFiles(args.node);
+  const modulePath = args.node.id === "module.root" ? "the repository root" : `${args.node.id.replace(/^module\./, "").replace(/\./g, "/")}/`;
+  return `This module node exists to group ${files.length || "the"} scanned file(s) under ${modulePath} so folder-level prompts have a clear ownership boundary.`;
+}
+
+function fileExistenceReason(args: ExplanationArgs): string {
+  const files = nodeFiles(args.node);
+  return `This file node exists to make ${files[0] ?? args.node.title} a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale.`;
+}
+
+function conceptExistenceReason(args: ExplanationArgs): string {
+  const concept = args.concept;
+  const files = concept?.relatedFiles ?? nodeFiles(args.node);
+  return compactExplanation([
+    `This concept node exists because repeated vocabulary or symbol evidence points to ${args.node.title} as a cross-cutting idea.`,
+    files.length ? `It helps humans and agents find ${files.length} related file(s) without assuming one folder owns the whole concept.` : "It helps humans and agents inspect a concept that may cross folder boundaries."
+  ]);
+}
+
+function genericExistenceReason(args: ExplanationArgs): string {
+  const files = nodeFiles(args.node);
+  return compactExplanation([
+    `This node exists as a deterministic scope boundary for ${args.node.title}.`,
+    files.length ? `It gives ${files.length} owned file(s) a named place in the tree.` : "It gives this responsibility a named place in the tree."
+  ]);
+}
+
 function fileExplanation(args: ExplanationArgs): string {
   const files = nodeFiles(args.node);
   const file = files[0] ? args.fileByPath.get(files[0]) : undefined;
@@ -363,6 +578,14 @@ function relatedConceptNames(filePath: string | undefined, nodes: TreeNode[]): s
     .map(node => node.title);
 }
 
+function isSubsystemSliceNode(treeNode: TreeNode): boolean {
+  return treeNode.id.startsWith("subsystem.") && treeNode.id.includes(".slice.");
+}
+
+function isSubsystemFileLeafNode(treeNode: TreeNode): boolean {
+  return treeNode.id.startsWith("subsystem.") && treeNode.id.includes(".file.");
+}
+
 function compactExplanation(parts: string[]): string {
   return parts.map(part => part.trim()).filter(Boolean).join(" ");
 }
@@ -405,10 +628,26 @@ function inferOntology(files: FileSummary[]): AbstractionOntologyLevel[] {
       confidence: 0.7
     },
     {
+      id: "human-subsystems",
+      name: "Human Subsystem Layer",
+      description: "First-pass human navigation boundaries inferred from product responsibilities, package roles, runtime surfaces, automation, documentation, quality, and operational memory evidence.",
+      rank: 1,
+      signals: [hasPackages ? "workspace packages" : "top-level folders", hasUi ? "UI evidence" : "source roles", hasTests ? "test boundaries" : "source boundaries"],
+      confidence: 0.66
+    },
+    {
+      id: "subsystem-responsibilities",
+      name: "Subsystem Responsibility Layer",
+      description: "Smaller responsibility slices under each human subsystem, used to keep large subsystem nodes navigable before reaching concrete files.",
+      rank: 2,
+      signals: ["path roles", "file roles", "tests", "docs", "scripts", "package boundaries"],
+      confidence: 0.64
+    },
+    {
       id: "domain-concepts",
       name: "Domain Concept Layer",
       description: "Human-level concepts and cross-cutting ideas expressed by names, folders, tests, and symbols.",
-      rank: 1,
+      rank: 3,
       signals: ["file names", "folder names", "exported symbols", hasTests ? "tests" : "source files"],
       confidence: 0.65
     },
@@ -416,7 +655,7 @@ function inferOntology(files: FileSummary[]): AbstractionOntologyLevel[] {
       id: slug(runtimeName),
       name: runtimeName,
       description: "Major runtime systems, data movement, user flows, or architectural boundaries.",
-      rank: 2,
+      rank: 4,
       signals: [hasUi ? "UI components" : "source boundaries", hasData ? "data-oriented paths" : "imports"],
       confidence: 0.6
     },
@@ -424,7 +663,7 @@ function inferOntology(files: FileSummary[]): AbstractionOntologyLevel[] {
       id: slug(packageName),
       name: packageName,
       description: "Packages, workspaces, folders, and modules that organize implementation ownership.",
-      rank: 3,
+      rank: 5,
       signals: [hasPackages ? "packages/apps folders" : "top-level folders", `${languages.size} detected language(s)`],
       confidence: 0.7
     },
@@ -432,7 +671,7 @@ function inferOntology(files: FileSummary[]): AbstractionOntologyLevel[] {
       id: slug(codeName),
       name: codeName,
       description: "Concrete files, components, classes, functions, and other code units.",
-      rank: 4,
+      rank: 6,
       signals: ["source files", "imports", "exports", "symbols"],
       confidence: 0.75
     }
@@ -544,7 +783,13 @@ function inferInvariants(files: FileSummary[], nodes: TreeNode[]): Invariant[] {
     id: "invariant.tree-updated-after-change",
     title: "Tree memory must be updated after meaningful changes",
     description: "Architecture, concept, or ownership changes should be reflected in `.abstraction-tree/` before completion.",
-    nodeIds: ["project.intent", "project.architecture", "project.code"],
+    nodeIds: uniqueStrings([
+      "project.intent",
+      "project.indexes",
+      "project.architecture",
+      "project.code",
+      ...nodes.filter(n => n.id.startsWith("subsystem.")).map(n => n.id)
+    ]),
     filePaths: [".abstraction-tree/tree.json", ".abstraction-tree/files.json", ".abstraction-tree/import-graph.json"],
     severity: "high"
   });
@@ -559,6 +804,459 @@ interface ArchitectureSpec {
   responsibilities: string[];
   dependencies?: string[];
   confidence?: number;
+}
+
+interface HumanSubsystemSpec {
+  id: string;
+  title: string;
+  summary: string;
+  sourceFiles: string[];
+  responsibilities: string[];
+  dependencies?: string[];
+  confidence?: number;
+}
+
+interface HumanSubsystemBuildResult {
+  roots: TreeNode[];
+  nodes: TreeNode[];
+}
+
+interface SubsystemSliceSpec {
+  id: string;
+  title: string;
+  summary: string;
+  files: FileSummary[];
+  responsibilities: string[];
+  confidence?: number;
+}
+
+function inferHumanSubsystemNodes(
+  files: FileSummary[],
+  subsystemLevel: TreeNode["level"],
+  sliceLevel: TreeNode["level"],
+  fileLeafLevel: TreeNode["level"],
+  parentId: string,
+  importGraph?: ImportGraph
+): HumanSubsystemBuildResult {
+  const workspacePackages = importGraph?.workspacePackages ?? [];
+  const specs: HumanSubsystemSpec[] = [];
+
+  const uiPackages = workspacePackages.filter(pkg =>
+    packageLeaf(pkg) === "app" || hasAny(pkg.dependencyPackageNames, ["react", "react-dom", "vite"])
+  );
+  const uiFiles = uniqueFilePaths([
+    ...filesForPackages(files, uiPackages),
+    ...files.filter(file => isUiFile(file))
+  ]);
+  if (uiFiles.length) {
+    specs.push({
+      id: "subsystem.visual.app",
+      title: "Visual App / Explorer",
+      summary: "Human-facing browser explorer inferred from UI package, component, style, and app entrypoint evidence.",
+      sourceFiles: uiFiles,
+      responsibilities: [
+        "Render the abstraction tree and selected-node detail surfaces for humans.",
+        "Translate committed abstraction memory into navigable local UI state."
+      ],
+      dependencies: ["ui-evidence:react-or-app-path", ...packageEvidence(uiPackages)],
+      confidence: 0.76
+    });
+  }
+
+  const corePackages = workspacePackages.filter(pkg => packageLeaf(pkg) === "core");
+  const coreFiles = uniqueFilePaths([
+    ...filesForPackages(files, corePackages),
+    ...files.filter(file => isCoreEngineFile(file))
+  ]);
+  if (coreFiles.length) {
+    specs.push({
+      id: "subsystem.core.engine",
+      title: "Core Engine",
+      summary: "Reusable project-understanding engine inferred from core package, scanner, tree, context, validation, and evaluation modules.",
+      sourceFiles: coreFiles,
+      responsibilities: [
+        "Own deterministic scanning, import graph construction, tree building, context generation, validation, evaluation, and shared schemas.",
+        "Stay reusable from CLI, app, automation, and future provider-adapter surfaces."
+      ],
+      dependencies: packageEvidence(corePackages),
+      confidence: corePackages.length ? 0.8 : 0.68
+    });
+  }
+
+  const cliPackages = workspacePackages.filter(pkg =>
+    Boolean(pkg.binCommands?.length) || packageLeaf(pkg).includes("cli")
+  );
+  const cliAndApiFiles = uniqueFilePaths([
+    ...filesForPackages(files, cliPackages),
+    ...files.filter(file => isCliSurfaceFile(file) || isLocalServerFile(file) || isApiRouteFile(file))
+  ]);
+  if (cliAndApiFiles.length) {
+    specs.push({
+      id: "subsystem.cli.local.api",
+      title: "CLI and Local API",
+      summary: "User command surface and local serve/API boundary inferred from bin metadata, CLI package paths, command imports, and server files.",
+      sourceFiles: cliAndApiFiles,
+      responsibilities: [
+        "Expose scan, validate, context, serve, route, goal, evaluation, and maintenance workflows to users.",
+        "Bridge local project memory between the reusable core engine, scripts, and the visual app."
+      ],
+      dependencies: ["api-route:/api/state", ...packageEvidence(cliPackages)],
+      confidence: 0.78
+    });
+  }
+
+  const goalAutomationFiles = uniqueFilePaths(files.filter(file => isGoalMissionAutomationFile(file)));
+  if (goalAutomationFiles.length) {
+    specs.push({
+      id: "subsystem.goal.mission.automation",
+      title: "Goal and Mission Automation",
+      summary: "Prompt routing, goal planning, mission folders, self-improvement loops, and Codex automation inferred from goal, route, mission, loop, and assessment files.",
+      sourceFiles: goalAutomationFiles,
+      responsibilities: [
+        "Classify prompts, decompose complex goals, plan bounded missions, run safe mission queues, and record loop outcomes.",
+        "Keep autonomous or semi-autonomous work review-gated by scripts, reports, lessons, and coherence checks."
+      ],
+      dependencies: ["workflow:prompt-routing", "workflow:mission-runner", "workflow:self-improvement-loop"],
+      confidence: 0.74
+    });
+  }
+
+  const memoryFiles = uniqueFilePaths(files.filter(file => isMemoryValidationLogFile(file)));
+  if (memoryFiles.length) {
+    specs.push({
+      id: "subsystem.memory.validation.logs",
+      title: "Memory, Validation, and Logs",
+      summary: "Abstraction memory schema, persistence, validation, evaluation, change review, and operational-log helpers inferred from memory and quality modules.",
+      sourceFiles: memoryFiles,
+      responsibilities: [
+        "Define, load, validate, evaluate, and summarize the committed abstraction memory contract.",
+        "Protect drift checks, run reports, lessons, changes, evaluations, and other durable memory surfaces from silent inconsistency."
+      ],
+      dependencies: ["memory:.abstraction-tree", "quality:validation-and-evaluation"],
+      confidence: 0.72
+    });
+  }
+
+  const docsFiles = uniqueFilePaths(files.filter(file => isDocsOrExampleFile(file)));
+  if (docsFiles.length) {
+    specs.push({
+      id: "subsystem.docs.examples",
+      title: "Docs and Examples",
+      summary: "Human documentation, examples, protocol docs, roadmap, and usage guides inferred from docs, README, and example project paths.",
+      sourceFiles: docsFiles,
+      responsibilities: [
+        "Explain install modes, architecture, agent protocols, self-improvement workflows, data model, examples, and roadmap.",
+        "Keep public claims aligned with deterministic behavior and current CLI scripts."
+      ],
+      dependencies: ["docs:readme-and-guides"],
+      confidence: 0.7
+    });
+  }
+
+  const packagingFiles = uniqueFilePaths(files.filter(file => isPackagingOrAdapterFile(file)));
+  if (packagingFiles.length) {
+    specs.push({
+      id: "subsystem.packaging.adapters",
+      title: "Packaging and Adapters",
+      summary: "Installable package shells, manifests, adapter examples, release scripts, and distribution boundaries inferred from package, adapter, and release files.",
+      sourceFiles: packagingFiles,
+      responsibilities: [
+        "Keep monorepo packaging, installable entrypoints, adapter examples, smoke tests, and release checks coherent.",
+        "Represent how the project is distributed to users and extended by provider-specific integrations."
+      ],
+      dependencies: workspacePackages.flatMap(packageDistributionEvidence),
+      confidence: workspacePackages.length ? 0.74 : 0.64
+    });
+  }
+
+  const qualityFiles = uniqueFilePaths(files.filter(file => isQualityBoundaryFile(file)));
+  if (qualityFiles.length) {
+    specs.push({
+      id: "subsystem.tests.quality",
+      title: "Tests and Quality Gates",
+      summary: "Tests, linting, formatting, Unicode checks, generated-memory fixtures, and CI-oriented guardrails inferred from test and check files.",
+      sourceFiles: qualityFiles,
+      responsibilities: [
+        "Verify deterministic behavior, CLI contracts, app rendering, memory schema, fixtures, and quality scripts.",
+        "Act as the regression boundary before changes are committed, pushed, or run through automation."
+      ],
+      dependencies: ["quality:test-suite", "quality:lint-format-typecheck"],
+      confidence: 0.7
+    });
+  }
+
+  const usefulSpecs = specs.filter(spec => existingFilePaths(spec.sourceFiles, files).length > 0);
+  const finalSpecs = usefulSpecs.length >= 2 ? usefulSpecs : fallbackHumanSubsystemSpecs(files);
+  const roots: TreeNode[] = [];
+  const allNodes: TreeNode[] = [];
+
+  for (const spec of finalSpecs) {
+    const subsystem = humanSubsystemNode(spec, subsystemLevel, parentId, files, importGraph);
+    const childNodes = humanSubsystemChildNodes(subsystem, files, sliceLevel, fileLeafLevel, importGraph);
+    subsystem.children = childNodes.filter(child => child.parent === subsystem.id).map(child => child.id);
+    roots.push(subsystem);
+    allNodes.push(subsystem, ...childNodes);
+  }
+
+  return { roots, nodes: allNodes };
+}
+
+function fallbackHumanSubsystemSpecs(files: FileSummary[]): HumanSubsystemSpec[] {
+  const folders = uniqueStrings(files.map(file => (file.path.includes("/") ? file.path.split("/")[0] : "root"))).sort();
+  return folders.slice(0, 12).map(folder => {
+    const sourceFiles = files
+      .filter(file => (folder === "root" ? !file.path.includes("/") : file.path.startsWith(folder + "/")))
+      .map(file => file.path);
+    const title = folder === "root" ? "Repository Root" : titleize(folder);
+    return {
+      id: `subsystem.${slug(folder) || "root"}`,
+      title,
+      summary: `Human subsystem fallback inferred from files under ${folder === "root" ? "the repository root" : `${folder}/`}.`,
+      sourceFiles,
+      responsibilities: [`Group files under ${folder === "root" ? "the repository root" : `${folder}/`} as a first-pass human navigation boundary.`],
+      confidence: 0.55
+    };
+  });
+}
+
+function humanSubsystemNode(
+  spec: HumanSubsystemSpec,
+  subsystemLevel: TreeNode["level"],
+  parentId: string,
+  files: FileSummary[],
+  importGraph?: ImportGraph
+): TreeNode {
+  const sourceFiles = existingFilePaths(spec.sourceFiles, files);
+  const n = node(spec.id, spec.title, subsystemLevel, spec.summary, parentId);
+  n.sourceFiles = sourceFiles;
+  n.ownedFiles = sourceFiles;
+  n.changePolicy.allowedToChange = [...sourceFiles];
+  n.responsibilities = spec.responsibilities;
+  n.dependencies = uniqueStrings([
+    ...sourceFiles.map(filePath => fileNodeId(filePath)),
+    ...dependencyRefsForFiles(sourceFiles, files, importGraph),
+    ...(spec.dependencies ?? [])
+  ]).sort();
+  n.dependsOn = n.dependencies;
+  n.confidence = spec.confidence ?? 0.65;
+  return n;
+}
+
+function humanSubsystemChildNodes(
+  subsystem: TreeNode,
+  files: FileSummary[],
+  sliceLevel: TreeNode["level"],
+  fileLeafLevel: TreeNode["level"],
+  importGraph?: ImportGraph
+): TreeNode[] {
+  const fileByPath = new Map(files.map(file => [file.path, file]));
+  const subsystemFiles = subsystem.sourceFiles
+    .map(filePath => fileByPath.get(filePath))
+    .filter((file): file is FileSummary => Boolean(file));
+  const sliceSpecs = inferSubsystemSliceSpecs(subsystem, subsystemFiles);
+  const nodes: TreeNode[] = [];
+
+  for (const sliceSpec of sliceSpecs) {
+    const sliceId = `${subsystem.id}.slice.${slug(sliceSpec.id)}`;
+    const slice = node(sliceId, sliceSpec.title, sliceLevel, sliceSpec.summary, subsystem.id);
+    slice.sourceFiles = sliceSpec.files.map(file => file.path).sort();
+    slice.ownedFiles = slice.sourceFiles;
+    slice.changePolicy.allowedToChange = [...slice.sourceFiles];
+    slice.responsibilities = sliceSpec.responsibilities;
+    slice.dependencies = uniqueStrings([
+      ...slice.sourceFiles.map(filePath => fileNodeId(filePath)),
+      ...dependencyRefsForFiles(slice.sourceFiles, files, importGraph)
+    ]).sort();
+    slice.dependsOn = slice.dependencies;
+    slice.confidence = sliceSpec.confidence ?? Math.max(0.55, subsystem.confidence - 0.05);
+
+    const leaves = sliceSpec.files
+      .slice()
+      .sort((a, b) => a.path.localeCompare(b.path))
+      .map(file => subsystemFileLeafNode(subsystem, slice.id, file, fileLeafLevel));
+
+    slice.children = leaves.map(leaf => leaf.id);
+    nodes.push(slice, ...leaves);
+  }
+
+  return nodes;
+}
+
+function subsystemFileLeafNode(subsystem: TreeNode, parentId: string, file: FileSummary, fileLeafLevel: TreeNode["level"]): TreeNode {
+  const n = node(
+    `${subsystem.id}.file.${slug(file.path)}`,
+    path.basename(file.path),
+    fileLeafLevel,
+    `File leaf for ${file.path} within ${subsystem.title}.`,
+    parentId
+  );
+  n.sourceFiles = [file.path];
+  n.ownedFiles = [file.path];
+  n.changePolicy.allowedToChange = [file.path];
+  n.dependencies = uniqueStrings([fileNodeId(file.path), ...file.imports.map(i => `import:${i}`)]).sort();
+  n.dependsOn = n.dependencies;
+  n.responsibilities = [file.summary];
+  n.confidence = Math.max(0.55, subsystem.confidence - 0.08);
+  return n;
+}
+
+function inferSubsystemSliceSpecs(subsystem: TreeNode, files: FileSummary[]): SubsystemSliceSpec[] {
+  const groups = new Map<string, SubsystemSliceSpec>();
+  for (const file of files) {
+    const classification = classifySubsystemFile(subsystem.id, file);
+    const existing = groups.get(classification.id) ?? {
+      ...classification,
+      files: [],
+      responsibilities: [classification.responsibility],
+      confidence: classification.confidence
+    };
+    existing.files.push(file);
+    groups.set(classification.id, existing);
+  }
+
+  return [...groups.values()]
+    .map(group => ({
+      ...group,
+      files: group.files.sort((a, b) => a.path.localeCompare(b.path)),
+      summary: `${group.title} files inside ${subsystem.title}.`
+    }))
+    .sort((a, b) => sliceOrder(a.id) - sliceOrder(b.id) || a.title.localeCompare(b.title));
+}
+
+function classifySubsystemFile(subsystemId: string, file: FileSummary): {
+  id: string;
+  title: string;
+  summary: string;
+  responsibility: string;
+  confidence: number;
+} {
+  const normalized = file.path.toLowerCase();
+
+  if (subsystemId === "subsystem.visual.app") return classifyVisualAppFile(file, normalized);
+  if (subsystemId === "subsystem.core.engine") return classifyCoreEngineFile(file, normalized);
+  if (subsystemId === "subsystem.cli.local.api") return classifyCliLocalApiFile(file, normalized);
+  if (subsystemId === "subsystem.goal.mission.automation") return classifyGoalMissionAutomationSlice(file, normalized);
+  if (subsystemId === "subsystem.memory.validation.logs") return classifyMemoryValidationLogSlice(file, normalized);
+  if (subsystemId === "subsystem.docs.examples") return classifyDocsExampleSlice(file, normalized);
+  if (subsystemId === "subsystem.packaging.adapters") return classifyPackagingAdapterSlice(file, normalized);
+  if (subsystemId === "subsystem.tests.quality") return classifyTestsQualitySlice(file, normalized);
+
+  return classifyGenericSubsystemFile(file, normalized);
+}
+
+function classifyVisualAppFile(file: FileSummary, normalized: string): ReturnType<typeof classifySubsystemFile> {
+  if (file.isTest) return slice("tests", "Visual App Tests", "Verify visual app behavior and rendering contracts.");
+  if (/\.(css|scss)$/.test(normalized)) return slice("styling", "Styling", "Own visual layout, spacing, and responsive presentation.");
+  if (/\/components?\//.test(normalized)) return slice("components", "UI Components", "Own reusable visual panels, tree controls, and selected-node details.");
+  if (/\/(app|main|types|nodeaccessors)\.(ts|tsx|js|jsx)$/.test(normalized) || normalized.endsWith("package.json")) {
+    return slice("app-shell-state", "App Shell and State", "Own browser app bootstrap, state shape, package boundary, and shared node accessors.");
+  }
+  return slice("visual-support", "Visual Support", "Support the local browser explorer.");
+}
+
+function classifyCoreEngineFile(file: FileSummary, normalized: string): ReturnType<typeof classifySubsystemFile> {
+  if (file.isTest) return slice("tests", "Core Tests", "Verify core deterministic behavior.");
+  if (/(scanner|importgraph|treebuilder|context|contextlimits|scope)\.ts$/.test(normalized)) {
+    return slice("understanding-pipeline", "Understanding Pipeline", "Transform files into import graphs, trees, scopes, and context packs.");
+  }
+  if (/(schema|runtimeschema|workspace|validator|evaluator|changereview|runreports|automationvalidation)\.ts$/.test(normalized)) {
+    return slice("memory-quality", "Memory and Quality Engine", "Define, load, validate, evaluate, and review abstraction memory.");
+  }
+  if (/(goal|promptrouter|diffsummary)\.ts$/.test(normalized)) {
+    return slice("goal-routing", "Goal and Routing Engine", "Plan goal workspaces, route prompts, and summarize diff scope.");
+  }
+  if (/\/llm\//.test(normalized) || /llm/.test(path.basename(normalized))) {
+    return slice("llm-proposals", "LLM Proposal Interface", "Represent review-gated provider proposal contracts.");
+  }
+  if (normalized.endsWith("package.json") || normalized.endsWith("/index.ts")) return slice("public-api", "Public API Boundary", "Expose the reusable core package API.");
+  return slice("core-support", "Core Support", "Support reusable deterministic project understanding.");
+}
+
+function classifyCliLocalApiFile(file: FileSummary, normalized: string): ReturnType<typeof classifySubsystemFile> {
+  if (file.isTest) return slice("tests", "CLI Tests", "Verify command behavior and local API state.");
+  if (/(apistate|serve|server|state)\.ts$/.test(normalized) || hasAny(file.imports, ["node:http", "sirv", "express", "fastify", "hono", "koa"])) {
+    return slice("local-api", "Local API and Serve Runtime", "Serve abstraction memory to the visual app and local browser clients.");
+  }
+  if (/(goalcommand|routecommand|scopecommand|propose|doctor|migrate|index)\.ts$/.test(normalized)) {
+    return slice("commands", "Command Surface", "Expose user-facing CLI commands and command orchestration.");
+  }
+  if (normalized.endsWith("package.json")) return slice("cli-package", "CLI Package Boundary", "Define CLI package metadata and bin entrypoints.");
+  return slice("cli-support", "CLI Support", "Support command-line workflows.");
+}
+
+function classifyGoalMissionAutomationSlice(file: FileSummary, normalized: string): ReturnType<typeof classifySubsystemFile> {
+  if (/(promptrouter|routecommand|goalcommand|goal)\.(ts|mjs)$/.test(normalized)) {
+    return slice("prompt-goal-planning", "Prompt Routing and Goal Planning", "Classify prompts and create goal-specific mission plans.");
+  }
+  if (/(run-missions|mission|assessment|full-self-improvement|loop|codex|diff-summary|summarize-diff)/.test(normalized)) {
+    return slice("mission-runner-loop", "Mission Runner and Loop Scripts", "Run bounded mission queues, full-loop workflows, and diff summaries.");
+  }
+  if (normalized.startsWith("docs/")) return slice("automation-docs", "Automation Docs", "Document mission runner, full-loop, and automation behavior.");
+  return slice("automation-support", "Automation Support", "Support goal and mission automation.");
+}
+
+function classifyMemoryValidationLogSlice(file: FileSummary, normalized: string): ReturnType<typeof classifySubsystemFile> {
+  if (/(schema|runtimeschema|workspace)\.ts$/.test(normalized)) {
+    return slice("memory-schema-workspace", "Memory Schema and Workspace", "Define runtime memory shapes and read/write workspace memory.");
+  }
+  if (/(validator|evaluator|changereview|runreports|automationvalidation|scope)\.ts$/.test(normalized)) {
+    return slice("validation-evaluation", "Validation, Evaluation, and Reports", "Validate tree memory, evaluate quality, and review durable records.");
+  }
+  if (normalized.startsWith("docs/")) return slice("memory-docs", "Memory Docs", "Document the data model, architecture, and agent protocol.");
+  return slice("memory-support", "Memory Support", "Support durable abstraction memory.");
+}
+
+function classifyDocsExampleSlice(file: FileSummary, normalized: string): ReturnType<typeof classifySubsystemFile> {
+  if (normalized === "readme.md") return slice("readme", "Project README", "Explain the project purpose, install modes, and primary workflows.");
+  if (normalized.startsWith("examples/")) return slice("examples", "Examples", "Provide example projects and integration fixtures.");
+  if (normalized.startsWith("docs/")) return slice("guides", "Guides", "Document architecture, data model, CI, missions, and agent workflows.");
+  return slice("docs-support", "Documentation Support", "Support human-facing documentation.");
+}
+
+function classifyPackagingAdapterSlice(file: FileSummary, normalized: string): ReturnType<typeof classifySubsystemFile> {
+  if (normalized.startsWith("adapters/")) return slice("adapters", "Adapters", "Provide provider or agent adapter examples.");
+  if (normalized.startsWith("packages/full/")) return slice("full-package", "Full Package Shell", "Bundle the full installable package and bin wrapper.");
+  if (normalized.endsWith("package.json") || normalized.endsWith("package-lock.json")) return slice("manifests", "Package Manifests", "Define workspace packages, dependencies, scripts, and distribution metadata.");
+  if (normalized.startsWith("scripts/")) return slice("release-scripts", "Release and Packaging Scripts", "Check changelogs, pack smoke tests, and release dry runs.");
+  return slice("packaging-support", "Packaging Support", "Support distribution boundaries.");
+}
+
+function classifyTestsQualitySlice(file: FileSummary, normalized: string): ReturnType<typeof classifySubsystemFile> {
+  if (normalized.startsWith("packages/core/")) return slice("core-tests", "Core Tests", "Verify core scanner, tree, context, validation, evaluation, and routing behavior.");
+  if (normalized.startsWith("packages/cli/")) return slice("cli-tests", "CLI Tests", "Verify CLI commands and local API behavior.");
+  if (normalized.startsWith("packages/app/")) return slice("app-tests", "App Tests", "Verify app rendering, tree controls, and UI state.");
+  if (normalized.startsWith("scripts/")) return slice("script-quality", "Script Quality Gates", "Verify linting, formatting, mission runner, assessment, and helper scripts.");
+  if (normalized.startsWith("examples/")) return slice("example-tests", "Example Tests", "Verify example project behavior.");
+  if (normalized.startsWith(".github/")) return slice("ci", "CI Workflows", "Run repository checks in GitHub Actions.");
+  return slice("quality-support", "Quality Support", "Support quality gates.");
+}
+
+function classifyGenericSubsystemFile(file: FileSummary, normalized: string): ReturnType<typeof classifySubsystemFile> {
+  if (file.isTest) return slice("tests", "Tests", "Verify behavior for this subsystem.");
+  if (isMarkdownFile(file)) return slice("docs", "Docs", "Explain this subsystem.");
+  const folder = normalized.includes("/") ? normalized.split("/").slice(0, 2).join("/") : "root";
+  return slice(slug(folder), titleize(folder), `Group files under ${folder}.`);
+}
+
+function slice(id: string, title: string, responsibility: string, confidence = 0.66): ReturnType<typeof classifySubsystemFile> {
+  return {
+    id,
+    title,
+    summary: `${title} files.`,
+    responsibility,
+    confidence
+  };
+}
+
+function sliceOrder(id: string): number {
+  const order = [
+    "app-shell-state", "components", "styling", "local-api", "commands", "prompt-goal-planning",
+    "mission-runner-loop", "understanding-pipeline", "memory-quality", "memory-schema-workspace",
+    "validation-evaluation", "public-api", "manifests", "adapters", "full-package", "guides",
+    "readme", "examples", "tests", "core-tests", "cli-tests", "app-tests", "script-quality", "ci"
+  ];
+  const index = order.indexOf(id);
+  return index === -1 ? order.length : index;
 }
 
 function inferArchitectureNodes(
@@ -846,6 +1544,62 @@ function isPackageManifestFile(file: FileSummary): boolean {
 
 function isSourceOrBinFile(file: FileSummary): boolean {
   return /(^|\/)(src|bin)\//.test(file.path) || isPackageManifestFile(file);
+}
+
+function isCoreEngineFile(file: FileSummary): boolean {
+  if (file.isTest) return false;
+  if (!isUnderRepoPath(file.path, "packages/core")) return false;
+  return /(^|\/)src\//.test(file.path) || isPackageManifestFile(file);
+}
+
+function isGoalMissionAutomationFile(file: FileSummary): boolean {
+  if (file.isTest) return false;
+  const normalized = file.path.toLowerCase();
+  return (
+    /\b(goal|route|mission|automation|assessment|autopilot|loop|codex)\b/u.test(pathTokens(normalized)) ||
+    /(prompt[-.]?router|self[-.]?improvement|run[-.]?missions|create[-.]?assessment|import[-.]?assessment|diff[-.]?summary|summarize[-.]?diff)/u.test(normalized) ||
+    /(^|\/)docs\/(full_self_improvement_loop|mission_runner|automation|roadmap)\.md$/u.test(normalized) ||
+    /(^|\/)scripts\/.*(mission|assessment|loop|codex|diff|summary).*\.(mjs|ps1|sh)$/u.test(normalized)
+  );
+}
+
+function isMemoryValidationLogFile(file: FileSummary): boolean {
+  if (file.isTest) return false;
+  const normalized = file.path.toLowerCase();
+  return (
+    /(^|\/)(schema|runtimeschema|workspace|validator|evaluator|changereview|runreports|automationvalidation|contextlimits|scope)\.ts$/u.test(normalized) ||
+    /(^|\/)docs\/(data_model|agent_protocol|architecture)\.md$/u.test(normalized) ||
+    /(^|\/)scripts\/.*(validate|evaluate|report|record|state).*\.(mjs|ps1|sh)$/u.test(normalized)
+  );
+}
+
+function isDocsOrExampleFile(file: FileSummary): boolean {
+  const normalized = file.path.toLowerCase();
+  return normalized === "readme.md" || normalized.startsWith("docs/") || normalized.startsWith("examples/");
+}
+
+function isPackagingOrAdapterFile(file: FileSummary): boolean {
+  const normalized = file.path.toLowerCase();
+  return (
+    isPackageManifestFile(file) ||
+    normalized === "package-lock.json" ||
+    normalized.startsWith("packages/full/") ||
+    normalized.startsWith("adapters/") ||
+    /(^|\/)scripts\/.*(pack|release|changelog|publish|smoke).*\.(mjs|ps1|sh)$/u.test(normalized)
+  );
+}
+
+function isQualityBoundaryFile(file: FileSummary): boolean {
+  const normalized = file.path.toLowerCase();
+  return (
+    file.isTest ||
+    /(^|\/)scripts\/.*(test|lint|format|unicode|check|fixture|coverage).*\.(mjs|ps1|sh)$/u.test(normalized) ||
+    /(^|\/)\.github\/workflows\//u.test(normalized)
+  );
+}
+
+function pathTokens(normalizedPath: string): string {
+  return normalizedPath.replace(/[^a-z0-9]+/gu, " ");
 }
 
 function existingFilePaths(sourceFiles: string[], files: FileSummary[]): string[] {

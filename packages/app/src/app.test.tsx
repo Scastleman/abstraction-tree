@@ -106,6 +106,7 @@ test("mission panels render independently", () => {
 
   assert.match(html, /Confidence/);
   assert.match(html, /Summary/);
+  assert.match(html, /Reason For Its Existence/);
   assert.match(html, /Separation Logic/);
   assert.match(html, /Scope Evidence/);
   assert.match(html, /Latest run/);
@@ -121,7 +122,8 @@ test("NodeDetails starts with the selected node representation summary", () => {
   assert.ok(html.indexOf("Summary") < html.indexOf("Level"));
   assert.ok(html.indexOf("Root project purpose.") < html.indexOf("Confidence"));
   assert.ok(html.indexOf("Explanation") > html.indexOf("Root project purpose."));
-  assert.ok(html.indexOf("Separation Logic") > html.indexOf("Explanation"));
+  assert.ok(html.indexOf("Reason For Its Existence") > html.indexOf("Explanation"));
+  assert.ok(html.indexOf("Separation Logic") > html.indexOf("Reason For Its Existence"));
 });
 
 function sampleState(): State {
@@ -228,6 +230,7 @@ function node(
     level,
     summary,
     explanation: `${title} explains its role, owned scope, relationships, and safe change guidance for human and agent readers.`,
+    reasonForExistence: `${title} exists to make this project area understandable and safely scoped for humans and agents.`,
     separationLogic: children.length ? `${title} children are partitioned by the next narrower scope boundary.` : undefined,
     children,
     parent,

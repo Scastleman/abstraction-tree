@@ -6,7 +6,10 @@
 - File scanner.
 - AST-backed TypeScript/JavaScript import, export, and symbol extraction.
 - Deterministic initial tree builder.
+- Evidence-backed first-layer human subsystem inference.
+- Subsystem responsibility slices with concrete file leaves.
 - Human-readable node explanations generated from deterministic scanner facts.
+- Explicit node reasons for existence that explain why each subsystem or boundary belongs in the project.
 - Separation logic that describes how parent nodes partition their child nodes.
 - Repo-specific concept inference from paths, symbols, and exports.
 - Visual app served locally.
@@ -26,7 +29,7 @@
 
 The deterministic MVP is the current default. It scans files, builds memory, validates drift, generates context packs, evaluates objective metrics, and summarizes diffs without requiring an API key.
 
-Tree nodes now distinguish compact `summary` text from richer `explanation` text and optional `separationLogic` text. Deterministic explanations make the tree more useful as a human project guide and as an agent overreach-control surface. Separation logic describes how a parent partitions its children, making child boundaries more legible before an agent chooses scope. Future LLM adapters can propose higher-quality descriptions through review workflows.
+Tree nodes now distinguish compact `summary` text from richer `explanation` text, explicit `reasonForExistence` text, and optional `separationLogic` text. Deterministic explanations and reasons make the tree more useful as a human project guide and as an agent overreach-control surface. Separation logic describes how a parent partitions its children, making child boundaries more legible before an agent chooses scope. The root now starts with inferred human subsystem nodes when the repo has evidence for them, those subsystems decompose into responsibility slices and file leaves, and `Project Indexes` preserves deterministic concept, architecture, and code lookup. Future LLM adapters can propose higher-quality descriptions through review workflows.
 
 LLM-inferred abstraction is not default behavior. This checkout includes the adapter-ready interface and the explicit `atree propose` review workflow for provider implementations, but `scan`, `validate`, `context`, `evaluate`, and `serve` do not call an LLM provider.
 

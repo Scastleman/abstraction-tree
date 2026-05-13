@@ -422,6 +422,7 @@ function scoreNode(node: TreeNode, query: string, queryTokens: string[]): ScoreR
     scoreText("node name", nodeName(node), query, queryTokens, 4),
     scoreText("node summary", node.summary, query, queryTokens, 3),
     scoreText("node explanation", node.explanation, query, queryTokens, 2),
+    scoreText("node reason for existence", node.reasonForExistence, query, queryTokens, 2),
     scoreText("node separation logic", node.separationLogic, query, queryTokens, 2),
     scoreList("node files", nodeFiles(node), query, queryTokens, 3),
     scoreList("node responsibilities", node.responsibilities ?? [], query, queryTokens, 2),
@@ -550,6 +551,9 @@ function pushNodeMarkdown(lines: string[], nodes: TreeNode[]): void {
     lines.push(`  Summary: ${node.summary}`);
     if (node.explanation?.trim() && node.explanation.trim() !== node.summary.trim()) {
       lines.push(`  Explanation: ${node.explanation.trim()}`);
+    }
+    if (node.reasonForExistence?.trim()) {
+      lines.push(`  Reason for existence: ${node.reasonForExistence.trim()}`);
     }
     if (node.separationLogic?.trim()) {
       lines.push(`  Separation logic: ${node.separationLogic.trim()}`);

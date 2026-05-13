@@ -371,6 +371,7 @@ function validateTreeNode(value: unknown, filePath: string, fieldPath: string, h
   expectString(record, "level", filePath, fieldPath, hint, issues);
   expectString(record, "summary", filePath, fieldPath, hint, issues);
   expectOptionalString(record, "explanation", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "reasonForExistence", filePath, fieldPath, hint, issues);
   expectOptionalString(record, "separationLogic", filePath, fieldPath, hint, issues);
   expectOptionalString(record, "parent", filePath, fieldPath, hint, issues);
   expectOptionalString(record, "parentId", filePath, fieldPath, hint, issues);
