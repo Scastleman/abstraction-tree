@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -78,6 +79,33 @@ test("requested source version must match the workspace config", async t => {
 
   assert.equal(result.applied, false);
   assert.ok(result.plan.issues.some(issue => /Requested --from 0\.0\.9/.test(issue.message)));
+});
+
+test("unsupported older schema versions require an explicit migration path", async t => {
+  const root = await workspace(t);
+  const config = { ...await readFixtureConfig(), version: "0.0.9" };
+  await writeConfig(root, config);
+
+  const result = await migrateAtreeWorkspace(root);
+  const written = await readJson<Record<string, unknown>>(atreePath(root, "config.json"), {});
+
+  assert.equal(result.applied, false);
+  assert.ok(result.plan.issues.some(issue => /No migration path from schema version 0\.0\.9/.test(issue.message)));
+  assert.equal(written.version, "0.0.9");
+});
+
+test("current-version no-op migration does not create backups", async t => {
+  const root = await workspace(t);
+  await copyFixtureMemory(root);
+
+  const result = await migrateAtreeWorkspace(root, {
+    fromVersion: CURRENT_ATREE_SCHEMA_VERSION,
+    toVersion: CURRENT_ATREE_SCHEMA_VERSION
+  });
+
+  assert.equal(result.applied, false);
+  assert.equal(result.backupDir, undefined);
+  assert.equal(existsSync(atreePath(root, "backups")), false);
 });
 
 async function workspace(t: TestContext): Promise<string> {

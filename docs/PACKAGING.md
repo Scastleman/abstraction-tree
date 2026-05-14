@@ -160,6 +160,31 @@ tarball contents, dogfooding-memory exclusion, local tarball installability,
 linked binaries, `init`, `scan`, `doctor`, `validate`, `context`, `export`, and
 local app serving. It does not publish or tag anything.
 
+## Prerelease path
+
+Use a public prerelease before a v1 label. The recommended first public testing path is a synchronized `0.2.0-beta.1` release under the npm `beta` dist-tag. A later `1.0.0-rc.1` can use the `next` dist-tag only after the v1 release gate is nearly complete.
+
+Prerelease procedure:
+
+1. Choose the synchronized prerelease version.
+2. Update root and publishable package versions plus internal package dependency pins.
+3. Move relevant `CHANGELOG.md` entries into the prerelease version section.
+4. Run `npm run release:dry-run -- --version <candidate-version>`.
+5. Publish manually in dependency order with `--tag beta` or `--tag next`.
+6. Verify in a brand-new external directory:
+
+```bash
+npm install -D abstraction-tree@beta
+npx atree init --with-app
+npx atree scan
+npx atree doctor
+npx atree validate
+npx atree export --format mermaid
+npx atree serve
+```
+
+If a prerelease package is broken, deprecate that exact version with a clear message and publish a fixed prerelease. Do not move the `latest` dist-tag until [V1_RELEASE_GATE.md](V1_RELEASE_GATE.md) passes.
+
 ## Maintainer release checklist
 
 1. Start from an up-to-date `main` branch with no unrelated local changes.

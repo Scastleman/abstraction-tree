@@ -1,6 +1,7 @@
 import {
   buildChangeRecordReviewSummary,
   limitChangeRecordReviewReport,
+  pruneGeneratedScanRecords,
   reviewChangeRecords
 } from "@abstraction-tree/core";
 
@@ -8,6 +9,11 @@ export interface ChangeReviewCommandOptions {
   projectRoot: string;
   summary?: boolean;
   limit?: unknown;
+}
+
+export interface ChangePruneGeneratedCommandOptions {
+  projectRoot: string;
+  apply?: boolean;
 }
 
 export interface ChangeReviewCommandIo {
@@ -31,6 +37,25 @@ export async function runChangeReviewCommand(
     null,
     2
   ));
+  return 0;
+}
+
+export async function runChangePruneGeneratedCommand(
+  options: ChangePruneGeneratedCommandOptions,
+  io: ChangeReviewCommandIo = defaultIo
+): Promise<number> {
+  const result = await pruneGeneratedScanRecords(options.projectRoot, {
+    dryRun: !options.apply
+  });
+
+  io.stdout(JSON.stringify(result, null, 2));
+  if (result.blockedByIssues) {
+    io.stderr("Generated scan pruning was blocked because change records have validation issues.");
+    return 1;
+  }
+  if (!options.apply && result.eligibleGeneratedScanRecordCount > 0) {
+    io.stderr("Dry run only. Re-run with `--apply` to delete superseded generated scan records.");
+  }
   return 0;
 }
 

@@ -1,5 +1,7 @@
+import { unlink } from "node:fs/promises";
+import path from "node:path";
 import type { ValidationIssue } from "./schema.js";
-import { loadChangeRecordObjects, type LoadedChangeRecordObject } from "./workspace.js";
+import { atreePath, loadChangeRecordObjects, type LoadedChangeRecordObject } from "./workspace.js";
 
 export interface ChangeRecordReviewItem {
   id: string;
@@ -31,6 +33,16 @@ export interface ChangeRecordReviewSummary {
   issueCount: number;
 }
 
+export interface PruneGeneratedScanRecordsResult {
+  dryRun: boolean;
+  retainedGeneratedScanRecordId?: string;
+  deletedRecordCount: number;
+  deletedRecordPaths: string[];
+  eligibleGeneratedScanRecordCount: number;
+  blockedByIssues: boolean;
+  issues: ValidationIssue[];
+}
+
 export type ChangeRecordReviewInput = LoadedChangeRecordObject;
 
 export async function reviewChangeRecords(projectRoot: string): Promise<ChangeRecordReviewReport> {
@@ -45,9 +57,11 @@ export function buildChangeRecordReviewReport(
   const generatedScanRecords = records
     .filter(change => isGeneratedScanRecord(change.record))
     .sort(compareLoadedChangeRecords);
+  const referencedChangeRecordPaths = changeRecordPathsReferencedBySemanticRecords(records);
   const retainedGeneratedScanRecord = generatedScanRecords.at(-1);
   const eligibleGeneratedScanRecords = generatedScanRecords
     .slice(0, -1)
+    .filter(change => !referencedChangeRecordPaths.has(change.filePath))
     .map(change => reviewItem(change, "superseded-by-newer-scan"));
 
   return {
@@ -83,6 +97,33 @@ export function limitChangeRecordReviewReport(
   };
 }
 
+export async function pruneGeneratedScanRecords(
+  projectRoot: string,
+  options: { dryRun?: boolean } = {}
+): Promise<PruneGeneratedScanRecordsResult> {
+  const root = path.resolve(projectRoot);
+  const dryRun = options.dryRun !== false;
+  const report = await reviewChangeRecords(root);
+  const blockedByIssues = report.issues.some(issue => issue.severity === "error");
+  const deletedRecordPaths = report.eligibleGeneratedScanRecords.map(record => record.filePath);
+
+  if (!dryRun && !blockedByIssues) {
+    for (const filePath of deletedRecordPaths) {
+      await unlink(changeRecordAbsolutePath(root, filePath));
+    }
+  }
+
+  return {
+    dryRun,
+    retainedGeneratedScanRecordId: report.retainedGeneratedScanRecord?.id,
+    deletedRecordCount: dryRun || blockedByIssues ? 0 : deletedRecordPaths.length,
+    deletedRecordPaths,
+    eligibleGeneratedScanRecordCount: report.eligibleGeneratedScanRecordCount,
+    blockedByIssues,
+    issues: report.issues
+  };
+}
+
 function reviewItem(
   change: ChangeRecordReviewInput,
   consolidationCandidateReason?: ChangeRecordReviewItem["consolidationCandidateReason"]
@@ -99,6 +140,15 @@ function reviewItem(
   };
 }
 
+function changeRecordAbsolutePath(projectRoot: string, relativeFilePath: string): string {
+  const changesRoot = path.resolve(atreePath(projectRoot, "changes"));
+  const absolutePath = path.resolve(projectRoot, relativeFilePath);
+  if (!absolutePath.startsWith(`${changesRoot}${path.sep}`)) {
+    throw new Error(`Refusing to prune change record outside .abstraction-tree/changes: ${relativeFilePath}`);
+  }
+  return absolutePath;
+}
+
 function compareLoadedChangeRecords(left: ChangeRecordReviewInput, right: ChangeRecordReviewInput): number {
   return changeSortKey(left).localeCompare(changeSortKey(right));
 }
@@ -113,6 +163,13 @@ function changeSortKey(change: ChangeRecordReviewInput): string {
 
 function isGeneratedScanRecord(change: Record<string, unknown>): boolean {
   return typeof change.id === "string" && change.id.startsWith("scan.");
+}
+
+function changeRecordPathsReferencedBySemanticRecords(records: ChangeRecordReviewInput[]): Set<string> {
+  return new Set(records
+    .filter(change => !isGeneratedScanRecord(change.record))
+    .flatMap(change => stringArray(change.record.filesChanged))
+    .filter(filePath => filePath.startsWith(".abstraction-tree/changes/scan.") && filePath.endsWith(".json")));
 }
 
 function stringValue(value: unknown): string | undefined {

@@ -24,6 +24,7 @@ jobs:
       - run: npm ci
       - run: npm run format:check
       - run: npm run check:unicode
+      - run: npm run docs:commands
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run build

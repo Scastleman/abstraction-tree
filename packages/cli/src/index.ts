@@ -26,7 +26,7 @@ import {
   type InstallMode
 } from "@abstraction-tree/core";
 import { loadApiAgentHealth, loadApiState } from "./apiState.js";
-import { runChangeReviewCommand } from "./changeReviewCommand.js";
+import { runChangePruneGeneratedCommand, runChangeReviewCommand } from "./changeReviewCommand.js";
 import { collectValidationIssues, doctorExitCode, findVisualAppDist, formatDoctorReport, runDoctor } from "./doctor.js";
 import { runGoalCommand } from "./goalCommand.js";
 import { formatMigrationResult, migrationExitCode, runMigrateCommand } from "./migrate.js";
@@ -313,6 +313,18 @@ changesCommand.command("review")
       projectRoot: root,
       summary: Boolean(opts.summary),
       limit: opts.limit
+    });
+  });
+
+changesCommand.command("prune-generated")
+  .description("Delete superseded generated scan records after retaining the newest scan record")
+  .option("-p, --project <path>", "project root")
+  .option("--apply", "delete eligible records; omitted means dry run")
+  .action(async opts => {
+    const root = projectPath(opts.project);
+    process.exitCode = await runChangePruneGeneratedCommand({
+      projectRoot: root,
+      apply: Boolean(opts.apply)
     });
   });
 

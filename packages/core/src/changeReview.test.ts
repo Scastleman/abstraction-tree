@@ -1,11 +1,13 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test, { type TestContext } from "node:test";
 import {
   buildChangeRecordReviewSummary,
   limitChangeRecordReviewReport,
+  pruneGeneratedScanRecords,
   reviewChangeRecords
 } from "./changeReview.js";
 
@@ -80,6 +82,63 @@ test("reviewChangeRecords reports malformed change files without mutating them",
   ));
 });
 
+test("reviewChangeRecords preserves generated scans referenced by semantic records", async t => {
+  const root = await workspace(t);
+  await writeChange(root, "scan.1", "2026-05-04T10:00:00.000Z");
+  await writeChange(root, "scan.2", "2026-05-04T11:00:00.000Z");
+  await writeChange(root, "scan.3", "2026-05-04T12:00:00.000Z");
+  await writeChange(root, "semantic.1", "2026-05-04T12:30:00.000Z", {
+    filesChanged: [".abstraction-tree/changes/scan.1.json"]
+  });
+
+  const report = await reviewChangeRecords(root);
+
+  assert.equal(report.retainedGeneratedScanRecord?.id, "scan.3");
+  assert.deepEqual(report.eligibleGeneratedScanRecords.map(record => record.id), ["scan.2"]);
+});
+
+test("pruneGeneratedScanRecords dry-runs by default and keeps files", async t => {
+  const root = await workspace(t);
+  await writeChange(root, "scan.1", "2026-05-04T10:00:00.000Z");
+  await writeChange(root, "scan.2", "2026-05-04T11:00:00.000Z");
+
+  const result = await pruneGeneratedScanRecords(root);
+
+  assert.equal(result.dryRun, true);
+  assert.equal(result.deletedRecordCount, 0);
+  assert.equal(result.eligibleGeneratedScanRecordCount, 1);
+  assert.equal(result.retainedGeneratedScanRecordId, "scan.2");
+  assert.ok(existsSync(path.join(root, ".abstraction-tree", "changes", "scan.1.json")));
+});
+
+test("pruneGeneratedScanRecords deletes only superseded generated scan records", async t => {
+  const root = await workspace(t);
+  await writeChange(root, "scan.1", "2026-05-04T10:00:00.000Z");
+  await writeChange(root, "semantic.1", "2026-05-04T10:30:00.000Z");
+  await writeChange(root, "scan.2", "2026-05-04T11:00:00.000Z");
+
+  const result = await pruneGeneratedScanRecords(root, { dryRun: false });
+
+  assert.equal(result.deletedRecordCount, 1);
+  assert.deepEqual(result.deletedRecordPaths, [".abstraction-tree/changes/scan.1.json"]);
+  assert.equal(existsSync(path.join(root, ".abstraction-tree", "changes", "scan.1.json")), false);
+  assert.equal(JSON.parse(await readFile(path.join(root, ".abstraction-tree", "changes", "scan.2.json"), "utf8")).id, "scan.2");
+  assert.equal(JSON.parse(await readFile(path.join(root, ".abstraction-tree", "changes", "semantic.1.json"), "utf8")).id, "semantic.1");
+});
+
+test("pruneGeneratedScanRecords refuses to delete when change records have errors", async t => {
+  const root = await workspace(t);
+  await writeChange(root, "scan.1", "2026-05-04T10:00:00.000Z");
+  await writeChange(root, "scan.2", "2026-05-04T11:00:00.000Z");
+  await writeFile(path.join(root, ".abstraction-tree", "changes", "bad.json"), "{ bad json\n", "utf8");
+
+  const result = await pruneGeneratedScanRecords(root, { dryRun: false });
+
+  assert.equal(result.blockedByIssues, true);
+  assert.equal(result.deletedRecordCount, 0);
+  assert.ok(existsSync(path.join(root, ".abstraction-tree", "changes", "scan.1.json")));
+});
+
 async function workspace(t: TestContext): Promise<string> {
   const root = await mkdtemp(path.join(tmpdir(), "atree-change-review-"));
   t.after(() => rm(root, { recursive: true, force: true }));
@@ -87,14 +146,19 @@ async function workspace(t: TestContext): Promise<string> {
   return root;
 }
 
-async function writeChange(root: string, id: string, timestamp: string) {
+async function writeChange(
+  root: string,
+  id: string,
+  timestamp: string,
+  overrides: Partial<{ filesChanged: string[] }> = {}
+) {
   const change = {
     id,
     timestamp,
     title: id.startsWith("scan.") ? "Deterministic scan" : "Semantic change",
     reason: "Test change record.",
     affectedNodeIds: ["project.intent"],
-    filesChanged: [".abstraction-tree/tree.json"],
+    filesChanged: overrides.filesChanged ?? [".abstraction-tree/tree.json"],
     invariantsPreserved: ["invariant.tree-updated-after-change"],
     risk: "low"
   };

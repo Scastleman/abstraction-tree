@@ -1,0 +1,62 @@
+name: Agent workflow or mission runner problem
+description: Report prompt routing, goal planning, scope, assessment-pack, or mission-runner issues.
+title: "[agent-workflow]: "
+labels: ["agent-workflow", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not paste API keys, secrets, private source code, or full mission/runtime state. Share the smallest redacted prompt and artifact excerpts needed.
+  - type: input
+    id: os
+    attributes:
+      label: OS
+    validations:
+      required: true
+  - type: input
+    id: node
+    attributes:
+      label: Node and npm versions
+    validations:
+      required: true
+  - type: textarea
+    id: prompt
+    attributes:
+      label: Redacted prompt or goal
+      description: Keep only the minimum text needed to reproduce the routing/planning issue.
+      render: markdown
+  - type: textarea
+    id: command
+    attributes:
+      label: Command run
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected route, mission, scope, or runner behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Redacted doctor output
+      render: json
+  - type: dropdown
+    id: shareable
+    attributes:
+      label: Can the target project be shared?
+      options:
+        - "No"
+        - "Yes, publicly"
+        - "Yes, privately if needed"
+    validations:
+      required: true

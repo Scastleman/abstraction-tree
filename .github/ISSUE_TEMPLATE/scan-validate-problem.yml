@@ -1,0 +1,57 @@
+name: Scan or validate problem
+description: Report incorrect generated memory, scan failures, or validation problems.
+title: "[scan]: "
+labels: ["scan", "validation", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please share only the smallest redacted evidence needed. Avoid pasting private source files or full `.abstraction-tree/` memory.
+  - type: input
+    id: os
+    attributes:
+      label: OS
+    validations:
+      required: true
+  - type: input
+    id: node
+    attributes:
+      label: Node and npm versions
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command run
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected tree or validation behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Redacted doctor output
+      description: Paste redacted `npx atree doctor --json` if available.
+      render: json
+  - type: dropdown
+    id: shareable
+    attributes:
+      label: Can the target project be shared?
+      options:
+        - "No"
+        - "Yes, publicly"
+        - "Yes, privately if needed"
+    validations:
+      required: true

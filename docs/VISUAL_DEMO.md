@@ -1,7 +1,7 @@
 # Visual Demo
 
 > Audience: New users and evaluators
-> Status: Stable app workflow with screenshot placeholders
+> Status: Stable app workflow with real local screenshots
 > Read after: GETTING_STARTED.md
 
 The visual app shows the target project's generated `.abstraction-tree/` memory. It should show this repository's dogfooding memory only when this repository is the target project.
@@ -32,24 +32,38 @@ npm run atree -- serve --project examples/small-web-app --open
 4. Review concepts such as checkout, cart, payment, and order.
 5. Run `atree validate` after changing the example and refresh the app to see drift or health updates.
 
-## Screenshot Placeholders
+## Screenshots
 
-Screenshots are not generated automatically in this repository. Capture them manually from the local app and place them under `docs/assets/visual-demo/` using these names:
+The screenshots below were captured from the local app against `examples/small-web-app`.
 
-```text
-docs/assets/visual-demo/tree-hierarchy.png
-docs/assets/visual-demo/selected-node-explanation.png
-docs/assets/visual-demo/file-ownership.png
-docs/assets/visual-demo/concepts-invariants.png
-docs/assets/visual-demo/context-or-drift.png
-```
+### Tree Hierarchy
 
-Each screenshot should prove a specific product claim:
+The left panel shows an expandable abstraction tree generated from the target project's own `.abstraction-tree/` memory.
 
-- `tree-hierarchy.png`: the app shows a project-level abstraction tree.
-- `selected-node-explanation.png`: node details are readable by humans.
-- `file-ownership.png`: tree nodes connect back to concrete files.
-- `concepts-invariants.png`: concepts and invariants are visible.
-- `context-or-drift.png`: the app surfaces context, validation, or drift health.
+![Abstraction tree hierarchy](assets/visual-demo/tree-hierarchy.png)
 
-Do not commit fake screenshots. If the UI changes, refresh screenshots intentionally.
+### Selected Node Explanation
+
+The selected-node panel starts with what the node represents, then shows the richer explanation, reason for existence, and child separation logic.
+
+![Selected node explanation](assets/visual-demo/selected-node-explanation.png)
+
+### File Ownership
+
+Folder and file nodes connect the abstraction tree back to concrete source files so agents can pick a smaller edit boundary.
+
+![File ownership](assets/visual-demo/file-ownership.png)
+
+### Concepts And Invariants
+
+The app exposes inferred concepts and invariants alongside the tree so humans can see cross-cutting project ideas and drift risks.
+
+![Concepts and invariants](assets/visual-demo/concepts-invariants.png)
+
+### Health, Context, And Drift
+
+The app shows validation health and available agent-facing memory signals. This is evidence for review, not a guarantee that a change is correct.
+
+![Context and drift health](assets/visual-demo/context-or-drift.png)
+
+If the UI changes, refresh screenshots intentionally from a real `atree serve` session. Do not commit mock or generated marketing screenshots.

@@ -2,7 +2,7 @@
   {
     "id": "change",
     "title": "Change",
-    "summary": "Durable concept inferred from 30 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 31 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.adapters",
       "module.docs",
@@ -15,6 +15,7 @@
       "file.packages.cli.src.apistate.test.ts",
       "file.packages.cli.src.apistate.ts",
       "file.packages.cli.src.changereviewcli.test.ts",
+      "file.packages.cli.src.changereviewcommand.test.ts",
       "file.packages.cli.src.changereviewcommand.ts",
       "file.packages.cli.src.goalcommand.ts",
       "file.packages.cli.src.index.ts",
@@ -109,7 +110,8 @@
       "subsystem.tests.quality.file.packages.core.src.validator.test.ts",
       "subsystem.tests.quality.slice.cli.tests",
       "subsystem.tests.quality.file.packages.cli.src.apistate.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.changereviewcli.test.ts"
+      "subsystem.tests.quality.file.packages.cli.src.changereviewcli.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.changereviewcommand.test.ts"
     ],
     "relatedFiles": [
       "adapters/local-json/index.mjs",
@@ -119,6 +121,7 @@
       "packages/cli/src/apiState.test.ts",
       "packages/cli/src/apiState.ts",
       "packages/cli/src/changeReviewCli.test.ts",
+      "packages/cli/src/changeReviewCommand.test.ts",
       "packages/cli/src/changeReviewCommand.ts",
       "packages/cli/src/goalCommand.ts",
       "packages/cli/src/index.ts",
@@ -164,6 +167,13 @@
       {
         "kind": "export",
         "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "ChangePruneGeneratedCommandOptions",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
         "value": "ChangeReviewCommandIo",
         "term": "change",
         "score": 4
@@ -172,6 +182,13 @@
         "kind": "export",
         "filePath": "packages/cli/src/changeReviewCommand.ts",
         "value": "ChangeReviewCommandOptions",
+        "term": "change",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "runChangePruneGeneratedCommand",
         "term": "change",
         "score": 4
       },
@@ -401,51 +418,40 @@
       },
       {
         "kind": "path",
+        "filePath": "packages/cli/src/changeReviewCommand.test.ts",
+        "value": "packages/cli/src/changeReviewCommand.test.ts",
+        "term": "change",
+        "score": 2
+      },
+      {
+        "kind": "path",
         "filePath": "packages/cli/src/changeReviewCommand.ts",
         "value": "packages/cli/src/changeReviewCommand.ts",
         "term": "change",
         "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/core/src/changeReview.test.ts",
-        "value": "packages/core/src/changeReview.test.ts",
-        "term": "change",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "packages/core/src/changeReview.ts",
-        "term": "change",
-        "score": 2
-      },
-      {
-        "kind": "symbol",
-        "filePath": "adapters/local-json/index.mjs",
-        "value": "classifyChange",
-        "term": "change",
-        "score": 3
       }
     ]
   },
   {
     "id": "tree",
     "title": "Tree",
-    "summary": "Durable concept inferred from 33 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 35 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
+      "module.github",
       "module.adapters",
       "module.docs",
       "module.examples",
       "module.packages",
       "module.root",
       "module.scripts",
+      "file.github.issue.template.config.yml",
       "file.adapters.codex.agents.md",
       "file.adapters.local.json.index.mjs",
       "file.docs.ci.integration.md",
       "file.docs.data.model.md",
       "file.docs.mission.runner.md",
       "file.docs.readme.md",
+      "file.docs.visual.demo.md",
       "file.examples.github.actions.abstraction.tree.validate.yml",
       "file.packages.app.src.components.treelist.tsx",
       "file.packages.app.src.styles.css",
@@ -527,6 +533,7 @@
       "subsystem.docs.examples.file.docs.data.model.md",
       "subsystem.docs.examples.file.docs.mission.runner.md",
       "subsystem.docs.examples.file.docs.readme.md",
+      "subsystem.docs.examples.file.docs.visual.demo.md",
       "subsystem.docs.examples.slice.readme",
       "subsystem.docs.examples.file.readme.md",
       "subsystem.docs.examples.slice.examples",
@@ -551,6 +558,7 @@
       "subsystem.tests.quality.file.packages.cli.src.treeexportcommand.test.ts"
     ],
     "relatedFiles": [
+      ".github/ISSUE_TEMPLATE/config.yml",
       "README.md",
       "adapters/codex/AGENTS.md",
       "adapters/local-json/index.mjs",
@@ -558,6 +566,7 @@
       "docs/DATA_MODEL.md",
       "docs/MISSION_RUNNER.md",
       "docs/README.md",
+      "docs/VISUAL_DEMO.md",
       "examples/github-actions/abstraction-tree-validate.yml",
       "packages/app/src/components/TreeList.tsx",
       "packages/app/src/styles.css",
@@ -850,6 +859,13 @@
       },
       {
         "kind": "symbol",
+        "filePath": ".github/ISSUE_TEMPLATE/config.yml",
+        "value": "abstraction-tree",
+        "term": "tree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
         "filePath": "adapters/codex/AGENTS.md",
         "value": "Codex Agent Instructions for Abstraction Tree",
         "term": "tree",
@@ -861,20 +877,13 @@
         "value": "noOpTreeProposal",
         "term": "tree",
         "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "adapters/local-json/index.mjs",
-        "value": "proposeTree",
-        "term": "tree",
-        "score": 3
       }
     ]
   },
   {
     "id": "command",
     "title": "Command",
-    "summary": "Durable concept inferred from 27 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 30 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.docs",
       "module.packages",
@@ -882,6 +891,7 @@
       "file.docs.experimental.dogfooding.loop.md",
       "file.docs.getting.started.md",
       "file.docs.goal.driven.mission.workflow.md",
+      "file.packages.cli.src.changereviewcommand.test.ts",
       "file.packages.cli.src.changereviewcommand.ts",
       "file.packages.cli.src.exportcommand.test.ts",
       "file.packages.cli.src.goalcommand.test.ts",
@@ -898,6 +908,8 @@
       "file.packages.cli.src.setupguidance.ts",
       "file.packages.cli.src.treeexportcommand.test.ts",
       "file.packages.cli.src.treeexportcommand.ts",
+      "file.scripts.check.doc.commands.mjs",
+      "file.scripts.check.doc.commands.test.mjs",
       "file.scripts.create.assessment.pack.mjs",
       "file.scripts.create.assessment.pack.test.mjs",
       "file.scripts.pack.smoke.test.mjs",
@@ -944,6 +956,7 @@
       "subsystem.packaging.adapters.file.scripts.release.dry.run.mjs",
       "subsystem.tests.quality",
       "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.changereviewcommand.test.ts",
       "subsystem.tests.quality.file.packages.cli.src.exportcommand.test.ts",
       "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts",
       "subsystem.tests.quality.file.packages.cli.src.routecommand.test.ts",
@@ -951,6 +964,8 @@
       "subsystem.tests.quality.file.packages.cli.src.servecommand.test.ts",
       "subsystem.tests.quality.file.packages.cli.src.treeexportcommand.test.ts",
       "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.check.doc.commands.mjs",
+      "subsystem.tests.quality.file.scripts.check.doc.commands.test.mjs",
       "subsystem.tests.quality.file.scripts.create.assessment.pack.test.mjs",
       "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs",
       "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs"
@@ -959,6 +974,7 @@
       "docs/EXPERIMENTAL_DOGFOODING_LOOP.md",
       "docs/GETTING_STARTED.md",
       "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "packages/cli/src/changeReviewCommand.test.ts",
       "packages/cli/src/changeReviewCommand.ts",
       "packages/cli/src/exportCommand.test.ts",
       "packages/cli/src/goalCommand.test.ts",
@@ -975,6 +991,8 @@
       "packages/cli/src/setupGuidance.ts",
       "packages/cli/src/treeExportCommand.test.ts",
       "packages/cli/src/treeExportCommand.ts",
+      "scripts/check-doc-commands.mjs",
+      "scripts/check-doc-commands.test.mjs",
       "scripts/create-assessment-pack.mjs",
       "scripts/create-assessment-pack.test.mjs",
       "scripts/pack-smoke-test.mjs",
@@ -991,6 +1009,13 @@
       {
         "kind": "export",
         "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "ChangePruneGeneratedCommandOptions",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
         "value": "ChangeReviewCommandIo",
         "term": "command",
         "score": 4
@@ -999,6 +1024,13 @@
         "kind": "export",
         "filePath": "packages/cli/src/changeReviewCommand.ts",
         "value": "ChangeReviewCommandOptions",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "runChangePruneGeneratedCommand",
         "term": "command",
         "score": 4
       },
@@ -1164,6 +1196,20 @@
         "score": 4
       },
       {
+        "kind": "export",
+        "filePath": "scripts/check-doc-commands.mjs",
+        "value": "checkDocCommands",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/changeReviewCommand.test.ts",
+        "value": "packages/cli/src/changeReviewCommand.test.ts",
+        "term": "command",
+        "score": 2
+      },
+      {
         "kind": "path",
         "filePath": "packages/cli/src/changeReviewCommand.ts",
         "value": "packages/cli/src/changeReviewCommand.ts",
@@ -1239,41 +1285,13 @@
         "value": "packages/cli/src/treeExportCommand.ts",
         "term": "command",
         "score": 2
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/EXPERIMENTAL_DOGFOODING_LOOP.md",
-        "value": "Useful Commands",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/GETTING_STARTED.md",
-        "value": "Option A: Use Repo-Local Commands Before npm Publish",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/GETTING_STARTED.md",
-        "value": "Option B: Use Package Commands After Publish",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
-        "value": "Commands",
-        "term": "command",
-        "score": 3
       }
     ]
   },
   {
     "id": "goal",
     "title": "Goal",
-    "summary": "Durable concept inferred from 8 file(s) using doc, export, path, symbol signals.",
+    "summary": "Durable concept inferred from 9 file(s) using doc, export, path, symbol signals.",
     "relatedNodeIds": [
       "module.docs",
       "module.packages",
@@ -1281,6 +1299,7 @@
       "file.docs.goal.driven.mission.workflow.md",
       "file.docs.mission.runner.md",
       "file.docs.scope.contracts.md",
+      "file.docs.v1.release.gate.md",
       "file.packages.cli.src.goalcommand.test.ts",
       "file.packages.cli.src.goalcommand.ts",
       "file.packages.core.src.goal.test.ts",
@@ -1307,6 +1326,7 @@
       "subsystem.docs.examples.file.docs.goal.driven.mission.workflow.md",
       "subsystem.docs.examples.file.docs.mission.runner.md",
       "subsystem.docs.examples.file.docs.scope.contracts.md",
+      "subsystem.docs.examples.file.docs.v1.release.gate.md",
       "subsystem.tests.quality",
       "subsystem.tests.quality.slice.core.tests",
       "subsystem.tests.quality.file.packages.core.src.goal.test.ts",
@@ -1318,6 +1338,7 @@
       "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
       "docs/MISSION_RUNNER.md",
       "docs/SCOPE_CONTRACTS.md",
+      "docs/V1_RELEASE_GATE.md",
       "packages/cli/src/goalCommand.test.ts",
       "packages/cli/src/goalCommand.ts",
       "packages/core/src/goal.test.ts",
@@ -1560,6 +1581,13 @@
       },
       {
         "kind": "symbol",
+        "filePath": "docs/V1_RELEASE_GATE.md",
+        "value": "Explicit V1 Non-Goals",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
         "filePath": "packages/cli/src/goalCommand.test.ts",
         "value": "goalDir",
         "term": "goal",
@@ -1597,13 +1625,6 @@
         "kind": "symbol",
         "filePath": "packages/cli/src/goalCommand.ts",
         "value": "buildGoalRouteRecord",
-        "term": "goal",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "buildGoalScopeContract",
         "term": "goal",
         "score": 3
       }
@@ -2013,7 +2034,7 @@
   {
     "id": "memory",
     "title": "Memory",
-    "summary": "Durable concept inferred from 31 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 32 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.adapters",
       "module.docs",
@@ -2025,6 +2046,7 @@
       "file.docs.architecture.md",
       "file.docs.mission.runner.md",
       "file.docs.packaging.md",
+      "file.docs.v1.release.gate.md",
       "file.packages.cli.src.apistate.test.ts",
       "file.packages.cli.src.doctor.test.ts",
       "file.packages.cli.src.doctor.ts",
@@ -2091,6 +2113,7 @@
       "subsystem.docs.examples.file.docs.architecture.md",
       "subsystem.docs.examples.file.docs.mission.runner.md",
       "subsystem.docs.examples.file.docs.packaging.md",
+      "subsystem.docs.examples.file.docs.v1.release.gate.md",
       "subsystem.packaging.adapters",
       "subsystem.packaging.adapters.slice.adapters",
       "subsystem.packaging.adapters.file.adapters.codex.agents.md",
@@ -2123,6 +2146,7 @@
       "docs/ARCHITECTURE.md",
       "docs/MISSION_RUNNER.md",
       "docs/PACKAGING.md",
+      "docs/V1_RELEASE_GATE.md",
       "packages/cli/src/apiState.test.ts",
       "packages/cli/src/doctor.test.ts",
       "packages/cli/src/doctor.ts",
@@ -2270,6 +2294,13 @@
         "kind": "symbol",
         "filePath": "docs/PACKAGING.md",
         "value": "Dogfooding memory boundary",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/V1_RELEASE_GATE.md",
+        "value": "Memory Hygiene Gate",
         "term": "memory",
         "score": 3
       },
@@ -2426,20 +2457,13 @@
         "value": "REQUIRED_MEMORY_FILES",
         "term": "memory",
         "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "evaluateGeneratedMemoryQuality",
-        "term": "memory",
-        "score": 3
       }
     ]
   },
   {
     "id": "context",
     "title": "Context",
-    "summary": "Durable concept inferred from 21 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 22 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.docs",
       "module.packages",
@@ -2448,6 +2472,7 @@
       "file.docs.ci.integration.md",
       "file.docs.data.model.md",
       "file.docs.getting.started.md",
+      "file.docs.visual.demo.md",
       "file.packages.cli.src.index.ts",
       "file.packages.core.src.context.test.ts",
       "file.packages.core.src.context.ts",
@@ -2508,6 +2533,7 @@
       "subsystem.docs.examples.file.docs.ci.integration.md",
       "subsystem.docs.examples.file.docs.data.model.md",
       "subsystem.docs.examples.file.docs.getting.started.md",
+      "subsystem.docs.examples.file.docs.visual.demo.md",
       "subsystem.packaging.adapters",
       "subsystem.packaging.adapters.slice.release.scripts",
       "subsystem.packaging.adapters.file.scripts.create.assessment.pack.mjs",
@@ -2527,6 +2553,7 @@
       "docs/CI_INTEGRATION.md",
       "docs/DATA_MODEL.md",
       "docs/GETTING_STARTED.md",
+      "docs/VISUAL_DEMO.md",
       "packages/cli/src/index.ts",
       "packages/core/src/context.test.ts",
       "packages/core/src/context.ts",
@@ -2719,6 +2746,13 @@
       },
       {
         "kind": "symbol",
+        "filePath": "docs/VISUAL_DEMO.md",
+        "value": "Health, Context, And Drift",
+        "term": "context",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
         "filePath": "packages/cli/src/index.ts",
         "value": "contextMaxTokens",
         "term": "context",
@@ -2819,13 +2853,6 @@
         "kind": "symbol",
         "filePath": "packages/core/src/runtimeSchema.ts",
         "value": "CONTEXT_HINT",
-        "term": "context",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateContextPackSchema",
         "term": "context",
         "score": 3
       }
@@ -3184,6 +3211,443 @@
     ]
   },
   {
+    "id": "workspace",
+    "title": "Workspace",
+    "summary": "Durable concept inferred from 35 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.docs",
+      "module.examples",
+      "module.packages",
+      "module.scripts",
+      "file.docs.data.model.md",
+      "file.docs.goal.driven.mission.workflow.md",
+      "file.docs.scope.contracts.md",
+      "file.examples.small.web.app.tests.checkout.test.js",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.changereviewcli.test.ts",
+      "file.packages.cli.src.changereviewcommand.test.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.goalcommand.test.ts",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.cli.src.migrate.test.ts",
+      "file.packages.cli.src.propose.test.ts",
+      "file.packages.cli.src.routecommand.test.ts",
+      "file.packages.cli.src.scopecommand.test.ts",
+      "file.packages.cli.src.serveproject.test.ts",
+      "file.packages.cli.src.treeexportcommand.test.ts",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.changereview.test.ts",
+      "file.packages.core.src.evaluator.test.ts",
+      "file.packages.core.src.goal.ts",
+      "file.packages.core.src.importgraph.test.ts",
+      "file.packages.core.src.importgraph.ts",
+      "file.packages.core.src.migrations.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.scanner.test.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.test.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.scripts.create.assessment.pack.test.mjs",
+      "file.scripts.import.assessment.missions.test.mjs",
+      "file.scripts.mission.schema.test.mjs",
+      "file.scripts.pack.smoke.test.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "file.scripts.run.missions.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.understanding.pipeline",
+      "subsystem.core.engine.file.packages.core.src.importgraph.ts",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.schema.ts",
+      "subsystem.core.engine.file.packages.core.src.workspace.ts",
+      "subsystem.core.engine.slice.core.support",
+      "subsystem.core.engine.file.packages.core.src.migrations.ts",
+      "subsystem.core.engine.slice.goal.routing",
+      "subsystem.core.engine.file.packages.core.src.goal.ts",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
+      "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.docs.goal.driven.mission.workflow.md",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
+      "subsystem.memory.validation.logs.file.packages.core.src.schema.ts",
+      "subsystem.memory.validation.logs.file.packages.core.src.workspace.ts",
+      "subsystem.memory.validation.logs.slice.memory.docs",
+      "subsystem.memory.validation.logs.file.docs.data.model.md",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.data.model.md",
+      "subsystem.docs.examples.file.docs.goal.driven.mission.workflow.md",
+      "subsystem.docs.examples.file.docs.scope.contracts.md",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.small.web.app.tests.checkout.test.js",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.create.assessment.pack.test.mjs",
+      "subsystem.packaging.adapters.file.scripts.pack.smoke.test.mjs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.automationvalidation.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.changereview.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.evaluator.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.importgraph.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.migrations.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.runtimeschema.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.scanner.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.workspace.test.ts",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.apistate.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.changereviewcli.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.changereviewcommand.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.doctor.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.migrate.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.propose.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.routecommand.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.scopecommand.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.serveproject.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.treeexportcommand.test.ts",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.create.assessment.pack.test.mjs",
+      "subsystem.tests.quality.file.scripts.import.assessment.missions.test.mjs",
+      "subsystem.tests.quality.file.scripts.mission.schema.test.mjs",
+      "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs",
+      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs",
+      "subsystem.tests.quality.file.scripts.run.missions.test.mjs",
+      "subsystem.tests.quality.slice.example.tests",
+      "subsystem.tests.quality.file.examples.small.web.app.tests.checkout.test.js"
+    ],
+    "relatedFiles": [
+      "docs/DATA_MODEL.md",
+      "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "docs/SCOPE_CONTRACTS.md",
+      "examples/small-web-app/tests/checkout.test.js",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/changeReviewCli.test.ts",
+      "packages/cli/src/changeReviewCommand.test.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/goalCommand.test.ts",
+      "packages/cli/src/goalCommand.ts",
+      "packages/cli/src/migrate.test.ts",
+      "packages/cli/src/propose.test.ts",
+      "packages/cli/src/routeCommand.test.ts",
+      "packages/cli/src/scopeCommand.test.ts",
+      "packages/cli/src/serveProject.test.ts",
+      "packages/cli/src/treeExportCommand.test.ts",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/changeReview.test.ts",
+      "packages/core/src/evaluator.test.ts",
+      "packages/core/src/goal.ts",
+      "packages/core/src/importGraph.test.ts",
+      "packages/core/src/importGraph.ts",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/scanner.test.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.test.ts",
+      "packages/core/src/workspace.ts",
+      "scripts/create-assessment-pack.test.mjs",
+      "scripts/import-assessment-missions.test.mjs",
+      "scripts/mission-schema.test.mjs",
+      "scripts/pack-smoke-test.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
+      "scripts/run-missions.test.mjs"
+    ],
+    "tags": [
+      "workspace"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "writeGoalWorkspace",
+        "term": "workspace",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "buildGoalWorkspacePlan",
+        "term": "workspace",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalWorkspacePlan",
+        "term": "workspace",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "discoverWorkspacePackages",
+        "term": "workspace",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "migrateAtreeWorkspace",
+        "term": "workspace",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrateAtreeWorkspaceOptions",
+        "term": "workspace",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "WorkspacePackage",
+        "term": "workspace",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "ensureWorkspace",
+        "term": "workspace",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/workspace.test.ts",
+        "value": "packages/core/src/workspace.test.ts",
+        "term": "workspace",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "packages/core/src/workspace.ts",
+        "term": "workspace",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/DATA_MODEL.md",
+        "value": "Workspace ownership",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+        "value": "Workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/SCOPE_CONTRACTS.md",
+        "value": "Goal Workspaces",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "examples/small-web-app/tests/checkout.test.js",
+        "value": "makeWorkspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/apiState.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/changeReviewCli.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/changeReviewCommand.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/doctor.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "goalWorkspaceNames",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "workspacePath",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "writeGoalWorkspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/migrate.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/scopeCommand.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/serveProject.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/treeExportCommand.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "buildGoalWorkspacePlan",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalWorkspacePlan",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "workspaceRelativePath",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.test.ts",
+        "value": "workspace",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "discoverWorkspacePackages",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "workspaceByName",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "workspacePackage",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "workspacePackages",
+        "term": "workspace",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/importGraph.ts",
+        "value": "workspaceResolution",
+        "term": "workspace",
+        "score": 3
+      }
+    ]
+  },
+  {
     "id": "proposal",
     "title": "Proposal",
     "summary": "Durable concept inferred from 9 file(s) using export, path, symbol signals.",
@@ -3524,435 +3988,390 @@
     ]
   },
   {
-    "id": "workspace",
-    "title": "Workspace",
-    "summary": "Durable concept inferred from 34 file(s) using export, path, symbol signals.",
+    "id": "abstraction",
+    "title": "Abstraction",
+    "summary": "Durable concept inferred from 20 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
+      "module.github",
+      "module.adapters",
       "module.docs",
       "module.examples",
       "module.packages",
+      "module.root",
       "module.scripts",
-      "file.docs.data.model.md",
-      "file.docs.goal.driven.mission.workflow.md",
-      "file.docs.scope.contracts.md",
-      "file.examples.small.web.app.tests.checkout.test.js",
-      "file.packages.cli.src.apistate.test.ts",
-      "file.packages.cli.src.changereviewcli.test.ts",
-      "file.packages.cli.src.doctor.test.ts",
-      "file.packages.cli.src.goalcommand.test.ts",
-      "file.packages.cli.src.goalcommand.ts",
-      "file.packages.cli.src.migrate.test.ts",
-      "file.packages.cli.src.propose.test.ts",
-      "file.packages.cli.src.routecommand.test.ts",
-      "file.packages.cli.src.scopecommand.test.ts",
-      "file.packages.cli.src.serveproject.test.ts",
-      "file.packages.cli.src.treeexportcommand.test.ts",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.changereview.test.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.goal.ts",
-      "file.packages.core.src.importgraph.test.ts",
-      "file.packages.core.src.importgraph.ts",
-      "file.packages.core.src.migrations.test.ts",
-      "file.packages.core.src.migrations.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.scanner.test.ts",
+      "file.github.issue.template.config.yml",
+      "file.adapters.codex.agents.md",
+      "file.adapters.local.json.index.mjs",
+      "file.docs.architecture.md",
+      "file.docs.ci.integration.md",
+      "file.docs.mission.runner.md",
+      "file.docs.readme.md",
+      "file.examples.github.actions.abstraction.tree.validate.yml",
+      "file.packages.app.src.hooks.useabstractionstate.ts",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.cli.src.serveproject.ts",
+      "file.packages.core.src.llm.abstractionbuilder.ts",
+      "file.packages.core.src.llm.types.ts",
+      "file.packages.core.src.llmabstractionbuilder.test.ts",
       "file.packages.core.src.schema.ts",
-      "file.packages.core.src.workspace.test.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.scripts.create.assessment.pack.test.mjs",
-      "file.scripts.import.assessment.missions.test.mjs",
-      "file.scripts.mission.schema.test.mjs",
-      "file.scripts.pack.smoke.test.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "file.scripts.run.missions.test.mjs",
+      "file.packages.full.readme.md",
+      "file.readme.md",
+      "file.scripts.run.abstraction.loop.scheduled.ps1",
+      "file.scripts.run.abstraction.loop.ps1",
+      "file.scripts.run.missions.mjs",
       "architecture.cli.surface",
       "architecture.core.engine",
-      "architecture.scanner.tree.context.pipeline",
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.visual.support",
+      "subsystem.visual.app.file.packages.app.src.hooks.useabstractionstate.ts",
       "subsystem.core.engine",
-      "subsystem.core.engine.slice.understanding.pipeline",
-      "subsystem.core.engine.file.packages.core.src.importgraph.ts",
       "subsystem.core.engine.slice.memory.quality",
       "subsystem.core.engine.file.packages.core.src.schema.ts",
-      "subsystem.core.engine.file.packages.core.src.workspace.ts",
-      "subsystem.core.engine.slice.core.support",
-      "subsystem.core.engine.file.packages.core.src.migrations.ts",
-      "subsystem.core.engine.slice.goal.routing",
-      "subsystem.core.engine.file.packages.core.src.goal.ts",
+      "subsystem.core.engine.slice.llm.proposals",
+      "subsystem.core.engine.file.packages.core.src.llm.abstractionbuilder.ts",
+      "subsystem.core.engine.file.packages.core.src.llm.types.ts",
       "subsystem.cli.local.api",
       "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.propose.ts",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.packages.cli.src.serveproject.ts",
       "subsystem.goal.mission.automation",
-      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
-      "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
       "subsystem.goal.mission.automation.slice.mission.runner.loop",
-      "subsystem.goal.mission.automation.file.docs.goal.driven.mission.workflow.md",
+      "subsystem.goal.mission.automation.file.adapters.codex.agents.md",
+      "subsystem.goal.mission.automation.file.docs.mission.runner.md",
+      "subsystem.goal.mission.automation.file.scripts.run.abstraction.loop.scheduled.ps1",
+      "subsystem.goal.mission.automation.file.scripts.run.abstraction.loop.ps1",
+      "subsystem.goal.mission.automation.file.scripts.run.missions.mjs",
       "subsystem.memory.validation.logs",
       "subsystem.memory.validation.logs.slice.memory.schema.workspace",
       "subsystem.memory.validation.logs.file.packages.core.src.schema.ts",
-      "subsystem.memory.validation.logs.file.packages.core.src.workspace.ts",
       "subsystem.memory.validation.logs.slice.memory.docs",
-      "subsystem.memory.validation.logs.file.docs.data.model.md",
+      "subsystem.memory.validation.logs.file.docs.architecture.md",
       "subsystem.docs.examples",
       "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.data.model.md",
-      "subsystem.docs.examples.file.docs.goal.driven.mission.workflow.md",
-      "subsystem.docs.examples.file.docs.scope.contracts.md",
+      "subsystem.docs.examples.file.docs.architecture.md",
+      "subsystem.docs.examples.file.docs.ci.integration.md",
+      "subsystem.docs.examples.file.docs.mission.runner.md",
+      "subsystem.docs.examples.file.docs.readme.md",
+      "subsystem.docs.examples.slice.readme",
+      "subsystem.docs.examples.file.readme.md",
       "subsystem.docs.examples.slice.examples",
-      "subsystem.docs.examples.file.examples.small.web.app.tests.checkout.test.js",
+      "subsystem.docs.examples.file.examples.github.actions.abstraction.tree.validate.yml",
       "subsystem.packaging.adapters",
-      "subsystem.packaging.adapters.slice.release.scripts",
-      "subsystem.packaging.adapters.file.scripts.create.assessment.pack.test.mjs",
-      "subsystem.packaging.adapters.file.scripts.pack.smoke.test.mjs",
+      "subsystem.packaging.adapters.slice.adapters",
+      "subsystem.packaging.adapters.file.adapters.codex.agents.md",
+      "subsystem.packaging.adapters.file.adapters.local.json.index.mjs",
+      "subsystem.packaging.adapters.slice.full.package",
+      "subsystem.packaging.adapters.file.packages.full.readme.md",
       "subsystem.tests.quality",
       "subsystem.tests.quality.slice.core.tests",
-      "subsystem.tests.quality.file.packages.core.src.automationvalidation.test.ts",
-      "subsystem.tests.quality.file.packages.core.src.changereview.test.ts",
-      "subsystem.tests.quality.file.packages.core.src.evaluator.test.ts",
-      "subsystem.tests.quality.file.packages.core.src.importgraph.test.ts",
-      "subsystem.tests.quality.file.packages.core.src.migrations.test.ts",
-      "subsystem.tests.quality.file.packages.core.src.runtimeschema.test.ts",
-      "subsystem.tests.quality.file.packages.core.src.scanner.test.ts",
-      "subsystem.tests.quality.file.packages.core.src.workspace.test.ts",
-      "subsystem.tests.quality.slice.cli.tests",
-      "subsystem.tests.quality.file.packages.cli.src.apistate.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.changereviewcli.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.doctor.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.migrate.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.propose.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.routecommand.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.scopecommand.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.serveproject.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.treeexportcommand.test.ts",
-      "subsystem.tests.quality.slice.script.quality",
-      "subsystem.tests.quality.file.scripts.create.assessment.pack.test.mjs",
-      "subsystem.tests.quality.file.scripts.import.assessment.missions.test.mjs",
-      "subsystem.tests.quality.file.scripts.mission.schema.test.mjs",
-      "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs",
-      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs",
-      "subsystem.tests.quality.file.scripts.run.missions.test.mjs",
-      "subsystem.tests.quality.slice.example.tests",
-      "subsystem.tests.quality.file.examples.small.web.app.tests.checkout.test.js"
+      "subsystem.tests.quality.file.packages.core.src.llmabstractionbuilder.test.ts"
     ],
     "relatedFiles": [
-      "docs/DATA_MODEL.md",
-      "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
-      "docs/SCOPE_CONTRACTS.md",
-      "examples/small-web-app/tests/checkout.test.js",
-      "packages/cli/src/apiState.test.ts",
-      "packages/cli/src/changeReviewCli.test.ts",
-      "packages/cli/src/doctor.test.ts",
-      "packages/cli/src/goalCommand.test.ts",
-      "packages/cli/src/goalCommand.ts",
-      "packages/cli/src/migrate.test.ts",
-      "packages/cli/src/propose.test.ts",
-      "packages/cli/src/routeCommand.test.ts",
-      "packages/cli/src/scopeCommand.test.ts",
-      "packages/cli/src/serveProject.test.ts",
-      "packages/cli/src/treeExportCommand.test.ts",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/changeReview.test.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/goal.ts",
-      "packages/core/src/importGraph.test.ts",
-      "packages/core/src/importGraph.ts",
-      "packages/core/src/migrations.test.ts",
-      "packages/core/src/migrations.ts",
-      "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/scanner.test.ts",
+      ".github/ISSUE_TEMPLATE/config.yml",
+      "README.md",
+      "adapters/codex/AGENTS.md",
+      "adapters/local-json/index.mjs",
+      "docs/ARCHITECTURE.md",
+      "docs/CI_INTEGRATION.md",
+      "docs/MISSION_RUNNER.md",
+      "docs/README.md",
+      "examples/github-actions/abstraction-tree-validate.yml",
+      "packages/app/src/hooks/useAbstractionState.ts",
+      "packages/cli/src/propose.ts",
+      "packages/cli/src/serveProject.ts",
+      "packages/core/src/llm/abstractionBuilder.ts",
+      "packages/core/src/llm/types.ts",
+      "packages/core/src/llmAbstractionBuilder.test.ts",
       "packages/core/src/schema.ts",
-      "packages/core/src/workspace.test.ts",
-      "packages/core/src/workspace.ts",
-      "scripts/create-assessment-pack.test.mjs",
-      "scripts/import-assessment-missions.test.mjs",
-      "scripts/mission-schema.test.mjs",
-      "scripts/pack-smoke-test.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs",
-      "scripts/run-missions.test.mjs"
+      "packages/full/README.md",
+      "scripts/run-abstraction-loop-scheduled.ps1",
+      "scripts/run-abstraction-loop.ps1",
+      "scripts/run-missions.mjs"
     ],
     "tags": [
-      "workspace"
+      "abstraction"
     ],
     "evidence": [
       {
         "kind": "export",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "writeGoalWorkspace",
-        "term": "workspace",
+        "filePath": "adapters/local-json/index.mjs",
+        "value": "LocalJsonLlmAbstractionBuilder",
+        "term": "abstraction",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "buildGoalWorkspacePlan",
-        "term": "workspace",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "AbstractionStateStatus",
+        "term": "abstraction",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalWorkspacePlan",
-        "term": "workspace",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "fetchAbstractionState",
+        "term": "abstraction",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/importGraph.ts",
-        "value": "discoverWorkspacePackages",
-        "term": "workspace",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "useAbstractionState",
+        "term": "abstraction",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "migrateAtreeWorkspace",
-        "term": "workspace",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "UseAbstractionStateResult",
+        "term": "abstraction",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrateAtreeWorkspaceOptions",
-        "term": "workspace",
+        "filePath": "packages/core/src/llm/abstractionBuilder.ts",
+        "value": "NoopLlmAbstractionBuilder",
+        "term": "abstraction",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "AbstractionBuilderInput",
+        "term": "abstraction",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "AbstractionLayerReference",
+        "term": "abstraction",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "LlmAbstractionBuilder",
+        "term": "abstraction",
         "score": 4
       },
       {
         "kind": "export",
         "filePath": "packages/core/src/schema.ts",
-        "value": "WorkspacePackage",
-        "term": "workspace",
+        "value": "AbstractionLevel",
+        "term": "abstraction",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "ensureWorkspace",
-        "term": "workspace",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AbstractionOntologyLevel",
+        "term": "abstraction",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AbstractionTreeState",
+        "term": "abstraction",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "readAbstractionMemory",
+        "term": "abstraction",
         "score": 4
       },
       {
         "kind": "path",
-        "filePath": "packages/core/src/workspace.test.ts",
-        "value": "packages/core/src/workspace.test.ts",
-        "term": "workspace",
+        "filePath": "examples/github-actions/abstraction-tree-validate.yml",
+        "value": "examples/github-actions/abstraction-tree-validate.yml",
+        "term": "abstraction",
         "score": 2
       },
       {
         "kind": "path",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "packages/core/src/workspace.ts",
-        "term": "workspace",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "packages/app/src/hooks/useAbstractionState.ts",
+        "term": "abstraction",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/llm/abstractionBuilder.ts",
+        "value": "packages/core/src/llm/abstractionBuilder.ts",
+        "term": "abstraction",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/llmAbstractionBuilder.test.ts",
+        "value": "packages/core/src/llmAbstractionBuilder.test.ts",
+        "term": "abstraction",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/run-abstraction-loop-scheduled.ps1",
+        "value": "scripts/run-abstraction-loop-scheduled.ps1",
+        "term": "abstraction",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "scripts/run-abstraction-loop.ps1",
+        "term": "abstraction",
         "score": 2
       },
       {
         "kind": "symbol",
-        "filePath": "docs/DATA_MODEL.md",
-        "value": "Workspace ownership",
-        "term": "workspace",
+        "filePath": ".github/ISSUE_TEMPLATE/config.yml",
+        "value": "abstraction-tree",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
-        "value": "Workspace",
-        "term": "workspace",
+        "filePath": "adapters/codex/AGENTS.md",
+        "value": "Codex Agent Instructions for Abstraction Tree",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "docs/SCOPE_CONTRACTS.md",
-        "value": "Goal Workspaces",
-        "term": "workspace",
+        "filePath": "adapters/local-json/index.mjs",
+        "value": "LocalJsonLlmAbstractionBuilder",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "examples/small-web-app/tests/checkout.test.js",
-        "value": "makeWorkspace",
-        "term": "workspace",
+        "filePath": "docs/ARCHITECTURE.md",
+        "value": "LLM abstraction interface",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/apiState.test.ts",
-        "value": "workspace",
-        "term": "workspace",
+        "filePath": "docs/CI_INTEGRATION.md",
+        "value": "abstraction-tree",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/changeReviewCli.test.ts",
-        "value": "workspace",
-        "term": "workspace",
+        "filePath": "docs/MISSION_RUNNER.md",
+        "value": "Abstraction Tree Memory",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.test.ts",
-        "value": "workspace",
-        "term": "workspace",
+        "filePath": "docs/MISSION_RUNNER.md",
+        "value": "Abstraction Tree Position",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.test.ts",
-        "value": "goalWorkspaceNames",
-        "term": "workspace",
+        "filePath": "docs/README.md",
+        "value": "Abstraction Tree Docs",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.test.ts",
-        "value": "workspace",
-        "term": "workspace",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "AbstractionStateStatus",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "workspacePath",
-        "term": "workspace",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "fetchAbstractionState",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "writeGoalWorkspace",
-        "term": "workspace",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "useAbstractionState",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/migrate.test.ts",
-        "value": "workspace",
-        "term": "workspace",
+        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
+        "value": "UseAbstractionStateResult",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/propose.test.ts",
-        "value": "workspace",
-        "term": "workspace",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "isLlmAbstractionBuilder",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/routeCommand.test.ts",
-        "value": "workspace",
-        "term": "workspace",
+        "filePath": "packages/cli/src/serveProject.ts",
+        "value": "ABSTRACTION_TREE_PACKAGE_NAMES",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.test.ts",
-        "value": "workspace",
-        "term": "workspace",
+        "filePath": "packages/core/src/llm/abstractionBuilder.ts",
+        "value": "NoopLlmAbstractionBuilder",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/serveProject.test.ts",
-        "value": "workspace",
-        "term": "workspace",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "AbstractionBuilderInput",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/treeExportCommand.test.ts",
-        "value": "workspace",
-        "term": "workspace",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "AbstractionLayerReference",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.test.ts",
-        "value": "workspace",
-        "term": "workspace",
+        "filePath": "packages/core/src/llm/types.ts",
+        "value": "LlmAbstractionBuilder",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/changeReview.test.ts",
-        "value": "workspace",
-        "term": "workspace",
+        "filePath": "packages/core/src/llmAbstractionBuilder.test.ts",
+        "value": "abstractionInput",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.test.ts",
-        "value": "workspace",
-        "term": "workspace",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AbstractionLevel",
+        "term": "abstraction",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "buildGoalWorkspacePlan",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalWorkspacePlan",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "workspaceRelativePath",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/importGraph.test.ts",
-        "value": "workspace",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/importGraph.ts",
-        "value": "discoverWorkspacePackages",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/importGraph.ts",
-        "value": "workspaceByName",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/importGraph.ts",
-        "value": "workspacePackage",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/importGraph.ts",
-        "value": "workspacePackages",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/importGraph.ts",
-        "value": "workspaceResolution",
-        "term": "workspace",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.test.ts",
-        "value": "workspace",
-        "term": "workspace",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AbstractionOntologyLevel",
+        "term": "abstraction",
         "score": 3
       }
     ]
@@ -4298,387 +4717,316 @@
     ]
   },
   {
-    "id": "abstraction",
-    "title": "Abstraction",
-    "summary": "Durable concept inferred from 19 file(s) using export, path, symbol signals.",
+    "id": "change.record",
+    "title": "Change Record",
+    "summary": "Durable concept inferred from 7 file(s) using export, symbol signals.",
     "relatedNodeIds": [
-      "module.adapters",
-      "module.docs",
-      "module.examples",
       "module.packages",
-      "module.root",
-      "module.scripts",
-      "file.adapters.codex.agents.md",
-      "file.adapters.local.json.index.mjs",
-      "file.docs.architecture.md",
-      "file.docs.ci.integration.md",
-      "file.docs.mission.runner.md",
-      "file.docs.readme.md",
-      "file.examples.github.actions.abstraction.tree.validate.yml",
-      "file.packages.app.src.hooks.useabstractionstate.ts",
-      "file.packages.cli.src.propose.ts",
-      "file.packages.cli.src.serveproject.ts",
-      "file.packages.core.src.llm.abstractionbuilder.ts",
-      "file.packages.core.src.llm.types.ts",
-      "file.packages.core.src.llmabstractionbuilder.test.ts",
+      "file.packages.core.src.changereview.ts",
+      "file.packages.core.src.evaluator.test.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.runtimeschema.test.ts",
+      "file.packages.core.src.runtimeschema.ts",
       "file.packages.core.src.schema.ts",
-      "file.packages.full.readme.md",
-      "file.readme.md",
-      "file.scripts.run.abstraction.loop.scheduled.ps1",
-      "file.scripts.run.abstraction.loop.ps1",
-      "file.scripts.run.missions.mjs",
-      "architecture.cli.surface",
+      "file.packages.core.src.workspace.ts",
       "architecture.core.engine",
-      "architecture.visual.app.ui",
-      "subsystem.visual.app",
-      "subsystem.visual.app.slice.visual.support",
-      "subsystem.visual.app.file.packages.app.src.hooks.useabstractionstate.ts",
       "subsystem.core.engine",
       "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.changereview.ts",
+      "subsystem.core.engine.file.packages.core.src.evaluator.ts",
+      "subsystem.core.engine.file.packages.core.src.runtimeschema.ts",
       "subsystem.core.engine.file.packages.core.src.schema.ts",
-      "subsystem.core.engine.slice.llm.proposals",
-      "subsystem.core.engine.file.packages.core.src.llm.abstractionbuilder.ts",
-      "subsystem.core.engine.file.packages.core.src.llm.types.ts",
-      "subsystem.cli.local.api",
-      "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.propose.ts",
-      "subsystem.cli.local.api.slice.cli.support",
-      "subsystem.cli.local.api.file.packages.cli.src.serveproject.ts",
-      "subsystem.goal.mission.automation",
-      "subsystem.goal.mission.automation.slice.mission.runner.loop",
-      "subsystem.goal.mission.automation.file.adapters.codex.agents.md",
-      "subsystem.goal.mission.automation.file.docs.mission.runner.md",
-      "subsystem.goal.mission.automation.file.scripts.run.abstraction.loop.scheduled.ps1",
-      "subsystem.goal.mission.automation.file.scripts.run.abstraction.loop.ps1",
-      "subsystem.goal.mission.automation.file.scripts.run.missions.mjs",
+      "subsystem.core.engine.file.packages.core.src.workspace.ts",
       "subsystem.memory.validation.logs",
       "subsystem.memory.validation.logs.slice.memory.schema.workspace",
+      "subsystem.memory.validation.logs.file.packages.core.src.runtimeschema.ts",
       "subsystem.memory.validation.logs.file.packages.core.src.schema.ts",
-      "subsystem.memory.validation.logs.slice.memory.docs",
-      "subsystem.memory.validation.logs.file.docs.architecture.md",
-      "subsystem.docs.examples",
-      "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.architecture.md",
-      "subsystem.docs.examples.file.docs.ci.integration.md",
-      "subsystem.docs.examples.file.docs.mission.runner.md",
-      "subsystem.docs.examples.file.docs.readme.md",
-      "subsystem.docs.examples.slice.readme",
-      "subsystem.docs.examples.file.readme.md",
-      "subsystem.docs.examples.slice.examples",
-      "subsystem.docs.examples.file.examples.github.actions.abstraction.tree.validate.yml",
-      "subsystem.packaging.adapters",
-      "subsystem.packaging.adapters.slice.adapters",
-      "subsystem.packaging.adapters.file.adapters.codex.agents.md",
-      "subsystem.packaging.adapters.file.adapters.local.json.index.mjs",
-      "subsystem.packaging.adapters.slice.full.package",
-      "subsystem.packaging.adapters.file.packages.full.readme.md",
+      "subsystem.memory.validation.logs.file.packages.core.src.workspace.ts",
+      "subsystem.memory.validation.logs.slice.validation.evaluation",
+      "subsystem.memory.validation.logs.file.packages.core.src.changereview.ts",
+      "subsystem.memory.validation.logs.file.packages.core.src.evaluator.ts",
       "subsystem.tests.quality",
       "subsystem.tests.quality.slice.core.tests",
-      "subsystem.tests.quality.file.packages.core.src.llmabstractionbuilder.test.ts"
+      "subsystem.tests.quality.file.packages.core.src.evaluator.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.runtimeschema.test.ts"
     ],
     "relatedFiles": [
-      "README.md",
-      "adapters/codex/AGENTS.md",
-      "adapters/local-json/index.mjs",
-      "docs/ARCHITECTURE.md",
-      "docs/CI_INTEGRATION.md",
-      "docs/MISSION_RUNNER.md",
-      "docs/README.md",
-      "examples/github-actions/abstraction-tree-validate.yml",
-      "packages/app/src/hooks/useAbstractionState.ts",
-      "packages/cli/src/propose.ts",
-      "packages/cli/src/serveProject.ts",
-      "packages/core/src/llm/abstractionBuilder.ts",
-      "packages/core/src/llm/types.ts",
-      "packages/core/src/llmAbstractionBuilder.test.ts",
+      "packages/core/src/changeReview.ts",
+      "packages/core/src/evaluator.test.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/runtimeSchema.test.ts",
+      "packages/core/src/runtimeSchema.ts",
       "packages/core/src/schema.ts",
-      "packages/full/README.md",
-      "scripts/run-abstraction-loop-scheduled.ps1",
-      "scripts/run-abstraction-loop.ps1",
-      "scripts/run-missions.mjs"
+      "packages/core/src/workspace.ts"
     ],
     "tags": [
-      "abstraction"
+      "change record"
     ],
     "evidence": [
       {
         "kind": "export",
-        "filePath": "adapters/local-json/index.mjs",
-        "value": "LocalJsonLlmAbstractionBuilder",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "buildChangeRecordReviewReport",
+        "term": "change record",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
-        "value": "AbstractionStateStatus",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "buildChangeRecordReviewSummary",
+        "term": "change record",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
-        "value": "fetchAbstractionState",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewInput",
+        "term": "change record",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
-        "value": "useAbstractionState",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewItem",
+        "term": "change record",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
-        "value": "UseAbstractionStateResult",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewReport",
+        "term": "change record",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/llm/abstractionBuilder.ts",
-        "value": "NoopLlmAbstractionBuilder",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewSummary",
+        "term": "change record",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/llm/types.ts",
-        "value": "AbstractionBuilderInput",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "limitChangeRecordReviewReport",
+        "term": "change record",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/llm/types.ts",
-        "value": "AbstractionLayerReference",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "reviewChangeRecords",
+        "term": "change record",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/llm/types.ts",
-        "value": "LlmAbstractionBuilder",
-        "term": "abstraction",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateChangeRecordSchema",
+        "term": "change record",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "AbstractionLevel",
-        "term": "abstraction",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "AbstractionOntologyLevel",
-        "term": "abstraction",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateChangeRecordsSchema",
+        "term": "change record",
         "score": 4
       },
       {
         "kind": "export",
         "filePath": "packages/core/src/schema.ts",
-        "value": "AbstractionTreeState",
-        "term": "abstraction",
+        "value": "ChangeRecord",
+        "term": "change record",
         "score": 4
       },
       {
         "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "readAbstractionMemory",
-        "term": "abstraction",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "ChangeRecordObjectLoadResult",
+        "term": "change record",
         "score": 4
       },
       {
-        "kind": "path",
-        "filePath": "examples/github-actions/abstraction-tree-validate.yml",
-        "value": "examples/github-actions/abstraction-tree-validate.yml",
-        "term": "abstraction",
-        "score": 2
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadChangeRecordObjects",
+        "term": "change record",
+        "score": 4
       },
       {
-        "kind": "path",
-        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
-        "value": "packages/app/src/hooks/useAbstractionState.ts",
-        "term": "abstraction",
-        "score": 2
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadChangeRecords",
+        "term": "change record",
+        "score": 4
       },
       {
-        "kind": "path",
-        "filePath": "packages/core/src/llm/abstractionBuilder.ts",
-        "value": "packages/core/src/llm/abstractionBuilder.ts",
-        "term": "abstraction",
-        "score": 2
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "LoadedChangeRecordObject",
+        "term": "change record",
+        "score": 4
       },
       {
-        "kind": "path",
-        "filePath": "packages/core/src/llmAbstractionBuilder.test.ts",
-        "value": "packages/core/src/llmAbstractionBuilder.test.ts",
-        "term": "abstraction",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "scripts/run-abstraction-loop-scheduled.ps1",
-        "value": "scripts/run-abstraction-loop-scheduled.ps1",
-        "term": "abstraction",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "scripts/run-abstraction-loop.ps1",
-        "value": "scripts/run-abstraction-loop.ps1",
-        "term": "abstraction",
-        "score": 2
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readChangeRecords",
+        "term": "change record",
+        "score": 4
       },
       {
         "kind": "symbol",
-        "filePath": "adapters/codex/AGENTS.md",
-        "value": "Codex Agent Instructions for Abstraction Tree",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "buildChangeRecordReviewReport",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "adapters/local-json/index.mjs",
-        "value": "LocalJsonLlmAbstractionBuilder",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "buildChangeRecordReviewSummary",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "docs/ARCHITECTURE.md",
-        "value": "LLM abstraction interface",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "changeRecordAbsolutePath",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "docs/CI_INTEGRATION.md",
-        "value": "abstraction-tree",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "changeRecordPathsReferencedBySemanticRecords",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "docs/MISSION_RUNNER.md",
-        "value": "Abstraction Tree Memory",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewInput",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "docs/MISSION_RUNNER.md",
-        "value": "Abstraction Tree Position",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewItem",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "docs/README.md",
-        "value": "Abstraction Tree Docs",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewReport",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
-        "value": "AbstractionStateStatus",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "ChangeRecordReviewSummary",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
-        "value": "fetchAbstractionState",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "compareLoadedChangeRecords",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
-        "value": "useAbstractionState",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "limitChangeRecordReviewReport",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/app/src/hooks/useAbstractionState.ts",
-        "value": "UseAbstractionStateResult",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "referencedChangeRecordPaths",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/propose.ts",
-        "value": "isLlmAbstractionBuilder",
-        "term": "abstraction",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "reviewChangeRecords",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/cli/src/serveProject.ts",
-        "value": "ABSTRACTION_TREE_PACKAGE_NAMES",
-        "term": "abstraction",
+        "filePath": "packages/core/src/evaluator.test.ts",
+        "value": "changeRecord",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/llm/abstractionBuilder.ts",
-        "value": "NoopLlmAbstractionBuilder",
-        "term": "abstraction",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "CHANGE_RECORD_REVIEW_THRESHOLD",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/llm/types.ts",
-        "value": "AbstractionBuilderInput",
-        "term": "abstraction",
+        "filePath": "packages/core/src/runtimeSchema.test.ts",
+        "value": "changeRecord",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/llm/types.ts",
-        "value": "AbstractionLayerReference",
-        "term": "abstraction",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateChangeRecordSchema",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/llm/types.ts",
-        "value": "LlmAbstractionBuilder",
-        "term": "abstraction",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/llmAbstractionBuilder.test.ts",
-        "value": "abstractionInput",
-        "term": "abstraction",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateChangeRecordsSchema",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
         "filePath": "packages/core/src/schema.ts",
-        "value": "AbstractionLevel",
-        "term": "abstraction",
+        "value": "ChangeRecord",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "AbstractionOntologyLevel",
-        "term": "abstraction",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "ChangeRecordObjectLoadResult",
+        "term": "change record",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "AbstractionTreeState",
-        "term": "abstraction",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadChangeRecords",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "LoadedChangeRecordObject",
+        "term": "change record",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "readChangeRecords",
+        "term": "change record",
         "score": 3
       }
     ]
@@ -4686,11 +5034,12 @@
   {
     "id": "invariant",
     "title": "Invariant",
-    "summary": "Durable concept inferred from 21 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 22 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.docs",
       "module.packages",
       "file.docs.data.model.md",
+      "file.docs.visual.demo.md",
       "file.packages.app.src.components.invariantpanel.tsx",
       "file.packages.cli.src.apistate.test.ts",
       "file.packages.cli.src.apistate.ts",
@@ -4757,6 +5106,7 @@
       "subsystem.docs.examples",
       "subsystem.docs.examples.slice.guides",
       "subsystem.docs.examples.file.docs.data.model.md",
+      "subsystem.docs.examples.file.docs.visual.demo.md",
       "subsystem.tests.quality",
       "subsystem.tests.quality.slice.core.tests",
       "subsystem.tests.quality.file.packages.core.src.context.test.ts",
@@ -4769,6 +5119,7 @@
     ],
     "relatedFiles": [
       "docs/DATA_MODEL.md",
+      "docs/VISUAL_DEMO.md",
       "packages/app/src/components/InvariantPanel.tsx",
       "packages/cli/src/apiState.test.ts",
       "packages/cli/src/apiState.ts",
@@ -4847,6 +5198,13 @@
         "kind": "symbol",
         "filePath": "docs/DATA_MODEL.md",
         "value": "`invariants.json`",
+        "term": "invariant",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/VISUAL_DEMO.md",
+        "value": "Concepts And Invariants",
         "term": "invariant",
         "score": 3
       },
@@ -5070,303 +5428,9 @@
     ]
   },
   {
-    "id": "change.record",
-    "title": "Change Record",
-    "summary": "Durable concept inferred from 7 file(s) using export, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "file.packages.core.src.changereview.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.packages.core.src.runtimeschema.test.ts",
-      "file.packages.core.src.runtimeschema.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.workspace.ts",
-      "architecture.core.engine",
-      "subsystem.core.engine",
-      "subsystem.core.engine.slice.memory.quality",
-      "subsystem.core.engine.file.packages.core.src.changereview.ts",
-      "subsystem.core.engine.file.packages.core.src.evaluator.ts",
-      "subsystem.core.engine.file.packages.core.src.runtimeschema.ts",
-      "subsystem.core.engine.file.packages.core.src.schema.ts",
-      "subsystem.core.engine.file.packages.core.src.workspace.ts",
-      "subsystem.memory.validation.logs",
-      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
-      "subsystem.memory.validation.logs.file.packages.core.src.runtimeschema.ts",
-      "subsystem.memory.validation.logs.file.packages.core.src.schema.ts",
-      "subsystem.memory.validation.logs.file.packages.core.src.workspace.ts",
-      "subsystem.memory.validation.logs.slice.validation.evaluation",
-      "subsystem.memory.validation.logs.file.packages.core.src.changereview.ts",
-      "subsystem.memory.validation.logs.file.packages.core.src.evaluator.ts",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.core.tests",
-      "subsystem.tests.quality.file.packages.core.src.evaluator.test.ts",
-      "subsystem.tests.quality.file.packages.core.src.runtimeschema.test.ts"
-    ],
-    "relatedFiles": [
-      "packages/core/src/changeReview.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/evaluator.ts",
-      "packages/core/src/runtimeSchema.test.ts",
-      "packages/core/src/runtimeSchema.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/workspace.ts"
-    ],
-    "tags": [
-      "change record"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "buildChangeRecordReviewReport",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "buildChangeRecordReviewSummary",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "ChangeRecordReviewInput",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "ChangeRecordReviewItem",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "ChangeRecordReviewReport",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "ChangeRecordReviewSummary",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "limitChangeRecordReviewReport",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "reviewChangeRecords",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateChangeRecordSchema",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateChangeRecordsSchema",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "ChangeRecord",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "ChangeRecordObjectLoadResult",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "loadChangeRecordObjects",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "loadChangeRecords",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "LoadedChangeRecordObject",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "readChangeRecords",
-        "term": "change record",
-        "score": 4
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "buildChangeRecordReviewReport",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "buildChangeRecordReviewSummary",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "ChangeRecordReviewInput",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "ChangeRecordReviewItem",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "ChangeRecordReviewReport",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "ChangeRecordReviewSummary",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "compareLoadedChangeRecords",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "limitChangeRecordReviewReport",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/changeReview.ts",
-        "value": "reviewChangeRecords",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.test.ts",
-        "value": "changeRecord",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "CHANGE_RECORD_REVIEW_THRESHOLD",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.test.ts",
-        "value": "changeRecord",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateChangeRecordSchema",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateChangeRecordsSchema",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "ChangeRecord",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "ChangeRecordObjectLoadResult",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "loadChangeRecords",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "LoadedChangeRecordObject",
-        "term": "change record",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "readChangeRecords",
-        "term": "change record",
-        "score": 3
-      }
-    ]
-  },
-  {
     "id": "cli",
     "title": "Cli",
-    "summary": "Durable concept inferred from 40 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 41 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.docs",
       "module.packages",
@@ -5378,6 +5442,7 @@
       "file.packages.cli.src.apistate.test.ts",
       "file.packages.cli.src.apistate.ts",
       "file.packages.cli.src.changereviewcli.test.ts",
+      "file.packages.cli.src.changereviewcommand.test.ts",
       "file.packages.cli.src.changereviewcommand.ts",
       "file.packages.cli.src.doctor.test.ts",
       "file.packages.cli.src.doctor.ts",
@@ -5460,6 +5525,7 @@
       "subsystem.tests.quality.file.packages.cli.src.agenthealth.test.ts",
       "subsystem.tests.quality.file.packages.cli.src.apistate.test.ts",
       "subsystem.tests.quality.file.packages.cli.src.changereviewcli.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.changereviewcommand.test.ts",
       "subsystem.tests.quality.file.packages.cli.src.doctor.test.ts",
       "subsystem.tests.quality.file.packages.cli.src.exportcommand.test.ts",
       "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts",
@@ -5484,6 +5550,7 @@
       "packages/cli/src/apiState.test.ts",
       "packages/cli/src/apiState.ts",
       "packages/cli/src/changeReviewCli.test.ts",
+      "packages/cli/src/changeReviewCommand.test.ts",
       "packages/cli/src/changeReviewCommand.ts",
       "packages/cli/src/doctor.test.ts",
       "packages/cli/src/doctor.ts",
@@ -5589,6 +5656,13 @@
         "kind": "path",
         "filePath": "packages/cli/src/changeReviewCli.test.ts",
         "value": "packages/cli/src/changeReviewCli.test.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/changeReviewCommand.test.ts",
+        "value": "packages/cli/src/changeReviewCommand.test.ts",
         "term": "cli",
         "score": 2
       },
@@ -5792,13 +5866,6 @@
         "kind": "symbol",
         "filePath": "packages/cli/src/doctor.ts",
         "value": "cliDir",
-        "term": "cli",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/exportCommand.test.ts",
-        "value": "cliPath",
         "term": "cli",
         "score": 3
       }
@@ -6159,6 +6226,309 @@
     ]
   },
   {
+    "id": "atree",
+    "title": "Atree",
+    "summary": "Durable concept inferred from 9 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "module.scripts",
+      "file.packages.cli.src.exportcommand.test.ts",
+      "file.packages.cli.src.scopecommand.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.packages.full.bin.atree.js",
+      "file.scripts.check.doc.commands.mjs",
+      "file.scripts.pack.smoke.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.package.distribution",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.runtimeschema.ts",
+      "subsystem.core.engine.file.packages.core.src.schema.ts",
+      "subsystem.core.engine.file.packages.core.src.workspace.ts",
+      "subsystem.core.engine.slice.core.support",
+      "subsystem.core.engine.file.packages.core.src.migrations.ts",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.scopecommand.ts",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.packages.full.bin.atree.js",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
+      "subsystem.memory.validation.logs.file.packages.core.src.runtimeschema.ts",
+      "subsystem.memory.validation.logs.file.packages.core.src.schema.ts",
+      "subsystem.memory.validation.logs.file.packages.core.src.workspace.ts",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.full.package",
+      "subsystem.packaging.adapters.file.packages.full.bin.atree.js",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.pack.smoke.test.mjs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.exportcommand.test.ts",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.check.doc.commands.mjs",
+      "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs"
+    ],
+    "relatedFiles": [
+      "packages/cli/src/exportCommand.test.ts",
+      "packages/cli/src/scopeCommand.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts",
+      "packages/full/bin/atree.js",
+      "scripts/check-doc-commands.mjs",
+      "scripts/pack-smoke-test.mjs"
+    ],
+    "tags": [
+      "atree"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "AtreeMigrationMemory",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "migrateAtreeWorkspace",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrateAtreeWorkspaceOptions",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "planAtreeMigration",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "ATREE_CONFIG_MIGRATIONS",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "CURRENT_ATREE_SCHEMA_VERSION",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "migrateAtreeConfig",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateAtreeConfigSchema",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AtreeConfig",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "ATREE_DIR",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "AtreeMemory",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "atreePath",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadAtreeMemory",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/full/bin/atree.js",
+        "value": "packages/full/bin/atree.js",
+        "term": "atree",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/exportCommand.test.ts",
+        "value": "atreeDir",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "relativeAtree",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "AtreeMigrationMemory",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "migrateAtreeWorkspace",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrateAtreeWorkspaceOptions",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "planAtreeMigration",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "ATREE_CONFIG_MIGRATIONS",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "CURRENT_ATREE_SCHEMA_VERSION",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "migrateAtreeConfig",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateAtreeConfigSchema",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AtreeConfig",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "ATREE_DIR",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "AtreeMemory",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "atreePath",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadAtreeMemory",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-doc-commands.mjs",
+        "value": "checkAtreeCommands",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-doc-commands.mjs",
+        "value": "knownAtreeCommands",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/pack-smoke-test.mjs",
+        "value": "atreeDir",
+        "term": "atree",
+        "score": 3
+      }
+    ]
+  },
+  {
     "id": "route",
     "title": "Route",
     "summary": "Durable concept inferred from 6 file(s) using export, path, symbol signals.",
@@ -6437,292 +6807,6 @@
         "filePath": "packages/core/src/promptRouter.ts",
         "value": "routePrompt",
         "term": "route",
-        "score": 3
-      }
-    ]
-  },
-  {
-    "id": "atree",
-    "title": "Atree",
-    "summary": "Durable concept inferred from 8 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "module.scripts",
-      "file.packages.cli.src.exportcommand.test.ts",
-      "file.packages.cli.src.scopecommand.ts",
-      "file.packages.core.src.migrations.ts",
-      "file.packages.core.src.runtimeschema.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.packages.full.bin.atree.js",
-      "file.scripts.pack.smoke.test.mjs",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "architecture.package.distribution",
-      "subsystem.core.engine",
-      "subsystem.core.engine.slice.memory.quality",
-      "subsystem.core.engine.file.packages.core.src.runtimeschema.ts",
-      "subsystem.core.engine.file.packages.core.src.schema.ts",
-      "subsystem.core.engine.file.packages.core.src.workspace.ts",
-      "subsystem.core.engine.slice.core.support",
-      "subsystem.core.engine.file.packages.core.src.migrations.ts",
-      "subsystem.cli.local.api",
-      "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.scopecommand.ts",
-      "subsystem.cli.local.api.slice.cli.support",
-      "subsystem.cli.local.api.file.packages.full.bin.atree.js",
-      "subsystem.memory.validation.logs",
-      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
-      "subsystem.memory.validation.logs.file.packages.core.src.runtimeschema.ts",
-      "subsystem.memory.validation.logs.file.packages.core.src.schema.ts",
-      "subsystem.memory.validation.logs.file.packages.core.src.workspace.ts",
-      "subsystem.packaging.adapters",
-      "subsystem.packaging.adapters.slice.full.package",
-      "subsystem.packaging.adapters.file.packages.full.bin.atree.js",
-      "subsystem.packaging.adapters.slice.release.scripts",
-      "subsystem.packaging.adapters.file.scripts.pack.smoke.test.mjs",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.cli.tests",
-      "subsystem.tests.quality.file.packages.cli.src.exportcommand.test.ts",
-      "subsystem.tests.quality.slice.script.quality",
-      "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs"
-    ],
-    "relatedFiles": [
-      "packages/cli/src/exportCommand.test.ts",
-      "packages/cli/src/scopeCommand.ts",
-      "packages/core/src/migrations.ts",
-      "packages/core/src/runtimeSchema.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/workspace.ts",
-      "packages/full/bin/atree.js",
-      "scripts/pack-smoke-test.mjs"
-    ],
-    "tags": [
-      "atree"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "AtreeMigrationMemory",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "migrateAtreeWorkspace",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrateAtreeWorkspaceOptions",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "planAtreeMigration",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "ATREE_CONFIG_MIGRATIONS",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "CURRENT_ATREE_SCHEMA_VERSION",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "migrateAtreeConfig",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateAtreeConfigSchema",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "AtreeConfig",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "ATREE_DIR",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "AtreeMemory",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "atreePath",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "loadAtreeMemory",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/full/bin/atree.js",
-        "value": "packages/full/bin/atree.js",
-        "term": "atree",
-        "score": 2
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/exportCommand.test.ts",
-        "value": "atreeDir",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "relativeAtree",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "AtreeMigrationMemory",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "migrateAtreeWorkspace",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrateAtreeWorkspaceOptions",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "planAtreeMigration",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "ATREE_CONFIG_MIGRATIONS",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "CURRENT_ATREE_SCHEMA_VERSION",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "migrateAtreeConfig",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateAtreeConfigSchema",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "AtreeConfig",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "ATREE_DIR",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "AtreeMemory",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "atreePath",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "loadAtreeMemory",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/pack-smoke-test.mjs",
-        "value": "atreeDir",
-        "term": "atree",
         "score": 3
       }
     ]
@@ -7025,6 +7109,273 @@
         "filePath": "scripts/run-abstraction-loop.ps1",
         "value": "Get-DiffLineCount",
         "term": "diff",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "migration",
+    "title": "Migration",
+    "summary": "Durable concept inferred from 6 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.docs",
+      "module.packages",
+      "file.docs.data.model.md",
+      "file.docs.v1.release.gate.md",
+      "file.packages.cli.src.migrate.ts",
+      "file.packages.core.src.migrations.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.runtimeschema.ts",
+      "subsystem.core.engine.slice.core.support",
+      "subsystem.core.engine.file.packages.core.src.migrations.ts",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.migrate.ts",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
+      "subsystem.memory.validation.logs.file.packages.core.src.runtimeschema.ts",
+      "subsystem.memory.validation.logs.slice.memory.docs",
+      "subsystem.memory.validation.logs.file.docs.data.model.md",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.data.model.md",
+      "subsystem.docs.examples.file.docs.v1.release.gate.md",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.migrations.test.ts"
+    ],
+    "relatedFiles": [
+      "docs/DATA_MODEL.md",
+      "docs/V1_RELEASE_GATE.md",
+      "packages/cli/src/migrate.ts",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.ts"
+    ],
+    "tags": [
+      "migration"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/migrate.ts",
+        "value": "formatMigrationResult",
+        "term": "migration",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/migrate.ts",
+        "value": "migrationExitCode",
+        "term": "migration",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "AtreeMigrationMemory",
+        "term": "migration",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationPlan",
+        "term": "migration",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationPlanOptions",
+        "term": "migration",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationResult",
+        "term": "migration",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationStep",
+        "term": "migration",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "planAtreeMigration",
+        "term": "migration",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "summarizeMigrationIssues",
+        "term": "migration",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "ATREE_CONFIG_MIGRATIONS",
+        "term": "migration",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "RuntimeMigration",
+        "term": "migration",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/migrations.test.ts",
+        "value": "packages/core/src/migrations.test.ts",
+        "term": "migration",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "packages/core/src/migrations.ts",
+        "term": "migration",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/DATA_MODEL.md",
+        "value": "Schema migrations",
+        "term": "migration",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/V1_RELEASE_GATE.md",
+        "value": "Schema And Migration Gate",
+        "term": "migration",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/migrate.ts",
+        "value": "formatMigrationResult",
+        "term": "migration",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/migrate.ts",
+        "value": "migrationExitCode",
+        "term": "migration",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "AtreeMigrationMemory",
+        "term": "migration",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "buildConfigMigrationSteps",
+        "term": "migration",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "migration",
+        "term": "migration",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MIGRATION_HINT",
+        "term": "migration",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "migrationIssue",
+        "term": "migration",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationPlan",
+        "term": "migration",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationPlanOptions",
+        "term": "migration",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationResult",
+        "term": "migration",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationStep",
+        "term": "migration",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "planAtreeMigration",
+        "term": "migration",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "summarizeMigrationIssues",
+        "term": "migration",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "ATREE_CONFIG_MIGRATIONS",
+        "term": "migration",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "migration",
+        "term": "migration",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "RuntimeMigration",
+        "term": "migration",
         "score": 3
       }
     ]
@@ -7963,263 +8314,6 @@
         "filePath": "scripts/run-full-self-improvement-loop.mjs",
         "value": "fullLoopRoot",
         "term": "loop",
-        "score": 3
-      }
-    ]
-  },
-  {
-    "id": "migration",
-    "title": "Migration",
-    "summary": "Durable concept inferred from 5 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.docs",
-      "module.packages",
-      "file.docs.data.model.md",
-      "file.packages.cli.src.migrate.ts",
-      "file.packages.core.src.migrations.test.ts",
-      "file.packages.core.src.migrations.ts",
-      "file.packages.core.src.runtimeschema.ts",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "subsystem.core.engine",
-      "subsystem.core.engine.slice.memory.quality",
-      "subsystem.core.engine.file.packages.core.src.runtimeschema.ts",
-      "subsystem.core.engine.slice.core.support",
-      "subsystem.core.engine.file.packages.core.src.migrations.ts",
-      "subsystem.cli.local.api",
-      "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.migrate.ts",
-      "subsystem.memory.validation.logs",
-      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
-      "subsystem.memory.validation.logs.file.packages.core.src.runtimeschema.ts",
-      "subsystem.memory.validation.logs.slice.memory.docs",
-      "subsystem.memory.validation.logs.file.docs.data.model.md",
-      "subsystem.docs.examples",
-      "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.data.model.md",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.core.tests",
-      "subsystem.tests.quality.file.packages.core.src.migrations.test.ts"
-    ],
-    "relatedFiles": [
-      "docs/DATA_MODEL.md",
-      "packages/cli/src/migrate.ts",
-      "packages/core/src/migrations.test.ts",
-      "packages/core/src/migrations.ts",
-      "packages/core/src/runtimeSchema.ts"
-    ],
-    "tags": [
-      "migration"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/migrate.ts",
-        "value": "formatMigrationResult",
-        "term": "migration",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/migrate.ts",
-        "value": "migrationExitCode",
-        "term": "migration",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "AtreeMigrationMemory",
-        "term": "migration",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationPlan",
-        "term": "migration",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationPlanOptions",
-        "term": "migration",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationResult",
-        "term": "migration",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationStep",
-        "term": "migration",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "planAtreeMigration",
-        "term": "migration",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "summarizeMigrationIssues",
-        "term": "migration",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "ATREE_CONFIG_MIGRATIONS",
-        "term": "migration",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "RuntimeMigration",
-        "term": "migration",
-        "score": 4
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/core/src/migrations.test.ts",
-        "value": "packages/core/src/migrations.test.ts",
-        "term": "migration",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "packages/core/src/migrations.ts",
-        "term": "migration",
-        "score": 2
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/DATA_MODEL.md",
-        "value": "Schema migrations",
-        "term": "migration",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/migrate.ts",
-        "value": "formatMigrationResult",
-        "term": "migration",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/migrate.ts",
-        "value": "migrationExitCode",
-        "term": "migration",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "AtreeMigrationMemory",
-        "term": "migration",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "buildConfigMigrationSteps",
-        "term": "migration",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "migration",
-        "term": "migration",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MIGRATION_HINT",
-        "term": "migration",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "migrationIssue",
-        "term": "migration",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationPlan",
-        "term": "migration",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationPlanOptions",
-        "term": "migration",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationResult",
-        "term": "migration",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationStep",
-        "term": "migration",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "planAtreeMigration",
-        "term": "migration",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "summarizeMigrationIssues",
-        "term": "migration",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "ATREE_CONFIG_MIGRATIONS",
-        "term": "migration",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "migration",
-        "term": "migration",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "RuntimeMigration",
-        "term": "migration",
         "score": 3
       }
     ]
@@ -9967,6 +10061,238 @@
     ]
   },
   {
+    "id": "scan",
+    "title": "Scan",
+    "summary": "Durable concept inferred from 12 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "module.scripts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.propose.test.ts",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.core.src.changereview.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.packages.core.src.scanner.test.ts",
+      "file.packages.core.src.scanner.ts",
+      "file.packages.core.src.workspace.test.ts",
+      "file.scripts.check.unicode.mjs",
+      "file.scripts.generated.memory.fixtures.test.mjs",
+      "file.scripts.small.web.app.fixture.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.scanner.tree.context.pipeline",
+      "architecture.visual.app.api",
+      "architecture.package.distribution",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.understanding.pipeline",
+      "subsystem.core.engine.file.packages.core.src.scanner.ts",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.changereview.ts",
+      "subsystem.core.engine.file.packages.core.src.evaluator.ts",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.local.api",
+      "subsystem.cli.local.api.file.packages.cli.src.index.ts",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.propose.ts",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.validation.evaluation",
+      "subsystem.memory.validation.logs.file.packages.core.src.changereview.ts",
+      "subsystem.memory.validation.logs.file.packages.core.src.evaluator.ts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.scanner.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.workspace.test.ts",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.doctor.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.propose.test.ts",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.check.unicode.mjs",
+      "subsystem.tests.quality.file.scripts.generated.memory.fixtures.test.mjs",
+      "subsystem.tests.quality.file.scripts.small.web.app.fixture.test.mjs"
+    ],
+    "relatedFiles": [
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/index.ts",
+      "packages/cli/src/propose.test.ts",
+      "packages/cli/src/propose.ts",
+      "packages/core/src/changeReview.ts",
+      "packages/core/src/evaluator.ts",
+      "packages/core/src/scanner.test.ts",
+      "packages/core/src/scanner.ts",
+      "packages/core/src/workspace.test.ts",
+      "scripts/check-unicode.mjs",
+      "scripts/generated-memory-fixtures.test.mjs",
+      "scripts/small-web-app-fixture.test.mjs"
+    ],
+    "tags": [
+      "scan"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "pruneGeneratedScanRecords",
+        "term": "scan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "PruneGeneratedScanRecordsResult",
+        "term": "scan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/scanner.ts",
+        "value": "scanProject",
+        "term": "scan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/scanner.ts",
+        "value": "ScanResult",
+        "term": "scan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/check-unicode.mjs",
+        "value": "scanProject",
+        "term": "scan",
+        "score": 4
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/doctor.test.ts",
+        "value": "scan",
+        "term": "scan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/index.ts",
+        "value": "scan",
+        "term": "scan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.test.ts",
+        "value": "scan",
+        "term": "scan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "scan",
+        "term": "scan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "eligibleGeneratedScanRecords",
+        "term": "scan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "generatedScanRecords",
+        "term": "scan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "isGeneratedScanRecord",
+        "term": "scan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "pruneGeneratedScanRecords",
+        "term": "scan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "PruneGeneratedScanRecordsResult",
+        "term": "scan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/changeReview.ts",
+        "value": "retainedGeneratedScanRecord",
+        "term": "scan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "currentScan",
+        "term": "scan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/scanner.test.ts",
+        "value": "scan",
+        "term": "scan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/scanner.ts",
+        "value": "scanProject",
+        "term": "scan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/scanner.ts",
+        "value": "ScanResult",
+        "term": "scan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.test.ts",
+        "value": "scan",
+        "term": "scan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-unicode.mjs",
+        "value": "scanProject",
+        "term": "scan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/generated-memory-fixtures.test.mjs",
+        "value": "scan",
+        "term": "scan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/small-web-app-fixture.test.mjs",
+        "value": "scan",
+        "term": "scan",
+        "score": 3
+      }
+    ]
+  },
+  {
     "id": "evaluation",
     "title": "Evaluation",
     "summary": "Durable concept inferred from 9 file(s) using export, symbol signals.",
@@ -10184,192 +10510,6 @@
         "filePath": "scripts/create-assessment-pack.test.mjs",
         "value": "latestEvaluation",
         "term": "evaluation",
-        "score": 3
-      }
-    ]
-  },
-  {
-    "id": "doctor",
-    "title": "Doctor",
-    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.docs",
-      "module.packages",
-      "file.docs.getting.started.md",
-      "file.packages.cli.src.doctor.test.ts",
-      "file.packages.cli.src.doctor.ts",
-      "architecture.cli.surface",
-      "subsystem.cli.local.api",
-      "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.doctor.ts",
-      "subsystem.docs.examples",
-      "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.getting.started.md",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.cli.tests",
-      "subsystem.tests.quality.file.packages.cli.src.doctor.test.ts"
-    ],
-    "relatedFiles": [
-      "docs/GETTING_STARTED.md",
-      "packages/cli/src/doctor.test.ts",
-      "packages/cli/src/doctor.ts"
-    ],
-    "tags": [
-      "doctor"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorCheck",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorCounts",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "doctorExitCode",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorIssueSummary",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorOptions",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorReport",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorStatus",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "formatDoctorReport",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "runDoctor",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/doctor.test.ts",
-        "value": "packages/cli/src/doctor.test.ts",
-        "term": "doctor",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "packages/cli/src/doctor.ts",
-        "term": "doctor",
-        "score": 2
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/GETTING_STARTED.md",
-        "value": "Run Doctor",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.test.ts",
-        "value": "doctorOptions",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorCheck",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorCounts",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "doctorExitCode",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorIssueSummary",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorOptions",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorReport",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorStatus",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "formatDoctorReport",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "runDoctor",
-        "term": "doctor",
         "score": 3
       }
     ]

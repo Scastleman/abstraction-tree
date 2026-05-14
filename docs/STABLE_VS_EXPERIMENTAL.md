@@ -6,6 +6,8 @@
 
 Abstraction Tree has several useful workflows, but they are not all at the same maturity level. The stable path is deterministic, local, and provider-free. Agent execution and provider-assisted proposals remain review-gated or experimental.
 
+For release decisions, use [V1_RELEASE_GATE.md](V1_RELEASE_GATE.md) as the pass/fail bar. The table below describes command maturity; it does not by itself declare the project v1-ready.
+
 | Surface | Status | Why |
 | --- | --- | --- |
 | `init`, `scan`, `doctor`, `validate`, `migrate` | Stable MVP | Deterministic local project-memory commands. They do not invoke providers. |

@@ -9,6 +9,7 @@ Use this page to choose the right document for your current task.
 | [Getting Started](GETTING_STARTED.md) | You want the stable provider-free path from install or clone to first scan. |
 | [Visual Demo](VISUAL_DEMO.md) | You want to see what the local app shows and how to capture screenshots. |
 | [Stable vs Experimental](STABLE_VS_EXPERIMENTAL.md) | You want to know which commands are stable, beta, or experimental. |
+| [V1 Release Gate](V1_RELEASE_GATE.md) | You want the pass/fail bar for calling the project v1-ready. |
 
 ## Core Concepts
 
@@ -36,6 +37,7 @@ Use this page to choose the right document for your current task.
 | [Packaging](PACKAGING.md) | Planned npm packages, local tarball preflight, and release checklist. |
 | [Roadmap](ROADMAP.md) | Implemented capabilities, current limitations, next priorities, and later ideas. |
 | [Maintainer Notes](MAINTAINER_NOTES.md) | Internal refactor plans and compatibility notes. |
+| [V1 Release Candidate Review](V1_RELEASE_CANDIDATE_REVIEW.md) | Current gate-by-gate release candidate assessment. |
 
 ## Compatibility Pages
 
