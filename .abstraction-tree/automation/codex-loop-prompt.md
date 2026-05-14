@@ -1,8 +1,10 @@
-# Bounded Abstraction Tree Assisted Improvement Loop
+# Bounded Abstraction Tree Repo-Maintenance Dogfooding Loop
 
 You are running ONE bounded improvement cycle for this repository.
 
-Your goal is to improve the project's structured implementation and dogfooding of the abstraction-tree idea without claiming autonomous correctness.
+This is not the main product workflow. The main product workflow is complex prompt implementation: route a prompt, create a goal workspace, decompose it into scoped missions, guide Codex execution, check scope, review coherence, evaluate, and report.
+
+Your goal in this prompt is narrower: improve this repository's structured implementation or dogfooding of Abstraction Tree without claiming autonomous correctness.
 
 You must improve one of:
 
@@ -13,6 +15,8 @@ You must improve one of:
 - change records
 - self-reporting
 - agent usability
+- prompt-to-mission workflow clarity
+- scope or coherence review
 - tests
 - documentation that helps future agents
 

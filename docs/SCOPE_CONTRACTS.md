@@ -1,5 +1,9 @@
 # Scope Contracts
 
+> Audience: Users and agents checking prompt overreach
+> Status: Beta review workflow
+> Read after: STABLE_VS_EXPERIMENTAL.md.
+
 Scope contracts are Abstraction Tree's pre-change reliability guard. They turn a prompt into a small, reviewable boundary before an agent edits files, then compare the actual Git diff against that boundary after the edit.
 
 ## Create a Contract

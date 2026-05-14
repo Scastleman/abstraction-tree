@@ -30,10 +30,12 @@ import { runChangeReviewCommand } from "./changeReviewCommand.js";
 import { collectValidationIssues, doctorExitCode, findVisualAppDist, formatDoctorReport, runDoctor } from "./doctor.js";
 import { runGoalCommand } from "./goalCommand.js";
 import { formatMigrationResult, migrationExitCode, runMigrateCommand } from "./migrate.js";
+import { openBrowser } from "./openBrowser.js";
 import { runProposeCommand } from "./propose.js";
 import { runRouteCommand } from "./routeCommand.js";
-import { formatServeUrl, selectServeHost } from "./serveHost.js";
+import { browserServeUrl, formatServeUrl, selectServeHost } from "./serveHost.js";
 import { buildServeProjectSummary, formatServeProjectSummary } from "./serveProject.js";
+import { formatInitGuidance, formatScanGuidance } from "./setupGuidance.js";
 import { runScopeCheckCommand, runScopeCreateCommand } from "./scopeCommand.js";
 import { runTreeExportCommand } from "./treeExportCommand.js";
 
@@ -57,7 +59,7 @@ function contextMaxTokens(input: unknown): number | undefined {
 }
 
 program.command("init")
-  .description("Create .abstraction-tree workspace")
+  .description("[stable] Create a blank project-local .abstraction-tree workspace")
   .option("-p, --project <path>", "project root")
   .option("--core", "initialize in core-only mode")
   .option("--with-app", "initialize in full mode with the visual app enabled")
@@ -65,15 +67,12 @@ program.command("init")
     const root = projectPath(opts.project);
     const mode: InstallMode = opts.withApp ? "full" : "core";
     await ensureWorkspace(root, { installMode: mode });
-    console.log(`Initialized Abstraction Tree in ${atreePath(root)} (${mode} mode).`);
-    if (mode === "core") {
-      console.log("Core-only mode writes .abstraction-tree data and supports scan, validate, and context commands.");
-      console.log("Install the full package or run `atree mode full` when you want to enable the visual app.");
-    }
+    console.log(`Initialized Abstraction Tree in ${mode} mode at ${atreePath(root)}.`);
+    for (const line of formatInitGuidance(mode, opts.project)) console.log(line);
   });
 
 program.command("mode")
-  .description("Switch between core-only and full visual-app mode")
+  .description("[stable] Switch between core-only and full visual-app mode")
   .argument("<mode>", "core or full")
   .option("-p, --project <path>", "project root")
   .action(async (modeInput: string, opts) => {
@@ -89,7 +88,7 @@ program.command("mode")
   });
 
 program.command("scan")
-  .description("Scan files and build the initial abstraction tree")
+  .description("[stable] Scan files and build deterministic abstraction memory")
   .option("-p, --project <path>", "project root")
   .action(async opts => {
     const root = projectPath(opts.project);
@@ -116,10 +115,11 @@ program.command("scan")
     };
     await writeJson(atreePath(root, "changes", `${change.id}.json`), change);
     console.log(`Scanned ${built.files.length} files and built ${built.nodes.length} tree nodes.`);
+    for (const line of formatScanGuidance(config, opts.project)) console.log(line);
   });
 
 program.command("validate")
-  .description("Validate tree/file alignment")
+  .description("[stable] Validate tree, file, concept, invariant, and drift alignment")
   .option("-p, --project <path>", "project root")
   .option("--strict", "treat warnings as validation failures")
   .action(async opts => {
@@ -134,7 +134,7 @@ program.command("validate")
   });
 
 program.command("doctor")
-  .description("Diagnose installation, memory, runtime boundaries, and validation readiness")
+  .description("[stable] Diagnose installation, memory, runtime boundaries, and validation readiness")
   .option("-p, --project <path>", "project root")
   .option("--json", "print machine-readable diagnostics")
   .option("--strict", "treat warnings as failures")
@@ -147,7 +147,7 @@ program.command("doctor")
   });
 
 program.command("migrate")
-  .description("Plan and apply .abstraction-tree schema migrations")
+  .description("[stable] Plan and apply .abstraction-tree schema migrations")
   .option("-p, --project <path>", "project root")
   .option("--dry-run", "print the migration plan without writing files")
   .option("--from <version>", "expected source schema version")
@@ -165,7 +165,7 @@ program.command("migrate")
   });
 
 program.command("context")
-  .description("Generate a compact context pack for an agent")
+  .description("[stable] Generate a compact context pack for an agent")
   .option("-p, --project <path>", "project root")
   .option("--format <format>", "output format: json or markdown", "json")
   .option("--max-tokens <n>", "approximate token budget for selected context items")
@@ -207,7 +207,7 @@ program.command("context")
   });
 
 program.command("propose")
-  .description("Run an explicit LLM provider adapter and save validated proposal output for review")
+  .description("[experimental] Run an explicit LLM provider adapter and save validated proposal output for review")
   .option("-p, --project <path>", "project root")
   .requiredOption("--provider <name>", "provider adapter name")
   .option("--adapter <path>", "ESM adapter module path; defaults to adapters/<provider>/index.mjs when present")
@@ -227,7 +227,7 @@ program.command("propose")
   });
 
 program.command("evaluate")
-  .description("Generate deterministic evaluation metrics")
+  .description("[beta] Generate deterministic evaluation metrics")
   .option("-p, --project <path>", "project root")
   .action(async opts => {
     const root = projectPath(opts.project);
@@ -237,25 +237,26 @@ program.command("evaluate")
   });
 
 program.command("export")
-  .description("Export the abstraction tree as Mermaid or Graphviz DOT")
+  .description("[stable] Export the generated abstraction tree as Mermaid or Graphviz DOT")
   .option("-p, --project <path>", "project root")
   .option("--format <format>", "output format: mermaid or dot", "mermaid")
   .option("--direction <direction>", "diagram direction: TD, TB, BT, LR, or RL")
   .option("--with-summaries", "include node summaries in diagram labels")
   .option("-o, --output <path>", "write the diagram to a file instead of stdout")
+  .option("--out <path>", "alias for --output")
   .action(async opts => {
     const root = projectPath(opts.project);
     process.exitCode = await runTreeExportCommand({
       projectRoot: root,
       format: opts.format,
-      output: opts.output,
+      output: opts.output ?? opts.out,
       direction: opts.direction,
       withSummaries: Boolean(opts.withSummaries)
     });
   });
 
 program.command("goal")
-  .description("Compile a complex user goal into assessment, affected-tree mapping, and bounded missions")
+  .description("[beta] Compile a complex user goal into reviewable assessment, affected-tree mapping, and bounded missions")
   .option("-p, --project <path>", "project root")
   .requiredOption("--file <path>", "Markdown file containing the original user goal")
   .option("--plan-only", "create the goal workspace and mission plan without execution")
@@ -281,7 +282,7 @@ program.command("goal")
   });
 
 program.command("route")
-  .description("Classify a prompt as direct, goal-driven, assessment-pack, or manual-review")
+  .description("[beta] Classify a prompt as direct, goal-driven, assessment-pack, or manual-review")
   .option("-p, --project <path>", "project root")
   .option("--file <path>", "Markdown file containing the prompt to route")
   .option("--text <text>", "prompt text to route")
@@ -299,7 +300,7 @@ program.command("route")
   });
 
 const changesCommand = program.command("changes")
-  .description("Inspect semantic change records");
+  .description("[stable] Inspect semantic change records");
 
 changesCommand.command("review")
   .description("List generated scan change records eligible for consolidation")
@@ -316,7 +317,7 @@ changesCommand.command("review")
   });
 
 const scopeCommand = program.command("scope")
-  .description("Create and check prompt scope contracts for overreach control")
+  .description("[beta] Create and check prompt scope contracts for overreach control")
   .option("-p, --project <path>", "project root")
   .option("--prompt <text>", "user prompt to map into an abstraction-tree scope contract")
   .option("--json", "print machine-readable JSON")
@@ -349,10 +350,11 @@ scopeCommand.command("check")
   });
 
 program.command("serve")
-  .description("Serve the visual app locally")
+  .description("[stable] Serve the local visual app from generated project memory")
   .option("-p, --project <path>", "project root")
   .option("--port <number>", "port; defaults to config visualApp.defaultPort or 4317")
   .option("--host <host>", "host to bind; defaults to 127.0.0.1")
+  .option("--open", "open the visual app in the default browser after the server starts")
   .action(async opts => {
     const root = projectPath(opts.project);
     const config = await readConfig(root);
@@ -383,7 +385,19 @@ program.command("serve")
       serveStatic(req, res, () => fallback(res));
     });
     if (warning) console.warn(warning);
-    server.listen(port, host, () => console.log(`Abstraction Tree app: ${formatServeUrl(host, port)}`));
+    server.listen(port, host, () => {
+      const appUrl = formatServeUrl(host, port);
+      const openUrl = browserServeUrl(host, port);
+      console.log(`Abstraction Tree app: ${appUrl}`);
+      if (!opts.open) return;
+
+      console.log("Opening browser...");
+      void openBrowser(openUrl).then(result => {
+        if (result.ok) return;
+        console.warn("Could not open browser automatically. Open this URL manually:");
+        console.warn(openUrl);
+      });
+    });
   });
 
 function fallback(res: import("node:http").ServerResponse) {

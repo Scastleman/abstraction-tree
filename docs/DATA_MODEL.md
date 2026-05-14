@@ -1,6 +1,12 @@
 # Data Model
 
+> Audience: Implementers, maintainers, and agent adapters
+> Status: Pre-v1 schema contract
+> Start here if: you need to understand committed `.abstraction-tree/` memory.
+
 A project using Abstraction Tree stores its semantic memory in `.abstraction-tree/`.
+
+The current schema version is `0.1.0`. It is pre-v1: the project validates and migrates the current shape, but v1 stability requires an explicit compatibility policy for breaking memory changes and tested migrations for every schema bump.
 
 ## Workspace ownership
 
@@ -31,6 +37,8 @@ atree migrate --project . --from 0.1.0 --to 0.1.0
 ```
 
 The first migration system is intentionally structural: schema `0.1.0` is already current, so the plan is a no-op unless a workspace uses an unsupported or future version. Future schema changes should add explicit migration steps instead of silently rewriting memory during `scan`, `validate`, or `serve`.
+
+Before v1, users should expect compatible optional-field additions such as richer node explanations. Breaking changes should be treated as v1 blockers until a migration is implemented and tested. At v1, the project should guarantee that supported CLIs can either read committed memory or fail with an actionable migration path.
 
 Migration policy:
 

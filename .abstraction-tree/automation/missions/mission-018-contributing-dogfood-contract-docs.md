@@ -26,7 +26,7 @@ Make contributor expectations match the actual CI checks and `.abstraction-tree`
 
 ## Non-goals
 
-- Do not require contributors to run autonomous loops.
+- Do not require contributors to run bounded dogfooding loops.
 - Do not require app mode for core-only changes.
 
 ## Likely touchpoints

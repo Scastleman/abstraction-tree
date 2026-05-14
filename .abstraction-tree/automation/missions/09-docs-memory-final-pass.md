@@ -3,7 +3,7 @@
 You are working on the `Scastleman/abstraction-tree` repository.
 
 Global objective:
-Make this repo a cleaner, safer, measurable, self-dogfooding abstraction-memory system for coding agents.
+Make this repo a cleaner, safer, measurable project-memory and prompt-to-mission system for coding agents.
 
 This mission updates documentation and the repo’s own abstraction memory after the recent hardening work.
 
@@ -42,9 +42,9 @@ npm run atree:evaluate
 npm run diff:summary
 ```
 
-4. What the autonomous loop does.
+4. What the bounded dogfooding loop does.
 
-5. What the autonomous loop does not do.
+5. What the bounded dogfooding loop does not do.
 
 6. Why the loop is bounded.
 

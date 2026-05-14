@@ -82,6 +82,37 @@ test("doctor warns when external projects contain Abstraction Tree dogfooding me
   assert.ok(report.checks.find(check => check.id === "self-memory-contamination")?.issues?.[0]?.message.includes("dogfooding memory"));
 });
 
+test("doctor does not warn when an external project merely documents Abstraction Tree commands", async t => {
+  const root = await workspace(t);
+  await writeFile(path.join(root, "package.json"), "{\"name\":\"external-docs-project\"}\n", "utf8");
+  await writeFile(
+    path.join(root, "README.md"),
+    [
+      "# External Project",
+      "",
+      "This project uses Abstraction Tree commands such as `atree scan` and `atree serve` in its docs.",
+      ""
+    ].join("\n"),
+    "utf8"
+  );
+  await writeFile(path.join(root, "index.ts"), "export const answer = 42;\n", "utf8");
+  await ensureWorkspace(root, { projectName: "external-docs-project" });
+  await writeHealthyAutomationFiles(root);
+  const scan = await scanProject(root);
+  const importGraph = await buildImportGraph(root, scan.files);
+  const built = buildDeterministicTree("external-docs-project", scan.files, { importGraph });
+  await writeJson(atreePath(root, "files.json"), built.files);
+  await writeJson(atreePath(root, "import-graph.json"), importGraph);
+  await writeJson(atreePath(root, "ontology.json"), built.ontology);
+  await writeJson(atreePath(root, "tree.json"), built.nodes);
+  await writeJson(atreePath(root, "concepts.json"), built.concepts);
+  await writeJson(atreePath(root, "invariants.json"), built.invariants);
+
+  const report = await runDoctor(root, doctorOptions);
+
+  assert.equal(checkStatus(report, "self-memory-contamination"), "ok");
+});
+
 test("doctor resolves visual app checks from the project root", async t => {
   const root = await workspace(t);
   await writeFile(path.join(root, "package.json"), "{\"name\":\"doctor-fixture\"}\n", "utf8");

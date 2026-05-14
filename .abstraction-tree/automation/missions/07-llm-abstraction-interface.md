@@ -3,7 +3,7 @@
 You are working on the `Scastleman/abstraction-tree` repository.
 
 Global objective:
-Make this repo a cleaner, safer, measurable, self-dogfooding abstraction-memory system for coding agents.
+Make this repo a cleaner, safer, measurable project-memory and prompt-to-mission system for coding agents.
 
 This mission prepares the repo for future LLM-assisted abstraction without making the current deterministic MVP depend on an LLM.
 

@@ -226,8 +226,11 @@ async function runInstalledCommands(projectDir) {
   await verifyCleanInitializedWorkspace(projectDir);
   await runCommand(process.execPath, [installedCli, "scan"], projectDir, "installed atree scan");
   await verifyProjectLocalScanMemory(projectDir);
+  await runCommand(process.execPath, [installedCli, "doctor", "--json"], projectDir, "installed atree doctor --json");
   await runCommand(process.execPath, [installedCli, "validate"], projectDir, "installed atree validate");
   await runCommand(process.execPath, [installedCli, "context", "--target", "checkout"], projectDir, "installed atree context --target checkout");
+  await runCommand(process.execPath, [installedCli, "export", "--format", "mermaid"], projectDir, "installed atree export --format mermaid");
+  await runCommand(process.execPath, [installedCli, "export", "--format", "dot"], projectDir, "installed atree export --format dot");
 
   await runUntilOutput(
     process.execPath,

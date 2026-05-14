@@ -30,6 +30,14 @@ async function main(args = process.argv.slice(2), root = repoRoot) {
     throw new Error(`Release dry run failed before npm publish checks:\n${issues.map(issue => `- ${issue}`).join("\n")}`);
   }
 
+  await runCommand(
+    process.execPath,
+    [path.join(root, "scripts", "pack-smoke-test.mjs")],
+    root,
+    "release dry-run: pack smoke"
+  );
+  console.log("release dry-run: package smoke and installability checks passed");
+
   for (const packageInfo of publishablePackages) {
     const publishArgs = ["publish", "--dry-run"];
     if (packageInfo.access) publishArgs.push("--access", packageInfo.access);

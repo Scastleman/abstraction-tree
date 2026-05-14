@@ -38,6 +38,16 @@ test("validateAutomation accepts valid committed config and ignored runtime stat
   assert.deepEqual(issues, []);
 });
 
+test("validateAutomation ignores projects without automation state", async t => {
+  const root = await mkdtemp(path.join(tmpdir(), "atree-no-automation-"));
+  t.after(() => rm(root, { recursive: true, force: true }));
+  await mkdir(path.join(root, ".abstraction-tree"), { recursive: true });
+
+  const issues = await validateAutomation(root);
+
+  assert.deepEqual(issues, []);
+});
+
 test("validateAutomation accepts BOM-prefixed automation JSON", async t => {
   const root = await workspace(t);
   await writeValidAutomationFiles(root, {}, { bom: true });

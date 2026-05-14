@@ -3,7 +3,7 @@
 You are working on the `Scastleman/abstraction-tree` repository.
 
 Global objective:
-Make this repo a cleaner, safer, measurable, self-dogfooding abstraction-memory system for coding agents.
+Make this repo a cleaner, safer, measurable project-memory and prompt-to-mission system for coding agents.
 
 This mission makes one small visual app improvement.
 
@@ -18,7 +18,7 @@ This mission makes one small visual app improvement.
 
 ## Task
 
-Improve the visual app in one small way that supports self-dogfooding.
+Improve the visual app in one small way that supports project comprehension during dogfooding.
 
 Choose one of these, based on what fits the current app best:
 
@@ -82,11 +82,11 @@ Report format:
 
 ## Task Chosen
 
-Improve visual app with one self-dogfooding project-comprehension panel.
+Improve visual app with one project-comprehension panel for dogfooding.
 
 ## Hypothesis
 
-The visual app becomes more useful when it surfaces the state of the repo’s own autonomous improvement loop and evaluation metrics.
+The visual app becomes more useful when it surfaces the state of the repo’s own repo-maintenance dogfooding loop and evaluation metrics.
 
 ## Files Changed
 

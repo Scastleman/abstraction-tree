@@ -1,6 +1,10 @@
 # Architecture
 
-Abstraction Tree has three layers.
+> Audience: Implementers and maintainers
+> Status: Current architecture reference
+> Read after: GETTING_STARTED.md for the user path or DATA_MODEL.md for memory details.
+
+Abstraction Tree has three product layers around a core workflow: map a complex prompt onto project memory, decompose it into bounded missions, guide Codex execution, and review the result against scope, coherence, and evaluation signals.
 
 ## 1. Core engine
 
@@ -71,9 +75,15 @@ Local runtime state is outside that contract. Live counters, loop state, mission
 
 The scanner also ignores `.abstraction-tree/` as source input. That keeps generated memory from recursively becoming part of the codebase model, while still allowing run reports, lessons, and evaluations to be committed as operational memory.
 
+## Prompt-to-mission workflow
+
+Prompt routing, goal workspaces, scope contracts, mission folders, coherence reviews, and evaluation reports form the complex prompt implementation path. The CLI and scripts coordinate those artifacts so Codex receives bounded missions and humans receive reviewable evidence.
+
+The visual app supports the human comprehension side of that workflow by showing the generated abstraction tree, node explanations, file ownership, concepts, invariants, and recent changes for the target project.
+
 ## Automation and metrics
 
-The experimental local dogfooding loop is an orchestration layer around Codex, npm scripts, validation, and runtime guards. It supports structured assisted maintenance; it does not guarantee correct changes or replace human review. From this repo, the key commands are:
+The experimental local dogfooding loop is an orchestration layer around Codex, npm scripts, validation, and runtime guards. It supports structured assisted maintenance for this repository; it is not the main product workflow, does not guarantee correct changes, and does not replace human review. From this repo, the key commands are:
 
 Cross-platform checks and metrics:
 
@@ -111,7 +121,7 @@ atree scan
 atree validate
 atree context --target checkout
 atree export --format mermaid
-atree serve
+atree serve --open
 ```
 
 It is designed to run inside any existing repo.
@@ -134,7 +144,7 @@ It shows:
 - context packs;
 - drift warnings.
 
-The browser app is local-first. It is served by the CLI and reads local project state through a local API. `atree serve` binds to `127.0.0.1` by default; LAN exposure requires an explicit non-loopback `--host` value and emits a warning because `/api/state` contains local project memory. Projects that only install `@abstraction-tree/cli` can still scan, validate, and produce agent context packs without installing the UI.
+The browser app is local-first. It is served by the CLI and reads local project state through a local API. `atree serve` binds to `127.0.0.1` by default; LAN exposure requires an explicit non-loopback `--host` value and emits a warning because `/api/state` contains local project memory. `atree serve --open` is an explicit convenience flag that launches the default browser after startup; plain `atree serve` only prints the URL. Projects that only install `@abstraction-tree/cli` can still scan, validate, and produce agent context packs without installing the UI.
 
 ## Future layers
 

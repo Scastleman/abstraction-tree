@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  isAutonomyClaimProjectFile,
   isLintableProjectFile,
+  lintAutonomyClaims,
   lintRelativeImportSpecifier,
   lintSourceText,
   shouldLintNodeNextImportExtensions
@@ -15,12 +17,47 @@ test("isLintableProjectFile includes source code and skips generated outputs", (
   assert.equal(isLintableProjectFile("packages/app/dist-ts/nodeAccessors.js"), false);
 });
 
+test("isAutonomyClaimProjectFile scopes claim checks to public docs and prompts", () => {
+  assert.equal(isAutonomyClaimProjectFile("README.md"), true);
+  assert.equal(isAutonomyClaimProjectFile("docs/FULL_SELF_IMPROVEMENT_LOOP.md"), true);
+  assert.equal(isAutonomyClaimProjectFile("packages/full/README.md"), true);
+  assert.equal(isAutonomyClaimProjectFile(".abstraction-tree/automation/codex-loop-prompt.md"), true);
+  assert.equal(isAutonomyClaimProjectFile(".abstraction-tree/runs/2026-05-13-1803-agent-run.md"), false);
+  assert.equal(isAutonomyClaimProjectFile("packages/core/src/promptRouter.ts"), false);
+});
+
 test("lintRelativeImportSpecifier enforces NodeNext runtime extensions", () => {
   assert.equal(lintRelativeImportSpecifier("node:path"), undefined);
   assert.equal(lintRelativeImportSpecifier("./schema.js"), undefined);
   assert.equal(lintRelativeImportSpecifier("./schema.json"), undefined);
   assert.match(lintRelativeImportSpecifier("./schema") ?? "", /must include/);
   assert.match(lintRelativeImportSpecifier("./schema.ts") ?? "", /runtime extension/);
+});
+
+test("lintAutonomyClaims reports unqualified public autonomy claims", () => {
+  const issues = lintAutonomyClaims("README.md", [
+    "# Abstraction Tree",
+    "",
+    "Abstraction Tree is a fully autonomous self-improving software system."
+  ].join("\n"));
+
+  assert.deepEqual(issues.map(issue => issue.rule), ["no-unsafe-autonomy-claim"]);
+  assert.equal(issues[0].line, 3);
+});
+
+test("lintAutonomyClaims allows explicit non-goal and historical contexts", () => {
+  const issues = lintAutonomyClaims("docs/FULL_SELF_IMPROVEMENT_LOOP.md", [
+    "# Experimental Local Dogfooding Loop",
+    "",
+    "## What This Is Not",
+    "",
+    "- A fully autonomous self-improving software system.",
+    "",
+    "This page documents a loop historically called the full self-improvement loop.",
+    "The command runs without claiming autonomous correctness."
+  ].join("\n"));
+
+  assert.deepEqual(issues, []);
 });
 
 test("shouldLintNodeNextImportExtensions scopes NodeNext imports to workspace code", () => {

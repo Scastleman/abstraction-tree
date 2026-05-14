@@ -3,7 +3,7 @@
 You are working on the `Scastleman/abstraction-tree` repository.
 
 Global objective:
-Make this repo a cleaner, safer, measurable, self-dogfooding abstraction-memory system for coding agents.
+Make this repo a cleaner, safer, measurable project-memory and prompt-to-mission system for coding agents.
 
 This mission adds or improves diff summary and overreach detection.
 
@@ -123,7 +123,7 @@ Add diff summary and agent overreach guard.
 
 ## Hypothesis
 
-Autonomous loops become safer when each loop can measure its own diff size and detect broad or risky edits.
+Bounded dogfooding loops become safer when each loop can measure its own diff size and detect broad or risky edits.
 
 ## Files Changed
 

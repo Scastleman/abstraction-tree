@@ -19,6 +19,14 @@ export function formatServeUrl(host: string, port: number): string {
   return `http://${urlHost(host)}:${port}`;
 }
 
+export function browserServeUrl(host: string, port: number): string {
+  const normalized = trimIpv6Brackets(host.trim().toLowerCase());
+  if (normalized === "localhost" || normalized.startsWith("127.") || normalized === "0.0.0.0" || normalized === "::") {
+    return formatServeUrl(defaultServeHost, port);
+  }
+  return formatServeUrl(host, port);
+}
+
 function isLoopbackHost(host: string): boolean {
   const normalized = trimIpv6Brackets(host.trim().toLowerCase());
   if (normalized === "localhost" || normalized === "::1") return true;

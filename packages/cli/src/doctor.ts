@@ -346,18 +346,20 @@ async function buildSelfDogfoodingMemoryCheck(root: string, memory: AtreeMemory)
 
   const markerFiles = new Set(memory.files.map(file => file.path));
   const markerNodeIds = new Set(memory.nodes.map(node => node.id));
-  const suspiciousMarkers = [
+  const hardMarkers = [
     memory.config.projectName === "abstraction-tree" ? "config projectName is abstraction-tree" : "",
+    markerFiles.has("packages/core/src/treeBuilder.ts") ? "contains Abstraction Tree core source file ownership" : "",
+    existsSync(atreePath(root, "automation", "codex-loop-prompt.md")) ? "contains Abstraction Tree automation prompt" : ""
+  ].filter(Boolean);
+  const weakMarkers = [
     markerNodeIds.has("subsystem.goal.mission.automation") ? "contains Abstraction Tree goal/mission subsystem node" : "",
     markerNodeIds.has("subsystem.cli.local.api") ? "contains Abstraction Tree CLI/local API subsystem node" : "",
-    markerFiles.has("packages/core/src/treeBuilder.ts") ? "contains Abstraction Tree core source file ownership" : "",
-    existsSync(atreePath(root, "automation", "codex-loop-prompt.md")) ? "contains Abstraction Tree automation prompt" : "",
     existsSync(atreePath(root, "runs")) ? "contains committed run reports" : "",
     existsSync(atreePath(root, "lessons")) ? "contains committed lessons" : "",
     existsSync(atreePath(root, "evaluations")) ? "contains committed evaluations" : ""
   ].filter(Boolean);
 
-  if (!suspiciousMarkers.length) {
+  if (!hardMarkers.length && weakMarkers.length < 2) {
     return {
       id: "self-memory-contamination",
       label: "Self dogfooding memory",
@@ -380,7 +382,7 @@ async function buildSelfDogfoodingMemoryCheck(root: string, memory: AtreeMemory)
     }],
     details: {
       packageName,
-      markers: suspiciousMarkers
+      markers: [...hardMarkers, ...weakMarkers]
     }
   };
 }

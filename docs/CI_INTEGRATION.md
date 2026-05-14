@@ -1,5 +1,9 @@
 # CI Integration
 
+> Audience: Maintainers and adopters configuring CI
+> Status: Stable guidance for deterministic checks
+> Read after: GETTING_STARTED.md and STABLE_VS_EXPERIMENTAL.md.
+
 Use Abstraction Tree in CI as a deterministic project-memory gate. The default
 workflow should run Node, install dependencies, and validate committed
 `.abstraction-tree/` memory. Do not run Codex, mission runners, provider
@@ -78,6 +82,7 @@ local-only. The workflow runs:
 - strict abstraction-memory validation with `npm run atree:validate`;
 - deterministic evaluation with `npm run atree:evaluate`;
 - doctor diagnostics with `npm run atree -- doctor --project . --strict`;
+- tree export with `npm run atree -- export --project . --format mermaid`;
 - prompt routing with `npm run atree:route`;
 - goal planning with `npm run atree:goal -- --auto-route --review-required`;
 - scope contract creation with `npm run atree -- scope --prompt ... --json`;

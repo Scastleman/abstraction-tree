@@ -3,9 +3,9 @@
 You are working on the `Scastleman/abstraction-tree` repository.
 
 Global objective:
-Make this repo a cleaner, safer, measurable, self-dogfooding abstraction-memory system for coding agents.
+Make this repo a cleaner, safer, measurable project-memory and prompt-to-mission system for coding agents.
 
-This mission adds objective evaluation metrics so the autonomous loop does not rely only on self-reporting.
+This mission adds objective evaluation metrics so the bounded dogfooding loop does not rely only on self-reporting.
 
 ## Rules
 
@@ -134,7 +134,7 @@ Add deterministic evaluation metrics.
 
 ## Hypothesis
 
-The self-improvement loop becomes more useful when each run can compare objective metrics instead of relying only on self-reflection.
+The repo-maintenance loop becomes more useful when each run can compare objective metrics instead of relying only on self-reflection.
 
 ## Files Changed
 

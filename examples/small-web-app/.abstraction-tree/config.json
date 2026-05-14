@@ -11,6 +11,7 @@
     ".abstraction-tree",
     "coverage"
   ],
+  "respectGitignore": false,
   "treeBuilder": "deterministic",
   "installMode": "full",
   "visualApp": {
