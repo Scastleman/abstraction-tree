@@ -59,6 +59,8 @@ npm run atree -- serve --project examples/small-web-app --open
 
 For the full beginner path, see [Getting Started](docs/GETTING_STARTED.md), [Stable vs Experimental](docs/STABLE_VS_EXPERIMENTAL.md), and the [Visual Demo](docs/VISUAL_DEMO.md).
 
+Beta testers should report install, scan, app, docs, or agent-workflow problems through the GitHub issue templates. Please redact secrets, private paths, and private source code.
+
 ## Main Workflow
 
 For simple prompts, route and execute directly. For complex prompts, use the reviewable mission workflow:
@@ -109,6 +111,8 @@ The visual app reads the target project's generated `.abstraction-tree/` memory 
 - concepts and invariants;
 - recent changes and drift status.
 
+![Abstraction Tree visual app showing the generated tree hierarchy](docs/assets/visual-demo/tree-hierarchy.png)
+
 It should only show this repository's dogfooding memory when this repository is the target project.
 
 At startup, `serve` prints the resolved project root, project name, memory counts, and warnings for unscanned memory or accidental serving of this repository's dogfooding memory. Check those lines when replacing an existing preview; the browser should show the same project name as the startup summary.
@@ -141,6 +145,7 @@ npm run atree:evaluate
 | [Getting started](docs/GETTING_STARTED.md) | Stable clone/install to first scan path. |
 | [Stable vs experimental](docs/STABLE_VS_EXPERIMENTAL.md) | Command maturity and safety boundaries. |
 | [Visual demo](docs/VISUAL_DEMO.md) | How to inspect the generated tree in the app. |
+| [V1 release gate](docs/V1_RELEASE_GATE.md) | What must be true before calling the project v1-ready. |
 | [Goal-driven mission workflow](docs/GOAL_DRIVEN_MISSION_WORKFLOW.md) | Main complex prompt workflow. |
 | [Mission runner](docs/MISSION_RUNNER.md) | Mission file format, planning, execution, and artifacts. |
 | [Scope contracts](docs/SCOPE_CONTRACTS.md) | Scope creation and diff checks. |
@@ -152,6 +157,7 @@ npm run atree:evaluate
 | [CI integration](docs/CI_INTEGRATION.md) | Deterministic CI usage. |
 | [Experimental dogfooding loop](docs/EXPERIMENTAL_DOGFOODING_LOOP.md) | Optional repo-maintenance loop for this repository. |
 | [Roadmap](docs/ROADMAP.md) | Implemented capabilities, limitations, next priorities, and later ideas. |
+| [V1 release candidate review](docs/V1_RELEASE_CANDIDATE_REVIEW.md) | Current pass/fail review against the v1 gate. |
 
 ## Repository Layout
 

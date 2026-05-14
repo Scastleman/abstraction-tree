@@ -4,6 +4,8 @@
 > Status: Planning document
 > Read after: STABLE_VS_EXPERIMENTAL.md.
 
+Release decisions are tracked in [V1_RELEASE_GATE.md](V1_RELEASE_GATE.md) and [V1_RELEASE_CANDIDATE_REVIEW.md](V1_RELEASE_CANDIDATE_REVIEW.md). This roadmap should describe priorities, not imply the project is v1-ready.
+
 ## Implemented
 
 - CLI workspace initialization with blank project-local memory.
@@ -14,6 +16,7 @@
 - Mermaid and Graphviz DOT export for generated tree memory.
 - Optional local visual app with `atree serve --open`.
 - Beginner Getting Started, Visual Demo, and Stable vs Experimental docs for v1 onboarding.
+- V1 release gate and conservative release-candidate review docs.
 - Prompt routing with direct, goal-driven, assessment-pack, and manual-review decisions.
 - Goal-driven mission planning that preserves the original prompt, maps affected tree nodes/files/concepts, writes mission folders, creates scope contracts, and prepares reports.
 - Mission runner planning/execution with batching, sandbox gates, runtime tracking, and review artifacts.
@@ -36,18 +39,22 @@
 - Coherence review and goal scoring are deterministic first-pass artifacts.
 - The visual app does not yet expose goal workspaces, mission plans, scope results, or coherence reviews as first-class views.
 - Historical filenames such as `FULL_SELF_IMPROVEMENT_LOOP.md` and `scripts/run-full-self-improvement-loop.mjs` remain as compatibility entrypoints, but they are not the product framing.
+- Public npm packages are planned but not published yet; local tarball smoke tests are the current install proof.
+- Visual goal workspace and mission-plan panels are post-v1 unless implemented as small read-only views without changing stable app scope.
 
 ## Next Priorities
 
 1. Verify and keep docs/command references aligned with the actual CLI.
-2. Integrate route -> goal -> mission runner -> scope check -> coherence review -> evaluation -> report into one smoother reviewable workflow.
-3. Add deterministic post-mission goal coherence review that compares actual changed files, checks, scope results, and mission outcomes against the original prompt.
-4. Improve router and goal planner behavior using feedback from executed missions.
-5. Improve affected-tree mapping with better dependency, concept, invariant, and previous-change evidence.
-6. Improve mission decomposition so complex prompts split into smaller, safer, dependency-aware missions.
-7. Improve scope-contract accuracy and overreach reporting.
-8. Add visual app support for goal workspaces, affected-tree maps, mission plans, scope checks, coherence reviews, and PR/report artifacts.
-9. Improve PR body and final-report generation for reviewable Codex workflows.
+2. Keep the v1 release gate current with install, packaging, schema, screenshot, changelog, CI, and memory-hygiene evidence.
+3. Publish and verify a public beta or release-candidate package before claiming v1 readiness.
+4. Integrate route -> goal -> mission runner -> scope check -> coherence review -> evaluation -> report into one smoother reviewable workflow.
+5. Add deterministic post-mission goal coherence review that compares actual changed files, checks, scope results, and mission outcomes against the original prompt.
+6. Improve router and goal planner behavior using feedback from executed missions.
+7. Improve affected-tree mapping with better dependency, concept, invariant, and previous-change evidence.
+8. Improve mission decomposition so complex prompts split into smaller, safer, dependency-aware missions.
+9. Improve scope-contract accuracy and overreach reporting.
+10. Add visual app support for goal workspaces, affected-tree maps, mission plans, scope checks, coherence reviews, and PR/report artifacts after the stable visual proof remains solid.
+11. Improve PR body and final-report generation for reviewable Codex workflows.
 
 ## Later Ideas
 

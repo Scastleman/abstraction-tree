@@ -139,3 +139,16 @@ npm run atree -- serve --project examples/small-web-app --open
 - [Data Model](DATA_MODEL.md)
 - [Architecture](ARCHITECTURE.md)
 - [Packaging](PACKAGING.md)
+- [V1 Release Gate](V1_RELEASE_GATE.md)
+
+## Reporting Early Feedback
+
+If you are testing a beta or release candidate, use the GitHub issue templates and avoid sharing secrets or private source code. The most useful reports include:
+
+- operating system;
+- Node and npm versions;
+- exact command run;
+- expected behavior;
+- actual behavior;
+- redacted logs or `npx atree doctor --json` output when relevant;
+- whether the target project can be shared.

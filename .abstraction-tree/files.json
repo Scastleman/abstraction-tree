@@ -1,12 +1,124 @@
 [
   {
+    "path": ".github/ISSUE_TEMPLATE/agent-workflow-problem.yml",
+    "extension": ".yml",
+    "language": "YAML",
+    "parseStrategy": "regex",
+    "contentHash": "05cadbefb7a3f937ce2d627e2a63f00f7bac16df348971189bf2629ecf6747b4",
+    "sizeBytes": 1611,
+    "lines": 63,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "agent-workflow-problem.yml is a YAML implementation file.",
+    "ownedByNodeIds": [
+      "file.github.issue.template.agent.workflow.problem.yml",
+      "module.github"
+    ]
+  },
+  {
+    "path": ".github/ISSUE_TEMPLATE/config.yml",
+    "extension": ".yml",
+    "language": "YAML",
+    "parseStrategy": "regex",
+    "contentHash": "847ce3b99830b3cba1d4c3beb1f57ebec5b00236b9445ec2670c131c3decf41b",
+    "sizeBytes": 261,
+    "lines": 6,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "abstraction-tree"
+    ],
+    "isTest": false,
+    "summary": "config.yml is a YAML configuration file. Defines abstraction-tree.",
+    "ownedByNodeIds": [
+      "file.github.issue.template.config.yml",
+      "module.github"
+    ]
+  },
+  {
+    "path": ".github/ISSUE_TEMPLATE/docs-getting-started-problem.yml",
+    "extension": ".yml",
+    "language": "YAML",
+    "parseStrategy": "regex",
+    "contentHash": "894dd51eb0fc2a50f8d1e2722431600dc10b22add2fd123f05bba54743b5e1b5",
+    "sizeBytes": 794,
+    "lines": 32,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "md"
+    ],
+    "isTest": false,
+    "summary": "docs-getting-started-problem.yml is a YAML implementation file. Defines md.",
+    "ownedByNodeIds": [
+      "file.github.issue.template.docs.getting.started.problem.yml",
+      "module.github"
+    ]
+  },
+  {
+    "path": ".github/ISSUE_TEMPLATE/install-package-problem.yml",
+    "extension": ".yml",
+    "language": "YAML",
+    "parseStrategy": "regex",
+    "contentHash": "3eb20547d301f9ee42965eb4b4427344fd0809f34858904387a50c78f273b9f3",
+    "sizeBytes": 1692,
+    "lines": 62,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "install-package-problem.yml is a YAML implementation file.",
+    "ownedByNodeIds": [
+      "file.github.issue.template.install.package.problem.yml",
+      "module.github"
+    ]
+  },
+  {
+    "path": ".github/ISSUE_TEMPLATE/scan-validate-problem.yml",
+    "extension": ".yml",
+    "language": "YAML",
+    "parseStrategy": "regex",
+    "contentHash": "4d1ef4e5c71a97cba5e04b65ce2b6d27f8cf22e52bce682d2d829517f2813604",
+    "sizeBytes": 1411,
+    "lines": 58,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "scan-validate-problem.yml is a YAML implementation file.",
+    "ownedByNodeIds": [
+      "file.github.issue.template.scan.validate.problem.yml",
+      "module.github"
+    ]
+  },
+  {
+    "path": ".github/ISSUE_TEMPLATE/visual-app-problem.yml",
+    "extension": ".yml",
+    "language": "YAML",
+    "parseStrategy": "regex",
+    "contentHash": "c9c570fe06f687a54e574747cf48ebcdc3bdb3a7d7ea734f7e41f257c6a261ff",
+    "sizeBytes": 1224,
+    "lines": 52,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "visual-app-problem.yml is a YAML implementation file.",
+    "ownedByNodeIds": [
+      "file.github.issue.template.visual.app.problem.yml",
+      "module.github"
+    ]
+  },
+  {
     "path": ".github/workflows/ci.yml",
     "extension": ".yml",
     "language": "YAML",
     "parseStrategy": "regex",
-    "contentHash": "d6fdc12b57cd9670824873600418c02988e11fa09e3bed8e654dacf650f7d981",
-    "sizeBytes": 1468,
-    "lines": 47,
+    "contentHash": "ab67884bba4cfdce0e4fd289b68b12ea04dc4b1a985c6f9419c845f7eac79357",
+    "sizeBytes": 1503,
+    "lines": 48,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -149,9 +261,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "060d70ca9f37db84730770f8f8acbe13476295f0ec72fd6e3770f78b1044395a",
-    "sizeBytes": 1128,
-    "lines": 27,
+    "contentHash": "651d98932cfb208bdedd3122f404b77ab4458232886feb080a05c598b35a5766",
+    "sizeBytes": 1650,
+    "lines": 35,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -365,9 +477,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "15f22b181907f74326488070a2e3ec01ee31d2dcfa89a758252e5facd76cc087",
-    "sizeBytes": 9816,
-    "lines": 184,
+    "contentHash": "17caa6088ad70ee06eb293ed0eca898905cec1b364304a072e1666cc2a2fb59d",
+    "sizeBytes": 10196,
+    "lines": 186,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -510,9 +622,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "940cfe8ca347b6d983518212712c45728fa41bdbf815bd17fba6bb9c21e80471",
-    "sizeBytes": 4103,
-    "lines": 142,
+    "contentHash": "be26b759302a56466b717ffc1aa551c37daf1158a3440fcacce05907f9f4f949",
+    "sizeBytes": 4553,
+    "lines": 155,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -529,6 +641,7 @@
       "Serve the Visual App",
       "Common Troubleshooting",
       "Where To Go Next",
+      "Reporting Early Feedback",
       "md",
       "js",
       "json",
@@ -692,9 +805,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "0d2e1c1dada03e9e86855d9e5522a7733d001952bbb6dd481eeed400b600ee65",
-    "sizeBytes": 6678,
-    "lines": 201,
+    "contentHash": "acc8dc709819f0f7e001a6c66fe7335c6ef9bf1973f6d1fb3d417ed101d9809a",
+    "sizeBytes": 7762,
+    "lines": 226,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -709,6 +822,7 @@
       "Versioning strategy",
       "Changelog requirement",
       "Release dry run",
+      "Prerelease path",
       "Maintainer release checklist",
       "md",
       "json"
@@ -728,9 +842,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "5053500ffe809d39d731e25538dc1e6570d83b5c36b0e307f3ce1f530dd66554",
-    "sizeBytes": 2224,
-    "lines": 45,
+    "contentHash": "316ee3da0b5cd1e45eb1859ff9de5a691494e46c586fc560a26abc94fc178617",
+    "sizeBytes": 2448,
+    "lines": 47,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -756,9 +870,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "265a12cce8bc760fb5b62d700207d9a4cd79adf1399b1071f4337125a941ffca",
-    "sizeBytes": 4692,
-    "lines": 68,
+    "contentHash": "a344d98fdafc44c0d313d7272e14afed81d1a1958da3a15dfef6ba8d1aeda4e5",
+    "sizeBytes": 5498,
+    "lines": 75,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -820,9 +934,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "9040fd739335d6b03af0a123bda454ca9527c06afbc6572cadf13d8a96d642e0",
-    "sizeBytes": 2826,
-    "lines": 40,
+    "contentHash": "e496a92dde275e600d5239d7e7c95375a1d194f9d7215005bbfc44f0aa6341bc",
+    "sizeBytes": 3013,
+    "lines": 42,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -841,13 +955,75 @@
     ]
   },
   {
+    "path": "docs/V1_RELEASE_CANDIDATE_REVIEW.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "86d89da3be91b043ef97a2afd36db4a5c9937bf291ef35d6a3850aa3293c13c3",
+    "sizeBytes": 3487,
+    "lines": 64,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "V1 Release Candidate Review",
+      "Summary",
+      "Gate Results",
+      "Blockers Before V1",
+      "Non-Blockers For V1",
+      "Latest Required Local Evidence",
+      "md"
+    ],
+    "isTest": false,
+    "summary": "V1_RELEASE_CANDIDATE_REVIEW.md is a Markdown implementation file. Defines V1 Release Candidate Review, Summary, Gate Results, Blockers Before V1, Non-Blockers For V1.",
+    "ownedByNodeIds": [
+      "file.docs.v1.release.candidate.review.md",
+      "module.docs",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.v1.release.candidate.review.md"
+    ]
+  },
+  {
+    "path": "docs/V1_RELEASE_GATE.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "a8945538244e9dd8e2fd0b587a27f6a3a783761fe3b504edf45f95d9c1406413",
+    "sizeBytes": 6032,
+    "lines": 145,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "V1 Release Gate",
+      "Stable User Path",
+      "Install And Package Gate",
+      "Schema And Migration Gate",
+      "Visual Proof Gate",
+      "Docs And Changelog Gate",
+      "CI And Release Preflight Gate",
+      "Memory Hygiene Gate",
+      "Explicit V1 Non-Goals",
+      "Release Decision",
+      "md"
+    ],
+    "isTest": false,
+    "summary": "V1_RELEASE_GATE.md is a Markdown implementation file. Defines V1 Release Gate, Stable User Path, Install And Package Gate, Schema And Migration Gate, Visual Proof Gate.",
+    "ownedByNodeIds": [
+      "file.docs.v1.release.gate.md",
+      "module.docs",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.v1.release.gate.md"
+    ]
+  },
+  {
     "path": "docs/VISUAL_DEMO.md",
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "f9e9ea116dc9a755fbe8bf5e6730f60c800c299e0a0f4faf3eb774ec6de271ba",
-    "sizeBytes": 2275,
-    "lines": 56,
+    "contentHash": "9070e3c824d1613fd0c5d9cbb201fda57483457ce52c4f3818a9f2551af58159",
+    "sizeBytes": 2732,
+    "lines": 70,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -855,12 +1031,16 @@
       "Launch the Demo",
       "What the App Shows",
       "Walkthrough",
-      "Screenshot Placeholders",
-      "md",
-      "png"
+      "Screenshots",
+      "Tree Hierarchy",
+      "Selected Node Explanation",
+      "File Ownership",
+      "Concepts And Invariants",
+      "Health, Context, And Drift",
+      "md"
     ],
     "isTest": false,
-    "summary": "VISUAL_DEMO.md is a Markdown implementation file. Defines Visual Demo, Launch the Demo, What the App Shows, Walkthrough, Screenshot Placeholders.",
+    "summary": "VISUAL_DEMO.md is a Markdown implementation file. Defines Visual Demo, Launch the Demo, What the App Shows, Walkthrough, Screenshots.",
     "ownedByNodeIds": [
       "file.docs.visual.demo.md",
       "module.docs",
@@ -1341,9 +1521,9 @@
     "extension": ".json",
     "language": "JSON",
     "parseStrategy": "regex",
-    "contentHash": "ae86329bdb5ed920c7e0811014e3b77b6af418ddd03f3e5059b055b8699c76f5",
-    "sizeBytes": 2851,
-    "lines": 52,
+    "contentHash": "9d922c6052dd6377c50505a5164366c8f99d55c4e382c5dc7b8e8a489682c3da",
+    "sizeBytes": 2911,
+    "lines": 53,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -2290,33 +2470,75 @@
     ]
   },
   {
+    "path": "packages/cli/src/changeReviewCommand.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "eabf0db11b46e46e5f427db0c73a91fd063b8d124b7b65d4689765ab8ba51aed",
+    "sizeBytes": 2643,
+    "lines": 68,
+    "imports": [
+      "node:assert/strict",
+      "node:fs",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:test",
+      "./changeReviewCommand.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "root",
+      "output",
+      "errors",
+      "code",
+      "workspace",
+      "writeChange",
+      "change"
+    ],
+    "isTest": true,
+    "summary": "changeReviewCommand.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, output, errors, code, workspace. Depends on node:assert/strict, node:fs, node:fs/promises, node:os.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.changereviewcommand.test.ts",
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.changereviewcommand.test.ts"
+    ]
+  },
+  {
     "path": "packages/cli/src/changeReviewCommand.ts",
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "1e2b09b434be4a90eeb7d1a2d5337472c805b28fcdf807f9410566ceb64c3817",
-    "sizeBytes": 1280,
-    "lines": 47,
+    "contentHash": "c50d1abae60ca7ed6c1bab1d9f47c577ddaab842d0d5464ab749d2e791da3b81",
+    "sizeBytes": 2061,
+    "lines": 72,
     "imports": [
       "@abstraction-tree/core"
     ],
     "exports": [
       "ChangeReviewCommandOptions",
+      "ChangePruneGeneratedCommandOptions",
       "ChangeReviewCommandIo",
-      "runChangeReviewCommand"
+      "runChangeReviewCommand",
+      "runChangePruneGeneratedCommand"
     ],
     "symbols": [
       "ChangeReviewCommandOptions",
+      "ChangePruneGeneratedCommandOptions",
       "ChangeReviewCommandIo",
       "runChangeReviewCommand",
       "limit",
       "report",
+      "runChangePruneGeneratedCommand",
+      "result",
       "defaultIo",
       "positiveIntegerOption",
       "parsed"
     ],
     "isTest": false,
-    "summary": "changeReviewCommand.ts is a TypeScript implementation file. AST-backed scan. Defines ChangeReviewCommandOptions, ChangeReviewCommandIo, runChangeReviewCommand, limit, report. Depends on @abstraction-tree/core.",
+    "summary": "changeReviewCommand.ts is a TypeScript implementation file. AST-backed scan. Defines ChangeReviewCommandOptions, ChangePruneGeneratedCommandOptions, ChangeReviewCommandIo, runChangeReviewCommand, limit. Depends on @abstraction-tree/core.",
     "ownedByNodeIds": [
       "file.packages.cli.src.changereviewcommand.ts",
       "module.packages",
@@ -2625,9 +2847,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "8b62f27b2351e927d734486c833fb4f2899dddd55fc94aa7f6a0e6c6374a325e",
-    "sizeBytes": 18271,
-    "lines": 417,
+    "contentHash": "32f8e6d5a4d990f01b320c03e583b640c4ed71b09c606ed9c4cef33a235649a6",
+    "sizeBytes": 18769,
+    "lines": 429,
     "imports": [
       "commander",
       "node:path",
@@ -3716,12 +3938,13 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "038990bf2fdcc4dabdc198976cdfdc98d609579a60ed4a1c7028ab7f01ffcde0",
-    "sizeBytes": 4423,
-    "lines": 107,
+    "contentHash": "0259bd5fc1e0b2f6422262c9d2390308b75ce8ed2cf8947702042e03ea3dc3ff",
+    "sizeBytes": 7417,
+    "lines": 171,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
+      "node:fs",
       "node:os",
       "node:path",
       "node:test",
@@ -3733,12 +3956,13 @@
       "report",
       "summary",
       "limited",
+      "result",
       "workspace",
       "writeChange",
       "change"
     ],
     "isTest": true,
-    "summary": "changeReview.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, report, summary, limited, workspace. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "summary": "changeReview.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, report, summary, limited, result. Depends on node:assert/strict, node:fs/promises, node:fs, node:os.",
     "ownedByNodeIds": [
       "file.packages.core.src.changereview.test.ts",
       "module.packages",
@@ -3752,10 +3976,12 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "d4037925c6c72d6d7b2703ff355c52da8460e85ac055edeec12930899aba3a1d",
-    "sizeBytes": 4416,
-    "lines": 125,
+    "contentHash": "95166bcf91f3b75e417cc70cb66894515d4bdf6ebd86a2a105c80cdbdb91d6c4",
+    "sizeBytes": 6717,
+    "lines": 182,
     "imports": [
+      "node:fs/promises",
+      "node:path",
       "./schema.js",
       "./workspace.js"
     ],
@@ -3763,34 +3989,49 @@
       "ChangeRecordReviewItem",
       "ChangeRecordReviewReport",
       "ChangeRecordReviewSummary",
+      "PruneGeneratedScanRecordsResult",
       "ChangeRecordReviewInput",
       "reviewChangeRecords",
       "buildChangeRecordReviewReport",
       "buildChangeRecordReviewSummary",
-      "limitChangeRecordReviewReport"
+      "limitChangeRecordReviewReport",
+      "pruneGeneratedScanRecords"
     ],
     "symbols": [
       "ChangeRecordReviewItem",
       "ChangeRecordReviewReport",
       "ChangeRecordReviewSummary",
+      "PruneGeneratedScanRecordsResult",
       "ChangeRecordReviewInput",
       "reviewChangeRecords",
       "loaded",
       "buildChangeRecordReviewReport",
       "generatedScanRecords",
+      "referencedChangeRecordPaths",
       "retainedGeneratedScanRecord",
       "eligibleGeneratedScanRecords",
       "buildChangeRecordReviewSummary",
       "limitChangeRecordReviewReport",
+      "pruneGeneratedScanRecords",
+      "root",
+      "dryRun",
+      "report",
+      "blockedByIssues",
+      "deletedRecordPaths",
+      "filePath",
       "reviewItem",
+      "changeRecordAbsolutePath",
+      "changesRoot",
+      "absolutePath",
       "compareLoadedChangeRecords",
       "changeSortKey",
       "isGeneratedScanRecord",
+      "changeRecordPathsReferencedBySemanticRecords",
       "stringValue",
       "stringArray"
     ],
     "isTest": false,
-    "summary": "changeReview.ts is a TypeScript implementation file. AST-backed scan. Defines ChangeRecordReviewItem, ChangeRecordReviewReport, ChangeRecordReviewSummary, ChangeRecordReviewInput, reviewChangeRecords. Depends on ./schema.js, ./workspace.js.",
+    "summary": "changeReview.ts is a TypeScript implementation file. AST-backed scan. Defines ChangeRecordReviewItem, ChangeRecordReviewReport, ChangeRecordReviewSummary, PruneGeneratedScanRecordsResult, ChangeRecordReviewInput. Depends on node:fs/promises, node:path, ./schema.js, ./workspace.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.changereview.ts",
       "module.packages",
@@ -4738,11 +4979,12 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "85aff334cdcfaa4d8b976df4e3778b648d782b054c8813c2dcf0e82d61108350",
-    "sizeBytes": 4213,
-    "lines": 113,
+    "contentHash": "555718b4b15e498045fa71ef4e151ac9ddaddc2e1f172e7fe86d312507229f40",
+    "sizeBytes": 5280,
+    "lines": 141,
     "imports": [
       "node:assert/strict",
+      "node:fs",
       "node:fs/promises",
       "node:os",
       "node:path",
@@ -4769,7 +5011,7 @@
       "fixtureRoot"
     ],
     "isTest": true,
-    "summary": "migrations.test.ts is a TypeScript test coverage file. AST-backed scan. Defines config, plan, root, result, written. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "summary": "migrations.test.ts is a TypeScript test coverage file. AST-backed scan. Defines config, plan, root, result, written. Depends on node:assert/strict, node:fs, node:fs/promises, node:os.",
     "ownedByNodeIds": [
       "file.packages.core.src.migrations.test.ts",
       "module.packages",
@@ -6086,9 +6328,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "6867dda2b2ee0eb759601593be9d82196c31355327de8f1ef1f4d70d837fa60d",
-    "sizeBytes": 7942,
-    "lines": 175,
+    "contentHash": "88f3aacf1bd99511e0e8b4dd6d36b5f91448d9f7341068216c09b83d2a3ab001",
+    "sizeBytes": 8458,
+    "lines": 181,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -6249,6 +6491,97 @@
       "subsystem.tests.quality",
       "subsystem.tests.quality.slice.script.quality",
       "subsystem.tests.quality.file.scripts.check.changelog.test.mjs"
+    ]
+  },
+  {
+    "path": "scripts/check-doc-commands.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "9bca41461271e16c7323d256d60c2176b495fc7e211d9bc627fa238ad2169c8f",
+    "sizeBytes": 3724,
+    "lines": 121,
+    "imports": [
+      "node:fs",
+      "node:fs/promises",
+      "node:path",
+      "node:url"
+    ],
+    "exports": [
+      "main",
+      "checkDocCommands"
+    ],
+    "symbols": [
+      "repoRoot",
+      "knownAtreeCommands",
+      "main",
+      "issues",
+      "checkDocCommands",
+      "packageJson",
+      "scripts",
+      "markdownFiles",
+      "relativePath",
+      "absolutePath",
+      "text",
+      "collectMarkdownFiles",
+      "files",
+      "docFile",
+      "filesUnder",
+      "entries",
+      "entry",
+      "filePath",
+      "checkNpmRunScripts",
+      "match",
+      "scriptName",
+      "checkAtreeCommands",
+      "patterns",
+      "pattern",
+      "commandName",
+      "checkMarkdownLinks",
+      "target",
+      "cleanTarget",
+      "resolved"
+    ],
+    "isTest": false,
+    "summary": "check-doc-commands.mjs is a JavaScript implementation file. AST-backed scan. Defines repoRoot, knownAtreeCommands, main, issues, checkDocCommands. Depends on node:fs, node:fs/promises, node:path, node:url.",
+    "ownedByNodeIds": [
+      "file.scripts.check.doc.commands.mjs",
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.check.doc.commands.mjs"
+    ]
+  },
+  {
+    "path": "scripts/check-doc-commands.test.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "00674cb781f135f43b8a6c449300352fc7a2dfa23fc8c0955b999579cb46e85f",
+    "sizeBytes": 1913,
+    "lines": 61,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:test",
+      "./check-doc-commands.mjs"
+    ],
+    "exports": [],
+    "symbols": [
+      "root",
+      "issues",
+      "fixture"
+    ],
+    "isTest": true,
+    "summary": "check-doc-commands.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines root, issues, fixture. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "ownedByNodeIds": [
+      "file.scripts.check.doc.commands.test.mjs",
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.check.doc.commands.test.mjs"
     ]
   },
   {

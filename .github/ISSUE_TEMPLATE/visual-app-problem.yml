@@ -1,0 +1,51 @@
+name: Visual app problem
+description: Report issues with `atree serve`, browser display, or the project map UI.
+title: "[app]: "
+labels: ["visual-app", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Screenshots are helpful, but redact project names, private paths, and source details if needed.
+  - type: input
+    id: os
+    attributes:
+      label: OS and browser
+    validations:
+      required: true
+  - type: input
+    id: node
+    attributes:
+      label: Node and npm versions
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command run
+      description: Example: `npx atree serve --open`.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected visual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual visual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Redacted terminal or browser console output
+      render: text
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Redacted doctor output
+      render: json

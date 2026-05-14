@@ -1,0 +1,31 @@
+name: Docs or getting-started problem
+description: Report confusing, stale, or incorrect documentation.
+title: "[docs]: "
+labels: ["docs", "needs-triage"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page or section
+      description: Link or filename, such as README.md or docs/GETTING_STARTED.md.
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What was confusing or incorrect?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should the docs say instead?
+  - type: textarea
+    id: command
+    attributes:
+      label: Command you tried, if any
+      render: shell
+  - type: input
+    id: environment
+    attributes:
+      label: OS / Node / npm, if relevant

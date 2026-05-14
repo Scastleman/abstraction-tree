@@ -8,10 +8,18 @@ This repository uses synchronized SemVer versions across the publishable package
 
 ## [Unreleased]
 
+- Added a v1 release gate and release-candidate review doc so maintainers have
+  an explicit pass/fail bar before labeling the project v1-ready.
 - Added `atree export` for Mermaid and Graphviz DOT diagrams generated from
   `.abstraction-tree/tree.json`.
 - Added `atree serve` startup diagnostics that print the resolved project,
   memory counts, and dogfooding-memory adoption warnings.
+- Added `atree changes prune-generated` to remove superseded generated scan
+  records while retaining semantic history and the latest generated scan.
+- Added documentation command-reference checking for stale npm scripts, stale
+  `atree` commands, and missing Markdown doc links.
+- Added public beta issue templates for install, scan, app, docs, and agent
+  workflow feedback.
 - Added README guidance for Codex and other agents adopting Abstraction Tree into
   a separate target project without copying dogfooding memory or serving the
   wrong workspace.

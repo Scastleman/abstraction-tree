@@ -158,6 +158,8 @@ Semantic change records written in tree language instead of only Git language.
 
 Deterministic scans also write generated records with ids beginning `scan.`. These record the scan event, but older generated scan records can be reviewed for consolidation after a newer scan has superseded them. Use `atree changes review` for a read-only list of those candidates.
 
+Use `atree changes prune-generated --apply` to delete superseded generated scan records after review. The command retains the newest generated scan record, retains semantic change records, dry-runs unless `--apply` is passed, and refuses to delete when change-record validation issues are present. This keeps committed memory readable without erasing meaningful project history.
+
 ## `context-packs/`
 
 Compressed bundles of relevant tree nodes, files, concepts, invariants, and recent changes for coding agents.

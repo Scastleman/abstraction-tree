@@ -284,6 +284,12 @@
       "kind": "relative"
     },
     {
+      "from": "packages/cli/src/changeReviewCommand.test.ts",
+      "to": "packages/cli/src/changeReviewCommand.ts",
+      "specifier": "./changeReviewCommand.js",
+      "kind": "relative"
+    },
+    {
       "from": "packages/cli/src/changeReviewCommand.ts",
       "to": "packages/core/src/index.ts",
       "specifier": "@abstraction-tree/core",
@@ -1213,6 +1219,12 @@
       "kind": "relative"
     },
     {
+      "from": "scripts/check-doc-commands.test.mjs",
+      "to": "scripts/check-doc-commands.mjs",
+      "specifier": "./check-doc-commands.mjs",
+      "kind": "relative"
+    },
+    {
       "from": "scripts/check-unicode.mjs",
       "to": "scripts/project-text-files.mjs",
       "specifier": "./project-text-files.mjs",
@@ -1530,6 +1542,36 @@
     },
     {
       "from": "packages/cli/src/changeReviewCli.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCommand.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCommand.test.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCommand.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCommand.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCommand.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/changeReviewCommand.test.ts",
       "specifier": "node:test",
       "packageName": "node:test"
     },
@@ -2040,6 +2082,11 @@
     },
     {
       "from": "packages/core/src/changeReview.test.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/core/src/changeReview.test.ts",
       "specifier": "node:fs/promises",
       "packageName": "node:fs/promises"
     },
@@ -2057,6 +2104,16 @@
       "from": "packages/core/src/changeReview.test.ts",
       "specifier": "node:test",
       "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/changeReview.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/changeReview.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
     },
     {
       "from": "packages/core/src/context.test.ts",
@@ -2192,6 +2249,11 @@
       "from": "packages/core/src/migrations.test.ts",
       "specifier": "node:assert/strict",
       "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/migrations.test.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
     },
     {
       "from": "packages/core/src/migrations.test.ts",
@@ -2465,6 +2527,51 @@
     },
     {
       "from": "scripts/check-changelog.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "scripts/check-doc-commands.mjs",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "scripts/check-doc-commands.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/check-doc-commands.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/check-doc-commands.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/check-doc-commands.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/check-doc-commands.test.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/check-doc-commands.test.mjs",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "scripts/check-doc-commands.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/check-doc-commands.test.mjs",
       "specifier": "node:test",
       "packageName": "node:test"
     },
