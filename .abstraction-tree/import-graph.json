@@ -405,8 +405,20 @@
     },
     {
       "from": "packages/cli/src/index.ts",
+      "to": "packages/cli/src/serveProject.ts",
+      "specifier": "./serveProject.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
       "to": "packages/cli/src/setupGuidance.ts",
       "specifier": "./setupGuidance.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "to": "packages/cli/src/treeExportCommand.ts",
+      "specifier": "./treeExportCommand.js",
       "kind": "relative"
     },
     {
@@ -515,6 +527,26 @@
       "kind": "relative"
     },
     {
+      "from": "packages/cli/src/serveProject.test.ts",
+      "to": "packages/cli/src/serveProject.ts",
+      "specifier": "./serveProject.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/serveProject.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/serveProject.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
       "from": "packages/cli/src/setupGuidance.test.ts",
       "to": "packages/cli/src/setupGuidance.ts",
       "specifier": "./setupGuidance.js",
@@ -529,6 +561,26 @@
     },
     {
       "from": "packages/cli/src/setupGuidance.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/treeExportCommand.test.ts",
+      "to": "packages/cli/src/treeExportCommand.ts",
+      "specifier": "./treeExportCommand.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/treeExportCommand.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/treeExportCommand.ts",
       "to": "packages/core/src/index.ts",
       "specifier": "@abstraction-tree/core",
       "kind": "workspace-package",
@@ -673,24 +725,6 @@
       "kind": "relative"
     },
     {
-      "from": "packages/core/src/exportGraph.test.ts",
-      "to": "packages/core/src/exportGraph.ts",
-      "specifier": "./exportGraph.js",
-      "kind": "relative"
-    },
-    {
-      "from": "packages/core/src/exportGraph.test.ts",
-      "to": "packages/core/src/schema.ts",
-      "specifier": "./schema.js",
-      "kind": "relative"
-    },
-    {
-      "from": "packages/core/src/exportGraph.ts",
-      "to": "packages/core/src/schema.ts",
-      "specifier": "./schema.js",
-      "kind": "relative"
-    },
-    {
       "from": "packages/core/src/goal.test.ts",
       "to": "packages/core/src/index.ts",
       "specifier": "./index.js",
@@ -776,12 +810,6 @@
     },
     {
       "from": "packages/core/src/index.ts",
-      "to": "packages/core/src/exportGraph.ts",
-      "specifier": "./exportGraph.js",
-      "kind": "relative"
-    },
-    {
-      "from": "packages/core/src/index.ts",
       "to": "packages/core/src/goal.ts",
       "specifier": "./goal.js",
       "kind": "relative"
@@ -856,6 +884,12 @@
       "from": "packages/core/src/index.ts",
       "to": "packages/core/src/treeBuilder.ts",
       "specifier": "./treeBuilder.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/treeExport.ts",
+      "specifier": "./treeExport.js",
       "kind": "relative"
     },
     {
@@ -1070,6 +1104,24 @@
     },
     {
       "from": "packages/core/src/treeBuilder.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/treeExport.test.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/treeExport.test.ts",
+      "to": "packages/core/src/treeExport.ts",
+      "specifier": "./treeExport.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/treeExport.ts",
       "to": "packages/core/src/schema.ts",
       "specifier": "./schema.js",
       "kind": "relative"
@@ -1613,11 +1665,6 @@
     },
     {
       "from": "packages/cli/src/index.ts",
-      "specifier": "node:fs/promises",
-      "packageName": "node:fs/promises"
-    },
-    {
-      "from": "packages/cli/src/index.ts",
       "specifier": "node:http",
       "packageName": "node:http"
     },
@@ -1852,6 +1899,46 @@
       "packageName": "node:test"
     },
     {
+      "from": "packages/cli/src/serveProject.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/serveProject.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/serveProject.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/cli/src/serveProject.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/serveProject.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/serveProject.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/cli/src/serveProject.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/serveProject.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
       "from": "packages/cli/src/setupGuidance.test.ts",
       "specifier": "node:assert/strict",
       "packageName": "node:assert/strict"
@@ -1860,6 +1947,41 @@
       "from": "packages/cli/src/setupGuidance.test.ts",
       "specifier": "node:test",
       "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/treeExportCommand.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/treeExportCommand.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/treeExportCommand.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/cli/src/treeExportCommand.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/treeExportCommand.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/treeExportCommand.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/treeExportCommand.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
     },
     {
       "from": "packages/core/src/automationValidation.test.ts",
@@ -1995,16 +2117,6 @@
       "from": "packages/core/src/evaluator.ts",
       "specifier": "node:path",
       "packageName": "node:path"
-    },
-    {
-      "from": "packages/core/src/exportGraph.test.ts",
-      "specifier": "node:assert/strict",
-      "packageName": "node:assert/strict"
-    },
-    {
-      "from": "packages/core/src/exportGraph.test.ts",
-      "specifier": "node:test",
-      "packageName": "node:test"
     },
     {
       "from": "packages/core/src/goal.test.ts",
@@ -2240,6 +2352,16 @@
       "from": "packages/core/src/treeBuilder.ts",
       "specifier": "node:path",
       "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/treeExport.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/treeExport.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
     },
     {
       "from": "packages/core/src/validator.test.ts",

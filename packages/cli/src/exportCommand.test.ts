@@ -35,7 +35,7 @@ test("export command writes DOT output to a project-relative file", () => {
     encoding: "utf8"
   });
 
-  assert.match(output, /Wrote dot tree export to docs\/tree\.dot/);
+  assert.match(output, /Wrote dot tree diagram to docs\/tree\.dot/);
   assert.match(readFileSync(path.join(root, "docs", "tree.dot"), "utf8"), /digraph AbstractionTree/);
 });
 

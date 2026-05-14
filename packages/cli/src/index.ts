@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import { Command } from "commander";
-import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { createServer } from "node:http";
 import sirv from "sirv";
@@ -8,7 +7,6 @@ import {
   atreePath,
   buildContextPack,
   formatContextPackMarkdown,
-  formatTreeExport,
   buildImportGraph,
   buildDeterministicTree,
   ensureWorkspace,
@@ -25,8 +23,7 @@ import {
   writeJson,
   RuntimeSchemaValidationError,
   type ChangeRecord,
-  type InstallMode,
-  type TreeExportFormat
+  type InstallMode
 } from "@abstraction-tree/core";
 import { loadApiAgentHealth, loadApiState } from "./apiState.js";
 import { runChangeReviewCommand } from "./changeReviewCommand.js";
@@ -37,8 +34,10 @@ import { openBrowser } from "./openBrowser.js";
 import { runProposeCommand } from "./propose.js";
 import { runRouteCommand } from "./routeCommand.js";
 import { browserServeUrl, formatServeUrl, selectServeHost } from "./serveHost.js";
+import { buildServeProjectSummary, formatServeProjectSummary } from "./serveProject.js";
 import { formatInitGuidance, formatScanGuidance } from "./setupGuidance.js";
 import { runScopeCheckCommand, runScopeCreateCommand } from "./scopeCommand.js";
+import { runTreeExportCommand } from "./treeExportCommand.js";
 
 const program = new Command();
 program.name("atree").description("Build and visualize an abstraction tree for a codebase.").version("0.1.0");
@@ -57,10 +56,6 @@ function contextMaxTokens(input: unknown): number | undefined {
   if (input === undefined) return undefined;
   const parsed = Number(input);
   return Number.isInteger(parsed) && parsed > 0 ? parsed : undefined;
-}
-
-function treeExportFormat(input: unknown): TreeExportFormat | undefined {
-  return input === "mermaid" || input === "dot" ? input : undefined;
 }
 
 program.command("init")
@@ -211,39 +206,6 @@ program.command("context")
     else console.log(JSON.stringify(pack, null, 2));
   });
 
-program.command("export")
-  .description("[stable] Export the generated abstraction tree as Mermaid or Graphviz DOT")
-  .option("-p, --project <path>", "project root")
-  .option("--format <format>", "output format: mermaid or dot", "mermaid")
-  .option("--out <path>", "write output to a file instead of stdout")
-  .action(async opts => {
-    const format = treeExportFormat(opts.format);
-    if (!format) {
-      console.error("Export format must be either `mermaid` or `dot`.");
-      process.exitCode = 1;
-      return;
-    }
-
-    const root = projectPath(opts.project);
-    const nodes = await readTreeNodes(root);
-    if (!nodes.length) {
-      console.error("No abstraction tree found. Run `atree scan --project .` first.");
-      process.exitCode = 1;
-      return;
-    }
-
-    const output = formatTreeExport(nodes, format);
-    if (!opts.out) {
-      process.stdout.write(output);
-      return;
-    }
-
-    const outPath = path.resolve(root, opts.out);
-    await mkdir(path.dirname(outPath), { recursive: true });
-    await writeFile(outPath, output, "utf8");
-    console.log(`Wrote ${format} tree export to ${path.relative(root, outPath).replaceAll(path.sep, "/")}`);
-  });
-
 program.command("propose")
   .description("[experimental] Run an explicit LLM provider adapter and save validated proposal output for review")
   .option("-p, --project <path>", "project root")
@@ -272,6 +234,25 @@ program.command("evaluate")
     const { report, filePath } = await writeEvaluationReport(root);
     console.log(`Wrote evaluation report to ${path.relative(root, filePath).replaceAll(path.sep, "/")}`);
     console.log(JSON.stringify(report, null, 2));
+  });
+
+program.command("export")
+  .description("[stable] Export the generated abstraction tree as Mermaid or Graphviz DOT")
+  .option("-p, --project <path>", "project root")
+  .option("--format <format>", "output format: mermaid or dot", "mermaid")
+  .option("--direction <direction>", "diagram direction: TD, TB, BT, LR, or RL")
+  .option("--with-summaries", "include node summaries in diagram labels")
+  .option("-o, --output <path>", "write the diagram to a file instead of stdout")
+  .option("--out <path>", "alias for --output")
+  .action(async opts => {
+    const root = projectPath(opts.project);
+    process.exitCode = await runTreeExportCommand({
+      projectRoot: root,
+      format: opts.format,
+      output: opts.output ?? opts.out,
+      direction: opts.direction,
+      withSummaries: Boolean(opts.withSummaries)
+    });
   });
 
 program.command("goal")
@@ -391,6 +372,7 @@ program.command("serve")
       console.log("Visual app is available, but this project is in core mode. Enabling full mode for this workspace.");
       await setInstallMode(root, "full");
     }
+    process.stdout.write(formatServeProjectSummary(await buildServeProjectSummary(root)));
     const serveStatic = sirv(appDist, { dev: true });
     const server = createServer(async (req, res) => {
       if (!req.url) return res.end();

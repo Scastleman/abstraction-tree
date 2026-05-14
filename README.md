@@ -6,7 +6,9 @@
 
 Abstraction Tree is a local project-memory and prompt-to-mission planning layer for coding agents. It helps implement complex coding requests by mapping a prompt onto project memory, decomposing broad work into scoped missions, guiding Codex execution, and reviewing whether the resulting changes stayed coherent with the original goal and abstraction tree.
 
-The default path is deterministic and local-first: scan files, build an abstraction tree, route prompts, create context packs, validate memory, and evaluate results without requiring an API key. LLM/provider work is explicit and review-gated rather than part of the default scan path.
+The default path is deterministic and local-first: scan files, build an abstraction tree, route prompts, create context packs, validate memory, export diagrams, and evaluate results without requiring an API key. LLM/provider work is explicit and review-gated rather than part of the default scan path.
+
+Tree nodes keep a short `summary`, a richer `explanation`, an explicit `reasonForExistence`, and, when the node has children, `separationLogic`. The summary is compact fallback text; the explanation describes the node's role, ownership, dependencies, constraints, parent/child context, and safe-change guidance. `reasonForExistence` explains why the node deserves to exist in the project at all. `separationLogic` describes the partition rule used for child nodes, such as concept clusters, architecture surfaces, module ownership zones, or file-level edit boundaries.
 
 ## What This Is
 
@@ -26,7 +28,7 @@ The default path is deterministic and local-first: scan files, build an abstract
 
 ## Quick Start
 
-The package names are planned but not published yet. After the first npm release:
+The npm package names are planned but not published yet. After the first npm release:
 
 ```bash
 cd your-existing-project
@@ -47,13 +49,15 @@ npm run build
 npm run atree -- init --with-app --project examples/small-web-app
 npm run atree -- scan --project examples/small-web-app
 npm run atree -- doctor --project examples/small-web-app
+npm run atree -- validate --project examples/small-web-app
+npm run atree -- context --project examples/small-web-app --target checkout
 npm run atree -- export --project examples/small-web-app --format mermaid
 npm run atree -- serve --project examples/small-web-app --open
 ```
 
-`--open` launches the local visual app in your default browser. Without `--open`, `atree serve` prints the URL for manual opening.
+`atree serve --open` launches the local visual app in your default browser. Without `--open`, `atree serve` prints the URL for manual opening.
 
-For the full beginner path, see [Getting Started](docs/GETTING_STARTED.md).
+For the full beginner path, see [Getting Started](docs/GETTING_STARTED.md), [Stable vs Experimental](docs/STABLE_VS_EXPERIMENTAL.md), and the [Visual Demo](docs/VISUAL_DEMO.md).
 
 ## Main Workflow
 
@@ -105,9 +109,11 @@ The visual app reads the target project's generated `.abstraction-tree/` memory 
 - concepts and invariants;
 - recent changes and drift status.
 
-Tree nodes keep a short `summary`, a richer `explanation`, an explicit `reasonForExistence`, and, when the node has children, `separationLogic`.
-
 It should only show this repository's dogfooding memory when this repository is the target project.
+
+At startup, `serve` prints the resolved project root, project name, memory counts, and warnings for unscanned memory or accidental serving of this repository's dogfooding memory. Check those lines when replacing an existing preview; the browser should show the same project name as the startup summary.
+
+Use `--host 0.0.0.0` only when you intentionally want LAN access; the CLI prints a risk warning for wildcard or non-loopback hosts.
 
 ## Development
 
@@ -117,14 +123,6 @@ npm run build
 npm test
 npm run atree:validate
 npm run atree:evaluate
-```
-
-Run against the example app:
-
-```bash
-npm run atree -- init --with-app --project examples/small-web-app
-npm run atree -- scan --project examples/small-web-app
-npm run atree -- serve --project examples/small-web-app --open
 ```
 
 When core behavior, docs, packaging, CLI commands, or app structure changes, refresh this repo's own abstraction memory:
@@ -168,7 +166,7 @@ abstraction-tree/
     codex/             # instructions for Codex-style agents
   examples/
     small-web-app/     # scanner/app fixture
-  docs/
+  docs/                # product, workflow, packaging, and maintainer docs
 ```
 
 ## License

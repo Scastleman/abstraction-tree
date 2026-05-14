@@ -17,7 +17,8 @@ The core engine is responsible for a deterministic project-understanding baselin
 - generate human-readable node explanations and reasons for existence from deterministic scanner facts;
 - infer concepts from path, symbol, and export signals;
 - validate drift;
-- generate relevance-scored context packs for agents.
+- generate relevance-scored context packs for agents;
+- render generated tree memory as Mermaid or Graphviz DOT diagrams.
 
 The core should remain independent from a specific editor, LLM provider, or UI framework.
 
@@ -119,6 +120,7 @@ atree init --core
 atree scan
 atree validate
 atree context --target checkout
+atree export --format mermaid
 atree serve --open
 ```
 

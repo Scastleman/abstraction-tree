@@ -24,6 +24,9 @@
 - Provider-neutral LLM proposal interface and explicit `atree propose` review artifacts.
 - Schema migration planning with `atree migrate`.
 - Experimental repo-maintenance dogfooding loop for this repository.
+- Root repository dogfooding through committed `.abstraction-tree/` memory and CI validation.
+- Agent instructions for bounded Codex execution.
+- Test coverage for scan, validation, routing, goal planning, scope, export, serve, packaging, and mission-runner behavior.
 
 ## Current Limitations
 
