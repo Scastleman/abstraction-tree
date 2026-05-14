@@ -2037,7 +2037,7 @@
   {
     "id": "memory",
     "title": "Memory",
-    "summary": "Durable concept inferred from 33 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 34 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.adapters",
       "module.docs",
@@ -2049,6 +2049,7 @@
       "file.docs.architecture.md",
       "file.docs.mission.runner.md",
       "file.docs.packaging.md",
+      "file.docs.release.evidence.2026.05.14.0.2.0.beta.1.verification.md",
       "file.docs.release.evidence.beta.verification.template.md",
       "file.docs.v1.release.gate.md",
       "file.packages.cli.src.apistate.test.ts",
@@ -2117,6 +2118,7 @@
       "subsystem.docs.examples.file.docs.architecture.md",
       "subsystem.docs.examples.file.docs.mission.runner.md",
       "subsystem.docs.examples.file.docs.packaging.md",
+      "subsystem.docs.examples.file.docs.release.evidence.2026.05.14.0.2.0.beta.1.verification.md",
       "subsystem.docs.examples.file.docs.release.evidence.beta.verification.template.md",
       "subsystem.docs.examples.file.docs.v1.release.gate.md",
       "subsystem.packaging.adapters",
@@ -2152,6 +2154,7 @@
       "docs/MISSION_RUNNER.md",
       "docs/PACKAGING.md",
       "docs/V1_RELEASE_GATE.md",
+      "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
       "docs/release-evidence/beta-verification-template.md",
       "packages/cli/src/apiState.test.ts",
       "packages/cli/src/doctor.test.ts",
@@ -2300,6 +2303,13 @@
         "kind": "symbol",
         "filePath": "docs/PACKAGING.md",
         "value": "Dogfooding memory boundary",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
+        "value": "Dogfooding Memory Boundary",
         "term": "memory",
         "score": 3
       },
@@ -2454,13 +2464,6 @@
         "kind": "symbol",
         "filePath": "packages/cli/src/serveProject.ts",
         "value": "memoryCounts",
-        "term": "memory",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/serveProject.ts",
-        "value": "missingMemoryFiles",
         "term": "memory",
         "score": 3
       }

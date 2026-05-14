@@ -8,7 +8,9 @@ This runbook helps a human maintainer publish a public beta safely. Agents may p
 
 ## Current Candidate
 
-The current planned public beta candidate is `0.2.0-beta.1` on the npm `beta` dist-tag.
+The current public beta is `0.2.0-beta.1` on the npm `beta` dist-tag. It was published and verified from clean external directories on 2026-05-14.
+
+The npm registry currently also lists `0.2.0-beta.1` as `latest` because it is the only published version. Continue to document beta installs with `@beta`; move `latest` intentionally when a stable v1 release passes [V1_RELEASE_GATE.md](V1_RELEASE_GATE.md).
 
 Do not call the project v1-ready after this publish. A beta can prove external installability, but v1 still requires the full gate in [V1_RELEASE_GATE.md](V1_RELEASE_GATE.md).
 
@@ -109,13 +111,13 @@ npx atree doctor
 npx atree validate
 ```
 
-Record results in [release-evidence/beta-verification-template.md](release-evidence/beta-verification-template.md) or a copy of that template. Redact private paths, source code, tokens, and project-specific secrets.
+Record results in [release-evidence/beta-verification-template.md](release-evidence/beta-verification-template.md) or a copy of that template. Redact private paths, source code, tokens, and project-specific secrets. The completed `0.2.0-beta.1` evidence is [release-evidence/2026-05-14-0.2.0-beta.1-verification.md](release-evidence/2026-05-14-0.2.0-beta.1-verification.md).
 
 ## Broken Beta Response
 
 If the beta is broken:
 
-1. Do not move the `latest` dist-tag.
+1. Do not intentionally promote `latest` to a stable release.
 2. Open or update a beta issue with redacted logs and the exact failing command.
 3. Mark the candidate review as blocked.
 4. Deprecate the broken beta version with a clear message after confirming the package names and version:

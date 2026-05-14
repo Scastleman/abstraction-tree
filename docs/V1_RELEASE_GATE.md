@@ -23,7 +23,7 @@ npx atree export --format mermaid
 npx atree serve --open
 ```
 
-Until npm packages are published, the equivalent local-tarball path must pass through `npm run pack:smoke`.
+For future release candidates, the equivalent local-tarball path must also pass through `npm run pack:smoke` before public publish.
 
 Pass criteria:
 
@@ -50,7 +50,7 @@ Prerelease plan:
 - Use a synchronized prerelease such as `0.2.0-beta.1` for public beta testing while the project is still pre-v1.
 - Use the npm `beta` dist-tag for beta builds or `next` for release candidates.
 - Publish in dependency order: `@abstraction-tree/core`, `@abstraction-tree/cli`, `@abstraction-tree/app`, then `abstraction-tree`.
-- If a package is broken, deprecate the broken version with a clear message and publish a fixed prerelease. Do not move `latest` until the stable path passes.
+- If a package is broken, deprecate the broken version with a clear message and publish a fixed prerelease. Do not intentionally promote `latest` to a stable release until the stable path passes. The first beta may appear as `latest` on npm because it is the only published version; public docs should still recommend the prerelease tag until v1.
 - Follow [RELEASE_RUNBOOK.md](RELEASE_RUNBOOK.md) for manual publish and post-publish verification. Agents must not publish packages, move dist-tags, create credentials, or handle 2FA.
 
 ## Schema And Migration Gate
@@ -146,4 +146,4 @@ npm run atree -- changes prune-generated --project . --apply
 
 A release candidate may be cut when every gate above is either passing or documented as an explicit blocker in `docs/V1_RELEASE_CANDIDATE_REVIEW.md`.
 
-Do not call the project v1-ready if packages are unpublished, screenshots are missing, release dry-run fails, root memory is invalid, or beta/experimental workflows are presented as stable.
+Do not call the project v1-ready if public package install verification is missing or stale, screenshots are missing, release dry-run fails, root memory is invalid, or beta/experimental workflows are presented as stable.

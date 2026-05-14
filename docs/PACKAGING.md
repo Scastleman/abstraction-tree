@@ -1,14 +1,14 @@
 # Packaging and install modes
 
 > Audience: Maintainers preparing packages or releases
-> Status: Beta candidate release guidance
+> Status: Public beta release guidance
 > Read after: GETTING_STARTED.md and STABLE_VS_EXPERIMENTAL.md.
 
 Abstraction Tree supports two install modes because the abstraction layer should be useful even when a developer does not want a visual interface.
 
 Both modes support the same product direction: local project memory for safer complex prompt implementation. Full mode adds the visual app so humans can inspect the generated abstraction tree before or after Codex runs scoped missions.
 
-The package names below are the intended public npm package names. They are valid workspace package names in this repository, but they are not installable from the npm registry until the first publish. The current planned public beta candidate is `0.2.0-beta.1`; before that release, use the repo-local scripts from the root README.
+The package names below are public npm packages. The current published beta is `0.2.0-beta.1`; use the npm `beta` tag while the project is pre-v1. The npm registry currently also lists this beta as `latest` because it is the only published version, but docs should continue to recommend `@beta` until a stable v1 release is ready.
 
 ## Core-only package
 
@@ -26,7 +26,7 @@ Use it for:
 Example:
 
 ```bash
-npm install -D @abstraction-tree/cli
+npm install -D @abstraction-tree/cli@beta
 npx atree init --core
 npx atree scan
 npx atree validate
@@ -46,7 +46,7 @@ Use it for the complete local-first experience:
 ## Recommended Setup Flow
 
 ```bash
-npm install -D abstraction-tree
+npm install -D abstraction-tree@beta
 npx atree init --with-app
 npx atree scan
 npx atree serve --open
@@ -78,7 +78,7 @@ This updates `.abstraction-tree/config.json` only.
 
 ## Publishable packages
 
-The planned public release covers these npm packages:
+The public beta release covers these npm packages:
 
 ```txt
 @abstraction-tree/core
@@ -134,7 +134,7 @@ Validate the changelog and synchronized versions with:
 npm run release:changelog -- --version <version>
 ```
 
-For the current public beta candidate, use:
+For the current public beta, use:
 
 ```bash
 npm run release:changelog -- --version 0.2.0-beta.1
@@ -158,7 +158,7 @@ Run the full release preflight before publishing:
 npm run release:dry-run -- --version <version>
 ```
 
-For the current public beta candidate, use:
+For the current public beta, use:
 
 ```bash
 npm run release:dry-run -- --version 0.2.0-beta.1
@@ -176,7 +176,7 @@ browser, or move npm dist-tags.
 
 ## Prerelease path
 
-Use a public prerelease before a v1 label. The recommended first public testing path is the synchronized `0.2.0-beta.1` release under the npm `beta` dist-tag. A later `1.0.0-rc.1` can use the `next` dist-tag only after the v1 release gate is nearly complete.
+Use a public prerelease before a v1 label. The current first public testing path is the synchronized `0.2.0-beta.1` release under the npm `beta` dist-tag. A later `1.0.0-rc.1` can use the `next` dist-tag only after the v1 release gate is nearly complete.
 
 Prerelease procedure:
 
@@ -197,9 +197,9 @@ npx atree export --format mermaid
 npx atree serve
 ```
 
-Capture post-publish verification in [release-evidence/beta-verification-template.md](release-evidence/beta-verification-template.md) or a copy of that template.
+Capture post-publish verification in [release-evidence/beta-verification-template.md](release-evidence/beta-verification-template.md) or a copy of that template. The `0.2.0-beta.1` verification is recorded in [release-evidence/2026-05-14-0.2.0-beta.1-verification.md](release-evidence/2026-05-14-0.2.0-beta.1-verification.md).
 
-If a prerelease package is broken, deprecate that exact version with a clear message and publish a fixed prerelease. Do not move the `latest` dist-tag until [V1_RELEASE_GATE.md](V1_RELEASE_GATE.md) passes.
+If a prerelease package is broken, deprecate that exact version with a clear message and publish a fixed prerelease. Do not intentionally promote `latest` to a stable release until [V1_RELEASE_GATE.md](V1_RELEASE_GATE.md) passes. For `0.2.0-beta.1`, npm also assigned `latest` to the first published version; the supported install docs still use `@beta`.
 
 ## Maintainer release checklist
 

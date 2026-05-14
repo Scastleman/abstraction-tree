@@ -1,0 +1,89 @@
+{
+  "timestamp": "2026-05-14T21:11:59.897Z",
+  "tree": {
+    "nodeCount": 513,
+    "orphanNodeCount": 0,
+    "nodesWithoutSummaries": 0,
+    "nodesWithoutExplanations": 0,
+    "thinExplanationCount": 0,
+    "averageExplanationLength": 778.26,
+    "filesWithoutOwners": 0
+  },
+  "context": {
+    "lastPackCount": 2,
+    "averageFilesPerPack": 17,
+    "averageConceptsPerPack": 9.5,
+    "possibleOverBroadPacks": 0
+  },
+  "drift": {
+    "staleFileCount": 0,
+    "missingFileCount": 0
+  },
+  "runs": {
+    "runReportCount": 69,
+    "successCount": 44,
+    "partialCount": 25,
+    "failedCount": 0,
+    "noOpCount": 0
+  },
+  "changes": {
+    "totalChangeRecordCount": 35,
+    "generatedScanRecordCount": 2,
+    "semanticChangeRecordCount": 33,
+    "eligibleGeneratedScanRecordCount": 0,
+    "changeReviewIssueCount": 0,
+    "generatedScanReviewNeeded": false,
+    "retainedGeneratedScanRecordId": "scan.1778793111900"
+  },
+  "lessons": {
+    "lessonCount": 68,
+    "duplicateLessonCandidates": 0
+  },
+  "automation": {
+    "runtimeStateIgnored": true,
+    "configValid": true
+  },
+  "quality": {
+    "fixture": {
+      "path": ".abstraction-tree/evaluation-fixture.json",
+      "expectedTreeNodeCount": 9,
+      "missingExpectedTreeNodeCount": 0,
+      "missingExpectedTreeNodeIds": [],
+      "expectedArchitectureNodeCount": 5,
+      "missingExpectedArchitectureNodeCount": 0,
+      "missingExpectedArchitectureNodeIds": [],
+      "expectedConceptCount": 7,
+      "missingExpectedConceptCount": 0,
+      "missingExpectedConceptIds": [],
+      "expectedInvariantCount": 2,
+      "missingExpectedInvariantCount": 0,
+      "missingExpectedInvariantIds": []
+    },
+    "concepts": {
+      "totalConceptCount": 32,
+      "noisyConceptCount": 0,
+      "noisyConceptIds": [],
+      "conceptsWithoutEvidence": 0,
+      "conceptsWithoutRelatedFiles": 0
+    },
+    "imports": {
+      "unresolvedImportCount": 0
+    },
+    "architecture": {
+      "architectureNodeCount": 8,
+      "architectureCoverableFileCount": 137,
+      "architectureCoveredFileCount": 72,
+      "architectureCoveragePercent": 52.55
+    },
+    "context": {
+      "evaluatedContextPackCount": 2,
+      "expectedContextPackCount": 1,
+      "passingExpectedContextPackCount": 1,
+      "missingExpectedInclusionCount": 0,
+      "missingExpectedInclusions": [],
+      "expectedContextPackCeilingViolationCount": 0,
+      "expectedContextPackCeilingViolations": []
+    }
+  },
+  "issues": []
+}

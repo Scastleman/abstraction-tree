@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Scastleman/abstraction-tree/actions/workflows/ci.yml/badge.svg)](https://github.com/Scastleman/abstraction-tree/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![npm packages](https://img.shields.io/badge/npm-planned%20not%20published%20yet-lightgrey.svg)](docs/PACKAGING.md)
+[![npm beta](https://img.shields.io/badge/npm%20beta-0.2.0--beta.1-blue.svg)](docs/PACKAGING.md)
 
 Abstraction Tree is a local project-memory and prompt-to-mission planning layer for coding agents. It helps implement complex coding requests by mapping a prompt onto project memory, decomposing broad work into scoped missions, guiding Codex execution, and reviewing whether the resulting changes stayed coherent with the original goal and abstraction tree.
 
@@ -28,11 +28,11 @@ Tree nodes keep a short `summary`, a richer `explanation`, an explicit `reasonFo
 
 ## Quick Start
 
-The npm package names are planned but not published yet. After the first npm release:
+The public beta is available on npm as `0.2.0-beta.1`. Use the `@beta` tag while the project is pre-v1:
 
 ```bash
 cd your-existing-project
-npm install -D abstraction-tree
+npm install -D abstraction-tree@beta
 npx atree init --with-app
 npx atree scan
 npx atree doctor
@@ -153,7 +153,7 @@ npm run atree:evaluate
 | [Agent protocol](docs/AGENT_PROTOCOL.md) | Rules for agents using `.abstraction-tree/`. |
 | [Data model](docs/DATA_MODEL.md) | Memory files, schema, and dogfooding boundary. |
 | [Architecture](docs/ARCHITECTURE.md) | Core, CLI, app, and provider-adapter architecture. |
-| [Packaging](docs/PACKAGING.md) | Planned npm packages and install modes. |
+| [Packaging](docs/PACKAGING.md) | npm beta packages, install modes, and release process. |
 | [Release runbook](docs/RELEASE_RUNBOOK.md) | Manual beta publish and post-publish verification checklist. |
 | [CI integration](docs/CI_INTEGRATION.md) | Deterministic CI usage. |
 | [Experimental dogfooding loop](docs/EXPERIMENTAL_DOGFOODING_LOOP.md) | Optional repo-maintenance loop for this repository. |

@@ -339,6 +339,7 @@
       "file.docs.packaging.md",
       "file.docs.readme.md",
       "file.docs.release.runbook.md",
+      "file.docs.release.evidence.2026.05.14.0.2.0.beta.1.verification.md",
       "file.docs.release.evidence.beta.verification.template.md",
       "file.docs.roadmap.md",
       "file.docs.scope.contracts.md",
@@ -366,6 +367,7 @@
       "docs/PACKAGING.md",
       "docs/README.md",
       "docs/RELEASE_RUNBOOK.md",
+      "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
       "docs/release-evidence/beta-verification-template.md",
       "docs/ROADMAP.md",
       "docs/SCOPE_CONTRACTS.md",
@@ -393,6 +395,7 @@
       "docs/PACKAGING.md",
       "docs/README.md",
       "docs/RELEASE_RUNBOOK.md",
+      "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
       "docs/release-evidence/beta-verification-template.md",
       "docs/ROADMAP.md",
       "docs/SCOPE_CONTRACTS.md",
@@ -430,6 +433,7 @@
         "docs/PACKAGING.md",
         "docs/README.md",
         "docs/RELEASE_RUNBOOK.md",
+        "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
         "docs/release-evidence/beta-verification-template.md",
         "docs/ROADMAP.md",
         "docs/SCOPE_CONTRACTS.md",
@@ -441,9 +445,9 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents the Docs module or folder within Package / Workspace Layer. It exists to group files under docs/ so changes can be scoped to a concrete ownership boundary instead of the whole repository. Owned files include docs/AGENT_PROTOCOL.md, docs/ARCHITECTURE.md, docs/ASSESSMENT_PACKS.md, docs/assets/README.md, docs/CI_INTEGRATION.md, docs/DATA_MODEL.md, and 19 more out of 25 total. Its child nodes map file-level responsibilities such as AGENT_PROTOCOL.md, ARCHITECTURE.md, ASSESSMENT_PACKS.md, README.md, CI_INTEGRATION.md, DATA_MODEL.md, and 18 more. Use this node when a prompt targets a package, folder, or local subsystem. Before broad edits here, check whether an architecture node also owns the affected files and whether tests or docs under the same module need to move with the change.",
-    "reasonForExistence": "This module node exists to group 25 scanned file(s) under docs/ so folder-level prompts have a clear ownership boundary.",
-    "separationLogic": "Separation logic: file children are partitioned one scanned file per node. Current file partitions AGENT_PROTOCOL.md, ARCHITECTURE.md, ASSESSMENT_PACKS.md, README.md, CI_INTEGRATION.md, DATA_MODEL.md, and 18 more. This mirrors 25 owned file(s), making each child the narrowest durable edit boundary available to the deterministic scanner. Sibling files stay separate unless imports, tests, invariants, or shared symbols show that a prompt crosses file boundaries."
+    "explanation": "This node represents the Docs module or folder within Package / Workspace Layer. It exists to group files under docs/ so changes can be scoped to a concrete ownership boundary instead of the whole repository. Owned files include docs/AGENT_PROTOCOL.md, docs/ARCHITECTURE.md, docs/ASSESSMENT_PACKS.md, docs/assets/README.md, docs/CI_INTEGRATION.md, docs/DATA_MODEL.md, and 20 more out of 26 total. Its child nodes map file-level responsibilities such as AGENT_PROTOCOL.md, ARCHITECTURE.md, ASSESSMENT_PACKS.md, README.md, CI_INTEGRATION.md, DATA_MODEL.md, and 19 more. Use this node when a prompt targets a package, folder, or local subsystem. Before broad edits here, check whether an architecture node also owns the affected files and whether tests or docs under the same module need to move with the change.",
+    "reasonForExistence": "This module node exists to group 26 scanned file(s) under docs/ so folder-level prompts have a clear ownership boundary.",
+    "separationLogic": "Separation logic: file children are partitioned one scanned file per node. Current file partitions AGENT_PROTOCOL.md, ARCHITECTURE.md, ASSESSMENT_PACKS.md, README.md, CI_INTEGRATION.md, DATA_MODEL.md, and 19 more. This mirrors 26 owned file(s), making each child the narrowest durable edit boundary available to the deterministic scanner. Sibling files stay separate unless imports, tests, invariants, or shared symbols show that a prompt crosses file boundaries."
   },
   {
     "id": "module.examples",
@@ -1632,7 +1636,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents CHANGELOG.md, a file-level ownership boundary under Root. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 47 line(s), 0 import(s), 0 export(s), and 4 symbol(s). Important symbols include Changelog, [Unreleased], [0.2.0-beta.1] - 2026-05-14, [0.1.0] - 2026-05-08. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents CHANGELOG.md, a file-level ownership boundary under Root. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 50 line(s), 0 import(s), 0 export(s), and 4 symbol(s). Important symbols include Changelog, [Unreleased], [0.2.0-beta.1] - 2026-05-14, [0.1.0] - 2026-05-08. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make CHANGELOG.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -2026,7 +2030,7 @@
     "title": "GETTING_STARTED.md",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "GETTING_STARTED.md is a Markdown implementation file. Defines Getting Started, Prerequisites, Option A: Use Repo-Local Commands Before npm Publish, Option B: Use Package Commands After Publish, Scan the Included Example.",
+    "summary": "GETTING_STARTED.md is a Markdown implementation file. Defines Getting Started, Prerequisites, Option A: Use Repo-Local Commands, Option B: Use Public Beta Packages, Scan the Included Example.",
     "parent": "module.docs",
     "parentId": "module.docs",
     "children": [],
@@ -2037,7 +2041,7 @@
       "docs/GETTING_STARTED.md"
     ],
     "responsibilities": [
-      "GETTING_STARTED.md is a Markdown implementation file. Defines Getting Started, Prerequisites, Option A: Use Repo-Local Commands Before npm Publish, Option B: Use Package Commands After Publish, Scan the Included Example."
+      "GETTING_STARTED.md is a Markdown implementation file. Defines Getting Started, Prerequisites, Option A: Use Repo-Local Commands, Option B: Use Public Beta Packages, Scan the Included Example."
     ],
     "dependencies": [],
     "dependsOn": [],
@@ -2052,7 +2056,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents docs/GETTING_STARTED.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 155 line(s), 0 import(s), 0 export(s), and 18 symbol(s). Important symbols include Getting Started, Prerequisites, Option A: Use Repo-Local Commands Before npm Publish, Option B: Use Package Commands After Publish, Scan the Included Example, Scan Your Own Project, and 12 more. Higher-level nodes depending on this file include Docs and Examples, Guides, GETTING_STARTED.md, Command, Context, and 1 more. Related concept nodes include Command, Context, Context Pack. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents docs/GETTING_STARTED.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 155 line(s), 0 import(s), 0 export(s), and 18 symbol(s). Important symbols include Getting Started, Prerequisites, Option A: Use Repo-Local Commands, Option B: Use Public Beta Packages, Scan the Included Example, Scan Your Own Project, and 12 more. Higher-level nodes depending on this file include Docs and Examples, Guides, GETTING_STARTED.md, Command, Context, and 1 more. Related concept nodes include Command, Context, Context Pack. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make docs/GETTING_STARTED.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -2262,7 +2266,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents docs/README.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 49 line(s), 0 import(s), 0 export(s), and 6 symbol(s). Important symbols include Abstraction Tree Docs, New Users, Core Concepts, Agent-Assisted Workflows, Maintainers, Compatibility Pages. Higher-level nodes depending on this file include Docs and Examples, Guides, README.md, Tree, Abstraction. Related concept nodes include Tree, Abstraction. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents docs/README.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 50 line(s), 0 import(s), 0 export(s), and 6 symbol(s). Important symbols include Abstraction Tree Docs, New Users, Core Concepts, Agent-Assisted Workflows, Maintainers, Compatibility Pages. Higher-level nodes depending on this file include Docs and Examples, Guides, README.md, Tree, Abstraction. Related concept nodes include Tree, Abstraction. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make docs/README.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -2297,8 +2301,43 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents docs/RELEASE_RUNBOOK.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 145 line(s), 0 import(s), 0 export(s), and 9 symbol(s). Important symbols include Release Runbook, Current Candidate, Preflight, Screenshot Freshness, Manual Publish, Post-Publish Verification, and 3 more. Higher-level nodes depending on this file include Docs and Examples, Guides, RELEASE_RUNBOOK.md. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents docs/RELEASE_RUNBOOK.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 147 line(s), 0 import(s), 0 export(s), and 9 symbol(s). Important symbols include Release Runbook, Current Candidate, Preflight, Screenshot Freshness, Manual Publish, Post-Publish Verification, and 3 more. Higher-level nodes depending on this file include Docs and Examples, Guides, RELEASE_RUNBOOK.md. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make docs/RELEASE_RUNBOOK.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
+  },
+  {
+    "id": "file.docs.release.evidence.2026.05.14.0.2.0.beta.1.verification.md",
+    "name": "2026-05-14-0.2.0-beta.1-verification.md",
+    "title": "2026-05-14-0.2.0-beta.1-verification.md",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "2026-05-14-0.2.0-beta.1-verification.md is a Markdown implementation file. Defines 0.2.0-beta.1 Public Beta Verification, Summary, Environment, Registry Check, Full Package Verification.",
+    "parent": "module.docs",
+    "parentId": "module.docs",
+    "children": [],
+    "sourceFiles": [
+      "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md"
+    ],
+    "ownedFiles": [
+      "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md"
+    ],
+    "responsibilities": [
+      "2026-05-14-0.2.0-beta.1-verification.md is a Markdown implementation file. Defines 0.2.0-beta.1 Public Beta Verification, Summary, Environment, Registry Check, Full Package Verification."
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65,
+    "explanation": "This node represents docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 92 line(s), 0 import(s), 0 export(s), and 9 symbol(s). Important symbols include 0.2.0-beta.1 Public Beta Verification, Summary, Environment, Registry Check, Full Package Verification, Core-Only Package Verification, and 3 more. Higher-level nodes depending on this file include Docs and Examples, Guides, 2026-05-14-0.2.0-beta.1-verification.md, Memory. Related concept nodes include Memory. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "reasonForExistence": "This file node exists to make docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
     "id": "file.docs.release.evidence.beta.verification.template.md",
@@ -2367,7 +2406,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents docs/ROADMAP.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 75 line(s), 0 import(s), 0 export(s), and 8 symbol(s). Important symbols include and, views, Roadmap, Implemented, Current Limitations, Next Priorities, and 2 more. Higher-level nodes depending on this file include Goal and Mission Automation, Automation Docs, ROADMAP.md, Docs and Examples, Guides. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents docs/ROADMAP.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 76 line(s), 0 import(s), 0 export(s), and 8 symbol(s). Important symbols include and, views, Roadmap, Implemented, Current Limitations, Next Priorities, and 2 more. Higher-level nodes depending on this file include Goal and Mission Automation, Automation Docs, ROADMAP.md, Docs and Examples, Guides. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make docs/ROADMAP.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -2472,7 +2511,7 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents docs/V1_RELEASE_CANDIDATE_REVIEW.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 81 line(s), 0 import(s), 0 export(s), and 9 symbol(s). Important symbols include V1 Release Candidate Review, Summary, Gate Results, Public Beta Evidence, Blockers Before V1, Beta Feedback Triage, and 3 more. Higher-level nodes depending on this file include Docs and Examples, Guides, V1_RELEASE_CANDIDATE_REVIEW.md. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "explanation": "This node represents docs/V1_RELEASE_CANDIDATE_REVIEW.md, a file-level ownership boundary under Docs. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 78 line(s), 0 import(s), 0 export(s), and 9 symbol(s). Important symbols include V1 Release Candidate Review, Summary, Gate Results, Public Beta Evidence, Blockers Before V1, Beta Feedback Triage, and 3 more. Higher-level nodes depending on this file include Docs and Examples, Guides, V1_RELEASE_CANDIDATE_REVIEW.md. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
     "reasonForExistence": "This file node exists to make docs/V1_RELEASE_CANDIDATE_REVIEW.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
@@ -17130,7 +17169,7 @@
       "mustNotChange": []
     },
     "confidence": 0.66,
-    "explanation": "This node is a subsystem-context file leaf for docs/ROADMAP.md. It exists under Automation Docs so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 75 line(s), 0 import(s), 0 export(s), and 8 symbol(s). Important symbols include and, views, Roadmap, Implemented, Current Limitations, Next Priorities, and 2 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for docs/ROADMAP.md. It exists under Automation Docs so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 76 line(s), 0 import(s), 0 export(s), and 8 symbol(s). Important symbols include and, views, Roadmap, Implemented, Current Limitations, Next Priorities, and 2 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Automation Docs branch reaches docs/ROADMAP.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -18327,6 +18366,7 @@
       "docs/V1_RELEASE_GATE.md",
       "docs/VISUAL_DEMO.md",
       "docs/assets/README.md",
+      "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
       "docs/release-evidence/beta-verification-template.md",
       "examples/github-actions/abstraction-tree-validate.yml",
       "examples/inventory-api/package.json",
@@ -18370,6 +18410,7 @@
       "docs/V1_RELEASE_GATE.md",
       "docs/VISUAL_DEMO.md",
       "docs/assets/README.md",
+      "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
       "docs/release-evidence/beta-verification-template.md",
       "examples/github-actions/abstraction-tree-validate.yml",
       "examples/inventory-api/package.json",
@@ -18410,6 +18451,7 @@
       "file.docs.mission.runner.md",
       "file.docs.packaging.md",
       "file.docs.readme.md",
+      "file.docs.release.evidence.2026.05.14.0.2.0.beta.1.verification.md",
       "file.docs.release.evidence.beta.verification.template.md",
       "file.docs.release.runbook.md",
       "file.docs.roadmap.md",
@@ -18474,6 +18516,7 @@
       "file.docs.mission.runner.md",
       "file.docs.packaging.md",
       "file.docs.readme.md",
+      "file.docs.release.evidence.2026.05.14.0.2.0.beta.1.verification.md",
       "file.docs.release.evidence.beta.verification.template.md",
       "file.docs.release.runbook.md",
       "file.docs.roadmap.md",
@@ -18551,6 +18594,7 @@
         "docs/V1_RELEASE_GATE.md",
         "docs/VISUAL_DEMO.md",
         "docs/assets/README.md",
+        "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
         "docs/release-evidence/beta-verification-template.md",
         "examples/github-actions/abstraction-tree-validate.yml",
         "examples/inventory-api/package.json",
@@ -18571,7 +18615,7 @@
       "mustNotChange": []
     },
     "confidence": 0.7,
-    "explanation": "This node represents the Docs and Examples human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include README.md, docs/AGENT_PROTOCOL.md, docs/ARCHITECTURE.md, docs/ASSESSMENT_PACKS.md, docs/CI_INTEGRATION.md, docs/DATA_MODEL.md, docs/DOCS_INDEX.md, and 34 more out of 41 total. It is decomposed into responsibility slices such as Guides, Project README, Examples so the branch does not stop at one large aggregate. Its main responsibilities are Explain install modes, architecture, agent protocols, assisted improvement workflows, data model, examples, and roadmap, Keep public claims aligned with deterministic behavior and current CLI scripts. It depends on evidence such as docs:readme-and-guides, file.docs.agent.protocol.md, file.docs.architecture.md, file.docs.assessment.packs.md, file.docs.assets.readme.md, file.docs.ci.integration.md, and 56 more. Other nodes depending on it include Change, Tree, Command, Goal, and 21 more. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
+    "explanation": "This node represents the Docs and Examples human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include README.md, docs/AGENT_PROTOCOL.md, docs/ARCHITECTURE.md, docs/ASSESSMENT_PACKS.md, docs/CI_INTEGRATION.md, docs/DATA_MODEL.md, docs/DOCS_INDEX.md, and 35 more out of 42 total. It is decomposed into responsibility slices such as Guides, Project README, Examples so the branch does not stop at one large aggregate. Its main responsibilities are Explain install modes, architecture, agent protocols, assisted improvement workflows, data model, examples, and roadmap, Keep public claims aligned with deterministic behavior and current CLI scripts. It depends on evidence such as docs:readme-and-guides, file.docs.agent.protocol.md, file.docs.architecture.md, file.docs.assessment.packs.md, file.docs.assets.readme.md, file.docs.ci.integration.md, and 57 more. Other nodes depending on it include Change, Tree, Command, Goal, and 21 more. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
     "reasonForExistence": "Docs and examples exist to make the tool understandable outside the code. They explain install modes, workflows, data contracts, automation boundaries, and example usage for humans and future agents.",
     "separationLogic": "Separation logic: children are responsibility slices inside this subsystem. The builder groups files by evidence such as UI component role, app shell/state role, command/API surface, scanner/tree/context pipeline, memory/schema/validation role, mission automation, documentation, package distribution, or test/quality boundary. Current responsibility partitions Guides, Project README, Examples. Pick the responsibility slice that matches the prompt, then move to its file leaves before editing."
   },
@@ -18603,6 +18647,7 @@
       "subsystem.docs.examples.file.docs.packaging.md",
       "subsystem.docs.examples.file.docs.readme.md",
       "subsystem.docs.examples.file.docs.release.runbook.md",
+      "subsystem.docs.examples.file.docs.release.evidence.2026.05.14.0.2.0.beta.1.verification.md",
       "subsystem.docs.examples.file.docs.release.evidence.beta.verification.template.md",
       "subsystem.docs.examples.file.docs.roadmap.md",
       "subsystem.docs.examples.file.docs.scope.contracts.md",
@@ -18636,6 +18681,7 @@
       "docs/V1_RELEASE_GATE.md",
       "docs/VISUAL_DEMO.md",
       "docs/assets/README.md",
+      "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
       "docs/release-evidence/beta-verification-template.md"
     ],
     "ownedFiles": [
@@ -18663,6 +18709,7 @@
       "docs/V1_RELEASE_GATE.md",
       "docs/VISUAL_DEMO.md",
       "docs/assets/README.md",
+      "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
       "docs/release-evidence/beta-verification-template.md"
     ],
     "responsibilities": [
@@ -18686,6 +18733,7 @@
       "file.docs.mission.runner.md",
       "file.docs.packaging.md",
       "file.docs.readme.md",
+      "file.docs.release.evidence.2026.05.14.0.2.0.beta.1.verification.md",
       "file.docs.release.evidence.beta.verification.template.md",
       "file.docs.release.runbook.md",
       "file.docs.roadmap.md",
@@ -18713,6 +18761,7 @@
       "file.docs.mission.runner.md",
       "file.docs.packaging.md",
       "file.docs.readme.md",
+      "file.docs.release.evidence.2026.05.14.0.2.0.beta.1.verification.md",
       "file.docs.release.evidence.beta.verification.template.md",
       "file.docs.release.runbook.md",
       "file.docs.roadmap.md",
@@ -18753,14 +18802,15 @@
         "docs/V1_RELEASE_GATE.md",
         "docs/VISUAL_DEMO.md",
         "docs/assets/README.md",
+        "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
         "docs/release-evidence/beta-verification-template.md"
       ],
       "mustNotChange": []
     },
     "confidence": 0.66,
-    "explanation": "This node represents the Guides responsibility slice within Docs and Examples. It exists to break a large subsystem into a smaller human-editable boundary before reaching concrete files. This slice covers docs/AGENT_PROTOCOL.md, docs/ARCHITECTURE.md, docs/ASSESSMENT_PACKS.md, docs/CI_INTEGRATION.md, docs/DATA_MODEL.md, docs/DOCS_INDEX.md, docs/EXPERIMENTAL_DOGFOODING_LOOP.md, and 18 more out of 25 file(s). Its file leaves include AGENT_PROTOCOL.md, ARCHITECTURE.md, ASSESSMENT_PACKS.md, README.md, CI_INTEGRATION.md, DATA_MODEL.md, and 18 more. Its responsibility is Document architecture, data model, CI, missions, and agent workflows. Use this slice when a prompt names this narrower responsibility; inspect its file leaves and sibling slices before widening to the whole subsystem.",
-    "reasonForExistence": "This slice exists to make Docs and Examples smaller and more actionable. It gathers 25 file(s) that share the Guides responsibility, so a prompt can stop here before touching the whole subsystem.",
-    "separationLogic": "Separation logic: children are concrete file leaves for this responsibility slice. Current file leaves AGENT_PROTOCOL.md, ARCHITECTURE.md, ASSESSMENT_PACKS.md, README.md, CI_INTEGRATION.md, DATA_MODEL.md, and 18 more. These leaves reference the same scanned files that also appear in Project Indexes, but they are shown here in subsystem context for human navigation and scoped agent edits."
+    "explanation": "This node represents the Guides responsibility slice within Docs and Examples. It exists to break a large subsystem into a smaller human-editable boundary before reaching concrete files. This slice covers docs/AGENT_PROTOCOL.md, docs/ARCHITECTURE.md, docs/ASSESSMENT_PACKS.md, docs/CI_INTEGRATION.md, docs/DATA_MODEL.md, docs/DOCS_INDEX.md, docs/EXPERIMENTAL_DOGFOODING_LOOP.md, and 19 more out of 26 file(s). Its file leaves include AGENT_PROTOCOL.md, ARCHITECTURE.md, ASSESSMENT_PACKS.md, README.md, CI_INTEGRATION.md, DATA_MODEL.md, and 19 more. Its responsibility is Document architecture, data model, CI, missions, and agent workflows. Use this slice when a prompt names this narrower responsibility; inspect its file leaves and sibling slices before widening to the whole subsystem.",
+    "reasonForExistence": "This slice exists to make Docs and Examples smaller and more actionable. It gathers 26 file(s) that share the Guides responsibility, so a prompt can stop here before touching the whole subsystem.",
+    "separationLogic": "Separation logic: children are concrete file leaves for this responsibility slice. Current file leaves AGENT_PROTOCOL.md, ARCHITECTURE.md, ASSESSMENT_PACKS.md, README.md, CI_INTEGRATION.md, DATA_MODEL.md, and 19 more. These leaves reference the same scanned files that also appear in Project Indexes, but they are shown here in subsystem context for human navigation and scoped agent edits."
   },
   {
     "id": "subsystem.docs.examples.file.docs.agent.protocol.md",
@@ -19179,7 +19229,7 @@
       "docs/GETTING_STARTED.md"
     ],
     "responsibilities": [
-      "GETTING_STARTED.md is a Markdown implementation file. Defines Getting Started, Prerequisites, Option A: Use Repo-Local Commands Before npm Publish, Option B: Use Package Commands After Publish, Scan the Included Example."
+      "GETTING_STARTED.md is a Markdown implementation file. Defines Getting Started, Prerequisites, Option A: Use Repo-Local Commands, Option B: Use Public Beta Packages, Scan the Included Example."
     ],
     "dependencies": [
       "file.docs.getting.started.md"
@@ -19199,7 +19249,7 @@
       "mustNotChange": []
     },
     "confidence": 0.62,
-    "explanation": "This node is a subsystem-context file leaf for docs/GETTING_STARTED.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 155 line(s), 0 import(s), 0 export(s), and 18 symbol(s). Important symbols include Getting Started, Prerequisites, Option A: Use Repo-Local Commands Before npm Publish, Option B: Use Package Commands After Publish, Scan the Included Example, Scan Your Own Project, and 12 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for docs/GETTING_STARTED.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 155 line(s), 0 import(s), 0 export(s), and 18 symbol(s). Important symbols include Getting Started, Prerequisites, Option A: Use Repo-Local Commands, Option B: Use Public Beta Packages, Scan the Included Example, Scan Your Own Project, and 12 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Guides branch reaches docs/GETTING_STARTED.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -19439,7 +19489,7 @@
       "mustNotChange": []
     },
     "confidence": 0.62,
-    "explanation": "This node is a subsystem-context file leaf for docs/README.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 49 line(s), 0 import(s), 0 export(s), and 6 symbol(s). Important symbols include Abstraction Tree Docs, New Users, Core Concepts, Agent-Assisted Workflows, Maintainers, Compatibility Pages. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for docs/README.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 50 line(s), 0 import(s), 0 export(s), and 6 symbol(s). Important symbols include Abstraction Tree Docs, New Users, Core Concepts, Agent-Assisted Workflows, Maintainers, Compatibility Pages. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Guides branch reaches docs/README.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -19479,8 +19529,48 @@
       "mustNotChange": []
     },
     "confidence": 0.62,
-    "explanation": "This node is a subsystem-context file leaf for docs/RELEASE_RUNBOOK.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 145 line(s), 0 import(s), 0 export(s), and 9 symbol(s). Important symbols include Release Runbook, Current Candidate, Preflight, Screenshot Freshness, Manual Publish, Post-Publish Verification, and 3 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for docs/RELEASE_RUNBOOK.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 147 line(s), 0 import(s), 0 export(s), and 9 symbol(s). Important symbols include Release Runbook, Current Candidate, Preflight, Screenshot Freshness, Manual Publish, Post-Publish Verification, and 3 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Guides branch reaches docs/RELEASE_RUNBOOK.md, a concrete file an agent can inspect or edit after scope has been narrowed."
+  },
+  {
+    "id": "subsystem.docs.examples.file.docs.release.evidence.2026.05.14.0.2.0.beta.1.verification.md",
+    "name": "2026-05-14-0.2.0-beta.1-verification.md",
+    "title": "2026-05-14-0.2.0-beta.1-verification.md",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "File leaf for docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md within Docs and Examples.",
+    "parent": "subsystem.docs.examples.slice.guides",
+    "parentId": "subsystem.docs.examples.slice.guides",
+    "children": [],
+    "sourceFiles": [
+      "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md"
+    ],
+    "ownedFiles": [
+      "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md"
+    ],
+    "responsibilities": [
+      "2026-05-14-0.2.0-beta.1-verification.md is a Markdown implementation file. Defines 0.2.0-beta.1 Public Beta Verification, Summary, Environment, Registry Check, Full Package Verification."
+    ],
+    "dependencies": [
+      "file.docs.release.evidence.2026.05.14.0.2.0.beta.1.verification.md"
+    ],
+    "dependsOn": [
+      "file.docs.release.evidence.2026.05.14.0.2.0.beta.1.verification.md"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.62,
+    "explanation": "This node is a subsystem-context file leaf for docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 92 line(s), 0 import(s), 0 export(s), and 9 symbol(s). Important symbols include 0.2.0-beta.1 Public Beta Verification, Summary, Environment, Registry Check, Full Package Verification, Core-Only Package Verification, and 3 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "reasonForExistence": "This leaf exists so the Guides branch reaches docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
     "id": "subsystem.docs.examples.file.docs.release.evidence.beta.verification.template.md",
@@ -19559,7 +19649,7 @@
       "mustNotChange": []
     },
     "confidence": 0.62,
-    "explanation": "This node is a subsystem-context file leaf for docs/ROADMAP.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 75 line(s), 0 import(s), 0 export(s), and 8 symbol(s). Important symbols include and, views, Roadmap, Implemented, Current Limitations, Next Priorities, and 2 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for docs/ROADMAP.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 76 line(s), 0 import(s), 0 export(s), and 8 symbol(s). Important symbols include and, views, Roadmap, Implemented, Current Limitations, Next Priorities, and 2 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Guides branch reaches docs/ROADMAP.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -19679,7 +19769,7 @@
       "mustNotChange": []
     },
     "confidence": 0.62,
-    "explanation": "This node is a subsystem-context file leaf for docs/V1_RELEASE_CANDIDATE_REVIEW.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 81 line(s), 0 import(s), 0 export(s), and 9 symbol(s). Important symbols include V1 Release Candidate Review, Summary, Gate Results, Public Beta Evidence, Blockers Before V1, Beta Feedback Triage, and 3 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "explanation": "This node is a subsystem-context file leaf for docs/V1_RELEASE_CANDIDATE_REVIEW.md. It exists under Guides so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 78 line(s), 0 import(s), 0 export(s), and 9 symbol(s). Important symbols include V1 Release Candidate Review, Summary, Gate Results, Public Beta Evidence, Blockers Before V1, Beta Feedback Triage, and 3 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
     "reasonForExistence": "This leaf exists so the Guides branch reaches docs/V1_RELEASE_CANDIDATE_REVIEW.md, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
@@ -28479,7 +28569,7 @@
     "title": "Memory",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Durable concept inferred from 33 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 34 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
@@ -28490,6 +28580,7 @@
       "docs/MISSION_RUNNER.md",
       "docs/PACKAGING.md",
       "docs/V1_RELEASE_GATE.md",
+      "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
       "docs/release-evidence/beta-verification-template.md",
       "packages/cli/src/apiState.test.ts",
       "packages/cli/src/doctor.test.ts",
@@ -28525,6 +28616,7 @@
       "docs/MISSION_RUNNER.md",
       "docs/PACKAGING.md",
       "docs/V1_RELEASE_GATE.md",
+      "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
       "docs/release-evidence/beta-verification-template.md",
       "packages/cli/src/apiState.test.ts",
       "packages/cli/src/doctor.test.ts",
@@ -28567,6 +28659,7 @@
       "file.docs.architecture.md",
       "file.docs.mission.runner.md",
       "file.docs.packaging.md",
+      "file.docs.release.evidence.2026.05.14.0.2.0.beta.1.verification.md",
       "file.docs.release.evidence.beta.verification.template.md",
       "file.docs.v1.release.gate.md",
       "file.packages.cli.src.apistate.test.ts",
@@ -28635,6 +28728,7 @@
       "subsystem.docs.examples.file.docs.architecture.md",
       "subsystem.docs.examples.file.docs.mission.runner.md",
       "subsystem.docs.examples.file.docs.packaging.md",
+      "subsystem.docs.examples.file.docs.release.evidence.2026.05.14.0.2.0.beta.1.verification.md",
       "subsystem.docs.examples.file.docs.release.evidence.beta.verification.template.md",
       "subsystem.docs.examples.file.docs.v1.release.gate.md",
       "subsystem.packaging.adapters",
@@ -28674,6 +28768,7 @@
       "file.docs.architecture.md",
       "file.docs.mission.runner.md",
       "file.docs.packaging.md",
+      "file.docs.release.evidence.2026.05.14.0.2.0.beta.1.verification.md",
       "file.docs.release.evidence.beta.verification.template.md",
       "file.docs.v1.release.gate.md",
       "file.packages.cli.src.apistate.test.ts",
@@ -28742,6 +28837,7 @@
       "subsystem.docs.examples.file.docs.architecture.md",
       "subsystem.docs.examples.file.docs.mission.runner.md",
       "subsystem.docs.examples.file.docs.packaging.md",
+      "subsystem.docs.examples.file.docs.release.evidence.2026.05.14.0.2.0.beta.1.verification.md",
       "subsystem.docs.examples.file.docs.release.evidence.beta.verification.template.md",
       "subsystem.docs.examples.file.docs.v1.release.gate.md",
       "subsystem.packaging.adapters",
@@ -28779,8 +28875,8 @@
       "mustNotChange": []
     },
     "confidence": 0.65,
-    "explanation": "This node represents the Memory concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include CONTRIBUTING.md, adapters/codex/AGENTS.md, docs/ARCHITECTURE.md, docs/MISSION_RUNNER.md, docs/PACKAGING.md, docs/V1_RELEASE_GATE.md, and 27 more. It connects to tree nodes such as Adapters, Docs, Packages, Root, Scripts, AGENTS.md, and 56 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
-    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Memory as a cross-cutting idea. It helps humans and agents find 33 related file(s) without assuming one folder owns the whole concept."
+    "explanation": "This node represents the Memory concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include CONTRIBUTING.md, adapters/codex/AGENTS.md, docs/ARCHITECTURE.md, docs/MISSION_RUNNER.md, docs/PACKAGING.md, docs/V1_RELEASE_GATE.md, and 28 more. It connects to tree nodes such as Adapters, Docs, Packages, Root, Scripts, AGENTS.md, and 57 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
+    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Memory as a cross-cutting idea. It helps humans and agents find 34 related file(s) without assuming one folder owns the whole concept."
   },
   {
     "id": "concept-node.context",

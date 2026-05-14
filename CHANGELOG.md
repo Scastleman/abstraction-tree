@@ -8,7 +8,10 @@ This repository uses synchronized SemVer versions across the publishable package
 
 ## [Unreleased]
 
-- No unreleased changes yet.
+- Documented that `0.2.0-beta.1` is now published on npm and verified from
+  clean external projects using both the full package and core-only CLI package.
+- Added completed public beta verification evidence and updated v1 release
+  review docs to distinguish "public beta verified" from "v1-ready."
 
 ## [0.2.0-beta.1] - 2026-05-14
 

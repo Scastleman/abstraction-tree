@@ -10,40 +10,37 @@ This review checks the current repository against the v1 release gate. It is int
 
 Current verdict: not v1-ready yet.
 
-The current public beta candidate version is `0.2.0-beta.1`. The stable local path is strong in the monorepo and local tarball smoke tests, but public npm packages are not published and prerelease verification has not happened from the public registry.
+The current public beta version is `0.2.0-beta.1`. The stable local path is strong in the monorepo, local tarball smoke tests pass, and clean external npm installs have verified the published beta. The project is still not v1-ready because it needs public beta feedback, fresh release-gate evidence from a clean checkout, and a deliberate stable dist-tag/version decision before v1.
 
 ## Gate Results
 
 | Gate | Status | Evidence |
 | --- | --- | --- |
-| Stable user path | Partial | Repo-local commands and `pack:smoke` exercise init, scan, doctor, validate, context, export, and serve. Public npm install for `0.2.0-beta.1` is still pending. |
-| Install/package proof | Partial | `pack:smoke` installs local tarballs into an external temp project and verifies dogfooding-memory exclusion. `release:dry-run -- --version 0.2.0-beta.1` must pass immediately before publish; public registry prerelease remains undone. |
+| Stable user path | Pass for public beta | Repo-local commands, `pack:smoke`, and public npm install verification exercise init, scan, doctor, validate, context, export, and serve. |
+| Install/package proof | Pass for public beta | `pack:smoke` installs local tarballs into an external temp project, verifies dogfooding-memory exclusion, and public registry verification passed for `abstraction-tree@beta` and `@abstraction-tree/cli@beta`. |
 | Schema/migration policy | Pass for pre-v1 | `DATA_MODEL.md` documents `0.1.0`, future-version rejection, dry-run behavior, and backup expectations for future write migrations. |
 | Visual proof | Pass | `docs/VISUAL_DEMO.md` and README embed real screenshots captured from `examples/small-web-app`. Refresh them when UI layout, `/api/state`, node detail content, or visual-demo docs change. |
 | Docs/changelog alignment | Pass with ongoing maintenance | README is concise, docs are split by ownership, command docs have a local checker, and changelog has a `0.2.0-beta.1` candidate section plus `Unreleased`. |
-| CI/release preflight | Partial | CI runs deterministic checks. A full `release:dry-run -- --version <candidate-version>` must pass immediately before prerelease. |
+| CI/release preflight | Pass for beta, repeat before v1 | CI runs deterministic checks and `0.2.0-beta.1` was published after release dry-run and pack-smoke preparation. Repeat the full gate from a clean checkout before v1. |
 | Memory hygiene | Pass when current scan pruning is applied | `changes prune-generated --apply` keeps semantic history and latest generated scan while removing superseded generated scan noise. |
 | Beta/experimental boundaries | Pass | Stable vs Experimental keeps route/goal/scope/evaluate as beta where appropriate and mission execution/dogfooding as experimental. `goal --review-required` remains beta through first v1 unless external feedback justifies graduating only planning. |
 
 ## Public Beta Evidence
 
-No public registry evidence has been collected yet.
-
-After a human maintainer publishes `0.2.0-beta.1` with the `beta` dist-tag, copy and complete [release-evidence/beta-verification-template.md](release-evidence/beta-verification-template.md), then link the completed evidence here. Do not mark the public npm install gate as Pass until that evidence exists.
+Public registry evidence has been collected for `0.2.0-beta.1`. The registry currently exposes both `beta` and `latest` dist-tags for this version because it is the only published version; docs continue to recommend `@beta` until stable v1.
 
 | Evidence Item | Status | Link |
 | --- | --- | --- |
-| Full package `abstraction-tree@beta` external install | Pending | [template](release-evidence/beta-verification-template.md) |
-| Core-only `@abstraction-tree/cli@beta` external install | Pending | [template](release-evidence/beta-verification-template.md) |
-| Dogfooding-memory isolation from npm install | Pending | [template](release-evidence/beta-verification-template.md) |
+| Full package `abstraction-tree@beta` external install | Pass | [2026-05-14 evidence](release-evidence/2026-05-14-0.2.0-beta.1-verification.md) |
+| Core-only `@abstraction-tree/cli@beta` external install | Pass | [2026-05-14 evidence](release-evidence/2026-05-14-0.2.0-beta.1-verification.md) |
+| Dogfooding-memory isolation from npm install | Pass | [2026-05-14 evidence](release-evidence/2026-05-14-0.2.0-beta.1-verification.md) |
 
 ## Blockers Before V1
 
-- Publish and verify a public prerelease such as `0.2.0-beta.1` or a later release candidate.
-- Run post-publish verification in a brand-new directory using the public npm package, not local tarballs.
-- Complete and link a public beta verification evidence file from `docs/release-evidence/`.
+- Collect external beta feedback and fix install, scan, validate, export, serve, or dogfooding-memory issues that block the stable path.
 - Keep real visual screenshots current in `docs/assets/visual-demo/` whenever the app UI changes.
 - Run the full release gate command list from `docs/V1_RELEASE_GATE.md` on a clean checkout.
+- Decide and document stable v1 package/tag handling so `latest` intentionally points at a stable release when v1 is ready.
 - Keep `goal --review-required` beta at v1 unless public beta feedback provides evidence that the planning surface is stable enough to graduate.
 
 ## Beta Feedback Triage

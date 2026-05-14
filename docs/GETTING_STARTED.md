@@ -13,7 +13,7 @@ This guide covers the provider-free path: initialize a workspace, scan a project
 - Git.
 - No API key is required for the stable core path.
 
-## Option A: Use Repo-Local Commands Before npm Publish
+## Option A: Use Repo-Local Commands
 
 From this repository:
 
@@ -26,25 +26,25 @@ npm run atree -- doctor --project examples/small-web-app
 
 The example project should now have generated memory under `examples/small-web-app/.abstraction-tree/`.
 
-## Option B: Use Package Commands After Publish
+## Option B: Use Public Beta Packages
 
-The package names are already configured in this monorepo, but they are not public registry packages until the first release.
+The public beta is published as `0.2.0-beta.1`. Use `@beta` until a stable v1 package is released.
 
-After publish, the full local app path will be:
+The full local app path is:
 
 ```bash
 cd your-existing-project
-npm install -D abstraction-tree
+npm install -D abstraction-tree@beta
 npx atree init --with-app
 npx atree scan
 npx atree doctor
 npx atree serve --open
 ```
 
-Core-only usage will be:
+Core-only usage is:
 
 ```bash
-npm install -D @abstraction-tree/cli
+npm install -D @abstraction-tree/cli@beta
 npx atree init --core
 npx atree scan
 npx atree doctor

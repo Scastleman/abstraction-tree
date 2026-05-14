@@ -18,16 +18,16 @@ changes.
 
 ## One-time setup
 
-After the first npm release, install the core CLI and create the initial memory baseline:
+Install the public beta core CLI and create the initial memory baseline:
 
 ```bash
-npm install -D @abstraction-tree/cli
+npm install -D @abstraction-tree/cli@beta
 npx atree init --core
 npx atree scan
 npx atree validate --strict
 ```
 
-Before the packages are published, those npm install commands will return `E404 package not found`. Use the repository-local CLI while developing this project itself:
+Use the repository-local CLI while developing this project itself or while testing unpublished local changes:
 
 ```bash
 npm install
