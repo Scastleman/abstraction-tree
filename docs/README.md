@@ -35,9 +35,11 @@ Use this page to choose the right document for your current task.
 | Doc | Owns |
 | --- | --- |
 | [Packaging](PACKAGING.md) | Planned npm packages, local tarball preflight, and release checklist. |
+| [Release Runbook](RELEASE_RUNBOOK.md) | Manual public beta publish checklist and post-publish verification steps. |
 | [Roadmap](ROADMAP.md) | Implemented capabilities, current limitations, next priorities, and later ideas. |
 | [Maintainer Notes](MAINTAINER_NOTES.md) | Internal refactor plans and compatibility notes. |
 | [V1 Release Candidate Review](V1_RELEASE_CANDIDATE_REVIEW.md) | Current gate-by-gate release candidate assessment. |
+| [Beta Verification Evidence Template](release-evidence/beta-verification-template.md) | External npm verification evidence template for public beta testing. |
 
 ## Compatibility Pages
 

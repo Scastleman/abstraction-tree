@@ -8,6 +8,10 @@ This repository uses synchronized SemVer versions across the publishable package
 
 ## [Unreleased]
 
+- No unreleased changes yet.
+
+## [0.2.0-beta.1] - 2026-05-14
+
 - Added a v1 release gate and release-candidate review doc so maintainers have
   an explicit pass/fail bar before labeling the project v1-ready.
 - Added `atree export` for Mermaid and Graphviz DOT diagrams generated from
@@ -23,6 +27,14 @@ This repository uses synchronized SemVer versions across the publishable package
 - Added README guidance for Codex and other agents adopting Abstraction Tree into
   a separate target project without copying dogfooding memory or serving the
   wrong workspace.
+- Prepared synchronized `0.2.0-beta.1` package metadata and internal package
+  dependency pins for a public beta candidate.
+- Added a manual release runbook and external npm beta verification evidence
+  template.
+- Added screenshot freshness guidance and image-link validation in
+  `docs:commands`.
+- Documented that `goal --review-required` remains beta through first v1 unless
+  external feedback justifies graduating planning-only behavior.
 
 ## [0.1.0] - 2026-05-08
 

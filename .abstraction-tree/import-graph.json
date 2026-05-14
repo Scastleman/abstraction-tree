@@ -1292,6 +1292,12 @@
       "kind": "relative"
     },
     {
+      "from": "scripts/productization-docs.test.mjs",
+      "to": "scripts/release-dry-run.mjs",
+      "specifier": "./release-dry-run.mjs",
+      "kind": "relative"
+    },
+    {
       "from": "scripts/project-text-files.test.mjs",
       "to": "scripts/project-text-files.mjs",
       "specifier": "./project-text-files.mjs",

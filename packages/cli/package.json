@@ -1,6 +1,6 @@
 {
   "name": "@abstraction-tree/cli",
-  "version": "0.1.0",
+  "version": "0.2.0-beta.1",
   "type": "module",
   "bin": {
     "atree": "dist/index.js",
@@ -19,7 +19,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@abstraction-tree/core": "0.1.0",
+    "@abstraction-tree/core": "0.2.0-beta.1",
     "commander": "^12.1.0",
     "sirv": "^2.0.4"
   },

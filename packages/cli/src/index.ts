@@ -40,7 +40,7 @@ import { runScopeCheckCommand, runScopeCreateCommand } from "./scopeCommand.js";
 import { runTreeExportCommand } from "./treeExportCommand.js";
 
 const program = new Command();
-program.name("atree").description("Build and visualize an abstraction tree for a codebase.").version("0.1.0");
+program.name("atree").description("Build and visualize an abstraction tree for a codebase.").version("0.2.0-beta.1");
 
 function projectPath(input?: string) {
   return path.resolve(input ?? process.cwd());

@@ -1,6 +1,6 @@
 {
   "name": "@abstraction-tree/app",
-  "version": "0.1.0",
+  "version": "0.2.0-beta.1",
   "type": "module",
   "private": false,
   "scripts": {
@@ -17,7 +17,7 @@
     "vite": "^8.0.10"
   },
   "devDependencies": {
-    "@abstraction-tree/core": "0.1.0",
+    "@abstraction-tree/core": "0.2.0-beta.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1"
   },

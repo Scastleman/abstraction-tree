@@ -1,14 +1,14 @@
 # Packaging and install modes
 
 > Audience: Maintainers preparing packages or releases
-> Status: Pre-publish release guidance
+> Status: Beta candidate release guidance
 > Read after: GETTING_STARTED.md and STABLE_VS_EXPERIMENTAL.md.
 
 Abstraction Tree supports two install modes because the abstraction layer should be useful even when a developer does not want a visual interface.
 
 Both modes support the same product direction: local project memory for safer complex prompt implementation. Full mode adds the visual app so humans can inspect the generated abstraction tree before or after Codex runs scoped missions.
 
-The package names below are the intended public npm package names. They are valid workspace package names in this repository, but they are not installable from the npm registry until the first publish. Before that release, use the repo-local scripts from the root README.
+The package names below are the intended public npm package names. They are valid workspace package names in this repository, but they are not installable from the npm registry until the first publish. The current planned public beta candidate is `0.2.0-beta.1`; before that release, use the repo-local scripts from the root README.
 
 ## Core-only package
 
@@ -131,11 +131,16 @@ release.
 Validate the changelog and synchronized versions with:
 
 ```bash
-npm run release:changelog -- --version 0.1.0
+npm run release:changelog -- --version <version>
 ```
 
-Omit `-- --version <version>` to validate the version currently recorded in the
-root `package.json`.
+For the current public beta candidate, use:
+
+```bash
+npm run release:changelog -- --version 0.2.0-beta.1
+```
+
+Omit `-- --version <version>` to validate the version currently recorded in the root `package.json`.
 
 ## Release dry run
 
@@ -150,7 +155,13 @@ npm run pack:smoke
 Run the full release preflight before publishing:
 
 ```bash
-npm run release:dry-run -- --version 0.1.0
+npm run release:dry-run -- --version <version>
+```
+
+For the current public beta candidate, use:
+
+```bash
+npm run release:dry-run -- --version 0.2.0-beta.1
 ```
 
 `release:dry-run` verifies synchronized package versions, verifies the
@@ -158,11 +169,14 @@ changelog section, runs the package smoke test, and runs `npm publish
 --dry-run` in each publishable package directory. The package smoke test checks
 tarball contents, dogfooding-memory exclusion, local tarball installability,
 linked binaries, `init`, `scan`, `doctor`, `validate`, `context`, `export`, and
-local app serving. It does not publish or tag anything.
+local app serving. It also verifies that the temporary installed project starts
+with blank memory and that `scan` generates memory from that project instead of
+copying this repository's dogfooding memory. It does not publish, tag, open a
+browser, or move npm dist-tags.
 
 ## Prerelease path
 
-Use a public prerelease before a v1 label. The recommended first public testing path is a synchronized `0.2.0-beta.1` release under the npm `beta` dist-tag. A later `1.0.0-rc.1` can use the `next` dist-tag only after the v1 release gate is nearly complete.
+Use a public prerelease before a v1 label. The recommended first public testing path is the synchronized `0.2.0-beta.1` release under the npm `beta` dist-tag. A later `1.0.0-rc.1` can use the `next` dist-tag only after the v1 release gate is nearly complete.
 
 Prerelease procedure:
 
@@ -170,7 +184,7 @@ Prerelease procedure:
 2. Update root and publishable package versions plus internal package dependency pins.
 3. Move relevant `CHANGELOG.md` entries into the prerelease version section.
 4. Run `npm run release:dry-run -- --version <candidate-version>`.
-5. Publish manually in dependency order with `--tag beta` or `--tag next`.
+5. Follow [RELEASE_RUNBOOK.md](RELEASE_RUNBOOK.md) for manual publish. Agents must not publish packages, move dist-tags, or handle credentials.
 6. Verify in a brand-new external directory:
 
 ```bash
@@ -182,6 +196,8 @@ npx atree validate
 npx atree export --format mermaid
 npx atree serve
 ```
+
+Capture post-publish verification in [release-evidence/beta-verification-template.md](release-evidence/beta-verification-template.md) or a copy of that template.
 
 If a prerelease package is broken, deprecate that exact version with a clear message and publish a fixed prerelease. Do not move the `latest` dist-tag until [V1_RELEASE_GATE.md](V1_RELEASE_GATE.md) passes.
 
@@ -211,14 +227,13 @@ npm run atree -- doctor --project . --strict
 6. Run the `Release Dry Run` GitHub Actions workflow with the same version.
 7. Inspect the dry-run logs and confirm the package file lists contain only
    intended build artifacts, package manifests, README files, and binaries. They must not contain root `.abstraction-tree/` dogfooding memory.
-8. After packaging smoke tests are stable, publish manually from a clean checkout
-   in dependency order:
+8. After packaging smoke tests are stable, follow [RELEASE_RUNBOOK.md](RELEASE_RUNBOOK.md). Publish manually from a clean checkout in dependency order:
 
 ```bash
-npm publish --workspace @abstraction-tree/core --access public
-npm publish --workspace @abstraction-tree/cli --access public
-npm publish --workspace @abstraction-tree/app --access public
-npm publish --workspace abstraction-tree
+npm publish --workspace @abstraction-tree/core --access public --tag beta
+npm publish --workspace @abstraction-tree/cli --access public --tag beta
+npm publish --workspace @abstraction-tree/app --access public --tag beta
+npm publish --workspace abstraction-tree --tag beta
 ```
 
 9. Create a GitHub release for tag `v<version>` using the matching changelog
