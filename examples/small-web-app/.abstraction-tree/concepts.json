@@ -1,29 +1,26 @@
 [
   {
-    "id": "auth",
-    "title": "Auth",
-    "summary": "Cross-cutting concept inferred from files and symbols containing \"auth\".",
-    "relatedNodeIds": [
-      "module.src",
-      "file.src.services.payment.ts"
-    ],
-    "relatedFiles": [
-      "src/services/payment.ts"
-    ],
-    "tags": [
-      "auth"
-    ]
-  },
-  {
     "id": "checkout",
     "title": "Checkout",
-    "summary": "Cross-cutting concept inferred from files and symbols containing \"checkout\".",
+    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.src",
       "module.tests",
       "file.src.api.checkout.ts",
       "file.src.components.checkoutform.tsx",
-      "file.tests.checkout.test.js"
+      "file.tests.checkout.test.js",
+      "architecture.visual.app.ui",
+      "architecture.local.api.routes",
+      "architecture.runtime.dataflow",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.src.components.checkoutform.tsx",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.src.api.checkout.ts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.quality.support",
+      "subsystem.tests.quality.file.tests.checkout.test.js"
     ],
     "relatedFiles": [
       "src/api/checkout.ts",
@@ -32,102 +29,428 @@
     ],
     "tags": [
       "checkout"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "src/api/checkout.ts",
+        "value": "checkout",
+        "term": "checkout",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "src/components/CheckoutForm.tsx",
+        "value": "CheckoutForm",
+        "term": "checkout",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "src/api/checkout.ts",
+        "value": "src/api/checkout.ts",
+        "term": "checkout",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "src/components/CheckoutForm.tsx",
+        "value": "src/components/CheckoutForm.tsx",
+        "term": "checkout",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "tests/checkout.test.js",
+        "value": "tests/checkout.test.js",
+        "term": "checkout",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "src/api/checkout.ts",
+        "value": "checkout",
+        "term": "checkout",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "src/components/CheckoutForm.tsx",
+        "value": "CheckoutForm",
+        "term": "checkout",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "tests/checkout.test.js",
+        "value": "checkout",
+        "term": "checkout",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "tests/checkout.test.js",
+        "value": "rewriteCheckoutServiceImports",
+        "term": "checkout",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "tests/checkout.test.js",
+        "value": "writeActualCheckoutModules",
+        "term": "checkout",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "cart",
+    "title": "Cart",
+    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.src",
+      "module.tests",
+      "file.src.api.checkout.ts",
+      "file.src.services.cart.ts",
+      "file.tests.checkout.test.js",
+      "architecture.local.api.routes",
+      "architecture.runtime.dataflow",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.src.api.checkout.ts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.quality.support",
+      "subsystem.tests.quality.file.tests.checkout.test.js"
+    ],
+    "relatedFiles": [
+      "src/api/checkout.ts",
+      "src/services/cart.ts",
+      "tests/checkout.test.js"
+    ],
+    "tags": [
+      "cart"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "src/services/cart.ts",
+        "value": "validateCart",
+        "term": "cart",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "src/services/cart.ts",
+        "value": "src/services/cart.ts",
+        "term": "cart",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "src/api/checkout.ts",
+        "value": "cart",
+        "term": "cart",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "src/services/cart.ts",
+        "value": "validateCart",
+        "term": "cart",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "tests/checkout.test.js",
+        "value": "cart",
+        "term": "cart",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "tests/checkout.test.js",
+        "value": "validateCart",
+        "term": "cart",
+        "score": 3
+      }
     ]
   },
   {
     "id": "payment",
     "title": "Payment",
-    "summary": "Cross-cutting concept inferred from files and symbols containing \"payment\".",
+    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.src",
+      "module.tests",
       "file.src.api.checkout.ts",
-      "file.src.services.payment.ts"
+      "file.src.services.payment.ts",
+      "file.tests.checkout.test.js",
+      "architecture.local.api.routes",
+      "architecture.runtime.dataflow",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.src.api.checkout.ts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.quality.support",
+      "subsystem.tests.quality.file.tests.checkout.test.js"
     ],
     "relatedFiles": [
       "src/api/checkout.ts",
-      "src/services/payment.ts"
+      "src/services/payment.ts",
+      "tests/checkout.test.js"
     ],
     "tags": [
       "payment"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "src/services/payment.ts",
+        "value": "authorizePayment",
+        "term": "payment",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "src/services/payment.ts",
+        "value": "src/services/payment.ts",
+        "term": "payment",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "src/api/checkout.ts",
+        "value": "payment",
+        "term": "payment",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "src/services/payment.ts",
+        "value": "authorizePayment",
+        "term": "payment",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "tests/checkout.test.js",
+        "value": "authorizePayment",
+        "term": "payment",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "authorize",
+    "title": "Authorize",
+    "summary": "Durable concept inferred from 2 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.src",
+      "module.tests",
+      "file.src.services.payment.ts",
+      "file.tests.checkout.test.js",
+      "architecture.runtime.dataflow",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.quality.support",
+      "subsystem.tests.quality.file.tests.checkout.test.js"
+    ],
+    "relatedFiles": [
+      "src/services/payment.ts",
+      "tests/checkout.test.js"
+    ],
+    "tags": [
+      "authorize"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "src/services/payment.ts",
+        "value": "authorizePayment",
+        "term": "authorize",
+        "score": 4
+      },
+      {
+        "kind": "symbol",
+        "filePath": "src/services/payment.ts",
+        "value": "authorizePayment",
+        "term": "authorize",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "tests/checkout.test.js",
+        "value": "authorizePayment",
+        "term": "authorize",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "authorize.payment",
+    "title": "Authorize Payment",
+    "summary": "Durable concept inferred from 2 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.src",
+      "module.tests",
+      "file.src.services.payment.ts",
+      "file.tests.checkout.test.js",
+      "architecture.runtime.dataflow",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.quality.support",
+      "subsystem.tests.quality.file.tests.checkout.test.js"
+    ],
+    "relatedFiles": [
+      "src/services/payment.ts",
+      "tests/checkout.test.js"
+    ],
+    "tags": [
+      "authorize payment"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "src/services/payment.ts",
+        "value": "authorizePayment",
+        "term": "authorize payment",
+        "score": 4
+      },
+      {
+        "kind": "symbol",
+        "filePath": "src/services/payment.ts",
+        "value": "authorizePayment",
+        "term": "authorize payment",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "tests/checkout.test.js",
+        "value": "authorizePayment",
+        "term": "authorize payment",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "checkout.form",
+    "title": "Checkout Form",
+    "summary": "Durable concept inferred from 1 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.src",
+      "file.src.components.checkoutform.tsx",
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.src.components.checkoutform.tsx"
+    ],
+    "relatedFiles": [
+      "src/components/CheckoutForm.tsx"
+    ],
+    "tags": [
+      "checkout form"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "src/components/CheckoutForm.tsx",
+        "value": "CheckoutForm",
+        "term": "checkout form",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "src/components/CheckoutForm.tsx",
+        "value": "src/components/CheckoutForm.tsx",
+        "term": "checkout form",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "src/components/CheckoutForm.tsx",
+        "value": "CheckoutForm",
+        "term": "checkout form",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "form",
+    "title": "Form",
+    "summary": "Durable concept inferred from 1 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.src",
+      "file.src.components.checkoutform.tsx",
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.src.components.checkoutform.tsx"
+    ],
+    "relatedFiles": [
+      "src/components/CheckoutForm.tsx"
+    ],
+    "tags": [
+      "form"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "src/components/CheckoutForm.tsx",
+        "value": "CheckoutForm",
+        "term": "form",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "src/components/CheckoutForm.tsx",
+        "value": "src/components/CheckoutForm.tsx",
+        "term": "form",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "src/components/CheckoutForm.tsx",
+        "value": "CheckoutForm",
+        "term": "form",
+        "score": 3
+      }
     ]
   },
   {
     "id": "order",
     "title": "Order",
-    "summary": "Cross-cutting concept inferred from files and symbols containing \"order\".",
+    "summary": "Durable concept inferred from 1 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.src",
-      "file.src.services.orders.ts"
+      "file.src.services.orders.ts",
+      "architecture.runtime.dataflow"
     ],
     "relatedFiles": [
       "src/services/orders.ts"
     ],
     "tags": [
       "order"
-    ]
-  },
-  {
-    "id": "api",
-    "title": "Api",
-    "summary": "Cross-cutting concept inferred from files and symbols containing \"api\".",
-    "relatedNodeIds": [
-      "module.src",
-      "file.src.api.checkout.ts"
     ],
-    "relatedFiles": [
-      "src/api/checkout.ts"
-    ],
-    "tags": [
-      "api"
-    ]
-  },
-  {
-    "id": "test",
-    "title": "Test",
-    "summary": "Cross-cutting concept inferred from files and symbols containing \"test\".",
-    "relatedNodeIds": [
-      "module.tests",
-      "file.tests.checkout.test.js"
-    ],
-    "relatedFiles": [
-      "tests/checkout.test.js"
-    ],
-    "tags": [
-      "test"
-    ]
-  },
-  {
-    "id": "component",
-    "title": "Component",
-    "summary": "Cross-cutting concept inferred from files and symbols containing \"component\".",
-    "relatedNodeIds": [
-      "module.src",
-      "file.src.components.checkoutform.tsx"
-    ],
-    "relatedFiles": [
-      "src/components/CheckoutForm.tsx"
-    ],
-    "tags": [
-      "component"
-    ]
-  },
-  {
-    "id": "service",
-    "title": "Service",
-    "summary": "Cross-cutting concept inferred from files and symbols containing \"service\".",
-    "relatedNodeIds": [
-      "module.src",
-      "file.src.services.cart.ts",
-      "file.src.services.orders.ts",
-      "file.src.services.payment.ts"
-    ],
-    "relatedFiles": [
-      "src/services/cart.ts",
-      "src/services/orders.ts",
-      "src/services/payment.ts"
-    ],
-    "tags": [
-      "service"
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "src/services/orders.ts",
+        "value": "createOrder",
+        "term": "order",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "src/services/orders.ts",
+        "value": "src/services/orders.ts",
+        "term": "order",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "src/services/orders.ts",
+        "value": "createOrder",
+        "term": "order",
+        "score": 3
+      }
     ]
   }
 ]

@@ -23,6 +23,7 @@ test("small web app fixture scans checkout files and builds useful context", asy
 
   assert.deepEqual([...files.keys()], [
     "package.json",
+    "README.md",
     "src/api/checkout.ts",
     "src/components/CheckoutForm.tsx",
     "src/services/cart.ts",

@@ -1,5 +1,9 @@
 # Assessment Packs
 
+> Audience: Humans and ChatGPT doing strategic review
+> Status: Beta planning workflow
+> Read after: STABLE_VS_EXPERIMENTAL.md.
+
 Assessment packs are the strategic review path for broad repository questions. They gather local evidence for ChatGPT or a human reviewer without asking Codex to invent a strategy and execute it in one pass.
 
 Use assessment packs when the prompt is about roadmap, critique, architecture review, or broad improvement planning rather than a specific implementation goal.

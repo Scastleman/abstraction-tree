@@ -1,5 +1,9 @@
 # Goal-Driven Mission Workflow
 
+> Audience: Users implementing complex prompts with agent assistance
+> Status: Beta review workflow
+> Read after: GETTING_STARTED.md and STABLE_VS_EXPERIMENTAL.md.
+
 This is the main advanced workflow for complex coding requests. It turns a broad prompt into a route decision, goal workspace, affected-tree map, mission plan, scope contract, coherence review, and report before Codex executes anything.
 
 Abstraction Tree is not trying to replace human review or create fully self-improving software. Its practical role is to help with difficult coding prompts: map the request onto project memory, decompose it into scoped missions, guide Codex through those missions, and help review whether the resulting changes stayed coherent with the original goal and abstraction tree.

@@ -1,5 +1,9 @@
 # Mission Runner
 
+> Audience: Advanced users and maintainers
+> Status: Experimental Codex execution workflow
+> Read after: STABLE_VS_EXPERIMENTAL.md and GOAL_DRIVEN_MISSION_WORKFLOW.md.
+
 `scripts/run-missions.mjs` turns a folder of Markdown mission files into an Abstraction Tree-aware work queue. It can print a JSON plan, dry-run the Codex CLI commands that would execute, or run each mission non-interactively through Codex CLI. It is the execution stage for reviewable prompt-to-mission workflows, not a guarantee that the resulting code is correct.
 
 ## Role in Complex Prompt Implementation

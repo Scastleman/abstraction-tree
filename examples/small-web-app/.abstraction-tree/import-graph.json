@@ -1,0 +1,62 @@
+{
+  "edges": [
+    {
+      "from": "src/api/checkout.ts",
+      "to": "src/services/cart.ts",
+      "specifier": "../services/cart",
+      "kind": "relative"
+    },
+    {
+      "from": "src/api/checkout.ts",
+      "to": "src/services/orders.ts",
+      "specifier": "../services/orders",
+      "kind": "relative"
+    },
+    {
+      "from": "src/api/checkout.ts",
+      "to": "src/services/payment.ts",
+      "specifier": "../services/payment",
+      "kind": "relative"
+    }
+  ],
+  "externalImports": [
+    {
+      "from": "tests/checkout.test.js",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "tests/checkout.test.js",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "tests/checkout.test.js",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "tests/checkout.test.js",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "tests/checkout.test.js",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "tests/checkout.test.js",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "tests/checkout.test.js",
+      "specifier": "typescript",
+      "packageName": "typescript"
+    }
+  ],
+  "unresolvedImports": [],
+  "cycles": [],
+  "workspacePackages": []
+}

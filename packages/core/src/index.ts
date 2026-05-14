@@ -7,6 +7,7 @@ export * from "./importGraph.js";
 export * from "./treeBuilder.js";
 export * from "./context.js";
 export * from "./contextLimits.js";
+export * from "./exportGraph.js";
 export * from "./changeReview.js";
 export * from "./runReports.js";
 export * from "./validator.js";

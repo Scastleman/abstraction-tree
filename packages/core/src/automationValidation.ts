@@ -103,6 +103,10 @@ const missionRuntimeBooleanFields = [
 export async function validateAutomation(projectRoot: string, options: AutomationValidationOptions = {}): Promise<ValidationIssue[]> {
   const issues: ValidationIssue[] = [];
   const runGit = options.runGit ?? defaultGitRunner;
+  const hasAutomationState = existsSync(projectFile(projectRoot, AUTOMATION_DIR)) ||
+    existsSync(projectFile(projectRoot, LOOP_STATE_PATH)) ||
+    localRuntimePaths.some(runtimePath => existsSync(projectFile(projectRoot, runtimePath.path.replace(/\/$/, ""))));
+  if (!hasAutomationState) return issues;
 
   if (existsSync(projectFile(projectRoot, LOOP_STATE_PATH))) {
     issues.push({

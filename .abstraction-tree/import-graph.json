@@ -311,6 +311,13 @@
       "packageName": "@abstraction-tree/core"
     },
     {
+      "from": "packages/cli/src/exportCommand.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
       "from": "packages/cli/src/goalCommand.test.ts",
       "to": "packages/cli/src/goalCommand.ts",
       "specifier": "./goalCommand.js",
@@ -666,6 +673,24 @@
       "kind": "relative"
     },
     {
+      "from": "packages/core/src/exportGraph.test.ts",
+      "to": "packages/core/src/exportGraph.ts",
+      "specifier": "./exportGraph.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/exportGraph.test.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/exportGraph.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
       "from": "packages/core/src/goal.test.ts",
       "to": "packages/core/src/index.ts",
       "specifier": "./index.js",
@@ -747,6 +772,12 @@
       "from": "packages/core/src/index.ts",
       "to": "packages/core/src/evaluator.ts",
       "specifier": "./evaluator.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/index.ts",
+      "to": "packages/core/src/exportGraph.ts",
+      "specifier": "./exportGraph.js",
       "kind": "relative"
     },
     {
@@ -1496,6 +1527,41 @@
       "packageName": "node:url"
     },
     {
+      "from": "packages/cli/src/exportCommand.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/exportCommand.test.ts",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "packages/cli/src/exportCommand.test.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/cli/src/exportCommand.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/cli/src/exportCommand.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/exportCommand.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/exportCommand.test.ts",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
       "from": "packages/cli/src/goalCommand.test.ts",
       "specifier": "node:assert/strict",
       "packageName": "node:assert/strict"
@@ -1544,6 +1610,11 @@
       "from": "packages/cli/src/index.ts",
       "specifier": "commander",
       "packageName": "commander"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
     },
     {
       "from": "packages/cli/src/index.ts",
@@ -1924,6 +1995,16 @@
       "from": "packages/core/src/evaluator.ts",
       "specifier": "node:path",
       "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/exportGraph.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/core/src/exportGraph.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
     },
     {
       "from": "packages/core/src/goal.test.ts",
@@ -2592,6 +2673,31 @@
     },
     {
       "from": "scripts/pack-smoke-test.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/productization-docs.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/productization-docs.test.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/productization-docs.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/productization-docs.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "scripts/productization-docs.test.mjs",
       "specifier": "node:url",
       "packageName": "node:url"
     },

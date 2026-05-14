@@ -1,5 +1,9 @@
 # Roadmap
 
+> Audience: Maintainers and contributors
+> Status: Planning document
+> Read after: STABLE_VS_EXPERIMENTAL.md.
+
 ## Implemented
 
 - CLI workspace initialization with blank project-local memory.
@@ -7,7 +11,9 @@
 - Deterministic abstraction tree with evidence-backed human subsystem nodes, responsibility slices, file leaves, node explanations, reasons for existence, and separation logic.
 - Repo-specific concept inference from paths, symbols, and exports.
 - Context pack generation, validation, stale-memory drift checks, and deterministic evaluation reports.
+- Mermaid and Graphviz DOT export for generated tree memory.
 - Optional local visual app with `atree serve --open`.
+- Beginner Getting Started, Visual Demo, and Stable vs Experimental docs for v1 onboarding.
 - Prompt routing with direct, goal-driven, assessment-pack, and manual-review decisions.
 - Goal-driven mission planning that preserves the original prompt, maps affected tree nodes/files/concepts, writes mission folders, creates scope contracts, and prepares reports.
 - Mission runner planning/execution with batching, sandbox gates, runtime tracking, and review artifacts.
@@ -50,7 +56,6 @@
 - Import graph resolution by language.
 - Better concept clustering.
 - Git diff based semantic change records.
-- Mermaid/Graphviz export.
 - Markdown/YAML output options.
 - PR review mode.
 - VS Code/Cursor panel.

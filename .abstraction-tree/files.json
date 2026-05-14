@@ -4,9 +4,9 @@
     "extension": ".yml",
     "language": "YAML",
     "parseStrategy": "regex",
-    "contentHash": "4bf11774629c60cb593aef74df9e5cda62ade5f5cdb59f732de39c266b287d16",
-    "sizeBytes": 1402,
-    "lines": 46,
+    "contentHash": "d6fdc12b57cd9670824873600418c02988e11fa09e3bed8e654dacf650f7d981",
+    "sizeBytes": 1468,
+    "lines": 47,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -30,16 +30,17 @@
     "extension": ".yml",
     "language": "YAML",
     "parseStrategy": "regex",
-    "contentHash": "8d65cf7b22527c219ccad3c666176b3c10c7607d8fc421d4a77db5a1e87f9fbd",
-    "sizeBytes": 959,
+    "contentHash": "9e011c716a0688780cb4d5970244a6a6d4e42af711d9c9a470fd8522da27147a",
+    "sizeBytes": 1033,
     "lines": 39,
     "imports": [],
     "exports": [],
     "symbols": [
+      "release:dry-run includes pack:smoke so package contents and installability are checked once here.",
       "x"
     ],
     "isTest": false,
-    "summary": "release.yml is a YAML implementation file. Defines x.",
+    "summary": "release.yml is a YAML implementation file. Defines release:dry-run includes pack:smoke so package contents and installability are checked once here., x.",
     "ownedByNodeIds": [
       "file.github.workflows.release.yml",
       "module.github",
@@ -196,9 +197,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "298aaa18705a8857073e2888f799e4a9f99483bfe4260bc0e9f5fe7a04c6a9a2",
-    "sizeBytes": 8912,
-    "lines": 124,
+    "contentHash": "2af2d1413b5d8c4897ea617fafff1ebe61ae5de8313776e18ff47eb8bc0ccd37",
+    "sizeBytes": 9033,
+    "lines": 128,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -235,9 +236,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "48ef4517febc791f425b0bd1040da373a4dc9bab294a28bd707ba670c0fe3236",
-    "sizeBytes": 12565,
-    "lines": 151,
+    "contentHash": "5295aab3aa4658deb89a1f98187000520d1b7a9f3244d5fa037ba91a10e00bea",
+    "sizeBytes": 12736,
+    "lines": 155,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -255,6 +256,7 @@
       "2. CLI",
       "3. Optional visual app",
       "Future layers",
+      "md",
       "json"
     ],
     "isTest": false,
@@ -275,9 +277,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "8a3560519ee5fd8f1aa3354f5bf5aa8ebb5eda68fffaecd909663c799a88cd12",
-    "sizeBytes": 1762,
-    "lines": 45,
+    "contentHash": "2a70d47b3749b3478e9a9773d73617fd6b6ffe894f91dccedd4723916d85a580",
+    "sizeBytes": 1891,
+    "lines": 49,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -285,10 +287,11 @@
       "Create A Pack",
       "Safety Controls",
       "Import Reviewer Missions",
+      "md",
       "txt"
     ],
     "isTest": false,
-    "summary": "ASSESSMENT_PACKS.md is a Markdown implementation file. Defines Assessment Packs, Create A Pack, Safety Controls, Import Reviewer Missions, txt.",
+    "summary": "ASSESSMENT_PACKS.md is a Markdown implementation file. Defines Assessment Packs, Create A Pack, Safety Controls, Import Reviewer Missions, md.",
     "ownedByNodeIds": [
       "file.docs.assessment.packs.md",
       "module.docs",
@@ -301,13 +304,37 @@
     ]
   },
   {
+    "path": "docs/assets/README.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "dc3e3ad88d30ae02a479b261f7ed88748231d414f5dac27ab3f4cc26fc0d6c4e",
+    "sizeBytes": 505,
+    "lines": 16,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "Documentation Assets",
+      "png"
+    ],
+    "isTest": false,
+    "summary": "Store small, durable documentation assets here. For the visual demo, use:",
+    "ownedByNodeIds": [
+      "file.docs.assets.readme.md",
+      "module.docs",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.assets.readme.md"
+    ]
+  },
+  {
     "path": "docs/CI_INTEGRATION.md",
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "ccd9325aed38a1b5c5dbd52b197df5c96aae065a35f3a65c9bdf9fa4629b2c14",
-    "sizeBytes": 7511,
-    "lines": 212,
+    "contentHash": "7947bfb726deaad46a4de6b922289260a55b89b8058150a902aa011a8517ae8a",
+    "sizeBytes": 7754,
+    "lines": 217,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -318,10 +345,10 @@
       "Strict drift gate",
       "PR context pack artifact",
       "Choosing a strategy",
+      "md",
       "x",
       "json",
-      "abstraction-tree",
-      "md"
+      "abstraction-tree"
     ],
     "isTest": false,
     "summary": "CI_INTEGRATION.md is a Markdown implementation file. Defines CI Integration, One-time setup, Minimal validation, This Repository's CI, Strict drift gate.",
@@ -338,9 +365,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "e558ce12a92f78b0775e39567da8f969382b057224cf7c5d380014130c81974f",
-    "sizeBytes": 9076,
-    "lines": 176,
+    "contentHash": "15f22b181907f74326488070a2e3ec01ee31d2dcfa89a758252e5facd76cc087",
+    "sizeBytes": 9816,
+    "lines": 184,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -376,9 +403,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "f0b572922b115353be79c33edb4da465734aba9ee07b20cb5312ae1416ada9c6",
-    "sizeBytes": 1709,
-    "lines": 23,
+    "contentHash": "15a96f8b8a13d3070f1c86f2b5b0a19c20e26162d298aca97a25bf1f85dd07f3",
+    "sizeBytes": 2143,
+    "lines": 29,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -399,9 +426,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "39e19a970cbb25622b58b6942eaf8556e63e7fa2cb53299baba8ef709de1b848",
-    "sizeBytes": 3803,
-    "lines": 89,
+    "contentHash": "e15fff149a27190652d48d62f56155155848a3db5fcdca52775f7978d407f0f4",
+    "sizeBytes": 3946,
+    "lines": 93,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -412,7 +439,8 @@
       "External Mission Mode",
       "External Coherence Review",
       "Safety",
-      "Useful Commands"
+      "Useful Commands",
+      "md"
     ],
     "isTest": false,
     "summary": "EXPERIMENTAL_DOGFOODING_LOOP.md is a Markdown implementation file. Defines Experimental Dogfooding Loop, What The Loop Does, Safer Starting Point, Pack-Only Mode, External Mission Mode.",
@@ -455,16 +483,17 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "a67015038aacd753aff4a72ec56efc1e213a7b3a6c17bb0283d3d3e8b67c0a3f",
-    "sizeBytes": 395,
-    "lines": 8,
+    "contentHash": "d1b6f42c8696d739f5a8ef0b6ea5f5017d3693110af2ec0c87853422fbad48ec",
+    "sizeBytes": 525,
+    "lines": 12,
     "imports": [],
     "exports": [],
     "symbols": [
-      "Experimental Dogfooding Loop"
+      "Experimental Dogfooding Loop",
+      "md"
     ],
     "isTest": false,
-    "summary": "FULL_SELF_IMPROVEMENT_LOOP.md is a Markdown implementation file. Defines Experimental Dogfooding Loop.",
+    "summary": "FULL_SELF_IMPROVEMENT_LOOP.md is a Markdown implementation file. Defines Experimental Dogfooding Loop, md.",
     "ownedByNodeIds": [
       "file.docs.full.self.improvement.loop.md",
       "module.docs",
@@ -477,20 +506,60 @@
     ]
   },
   {
+    "path": "docs/GETTING_STARTED.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "940cfe8ca347b6d983518212712c45728fa41bdbf815bd17fba6bb9c21e80471",
+    "sizeBytes": 4103,
+    "lines": 142,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "Getting Started",
+      "Prerequisites",
+      "Option A: Use Repo-Local Commands Before npm Publish",
+      "Option B: Use Package Commands After Publish",
+      "Scan the Included Example",
+      "Scan Your Own Project",
+      "Run Doctor",
+      "Validate and Check Drift",
+      "Generate an Agent Context Pack",
+      "Export Diagrams",
+      "Serve the Visual App",
+      "Common Troubleshooting",
+      "Where To Go Next",
+      "md",
+      "js",
+      "json",
+      "dot"
+    ],
+    "isTest": false,
+    "summary": "GETTING_STARTED.md is a Markdown implementation file. Defines Getting Started, Prerequisites, Option A: Use Repo-Local Commands Before npm Publish, Option B: Use Package Commands After Publish, Scan the Included Example.",
+    "ownedByNodeIds": [
+      "file.docs.getting.started.md",
+      "module.docs",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.getting.started.md"
+    ]
+  },
+  {
     "path": "docs/GOAL_DRIVEN_AUTOPILOT.md",
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "d88290843fa2f978a58da3ee1868a9a9e38ca9c83354b27a4a0dcd5a7b3d57b5",
-    "sizeBytes": 444,
-    "lines": 8,
+    "contentHash": "5182cca624603b745434170896b22cdcf3719ed0642edf70d02a1f26a5dab203",
+    "sizeBytes": 574,
+    "lines": 12,
     "imports": [],
     "exports": [],
     "symbols": [
-      "Goal-Driven Mission Workflow"
+      "Goal-Driven Mission Workflow",
+      "md"
     ],
     "isTest": false,
-    "summary": "GOAL_DRIVEN_AUTOPILOT.md is a Markdown implementation file. Defines Goal-Driven Mission Workflow.",
+    "summary": "GOAL_DRIVEN_AUTOPILOT.md is a Markdown implementation file. Defines Goal-Driven Mission Workflow, md.",
     "ownedByNodeIds": [
       "file.docs.goal.driven.autopilot.md",
       "module.docs",
@@ -507,9 +576,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "ee0870587522d5da1e1039b89a03457dc33e719ba6b19723107de1ab4d6d2a84",
-    "sizeBytes": 5572,
-    "lines": 124,
+    "contentHash": "a82072fa1275c881ffce5f6a73b837f44c2d7e5b0bcb935c81d0120d25e54c7f",
+    "sizeBytes": 5737,
+    "lines": 128,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -544,9 +613,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "0c88a9451607c460fd3225060f84dc6450874375e1befe0b0f6726ffb0f0788c",
-    "sizeBytes": 2739,
-    "lines": 60,
+    "contentHash": "d1abd1c499904fd327e4c6a8bbfab2f548b5ec7adc6a731eb00d04e139b14327",
+    "sizeBytes": 2831,
+    "lines": 64,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -554,10 +623,11 @@
       "Mission Runner Modularization Plan",
       "Dogfooding Loop Modularization Plan",
       "Compatibility Notes During Extraction",
+      "md",
       "mjs"
     ],
     "isTest": false,
-    "summary": "MAINTAINER_NOTES.md is a Markdown implementation file. Defines Maintainer Notes, Mission Runner Modularization Plan, Dogfooding Loop Modularization Plan, Compatibility Notes During Extraction, mjs.",
+    "summary": "MAINTAINER_NOTES.md is a Markdown implementation file. Defines Maintainer Notes, Mission Runner Modularization Plan, Dogfooding Loop Modularization Plan, Compatibility Notes During Extraction, md.",
     "ownedByNodeIds": [
       "file.docs.maintainer.notes.md",
       "module.docs",
@@ -571,9 +641,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "e58a4a55a99f745d3325cc81674df4aa5d6b4842d7380619049f2bc6a439bc26",
-    "sizeBytes": 13781,
-    "lines": 298,
+    "contentHash": "a589c4236bc31ab5c57ab222b45f9a46192404e542bb9971e20be373c38c8dc1",
+    "sizeBytes": 13950,
+    "lines": 302,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -622,9 +692,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "0b88279e8b0adc95a4c742eaf83e9320279ac86e7683489e4949930319b03210",
-    "sizeBytes": 6255,
-    "lines": 194,
+    "contentHash": "0d2e1c1dada03e9e86855d9e5522a7733d001952bbb6dd481eeed400b600ee65",
+    "sizeBytes": 6678,
+    "lines": 201,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -640,6 +710,7 @@
       "Changelog requirement",
       "Release dry run",
       "Maintainer release checklist",
+      "md",
       "json"
     ],
     "isTest": false,
@@ -653,13 +724,41 @@
     ]
   },
   {
+    "path": "docs/README.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "5053500ffe809d39d731e25538dc1e6570d83b5c36b0e307f3ce1f530dd66554",
+    "sizeBytes": 2224,
+    "lines": 45,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "Abstraction Tree Docs",
+      "New Users",
+      "Core Concepts",
+      "Agent-Assisted Workflows",
+      "Maintainers",
+      "Compatibility Pages"
+    ],
+    "isTest": false,
+    "summary": "Use this page to choose the right document for your current task.",
+    "ownedByNodeIds": [
+      "file.docs.readme.md",
+      "module.docs",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.readme.md"
+    ]
+  },
+  {
     "path": "docs/ROADMAP.md",
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "3d700215fe6ecc9ffa06c1c531ab651b096ea07cbe19cc1abe074c03f77b997b",
-    "sizeBytes": 4187,
-    "lines": 60,
+    "contentHash": "d913e036eb62ec6b2962f8dff73b21cba582982cc9e3f1593e74bb82b3871d1f",
+    "sizeBytes": 4424,
+    "lines": 65,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -669,7 +768,8 @@
       "Implemented",
       "Current Limitations",
       "Next Priorities",
-      "Later Ideas"
+      "Later Ideas",
+      "md"
     ],
     "isTest": false,
     "summary": "ROADMAP.md is a Markdown implementation file. Defines and, views, Roadmap, Implemented, Current Limitations.",
@@ -689,9 +789,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "e345c3fc38bbe98461d956fe0c195116946fb97f68542dc70838b84e361a528b",
-    "sizeBytes": 2668,
-    "lines": 76,
+    "contentHash": "26e640da7ba4d69cd7b5a0f8e149bfe0e15ac37b126b8e1c1f45b9ac38099a62",
+    "sizeBytes": 2796,
+    "lines": 80,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -701,8 +801,8 @@
       "Goal Workspaces",
       "App Visibility",
       "Intended Workflow",
-      "json",
       "md",
+      "json",
       "user"
     ],
     "isTest": false,
@@ -713,6 +813,60 @@
       "subsystem.docs.examples",
       "subsystem.docs.examples.slice.guides",
       "subsystem.docs.examples.file.docs.scope.contracts.md"
+    ]
+  },
+  {
+    "path": "docs/STABLE_VS_EXPERIMENTAL.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "9040fd739335d6b03af0a123bda454ca9527c06afbc6572cadf13d8a96d642e0",
+    "sizeBytes": 2826,
+    "lines": 40,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "Stable vs Experimental",
+      "Status Definitions",
+      "Safety Boundaries"
+    ],
+    "isTest": false,
+    "summary": "STABLE_VS_EXPERIMENTAL.md is a Markdown implementation file. Defines Stable vs Experimental, Status Definitions, Safety Boundaries.",
+    "ownedByNodeIds": [
+      "file.docs.stable.vs.experimental.md",
+      "module.docs",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.stable.vs.experimental.md"
+    ]
+  },
+  {
+    "path": "docs/VISUAL_DEMO.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "f9e9ea116dc9a755fbe8bf5e6730f60c800c299e0a0f4faf3eb774ec6de271ba",
+    "sizeBytes": 2275,
+    "lines": 56,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "Visual Demo",
+      "Launch the Demo",
+      "What the App Shows",
+      "Walkthrough",
+      "Screenshot Placeholders",
+      "md",
+      "png"
+    ],
+    "isTest": false,
+    "summary": "VISUAL_DEMO.md is a Markdown implementation file. Defines Visual Demo, Launch the Demo, What the App Shows, Walkthrough, Screenshot Placeholders.",
+    "ownedByNodeIds": [
+      "file.docs.visual.demo.md",
+      "module.docs",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.visual.demo.md"
     ]
   },
   {
@@ -940,6 +1094,29 @@
     ]
   },
   {
+    "path": "examples/small-web-app/README.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "9169ed7a43e7c3557f549e9ed6e205896696b6afc52bfa573650d635228936b9",
+    "sizeBytes": 891,
+    "lines": 24,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "Small Web App Example"
+    ],
+    "isTest": false,
+    "summary": "This compact fixture demonstrates the stable Abstraction Tree workflow without requiring a large real project. Use it for the beginner walkthrough:",
+    "ownedByNodeIds": [
+      "file.examples.small.web.app.readme.md",
+      "module.examples",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.small.web.app.readme.md"
+    ]
+  },
+  {
     "path": "examples/small-web-app/src/api/checkout.ts",
     "extension": ".ts",
     "language": "TypeScript",
@@ -1164,9 +1341,9 @@
     "extension": ".json",
     "language": "JSON",
     "parseStrategy": "regex",
-    "contentHash": "73d6eebf3c7df31fe76c965bc49e9e22c072a579422d94030d3cbf3cbaaaedb9",
-    "sizeBytes": 2777,
-    "lines": 51,
+    "contentHash": "ae86329bdb5ed920c7e0811014e3b77b6af418ddd03f3e5059b055b8699c76f5",
+    "sizeBytes": 2851,
+    "lines": 52,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -2154,9 +2331,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "bbec3e126a3df026bd51c8ea6c8ed437d19a9ef6e903ebf4ceec12ecf03d9760",
-    "sizeBytes": 7601,
-    "lines": 189,
+    "contentHash": "917404a3e086887bf386e91fca98baab159371bcec6156fe6b7ff8a80cbaf8e7",
+    "sizeBytes": 9034,
+    "lines": 220,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
@@ -2196,9 +2373,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "4af3e9adfe83d0e48956fedd617be1a4d735072d1cb345f81f44f88b552c9b4c",
-    "sizeBytes": 18048,
-    "lines": 534,
+    "contentHash": "78fb948837c05fa7ef66fbdfeb947c89e9a44226e1775a09245c8b015fa13f8d",
+    "sizeBytes": 18121,
+    "lines": 536,
     "imports": [
       "node:fs",
       "node:fs/promises",
@@ -2270,6 +2447,44 @@
       "subsystem.cli.local.api",
       "subsystem.cli.local.api.slice.commands",
       "subsystem.cli.local.api.file.packages.cli.src.doctor.ts"
+    ]
+  },
+  {
+    "path": "packages/cli/src/exportCommand.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "06086975baac102bb91d22449ffef0b5b8a85548f7e42143033e4c548fc441e9",
+    "sizeBytes": 2647,
+    "lines": 92,
+    "imports": [
+      "node:assert/strict",
+      "node:child_process",
+      "node:fs",
+      "node:os",
+      "node:path",
+      "node:test",
+      "node:url",
+      "@abstraction-tree/core"
+    ],
+    "exports": [],
+    "symbols": [
+      "cliPath",
+      "root",
+      "output",
+      "fixtureProject",
+      "atreeDir",
+      "nodes",
+      "node"
+    ],
+    "isTest": true,
+    "summary": "exportCommand.test.ts is a TypeScript test coverage file. AST-backed scan. Defines cliPath, root, output, fixtureProject, atreeDir. Depends on node:assert/strict, node:child_process, node:fs, node:os.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.exportcommand.test.ts",
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.exportcommand.test.ts"
     ]
   },
   {
@@ -2410,11 +2625,12 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "811c5e0cf13045381b8796ff46fb122681d64bd76176761bc9bcd6d94a2ca03b",
-    "sizeBytes": 16969,
-    "lines": 395,
+    "contentHash": "23dd5f99952f1d950ee234bad224e5a6dd9e33f7587075f57e3c5020f34928a0",
+    "sizeBytes": 18617,
+    "lines": 435,
     "imports": [
       "commander",
+      "node:fs/promises",
       "node:path",
       "node:http",
       "sirv",
@@ -2439,6 +2655,7 @@
       "contextOutputFormat",
       "contextMaxTokens",
       "parsed",
+      "treeExportFormat",
       "root",
       "mode",
       "line",
@@ -2460,6 +2677,8 @@
       "changes",
       "pack",
       "out",
+      "output",
+      "outPath",
       "issue",
       "filePath",
       "changesCommand",
@@ -2469,13 +2688,10 @@
       "warning",
       "appDist",
       "serveStatic",
-      "server",
-      "state",
-      "appUrl",
-      "openUrl"
+      "server"
     ],
     "isTest": false,
-    "summary": "index.ts is a TypeScript implementation file. AST-backed scan. Defines program, projectPath, ContextOutputFormat, contextOutputFormat, contextMaxTokens. Depends on commander, node:path, node:http, sirv.",
+    "summary": "index.ts is a TypeScript implementation file. AST-backed scan. Defines program, projectPath, ContextOutputFormat, contextOutputFormat, contextMaxTokens. Depends on commander, node:fs/promises, node:path, node:http.",
     "ownedByNodeIds": [
       "file.packages.cli.src.index.ts",
       "module.packages",
@@ -3192,9 +3408,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "548d09e80e1abbe073672cbe5c73020b013ee7aa457b9b120ab9952887379e4d",
-    "sizeBytes": 10941,
-    "lines": 291,
+    "contentHash": "c77f822f1e32c0e5808ebf6b69129841ae936b7baedf99bbf8967a9c2655b647",
+    "sizeBytes": 11321,
+    "lines": 301,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
@@ -3249,9 +3465,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "0a4d56d294c6e14d59fe3d7391e387cabfa1eb342322e1e642a0fd350891de2d",
-    "sizeBytes": 12308,
-    "lines": 386,
+    "contentHash": "ac0a70a035e0f5c570e3ff30ab60c2580cbd08c534d5b18bc1c9db39507f11df",
+    "sizeBytes": 12614,
+    "lines": 390,
     "imports": [
       "node:child_process",
       "node:fs",
@@ -3301,6 +3517,7 @@
       "validateAutomation",
       "issues",
       "runGit",
+      "hasAutomationState",
       "configPath",
       "config",
       "runtimeExamplePath",
@@ -3308,8 +3525,7 @@
       "missionRuntimeExamplePath",
       "missionRuntime",
       "runtimePath",
-      "validateAutomationConfig",
-      "field"
+      "validateAutomationConfig"
     ],
     "isTest": false,
     "summary": "automationValidation.ts is a TypeScript implementation file. AST-backed scan. Defines execFileAsync, AutomationValidationOptions, GitResult, GitRunner, AUTOMATION_DIR. Depends on node:child_process, node:fs, node:fs/promises, node:path.",
@@ -3819,6 +4035,82 @@
     ]
   },
   {
+    "path": "packages/core/src/exportGraph.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "121f673af43334c8073f93f9cd404632bd7e5d3768f5a9797479d8381bf6452f",
+    "sizeBytes": 1428,
+    "lines": 55,
+    "imports": [
+      "node:assert/strict",
+      "node:test",
+      "./exportGraph.js",
+      "./schema.js"
+    ],
+    "exports": [],
+    "symbols": [
+      "output",
+      "nodes",
+      "node"
+    ],
+    "isTest": true,
+    "summary": "exportGraph.test.ts is a TypeScript test coverage file. AST-backed scan. Defines output, nodes, node. Depends on node:assert/strict, node:test, ./exportGraph.js, ./schema.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.exportgraph.test.ts",
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.exportgraph.test.ts"
+    ]
+  },
+  {
+    "path": "packages/core/src/exportGraph.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "73b16c380e4a8d286af3f9b7e898810b01de183321bd7096e67d20ea6468c16a",
+    "sizeBytes": 2029,
+    "lines": 67,
+    "imports": [
+      "./schema.js"
+    ],
+    "exports": [
+      "TreeExportFormat",
+      "formatTreeExport",
+      "formatTreeMermaid",
+      "formatTreeDot"
+    ],
+    "symbols": [
+      "TreeExportFormat",
+      "formatTreeExport",
+      "formatTreeMermaid",
+      "ids",
+      "lines",
+      "nodeId",
+      "diagramId",
+      "node",
+      "parentId",
+      "parentDiagramId",
+      "childDiagramId",
+      "formatTreeDot",
+      "nodeIds",
+      "labelFor",
+      "escapeMermaidLabel",
+      "escapeDot"
+    ],
+    "isTest": false,
+    "summary": "exportGraph.ts is a TypeScript implementation file. AST-backed scan. Defines TreeExportFormat, formatTreeExport, formatTreeMermaid, ids, lines. Depends on ./schema.js.",
+    "ownedByNodeIds": [
+      "file.packages.core.src.exportgraph.ts",
+      "module.packages",
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.core.support",
+      "subsystem.core.engine.file.packages.core.src.exportgraph.ts"
+    ]
+  },
+  {
     "path": "packages/core/src/goal.test.ts",
     "extension": ".ts",
     "language": "TypeScript",
@@ -4055,9 +4347,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "1ce1fda83af19176d91835874b2cc0bb781f19ebca718071c8221cb5ba4ecaf9",
-    "sizeBytes": 706,
-    "lines": 22,
+    "contentHash": "3ddc07bb597dd62ef86f177936abea1b4453179c776c5591836fd221e4290571",
+    "sizeBytes": 740,
+    "lines": 23,
     "imports": [
       "./schema.js",
       "./runtimeSchema.js",
@@ -4068,6 +4360,7 @@
       "./treeBuilder.js",
       "./context.js",
       "./contextLimits.js",
+      "./exportGraph.js",
       "./changeReview.js",
       "./runReports.js",
       "./validator.js",
@@ -5610,9 +5903,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "b3907830f2a056ea6ba6f36192c4be0cb9f62170914b9b44ddb0d5accd674a6f",
-    "sizeBytes": 5941,
-    "lines": 159,
+    "contentHash": "1adc474dd1661ab403b7f940be2a140754c4eb58d781ce7ab571e5482e1fa6e9",
+    "sizeBytes": 6971,
+    "lines": 177,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -5621,6 +5914,7 @@
       "What This Is Not",
       "Quick Start",
       "Main Workflow",
+      "Stable vs Advanced",
       "Visual App",
       "Development",
       "Docs",
@@ -6578,9 +6872,9 @@
     "extension": ".mjs",
     "language": "JavaScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "a0c2afbc05789a79a448388dcedbe7905a8349088151d91d9904ad9eca59741e",
-    "sizeBytes": 14813,
-    "lines": 431,
+    "contentHash": "817ec90fc4bc67f36831b315adec1b2605a0173a6b0aaa44fe50ea728076a1c7",
+    "sizeBytes": 15208,
+    "lines": 434,
     "imports": [
       "node:fs/promises",
       "node:fs",
@@ -6643,6 +6937,40 @@
       "subsystem.tests.quality",
       "subsystem.tests.quality.slice.script.quality",
       "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs"
+    ]
+  },
+  {
+    "path": "scripts/productization-docs.test.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "6e653150f5cca0548faf0ddbcb6921e35db13d933d19ab62a2f57e8399fe94f1",
+    "sizeBytes": 1958,
+    "lines": 47,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:path",
+      "node:test",
+      "node:url"
+    ],
+    "exports": [],
+    "symbols": [
+      "repoRoot",
+      "readme",
+      "doc",
+      "packaging",
+      "releaseDryRun",
+      "readProjectFile"
+    ],
+    "isTest": true,
+    "summary": "productization-docs.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines repoRoot, readme, doc, packaging, releaseDryRun. Depends on node:assert/strict, node:fs/promises, node:path, node:test.",
+    "ownedByNodeIds": [
+      "file.scripts.productization.docs.test.mjs",
+      "module.scripts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.productization.docs.test.mjs"
     ]
   },
   {
@@ -6732,9 +7060,9 @@
     "extension": ".mjs",
     "language": "JavaScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "3146c39601c229bb929f43c6b140a8b542a5c267b956da7c230f1a21c6e4358b",
-    "sizeBytes": 2586,
-    "lines": 85,
+    "contentHash": "4e94d90add1828c0eb6b96df87b772060f46fb6931daafc06fdacfab2875671d",
+    "sizeBytes": 2817,
+    "lines": 93,
     "imports": [
       "node:child_process",
       "node:path",
@@ -7370,9 +7698,9 @@
     "extension": ".mjs",
     "language": "JavaScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "a848e0d15f023db72a8bf7ad2ede036d62299cddda05f17cf4da5f58b37bfc35",
-    "sizeBytes": 5665,
-    "lines": 142,
+    "contentHash": "3d1aac6368bb0dde77474a8da1e07b788a46a50a9b32eff629654483a93ec78a",
+    "sizeBytes": 5682,
+    "lines": 143,
     "imports": [
       "node:assert/strict",
       "node:path",

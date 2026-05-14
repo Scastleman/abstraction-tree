@@ -3,22 +3,55 @@
     "path": "package.json",
     "extension": ".json",
     "language": "JSON",
+    "parseStrategy": "regex",
+    "contentHash": "4c7a97522837449bd883fa21a519505b3565d3a8b255098d8174747cf4e4fbf5",
     "sizeBytes": 142,
     "lines": 9,
     "imports": [],
     "exports": [],
-    "symbols": [],
+    "symbols": [
+      "test"
+    ],
     "isTest": false,
-    "summary": "package.json is a JSON implementation file.",
+    "summary": "package.json is a JSON implementation file. Defines test.",
     "ownedByNodeIds": [
       "file.package.json",
-      "module.root"
+      "module.root",
+      "architecture.package.distribution",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.manifests",
+      "subsystem.packaging.adapters.file.package.json"
+    ]
+  },
+  {
+    "path": "README.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "9169ed7a43e7c3557f549e9ed6e205896696b6afc52bfa573650d635228936b9",
+    "sizeBytes": 891,
+    "lines": 24,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "Small Web App Example"
+    ],
+    "isTest": false,
+    "summary": "This compact fixture demonstrates the stable Abstraction Tree workflow without requiring a large real project. Use it for the beginner walkthrough:",
+    "ownedByNodeIds": [
+      "file.readme.md",
+      "module.root",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.readme",
+      "subsystem.docs.examples.file.readme.md"
     ]
   },
   {
     "path": "src/api/checkout.ts",
     "extension": ".ts",
     "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "87a99a057b56a741395efd7d1bb17157c701c14e974dd84ce13f23f281979264",
     "sizeBytes": 480,
     "lines": 10,
     "imports": [
@@ -26,23 +59,32 @@
       "../services/payment",
       "../services/orders"
     ],
-    "exports": [],
+    "exports": [
+      "checkout"
+    ],
     "symbols": [
       "checkout",
       "cart",
       "payment"
     ],
     "isTest": false,
-    "summary": "checkout.ts is a TypeScript implementation file. Defines checkout, cart, payment. Depends on ../services/cart, ../services/payment, ../services/orders.",
+    "summary": "checkout.ts is a TypeScript implementation file. AST-backed scan. Defines checkout, cart, payment. Depends on ../services/cart, ../services/payment, ../services/orders.",
     "ownedByNodeIds": [
       "file.src.api.checkout.ts",
-      "module.src"
+      "module.src",
+      "architecture.local.api.routes",
+      "architecture.runtime.dataflow",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.src.api.checkout.ts"
     ]
   },
   {
     "path": "src/components/CheckoutForm.tsx",
     "extension": ".tsx",
     "language": "TypeScript React",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "59f7042aa4402f82ce7b9312d299763a60dd9f7631bc8f5c6273de99d19d2e93",
     "sizeBytes": 98,
     "lines": 4,
     "imports": [],
@@ -53,83 +95,133 @@
       "CheckoutForm"
     ],
     "isTest": false,
-    "summary": "CheckoutForm.tsx is a TypeScript React implementation file. Defines CheckoutForm.",
+    "summary": "CheckoutForm.tsx is a TypeScript React implementation file. AST-backed scan. Defines CheckoutForm.",
     "ownedByNodeIds": [
       "file.src.components.checkoutform.tsx",
-      "module.src"
+      "module.src",
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.src.components.checkoutform.tsx"
     ]
   },
   {
     "path": "src/services/cart.ts",
     "extension": ".ts",
     "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "3f372647bf1f3394a90886a8738df74c71775c43c84a58abe9f96181b86ed6e3",
     "sizeBytes": 215,
     "lines": 5,
     "imports": [],
-    "exports": [],
+    "exports": [
+      "validateCart"
+    ],
     "symbols": [
       "validateCart"
     ],
     "isTest": false,
-    "summary": "cart.ts is a TypeScript implementation file. Defines validateCart.",
+    "summary": "cart.ts is a TypeScript implementation file. AST-backed scan. Defines validateCart.",
     "ownedByNodeIds": [
       "file.src.services.cart.ts",
-      "module.src"
+      "module.src",
+      "architecture.runtime.dataflow"
     ]
   },
   {
     "path": "src/services/orders.ts",
     "extension": ".ts",
     "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "0c6369488f9807ca1ccd8adafd260166ce445a7ee2f89983b6425e1f1b47008e",
     "sizeBytes": 159,
     "lines": 4,
     "imports": [],
-    "exports": [],
+    "exports": [
+      "createOrder"
+    ],
     "symbols": [
       "createOrder"
     ],
     "isTest": false,
-    "summary": "orders.ts is a TypeScript implementation file. Defines createOrder.",
+    "summary": "orders.ts is a TypeScript implementation file. AST-backed scan. Defines createOrder.",
     "ownedByNodeIds": [
       "file.src.services.orders.ts",
-      "module.src"
+      "module.src",
+      "architecture.runtime.dataflow"
     ]
   },
   {
     "path": "src/services/payment.ts",
     "extension": ".ts",
     "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "92bf41be5ade921a03ce8d3e34e619a7db307ac92add3202ff31bfebe5b7cc9d",
     "sizeBytes": 263,
     "lines": 6,
     "imports": [],
-    "exports": [],
+    "exports": [
+      "authorizePayment"
+    ],
     "symbols": [
       "authorizePayment"
     ],
     "isTest": false,
-    "summary": "payment.ts is a TypeScript implementation file. Defines authorizePayment.",
+    "summary": "payment.ts is a TypeScript implementation file. AST-backed scan. Defines authorizePayment.",
     "ownedByNodeIds": [
       "file.src.services.payment.ts",
-      "module.src"
+      "module.src",
+      "architecture.runtime.dataflow"
     ]
   },
   {
     "path": "tests/checkout.test.js",
     "extension": ".js",
     "language": "JavaScript",
-    "sizeBytes": 104,
-    "lines": 5,
+    "parseStrategy": "typescript-ast",
+    "contentHash": "6f2ef2b40ce1e5d88809d8dc327989dc6ba49b7c622d9aff90be6bcf051d81d1",
+    "sizeBytes": 5408,
+    "lines": 146,
     "imports": [
       "node:assert/strict",
-      "assert"
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:test",
+      "node:url",
+      "typescript"
     ],
     "exports": [],
-    "symbols": [],
+    "symbols": [
+      "testDir",
+      "exampleRoot",
+      "compilerOptions",
+      "root",
+      "calls",
+      "checkout",
+      "result",
+      "cart",
+      "validateCart",
+      "authorizePayment",
+      "writeActualCheckoutModules",
+      "writeMockServices",
+      "readSource",
+      "writeTranspiled",
+      "output",
+      "rewriteCheckoutServiceImports",
+      "writeFileAt",
+      "filePath",
+      "makeWorkspace",
+      "importModule"
+    ],
     "isTest": true,
-    "summary": "checkout.test.js is a JavaScript test coverage file. Depends on node:assert/strict, assert.",
+    "summary": "checkout.test.js is a JavaScript test coverage file. AST-backed scan. Defines testDir, exampleRoot, compilerOptions, root, calls. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.tests.checkout.test.js",
-      "module.tests"
+      "module.tests",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.quality.support",
+      "subsystem.tests.quality.file.tests.checkout.test.js"
     ]
   }
 ]

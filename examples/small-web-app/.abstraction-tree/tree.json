@@ -5,7 +5,42 @@
     "title": "small-web-app",
     "abstractionLevel": "project-purpose",
     "level": "project-purpose",
-    "summary": "Top-level purpose and semantic map for small-web-app.",
+    "summary": "This compact fixture demonstrates the stable Abstraction Tree workflow without requiring a large real project. Use it for the beginner walkthrough:",
+    "children": [
+      "subsystem.visual.app",
+      "subsystem.cli.local.api",
+      "subsystem.docs.examples",
+      "subsystem.packaging.adapters",
+      "subsystem.tests.quality",
+      "project.indexes"
+    ],
+    "sourceFiles": [],
+    "ownedFiles": [],
+    "responsibilities": [],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65,
+    "explanation": "This node represents the project-level purpose of small-web-app. It exists so humans and agents start from the repository's durable outcome before narrowing a prompt to a human subsystem, support index, architecture boundary, module, or file scope. Its child nodes are Visual App / Explorer, CLI and Local API, Docs and Examples, Packaging and Adapters, Tests and Quality Gates, Project Indexes, which split the project into inferred human-facing subsystems plus deterministic support indexes. Use this node when deciding whether a request is truly project-wide; otherwise move down the tree and constrain the change to the smallest responsible subtree. Before changing it, check README positioning, public docs, and abstraction memory so the stated product direction remains aligned.",
+    "reasonForExistence": "This node exists to keep every change tied to the repository's durable purpose before an agent narrows scope or starts editing.",
+    "separationLogic": "Separation logic: child nodes are partitioned first by human-facing subsystem ownership inferred from package roots, runtime surfaces, scripts, docs, tests, and memory responsibilities. Project Indexes is a support partition that preserves deterministic concept, architecture, and code views for agents that need cross-cutting lookup rather than subsystem-first navigation. Current partitions Visual App / Explorer, CLI and Local API, Docs and Examples, Packaging and Adapters, Tests and Quality Gates, Project Indexes. Choose the child whose partition matches the prompt before widening scope."
+  },
+  {
+    "id": "project.indexes",
+    "name": "Project Indexes",
+    "title": "Project Indexes",
+    "abstractionLevel": "human-subsystems",
+    "level": "human-subsystems",
+    "summary": "Deterministic concept, architecture, and code indexes that support subsystem navigation.",
+    "parent": "project.intent",
+    "parentId": "project.intent",
     "children": [
       "project.domain",
       "project.architecture",
@@ -24,7 +59,10 @@
       "allowedToChange": [],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.65,
+    "explanation": "This node represents deterministic support indexes for the project. It exists because the root is optimized for human subsystem navigation, while agents still need stable concept, architecture, and code indexes for scope checks, context packs, validation, and overreach control. Its children are Domain Concept Layer, Application / UI Runtime Layer, Package / Module Layer, which index the same repository through vocabulary, runtime boundaries, and concrete ownership. Use this node when a prompt is better answered by cross-cutting lookup than by one subsystem, such as finding all files related to a concept or verifying package/file ownership. Before changing it, preserve the indexed child views because CLI, context, validation, and agent protocols rely on them as durable lookup surfaces.",
+    "reasonForExistence": "This node exists so deterministic lookup views remain available even when the main tree is organized around human-facing subsystems.",
+    "separationLogic": "Separation logic: children partition the same project evidence by index style. The concept index groups recurring vocabulary, the architecture index groups runtime and package boundaries, and the code index groups concrete folder and file ownership. Current index partitions Domain Concept Layer, Application / UI Runtime Layer, Package / Module Layer. Use these indexes to cross-check subsystem scope without replacing the subsystem-first view."
   },
   {
     "id": "project.domain",
@@ -33,17 +71,17 @@
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
     "summary": "Human-level concepts inferred from names, folders, and code symbols.",
-    "parent": "project.intent",
-    "parentId": "project.intent",
+    "parent": "project.indexes",
+    "parentId": "project.indexes",
     "children": [
-      "concept-node.auth",
       "concept-node.checkout",
+      "concept-node.cart",
       "concept-node.payment",
-      "concept-node.order",
-      "concept-node.api",
-      "concept-node.test",
-      "concept-node.component",
-      "concept-node.service"
+      "concept-node.authorize",
+      "concept-node.authorize.payment",
+      "concept-node.checkout.form",
+      "concept-node.form",
+      "concept-node.order"
     ],
     "sourceFiles": [],
     "ownedFiles": [],
@@ -56,7 +94,10 @@
       "allowedToChange": [],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.65,
+    "explanation": "This node represents the human-level concepts inferred from repository paths, symbols, exports, tests, and documentation names. It exists to collect domain vocabulary that may cut across folders, so an agent can find related files without treating the whole repository as the change boundary. It owns concept nodes such as Checkout, Cart, Payment, Authorize, Authorize Payment, Checkout Form, and 2 more. Use this layer when a prompt names a behavior, product idea, or recurring term rather than a specific file. Concept nodes are deterministic evidence, not a complete semantic model; confirm the related files before editing.",
+    "reasonForExistence": "This node exists so recurring project vocabulary can be inspected across folders without widening every concept-related prompt to the full repository.",
+    "separationLogic": "Separation logic: each child is a concept cluster created from repeated evidence in paths, symbols, exports, tests, or documentation names. Current concept partitions Checkout, Cart, Payment, Authorize, Authorize Payment, Checkout Form, and 2 more. Concepts are separated by vocabulary signal rather than package layout, so one cross-cutting idea can be inspected without pulling in unrelated concepts."
   },
   {
     "id": "project.architecture",
@@ -65,9 +106,14 @@
     "abstractionLevel": "application.ui.runtime.layer",
     "level": "application.ui.runtime.layer",
     "summary": "Runtime systems, dataflow, and implementation boundaries inferred from repository structure.",
-    "parent": "project.intent",
-    "parentId": "project.intent",
-    "children": [],
+    "parent": "project.indexes",
+    "parentId": "project.indexes",
+    "children": [
+      "architecture.visual.app.ui",
+      "architecture.local.api.routes",
+      "architecture.runtime.dataflow",
+      "architecture.package.distribution"
+    ],
     "sourceFiles": [],
     "ownedFiles": [],
     "responsibilities": [],
@@ -81,7 +127,10 @@
       "allowedToChange": [],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.65,
+    "explanation": "This node represents the repository's runtime and package architecture as inferred from package metadata, source paths, imports, entrypoints, and local API boundaries. It exists to show the system-level surfaces where overreach is most likely: CLI entrypoints, core engines, visual app boundaries, distribution, and runtime dataflow. Its architecture children include Visual App UI, Local API Routes, Runtime Dataflow, Package Distribution. Use this node to understand cross-module impact before changing command surfaces, APIs, package boundaries, or shared engines. Before modifying architecture-level nodes, check dependent docs, tests, and invariants because changes here often affect multiple lower-level modules.",
+    "reasonForExistence": "This node exists to expose runtime and package boundaries where a small-looking request can affect commands, APIs, packages, or shared engines.",
+    "separationLogic": "Separation logic: architecture children are partitioned by runtime surface, package boundary, API boundary, and dependency-flow evidence. Current architecture partitions Visual App UI, Local API Routes, Runtime Dataflow, Package Distribution. CLI, core engine, scanner/context pipeline, visual app, distribution, and dataflow surfaces stay separate so a prompt can target one integration boundary instead of blending multiple system contracts."
   },
   {
     "id": "project.code",
@@ -90,8 +139,8 @@
     "abstractionLevel": "package.module.layer",
     "level": "package.module.layer",
     "summary": "Package, folder, and file ownership extracted from the repository.",
-    "parent": "project.intent",
-    "parentId": "project.intent",
+    "parent": "project.indexes",
+    "parentId": "project.indexes",
     "children": [
       "module.root",
       "module.src",
@@ -110,7 +159,10 @@
       "allowedToChange": [],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.65,
+    "explanation": "This node represents concrete package, folder, and file ownership extracted from the repository. It exists to turn the project into bounded subtrees that agents can use as change limits for ordinary implementation work. It owns top-level module nodes such as Root, Src, Tests. Start here when a prompt names a folder, package, script, or file family. Move from this node to a module or file node before editing whenever the requested change can be localized.",
+    "reasonForExistence": "This node exists to preserve the concrete folder and file ownership index that agents use when they need the narrowest durable edit boundary.",
+    "separationLogic": "Separation logic: module children are partitioned by top-level repository path or package folder. Current module partitions Root, Src, Tests. Each child owns the files under one top-level path, then file children provide the next narrower boundary for implementation."
   },
   {
     "id": "module.root",
@@ -122,13 +174,16 @@
     "parent": "project.code",
     "parentId": "project.code",
     "children": [
-      "file.package.json"
+      "file.package.json",
+      "file.readme.md"
     ],
     "sourceFiles": [
-      "package.json"
+      "package.json",
+      "README.md"
     ],
     "ownedFiles": [
-      "package.json"
+      "package.json",
+      "README.md"
     ],
     "responsibilities": [
       "Own files and behavior under root."
@@ -141,11 +196,15 @@
     ],
     "changePolicy": {
       "allowedToChange": [
-        "package.json"
+        "package.json",
+        "README.md"
       ],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.65,
+    "explanation": "This node represents the Root module or folder within Package / Module Layer. It exists to group files under the repository root so changes can be scoped to a concrete ownership boundary instead of the whole repository. Owned files include package.json, README.md. Its child nodes map file-level responsibilities such as package.json, README.md. Use this node when a prompt targets a package, folder, or local subsystem. Before broad edits here, check whether an architecture node also owns the affected files and whether tests or docs under the same module need to move with the change.",
+    "reasonForExistence": "This module node exists to group 2 scanned file(s) under the repository root so folder-level prompts have a clear ownership boundary.",
+    "separationLogic": "Separation logic: file children are partitioned one scanned file per node. Current file partitions package.json, README.md. This mirrors 2 owned file(s), making each child the narrowest durable edit boundary available to the deterministic scanner. Sibling files stay separate unless imports, tests, invariants, or shared symbols show that a prompt crosses file boundaries."
   },
   {
     "id": "module.src",
@@ -196,7 +255,10 @@
       ],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.65,
+    "explanation": "This node represents the Src module or folder within Package / Module Layer. It exists to group files under src/ so changes can be scoped to a concrete ownership boundary instead of the whole repository. Owned files include src/api/checkout.ts, src/components/CheckoutForm.tsx, src/services/cart.ts, src/services/orders.ts, src/services/payment.ts. Its child nodes map file-level responsibilities such as checkout.ts, CheckoutForm.tsx, cart.ts, orders.ts, payment.ts. Use this node when a prompt targets a package, folder, or local subsystem. Before broad edits here, check whether an architecture node also owns the affected files and whether tests or docs under the same module need to move with the change.",
+    "reasonForExistence": "This module node exists to group 5 scanned file(s) under src/ so folder-level prompts have a clear ownership boundary.",
+    "separationLogic": "Separation logic: file children are partitioned one scanned file per node. Current file partitions checkout.ts, CheckoutForm.tsx, cart.ts, orders.ts, payment.ts. This mirrors 5 owned file(s), making each child the narrowest durable edit boundary available to the deterministic scanner. Sibling files stay separate unless imports, tests, invariants, or shared symbols show that a prompt crosses file boundaries."
   },
   {
     "id": "module.tests",
@@ -231,7 +293,10 @@
       ],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.65,
+    "explanation": "This node represents the Tests module or folder within Package / Module Layer. It exists to group files under tests/ so changes can be scoped to a concrete ownership boundary instead of the whole repository. Owned files include tests/checkout.test.js. Its child nodes map file-level responsibilities such as checkout.test.js. Use this node when a prompt targets a package, folder, or local subsystem. Before broad edits here, check whether an architecture node also owns the affected files and whether tests or docs under the same module need to move with the change.",
+    "reasonForExistence": "This module node exists to group 1 scanned file(s) under tests/ so folder-level prompts have a clear ownership boundary.",
+    "separationLogic": "Separation logic: file children are partitioned one scanned file per node. Current file partitions checkout.test.js. This mirrors 1 owned file(s), making each child the narrowest durable edit boundary available to the deterministic scanner. Sibling files stay separate unless imports, tests, invariants, or shared symbols show that a prompt crosses file boundaries."
   },
   {
     "id": "file.package.json",
@@ -239,7 +304,7 @@
     "title": "package.json",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "package.json is a JSON implementation file.",
+    "summary": "package.json is a JSON implementation file. Defines test.",
     "parent": "module.root",
     "parentId": "module.root",
     "children": [],
@@ -250,7 +315,7 @@
       "package.json"
     ],
     "responsibilities": [
-      "package.json is a JSON implementation file."
+      "package.json is a JSON implementation file. Defines test."
     ],
     "dependencies": [],
     "dependsOn": [],
@@ -264,7 +329,44 @@
       ],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.65,
+    "explanation": "This node represents package.json, a file-level ownership boundary under Root. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show JSON content with 9 line(s), 0 import(s), 0 export(s), and 1 symbol(s). Important symbols include test. Higher-level nodes depending on this file include Package Distribution, Packaging and Adapters, Package Manifests, package.json. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "reasonForExistence": "This file node exists to make package.json a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
+  },
+  {
+    "id": "file.readme.md",
+    "name": "README.md",
+    "title": "README.md",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "This compact fixture demonstrates the stable Abstraction Tree workflow without requiring a large real project. Use it for the beginner walkthrough:",
+    "parent": "module.root",
+    "parentId": "module.root",
+    "children": [],
+    "sourceFiles": [
+      "README.md"
+    ],
+    "ownedFiles": [
+      "README.md"
+    ],
+    "responsibilities": [
+      "This compact fixture demonstrates the stable Abstraction Tree workflow without requiring a large real project. Use it for the beginner walkthrough:"
+    ],
+    "dependencies": [],
+    "dependsOn": [],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "README.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.65,
+    "explanation": "This node represents README.md, a file-level ownership boundary under Root. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show Markdown content with 24 line(s), 0 import(s), 0 export(s), and 1 symbol(s). Important symbols include Small Web App Example. Higher-level nodes depending on this file include Docs and Examples, Project README, README.md. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "reasonForExistence": "This file node exists to make README.md a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
     "id": "file.src.api.checkout.ts",
@@ -272,7 +374,7 @@
     "title": "checkout.ts",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "checkout.ts is a TypeScript implementation file. Defines checkout, cart, payment. Depends on ../services/cart, ../services/payment, ../services/orders.",
+    "summary": "checkout.ts is a TypeScript implementation file. AST-backed scan. Defines checkout, cart, payment. Depends on ../services/cart, ../services/payment, ../services/orders.",
     "parent": "module.src",
     "parentId": "module.src",
     "children": [],
@@ -283,7 +385,7 @@
       "src/api/checkout.ts"
     ],
     "responsibilities": [
-      "checkout.ts is a TypeScript implementation file. Defines checkout, cart, payment. Depends on ../services/cart, ../services/payment, ../services/orders."
+      "checkout.ts is a TypeScript implementation file. AST-backed scan. Defines checkout, cart, payment. Depends on ../services/cart, ../services/payment, ../services/orders."
     ],
     "dependencies": [
       "import:../services/cart",
@@ -305,7 +407,9 @@
       ],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.65,
+    "explanation": "This node represents src/api/checkout.ts, a file-level ownership boundary under Src. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 10 line(s), 3 import(s), 1 export(s), and 3 symbol(s). Important symbols include checkout, cart, payment. Exports include checkout. Imports include ../services/cart, ../services/payment, ../services/orders, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Local API Routes, Runtime Dataflow, CLI and Local API, CLI Support, checkout.ts, and 3 more. Related concept nodes include Checkout, Cart, Payment. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "reasonForExistence": "This file node exists to make src/api/checkout.ts a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
     "id": "file.src.components.checkoutform.tsx",
@@ -313,7 +417,7 @@
     "title": "CheckoutForm.tsx",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "CheckoutForm.tsx is a TypeScript React implementation file. Defines CheckoutForm.",
+    "summary": "CheckoutForm.tsx is a TypeScript React implementation file. AST-backed scan. Defines CheckoutForm.",
     "parent": "module.src",
     "parentId": "module.src",
     "children": [],
@@ -324,7 +428,7 @@
       "src/components/CheckoutForm.tsx"
     ],
     "responsibilities": [
-      "CheckoutForm.tsx is a TypeScript React implementation file. Defines CheckoutForm."
+      "CheckoutForm.tsx is a TypeScript React implementation file. AST-backed scan. Defines CheckoutForm."
     ],
     "dependencies": [],
     "dependsOn": [],
@@ -338,7 +442,9 @@
       ],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.65,
+    "explanation": "This node represents src/components/CheckoutForm.tsx, a file-level ownership boundary under Src. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript React content with 4 line(s), 0 import(s), 1 export(s), and 1 symbol(s). Important symbols include CheckoutForm. Exports include CheckoutForm. Higher-level nodes depending on this file include Visual App UI, Visual App / Explorer, UI Components, CheckoutForm.tsx, Checkout, and 2 more. Related concept nodes include Checkout, Checkout Form, Form. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "reasonForExistence": "This file node exists to make src/components/CheckoutForm.tsx a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
     "id": "file.src.services.cart.ts",
@@ -346,7 +452,7 @@
     "title": "cart.ts",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "cart.ts is a TypeScript implementation file. Defines validateCart.",
+    "summary": "cart.ts is a TypeScript implementation file. AST-backed scan. Defines validateCart.",
     "parent": "module.src",
     "parentId": "module.src",
     "children": [],
@@ -357,7 +463,7 @@
       "src/services/cart.ts"
     ],
     "responsibilities": [
-      "cart.ts is a TypeScript implementation file. Defines validateCart."
+      "cart.ts is a TypeScript implementation file. AST-backed scan. Defines validateCart."
     ],
     "dependencies": [],
     "dependsOn": [],
@@ -371,7 +477,9 @@
       ],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.65,
+    "explanation": "This node represents src/services/cart.ts, a file-level ownership boundary under Src. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 5 line(s), 0 import(s), 1 export(s), and 1 symbol(s). Important symbols include validateCart. Exports include validateCart. Higher-level nodes depending on this file include Local API Routes, Runtime Dataflow, CLI and Local API, CLI Support, Cart. Related concept nodes include Cart. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "reasonForExistence": "This file node exists to make src/services/cart.ts a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
     "id": "file.src.services.orders.ts",
@@ -379,7 +487,7 @@
     "title": "orders.ts",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "orders.ts is a TypeScript implementation file. Defines createOrder.",
+    "summary": "orders.ts is a TypeScript implementation file. AST-backed scan. Defines createOrder.",
     "parent": "module.src",
     "parentId": "module.src",
     "children": [],
@@ -390,7 +498,7 @@
       "src/services/orders.ts"
     ],
     "responsibilities": [
-      "orders.ts is a TypeScript implementation file. Defines createOrder."
+      "orders.ts is a TypeScript implementation file. AST-backed scan. Defines createOrder."
     ],
     "dependencies": [],
     "dependsOn": [],
@@ -404,7 +512,9 @@
       ],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.65,
+    "explanation": "This node represents src/services/orders.ts, a file-level ownership boundary under Src. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 4 line(s), 0 import(s), 1 export(s), and 1 symbol(s). Important symbols include createOrder. Exports include createOrder. Higher-level nodes depending on this file include Local API Routes, Runtime Dataflow, CLI and Local API, CLI Support, Order. Related concept nodes include Order. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "reasonForExistence": "This file node exists to make src/services/orders.ts a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
     "id": "file.src.services.payment.ts",
@@ -412,7 +522,7 @@
     "title": "payment.ts",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "payment.ts is a TypeScript implementation file. Defines authorizePayment.",
+    "summary": "payment.ts is a TypeScript implementation file. AST-backed scan. Defines authorizePayment.",
     "parent": "module.src",
     "parentId": "module.src",
     "children": [],
@@ -423,7 +533,7 @@
       "src/services/payment.ts"
     ],
     "responsibilities": [
-      "payment.ts is a TypeScript implementation file. Defines authorizePayment."
+      "payment.ts is a TypeScript implementation file. AST-backed scan. Defines authorizePayment."
     ],
     "dependencies": [],
     "dependsOn": [],
@@ -437,7 +547,9 @@
       ],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.65,
+    "explanation": "This node represents src/services/payment.ts, a file-level ownership boundary under Src. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show TypeScript content with 6 line(s), 0 import(s), 1 export(s), and 1 symbol(s). Important symbols include authorizePayment. Exports include authorizePayment. Higher-level nodes depending on this file include Local API Routes, Runtime Dataflow, CLI and Local API, CLI Support, Payment, and 2 more. Related concept nodes include Payment, Authorize, Authorize Payment. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "reasonForExistence": "This file node exists to make src/services/payment.ts a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
     "id": "file.tests.checkout.test.js",
@@ -445,7 +557,7 @@
     "title": "checkout.test.js",
     "abstractionLevel": "component.file.layer",
     "level": "component.file.layer",
-    "summary": "checkout.test.js is a JavaScript test coverage file. Depends on node:assert/strict, assert.",
+    "summary": "checkout.test.js is a JavaScript test coverage file. AST-backed scan. Defines testDir, exampleRoot, compilerOptions, root, calls. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "parent": "module.tests",
     "parentId": "module.tests",
     "children": [],
@@ -456,15 +568,25 @@
       "tests/checkout.test.js"
     ],
     "responsibilities": [
-      "checkout.test.js is a JavaScript test coverage file. Depends on node:assert/strict, assert."
+      "checkout.test.js is a JavaScript test coverage file. AST-backed scan. Defines testDir, exampleRoot, compilerOptions, root, calls. Depends on node:assert/strict, node:fs/promises, node:os, node:path."
     ],
     "dependencies": [
       "import:node:assert/strict",
-      "import:assert"
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:test",
+      "import:node:url",
+      "import:typescript"
     ],
     "dependsOn": [
       "import:node:assert/strict",
-      "import:assert"
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:test",
+      "import:node:url",
+      "import:typescript"
     ],
     "changeLog": [],
     "invariants": [
@@ -476,44 +598,949 @@
       ],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.65,
+    "explanation": "This node represents tests/checkout.test.js, a file-level ownership boundary under Tests. It exists so agents can reason about the smallest changeable unit after module or architecture scope has been narrowed. Scanner facts show JavaScript content with 146 line(s), 7 import(s), 0 export(s), and 20 symbol(s). Important symbols include testDir, exampleRoot, compilerOptions, root, calls, checkout, and 14 more. Imports include node:assert/strict, node:fs/promises, node:os, node:path, node:test, node:url, and 1 more, so callers should check those dependencies before changing behavior. Higher-level nodes depending on this file include Tests and Quality Gates, Quality Support, checkout.test.js, Checkout, Cart, and 3 more. Related concept nodes include Checkout, Cart, Payment, Authorize, and 1 more. Relevant invariants include Tests should reflect behavior changes. Use this node for narrow bug fixes, tests, copy changes, and local refactors; widen scope only when dependency or invariant evidence requires it.",
+    "reasonForExistence": "This file node exists to make tests/checkout.test.js a first-class edit boundary instead of forcing agents to reason only at folder or subsystem scale."
   },
   {
-    "id": "concept-node.auth",
-    "name": "Auth",
-    "title": "Auth",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Cross-cutting concept inferred from files and symbols containing \"auth\".",
-    "parent": "project.domain",
-    "parentId": "project.domain",
+    "id": "architecture.visual.app.ui",
+    "name": "Visual App UI",
+    "title": "Visual App UI",
+    "abstractionLevel": "application.ui.runtime.layer",
+    "level": "application.ui.runtime.layer",
+    "summary": "Browser interface inferred from UI entrypoints, component files, and React/Vite package dependencies.",
+    "parent": "project.architecture",
+    "parentId": "project.architecture",
     "children": [],
     "sourceFiles": [
-      "src/services/payment.ts"
+      "src/components/CheckoutForm.tsx"
     ],
     "ownedFiles": [
-      "src/services/payment.ts"
+      "src/components/CheckoutForm.tsx"
     ],
     "responsibilities": [
-      "Represent the cross-cutting Auth concept across related files."
+      "Render the abstraction hierarchy, files, concepts, invariants, change history, and automation health for human inspection.",
+      "Consume local project state exposed by the visual app API when present."
     ],
     "dependencies": [
-      "module.src",
-      "file.src.services.payment.ts"
+      "api-route:/api/state",
+      "file.src.components.checkoutform.tsx"
     ],
     "dependsOn": [
-      "module.src",
-      "file.src.services.payment.ts"
+      "api-route:/api/state",
+      "file.src.components.checkoutform.tsx"
     ],
     "changeLog": [],
     "invariants": [
       "invariant.tests-reflect-behavior"
     ],
     "changePolicy": {
-      "allowedToChange": [],
+      "allowedToChange": [
+        "src/components/CheckoutForm.tsx"
+      ],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.72,
+    "explanation": "This node represents the Visual App UI architecture boundary. It exists because deterministic evidence connected this boundary to 1 file(s) and related dependency references. Owned or cited files include src/components/CheckoutForm.tsx. Its main responsibilities are Render the abstraction hierarchy, files, concepts, invariants, change history, and automation health for human inspection, Consume local project state exposed by the visual app API when present. It depends on evidence such as api-route:/api/state, file.src.components.checkoutform.tsx. Other nodes depending on it include Checkout, Checkout Form, Form. Relevant invariants include Tests should reflect behavior changes. Treat this node as a system boundary: changes should preserve command/API compatibility, package responsibilities, and the lower-level file ownership it summarizes.",
+    "reasonForExistence": "Visual App UI exists because package metadata, source paths, imports, entrypoints, or runtime evidence identify it as a system boundary. It gives agents one place to inspect the 1 file(s) that participate in that boundary before changing shared behavior."
+  },
+  {
+    "id": "architecture.local.api.routes",
+    "name": "Local API Routes",
+    "title": "Local API Routes",
+    "abstractionLevel": "application.ui.runtime.layer",
+    "level": "application.ui.runtime.layer",
+    "summary": "Local API boundary inferred from source files under API or route folders.",
+    "parent": "project.architecture",
+    "parentId": "project.architecture",
+    "children": [],
+    "sourceFiles": [
+      "src/api/checkout.ts"
+    ],
+    "ownedFiles": [
+      "src/api/checkout.ts"
+    ],
+    "responsibilities": [
+      "Handle local request/response entrypoints represented by API route files.",
+      "Delegate request work to nearby services through resolved local imports when available."
+    ],
+    "dependencies": [
+      "file.src.api.checkout.ts",
+      "file.src.services.cart.ts",
+      "file.src.services.orders.ts",
+      "file.src.services.payment.ts",
+      "import:../services/cart",
+      "import:../services/orders",
+      "import:../services/payment"
+    ],
+    "dependsOn": [
+      "file.src.api.checkout.ts",
+      "file.src.services.cart.ts",
+      "file.src.services.orders.ts",
+      "file.src.services.payment.ts",
+      "import:../services/cart",
+      "import:../services/orders",
+      "import:../services/payment"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "src/api/checkout.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.7,
+    "explanation": "This node represents the Local API Routes architecture boundary. It exists because deterministic evidence connected this boundary to 1 file(s) and related dependency references. Owned or cited files include src/api/checkout.ts. Its main responsibilities are Handle local request/response entrypoints represented by API route files, Delegate request work to nearby services through resolved local imports when available. It depends on evidence such as file.src.api.checkout.ts, file.src.services.cart.ts, file.src.services.orders.ts, file.src.services.payment.ts, import:../services/cart, import:../services/orders, and 1 more. Other nodes depending on it include Checkout, Cart, Payment. Relevant invariants include Tests should reflect behavior changes. Treat this node as a system boundary: changes should preserve command/API compatibility, package responsibilities, and the lower-level file ownership it summarizes.",
+    "reasonForExistence": "Local API Routes exists because package metadata, source paths, imports, entrypoints, or runtime evidence identify it as a system boundary. It gives agents one place to inspect the 1 file(s) that participate in that boundary before changing shared behavior."
+  },
+  {
+    "id": "architecture.runtime.dataflow",
+    "name": "Runtime Dataflow",
+    "title": "Runtime Dataflow",
+    "abstractionLevel": "application.ui.runtime.layer",
+    "level": "application.ui.runtime.layer",
+    "summary": "Runtime data movement inferred from resolved imports between API/route entrypoints and service or data modules.",
+    "parent": "project.architecture",
+    "parentId": "project.architecture",
+    "children": [],
+    "sourceFiles": [
+      "src/api/checkout.ts",
+      "src/services/cart.ts",
+      "src/services/orders.ts",
+      "src/services/payment.ts"
+    ],
+    "ownedFiles": [
+      "src/api/checkout.ts",
+      "src/services/cart.ts",
+      "src/services/orders.ts",
+      "src/services/payment.ts"
+    ],
+    "responsibilities": [
+      "Connect local entrypoints to service, data, model, or pipeline modules that perform request work.",
+      "Expose dependency edges that are visible through deterministic import resolution."
+    ],
+    "dependencies": [
+      "file.src.api.checkout.ts",
+      "file.src.services.cart.ts",
+      "file.src.services.orders.ts",
+      "file.src.services.payment.ts",
+      "import:../services/cart",
+      "import:../services/orders",
+      "import:../services/payment"
+    ],
+    "dependsOn": [
+      "file.src.api.checkout.ts",
+      "file.src.services.cart.ts",
+      "file.src.services.orders.ts",
+      "file.src.services.payment.ts",
+      "import:../services/cart",
+      "import:../services/orders",
+      "import:../services/payment"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "src/api/checkout.ts",
+        "src/services/cart.ts",
+        "src/services/orders.ts",
+        "src/services/payment.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.68,
+    "explanation": "This node represents the Runtime Dataflow architecture boundary. It exists because deterministic evidence connected this boundary to 4 file(s) and related dependency references. Owned or cited files include src/api/checkout.ts, src/services/cart.ts, src/services/orders.ts, src/services/payment.ts. Its main responsibilities are Connect local entrypoints to service, data, model, or pipeline modules that perform request work, Expose dependency edges that are visible through deterministic import resolution. It depends on evidence such as file.src.api.checkout.ts, file.src.services.cart.ts, file.src.services.orders.ts, file.src.services.payment.ts, import:../services/cart, import:../services/orders, and 1 more. Other nodes depending on it include Checkout, Cart, Payment, Authorize, and 2 more. Relevant invariants include Tests should reflect behavior changes. Treat this node as a system boundary: changes should preserve command/API compatibility, package responsibilities, and the lower-level file ownership it summarizes.",
+    "reasonForExistence": "Runtime Dataflow exists because package metadata, source paths, imports, entrypoints, or runtime evidence identify it as a system boundary. It gives agents one place to inspect the 4 file(s) that participate in that boundary before changing shared behavior."
+  },
+  {
+    "id": "architecture.package.distribution",
+    "name": "Package Distribution",
+    "title": "Package Distribution",
+    "abstractionLevel": "application.ui.runtime.layer",
+    "level": "application.ui.runtime.layer",
+    "summary": "Published package and workspace boundaries inferred from package manifests, npm workspace metadata, entrypoints, and bin commands.",
+    "parent": "project.architecture",
+    "parentId": "project.architecture",
+    "children": [],
+    "sourceFiles": [
+      "package.json"
+    ],
+    "ownedFiles": [
+      "package.json"
+    ],
+    "responsibilities": [
+      "Represent installable package boundaries, published entrypoints, package scripts, and command aliases.",
+      "Connect package manifests to the runtime surfaces they expose."
+    ],
+    "dependencies": [
+      "file.package.json"
+    ],
+    "dependsOn": [
+      "file.package.json"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "package.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.62,
+    "explanation": "This node represents the Package Distribution architecture boundary. It exists because deterministic evidence connected this boundary to 1 file(s) and related dependency references. Owned or cited files include package.json. Its main responsibilities are Represent installable package boundaries, published entrypoints, package scripts, and command aliases, Connect package manifests to the runtime surfaces they expose. It depends on evidence such as file.package.json. Relevant invariants include Tests should reflect behavior changes. Treat this node as a system boundary: changes should preserve command/API compatibility, package responsibilities, and the lower-level file ownership it summarizes.",
+    "reasonForExistence": "Package Distribution exists because package metadata, source paths, imports, entrypoints, or runtime evidence identify it as a system boundary. It gives agents one place to inspect the 1 file(s) that participate in that boundary before changing shared behavior."
+  },
+  {
+    "id": "subsystem.visual.app",
+    "name": "Visual App / Explorer",
+    "title": "Visual App / Explorer",
+    "abstractionLevel": "human-subsystems",
+    "level": "human-subsystems",
+    "summary": "Human-facing browser explorer inferred from UI package, component, style, and app entrypoint evidence.",
+    "parent": "project.intent",
+    "parentId": "project.intent",
+    "children": [
+      "subsystem.visual.app.slice.components"
+    ],
+    "sourceFiles": [
+      "src/components/CheckoutForm.tsx"
+    ],
+    "ownedFiles": [
+      "src/components/CheckoutForm.tsx"
+    ],
+    "responsibilities": [
+      "Render the abstraction tree and selected-node detail surfaces for humans.",
+      "Translate committed abstraction memory into navigable local UI state."
+    ],
+    "dependencies": [
+      "file.src.components.checkoutform.tsx",
+      "ui-evidence:react-or-app-path"
+    ],
+    "dependsOn": [
+      "file.src.components.checkoutform.tsx",
+      "ui-evidence:react-or-app-path"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "src/components/CheckoutForm.tsx"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.76,
+    "explanation": "This node represents the Visual App / Explorer human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include src/components/CheckoutForm.tsx. It is decomposed into responsibility slices such as UI Components so the branch does not stop at one large aggregate. Its main responsibilities are Render the abstraction tree and selected-node detail surfaces for humans, Translate committed abstraction memory into navigable local UI state. It depends on evidence such as file.src.components.checkoutform.tsx, ui-evidence:react-or-app-path. Other nodes depending on it include Checkout, Checkout Form, Form. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
+    "reasonForExistence": "The visual app exists to make abstraction memory inspectable by humans. Instead of asking people to read generated JSON, it gives them a local browser view of the tree, node explanations, scope evidence, changes, invariants, and automation health so they can judge whether the project map makes sense.",
+    "separationLogic": "Separation logic: children are responsibility slices inside this subsystem. The builder groups files by evidence such as UI component role, app shell/state role, command/API surface, scanner/tree/context pipeline, memory/schema/validation role, mission automation, documentation, package distribution, or test/quality boundary. Current responsibility partitions UI Components. Pick the responsibility slice that matches the prompt, then move to its file leaves before editing."
+  },
+  {
+    "id": "subsystem.visual.app.slice.components",
+    "name": "UI Components",
+    "title": "UI Components",
+    "abstractionLevel": "subsystem-responsibilities",
+    "level": "subsystem-responsibilities",
+    "summary": "UI Components files inside Visual App / Explorer.",
+    "parent": "subsystem.visual.app",
+    "parentId": "subsystem.visual.app",
+    "children": [
+      "subsystem.visual.app.file.src.components.checkoutform.tsx"
+    ],
+    "sourceFiles": [
+      "src/components/CheckoutForm.tsx"
+    ],
+    "ownedFiles": [
+      "src/components/CheckoutForm.tsx"
+    ],
+    "responsibilities": [
+      "Own reusable visual panels, tree controls, and selected-node details."
+    ],
+    "dependencies": [
+      "file.src.components.checkoutform.tsx"
+    ],
+    "dependsOn": [
+      "file.src.components.checkoutform.tsx"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "src/components/CheckoutForm.tsx"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.66,
+    "explanation": "This node represents the UI Components responsibility slice within Visual App / Explorer. It exists to break a large subsystem into a smaller human-editable boundary before reaching concrete files. This slice covers src/components/CheckoutForm.tsx. Its file leaves include CheckoutForm.tsx. Its responsibility is Own reusable visual panels, tree controls, and selected-node details. Use this slice when a prompt names this narrower responsibility; inspect its file leaves and sibling slices before widening to the whole subsystem.",
+    "reasonForExistence": "This slice exists to make Visual App / Explorer smaller and more actionable. It gathers 1 file(s) that share the UI Components responsibility, so a prompt can stop here before touching the whole subsystem.",
+    "separationLogic": "Separation logic: children are concrete file leaves for this responsibility slice. Current file leaves CheckoutForm.tsx. These leaves reference the same scanned files that also appear in Project Indexes, but they are shown here in subsystem context for human navigation and scoped agent edits."
+  },
+  {
+    "id": "subsystem.visual.app.file.src.components.checkoutform.tsx",
+    "name": "CheckoutForm.tsx",
+    "title": "CheckoutForm.tsx",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "File leaf for src/components/CheckoutForm.tsx within Visual App / Explorer.",
+    "parent": "subsystem.visual.app.slice.components",
+    "parentId": "subsystem.visual.app.slice.components",
+    "children": [],
+    "sourceFiles": [
+      "src/components/CheckoutForm.tsx"
+    ],
+    "ownedFiles": [
+      "src/components/CheckoutForm.tsx"
+    ],
+    "responsibilities": [
+      "CheckoutForm.tsx is a TypeScript React implementation file. AST-backed scan. Defines CheckoutForm."
+    ],
+    "dependencies": [
+      "file.src.components.checkoutform.tsx"
+    ],
+    "dependsOn": [
+      "file.src.components.checkoutform.tsx"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "src/components/CheckoutForm.tsx"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.68,
+    "explanation": "This node is a subsystem-context file leaf for src/components/CheckoutForm.tsx. It exists under UI Components so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show TypeScript React content with 4 line(s), 0 import(s), 1 export(s), and 1 symbol(s). Important symbols include CheckoutForm. Exports include CheckoutForm. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "reasonForExistence": "This leaf exists so the UI Components branch reaches src/components/CheckoutForm.tsx, a concrete file an agent can inspect or edit after scope has been narrowed."
+  },
+  {
+    "id": "subsystem.cli.local.api",
+    "name": "CLI and Local API",
+    "title": "CLI and Local API",
+    "abstractionLevel": "human-subsystems",
+    "level": "human-subsystems",
+    "summary": "User command surface and local serve/API boundary inferred from bin metadata, CLI package paths, command imports, and server files.",
+    "parent": "project.intent",
+    "parentId": "project.intent",
+    "children": [
+      "subsystem.cli.local.api.slice.cli.support"
+    ],
+    "sourceFiles": [
+      "src/api/checkout.ts"
+    ],
+    "ownedFiles": [
+      "src/api/checkout.ts"
+    ],
+    "responsibilities": [
+      "Expose scan, validate, context, serve, route, goal, evaluation, and maintenance workflows to users.",
+      "Bridge local project memory between the reusable core engine, scripts, and the visual app."
+    ],
+    "dependencies": [
+      "api-route:/api/state",
+      "file.src.api.checkout.ts",
+      "file.src.services.cart.ts",
+      "file.src.services.orders.ts",
+      "file.src.services.payment.ts",
+      "import:../services/cart",
+      "import:../services/orders",
+      "import:../services/payment"
+    ],
+    "dependsOn": [
+      "api-route:/api/state",
+      "file.src.api.checkout.ts",
+      "file.src.services.cart.ts",
+      "file.src.services.orders.ts",
+      "file.src.services.payment.ts",
+      "import:../services/cart",
+      "import:../services/orders",
+      "import:../services/payment"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "src/api/checkout.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.78,
+    "explanation": "This node represents the CLI and Local API human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include src/api/checkout.ts. It is decomposed into responsibility slices such as CLI Support so the branch does not stop at one large aggregate. Its main responsibilities are Expose scan, validate, context, serve, route, goal, evaluation, and maintenance workflows to users, Bridge local project memory between the reusable core engine, scripts, and the visual app. It depends on evidence such as api-route:/api/state, file.src.api.checkout.ts, file.src.services.cart.ts, file.src.services.orders.ts, file.src.services.payment.ts, import:../services/cart, and 2 more. Other nodes depending on it include Checkout, Cart, Payment. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
+    "reasonForExistence": "The CLI and local API exist to turn the engine into daily developer workflows: scan, validate, route prompts, plan goals, serve the visual app, and expose project memory without requiring a hosted service.",
+    "separationLogic": "Separation logic: children are responsibility slices inside this subsystem. The builder groups files by evidence such as UI component role, app shell/state role, command/API surface, scanner/tree/context pipeline, memory/schema/validation role, mission automation, documentation, package distribution, or test/quality boundary. Current responsibility partitions CLI Support. Pick the responsibility slice that matches the prompt, then move to its file leaves before editing."
+  },
+  {
+    "id": "subsystem.cli.local.api.slice.cli.support",
+    "name": "CLI Support",
+    "title": "CLI Support",
+    "abstractionLevel": "subsystem-responsibilities",
+    "level": "subsystem-responsibilities",
+    "summary": "CLI Support files inside CLI and Local API.",
+    "parent": "subsystem.cli.local.api",
+    "parentId": "subsystem.cli.local.api",
+    "children": [
+      "subsystem.cli.local.api.file.src.api.checkout.ts"
+    ],
+    "sourceFiles": [
+      "src/api/checkout.ts"
+    ],
+    "ownedFiles": [
+      "src/api/checkout.ts"
+    ],
+    "responsibilities": [
+      "Support command-line workflows."
+    ],
+    "dependencies": [
+      "file.src.api.checkout.ts",
+      "file.src.services.cart.ts",
+      "file.src.services.orders.ts",
+      "file.src.services.payment.ts",
+      "import:../services/cart",
+      "import:../services/orders",
+      "import:../services/payment"
+    ],
+    "dependsOn": [
+      "file.src.api.checkout.ts",
+      "file.src.services.cart.ts",
+      "file.src.services.orders.ts",
+      "file.src.services.payment.ts",
+      "import:../services/cart",
+      "import:../services/orders",
+      "import:../services/payment"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "src/api/checkout.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.66,
+    "explanation": "This node represents the CLI Support responsibility slice within CLI and Local API. It exists to break a large subsystem into a smaller human-editable boundary before reaching concrete files. This slice covers src/api/checkout.ts. Its file leaves include checkout.ts. Its responsibility is Support command-line workflows. Use this slice when a prompt names this narrower responsibility; inspect its file leaves and sibling slices before widening to the whole subsystem.",
+    "reasonForExistence": "This slice exists to make CLI and Local API smaller and more actionable. It gathers 1 file(s) that share the CLI Support responsibility, so a prompt can stop here before touching the whole subsystem.",
+    "separationLogic": "Separation logic: children are concrete file leaves for this responsibility slice. Current file leaves checkout.ts. These leaves reference the same scanned files that also appear in Project Indexes, but they are shown here in subsystem context for human navigation and scoped agent edits."
+  },
+  {
+    "id": "subsystem.cli.local.api.file.src.api.checkout.ts",
+    "name": "checkout.ts",
+    "title": "checkout.ts",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "File leaf for src/api/checkout.ts within CLI and Local API.",
+    "parent": "subsystem.cli.local.api.slice.cli.support",
+    "parentId": "subsystem.cli.local.api.slice.cli.support",
+    "children": [],
+    "sourceFiles": [
+      "src/api/checkout.ts"
+    ],
+    "ownedFiles": [
+      "src/api/checkout.ts"
+    ],
+    "responsibilities": [
+      "checkout.ts is a TypeScript implementation file. AST-backed scan. Defines checkout, cart, payment. Depends on ../services/cart, ../services/payment, ../services/orders."
+    ],
+    "dependencies": [
+      "file.src.api.checkout.ts",
+      "import:../services/cart",
+      "import:../services/orders",
+      "import:../services/payment"
+    ],
+    "dependsOn": [
+      "file.src.api.checkout.ts",
+      "import:../services/cart",
+      "import:../services/orders",
+      "import:../services/payment"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "src/api/checkout.ts"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.7000000000000001,
+    "explanation": "This node is a subsystem-context file leaf for src/api/checkout.ts. It exists under CLI Support so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show TypeScript content with 10 line(s), 3 import(s), 1 export(s), and 3 symbol(s). Important symbols include checkout, cart, payment. Exports include checkout. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "reasonForExistence": "This leaf exists so the CLI Support branch reaches src/api/checkout.ts, a concrete file an agent can inspect or edit after scope has been narrowed."
+  },
+  {
+    "id": "subsystem.docs.examples",
+    "name": "Docs and Examples",
+    "title": "Docs and Examples",
+    "abstractionLevel": "human-subsystems",
+    "level": "human-subsystems",
+    "summary": "Human documentation, examples, protocol docs, roadmap, and usage guides inferred from docs, README, and example project paths.",
+    "parent": "project.intent",
+    "parentId": "project.intent",
+    "children": [
+      "subsystem.docs.examples.slice.readme"
+    ],
+    "sourceFiles": [
+      "README.md"
+    ],
+    "ownedFiles": [
+      "README.md"
+    ],
+    "responsibilities": [
+      "Explain install modes, architecture, agent protocols, assisted improvement workflows, data model, examples, and roadmap.",
+      "Keep public claims aligned with deterministic behavior and current CLI scripts."
+    ],
+    "dependencies": [
+      "docs:readme-and-guides",
+      "file.readme.md"
+    ],
+    "dependsOn": [
+      "docs:readme-and-guides",
+      "file.readme.md"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "README.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.7,
+    "explanation": "This node represents the Docs and Examples human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include README.md. It is decomposed into responsibility slices such as Project README so the branch does not stop at one large aggregate. Its main responsibilities are Explain install modes, architecture, agent protocols, assisted improvement workflows, data model, examples, and roadmap, Keep public claims aligned with deterministic behavior and current CLI scripts. It depends on evidence such as docs:readme-and-guides, file.readme.md. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
+    "reasonForExistence": "Docs and examples exist to make the tool understandable outside the code. They explain install modes, workflows, data contracts, automation boundaries, and example usage for humans and future agents.",
+    "separationLogic": "Separation logic: children are responsibility slices inside this subsystem. The builder groups files by evidence such as UI component role, app shell/state role, command/API surface, scanner/tree/context pipeline, memory/schema/validation role, mission automation, documentation, package distribution, or test/quality boundary. Current responsibility partitions Project README. Pick the responsibility slice that matches the prompt, then move to its file leaves before editing."
+  },
+  {
+    "id": "subsystem.docs.examples.slice.readme",
+    "name": "Project README",
+    "title": "Project README",
+    "abstractionLevel": "subsystem-responsibilities",
+    "level": "subsystem-responsibilities",
+    "summary": "Project README files inside Docs and Examples.",
+    "parent": "subsystem.docs.examples",
+    "parentId": "subsystem.docs.examples",
+    "children": [
+      "subsystem.docs.examples.file.readme.md"
+    ],
+    "sourceFiles": [
+      "README.md"
+    ],
+    "ownedFiles": [
+      "README.md"
+    ],
+    "responsibilities": [
+      "Explain the project purpose, install modes, and primary workflows."
+    ],
+    "dependencies": [
+      "file.readme.md"
+    ],
+    "dependsOn": [
+      "file.readme.md"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "README.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.66,
+    "explanation": "This node represents the Project README responsibility slice within Docs and Examples. It exists to break a large subsystem into a smaller human-editable boundary before reaching concrete files. This slice covers README.md. Its file leaves include README.md. Its responsibility is Explain the project purpose, install modes, and primary workflows. Use this slice when a prompt names this narrower responsibility; inspect its file leaves and sibling slices before widening to the whole subsystem.",
+    "reasonForExistence": "This slice exists to make Docs and Examples smaller and more actionable. It gathers 1 file(s) that share the Project README responsibility, so a prompt can stop here before touching the whole subsystem.",
+    "separationLogic": "Separation logic: children are concrete file leaves for this responsibility slice. Current file leaves README.md. These leaves reference the same scanned files that also appear in Project Indexes, but they are shown here in subsystem context for human navigation and scoped agent edits."
+  },
+  {
+    "id": "subsystem.docs.examples.file.readme.md",
+    "name": "README.md",
+    "title": "README.md",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "File leaf for README.md within Docs and Examples.",
+    "parent": "subsystem.docs.examples.slice.readme",
+    "parentId": "subsystem.docs.examples.slice.readme",
+    "children": [],
+    "sourceFiles": [
+      "README.md"
+    ],
+    "ownedFiles": [
+      "README.md"
+    ],
+    "responsibilities": [
+      "This compact fixture demonstrates the stable Abstraction Tree workflow without requiring a large real project. Use it for the beginner walkthrough:"
+    ],
+    "dependencies": [
+      "file.readme.md"
+    ],
+    "dependsOn": [
+      "file.readme.md"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "README.md"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.62,
+    "explanation": "This node is a subsystem-context file leaf for README.md. It exists under Project README so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show Markdown content with 24 line(s), 0 import(s), 0 export(s), and 1 symbol(s). Important symbols include Small Web App Example. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "reasonForExistence": "This leaf exists so the Project README branch reaches README.md, a concrete file an agent can inspect or edit after scope has been narrowed."
+  },
+  {
+    "id": "subsystem.packaging.adapters",
+    "name": "Packaging and Adapters",
+    "title": "Packaging and Adapters",
+    "abstractionLevel": "human-subsystems",
+    "level": "human-subsystems",
+    "summary": "Installable package shells, manifests, adapter examples, release scripts, and distribution boundaries inferred from package, adapter, and release files.",
+    "parent": "project.intent",
+    "parentId": "project.intent",
+    "children": [
+      "subsystem.packaging.adapters.slice.manifests"
+    ],
+    "sourceFiles": [
+      "package.json"
+    ],
+    "ownedFiles": [
+      "package.json"
+    ],
+    "responsibilities": [
+      "Keep monorepo packaging, installable entrypoints, adapter examples, smoke tests, and release checks coherent.",
+      "Represent how the project is distributed to users and extended by provider-specific integrations."
+    ],
+    "dependencies": [
+      "file.package.json"
+    ],
+    "dependsOn": [
+      "file.package.json"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "package.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.64,
+    "explanation": "This node represents the Packaging and Adapters human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include package.json. It is decomposed into responsibility slices such as Package Manifests so the branch does not stop at one large aggregate. Its main responsibilities are Keep monorepo packaging, installable entrypoints, adapter examples, smoke tests, and release checks coherent, Represent how the project is distributed to users and extended by provider-specific integrations. It depends on evidence such as file.package.json. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
+    "reasonForExistence": "Packaging and adapters exist so Abstraction Tree can be installed, distributed, smoke-tested, and extended by provider or agent integrations without coupling those integrations to the core engine.",
+    "separationLogic": "Separation logic: children are responsibility slices inside this subsystem. The builder groups files by evidence such as UI component role, app shell/state role, command/API surface, scanner/tree/context pipeline, memory/schema/validation role, mission automation, documentation, package distribution, or test/quality boundary. Current responsibility partitions Package Manifests. Pick the responsibility slice that matches the prompt, then move to its file leaves before editing."
+  },
+  {
+    "id": "subsystem.packaging.adapters.slice.manifests",
+    "name": "Package Manifests",
+    "title": "Package Manifests",
+    "abstractionLevel": "subsystem-responsibilities",
+    "level": "subsystem-responsibilities",
+    "summary": "Package Manifests files inside Packaging and Adapters.",
+    "parent": "subsystem.packaging.adapters",
+    "parentId": "subsystem.packaging.adapters",
+    "children": [
+      "subsystem.packaging.adapters.file.package.json"
+    ],
+    "sourceFiles": [
+      "package.json"
+    ],
+    "ownedFiles": [
+      "package.json"
+    ],
+    "responsibilities": [
+      "Define workspace packages, dependencies, scripts, and distribution metadata."
+    ],
+    "dependencies": [
+      "file.package.json"
+    ],
+    "dependsOn": [
+      "file.package.json"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "package.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.66,
+    "explanation": "This node represents the Package Manifests responsibility slice within Packaging and Adapters. It exists to break a large subsystem into a smaller human-editable boundary before reaching concrete files. This slice covers package.json. Its file leaves include package.json. Its responsibility is Define workspace packages, dependencies, scripts, and distribution metadata. Use this slice when a prompt names this narrower responsibility; inspect its file leaves and sibling slices before widening to the whole subsystem.",
+    "reasonForExistence": "This slice exists to make Packaging and Adapters smaller and more actionable. It gathers 1 file(s) that share the Package Manifests responsibility, so a prompt can stop here before touching the whole subsystem.",
+    "separationLogic": "Separation logic: children are concrete file leaves for this responsibility slice. Current file leaves package.json. These leaves reference the same scanned files that also appear in Project Indexes, but they are shown here in subsystem context for human navigation and scoped agent edits."
+  },
+  {
+    "id": "subsystem.packaging.adapters.file.package.json",
+    "name": "package.json",
+    "title": "package.json",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "File leaf for package.json within Packaging and Adapters.",
+    "parent": "subsystem.packaging.adapters.slice.manifests",
+    "parentId": "subsystem.packaging.adapters.slice.manifests",
+    "children": [],
+    "sourceFiles": [
+      "package.json"
+    ],
+    "ownedFiles": [
+      "package.json"
+    ],
+    "responsibilities": [
+      "package.json is a JSON implementation file. Defines test."
+    ],
+    "dependencies": [
+      "file.package.json"
+    ],
+    "dependsOn": [
+      "file.package.json"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "package.json"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.56,
+    "explanation": "This node is a subsystem-context file leaf for package.json. It exists under Package Manifests so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show JSON content with 9 line(s), 0 import(s), 0 export(s), and 1 symbol(s). Important symbols include test. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "reasonForExistence": "This leaf exists so the Package Manifests branch reaches package.json, a concrete file an agent can inspect or edit after scope has been narrowed."
+  },
+  {
+    "id": "subsystem.tests.quality",
+    "name": "Tests and Quality Gates",
+    "title": "Tests and Quality Gates",
+    "abstractionLevel": "human-subsystems",
+    "level": "human-subsystems",
+    "summary": "Tests, linting, formatting, Unicode checks, generated-memory fixtures, and CI-oriented guardrails inferred from test and check files.",
+    "parent": "project.intent",
+    "parentId": "project.intent",
+    "children": [
+      "subsystem.tests.quality.slice.quality.support"
+    ],
+    "sourceFiles": [
+      "tests/checkout.test.js"
+    ],
+    "ownedFiles": [
+      "tests/checkout.test.js"
+    ],
+    "responsibilities": [
+      "Verify deterministic behavior, CLI contracts, app rendering, memory schema, fixtures, and quality scripts.",
+      "Act as the regression boundary before changes are committed, pushed, or run through automation."
+    ],
+    "dependencies": [
+      "file.tests.checkout.test.js",
+      "import:node:assert/strict",
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:test",
+      "import:node:url",
+      "import:typescript",
+      "package:node:assert/strict",
+      "package:node:fs/promises",
+      "package:node:os",
+      "package:node:path",
+      "package:node:test",
+      "package:node:url",
+      "package:typescript",
+      "quality:lint-format-typecheck",
+      "quality:test-suite"
+    ],
+    "dependsOn": [
+      "file.tests.checkout.test.js",
+      "import:node:assert/strict",
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:test",
+      "import:node:url",
+      "import:typescript",
+      "package:node:assert/strict",
+      "package:node:fs/promises",
+      "package:node:os",
+      "package:node:path",
+      "package:node:test",
+      "package:node:url",
+      "package:typescript",
+      "quality:lint-format-typecheck",
+      "quality:test-suite"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "tests/checkout.test.js"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.7,
+    "explanation": "This node represents the Tests and Quality Gates human subsystem. It exists because deterministic scan evidence grouped files by product responsibility, package role, command/runtime surface, documentation area, automation workflow, or quality boundary rather than by generic abstraction category. Owned or cited files include tests/checkout.test.js. It is decomposed into responsibility slices such as Quality Support so the branch does not stop at one large aggregate. Its main responsibilities are Verify deterministic behavior, CLI contracts, app rendering, memory schema, fixtures, and quality scripts, Act as the regression boundary before changes are committed, pushed, or run through automation. It depends on evidence such as file.tests.checkout.test.js, import:node:assert/strict, import:node:fs/promises, import:node:os, import:node:path, import:node:test, and 11 more. Other nodes depending on it include Checkout, Cart, Payment, Authorize, and 1 more. Relevant invariants include Tests should reflect behavior changes, Tree memory must be updated after meaningful changes. Use this node as the first human navigation boundary for prompts that name a product area or responsibility; then cross-check Project Indexes, modules, and files before editing.",
+    "reasonForExistence": "Tests and quality gates exist to keep deterministic behavior stable as the tree builder, scanner, app, automation, and CLI evolve.",
+    "separationLogic": "Separation logic: children are responsibility slices inside this subsystem. The builder groups files by evidence such as UI component role, app shell/state role, command/API surface, scanner/tree/context pipeline, memory/schema/validation role, mission automation, documentation, package distribution, or test/quality boundary. Current responsibility partitions Quality Support. Pick the responsibility slice that matches the prompt, then move to its file leaves before editing."
+  },
+  {
+    "id": "subsystem.tests.quality.slice.quality.support",
+    "name": "Quality Support",
+    "title": "Quality Support",
+    "abstractionLevel": "subsystem-responsibilities",
+    "level": "subsystem-responsibilities",
+    "summary": "Quality Support files inside Tests and Quality Gates.",
+    "parent": "subsystem.tests.quality",
+    "parentId": "subsystem.tests.quality",
+    "children": [
+      "subsystem.tests.quality.file.tests.checkout.test.js"
+    ],
+    "sourceFiles": [
+      "tests/checkout.test.js"
+    ],
+    "ownedFiles": [
+      "tests/checkout.test.js"
+    ],
+    "responsibilities": [
+      "Support quality gates."
+    ],
+    "dependencies": [
+      "file.tests.checkout.test.js",
+      "import:node:assert/strict",
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:test",
+      "import:node:url",
+      "import:typescript",
+      "package:node:assert/strict",
+      "package:node:fs/promises",
+      "package:node:os",
+      "package:node:path",
+      "package:node:test",
+      "package:node:url",
+      "package:typescript"
+    ],
+    "dependsOn": [
+      "file.tests.checkout.test.js",
+      "import:node:assert/strict",
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:test",
+      "import:node:url",
+      "import:typescript",
+      "package:node:assert/strict",
+      "package:node:fs/promises",
+      "package:node:os",
+      "package:node:path",
+      "package:node:test",
+      "package:node:url",
+      "package:typescript"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "tests/checkout.test.js"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.66,
+    "explanation": "This node represents the Quality Support responsibility slice within Tests and Quality Gates. It exists to break a large subsystem into a smaller human-editable boundary before reaching concrete files. This slice covers tests/checkout.test.js. Its file leaves include checkout.test.js. Its responsibility is Support quality gates. Use this slice when a prompt names this narrower responsibility; inspect its file leaves and sibling slices before widening to the whole subsystem.",
+    "reasonForExistence": "This slice exists to make Tests and Quality Gates smaller and more actionable. It gathers 1 file(s) that share the Quality Support responsibility, so a prompt can stop here before touching the whole subsystem.",
+    "separationLogic": "Separation logic: children are concrete file leaves for this responsibility slice. Current file leaves checkout.test.js. These leaves reference the same scanned files that also appear in Project Indexes, but they are shown here in subsystem context for human navigation and scoped agent edits."
+  },
+  {
+    "id": "subsystem.tests.quality.file.tests.checkout.test.js",
+    "name": "checkout.test.js",
+    "title": "checkout.test.js",
+    "abstractionLevel": "component.file.layer",
+    "level": "component.file.layer",
+    "summary": "File leaf for tests/checkout.test.js within Tests and Quality Gates.",
+    "parent": "subsystem.tests.quality.slice.quality.support",
+    "parentId": "subsystem.tests.quality.slice.quality.support",
+    "children": [],
+    "sourceFiles": [
+      "tests/checkout.test.js"
+    ],
+    "ownedFiles": [
+      "tests/checkout.test.js"
+    ],
+    "responsibilities": [
+      "checkout.test.js is a JavaScript test coverage file. AST-backed scan. Defines testDir, exampleRoot, compilerOptions, root, calls. Depends on node:assert/strict, node:fs/promises, node:os, node:path."
+    ],
+    "dependencies": [
+      "file.tests.checkout.test.js",
+      "import:node:assert/strict",
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:test",
+      "import:node:url",
+      "import:typescript"
+    ],
+    "dependsOn": [
+      "file.tests.checkout.test.js",
+      "import:node:assert/strict",
+      "import:node:fs/promises",
+      "import:node:os",
+      "import:node:path",
+      "import:node:test",
+      "import:node:url",
+      "import:typescript"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior",
+      "invariant.tree-updated-after-change"
+    ],
+    "changePolicy": {
+      "allowedToChange": [
+        "tests/checkout.test.js"
+      ],
+      "mustNotChange": []
+    },
+    "confidence": 0.62,
+    "explanation": "This node is a subsystem-context file leaf for tests/checkout.test.js. It exists under Quality Support so the human subsystem branch reaches an actual editable file instead of ending at a broad aggregate. Scanner facts show JavaScript content with 146 line(s), 7 import(s), 0 export(s), and 20 symbol(s). Important symbols include testDir, exampleRoot, compilerOptions, root, calls, checkout, and 14 more. Use this leaf as the concrete edit boundary, then cross-check the canonical file node under Project Indexes if dependency or ownership evidence matters.",
+    "reasonForExistence": "This leaf exists so the Quality Support branch reaches tests/checkout.test.js, a concrete file an agent can inspect or edit after scope has been narrowed."
   },
   {
     "id": "concept-node.checkout",
@@ -521,7 +1548,7 @@
     "title": "Checkout",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Cross-cutting concept inferred from files and symbols containing \"checkout\".",
+    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
@@ -543,14 +1570,38 @@
       "module.tests",
       "file.src.api.checkout.ts",
       "file.src.components.checkoutform.tsx",
-      "file.tests.checkout.test.js"
+      "file.tests.checkout.test.js",
+      "architecture.visual.app.ui",
+      "architecture.local.api.routes",
+      "architecture.runtime.dataflow",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.src.components.checkoutform.tsx",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.src.api.checkout.ts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.quality.support",
+      "subsystem.tests.quality.file.tests.checkout.test.js"
     ],
     "dependsOn": [
       "module.src",
       "module.tests",
       "file.src.api.checkout.ts",
       "file.src.components.checkoutform.tsx",
-      "file.tests.checkout.test.js"
+      "file.tests.checkout.test.js",
+      "architecture.visual.app.ui",
+      "architecture.local.api.routes",
+      "architecture.runtime.dataflow",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.src.components.checkoutform.tsx",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.src.api.checkout.ts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.quality.support",
+      "subsystem.tests.quality.file.tests.checkout.test.js"
     ],
     "changeLog": [],
     "invariants": [
@@ -560,7 +1611,74 @@
       "allowedToChange": [],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.65,
+    "explanation": "This node represents the Checkout concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include src/api/checkout.ts, src/components/CheckoutForm.tsx, tests/checkout.test.js. It connects to tree nodes such as Src, Tests, checkout.ts, CheckoutForm.tsx, checkout.test.js, Visual App UI, and 8 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
+    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Checkout as a cross-cutting idea. It helps humans and agents find 3 related file(s) without assuming one folder owns the whole concept."
+  },
+  {
+    "id": "concept-node.cart",
+    "name": "Cart",
+    "title": "Cart",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "src/api/checkout.ts",
+      "src/services/cart.ts",
+      "tests/checkout.test.js"
+    ],
+    "ownedFiles": [
+      "src/api/checkout.ts",
+      "src/services/cart.ts",
+      "tests/checkout.test.js"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Cart concept across related files."
+    ],
+    "dependencies": [
+      "module.src",
+      "module.tests",
+      "file.src.api.checkout.ts",
+      "file.src.services.cart.ts",
+      "file.tests.checkout.test.js",
+      "architecture.local.api.routes",
+      "architecture.runtime.dataflow",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.src.api.checkout.ts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.quality.support",
+      "subsystem.tests.quality.file.tests.checkout.test.js"
+    ],
+    "dependsOn": [
+      "module.src",
+      "module.tests",
+      "file.src.api.checkout.ts",
+      "file.src.services.cart.ts",
+      "file.tests.checkout.test.js",
+      "architecture.local.api.routes",
+      "architecture.runtime.dataflow",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.src.api.checkout.ts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.quality.support",
+      "subsystem.tests.quality.file.tests.checkout.test.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65,
+    "explanation": "This node represents the Cart concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include src/api/checkout.ts, src/services/cart.ts, tests/checkout.test.js. It connects to tree nodes such as Src, Tests, checkout.ts, cart.ts, checkout.test.js, Local API Routes, and 5 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
+    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Cart as a cross-cutting idea. It helps humans and agents find 3 related file(s) without assuming one folder owns the whole concept."
   },
   {
     "id": "concept-node.payment",
@@ -568,30 +1686,52 @@
     "title": "Payment",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Cross-cutting concept inferred from files and symbols containing \"payment\".",
+    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
     "sourceFiles": [
       "src/api/checkout.ts",
-      "src/services/payment.ts"
+      "src/services/payment.ts",
+      "tests/checkout.test.js"
     ],
     "ownedFiles": [
       "src/api/checkout.ts",
-      "src/services/payment.ts"
+      "src/services/payment.ts",
+      "tests/checkout.test.js"
     ],
     "responsibilities": [
       "Represent the cross-cutting Payment concept across related files."
     ],
     "dependencies": [
       "module.src",
+      "module.tests",
       "file.src.api.checkout.ts",
-      "file.src.services.payment.ts"
+      "file.src.services.payment.ts",
+      "file.tests.checkout.test.js",
+      "architecture.local.api.routes",
+      "architecture.runtime.dataflow",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.src.api.checkout.ts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.quality.support",
+      "subsystem.tests.quality.file.tests.checkout.test.js"
     ],
     "dependsOn": [
       "module.src",
+      "module.tests",
       "file.src.api.checkout.ts",
-      "file.src.services.payment.ts"
+      "file.src.services.payment.ts",
+      "file.tests.checkout.test.js",
+      "architecture.local.api.routes",
+      "architecture.runtime.dataflow",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.src.api.checkout.ts",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.quality.support",
+      "subsystem.tests.quality.file.tests.checkout.test.js"
     ],
     "changeLog": [],
     "invariants": [
@@ -601,7 +1741,209 @@
       "allowedToChange": [],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.65,
+    "explanation": "This node represents the Payment concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include src/api/checkout.ts, src/services/payment.ts, tests/checkout.test.js. It connects to tree nodes such as Src, Tests, checkout.ts, payment.ts, checkout.test.js, Local API Routes, and 5 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
+    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Payment as a cross-cutting idea. It helps humans and agents find 3 related file(s) without assuming one folder owns the whole concept."
+  },
+  {
+    "id": "concept-node.authorize",
+    "name": "Authorize",
+    "title": "Authorize",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 2 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "src/services/payment.ts",
+      "tests/checkout.test.js"
+    ],
+    "ownedFiles": [
+      "src/services/payment.ts",
+      "tests/checkout.test.js"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Authorize concept across related files."
+    ],
+    "dependencies": [
+      "module.src",
+      "module.tests",
+      "file.src.services.payment.ts",
+      "file.tests.checkout.test.js",
+      "architecture.runtime.dataflow",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.quality.support",
+      "subsystem.tests.quality.file.tests.checkout.test.js"
+    ],
+    "dependsOn": [
+      "module.src",
+      "module.tests",
+      "file.src.services.payment.ts",
+      "file.tests.checkout.test.js",
+      "architecture.runtime.dataflow",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.quality.support",
+      "subsystem.tests.quality.file.tests.checkout.test.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65,
+    "explanation": "This node represents the Authorize concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include src/services/payment.ts, tests/checkout.test.js. It connects to tree nodes such as Src, Tests, payment.ts, checkout.test.js, Runtime Dataflow, Tests and Quality Gates, and 1 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
+    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Authorize as a cross-cutting idea. It helps humans and agents find 2 related file(s) without assuming one folder owns the whole concept."
+  },
+  {
+    "id": "concept-node.authorize.payment",
+    "name": "Authorize Payment",
+    "title": "Authorize Payment",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 2 file(s) using export, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "src/services/payment.ts",
+      "tests/checkout.test.js"
+    ],
+    "ownedFiles": [
+      "src/services/payment.ts",
+      "tests/checkout.test.js"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Authorize Payment concept across related files."
+    ],
+    "dependencies": [
+      "module.src",
+      "module.tests",
+      "file.src.services.payment.ts",
+      "file.tests.checkout.test.js",
+      "architecture.runtime.dataflow",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.quality.support",
+      "subsystem.tests.quality.file.tests.checkout.test.js"
+    ],
+    "dependsOn": [
+      "module.src",
+      "module.tests",
+      "file.src.services.payment.ts",
+      "file.tests.checkout.test.js",
+      "architecture.runtime.dataflow",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.quality.support",
+      "subsystem.tests.quality.file.tests.checkout.test.js"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65,
+    "explanation": "This node represents the Authorize Payment concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include src/services/payment.ts, tests/checkout.test.js. It connects to tree nodes such as Src, Tests, payment.ts, checkout.test.js, Runtime Dataflow, Tests and Quality Gates, and 1 more. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
+    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Authorize Payment as a cross-cutting idea. It helps humans and agents find 2 related file(s) without assuming one folder owns the whole concept."
+  },
+  {
+    "id": "concept-node.checkout.form",
+    "name": "Checkout Form",
+    "title": "Checkout Form",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 1 file(s) using export, path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "src/components/CheckoutForm.tsx"
+    ],
+    "ownedFiles": [
+      "src/components/CheckoutForm.tsx"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Checkout Form concept across related files."
+    ],
+    "dependencies": [
+      "module.src",
+      "file.src.components.checkoutform.tsx",
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.src.components.checkoutform.tsx"
+    ],
+    "dependsOn": [
+      "module.src",
+      "file.src.components.checkoutform.tsx",
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.src.components.checkoutform.tsx"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65,
+    "explanation": "This node represents the Checkout Form concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include src/components/CheckoutForm.tsx. It connects to tree nodes such as Src, CheckoutForm.tsx, Visual App UI, Visual App / Explorer, UI Components. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
+    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Checkout Form as a cross-cutting idea. It helps humans and agents find 1 related file(s) without assuming one folder owns the whole concept."
+  },
+  {
+    "id": "concept-node.form",
+    "name": "Form",
+    "title": "Form",
+    "abstractionLevel": "domain-concepts",
+    "level": "domain-concepts",
+    "summary": "Durable concept inferred from 1 file(s) using export, path, symbol signals.",
+    "parent": "project.domain",
+    "parentId": "project.domain",
+    "children": [],
+    "sourceFiles": [
+      "src/components/CheckoutForm.tsx"
+    ],
+    "ownedFiles": [
+      "src/components/CheckoutForm.tsx"
+    ],
+    "responsibilities": [
+      "Represent the cross-cutting Form concept across related files."
+    ],
+    "dependencies": [
+      "module.src",
+      "file.src.components.checkoutform.tsx",
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.src.components.checkoutform.tsx"
+    ],
+    "dependsOn": [
+      "module.src",
+      "file.src.components.checkoutform.tsx",
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.src.components.checkoutform.tsx"
+    ],
+    "changeLog": [],
+    "invariants": [
+      "invariant.tests-reflect-behavior"
+    ],
+    "changePolicy": {
+      "allowedToChange": [],
+      "mustNotChange": []
+    },
+    "confidence": 0.65,
+    "explanation": "This node represents the Form concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include src/components/CheckoutForm.tsx. It connects to tree nodes such as Src, CheckoutForm.tsx, Visual App UI, Visual App / Explorer, UI Components. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
+    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Form as a cross-cutting idea. It helps humans and agents find 1 related file(s) without assuming one folder owns the whole concept."
   },
   {
     "id": "concept-node.order",
@@ -609,7 +1951,7 @@
     "title": "Order",
     "abstractionLevel": "domain-concepts",
     "level": "domain-concepts",
-    "summary": "Cross-cutting concept inferred from files and symbols containing \"order\".",
+    "summary": "Durable concept inferred from 1 file(s) using export, path, symbol signals.",
     "parent": "project.domain",
     "parentId": "project.domain",
     "children": [],
@@ -624,167 +1966,13 @@
     ],
     "dependencies": [
       "module.src",
-      "file.src.services.orders.ts"
-    ],
-    "dependsOn": [
-      "module.src",
-      "file.src.services.orders.ts"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.api",
-    "name": "Api",
-    "title": "Api",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Cross-cutting concept inferred from files and symbols containing \"api\".",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "src/api/checkout.ts"
-    ],
-    "ownedFiles": [
-      "src/api/checkout.ts"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Api concept across related files."
-    ],
-    "dependencies": [
-      "module.src",
-      "file.src.api.checkout.ts"
-    ],
-    "dependsOn": [
-      "module.src",
-      "file.src.api.checkout.ts"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.test",
-    "name": "Test",
-    "title": "Test",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Cross-cutting concept inferred from files and symbols containing \"test\".",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "tests/checkout.test.js"
-    ],
-    "ownedFiles": [
-      "tests/checkout.test.js"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Test concept across related files."
-    ],
-    "dependencies": [
-      "module.tests",
-      "file.tests.checkout.test.js"
-    ],
-    "dependsOn": [
-      "module.tests",
-      "file.tests.checkout.test.js"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.component",
-    "name": "Component",
-    "title": "Component",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Cross-cutting concept inferred from files and symbols containing \"component\".",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "src/components/CheckoutForm.tsx"
-    ],
-    "ownedFiles": [
-      "src/components/CheckoutForm.tsx"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Component concept across related files."
-    ],
-    "dependencies": [
-      "module.src",
-      "file.src.components.checkoutform.tsx"
-    ],
-    "dependsOn": [
-      "module.src",
-      "file.src.components.checkoutform.tsx"
-    ],
-    "changeLog": [],
-    "invariants": [
-      "invariant.tests-reflect-behavior"
-    ],
-    "changePolicy": {
-      "allowedToChange": [],
-      "mustNotChange": []
-    },
-    "confidence": 0.65
-  },
-  {
-    "id": "concept-node.service",
-    "name": "Service",
-    "title": "Service",
-    "abstractionLevel": "domain-concepts",
-    "level": "domain-concepts",
-    "summary": "Cross-cutting concept inferred from files and symbols containing \"service\".",
-    "parent": "project.domain",
-    "parentId": "project.domain",
-    "children": [],
-    "sourceFiles": [
-      "src/services/cart.ts",
-      "src/services/orders.ts",
-      "src/services/payment.ts"
-    ],
-    "ownedFiles": [
-      "src/services/cart.ts",
-      "src/services/orders.ts",
-      "src/services/payment.ts"
-    ],
-    "responsibilities": [
-      "Represent the cross-cutting Service concept across related files."
-    ],
-    "dependencies": [
-      "module.src",
-      "file.src.services.cart.ts",
       "file.src.services.orders.ts",
-      "file.src.services.payment.ts"
+      "architecture.runtime.dataflow"
     ],
     "dependsOn": [
       "module.src",
-      "file.src.services.cart.ts",
       "file.src.services.orders.ts",
-      "file.src.services.payment.ts"
+      "architecture.runtime.dataflow"
     ],
     "changeLog": [],
     "invariants": [
@@ -794,6 +1982,8 @@
       "allowedToChange": [],
       "mustNotChange": []
     },
-    "confidence": 0.65
+    "confidence": 0.65,
+    "explanation": "This node represents the Order concept across the project. It exists because deterministic concept extraction found repeated evidence in paths, symbols, exports, or documentation names. Related files include src/services/orders.ts. It connects to tree nodes such as Src, orders.ts, Runtime Dataflow. Use this node when a prompt names a product concept or cross-cutting term rather than a single module. Before editing through a concept node, inspect the related file and node evidence because deterministic concept extraction can group vocabulary without understanding all business semantics.",
+    "reasonForExistence": "This concept node exists because repeated vocabulary or symbol evidence points to Order as a cross-cutting idea. It helps humans and agents find 1 related file(s) without assuming one folder owns the whole concept."
   }
 ]

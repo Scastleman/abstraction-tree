@@ -1,5 +1,9 @@
 # Goal-Driven Mission Workflow
 
+> Audience: Existing readers following older links
+> Status: Compatibility page
+> Read instead: GOAL_DRIVEN_MISSION_WORKFLOW.md.
+
 This page used to describe the workflow as "goal-driven autopilot." That name suggested more autonomy than the project intends.
 
 The current product framing is goal-driven mission workflow: complex prompts are routed, mapped onto project memory, decomposed into scoped missions, checked for scope and coherence, and left for human review.

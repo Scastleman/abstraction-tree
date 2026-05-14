@@ -1,5 +1,9 @@
 # Architecture
 
+> Audience: Implementers and maintainers
+> Status: Current architecture reference
+> Read after: GETTING_STARTED.md for the user path or DATA_MODEL.md for memory details.
+
 Abstraction Tree has three product layers around a core workflow: map a complex prompt onto project memory, decompose it into bounded missions, guide Codex execution, and review the result against scope, coherence, and evaluation signals.
 
 ## 1. Core engine

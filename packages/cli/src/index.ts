@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { Command } from "commander";
+import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { createServer } from "node:http";
 import sirv from "sirv";
@@ -7,6 +8,7 @@ import {
   atreePath,
   buildContextPack,
   formatContextPackMarkdown,
+  formatTreeExport,
   buildImportGraph,
   buildDeterministicTree,
   ensureWorkspace,
@@ -23,7 +25,8 @@ import {
   writeJson,
   RuntimeSchemaValidationError,
   type ChangeRecord,
-  type InstallMode
+  type InstallMode,
+  type TreeExportFormat
 } from "@abstraction-tree/core";
 import { loadApiAgentHealth, loadApiState } from "./apiState.js";
 import { runChangeReviewCommand } from "./changeReviewCommand.js";
@@ -56,8 +59,12 @@ function contextMaxTokens(input: unknown): number | undefined {
   return Number.isInteger(parsed) && parsed > 0 ? parsed : undefined;
 }
 
+function treeExportFormat(input: unknown): TreeExportFormat | undefined {
+  return input === "mermaid" || input === "dot" ? input : undefined;
+}
+
 program.command("init")
-  .description("Create .abstraction-tree workspace")
+  .description("[stable] Create a blank project-local .abstraction-tree workspace")
   .option("-p, --project <path>", "project root")
   .option("--core", "initialize in core-only mode")
   .option("--with-app", "initialize in full mode with the visual app enabled")
@@ -70,7 +77,7 @@ program.command("init")
   });
 
 program.command("mode")
-  .description("Switch between core-only and full visual-app mode")
+  .description("[stable] Switch between core-only and full visual-app mode")
   .argument("<mode>", "core or full")
   .option("-p, --project <path>", "project root")
   .action(async (modeInput: string, opts) => {
@@ -86,7 +93,7 @@ program.command("mode")
   });
 
 program.command("scan")
-  .description("Scan files and build the initial abstraction tree")
+  .description("[stable] Scan files and build deterministic abstraction memory")
   .option("-p, --project <path>", "project root")
   .action(async opts => {
     const root = projectPath(opts.project);
@@ -117,7 +124,7 @@ program.command("scan")
   });
 
 program.command("validate")
-  .description("Validate tree/file alignment")
+  .description("[stable] Validate tree, file, concept, invariant, and drift alignment")
   .option("-p, --project <path>", "project root")
   .option("--strict", "treat warnings as validation failures")
   .action(async opts => {
@@ -132,7 +139,7 @@ program.command("validate")
   });
 
 program.command("doctor")
-  .description("Diagnose installation, memory, runtime boundaries, and validation readiness")
+  .description("[stable] Diagnose installation, memory, runtime boundaries, and validation readiness")
   .option("-p, --project <path>", "project root")
   .option("--json", "print machine-readable diagnostics")
   .option("--strict", "treat warnings as failures")
@@ -145,7 +152,7 @@ program.command("doctor")
   });
 
 program.command("migrate")
-  .description("Plan and apply .abstraction-tree schema migrations")
+  .description("[stable] Plan and apply .abstraction-tree schema migrations")
   .option("-p, --project <path>", "project root")
   .option("--dry-run", "print the migration plan without writing files")
   .option("--from <version>", "expected source schema version")
@@ -163,7 +170,7 @@ program.command("migrate")
   });
 
 program.command("context")
-  .description("Generate a compact context pack for an agent")
+  .description("[stable] Generate a compact context pack for an agent")
   .option("-p, --project <path>", "project root")
   .option("--format <format>", "output format: json or markdown", "json")
   .option("--max-tokens <n>", "approximate token budget for selected context items")
@@ -204,8 +211,41 @@ program.command("context")
     else console.log(JSON.stringify(pack, null, 2));
   });
 
+program.command("export")
+  .description("[stable] Export the generated abstraction tree as Mermaid or Graphviz DOT")
+  .option("-p, --project <path>", "project root")
+  .option("--format <format>", "output format: mermaid or dot", "mermaid")
+  .option("--out <path>", "write output to a file instead of stdout")
+  .action(async opts => {
+    const format = treeExportFormat(opts.format);
+    if (!format) {
+      console.error("Export format must be either `mermaid` or `dot`.");
+      process.exitCode = 1;
+      return;
+    }
+
+    const root = projectPath(opts.project);
+    const nodes = await readTreeNodes(root);
+    if (!nodes.length) {
+      console.error("No abstraction tree found. Run `atree scan --project .` first.");
+      process.exitCode = 1;
+      return;
+    }
+
+    const output = formatTreeExport(nodes, format);
+    if (!opts.out) {
+      process.stdout.write(output);
+      return;
+    }
+
+    const outPath = path.resolve(root, opts.out);
+    await mkdir(path.dirname(outPath), { recursive: true });
+    await writeFile(outPath, output, "utf8");
+    console.log(`Wrote ${format} tree export to ${path.relative(root, outPath).replaceAll(path.sep, "/")}`);
+  });
+
 program.command("propose")
-  .description("Run an explicit LLM provider adapter and save validated proposal output for review")
+  .description("[experimental] Run an explicit LLM provider adapter and save validated proposal output for review")
   .option("-p, --project <path>", "project root")
   .requiredOption("--provider <name>", "provider adapter name")
   .option("--adapter <path>", "ESM adapter module path; defaults to adapters/<provider>/index.mjs when present")
@@ -225,7 +265,7 @@ program.command("propose")
   });
 
 program.command("evaluate")
-  .description("Generate deterministic evaluation metrics")
+  .description("[beta] Generate deterministic evaluation metrics")
   .option("-p, --project <path>", "project root")
   .action(async opts => {
     const root = projectPath(opts.project);
@@ -235,7 +275,7 @@ program.command("evaluate")
   });
 
 program.command("goal")
-  .description("Compile a complex user goal into assessment, affected-tree mapping, and bounded missions")
+  .description("[beta] Compile a complex user goal into reviewable assessment, affected-tree mapping, and bounded missions")
   .option("-p, --project <path>", "project root")
   .requiredOption("--file <path>", "Markdown file containing the original user goal")
   .option("--plan-only", "create the goal workspace and mission plan without execution")
@@ -261,7 +301,7 @@ program.command("goal")
   });
 
 program.command("route")
-  .description("Classify a prompt as direct, goal-driven, assessment-pack, or manual-review")
+  .description("[beta] Classify a prompt as direct, goal-driven, assessment-pack, or manual-review")
   .option("-p, --project <path>", "project root")
   .option("--file <path>", "Markdown file containing the prompt to route")
   .option("--text <text>", "prompt text to route")
@@ -279,7 +319,7 @@ program.command("route")
   });
 
 const changesCommand = program.command("changes")
-  .description("Inspect semantic change records");
+  .description("[stable] Inspect semantic change records");
 
 changesCommand.command("review")
   .description("List generated scan change records eligible for consolidation")
@@ -296,7 +336,7 @@ changesCommand.command("review")
   });
 
 const scopeCommand = program.command("scope")
-  .description("Create and check prompt scope contracts for overreach control")
+  .description("[beta] Create and check prompt scope contracts for overreach control")
   .option("-p, --project <path>", "project root")
   .option("--prompt <text>", "user prompt to map into an abstraction-tree scope contract")
   .option("--json", "print machine-readable JSON")
@@ -329,7 +369,7 @@ scopeCommand.command("check")
   });
 
 program.command("serve")
-  .description("Serve the visual app locally")
+  .description("[stable] Serve the local visual app from generated project memory")
   .option("-p, --project <path>", "project root")
   .option("--port <number>", "port; defaults to config visualApp.defaultPort or 4317")
   .option("--host <host>", "host to bind; defaults to 127.0.0.1")

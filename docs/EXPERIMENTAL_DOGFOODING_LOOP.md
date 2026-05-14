@@ -1,5 +1,9 @@
 # Experimental Dogfooding Loop
 
+> Audience: Maintainers
+> Status: Experimental local dogfooding workflow
+> Read after: GOAL_DRIVEN_MISSION_WORKFLOW.md and MISSION_RUNNER.md.
+
 This is not the main product workflow.
 
 The main workflow is [Goal-Driven Mission Workflow](GOAL_DRIVEN_MISSION_WORKFLOW.md): route a complex prompt, create a goal workspace, map affected tree nodes, generate bounded missions, execute or review those missions, check scope, review coherence, evaluate the result, and prepare a report or PR body.

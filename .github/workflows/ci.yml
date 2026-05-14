@@ -34,6 +34,7 @@ jobs:
       - run: npm run atree:validate
       - run: npm run atree:evaluate
       - run: npm run atree -- doctor --project . --strict
+      - run: npm run atree -- export --project . --format mermaid
       - run: npm run atree:route -- --text "Add subscription billing with tests and docs" --json
       - name: Smoke test goal planning
         shell: bash

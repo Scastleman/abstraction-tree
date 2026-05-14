@@ -1,5 +1,9 @@
 # Maintainer Notes
 
+> Audience: Maintainers
+> Status: Internal planning notes
+> Read after: MISSION_RUNNER.md.
+
 This page holds internal maintenance plans that are useful for contributors but too detailed for user-facing workflow docs.
 
 ## Mission Runner Modularization Plan

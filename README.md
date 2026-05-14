@@ -44,12 +44,16 @@ In this repository today:
 ```bash
 npm install
 npm run build
-npm run atree -- scan --project .
-npm run atree -- doctor --project .
-npm run atree -- serve --project . --open
+npm run atree -- init --with-app --project examples/small-web-app
+npm run atree -- scan --project examples/small-web-app
+npm run atree -- doctor --project examples/small-web-app
+npm run atree -- export --project examples/small-web-app --format mermaid
+npm run atree -- serve --project examples/small-web-app --open
 ```
 
 `--open` launches the local visual app in your default browser. Without `--open`, `atree serve` prints the URL for manual opening.
+
+For the full beginner path, see [Getting Started](docs/GETTING_STARTED.md).
 
 ## Main Workflow
 
@@ -79,6 +83,17 @@ prompt
 ```
 
 Codex is the bounded executor. Abstraction Tree supplies memory, scope, mission planning, and review surfaces. Humans remain responsible for accepting important changes.
+
+## Stable vs Advanced
+
+| Surface | Status |
+| --- | --- |
+| `init`, `scan`, `doctor`, `validate`, `migrate` | Stable deterministic core |
+| `context`, `export`, `serve` | Stable memory/display surfaces |
+| `route`, `scope`, `evaluate`, `assessment:pack`, `goal --review-required` | Beta review workflows |
+| `propose`, `missions:run`, `self:loop` | Experimental or maintainer workflows |
+
+See [Stable vs Experimental](docs/STABLE_VS_EXPERIMENTAL.md) for the full boundary.
 
 ## Visual App
 
@@ -124,7 +139,10 @@ npm run atree:evaluate
 
 | Doc | Owns |
 | --- | --- |
-| [Docs index](docs/DOCS_INDEX.md) | Where each concept lives. |
+| [Docs index](docs/README.md) | Where each concept lives. |
+| [Getting started](docs/GETTING_STARTED.md) | Stable clone/install to first scan path. |
+| [Stable vs experimental](docs/STABLE_VS_EXPERIMENTAL.md) | Command maturity and safety boundaries. |
+| [Visual demo](docs/VISUAL_DEMO.md) | How to inspect the generated tree in the app. |
 | [Goal-driven mission workflow](docs/GOAL_DRIVEN_MISSION_WORKFLOW.md) | Main complex prompt workflow. |
 | [Mission runner](docs/MISSION_RUNNER.md) | Mission file format, planning, execution, and artifacts. |
 | [Scope contracts](docs/SCOPE_CONTRACTS.md) | Scope creation and diff checks. |

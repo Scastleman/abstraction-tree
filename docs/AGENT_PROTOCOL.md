@@ -1,5 +1,9 @@
 # Agent Protocol
 
+> Audience: Agent adapters and advanced users
+> Status: Beta protocol guidance
+> Read after: STABLE_VS_EXPERIMENTAL.md.
+
 Long-term goal: developers should not need to change how they prompt.
 
 Current workflow: use `atree route`, `atree goal`, mission runner commands, and scope checks explicitly, or configure an agent adapter to run that protocol internally.

@@ -1,5 +1,9 @@
 # Packaging and install modes
 
+> Audience: Maintainers preparing packages or releases
+> Status: Pre-publish release guidance
+> Read after: GETTING_STARTED.md and STABLE_VS_EXPERIMENTAL.md.
+
 Abstraction Tree supports two install modes because the abstraction layer should be useful even when a developer does not want a visual interface.
 
 Both modes support the same product direction: local project memory for safer complex prompt implementation. Full mode adds the visual app so humans can inspect the generated abstraction tree before or after Codex runs scoped missions.
@@ -135,23 +139,26 @@ root `package.json`.
 
 ## Release dry run
 
-Run the packaging smoke test first because it validates tarball contents,
-installability, linked binaries, and installed commands:
+Run the packaging smoke test directly during development when you want the
+fastest package/installability signal:
 
 ```bash
 npm run build
 npm run pack:smoke
 ```
 
-Then run the publish dry run:
+Run the full release preflight before publishing:
 
 ```bash
 npm run release:dry-run -- --version 0.1.0
 ```
 
 `release:dry-run` verifies synchronized package versions, verifies the
-changelog section, and runs `npm publish --dry-run` in each publishable package
-directory. It does not publish or tag anything.
+changelog section, runs the package smoke test, and runs `npm publish
+--dry-run` in each publishable package directory. The package smoke test checks
+tarball contents, dogfooding-memory exclusion, local tarball installability,
+linked binaries, `init`, `scan`, `doctor`, `validate`, `context`, `export`, and
+local app serving. It does not publish or tag anything.
 
 ## Maintainer release checklist
 
@@ -171,9 +178,9 @@ npm run typecheck
 npm run build
 npm run coverage
 npm test
-npm run pack:smoke
 npm run release:dry-run -- --version <version>
 npm run atree:validate
+npm run atree -- doctor --project . --strict
 ```
 
 6. Run the `Release Dry Run` GitHub Actions workflow with the same version.
