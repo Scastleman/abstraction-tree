@@ -16,7 +16,7 @@ For release decisions, use [V1_RELEASE_GATE.md](V1_RELEASE_GATE.md) as the pass/
 | `scope` and `scope check` | Beta | Helps detect overreach against a prompt scope; review the result before relying on it. |
 | `evaluate` | Beta | Deterministic quality metrics. Useful signal, not a semantic correctness guarantee. |
 | `assessment:pack` | Beta | Creates review evidence for ChatGPT or humans. It does not execute Codex. |
-| `goal --review-required` | Beta | Creates a goal workspace and mission plan; humans choose whether to execute. |
+| `goal --review-required` | Beta through first v1 unless external feedback justifies graduation | Creates a goal workspace and mission plan; humans choose whether to execute. |
 | `propose` | Experimental | Provider adapters write review artifacts only, not canonical memory. |
 | `missions:run` | Experimental | Invokes Codex on mission files. Inspect plans, diffs, checks, and reports. |
 | `self:loop` | Experimental dogfooding | Local repo-maintenance workflow for this repository, not a default user path. |
@@ -31,6 +31,10 @@ Beta means the workflow is useful and tested, but output should be reviewed and 
 Experimental means the workflow is for maintainers or advanced users. It may run agents, create large artifacts, or depend on local setup. Inspect outputs before accepting changes.
 
 Not stable means the project intentionally refuses or limits execution until safety gates are strong enough.
+
+## V1 Goal Workflow Boundary
+
+For the first v1, keep `goal --review-required` beta unless public beta feedback shows that the planning-only surface is reliable across external projects. The stable v1 product remains deterministic project memory, validation, context packs, export, and visual inspection. `goal --run`, `goal --full-auto`, and mission execution are not stable v1 surfaces.
 
 ## Safety Boundaries
 

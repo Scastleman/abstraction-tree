@@ -1,7 +1,7 @@
 # Goal-Driven Mission Workflow
 
 > Audience: Users implementing complex prompts with agent assistance
-> Status: Beta review workflow
+> Status: Beta review workflow through first v1 unless external feedback justifies graduating planning-only behavior
 > Read after: GETTING_STARTED.md and STABLE_VS_EXPERIMENTAL.md.
 
 This is the main advanced workflow for complex coding requests. It turns a broad prompt into a route decision, goal workspace, affected-tree map, mission plan, scope contract, coherence review, and report before Codex executes anything.
@@ -59,7 +59,7 @@ npm run atree:goal -- --file prompts/complex-goal.md --run --create-pr
 npm run atree:goal -- --file prompts/complex-goal.md --create-pr
 ```
 
-`--review-required` is the safe default if no mode is passed. It writes the goal workspace and prints mission runner, scope-check, build/test, evaluation, and diff-summary commands to inspect and execute the generated mission folder.
+`--review-required` is the safe default if no mode is passed. It writes the goal workspace and prints mission runner, scope-check, build/test, evaluation, and diff-summary commands to inspect and execute the generated mission folder. This planning surface remains beta for the first v1 unless public beta evidence proves it is stable across external projects.
 
 `--run` and `--full-auto` currently write the plan and refuse execution. That is deliberate: the command should not claim unattended execution until it can call the mission runner with equivalent batching, sandbox, worktree, and coherence-review guardrails. The refusal is recorded in goal-local checks, coherence, score, and final-report artifacts.
 

@@ -51,6 +51,7 @@ export async function checkDocCommands(root = repoRoot) {
     issues.push(...checkNpmRunScripts(relativePath, text, scripts));
     issues.push(...checkAtreeCommands(relativePath, text));
     issues.push(...checkMarkdownLinks(root, relativePath, text));
+    issues.push(...checkMarkdownImageLinks(root, relativePath, text));
   }
 
   return issues.sort();
@@ -114,6 +115,20 @@ function checkMarkdownLinks(root, relativePath, text) {
     const resolved = path.resolve(root, path.dirname(relativePath), cleanTarget);
     if (!existsSync(resolved)) {
       issues.push(`${relativePath}: linked Markdown file does not exist: ${target}`);
+    }
+  }
+  return issues;
+}
+
+function checkMarkdownImageLinks(root, relativePath, text) {
+  const issues = [];
+  for (const match of text.matchAll(/!\[[^\]]*]\(([^)\s]+)(?:\s+"[^"]*")?\)/g)) {
+    const target = match[1];
+    if (/^[a-z]+:\/\//i.test(target)) continue;
+    const cleanTarget = target.replace(/^<|>$/g, "");
+    const resolved = path.resolve(root, path.dirname(relativePath), cleanTarget);
+    if (!existsSync(resolved)) {
+      issues.push(`${relativePath}: linked image file does not exist: ${target}`);
     }
   }
   return issues;

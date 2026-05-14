@@ -67,3 +67,39 @@ The app shows validation health and available agent-facing memory signals. This 
 ![Context and drift health](assets/visual-demo/context-or-drift.png)
 
 If the UI changes, refresh screenshots intentionally from a real `atree serve` session. Do not commit mock or generated marketing screenshots.
+
+## Screenshot Refresh Checklist
+
+Refresh these screenshots before a beta or release candidate when any of these change:
+
+- visual app layout, styling, or selected-node panel content;
+- `/api/state` shape or app memory loading behavior;
+- generated node summary, explanation, reason-for-existence, or separation-logic fields;
+- `examples/small-web-app` fixture memory;
+- this visual demo page or README screenshot references.
+
+Use a real local app session against `examples/small-web-app`:
+
+```bash
+npm install
+npm run build
+npm run atree -- init --with-app --project examples/small-web-app
+npm run atree -- scan --project examples/small-web-app
+npm run atree -- serve --project examples/small-web-app --host 127.0.0.1 --port 4327
+```
+
+Open the printed URL and replace the files in `docs/assets/visual-demo/`:
+
+- `tree-hierarchy.png`
+- `selected-node-explanation.png`
+- `file-ownership.png`
+- `concepts-invariants.png`
+- `context-or-drift.png`
+
+Then run:
+
+```bash
+npm run docs:commands
+```
+
+The docs command check verifies that referenced screenshot files exist. It does not prove that screenshots are visually current, so review the images manually before a beta or v1 candidate.

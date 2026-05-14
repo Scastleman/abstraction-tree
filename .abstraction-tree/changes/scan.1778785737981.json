@@ -1,6 +1,6 @@
 {
-  "id": "scan.1778784106949",
-  "timestamp": "2026-05-14T18:41:46.949Z",
+  "id": "scan.1778785737981",
+  "timestamp": "2026-05-14T19:08:57.981Z",
   "title": "Deterministic scan",
   "reason": "Generated abstraction tree from project files, imports, symbols, tests, and folders.",
   "affectedNodeIds": [

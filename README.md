@@ -96,7 +96,7 @@ Codex is the bounded executor. Abstraction Tree supplies memory, scope, mission 
 | --- | --- |
 | `init`, `scan`, `doctor`, `validate`, `migrate` | Stable deterministic core |
 | `context`, `export`, `serve` | Stable memory/display surfaces |
-| `route`, `scope`, `evaluate`, `assessment:pack`, `goal --review-required` | Beta review workflows |
+| `route`, `scope`, `evaluate`, `assessment:pack`, `goal --review-required` | Beta review workflows; `goal --review-required` stays beta through first v1 unless external feedback justifies graduation |
 | `propose`, `missions:run`, `self:loop` | Experimental or maintainer workflows |
 
 See [Stable vs Experimental](docs/STABLE_VS_EXPERIMENTAL.md) for the full boundary.
@@ -154,6 +154,7 @@ npm run atree:evaluate
 | [Data model](docs/DATA_MODEL.md) | Memory files, schema, and dogfooding boundary. |
 | [Architecture](docs/ARCHITECTURE.md) | Core, CLI, app, and provider-adapter architecture. |
 | [Packaging](docs/PACKAGING.md) | Planned npm packages and install modes. |
+| [Release runbook](docs/RELEASE_RUNBOOK.md) | Manual beta publish and post-publish verification checklist. |
 | [CI integration](docs/CI_INTEGRATION.md) | Deterministic CI usage. |
 | [Experimental dogfooding loop](docs/EXPERIMENTAL_DOGFOODING_LOOP.md) | Optional repo-maintenance loop for this repository. |
 | [Roadmap](docs/ROADMAP.md) | Implemented capabilities, limitations, next priorities, and later ideas. |

@@ -39,14 +39,14 @@ Release decisions are tracked in [V1_RELEASE_GATE.md](V1_RELEASE_GATE.md) and [V
 - Coherence review and goal scoring are deterministic first-pass artifacts.
 - The visual app does not yet expose goal workspaces, mission plans, scope results, or coherence reviews as first-class views.
 - Historical filenames such as `FULL_SELF_IMPROVEMENT_LOOP.md` and `scripts/run-full-self-improvement-loop.mjs` remain as compatibility entrypoints, but they are not the product framing.
-- Public npm packages are planned but not published yet; local tarball smoke tests are the current install proof.
+- Public npm packages are not published yet; `0.2.0-beta.1` is the current candidate for public beta verification, and local tarball smoke tests are the current install proof.
 - Visual goal workspace and mission-plan panels are post-v1 unless implemented as small read-only views without changing stable app scope.
 
 ## Next Priorities
 
 1. Verify and keep docs/command references aligned with the actual CLI.
 2. Keep the v1 release gate current with install, packaging, schema, screenshot, changelog, CI, and memory-hygiene evidence.
-3. Publish and verify a public beta or release-candidate package before claiming v1 readiness.
+3. Publish and verify `0.2.0-beta.1` from the public npm registry before claiming v1 readiness.
 4. Integrate route -> goal -> mission runner -> scope check -> coherence review -> evaluation -> report into one smoother reviewable workflow.
 5. Add deterministic post-mission goal coherence review that compares actual changed files, checks, scope results, and mission outcomes against the original prompt.
 6. Improve router and goal planner behavior using feedback from executed missions.

@@ -17,9 +17,12 @@ test("checkDocCommands accepts documented package scripts and CLI commands", asy
     "```",
     "",
     "[Guide](docs/GUIDE.md)",
+    "![Screenshot](docs/assets/demo.png)",
     ""
   ].join("\n"));
   await writeFile(path.join(root, "docs", "GUIDE.md"), "Run `atree validate`.\n");
+  await mkdir(path.join(root, "docs", "assets"), { recursive: true });
+  await writeFile(path.join(root, "docs", "assets", "demo.png"), "fake png fixture\n");
 
   assert.deepEqual(await checkDocCommands(root), []);
 });
@@ -35,6 +38,7 @@ test("checkDocCommands reports stale scripts, commands, and doc links", async t 
     "```",
     "",
     "[Missing](docs/MISSING.md)",
+    "![Missing screenshot](docs/assets/missing.png)",
     ""
   ].join("\n"));
   await writeFile(path.join(root, "docs", "GUIDE.md"), "ok\n");
@@ -44,6 +48,7 @@ test("checkDocCommands reports stale scripts, commands, and doc links", async t 
   assert.ok(issues.some(issue => issue.includes("missing:script")));
   assert.ok(issues.some(issue => issue.includes("vanished")));
   assert.ok(issues.some(issue => issue.includes("docs/MISSING.md")));
+  assert.ok(issues.some(issue => issue.includes("docs/assets/missing.png")));
 });
 
 async function fixture(t) {

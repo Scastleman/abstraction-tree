@@ -42,7 +42,8 @@ Pass criteria:
 - Packed packages include only intended files and exclude root `.abstraction-tree/` dogfooding memory.
 - Linked binaries are verified from the installed project.
 - The full package can serve the local app from the installed tarball.
-- `npm run release:dry-run -- --version <candidate-version>` passes before any publish.
+- `npm run release:dry-run -- --version <candidate-version>` passes before any publish. For the current beta candidate, use `npm run release:dry-run -- --version 0.2.0-beta.1`.
+- Public beta verification is recorded from a clean external directory using [release-evidence/beta-verification-template.md](release-evidence/beta-verification-template.md).
 
 Prerelease plan:
 
@@ -50,6 +51,7 @@ Prerelease plan:
 - Use the npm `beta` dist-tag for beta builds or `next` for release candidates.
 - Publish in dependency order: `@abstraction-tree/core`, `@abstraction-tree/cli`, `@abstraction-tree/app`, then `abstraction-tree`.
 - If a package is broken, deprecate the broken version with a clear message and publish a fixed prerelease. Do not move `latest` until the stable path passes.
+- Follow [RELEASE_RUNBOOK.md](RELEASE_RUNBOOK.md) for manual publish and post-publish verification. Agents must not publish packages, move dist-tags, create credentials, or handle 2FA.
 
 ## Schema And Migration Gate
 
@@ -72,6 +74,8 @@ Pass criteria:
 - The README embeds at least one representative screenshot.
 - Screenshots show a real target project, preferably `examples/small-web-app`.
 - The app visibly supports the v1 stable scope: tree hierarchy, node details, file ownership, concepts, invariants, changes, and health.
+- Screenshot freshness is reviewed before release when UI layout, `/api/state` payloads, node details, or visual-demo docs change.
+- `docs:commands` verifies that referenced screenshot files exist.
 
 Goal workspace and mission-plan visualization is post-v1 unless a small read-only panel lands without weakening the stable app. v1 does not require visual mission execution.
 
@@ -85,6 +89,7 @@ Pass criteria:
 - `CHANGELOG.md` has accurate unreleased or candidate release notes.
 - Public docs do not claim full autonomous self-improvement or guaranteed correctness.
 - Beta and experimental workflows are clearly labeled.
+- `goal --review-required` remains beta through the first v1 unless external beta evidence justifies graduating only the planning surface.
 
 ## CI And Release Preflight Gate
 

@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import { publishTagForVersion } from "./release-dry-run.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -39,6 +40,13 @@ test("packaging docs and release dry run agree on package smoke preflight", asyn
   assert.match(packaging, /`release:dry-run` verifies synchronized package versions/);
   assert.match(packaging, /runs the package smoke test/);
   assert.match(releaseDryRun, /pack-smoke-test\.mjs/);
+  assert.match(releaseDryRun, /--tag/);
+});
+
+test("release dry run uses explicit npm tags for prerelease versions", () => {
+  assert.equal(publishTagForVersion("0.2.0-beta.1"), "beta");
+  assert.equal(publishTagForVersion("1.0.0-rc.1"), "next");
+  assert.equal(publishTagForVersion("1.0.0"), undefined);
 });
 
 async function readProjectFile(relativePath) {

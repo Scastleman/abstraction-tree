@@ -38,9 +38,11 @@ async function main(args = process.argv.slice(2), root = repoRoot) {
   );
   console.log("release dry-run: package smoke and installability checks passed");
 
+  const publishTag = publishTagForVersion(expectedVersion);
   for (const packageInfo of publishablePackages) {
     const publishArgs = ["publish", "--dry-run"];
     if (packageInfo.access) publishArgs.push("--access", packageInfo.access);
+    if (publishTag) publishArgs.push("--tag", publishTag);
 
     await runCommand(
       process.execPath,
@@ -50,6 +52,13 @@ async function main(args = process.argv.slice(2), root = repoRoot) {
     );
     console.log(`release dry-run: ${packageInfo.name} publish dry-run passed`);
   }
+}
+
+export function publishTagForVersion(version) {
+  if (/-beta(?:\.|$)/.test(version)) return "beta";
+  if (/-rc(?:\.|$)/.test(version)) return "next";
+  if (version.includes("-")) return "next";
+  return undefined;
 }
 
 function runCommand(command, args, cwd, label) {

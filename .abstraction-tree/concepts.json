@@ -1291,7 +1291,7 @@
   {
     "id": "goal",
     "title": "Goal",
-    "summary": "Durable concept inferred from 9 file(s) using doc, export, path, symbol signals.",
+    "summary": "Durable concept inferred from 10 file(s) using doc, export, path, symbol signals.",
     "relatedNodeIds": [
       "module.docs",
       "module.packages",
@@ -1299,6 +1299,7 @@
       "file.docs.goal.driven.mission.workflow.md",
       "file.docs.mission.runner.md",
       "file.docs.scope.contracts.md",
+      "file.docs.stable.vs.experimental.md",
       "file.docs.v1.release.gate.md",
       "file.packages.cli.src.goalcommand.test.ts",
       "file.packages.cli.src.goalcommand.ts",
@@ -1326,6 +1327,7 @@
       "subsystem.docs.examples.file.docs.goal.driven.mission.workflow.md",
       "subsystem.docs.examples.file.docs.mission.runner.md",
       "subsystem.docs.examples.file.docs.scope.contracts.md",
+      "subsystem.docs.examples.file.docs.stable.vs.experimental.md",
       "subsystem.docs.examples.file.docs.v1.release.gate.md",
       "subsystem.tests.quality",
       "subsystem.tests.quality.slice.core.tests",
@@ -1338,6 +1340,7 @@
       "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
       "docs/MISSION_RUNNER.md",
       "docs/SCOPE_CONTRACTS.md",
+      "docs/STABLE_VS_EXPERIMENTAL.md",
       "docs/V1_RELEASE_GATE.md",
       "packages/cli/src/goalCommand.test.ts",
       "packages/cli/src/goalCommand.ts",
@@ -1581,6 +1584,13 @@
       },
       {
         "kind": "symbol",
+        "filePath": "docs/STABLE_VS_EXPERIMENTAL.md",
+        "value": "V1 Goal Workflow Boundary",
+        "term": "goal",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
         "filePath": "docs/V1_RELEASE_GATE.md",
         "value": "Explicit V1 Non-Goals",
         "term": "goal",
@@ -1618,13 +1628,6 @@
         "kind": "symbol",
         "filePath": "packages/cli/src/goalCommand.test.ts",
         "value": "writeGoal",
-        "term": "goal",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "buildGoalRouteRecord",
         "term": "goal",
         "score": 3
       }
@@ -2034,7 +2037,7 @@
   {
     "id": "memory",
     "title": "Memory",
-    "summary": "Durable concept inferred from 32 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 33 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.adapters",
       "module.docs",
@@ -2046,6 +2049,7 @@
       "file.docs.architecture.md",
       "file.docs.mission.runner.md",
       "file.docs.packaging.md",
+      "file.docs.release.evidence.beta.verification.template.md",
       "file.docs.v1.release.gate.md",
       "file.packages.cli.src.apistate.test.ts",
       "file.packages.cli.src.doctor.test.ts",
@@ -2113,6 +2117,7 @@
       "subsystem.docs.examples.file.docs.architecture.md",
       "subsystem.docs.examples.file.docs.mission.runner.md",
       "subsystem.docs.examples.file.docs.packaging.md",
+      "subsystem.docs.examples.file.docs.release.evidence.beta.verification.template.md",
       "subsystem.docs.examples.file.docs.v1.release.gate.md",
       "subsystem.packaging.adapters",
       "subsystem.packaging.adapters.slice.adapters",
@@ -2147,6 +2152,7 @@
       "docs/MISSION_RUNNER.md",
       "docs/PACKAGING.md",
       "docs/V1_RELEASE_GATE.md",
+      "docs/release-evidence/beta-verification-template.md",
       "packages/cli/src/apiState.test.ts",
       "packages/cli/src/doctor.test.ts",
       "packages/cli/src/doctor.ts",
@@ -2294,6 +2300,13 @@
         "kind": "symbol",
         "filePath": "docs/PACKAGING.md",
         "value": "Dogfooding memory boundary",
+        "term": "memory",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/release-evidence/beta-verification-template.md",
+        "value": "Dogfooding-Memory Isolation",
         "term": "memory",
         "score": 3
       },
@@ -2448,13 +2461,6 @@
         "kind": "symbol",
         "filePath": "packages/cli/src/serveProject.ts",
         "value": "missingMemoryFiles",
-        "term": "memory",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/serveProject.ts",
-        "value": "REQUIRED_MEMORY_FILES",
         "term": "memory",
         "score": 3
       }
@@ -9352,6 +9358,238 @@
     ]
   },
   {
+    "id": "version",
+    "title": "Version",
+    "summary": "Durable concept inferred from 6 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "module.scripts",
+      "file.packages.cli.src.doctor.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.scripts.check.changelog.mjs",
+      "file.scripts.check.changelog.test.mjs",
+      "file.scripts.release.dry.run.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.runtimeschema.ts",
+      "subsystem.core.engine.slice.core.support",
+      "subsystem.core.engine.file.packages.core.src.migrations.ts",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.doctor.ts",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
+      "subsystem.memory.validation.logs.file.packages.core.src.runtimeschema.ts",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.check.changelog.mjs",
+      "subsystem.packaging.adapters.file.scripts.check.changelog.test.mjs",
+      "subsystem.packaging.adapters.file.scripts.release.dry.run.mjs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.check.changelog.mjs",
+      "subsystem.tests.quality.file.scripts.check.changelog.test.mjs"
+    ],
+    "relatedFiles": [
+      "packages/cli/src/doctor.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "scripts/check-changelog.mjs",
+      "scripts/check-changelog.test.mjs",
+      "scripts/release-dry-run.mjs"
+    ],
+    "tags": [
+      "version"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "CURRENT_ATREE_SCHEMA_VERSION",
+        "term": "version",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
+        "term": "version",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateConfigVersion",
+        "term": "version",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "resolveExpectedVersion",
+        "term": "version",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "validateSynchronizedVersions",
+        "term": "version",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/release-dry-run.mjs",
+        "value": "publishTagForVersion",
+        "term": "version",
+        "score": 4
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/doctor.ts",
+        "value": "MINIMUM_NODE_VERSION",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "configVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "currentVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "filterMigratableVersionIssues",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "fromVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "toVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "CURRENT_ATREE_SCHEMA_VERSION",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateConfigVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "VERSION_HINT",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "dependencyVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "expectedVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "explicitVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "resolveExpectedVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "validateManifestVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "validateSynchronizedVersions",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.test.mjs",
+        "value": "version",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.test.mjs",
+        "value": "versionIssues",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/release-dry-run.mjs",
+        "value": "expectedVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/release-dry-run.mjs",
+        "value": "publishTagForVersion",
+        "term": "version",
+        "score": 3
+      }
+    ]
+  },
+  {
     "id": "git",
     "title": "Git",
     "summary": "Durable concept inferred from 9 file(s) using export, symbol signals.",
@@ -9590,224 +9828,6 @@
         "filePath": "scripts/run-missions.test.mjs",
         "value": "runGit",
         "term": "git",
-        "score": 3
-      }
-    ]
-  },
-  {
-    "id": "version",
-    "title": "Version",
-    "summary": "Durable concept inferred from 6 file(s) using export, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "module.scripts",
-      "file.packages.cli.src.doctor.ts",
-      "file.packages.core.src.migrations.ts",
-      "file.packages.core.src.runtimeschema.ts",
-      "file.scripts.check.changelog.mjs",
-      "file.scripts.check.changelog.test.mjs",
-      "file.scripts.release.dry.run.mjs",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "subsystem.core.engine",
-      "subsystem.core.engine.slice.memory.quality",
-      "subsystem.core.engine.file.packages.core.src.runtimeschema.ts",
-      "subsystem.core.engine.slice.core.support",
-      "subsystem.core.engine.file.packages.core.src.migrations.ts",
-      "subsystem.cli.local.api",
-      "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.doctor.ts",
-      "subsystem.memory.validation.logs",
-      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
-      "subsystem.memory.validation.logs.file.packages.core.src.runtimeschema.ts",
-      "subsystem.packaging.adapters",
-      "subsystem.packaging.adapters.slice.release.scripts",
-      "subsystem.packaging.adapters.file.scripts.check.changelog.mjs",
-      "subsystem.packaging.adapters.file.scripts.check.changelog.test.mjs",
-      "subsystem.packaging.adapters.file.scripts.release.dry.run.mjs",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.script.quality",
-      "subsystem.tests.quality.file.scripts.check.changelog.mjs",
-      "subsystem.tests.quality.file.scripts.check.changelog.test.mjs"
-    ],
-    "relatedFiles": [
-      "packages/cli/src/doctor.ts",
-      "packages/core/src/migrations.ts",
-      "packages/core/src/runtimeSchema.ts",
-      "scripts/check-changelog.mjs",
-      "scripts/check-changelog.test.mjs",
-      "scripts/release-dry-run.mjs"
-    ],
-    "tags": [
-      "version"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "CURRENT_ATREE_SCHEMA_VERSION",
-        "term": "version",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
-        "term": "version",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateConfigVersion",
-        "term": "version",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/check-changelog.mjs",
-        "value": "resolveExpectedVersion",
-        "term": "version",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/check-changelog.mjs",
-        "value": "validateSynchronizedVersions",
-        "term": "version",
-        "score": 4
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "MINIMUM_NODE_VERSION",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "configVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "currentVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "filterMigratableVersionIssues",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "fromVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "toVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "CURRENT_ATREE_SCHEMA_VERSION",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateConfigVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "VERSION_HINT",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/check-changelog.mjs",
-        "value": "dependencyVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/check-changelog.mjs",
-        "value": "expectedVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/check-changelog.mjs",
-        "value": "explicitVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/check-changelog.mjs",
-        "value": "resolveExpectedVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/check-changelog.mjs",
-        "value": "validateManifestVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/check-changelog.mjs",
-        "value": "validateSynchronizedVersions",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/check-changelog.test.mjs",
-        "value": "version",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/check-changelog.test.mjs",
-        "value": "versionIssues",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/release-dry-run.mjs",
-        "value": "expectedVersion",
-        "term": "version",
         "score": 3
       }
     ]
