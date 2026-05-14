@@ -1,10 +1,10 @@
 # Mission Runner
 
-`scripts/run-missions.mjs` turns a folder of Markdown mission files into an Abstraction Tree-aware work queue. It can print a JSON plan, dry-run the Codex CLI commands that would execute, or run each mission non-interactively through Codex CLI. It is an execution aid with guardrails, not a guarantee that the resulting code is correct.
+`scripts/run-missions.mjs` turns a folder of Markdown mission files into an Abstraction Tree-aware work queue. It can print a JSON plan, dry-run the Codex CLI commands that would execute, or run each mission non-interactively through Codex CLI. It is the execution stage for reviewable prompt-to-mission workflows, not a guarantee that the resulting code is correct.
 
-## Role in the Workflow
+## Role in Complex Prompt Implementation
 
-The mission runner is the execution stage, not the strategic assessment stage. For broad repository work, use this sequence:
+The mission runner is the execution stage, not the strategic assessment stage. For complex implementation prompts, use `atree route` and `atree goal` first so Codex receives bounded missions instead of one huge prompt. For broad repository work, use this sequence:
 
 1. Run `npm run assessment:pack`.
 2. Review `assessment-prompt.md` in ChatGPT or with a human reviewer.
@@ -166,7 +166,7 @@ Supported fields are string scalars, empty arrays, and block arrays. When fields
 - `affectedNodes` from mentioned node ids plus owners of inferred files.
 - `risk: medium`, `priority: P2`, and `dependsOn: []`.
 
-Full-loop generated missions must include a value `category` so the assessment cannot fill the whole mission set with process-only automation work. Valid categories are:
+Dogfooding-loop generated missions must include a value `category` so the assessment cannot fill the whole mission set with process-only automation work. Valid categories are:
 
 - `product-value`: improves capabilities or outcomes for project users/adopters.
 - `safety`: reduces overreach, security, sandbox, data-loss, or operational risk.
@@ -176,7 +176,7 @@ Full-loop generated missions must include a value `category` so the assessment c
 
 The experimental dogfooding loop allows at most one `automation-maintenance` mission by default. Pass `--allow-multiple-automation-maintenance` only for an attended run where multiple automation maintenance tasks are deliberately in scope.
 
-Strict import and full-loop generated mission validation use `scripts/mission-schema.mjs` as the canonical schema source. It defines required frontmatter fields, valid priority/risk/category values, required body headings, parsing helpers, and duplicate-id folder validation.
+Strict import and dogfooding-loop generated mission validation use `scripts/mission-schema.mjs` as the canonical schema source. It defines required frontmatter fields, valid priority/risk/category values, required body headings, parsing helpers, and duplicate-id folder validation.
 
 ## Planning
 
@@ -292,56 +292,6 @@ Local run artifacts are ignored by git:
 
 The runner uses Abstraction Tree memory as planning context rather than as an execution authority. `files.json` maps touched files to owning nodes, `tree.json` supplies parent/child neighborhoods, `concepts.json` helps infer related ownership from mission text, and `invariants.json` keeps high-severity invariant files out of writable parallel batches.
 
-## Future Modularization Plan
+## Maintainer Notes
 
-The first refactor should keep `scripts/run-missions.mjs` and `scripts/run-full-self-improvement-loop.mjs` as the public CLI entrypoints. Extract one module at a time, import it back into the original script, and re-export the same helper names from the original script until the tests and any local callers have moved intentionally.
-
-Proposed mission runner layout:
-
-```text
-scripts/mission-schema.mjs
-scripts/mission-runner/
-  args.mjs
-  discovery.mjs
-  frontmatter.mjs
-  planning.mjs
-  execution.mjs
-  runtime.mjs
-  codex-jsonl.mjs
-  worktrees.mjs
-```
-
-Safe extraction order:
-
-1. Keep mission schema and parsing helpers centralized in `scripts/mission-schema.mjs`; continue re-exporting `parseMissionMarkdown` and `parseSimpleFrontmatter` from `scripts/run-missions.mjs` while callers migrate. Protection: `scripts/mission-schema.test.mjs`, `scripts/run-missions.test.mjs` frontmatter, heading inference, and affected-file inference tests.
-2. Move mission runtime helpers next: `readMissionRuntime`, `emptyMissionRuntime`, `filterMissionsByRuntime`, `updateMissionRuntime`, and the runtime identity/key helpers into `runtime.mjs`. Protection: runtime skip, duplicate basename, mission-folder-relative runtime, runtime-only completion, and repo-relative runtime update tests.
-3. Move pure planning helpers: `createMissionPlan`, batching conflict checks, dependency ordering, global-file checks, invariant checks, and execution blocker calculation into `planning.mjs`. Protection: batch planning, high-risk isolation, global shared file, workspace-write blocker, and danger-full-access blocker tests.
-4. Move Codex JSONL parsing: `finalAgentMessage`, agent text extraction, content extraction, and fallback final message handling into `codex-jsonl.mjs`. Protection: injected Codex execution and batch summary tests.
-5. Move discovery and memory reads: `discoverMissions`, `readMissionFile`, `readAbstractionMemory`, Markdown walking, affected-file inference, affected-node inference, affected-concept inference, and first-heading inference into `discovery.mjs`. Protection: recursive discovery, heading inference, affected-file inference, and default queue tests.
-6. Move side-effectful execution last: `executePlan`, `executeMission`, prompt hydration, `assemblePrompt`, mission status writing, Codex spawning, stream closing, and artifact path helpers into `execution.mjs`; move `prepareMissionWorktree` into `worktrees.mjs`. Protection: dry-run, blocked execution, injected Codex process, real git worktree, read-only parallel batch, and batch summary tests.
-
-Proposed full-loop layout:
-
-```text
-scripts/full-loop/
-  args.mjs
-  assessment.mjs
-  validation.mjs
-  coherence.mjs
-  reporting.mjs
-```
-
-Safe extraction order:
-
-1. Move `parseArgs`, `positiveInteger`, and argument value helpers into `args.mjs`. Protection: full-loop argument default, explicit control, and danger-full-access tests.
-2. Move `buildAssessmentPrompt` and assessment context collection into `assessment.mjs`. Protection: assessment prompt and dry-run prompt tests.
-3. Move `validateAssessmentOutput`, generated mission contract checks, generated mission parsing, generated frontmatter parsing, and mission file enumeration into `validation.mjs`. Protection: the assessment output validation tests for missing files, missing fields, invalid categories, multiple automation-maintenance missions, bad `parallelGroupSafe`, too many missions, and missions outside the output directory.
-4. Move `buildCoherencePrompt` into `coherence.mjs`. Protection: the coherence prompt test.
-5. Move `buildDurableRunReport`, stop/repeat decision rendering, and durable report text helpers into `reporting.mjs`. Protection: durable run report tests. Leave `runCli`, command execution, Codex process spawning, and top-level orchestration in the original script until the pure modules above are stable.
-
-Behavior preservation rules:
-
-- Keep the original scripts as facade modules during the migration. They should continue exporting `runCli`, `parseArgs`, `discoverMissions`, `readMissionRuntime`, `emptyMissionRuntime`, `filterMissionsByRuntime`, `updateMissionRuntime`, `readMissionFile`, `parseMissionMarkdown`, `parseSimpleFrontmatter`, `createMissionPlan`, `executePlan`, `executeMission`, `assemblePrompt`, `finalAgentMessage`, `readAbstractionMemory`, `buildAssessmentPrompt`, `buildCoherencePrompt`, `buildDurableRunReport`, and `validateAssessmentOutput` under the same names.
-- Do not change CLI flags, defaults, output paths, artifact formats, JSON field names, mission ordering, sandbox gates, or worktree behavior during extraction.
-- Prefer mechanical moves with import rewiring only. Add direct module tests after each move if useful, but keep the existing facade tests passing before changing their imports.
-- Run the focused script tests after each extraction, then the repository checks: `npm run build`, `npm test`, `npm run format`, `npm run check:unicode`, and `npm run atree:validate`.
+Internal extraction plans for the mission runner and dogfooding-loop scripts live in [MAINTAINER_NOTES.md](MAINTAINER_NOTES.md). This page stays focused on user-facing mission format, planning, execution, safety, and artifacts.

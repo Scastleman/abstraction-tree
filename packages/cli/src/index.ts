@@ -30,9 +30,11 @@ import { runChangeReviewCommand } from "./changeReviewCommand.js";
 import { collectValidationIssues, doctorExitCode, findVisualAppDist, formatDoctorReport, runDoctor } from "./doctor.js";
 import { runGoalCommand } from "./goalCommand.js";
 import { formatMigrationResult, migrationExitCode, runMigrateCommand } from "./migrate.js";
+import { openBrowser } from "./openBrowser.js";
 import { runProposeCommand } from "./propose.js";
 import { runRouteCommand } from "./routeCommand.js";
-import { formatServeUrl, selectServeHost } from "./serveHost.js";
+import { browserServeUrl, formatServeUrl, selectServeHost } from "./serveHost.js";
+import { formatInitGuidance, formatScanGuidance } from "./setupGuidance.js";
 import { runScopeCheckCommand, runScopeCreateCommand } from "./scopeCommand.js";
 
 const program = new Command();
@@ -63,11 +65,8 @@ program.command("init")
     const root = projectPath(opts.project);
     const mode: InstallMode = opts.withApp ? "full" : "core";
     await ensureWorkspace(root, { installMode: mode });
-    console.log(`Initialized Abstraction Tree in ${atreePath(root)} (${mode} mode).`);
-    if (mode === "core") {
-      console.log("Core-only mode writes .abstraction-tree data and supports scan, validate, and context commands.");
-      console.log("Install the full package or run `atree mode full` when you want to enable the visual app.");
-    }
+    console.log(`Initialized Abstraction Tree in ${mode} mode at ${atreePath(root)}.`);
+    for (const line of formatInitGuidance(mode, opts.project)) console.log(line);
   });
 
 program.command("mode")
@@ -114,6 +113,7 @@ program.command("scan")
     };
     await writeJson(atreePath(root, "changes", `${change.id}.json`), change);
     console.log(`Scanned ${built.files.length} files and built ${built.nodes.length} tree nodes.`);
+    for (const line of formatScanGuidance(config, opts.project)) console.log(line);
   });
 
 program.command("validate")
@@ -333,6 +333,7 @@ program.command("serve")
   .option("-p, --project <path>", "project root")
   .option("--port <number>", "port; defaults to config visualApp.defaultPort or 4317")
   .option("--host <host>", "host to bind; defaults to 127.0.0.1")
+  .option("--open", "open the visual app in the default browser after the server starts")
   .action(async opts => {
     const root = projectPath(opts.project);
     const config = await readConfig(root);
@@ -362,7 +363,19 @@ program.command("serve")
       serveStatic(req, res, () => fallback(res));
     });
     if (warning) console.warn(warning);
-    server.listen(port, host, () => console.log(`Abstraction Tree app: ${formatServeUrl(host, port)}`));
+    server.listen(port, host, () => {
+      const appUrl = formatServeUrl(host, port);
+      const openUrl = browserServeUrl(host, port);
+      console.log(`Abstraction Tree app: ${appUrl}`);
+      if (!opts.open) return;
+
+      console.log("Opening browser...");
+      void openBrowser(openUrl).then(result => {
+        if (result.ok) return;
+        console.warn("Could not open browser automatically. Open this URL manually:");
+        console.warn(openUrl);
+      });
+    });
   });
 
 function fallback(res: import("node:http").ServerResponse) {

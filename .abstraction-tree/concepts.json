@@ -2,12 +2,11 @@
   {
     "id": "change",
     "title": "Change",
-    "summary": "Durable concept inferred from 31 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 30 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.adapters",
       "module.docs",
       "module.packages",
-      "module.root",
       "module.scripts",
       "file.adapters.local.json.index.mjs",
       "file.docs.data.model.md",
@@ -35,7 +34,6 @@
       "file.packages.core.src.validator.test.ts",
       "file.packages.core.src.validator.ts",
       "file.packages.core.src.workspace.ts",
-      "file.readme.md",
       "file.scripts.create.assessment.pack.mjs",
       "file.scripts.diff.summary.mjs",
       "file.scripts.run.abstraction.loop.ps1",
@@ -97,8 +95,6 @@
       "subsystem.docs.examples",
       "subsystem.docs.examples.slice.guides",
       "subsystem.docs.examples.file.docs.data.model.md",
-      "subsystem.docs.examples.slice.readme",
-      "subsystem.docs.examples.file.readme.md",
       "subsystem.packaging.adapters",
       "subsystem.packaging.adapters.slice.adapters",
       "subsystem.packaging.adapters.file.adapters.local.json.index.mjs",
@@ -116,7 +112,6 @@
       "subsystem.tests.quality.file.packages.cli.src.changereviewcli.test.ts"
     ],
     "relatedFiles": [
-      "README.md",
       "adapters/local-json/index.mjs",
       "docs/DATA_MODEL.md",
       "packages/app/src/components/ChangeHistory.tsx",
@@ -855,22 +850,407 @@
     ]
   },
   {
-    "id": "goal",
-    "title": "Goal",
-    "summary": "Durable concept inferred from 9 file(s) using doc, export, path, symbol signals.",
+    "id": "command",
+    "title": "Command",
+    "summary": "Durable concept inferred from 23 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.docs",
       "module.packages",
-      "module.root",
-      "file.docs.full.self.improvement.loop.md",
+      "module.scripts",
+      "file.docs.experimental.dogfooding.loop.md",
+      "file.docs.goal.driven.mission.workflow.md",
+      "file.packages.cli.src.changereviewcommand.ts",
+      "file.packages.cli.src.goalcommand.test.ts",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.migrate.ts",
+      "file.packages.cli.src.openbrowser.ts",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.cli.src.routecommand.test.ts",
+      "file.packages.cli.src.routecommand.ts",
+      "file.packages.cli.src.scopecommand.test.ts",
+      "file.packages.cli.src.scopecommand.ts",
+      "file.packages.cli.src.servecommand.test.ts",
+      "file.packages.cli.src.setupguidance.ts",
+      "file.scripts.create.assessment.pack.mjs",
+      "file.scripts.create.assessment.pack.test.mjs",
+      "file.scripts.pack.smoke.test.mjs",
+      "file.scripts.release.dry.run.mjs",
+      "file.scripts.run.abstraction.loop.ps1",
+      "file.scripts.run.codex.missions.ps1",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "architecture.cli.surface",
+      "architecture.visual.app.api",
+      "architecture.package.distribution",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.local.api",
+      "subsystem.cli.local.api.file.packages.cli.src.index.ts",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.migrate.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.propose.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.routecommand.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.scopecommand.ts",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.packages.cli.src.changereviewcommand.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.openbrowser.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.setupguidance.ts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.docs.experimental.dogfooding.loop.md",
+      "subsystem.goal.mission.automation.file.docs.goal.driven.mission.workflow.md",
+      "subsystem.goal.mission.automation.file.scripts.create.assessment.pack.mjs",
+      "subsystem.goal.mission.automation.file.scripts.run.abstraction.loop.ps1",
+      "subsystem.goal.mission.automation.file.scripts.run.codex.missions.ps1",
+      "subsystem.goal.mission.automation.file.scripts.run.full.self.improvement.loop.mjs",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.experimental.dogfooding.loop.md",
+      "subsystem.docs.examples.file.docs.goal.driven.mission.workflow.md",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.create.assessment.pack.mjs",
+      "subsystem.packaging.adapters.file.scripts.create.assessment.pack.test.mjs",
+      "subsystem.packaging.adapters.file.scripts.pack.smoke.test.mjs",
+      "subsystem.packaging.adapters.file.scripts.release.dry.run.mjs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.routecommand.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.scopecommand.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.servecommand.test.ts",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.create.assessment.pack.test.mjs",
+      "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs",
+      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs"
+    ],
+    "relatedFiles": [
+      "docs/EXPERIMENTAL_DOGFOODING_LOOP.md",
+      "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "packages/cli/src/changeReviewCommand.ts",
+      "packages/cli/src/goalCommand.test.ts",
+      "packages/cli/src/goalCommand.ts",
+      "packages/cli/src/index.ts",
+      "packages/cli/src/migrate.ts",
+      "packages/cli/src/openBrowser.ts",
+      "packages/cli/src/propose.ts",
+      "packages/cli/src/routeCommand.test.ts",
+      "packages/cli/src/routeCommand.ts",
+      "packages/cli/src/scopeCommand.test.ts",
+      "packages/cli/src/scopeCommand.ts",
+      "packages/cli/src/serveCommand.test.ts",
+      "packages/cli/src/setupGuidance.ts",
+      "scripts/create-assessment-pack.mjs",
+      "scripts/create-assessment-pack.test.mjs",
+      "scripts/pack-smoke-test.mjs",
+      "scripts/release-dry-run.mjs",
+      "scripts/run-abstraction-loop.ps1",
+      "scripts/run-codex-missions.ps1",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs"
+    ],
+    "tags": [
+      "command"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "ChangeReviewCommandIo",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "ChangeReviewCommandOptions",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "runChangeReviewCommand",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandIo",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandOptions",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandResult",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "runGoalCommand",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/migrate.ts",
+        "value": "runMigrateCommand",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/migrate.ts",
+        "value": "RunMigrateCommandOptions",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/openBrowser.ts",
+        "value": "browserOpenCommand",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/openBrowser.ts",
+        "value": "BrowserOpenCommand",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "runProposeCommand",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "RunProposeCommandOptions",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "RunProposeCommandResult",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "RouteCommandIo",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "RouteCommandOptions",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "runRouteCommand",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "runScopeCheckCommand",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "runScopeCreateCommand",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "ScopeCheckCommandOptions",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "ScopeCommandIo",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "ScopeCreateCommandOptions",
+        "term": "command",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "packages/cli/src/changeReviewCommand.ts",
+        "term": "command",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "packages/cli/src/goalCommand.test.ts",
+        "term": "command",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "packages/cli/src/goalCommand.ts",
+        "term": "command",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/routeCommand.test.ts",
+        "value": "packages/cli/src/routeCommand.test.ts",
+        "term": "command",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "packages/cli/src/routeCommand.ts",
+        "term": "command",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/scopeCommand.test.ts",
+        "value": "packages/cli/src/scopeCommand.test.ts",
+        "term": "command",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "packages/cli/src/scopeCommand.ts",
+        "term": "command",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/serveCommand.test.ts",
+        "value": "packages/cli/src/serveCommand.test.ts",
+        "term": "command",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/EXPERIMENTAL_DOGFOODING_LOOP.md",
+        "value": "Useful Commands",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+        "value": "Commands",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "ChangeReviewCommandIo",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "ChangeReviewCommandOptions",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "runChangeReviewCommand",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "formatGoalCommandResult",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandIo",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandOptions",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "GoalCommandResult",
+        "term": "command",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "runGoalCommand",
+        "term": "command",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "goal",
+    "title": "Goal",
+    "summary": "Durable concept inferred from 8 file(s) using doc, export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.docs",
+      "module.packages",
       "file.docs.goal.driven.autopilot.md",
+      "file.docs.goal.driven.mission.workflow.md",
       "file.docs.mission.runner.md",
       "file.docs.scope.contracts.md",
       "file.packages.cli.src.goalcommand.test.ts",
       "file.packages.cli.src.goalcommand.ts",
       "file.packages.core.src.goal.test.ts",
       "file.packages.core.src.goal.ts",
-      "file.readme.md",
       "architecture.cli.surface",
       "architecture.core.engine",
       "subsystem.core.engine",
@@ -883,18 +1263,16 @@
       "subsystem.goal.mission.automation.slice.prompt.goal.planning",
       "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
       "subsystem.goal.mission.automation.slice.mission.runner.loop",
-      "subsystem.goal.mission.automation.file.docs.full.self.improvement.loop.md",
+      "subsystem.goal.mission.automation.file.docs.goal.driven.mission.workflow.md",
       "subsystem.goal.mission.automation.file.docs.mission.runner.md",
       "subsystem.goal.mission.automation.slice.automation.docs",
       "subsystem.goal.mission.automation.file.docs.goal.driven.autopilot.md",
       "subsystem.docs.examples",
       "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.full.self.improvement.loop.md",
       "subsystem.docs.examples.file.docs.goal.driven.autopilot.md",
+      "subsystem.docs.examples.file.docs.goal.driven.mission.workflow.md",
       "subsystem.docs.examples.file.docs.mission.runner.md",
       "subsystem.docs.examples.file.docs.scope.contracts.md",
-      "subsystem.docs.examples.slice.readme",
-      "subsystem.docs.examples.file.readme.md",
       "subsystem.tests.quality",
       "subsystem.tests.quality.slice.core.tests",
       "subsystem.tests.quality.file.packages.core.src.goal.test.ts",
@@ -902,9 +1280,8 @@
       "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts"
     ],
     "relatedFiles": [
-      "README.md",
-      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
       "docs/GOAL_DRIVEN_AUTOPILOT.md",
+      "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
       "docs/MISSION_RUNNER.md",
       "docs/SCOPE_CONTRACTS.md",
       "packages/cli/src/goalCommand.test.ts",
@@ -920,6 +1297,13 @@
         "kind": "doc",
         "filePath": "docs/GOAL_DRIVEN_AUTOPILOT.md",
         "value": "docs/GOAL_DRIVEN_AUTOPILOT.md",
+        "term": "goal",
+        "score": 1
+      },
+      {
+        "kind": "doc",
+        "filePath": "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+        "value": "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
         "term": "goal",
         "score": 1
       },
@@ -1107,14 +1491,14 @@
       },
       {
         "kind": "symbol",
-        "filePath": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+        "filePath": "docs/GOAL_DRIVEN_AUTOPILOT.md",
         "value": "Goal-Driven Mission Workflow",
         "term": "goal",
         "score": 3
       },
       {
         "kind": "symbol",
-        "filePath": "docs/GOAL_DRIVEN_AUTOPILOT.md",
+        "filePath": "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
         "value": "Goal-Driven Mission Workflow",
         "term": "goal",
         "score": 3
@@ -1188,407 +1572,23 @@
         "value": "buildGoalScopeContract",
         "term": "goal",
         "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "formatGoalCommandResult",
-        "term": "goal",
-        "score": 3
-      }
-    ]
-  },
-  {
-    "id": "command",
-    "title": "Command",
-    "summary": "Durable concept inferred from 20 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.docs",
-      "module.packages",
-      "module.root",
-      "module.scripts",
-      "file.docs.goal.driven.autopilot.md",
-      "file.packages.cli.src.changereviewcommand.ts",
-      "file.packages.cli.src.goalcommand.test.ts",
-      "file.packages.cli.src.goalcommand.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.cli.src.migrate.ts",
-      "file.packages.cli.src.propose.ts",
-      "file.packages.cli.src.routecommand.test.ts",
-      "file.packages.cli.src.routecommand.ts",
-      "file.packages.cli.src.scopecommand.test.ts",
-      "file.packages.cli.src.scopecommand.ts",
-      "file.readme.md",
-      "file.scripts.create.assessment.pack.mjs",
-      "file.scripts.create.assessment.pack.test.mjs",
-      "file.scripts.pack.smoke.test.mjs",
-      "file.scripts.release.dry.run.mjs",
-      "file.scripts.run.abstraction.loop.ps1",
-      "file.scripts.run.codex.missions.ps1",
-      "file.scripts.run.full.self.improvement.loop.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "architecture.cli.surface",
-      "architecture.visual.app.api",
-      "architecture.package.distribution",
-      "subsystem.cli.local.api",
-      "subsystem.cli.local.api.slice.local.api",
-      "subsystem.cli.local.api.file.packages.cli.src.index.ts",
-      "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.migrate.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.propose.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.routecommand.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.scopecommand.ts",
-      "subsystem.cli.local.api.slice.cli.support",
-      "subsystem.cli.local.api.file.packages.cli.src.changereviewcommand.ts",
-      "subsystem.goal.mission.automation",
-      "subsystem.goal.mission.automation.slice.mission.runner.loop",
-      "subsystem.goal.mission.automation.file.scripts.create.assessment.pack.mjs",
-      "subsystem.goal.mission.automation.file.scripts.run.abstraction.loop.ps1",
-      "subsystem.goal.mission.automation.file.scripts.run.codex.missions.ps1",
-      "subsystem.goal.mission.automation.file.scripts.run.full.self.improvement.loop.mjs",
-      "subsystem.goal.mission.automation.slice.automation.docs",
-      "subsystem.goal.mission.automation.file.docs.goal.driven.autopilot.md",
-      "subsystem.docs.examples",
-      "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.goal.driven.autopilot.md",
-      "subsystem.docs.examples.slice.readme",
-      "subsystem.docs.examples.file.readme.md",
-      "subsystem.packaging.adapters",
-      "subsystem.packaging.adapters.slice.release.scripts",
-      "subsystem.packaging.adapters.file.scripts.create.assessment.pack.mjs",
-      "subsystem.packaging.adapters.file.scripts.create.assessment.pack.test.mjs",
-      "subsystem.packaging.adapters.file.scripts.pack.smoke.test.mjs",
-      "subsystem.packaging.adapters.file.scripts.release.dry.run.mjs",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.cli.tests",
-      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.routecommand.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.scopecommand.test.ts",
-      "subsystem.tests.quality.slice.script.quality",
-      "subsystem.tests.quality.file.scripts.create.assessment.pack.test.mjs",
-      "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs",
-      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs"
-    ],
-    "relatedFiles": [
-      "README.md",
-      "docs/GOAL_DRIVEN_AUTOPILOT.md",
-      "packages/cli/src/changeReviewCommand.ts",
-      "packages/cli/src/goalCommand.test.ts",
-      "packages/cli/src/goalCommand.ts",
-      "packages/cli/src/index.ts",
-      "packages/cli/src/migrate.ts",
-      "packages/cli/src/propose.ts",
-      "packages/cli/src/routeCommand.test.ts",
-      "packages/cli/src/routeCommand.ts",
-      "packages/cli/src/scopeCommand.test.ts",
-      "packages/cli/src/scopeCommand.ts",
-      "scripts/create-assessment-pack.mjs",
-      "scripts/create-assessment-pack.test.mjs",
-      "scripts/pack-smoke-test.mjs",
-      "scripts/release-dry-run.mjs",
-      "scripts/run-abstraction-loop.ps1",
-      "scripts/run-codex-missions.ps1",
-      "scripts/run-full-self-improvement-loop.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs"
-    ],
-    "tags": [
-      "command"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/changeReviewCommand.ts",
-        "value": "ChangeReviewCommandIo",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/changeReviewCommand.ts",
-        "value": "ChangeReviewCommandOptions",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/changeReviewCommand.ts",
-        "value": "runChangeReviewCommand",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "GoalCommandIo",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "GoalCommandOptions",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "GoalCommandResult",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "runGoalCommand",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/migrate.ts",
-        "value": "runMigrateCommand",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/migrate.ts",
-        "value": "RunMigrateCommandOptions",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/propose.ts",
-        "value": "runProposeCommand",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/propose.ts",
-        "value": "RunProposeCommandOptions",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/propose.ts",
-        "value": "RunProposeCommandResult",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "RouteCommandIo",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "RouteCommandOptions",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "runRouteCommand",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "runScopeCheckCommand",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "runScopeCreateCommand",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "ScopeCheckCommandOptions",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "ScopeCommandIo",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "ScopeCreateCommandOptions",
-        "term": "command",
-        "score": 4
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/changeReviewCommand.ts",
-        "value": "packages/cli/src/changeReviewCommand.ts",
-        "term": "command",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/goalCommand.test.ts",
-        "value": "packages/cli/src/goalCommand.test.ts",
-        "term": "command",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "packages/cli/src/goalCommand.ts",
-        "term": "command",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/routeCommand.test.ts",
-        "value": "packages/cli/src/routeCommand.test.ts",
-        "term": "command",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "packages/cli/src/routeCommand.ts",
-        "term": "command",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/scopeCommand.test.ts",
-        "value": "packages/cli/src/scopeCommand.test.ts",
-        "term": "command",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "packages/cli/src/scopeCommand.ts",
-        "term": "command",
-        "score": 2
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/GOAL_DRIVEN_AUTOPILOT.md",
-        "value": "Commands",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/changeReviewCommand.ts",
-        "value": "ChangeReviewCommandIo",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/changeReviewCommand.ts",
-        "value": "ChangeReviewCommandOptions",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/changeReviewCommand.ts",
-        "value": "runChangeReviewCommand",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "formatGoalCommandResult",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "GoalCommandIo",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "GoalCommandOptions",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "GoalCommandResult",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "runGoalCommand",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/index.ts",
-        "value": "changesCommand",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/index.ts",
-        "value": "scopeCommand",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/migrate.ts",
-        "value": "runMigrateCommand",
-        "term": "command",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/migrate.ts",
-        "value": "RunMigrateCommandOptions",
-        "term": "command",
-        "score": 3
       }
     ]
   },
   {
     "id": "mission",
     "title": "Mission",
-    "summary": "Durable concept inferred from 21 file(s) using doc, export, path, symbol signals.",
+    "summary": "Durable concept inferred from 24 file(s) using doc, export, path, symbol signals.",
     "relatedNodeIds": [
       "module.docs",
       "module.packages",
-      "module.root",
       "module.scripts",
-      "file.docs.full.self.improvement.loop.md",
+      "file.docs.architecture.md",
+      "file.docs.assessment.packs.md",
+      "file.docs.experimental.dogfooding.loop.md",
       "file.docs.goal.driven.autopilot.md",
+      "file.docs.goal.driven.mission.workflow.md",
+      "file.docs.maintainer.notes.md",
       "file.docs.mission.runner.md",
       "file.packages.cli.src.apistate.ts",
       "file.packages.cli.src.goalcommand.test.ts",
@@ -1597,7 +1597,6 @@
       "file.packages.core.src.automationvalidation.ts",
       "file.packages.core.src.goal.test.ts",
       "file.packages.core.src.goal.ts",
-      "file.readme.md",
       "file.scripts.create.assessment.pack.mjs",
       "file.scripts.import.assessment.missions.mjs",
       "file.scripts.import.assessment.missions.test.mjs",
@@ -1624,7 +1623,9 @@
       "subsystem.goal.mission.automation.slice.prompt.goal.planning",
       "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
       "subsystem.goal.mission.automation.slice.mission.runner.loop",
-      "subsystem.goal.mission.automation.file.docs.full.self.improvement.loop.md",
+      "subsystem.goal.mission.automation.file.docs.assessment.packs.md",
+      "subsystem.goal.mission.automation.file.docs.experimental.dogfooding.loop.md",
+      "subsystem.goal.mission.automation.file.docs.goal.driven.mission.workflow.md",
       "subsystem.goal.mission.automation.file.docs.mission.runner.md",
       "subsystem.goal.mission.automation.file.scripts.create.assessment.pack.mjs",
       "subsystem.goal.mission.automation.file.scripts.import.assessment.missions.mjs",
@@ -1637,13 +1638,17 @@
       "subsystem.memory.validation.logs",
       "subsystem.memory.validation.logs.slice.validation.evaluation",
       "subsystem.memory.validation.logs.file.packages.core.src.automationvalidation.ts",
+      "subsystem.memory.validation.logs.slice.memory.docs",
+      "subsystem.memory.validation.logs.file.docs.architecture.md",
       "subsystem.docs.examples",
       "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.full.self.improvement.loop.md",
+      "subsystem.docs.examples.file.docs.architecture.md",
+      "subsystem.docs.examples.file.docs.assessment.packs.md",
+      "subsystem.docs.examples.file.docs.experimental.dogfooding.loop.md",
       "subsystem.docs.examples.file.docs.goal.driven.autopilot.md",
+      "subsystem.docs.examples.file.docs.goal.driven.mission.workflow.md",
+      "subsystem.docs.examples.file.docs.maintainer.notes.md",
       "subsystem.docs.examples.file.docs.mission.runner.md",
-      "subsystem.docs.examples.slice.readme",
-      "subsystem.docs.examples.file.readme.md",
       "subsystem.packaging.adapters",
       "subsystem.packaging.adapters.slice.release.scripts",
       "subsystem.packaging.adapters.file.scripts.create.assessment.pack.mjs",
@@ -1660,9 +1665,12 @@
       "subsystem.tests.quality.file.scripts.run.missions.test.mjs"
     ],
     "relatedFiles": [
-      "README.md",
-      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+      "docs/ARCHITECTURE.md",
+      "docs/ASSESSMENT_PACKS.md",
+      "docs/EXPERIMENTAL_DOGFOODING_LOOP.md",
       "docs/GOAL_DRIVEN_AUTOPILOT.md",
+      "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "docs/MAINTAINER_NOTES.md",
       "docs/MISSION_RUNNER.md",
       "packages/cli/src/apiState.ts",
       "packages/cli/src/goalCommand.test.ts",
@@ -1686,6 +1694,13 @@
       "mission"
     ],
     "evidence": [
+      {
+        "kind": "doc",
+        "filePath": "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+        "value": "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+        "term": "mission",
+        "score": 0.5
+      },
       {
         "kind": "doc",
         "filePath": "docs/MISSION_RUNNER.md",
@@ -1958,20 +1973,13 @@
         "value": "scripts/mission-schema.mjs",
         "term": "mission",
         "score": 1
-      },
-      {
-        "kind": "path",
-        "filePath": "scripts/mission-schema.test.mjs",
-        "value": "scripts/mission-schema.test.mjs",
-        "term": "mission",
-        "score": 1
       }
     ]
   },
   {
     "id": "memory",
     "title": "Memory",
-    "summary": "Durable concept inferred from 31 file(s) using export, path, symbol signals.",
+    "summary": "Durable concept inferred from 30 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
       "module.adapters",
       "module.docs",
@@ -2001,7 +2009,6 @@
       "file.packages.core.src.runtimeschema.test.ts",
       "file.packages.core.src.scope.ts",
       "file.packages.core.src.workspace.ts",
-      "file.readme.md",
       "file.scripts.create.assessment.pack.test.mjs",
       "file.scripts.generated.memory.fixtures.test.mjs",
       "file.scripts.pack.smoke.test.mjs",
@@ -2047,8 +2054,6 @@
       "subsystem.docs.examples.file.docs.architecture.md",
       "subsystem.docs.examples.file.docs.mission.runner.md",
       "subsystem.docs.examples.file.docs.packaging.md",
-      "subsystem.docs.examples.slice.readme",
-      "subsystem.docs.examples.file.readme.md",
       "subsystem.packaging.adapters",
       "subsystem.packaging.adapters.slice.adapters",
       "subsystem.packaging.adapters.file.adapters.codex.agents.md",
@@ -2077,7 +2082,6 @@
     ],
     "relatedFiles": [
       "CONTRIBUTING.md",
-      "README.md",
       "adapters/codex/AGENTS.md",
       "docs/ARCHITECTURE.md",
       "docs/MISSION_RUNNER.md",
@@ -2753,7 +2757,6 @@
     "relatedNodeIds": [
       "module.docs",
       "module.packages",
-      "module.root",
       "module.scripts",
       "file.docs.agent.protocol.md",
       "file.docs.ci.integration.md",
@@ -2770,10 +2773,10 @@
       "file.packages.core.src.schema.ts",
       "file.packages.core.src.validator.ts",
       "file.packages.core.src.workspace.ts",
-      "file.readme.md",
       "file.scripts.create.assessment.pack.mjs",
       "file.scripts.create.assessment.pack.test.mjs",
       "file.scripts.generated.memory.fixtures.test.mjs",
+      "file.scripts.lint.mjs",
       "file.scripts.run.full.self.improvement.loop.mjs",
       "architecture.cli.surface",
       "architecture.core.engine",
@@ -2817,8 +2820,6 @@
       "subsystem.docs.examples.file.docs.agent.protocol.md",
       "subsystem.docs.examples.file.docs.ci.integration.md",
       "subsystem.docs.examples.file.docs.data.model.md",
-      "subsystem.docs.examples.slice.readme",
-      "subsystem.docs.examples.file.readme.md",
       "subsystem.packaging.adapters",
       "subsystem.packaging.adapters.slice.release.scripts",
       "subsystem.packaging.adapters.file.scripts.create.assessment.pack.mjs",
@@ -2830,10 +2831,10 @@
       "subsystem.tests.quality.file.packages.core.src.runtimeschema.test.ts",
       "subsystem.tests.quality.slice.script.quality",
       "subsystem.tests.quality.file.scripts.create.assessment.pack.test.mjs",
-      "subsystem.tests.quality.file.scripts.generated.memory.fixtures.test.mjs"
+      "subsystem.tests.quality.file.scripts.generated.memory.fixtures.test.mjs",
+      "subsystem.tests.quality.file.scripts.lint.mjs"
     ],
     "relatedFiles": [
-      "README.md",
       "docs/AGENT_PROTOCOL.md",
       "docs/CI_INTEGRATION.md",
       "docs/DATA_MODEL.md",
@@ -2852,6 +2853,7 @@
       "scripts/create-assessment-pack.mjs",
       "scripts/create-assessment-pack.test.mjs",
       "scripts/generated-memory-fixtures.test.mjs",
+      "scripts/lint.mjs",
       "scripts/run-full-self-improvement-loop.mjs"
     ],
     "tags": [
@@ -2967,6 +2969,13 @@
         "kind": "export",
         "filePath": "scripts/create-assessment-pack.mjs",
         "value": "collectAssessmentPackContext",
+        "term": "context",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/lint.mjs",
+        "value": "isAllowedAutonomyClaimContext",
         "term": "context",
         "score": 4
       },
@@ -3128,13 +3137,6 @@
         "kind": "symbol",
         "filePath": "packages/core/src/runtimeSchema.ts",
         "value": "validateContextPacksSchema",
-        "term": "context",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "ContextPack",
         "term": "context",
         "score": 3
       }
@@ -3490,7 +3492,7 @@
       "module.packages",
       "module.scripts",
       "file.docs.data.model.md",
-      "file.docs.goal.driven.autopilot.md",
+      "file.docs.goal.driven.mission.workflow.md",
       "file.docs.scope.contracts.md",
       "file.examples.small.web.app.tests.checkout.test.js",
       "file.packages.cli.src.apistate.test.ts",
@@ -3540,8 +3542,8 @@
       "subsystem.goal.mission.automation",
       "subsystem.goal.mission.automation.slice.prompt.goal.planning",
       "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
-      "subsystem.goal.mission.automation.slice.automation.docs",
-      "subsystem.goal.mission.automation.file.docs.goal.driven.autopilot.md",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.docs.goal.driven.mission.workflow.md",
       "subsystem.memory.validation.logs",
       "subsystem.memory.validation.logs.slice.memory.schema.workspace",
       "subsystem.memory.validation.logs.file.packages.core.src.schema.ts",
@@ -3551,7 +3553,7 @@
       "subsystem.docs.examples",
       "subsystem.docs.examples.slice.guides",
       "subsystem.docs.examples.file.docs.data.model.md",
-      "subsystem.docs.examples.file.docs.goal.driven.autopilot.md",
+      "subsystem.docs.examples.file.docs.goal.driven.mission.workflow.md",
       "subsystem.docs.examples.file.docs.scope.contracts.md",
       "subsystem.docs.examples.slice.examples",
       "subsystem.docs.examples.file.examples.small.web.app.tests.checkout.test.js",
@@ -3590,7 +3592,7 @@
     ],
     "relatedFiles": [
       "docs/DATA_MODEL.md",
-      "docs/GOAL_DRIVEN_AUTOPILOT.md",
+      "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
       "docs/SCOPE_CONTRACTS.md",
       "examples/small-web-app/tests/checkout.test.js",
       "packages/cli/src/apiState.test.ts",
@@ -3705,7 +3707,7 @@
       },
       {
         "kind": "symbol",
-        "filePath": "docs/GOAL_DRIVEN_AUTOPILOT.md",
+        "filePath": "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
         "value": "Workspace",
         "term": "workspace",
         "score": 3
@@ -4623,350 +4625,6 @@
         "filePath": "README.md",
         "value": "Abstraction Tree",
         "term": "abstraction",
-        "score": 3
-      }
-    ]
-  },
-  {
-    "id": "atree",
-    "title": "Atree",
-    "summary": "Durable concept inferred from 8 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.packages",
-      "module.root",
-      "module.scripts",
-      "file.packages.cli.src.scopecommand.ts",
-      "file.packages.core.src.migrations.ts",
-      "file.packages.core.src.runtimeschema.ts",
-      "file.packages.core.src.schema.ts",
-      "file.packages.core.src.workspace.ts",
-      "file.packages.full.bin.atree.js",
-      "file.readme.md",
-      "file.scripts.pack.smoke.test.mjs",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "architecture.package.distribution",
-      "subsystem.core.engine",
-      "subsystem.core.engine.slice.memory.quality",
-      "subsystem.core.engine.file.packages.core.src.runtimeschema.ts",
-      "subsystem.core.engine.file.packages.core.src.schema.ts",
-      "subsystem.core.engine.file.packages.core.src.workspace.ts",
-      "subsystem.core.engine.slice.core.support",
-      "subsystem.core.engine.file.packages.core.src.migrations.ts",
-      "subsystem.cli.local.api",
-      "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.scopecommand.ts",
-      "subsystem.cli.local.api.slice.cli.support",
-      "subsystem.cli.local.api.file.packages.full.bin.atree.js",
-      "subsystem.memory.validation.logs",
-      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
-      "subsystem.memory.validation.logs.file.packages.core.src.runtimeschema.ts",
-      "subsystem.memory.validation.logs.file.packages.core.src.schema.ts",
-      "subsystem.memory.validation.logs.file.packages.core.src.workspace.ts",
-      "subsystem.docs.examples",
-      "subsystem.docs.examples.slice.readme",
-      "subsystem.docs.examples.file.readme.md",
-      "subsystem.packaging.adapters",
-      "subsystem.packaging.adapters.slice.full.package",
-      "subsystem.packaging.adapters.file.packages.full.bin.atree.js",
-      "subsystem.packaging.adapters.slice.release.scripts",
-      "subsystem.packaging.adapters.file.scripts.pack.smoke.test.mjs",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.script.quality",
-      "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs"
-    ],
-    "relatedFiles": [
-      "README.md",
-      "packages/cli/src/scopeCommand.ts",
-      "packages/core/src/migrations.ts",
-      "packages/core/src/runtimeSchema.ts",
-      "packages/core/src/schema.ts",
-      "packages/core/src/workspace.ts",
-      "packages/full/bin/atree.js",
-      "scripts/pack-smoke-test.mjs"
-    ],
-    "tags": [
-      "atree"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "AtreeMigrationMemory",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "migrateAtreeWorkspace",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrateAtreeWorkspaceOptions",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "planAtreeMigration",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "ATREE_CONFIG_MIGRATIONS",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "CURRENT_ATREE_SCHEMA_VERSION",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "migrateAtreeConfig",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateAtreeConfigSchema",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "AtreeConfig",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "ATREE_DIR",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "AtreeMemory",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "atreePath",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "loadAtreeMemory",
-        "term": "atree",
-        "score": 4
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/full/bin/atree.js",
-        "value": "packages/full/bin/atree.js",
-        "term": "atree",
-        "score": 2
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "relativeAtree",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "AtreeMigrationMemory",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "migrateAtreeWorkspace",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrateAtreeWorkspaceOptions",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "planAtreeMigration",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "ATREE_CONFIG_MIGRATIONS",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "CURRENT_ATREE_SCHEMA_VERSION",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "migrateAtreeConfig",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateAtreeConfigSchema",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/schema.ts",
-        "value": "AtreeConfig",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "ATREE_DIR",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "AtreeMemory",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "atreePath",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/workspace.ts",
-        "value": "loadAtreeMemory",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "`atree changes review`",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "`atree context`",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "`atree doctor`",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "`atree init`",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "`atree mode`",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "`atree propose`",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "`atree scan`",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "`atree serve`",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "`atree validate`",
-        "term": "atree",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/pack-smoke-test.mjs",
-        "value": "atreeDir",
-        "term": "atree",
         "score": 3
       }
     ]
@@ -6591,6 +6249,707 @@
     ]
   },
   {
+    "id": "atree",
+    "title": "Atree",
+    "summary": "Durable concept inferred from 7 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "module.scripts",
+      "file.packages.cli.src.scopecommand.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.packages.core.src.schema.ts",
+      "file.packages.core.src.workspace.ts",
+      "file.packages.full.bin.atree.js",
+      "file.scripts.pack.smoke.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "architecture.package.distribution",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.runtimeschema.ts",
+      "subsystem.core.engine.file.packages.core.src.schema.ts",
+      "subsystem.core.engine.file.packages.core.src.workspace.ts",
+      "subsystem.core.engine.slice.core.support",
+      "subsystem.core.engine.file.packages.core.src.migrations.ts",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.scopecommand.ts",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.packages.full.bin.atree.js",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
+      "subsystem.memory.validation.logs.file.packages.core.src.runtimeschema.ts",
+      "subsystem.memory.validation.logs.file.packages.core.src.schema.ts",
+      "subsystem.memory.validation.logs.file.packages.core.src.workspace.ts",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.full.package",
+      "subsystem.packaging.adapters.file.packages.full.bin.atree.js",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.pack.smoke.test.mjs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs"
+    ],
+    "relatedFiles": [
+      "packages/cli/src/scopeCommand.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "packages/core/src/schema.ts",
+      "packages/core/src/workspace.ts",
+      "packages/full/bin/atree.js",
+      "scripts/pack-smoke-test.mjs"
+    ],
+    "tags": [
+      "atree"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "AtreeMigrationMemory",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "migrateAtreeWorkspace",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrateAtreeWorkspaceOptions",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "planAtreeMigration",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "ATREE_CONFIG_MIGRATIONS",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "CURRENT_ATREE_SCHEMA_VERSION",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "migrateAtreeConfig",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateAtreeConfigSchema",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AtreeConfig",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "ATREE_DIR",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "AtreeMemory",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "atreePath",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadAtreeMemory",
+        "term": "atree",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/full/bin/atree.js",
+        "value": "packages/full/bin/atree.js",
+        "term": "atree",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "relativeAtree",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "AtreeMigrationMemory",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "migrateAtreeWorkspace",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrateAtreeWorkspaceOptions",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "planAtreeMigration",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "ATREE_CONFIG_MIGRATIONS",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "CURRENT_ATREE_SCHEMA_VERSION",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "migrateAtreeConfig",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateAtreeConfigSchema",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/schema.ts",
+        "value": "AtreeConfig",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "ATREE_DIR",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "AtreeMemory",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "atreePath",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/workspace.ts",
+        "value": "loadAtreeMemory",
+        "term": "atree",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/pack-smoke-test.mjs",
+        "value": "atreeDir",
+        "term": "atree",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "cli",
+    "title": "Cli",
+    "summary": "Durable concept inferred from 35 file(s) using export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.docs",
+      "module.packages",
+      "module.scripts",
+      "file.docs.architecture.md",
+      "file.packages.cli.package.json",
+      "file.packages.cli.src.agenthealth.test.ts",
+      "file.packages.cli.src.agenthealth.ts",
+      "file.packages.cli.src.apistate.test.ts",
+      "file.packages.cli.src.apistate.ts",
+      "file.packages.cli.src.changereviewcli.test.ts",
+      "file.packages.cli.src.changereviewcommand.ts",
+      "file.packages.cli.src.doctor.test.ts",
+      "file.packages.cli.src.doctor.ts",
+      "file.packages.cli.src.goalcommand.test.ts",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.cli.src.index.ts",
+      "file.packages.cli.src.migrate.test.ts",
+      "file.packages.cli.src.migrate.ts",
+      "file.packages.cli.src.openbrowser.test.ts",
+      "file.packages.cli.src.openbrowser.ts",
+      "file.packages.cli.src.propose.test.ts",
+      "file.packages.cli.src.propose.ts",
+      "file.packages.cli.src.routecommand.test.ts",
+      "file.packages.cli.src.routecommand.ts",
+      "file.packages.cli.src.scopecommand.test.ts",
+      "file.packages.cli.src.scopecommand.ts",
+      "file.packages.cli.src.servecommand.test.ts",
+      "file.packages.cli.src.servehost.test.ts",
+      "file.packages.cli.src.servehost.ts",
+      "file.packages.cli.src.setupguidance.test.ts",
+      "file.packages.cli.src.setupguidance.ts",
+      "file.packages.cli.tsconfig.json",
+      "file.scripts.create.assessment.pack.mjs",
+      "file.scripts.import.assessment.missions.mjs",
+      "file.scripts.pack.smoke.test.mjs",
+      "file.scripts.release.dry.run.mjs",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.missions.mjs",
+      "architecture.cli.surface",
+      "architecture.visual.app.api",
+      "architecture.package.distribution",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.local.api",
+      "subsystem.cli.local.api.file.packages.cli.src.apistate.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.index.ts",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.doctor.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.migrate.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.propose.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.routecommand.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.scopecommand.ts",
+      "subsystem.cli.local.api.slice.cli.package",
+      "subsystem.cli.local.api.file.packages.cli.package.json",
+      "subsystem.cli.local.api.slice.cli.support",
+      "subsystem.cli.local.api.file.packages.cli.src.agenthealth.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.changereviewcommand.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.openbrowser.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.servehost.ts",
+      "subsystem.cli.local.api.file.packages.cli.src.setupguidance.ts",
+      "subsystem.cli.local.api.file.packages.cli.tsconfig.json",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.scripts.create.assessment.pack.mjs",
+      "subsystem.goal.mission.automation.file.scripts.import.assessment.missions.mjs",
+      "subsystem.goal.mission.automation.file.scripts.run.full.self.improvement.loop.mjs",
+      "subsystem.goal.mission.automation.file.scripts.run.missions.mjs",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.memory.docs",
+      "subsystem.memory.validation.logs.file.docs.architecture.md",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.architecture.md",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.manifests",
+      "subsystem.packaging.adapters.file.packages.cli.package.json",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.create.assessment.pack.mjs",
+      "subsystem.packaging.adapters.file.scripts.pack.smoke.test.mjs",
+      "subsystem.packaging.adapters.file.scripts.release.dry.run.mjs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.agenthealth.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.apistate.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.changereviewcli.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.doctor.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.migrate.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.openbrowser.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.propose.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.routecommand.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.scopecommand.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.servecommand.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.servehost.test.ts",
+      "subsystem.tests.quality.file.packages.cli.src.setupguidance.test.ts",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs"
+    ],
+    "relatedFiles": [
+      "docs/ARCHITECTURE.md",
+      "packages/cli/package.json",
+      "packages/cli/src/agentHealth.test.ts",
+      "packages/cli/src/agentHealth.ts",
+      "packages/cli/src/apiState.test.ts",
+      "packages/cli/src/apiState.ts",
+      "packages/cli/src/changeReviewCli.test.ts",
+      "packages/cli/src/changeReviewCommand.ts",
+      "packages/cli/src/doctor.test.ts",
+      "packages/cli/src/doctor.ts",
+      "packages/cli/src/goalCommand.test.ts",
+      "packages/cli/src/goalCommand.ts",
+      "packages/cli/src/index.ts",
+      "packages/cli/src/migrate.test.ts",
+      "packages/cli/src/migrate.ts",
+      "packages/cli/src/openBrowser.test.ts",
+      "packages/cli/src/openBrowser.ts",
+      "packages/cli/src/propose.test.ts",
+      "packages/cli/src/propose.ts",
+      "packages/cli/src/routeCommand.test.ts",
+      "packages/cli/src/routeCommand.ts",
+      "packages/cli/src/scopeCommand.test.ts",
+      "packages/cli/src/scopeCommand.ts",
+      "packages/cli/src/serveCommand.test.ts",
+      "packages/cli/src/serveHost.test.ts",
+      "packages/cli/src/serveHost.ts",
+      "packages/cli/src/setupGuidance.test.ts",
+      "packages/cli/src/setupGuidance.ts",
+      "packages/cli/tsconfig.json",
+      "scripts/create-assessment-pack.mjs",
+      "scripts/import-assessment-missions.mjs",
+      "scripts/pack-smoke-test.mjs",
+      "scripts/release-dry-run.mjs",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-missions.mjs"
+    ],
+    "tags": [
+      "cli"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "runCli",
+        "term": "cli",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/import-assessment-missions.mjs",
+        "value": "runCli",
+        "term": "cli",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "runCli",
+        "term": "cli",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "runCli",
+        "term": "cli",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/package.json",
+        "value": "packages/cli/package.json",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/agentHealth.test.ts",
+        "value": "packages/cli/src/agentHealth.test.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/agentHealth.ts",
+        "value": "packages/cli/src/agentHealth.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/apiState.test.ts",
+        "value": "packages/cli/src/apiState.test.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/apiState.ts",
+        "value": "packages/cli/src/apiState.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/changeReviewCli.test.ts",
+        "value": "packages/cli/src/changeReviewCli.test.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/changeReviewCommand.ts",
+        "value": "packages/cli/src/changeReviewCommand.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/doctor.test.ts",
+        "value": "packages/cli/src/doctor.test.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/doctor.ts",
+        "value": "packages/cli/src/doctor.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/goalCommand.test.ts",
+        "value": "packages/cli/src/goalCommand.test.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "packages/cli/src/goalCommand.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/index.ts",
+        "value": "packages/cli/src/index.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/migrate.test.ts",
+        "value": "packages/cli/src/migrate.test.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/migrate.ts",
+        "value": "packages/cli/src/migrate.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/openBrowser.test.ts",
+        "value": "packages/cli/src/openBrowser.test.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/openBrowser.ts",
+        "value": "packages/cli/src/openBrowser.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/propose.test.ts",
+        "value": "packages/cli/src/propose.test.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/propose.ts",
+        "value": "packages/cli/src/propose.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/routeCommand.test.ts",
+        "value": "packages/cli/src/routeCommand.test.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "packages/cli/src/routeCommand.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/scopeCommand.test.ts",
+        "value": "packages/cli/src/scopeCommand.test.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/scopeCommand.ts",
+        "value": "packages/cli/src/scopeCommand.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/serveCommand.test.ts",
+        "value": "packages/cli/src/serveCommand.test.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/serveHost.test.ts",
+        "value": "packages/cli/src/serveHost.test.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/serveHost.ts",
+        "value": "packages/cli/src/serveHost.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/setupGuidance.test.ts",
+        "value": "packages/cli/src/setupGuidance.test.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/src/setupGuidance.ts",
+        "value": "packages/cli/src/setupGuidance.ts",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "packages/cli/tsconfig.json",
+        "value": "packages/cli/tsconfig.json",
+        "term": "cli",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/ARCHITECTURE.md",
+        "value": "2. CLI",
+        "term": "cli",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/doctor.ts",
+        "value": "cliDir",
+        "term": "cli",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/serveCommand.test.ts",
+        "value": "cliPath",
+        "term": "cli",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "runCli",
+        "term": "cli",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/import-assessment-missions.mjs",
+        "value": "runCli",
+        "term": "cli",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/pack-smoke-test.mjs",
+        "value": "cliPackageDir",
+        "term": "cli",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/pack-smoke-test.mjs",
+        "value": "installedCli",
+        "term": "cli",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/pack-smoke-test.mjs",
+        "value": "npmCliPath",
+        "term": "cli",
+        "score": 3
+      }
+    ]
+  },
+  {
     "id": "ontology",
     "title": "Ontology",
     "summary": "Durable concept inferred from 16 file(s) using export, symbol signals.",
@@ -6905,6 +7264,338 @@
     ]
   },
   {
+    "id": "loop",
+    "title": "Loop",
+    "summary": "Durable concept inferred from 14 file(s) using doc, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.docs",
+      "module.packages",
+      "module.scripts",
+      "file.docs.agent.protocol.md",
+      "file.docs.experimental.dogfooding.loop.md",
+      "file.docs.full.self.improvement.loop.md",
+      "file.docs.maintainer.notes.md",
+      "file.packages.app.src.components.agenthealthpanel.tsx",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.automationvalidation.ts",
+      "file.packages.core.src.evaluator.test.ts",
+      "file.packages.core.src.evaluator.ts",
+      "file.scripts.diff.summary.mjs",
+      "file.scripts.run.abstraction.loop.scheduled.ps1",
+      "file.scripts.run.abstraction.loop.ps1",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "architecture.core.engine",
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.components",
+      "subsystem.visual.app.file.packages.app.src.components.agenthealthpanel.tsx",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.automationvalidation.ts",
+      "subsystem.core.engine.file.packages.core.src.evaluator.ts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.docs.experimental.dogfooding.loop.md",
+      "subsystem.goal.mission.automation.file.docs.full.self.improvement.loop.md",
+      "subsystem.goal.mission.automation.file.scripts.diff.summary.mjs",
+      "subsystem.goal.mission.automation.file.scripts.run.abstraction.loop.scheduled.ps1",
+      "subsystem.goal.mission.automation.file.scripts.run.abstraction.loop.ps1",
+      "subsystem.goal.mission.automation.file.scripts.run.full.self.improvement.loop.mjs",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.validation.evaluation",
+      "subsystem.memory.validation.logs.file.packages.core.src.automationvalidation.ts",
+      "subsystem.memory.validation.logs.file.packages.core.src.evaluator.ts",
+      "subsystem.memory.validation.logs.slice.memory.docs",
+      "subsystem.memory.validation.logs.file.docs.agent.protocol.md",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.agent.protocol.md",
+      "subsystem.docs.examples.file.docs.experimental.dogfooding.loop.md",
+      "subsystem.docs.examples.file.docs.full.self.improvement.loop.md",
+      "subsystem.docs.examples.file.docs.maintainer.notes.md",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.automationvalidation.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.evaluator.test.ts",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs"
+    ],
+    "relatedFiles": [
+      "docs/AGENT_PROTOCOL.md",
+      "docs/EXPERIMENTAL_DOGFOODING_LOOP.md",
+      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+      "docs/MAINTAINER_NOTES.md",
+      "packages/app/src/components/AgentHealthPanel.tsx",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/automationValidation.ts",
+      "packages/core/src/evaluator.test.ts",
+      "packages/core/src/evaluator.ts",
+      "scripts/diff-summary.mjs",
+      "scripts/run-abstraction-loop-scheduled.ps1",
+      "scripts/run-abstraction-loop.ps1",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs"
+    ],
+    "tags": [
+      "loop"
+    ],
+    "evidence": [
+      {
+        "kind": "doc",
+        "filePath": "docs/EXPERIMENTAL_DOGFOODING_LOOP.md",
+        "value": "docs/EXPERIMENTAL_DOGFOODING_LOOP.md",
+        "term": "loop",
+        "score": 1
+      },
+      {
+        "kind": "doc",
+        "filePath": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+        "value": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+        "term": "loop",
+        "score": 1
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/run-abstraction-loop-scheduled.ps1",
+        "value": "scripts/run-abstraction-loop-scheduled.ps1",
+        "term": "loop",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "scripts/run-abstraction-loop.ps1",
+        "term": "loop",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "scripts/run-full-self-improvement-loop.mjs",
+        "term": "loop",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
+        "value": "scripts/run-full-self-improvement-loop.test.mjs",
+        "term": "loop",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/AGENT_PROTOCOL.md",
+        "value": "Bounded local dogfooding loops",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/EXPERIMENTAL_DOGFOODING_LOOP.md",
+        "value": "Experimental Dogfooding Loop",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/EXPERIMENTAL_DOGFOODING_LOOP.md",
+        "value": "What The Loop Does",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+        "value": "Experimental Dogfooding Loop",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/MAINTAINER_NOTES.md",
+        "value": "Dogfooding Loop Modularization Plan",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
+        "value": "loops",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "fullLoopLivePidPath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "fullLoopRunsPath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "loopConfigPath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "loopRuntimeExamplePath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "loopRuntimePath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "loopStatePath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "FULL_LOOP_LIVE_PID_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "FULL_LOOP_RUNS_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "LOOP_CONFIG_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "LOOP_RUNTIME_EXAMPLE_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "LOOP_RUNTIME_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "LOOP_STATE_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.test.ts",
+        "value": "loopConfigPath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.test.ts",
+        "value": "loopRuntimeExamplePath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.test.ts",
+        "value": "loopRuntimePath",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "LOOP_CONFIG_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/evaluator.ts",
+        "value": "LOOP_RUNTIME_PATH",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/diff-summary.mjs",
+        "value": "readLoopConfig",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-abstraction-loop-scheduled.ps1",
+        "value": "Write-LoopLog",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "Expected location: repo-root/scripts/run-abstraction-loop.ps1",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "Invoke-PostLoopChecks",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "New-LoopRuntime",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-abstraction-loop.ps1",
+        "value": "Runs one or more bounded Codex improvement loops with local runtime guards.",
+        "term": "loop",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "fullLoopRoot",
+        "term": "loop",
+        "score": 3
+      }
+    ]
+  },
+  {
     "id": "migration",
     "title": "Migration",
     "summary": "Durable concept inferred from 5 file(s) using export, path, symbol signals.",
@@ -7157,6 +7848,282 @@
         "filePath": "packages/core/src/runtimeSchema.ts",
         "value": "RuntimeMigration",
         "term": "migration",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "plan",
+    "title": "Plan",
+    "summary": "Durable concept inferred from 11 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.docs",
+      "module.packages",
+      "module.scripts",
+      "file.docs.maintainer.notes.md",
+      "file.packages.cli.src.goalcommand.ts",
+      "file.packages.core.src.goal.test.ts",
+      "file.packages.core.src.goal.ts",
+      "file.packages.core.src.migrations.test.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.scripts.import.assessment.missions.mjs",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "file.scripts.run.missions.mjs",
+      "file.scripts.run.missions.test.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.core.support",
+      "subsystem.core.engine.file.packages.core.src.migrations.ts",
+      "subsystem.core.engine.slice.goal.routing",
+      "subsystem.core.engine.file.packages.core.src.goal.ts",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
+      "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.scripts.import.assessment.missions.mjs",
+      "subsystem.goal.mission.automation.file.scripts.run.full.self.improvement.loop.mjs",
+      "subsystem.goal.mission.automation.file.scripts.run.missions.mjs",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.maintainer.notes.md",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.goal.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.migrations.test.ts",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs",
+      "subsystem.tests.quality.file.scripts.run.missions.test.mjs"
+    ],
+    "relatedFiles": [
+      "docs/MAINTAINER_NOTES.md",
+      "packages/cli/src/goalCommand.ts",
+      "packages/core/src/goal.test.ts",
+      "packages/core/src/goal.ts",
+      "packages/core/src/migrations.test.ts",
+      "packages/core/src/migrations.ts",
+      "scripts/import-assessment-missions.mjs",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs",
+      "scripts/run-missions.mjs",
+      "scripts/run-missions.test.mjs"
+    ],
+    "tags": [
+      "plan"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "buildGoalWorkspacePlan",
+        "term": "plan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionPlan",
+        "term": "plan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalWorkspacePlan",
+        "term": "plan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationPlan",
+        "term": "plan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationPlanOptions",
+        "term": "plan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "planAtreeMigration",
+        "term": "plan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "createMissionPlan",
+        "term": "plan",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "executePlan",
+        "term": "plan",
+        "score": 4
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/MAINTAINER_NOTES.md",
+        "value": "Dogfooding Loop Modularization Plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/MAINTAINER_NOTES.md",
+        "value": "Mission Runner Modularization Plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/goalCommand.ts",
+        "value": "plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/goal.test.ts",
+        "value": "plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "buildGoalWorkspacePlan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalMissionPlan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/goal.ts",
+        "value": "GoalWorkspacePlan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.test.ts",
+        "value": "plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationPlan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "MigrationPlanOptions",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "planAtreeMigration",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/import-assessment-missions.mjs",
+        "value": "copyPlan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "missionPlanArgs",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
+        "value": "missionPlanCommand",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
+        "value": "planMissionsFlagIndex",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.test.mjs",
+        "value": "plan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.test.mjs",
+        "value": "planInput",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.test.mjs",
+        "value": "printedPlan",
+        "term": "plan",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-missions.test.mjs",
+        "value": "writtenPlan",
+        "term": "plan",
         "score": 3
       }
     ]
@@ -7444,1000 +8411,11 @@
     ]
   },
   {
-    "id": "loop",
-    "title": "Loop",
-    "summary": "Durable concept inferred from 13 file(s) using doc, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.docs",
-      "module.packages",
-      "module.root",
-      "module.scripts",
-      "file.docs.agent.protocol.md",
-      "file.docs.full.self.improvement.loop.md",
-      "file.packages.app.src.components.agenthealthpanel.tsx",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.automationvalidation.ts",
-      "file.packages.core.src.evaluator.test.ts",
-      "file.packages.core.src.evaluator.ts",
-      "file.readme.md",
-      "file.scripts.diff.summary.mjs",
-      "file.scripts.run.abstraction.loop.scheduled.ps1",
-      "file.scripts.run.abstraction.loop.ps1",
-      "file.scripts.run.full.self.improvement.loop.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "architecture.core.engine",
-      "architecture.visual.app.ui",
-      "subsystem.visual.app",
-      "subsystem.visual.app.slice.components",
-      "subsystem.visual.app.file.packages.app.src.components.agenthealthpanel.tsx",
-      "subsystem.core.engine",
-      "subsystem.core.engine.slice.memory.quality",
-      "subsystem.core.engine.file.packages.core.src.automationvalidation.ts",
-      "subsystem.core.engine.file.packages.core.src.evaluator.ts",
-      "subsystem.goal.mission.automation",
-      "subsystem.goal.mission.automation.slice.mission.runner.loop",
-      "subsystem.goal.mission.automation.file.docs.full.self.improvement.loop.md",
-      "subsystem.goal.mission.automation.file.scripts.diff.summary.mjs",
-      "subsystem.goal.mission.automation.file.scripts.run.abstraction.loop.scheduled.ps1",
-      "subsystem.goal.mission.automation.file.scripts.run.abstraction.loop.ps1",
-      "subsystem.goal.mission.automation.file.scripts.run.full.self.improvement.loop.mjs",
-      "subsystem.memory.validation.logs",
-      "subsystem.memory.validation.logs.slice.validation.evaluation",
-      "subsystem.memory.validation.logs.file.packages.core.src.automationvalidation.ts",
-      "subsystem.memory.validation.logs.file.packages.core.src.evaluator.ts",
-      "subsystem.memory.validation.logs.slice.memory.docs",
-      "subsystem.memory.validation.logs.file.docs.agent.protocol.md",
-      "subsystem.docs.examples",
-      "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.agent.protocol.md",
-      "subsystem.docs.examples.file.docs.full.self.improvement.loop.md",
-      "subsystem.docs.examples.slice.readme",
-      "subsystem.docs.examples.file.readme.md",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.core.tests",
-      "subsystem.tests.quality.file.packages.core.src.automationvalidation.test.ts",
-      "subsystem.tests.quality.file.packages.core.src.evaluator.test.ts",
-      "subsystem.tests.quality.slice.script.quality",
-      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs"
-    ],
-    "relatedFiles": [
-      "README.md",
-      "docs/AGENT_PROTOCOL.md",
-      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
-      "packages/app/src/components/AgentHealthPanel.tsx",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/automationValidation.ts",
-      "packages/core/src/evaluator.test.ts",
-      "packages/core/src/evaluator.ts",
-      "scripts/diff-summary.mjs",
-      "scripts/run-abstraction-loop-scheduled.ps1",
-      "scripts/run-abstraction-loop.ps1",
-      "scripts/run-full-self-improvement-loop.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs"
-    ],
-    "tags": [
-      "loop"
-    ],
-    "evidence": [
-      {
-        "kind": "doc",
-        "filePath": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
-        "value": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
-        "term": "loop",
-        "score": 1
-      },
-      {
-        "kind": "path",
-        "filePath": "scripts/run-abstraction-loop-scheduled.ps1",
-        "value": "scripts/run-abstraction-loop-scheduled.ps1",
-        "term": "loop",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "scripts/run-abstraction-loop.ps1",
-        "value": "scripts/run-abstraction-loop.ps1",
-        "term": "loop",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "scripts/run-full-self-improvement-loop.mjs",
-        "value": "scripts/run-full-self-improvement-loop.mjs",
-        "term": "loop",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
-        "value": "scripts/run-full-self-improvement-loop.test.mjs",
-        "term": "loop",
-        "score": 2
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/AGENT_PROTOCOL.md",
-        "value": "Bounded local dogfooding loops",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
-        "value": "Experimental Dogfooding Loop",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
-        "value": "Experimental Local Dogfooding Loop",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/app/src/components/AgentHealthPanel.tsx",
-        "value": "loops",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.test.ts",
-        "value": "fullLoopLivePidPath",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.test.ts",
-        "value": "fullLoopRunsPath",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.test.ts",
-        "value": "loopConfigPath",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.test.ts",
-        "value": "loopRuntimeExamplePath",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.test.ts",
-        "value": "loopRuntimePath",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.test.ts",
-        "value": "loopStatePath",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "FULL_LOOP_LIVE_PID_PATH",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "FULL_LOOP_RUNS_PATH",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "LOOP_CONFIG_PATH",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "LOOP_RUNTIME_EXAMPLE_PATH",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "LOOP_RUNTIME_PATH",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "LOOP_STATE_PATH",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.test.ts",
-        "value": "loopConfigPath",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.test.ts",
-        "value": "loopRuntimeExamplePath",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.test.ts",
-        "value": "loopRuntimePath",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "LOOP_CONFIG_PATH",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/evaluator.ts",
-        "value": "LOOP_RUNTIME_PATH",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "Experimental local dogfooding loop contract",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/diff-summary.mjs",
-        "value": "readLoopConfig",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-abstraction-loop-scheduled.ps1",
-        "value": "Write-LoopLog",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-abstraction-loop.ps1",
-        "value": "Expected location: repo-root/scripts/run-abstraction-loop.ps1",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-abstraction-loop.ps1",
-        "value": "Invoke-PostLoopChecks",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-abstraction-loop.ps1",
-        "value": "New-LoopRuntime",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-abstraction-loop.ps1",
-        "value": "Runs one or more bounded Codex improvement loops with local runtime guards.",
-        "term": "loop",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-full-self-improvement-loop.mjs",
-        "value": "fullLoopRoot",
-        "term": "loop",
-        "score": 3
-      }
-    ]
-  },
-  {
-    "id": "cli",
-    "title": "Cli",
-    "summary": "Durable concept inferred from 31 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
-      "module.docs",
-      "module.packages",
-      "module.root",
-      "module.scripts",
-      "file.docs.architecture.md",
-      "file.packages.cli.package.json",
-      "file.packages.cli.src.agenthealth.test.ts",
-      "file.packages.cli.src.agenthealth.ts",
-      "file.packages.cli.src.apistate.test.ts",
-      "file.packages.cli.src.apistate.ts",
-      "file.packages.cli.src.changereviewcli.test.ts",
-      "file.packages.cli.src.changereviewcommand.ts",
-      "file.packages.cli.src.doctor.test.ts",
-      "file.packages.cli.src.doctor.ts",
-      "file.packages.cli.src.goalcommand.test.ts",
-      "file.packages.cli.src.goalcommand.ts",
-      "file.packages.cli.src.index.ts",
-      "file.packages.cli.src.migrate.test.ts",
-      "file.packages.cli.src.migrate.ts",
-      "file.packages.cli.src.propose.test.ts",
-      "file.packages.cli.src.propose.ts",
-      "file.packages.cli.src.routecommand.test.ts",
-      "file.packages.cli.src.routecommand.ts",
-      "file.packages.cli.src.scopecommand.test.ts",
-      "file.packages.cli.src.scopecommand.ts",
-      "file.packages.cli.src.servehost.test.ts",
-      "file.packages.cli.src.servehost.ts",
-      "file.packages.cli.tsconfig.json",
-      "file.readme.md",
-      "file.scripts.create.assessment.pack.mjs",
-      "file.scripts.import.assessment.missions.mjs",
-      "file.scripts.pack.smoke.test.mjs",
-      "file.scripts.release.dry.run.mjs",
-      "file.scripts.run.full.self.improvement.loop.mjs",
-      "file.scripts.run.missions.mjs",
-      "architecture.cli.surface",
-      "architecture.visual.app.api",
-      "architecture.package.distribution",
-      "subsystem.cli.local.api",
-      "subsystem.cli.local.api.slice.local.api",
-      "subsystem.cli.local.api.file.packages.cli.src.apistate.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.index.ts",
-      "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.doctor.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.migrate.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.propose.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.routecommand.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.scopecommand.ts",
-      "subsystem.cli.local.api.slice.cli.package",
-      "subsystem.cli.local.api.file.packages.cli.package.json",
-      "subsystem.cli.local.api.slice.cli.support",
-      "subsystem.cli.local.api.file.packages.cli.src.agenthealth.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.changereviewcommand.ts",
-      "subsystem.cli.local.api.file.packages.cli.src.servehost.ts",
-      "subsystem.cli.local.api.file.packages.cli.tsconfig.json",
-      "subsystem.goal.mission.automation",
-      "subsystem.goal.mission.automation.slice.mission.runner.loop",
-      "subsystem.goal.mission.automation.file.scripts.create.assessment.pack.mjs",
-      "subsystem.goal.mission.automation.file.scripts.import.assessment.missions.mjs",
-      "subsystem.goal.mission.automation.file.scripts.run.full.self.improvement.loop.mjs",
-      "subsystem.goal.mission.automation.file.scripts.run.missions.mjs",
-      "subsystem.memory.validation.logs",
-      "subsystem.memory.validation.logs.slice.memory.docs",
-      "subsystem.memory.validation.logs.file.docs.architecture.md",
-      "subsystem.docs.examples",
-      "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.architecture.md",
-      "subsystem.docs.examples.slice.readme",
-      "subsystem.docs.examples.file.readme.md",
-      "subsystem.packaging.adapters",
-      "subsystem.packaging.adapters.slice.manifests",
-      "subsystem.packaging.adapters.file.packages.cli.package.json",
-      "subsystem.packaging.adapters.slice.release.scripts",
-      "subsystem.packaging.adapters.file.scripts.create.assessment.pack.mjs",
-      "subsystem.packaging.adapters.file.scripts.pack.smoke.test.mjs",
-      "subsystem.packaging.adapters.file.scripts.release.dry.run.mjs",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.cli.tests",
-      "subsystem.tests.quality.file.packages.cli.src.agenthealth.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.apistate.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.changereviewcli.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.doctor.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.migrate.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.propose.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.routecommand.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.scopecommand.test.ts",
-      "subsystem.tests.quality.file.packages.cli.src.servehost.test.ts",
-      "subsystem.tests.quality.slice.script.quality",
-      "subsystem.tests.quality.file.scripts.pack.smoke.test.mjs"
-    ],
-    "relatedFiles": [
-      "README.md",
-      "docs/ARCHITECTURE.md",
-      "packages/cli/package.json",
-      "packages/cli/src/agentHealth.test.ts",
-      "packages/cli/src/agentHealth.ts",
-      "packages/cli/src/apiState.test.ts",
-      "packages/cli/src/apiState.ts",
-      "packages/cli/src/changeReviewCli.test.ts",
-      "packages/cli/src/changeReviewCommand.ts",
-      "packages/cli/src/doctor.test.ts",
-      "packages/cli/src/doctor.ts",
-      "packages/cli/src/goalCommand.test.ts",
-      "packages/cli/src/goalCommand.ts",
-      "packages/cli/src/index.ts",
-      "packages/cli/src/migrate.test.ts",
-      "packages/cli/src/migrate.ts",
-      "packages/cli/src/propose.test.ts",
-      "packages/cli/src/propose.ts",
-      "packages/cli/src/routeCommand.test.ts",
-      "packages/cli/src/routeCommand.ts",
-      "packages/cli/src/scopeCommand.test.ts",
-      "packages/cli/src/scopeCommand.ts",
-      "packages/cli/src/serveHost.test.ts",
-      "packages/cli/src/serveHost.ts",
-      "packages/cli/tsconfig.json",
-      "scripts/create-assessment-pack.mjs",
-      "scripts/import-assessment-missions.mjs",
-      "scripts/pack-smoke-test.mjs",
-      "scripts/release-dry-run.mjs",
-      "scripts/run-full-self-improvement-loop.mjs",
-      "scripts/run-missions.mjs"
-    ],
-    "tags": [
-      "cli"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "scripts/create-assessment-pack.mjs",
-        "value": "runCli",
-        "term": "cli",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/import-assessment-missions.mjs",
-        "value": "runCli",
-        "term": "cli",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-full-self-improvement-loop.mjs",
-        "value": "runCli",
-        "term": "cli",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "runCli",
-        "term": "cli",
-        "score": 4
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/package.json",
-        "value": "packages/cli/package.json",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/agentHealth.test.ts",
-        "value": "packages/cli/src/agentHealth.test.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/agentHealth.ts",
-        "value": "packages/cli/src/agentHealth.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/apiState.test.ts",
-        "value": "packages/cli/src/apiState.test.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/apiState.ts",
-        "value": "packages/cli/src/apiState.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/changeReviewCli.test.ts",
-        "value": "packages/cli/src/changeReviewCli.test.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/changeReviewCommand.ts",
-        "value": "packages/cli/src/changeReviewCommand.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/doctor.test.ts",
-        "value": "packages/cli/src/doctor.test.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "packages/cli/src/doctor.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/goalCommand.test.ts",
-        "value": "packages/cli/src/goalCommand.test.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "packages/cli/src/goalCommand.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/index.ts",
-        "value": "packages/cli/src/index.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/migrate.test.ts",
-        "value": "packages/cli/src/migrate.test.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/migrate.ts",
-        "value": "packages/cli/src/migrate.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/propose.test.ts",
-        "value": "packages/cli/src/propose.test.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/propose.ts",
-        "value": "packages/cli/src/propose.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/routeCommand.test.ts",
-        "value": "packages/cli/src/routeCommand.test.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/routeCommand.ts",
-        "value": "packages/cli/src/routeCommand.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/scopeCommand.test.ts",
-        "value": "packages/cli/src/scopeCommand.test.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/scopeCommand.ts",
-        "value": "packages/cli/src/scopeCommand.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/serveHost.test.ts",
-        "value": "packages/cli/src/serveHost.test.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/serveHost.ts",
-        "value": "packages/cli/src/serveHost.ts",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/tsconfig.json",
-        "value": "packages/cli/tsconfig.json",
-        "term": "cli",
-        "score": 2
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/ARCHITECTURE.md",
-        "value": "2. CLI",
-        "term": "cli",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "cliDir",
-        "term": "cli",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "CLI commands",
-        "term": "cli",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/create-assessment-pack.mjs",
-        "value": "runCli",
-        "term": "cli",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/import-assessment-missions.mjs",
-        "value": "runCli",
-        "term": "cli",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/pack-smoke-test.mjs",
-        "value": "cliPackageDir",
-        "term": "cli",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/pack-smoke-test.mjs",
-        "value": "installedCli",
-        "term": "cli",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/pack-smoke-test.mjs",
-        "value": "npmCliPath",
-        "term": "cli",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/release-dry-run.mjs",
-        "value": "npmCliPath",
-        "term": "cli",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-full-self-improvement-loop.mjs",
-        "value": "runCli",
-        "term": "cli",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "runCli",
-        "term": "cli",
-        "score": 3
-      }
-    ]
-  },
-  {
-    "id": "plan",
-    "title": "Plan",
-    "summary": "Durable concept inferred from 11 file(s) using export, symbol signals.",
-    "relatedNodeIds": [
-      "module.docs",
-      "module.packages",
-      "module.scripts",
-      "file.docs.mission.runner.md",
-      "file.packages.cli.src.goalcommand.ts",
-      "file.packages.core.src.goal.test.ts",
-      "file.packages.core.src.goal.ts",
-      "file.packages.core.src.migrations.test.ts",
-      "file.packages.core.src.migrations.ts",
-      "file.scripts.import.assessment.missions.mjs",
-      "file.scripts.run.full.self.improvement.loop.mjs",
-      "file.scripts.run.full.self.improvement.loop.test.mjs",
-      "file.scripts.run.missions.mjs",
-      "file.scripts.run.missions.test.mjs",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "subsystem.core.engine",
-      "subsystem.core.engine.slice.core.support",
-      "subsystem.core.engine.file.packages.core.src.migrations.ts",
-      "subsystem.core.engine.slice.goal.routing",
-      "subsystem.core.engine.file.packages.core.src.goal.ts",
-      "subsystem.cli.local.api",
-      "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
-      "subsystem.goal.mission.automation",
-      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
-      "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
-      "subsystem.goal.mission.automation.slice.mission.runner.loop",
-      "subsystem.goal.mission.automation.file.docs.mission.runner.md",
-      "subsystem.goal.mission.automation.file.scripts.import.assessment.missions.mjs",
-      "subsystem.goal.mission.automation.file.scripts.run.full.self.improvement.loop.mjs",
-      "subsystem.goal.mission.automation.file.scripts.run.missions.mjs",
-      "subsystem.docs.examples",
-      "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.mission.runner.md",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.core.tests",
-      "subsystem.tests.quality.file.packages.core.src.goal.test.ts",
-      "subsystem.tests.quality.file.packages.core.src.migrations.test.ts",
-      "subsystem.tests.quality.slice.script.quality",
-      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs",
-      "subsystem.tests.quality.file.scripts.run.missions.test.mjs"
-    ],
-    "relatedFiles": [
-      "docs/MISSION_RUNNER.md",
-      "packages/cli/src/goalCommand.ts",
-      "packages/core/src/goal.test.ts",
-      "packages/core/src/goal.ts",
-      "packages/core/src/migrations.test.ts",
-      "packages/core/src/migrations.ts",
-      "scripts/import-assessment-missions.mjs",
-      "scripts/run-full-self-improvement-loop.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs",
-      "scripts/run-missions.mjs",
-      "scripts/run-missions.test.mjs"
-    ],
-    "tags": [
-      "plan"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "buildGoalWorkspacePlan",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalMissionPlan",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalWorkspacePlan",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationPlan",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationPlanOptions",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "planAtreeMigration",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "createMissionPlan",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "executePlan",
-        "term": "plan",
-        "score": 4
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/MISSION_RUNNER.md",
-        "value": "Future Modularization Plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/goalCommand.ts",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/goal.test.ts",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "buildGoalWorkspacePlan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalMissionPlan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/goal.ts",
-        "value": "GoalWorkspacePlan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.test.ts",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationPlan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "MigrationPlanOptions",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "planAtreeMigration",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/import-assessment-missions.mjs",
-        "value": "copyPlan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-full-self-improvement-loop.mjs",
-        "value": "missionPlanArgs",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-full-self-improvement-loop.mjs",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
-        "value": "missionPlanCommand",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
-        "value": "planMissionsFlagIndex",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.mjs",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.test.mjs",
-        "value": "plan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.test.mjs",
-        "value": "planInput",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.test.mjs",
-        "value": "printedPlan",
-        "term": "plan",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/run-missions.test.mjs",
-        "value": "writtenPlan",
-        "term": "plan",
-        "score": 3
-      }
-    ]
-  },
-  {
     "id": "statu",
     "title": "Statu",
-    "summary": "Durable concept inferred from 15 file(s) using export, symbol signals.",
+    "summary": "Durable concept inferred from 14 file(s) using export, symbol signals.",
     "relatedNodeIds": [
       "module.packages",
-      "module.root",
       "module.scripts",
       "file.packages.app.src.app.tsx",
       "file.packages.app.src.components.agenthealthpanel.tsx",
@@ -8449,7 +8427,6 @@
       "file.packages.core.src.goal.ts",
       "file.packages.core.src.llm.types.ts",
       "file.packages.core.src.scope.ts",
-      "file.readme.md",
       "file.scripts.create.assessment.pack.mjs",
       "file.scripts.diff.summary.mjs",
       "file.scripts.run.full.self.improvement.loop.mjs",
@@ -8486,9 +8463,6 @@
       "subsystem.memory.validation.logs",
       "subsystem.memory.validation.logs.slice.validation.evaluation",
       "subsystem.memory.validation.logs.file.packages.core.src.scope.ts",
-      "subsystem.docs.examples",
-      "subsystem.docs.examples.slice.readme",
-      "subsystem.docs.examples.file.readme.md",
       "subsystem.packaging.adapters",
       "subsystem.packaging.adapters.slice.release.scripts",
       "subsystem.packaging.adapters.file.scripts.create.assessment.pack.mjs",
@@ -8499,7 +8473,6 @@
       "subsystem.tests.quality.file.scripts.run.missions.test.mjs"
     ],
     "relatedFiles": [
-      "README.md",
       "packages/app/src/App.tsx",
       "packages/app/src/components/AgentHealthPanel.tsx",
       "packages/app/src/hooks/useAbstractionState.ts",
@@ -8663,13 +8636,6 @@
         "kind": "symbol",
         "filePath": "packages/core/src/scope.ts",
         "value": "ScopeContractStatus",
-        "term": "statu",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "MVP status",
         "term": "statu",
         "score": 3
       },
@@ -8983,254 +8949,6 @@
         "filePath": "packages/core/src/schema.ts",
         "value": "ValidationIssue",
         "term": "validation",
-        "score": 3
-      }
-    ]
-  },
-  {
-    "id": "version",
-    "title": "Version",
-    "summary": "Durable concept inferred from 7 file(s) using export, symbol signals.",
-    "relatedNodeIds": [
-      "module.docs",
-      "module.packages",
-      "module.scripts",
-      "file.docs.roadmap.md",
-      "file.packages.cli.src.doctor.ts",
-      "file.packages.core.src.migrations.ts",
-      "file.packages.core.src.runtimeschema.ts",
-      "file.scripts.check.changelog.mjs",
-      "file.scripts.check.changelog.test.mjs",
-      "file.scripts.release.dry.run.mjs",
-      "architecture.cli.surface",
-      "architecture.core.engine",
-      "subsystem.core.engine",
-      "subsystem.core.engine.slice.memory.quality",
-      "subsystem.core.engine.file.packages.core.src.runtimeschema.ts",
-      "subsystem.core.engine.slice.core.support",
-      "subsystem.core.engine.file.packages.core.src.migrations.ts",
-      "subsystem.cli.local.api",
-      "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.doctor.ts",
-      "subsystem.goal.mission.automation",
-      "subsystem.goal.mission.automation.slice.automation.docs",
-      "subsystem.goal.mission.automation.file.docs.roadmap.md",
-      "subsystem.memory.validation.logs",
-      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
-      "subsystem.memory.validation.logs.file.packages.core.src.runtimeschema.ts",
-      "subsystem.docs.examples",
-      "subsystem.docs.examples.slice.guides",
-      "subsystem.docs.examples.file.docs.roadmap.md",
-      "subsystem.packaging.adapters",
-      "subsystem.packaging.adapters.slice.release.scripts",
-      "subsystem.packaging.adapters.file.scripts.check.changelog.mjs",
-      "subsystem.packaging.adapters.file.scripts.check.changelog.test.mjs",
-      "subsystem.packaging.adapters.file.scripts.release.dry.run.mjs",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.script.quality",
-      "subsystem.tests.quality.file.scripts.check.changelog.mjs",
-      "subsystem.tests.quality.file.scripts.check.changelog.test.mjs"
-    ],
-    "relatedFiles": [
-      "docs/ROADMAP.md",
-      "packages/cli/src/doctor.ts",
-      "packages/core/src/migrations.ts",
-      "packages/core/src/runtimeSchema.ts",
-      "scripts/check-changelog.mjs",
-      "scripts/check-changelog.test.mjs",
-      "scripts/release-dry-run.mjs"
-    ],
-    "tags": [
-      "version"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "CURRENT_ATREE_SCHEMA_VERSION",
-        "term": "version",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
-        "term": "version",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateConfigVersion",
-        "term": "version",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/check-changelog.mjs",
-        "value": "resolveExpectedVersion",
-        "term": "version",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/check-changelog.mjs",
-        "value": "validateSynchronizedVersions",
-        "term": "version",
-        "score": 4
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/ROADMAP.md",
-        "value": "Version 0.2",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/ROADMAP.md",
-        "value": "Version 0.3",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "docs/ROADMAP.md",
-        "value": "Version 1.0",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "MINIMUM_NODE_VERSION",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "configVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "currentVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "filterMigratableVersionIssues",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "fromVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/migrations.ts",
-        "value": "toVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "CURRENT_ATREE_SCHEMA_VERSION",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "validateConfigVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/core/src/runtimeSchema.ts",
-        "value": "VERSION_HINT",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/check-changelog.mjs",
-        "value": "dependencyVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/check-changelog.mjs",
-        "value": "expectedVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/check-changelog.mjs",
-        "value": "explicitVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/check-changelog.mjs",
-        "value": "resolveExpectedVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/check-changelog.mjs",
-        "value": "validateManifestVersion",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/check-changelog.mjs",
-        "value": "validateSynchronizedVersions",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/check-changelog.test.mjs",
-        "value": "version",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/check-changelog.test.mjs",
-        "value": "versionIssues",
-        "term": "version",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "scripts/release-dry-run.mjs",
-        "value": "expectedVersion",
-        "term": "version",
         "score": 3
       }
     ]
@@ -9680,6 +9398,472 @@
     ]
   },
   {
+    "id": "version",
+    "title": "Version",
+    "summary": "Durable concept inferred from 6 file(s) using export, symbol signals.",
+    "relatedNodeIds": [
+      "module.packages",
+      "module.scripts",
+      "file.packages.cli.src.doctor.ts",
+      "file.packages.core.src.migrations.ts",
+      "file.packages.core.src.runtimeschema.ts",
+      "file.scripts.check.changelog.mjs",
+      "file.scripts.check.changelog.test.mjs",
+      "file.scripts.release.dry.run.mjs",
+      "architecture.cli.surface",
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.runtimeschema.ts",
+      "subsystem.core.engine.slice.core.support",
+      "subsystem.core.engine.file.packages.core.src.migrations.ts",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.doctor.ts",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.memory.schema.workspace",
+      "subsystem.memory.validation.logs.file.packages.core.src.runtimeschema.ts",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.check.changelog.mjs",
+      "subsystem.packaging.adapters.file.scripts.check.changelog.test.mjs",
+      "subsystem.packaging.adapters.file.scripts.release.dry.run.mjs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.check.changelog.mjs",
+      "subsystem.tests.quality.file.scripts.check.changelog.test.mjs"
+    ],
+    "relatedFiles": [
+      "packages/cli/src/doctor.ts",
+      "packages/core/src/migrations.ts",
+      "packages/core/src/runtimeSchema.ts",
+      "scripts/check-changelog.mjs",
+      "scripts/check-changelog.test.mjs",
+      "scripts/release-dry-run.mjs"
+    ],
+    "tags": [
+      "version"
+    ],
+    "evidence": [
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "CURRENT_ATREE_SCHEMA_VERSION",
+        "term": "version",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
+        "term": "version",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateConfigVersion",
+        "term": "version",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "resolveExpectedVersion",
+        "term": "version",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "validateSynchronizedVersions",
+        "term": "version",
+        "score": 4
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/doctor.ts",
+        "value": "MINIMUM_NODE_VERSION",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "configVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "currentVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "filterMigratableVersionIssues",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "fromVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/migrations.ts",
+        "value": "toVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "CURRENT_ATREE_SCHEMA_VERSION",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "SUPPORTED_ATREE_SCHEMA_VERSIONS",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "validateConfigVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/runtimeSchema.ts",
+        "value": "VERSION_HINT",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "dependencyVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "expectedVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "explicitVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "resolveExpectedVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "validateManifestVersion",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.mjs",
+        "value": "validateSynchronizedVersions",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.test.mjs",
+        "value": "version",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/check-changelog.test.mjs",
+        "value": "versionIssues",
+        "term": "version",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/release-dry-run.mjs",
+        "value": "expectedVersion",
+        "term": "version",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "assessment",
+    "title": "Assessment",
+    "summary": "Durable concept inferred from 11 file(s) using doc, export, path, symbol signals.",
+    "relatedNodeIds": [
+      "module.docs",
+      "module.packages",
+      "module.scripts",
+      "file.docs.agent.protocol.md",
+      "file.docs.assessment.packs.md",
+      "file.packages.core.src.automationvalidation.test.ts",
+      "file.packages.core.src.automationvalidation.ts",
+      "file.packages.core.src.promptrouter.ts",
+      "file.scripts.create.assessment.pack.mjs",
+      "file.scripts.create.assessment.pack.test.mjs",
+      "file.scripts.import.assessment.missions.mjs",
+      "file.scripts.import.assessment.missions.test.mjs",
+      "file.scripts.run.full.self.improvement.loop.mjs",
+      "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "architecture.core.engine",
+      "subsystem.core.engine",
+      "subsystem.core.engine.slice.memory.quality",
+      "subsystem.core.engine.file.packages.core.src.automationvalidation.ts",
+      "subsystem.core.engine.slice.goal.routing",
+      "subsystem.core.engine.file.packages.core.src.promptrouter.ts",
+      "subsystem.goal.mission.automation",
+      "subsystem.goal.mission.automation.slice.prompt.goal.planning",
+      "subsystem.goal.mission.automation.file.packages.core.src.promptrouter.ts",
+      "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.docs.assessment.packs.md",
+      "subsystem.goal.mission.automation.file.scripts.create.assessment.pack.mjs",
+      "subsystem.goal.mission.automation.file.scripts.import.assessment.missions.mjs",
+      "subsystem.goal.mission.automation.file.scripts.run.full.self.improvement.loop.mjs",
+      "subsystem.memory.validation.logs",
+      "subsystem.memory.validation.logs.slice.validation.evaluation",
+      "subsystem.memory.validation.logs.file.packages.core.src.automationvalidation.ts",
+      "subsystem.memory.validation.logs.slice.memory.docs",
+      "subsystem.memory.validation.logs.file.docs.agent.protocol.md",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.agent.protocol.md",
+      "subsystem.docs.examples.file.docs.assessment.packs.md",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.create.assessment.pack.mjs",
+      "subsystem.packaging.adapters.file.scripts.create.assessment.pack.test.mjs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.core.tests",
+      "subsystem.tests.quality.file.packages.core.src.automationvalidation.test.ts",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.create.assessment.pack.test.mjs",
+      "subsystem.tests.quality.file.scripts.import.assessment.missions.test.mjs",
+      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs"
+    ],
+    "relatedFiles": [
+      "docs/AGENT_PROTOCOL.md",
+      "docs/ASSESSMENT_PACKS.md",
+      "packages/core/src/automationValidation.test.ts",
+      "packages/core/src/automationValidation.ts",
+      "packages/core/src/promptRouter.ts",
+      "scripts/create-assessment-pack.mjs",
+      "scripts/create-assessment-pack.test.mjs",
+      "scripts/import-assessment-missions.mjs",
+      "scripts/import-assessment-missions.test.mjs",
+      "scripts/run-full-self-improvement-loop.mjs",
+      "scripts/run-full-self-improvement-loop.test.mjs"
+    ],
+    "tags": [
+      "assessment"
+    ],
+    "evidence": [
+      {
+        "kind": "doc",
+        "filePath": "docs/ASSESSMENT_PACKS.md",
+        "value": "docs/ASSESSMENT_PACKS.md",
+        "term": "assessment",
+        "score": 1
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "assessmentPackRoot",
+        "term": "assessment",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "buildAssessmentPrompt",
+        "term": "assessment",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "collectAssessmentPackContext",
+        "term": "assessment",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "createAssessmentPack",
+        "term": "assessment",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/import-assessment-missions.mjs",
+        "value": "importAssessmentMissions",
+        "term": "assessment",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "buildAssessmentPrompt",
+        "term": "assessment",
+        "score": 4
+      },
+      {
+        "kind": "export",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "validateAssessmentOutput",
+        "term": "assessment",
+        "score": 4
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "scripts/create-assessment-pack.mjs",
+        "term": "assessment",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/create-assessment-pack.test.mjs",
+        "value": "scripts/create-assessment-pack.test.mjs",
+        "term": "assessment",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/import-assessment-missions.mjs",
+        "value": "scripts/import-assessment-missions.mjs",
+        "term": "assessment",
+        "score": 2
+      },
+      {
+        "kind": "path",
+        "filePath": "scripts/import-assessment-missions.test.mjs",
+        "value": "scripts/import-assessment-missions.test.mjs",
+        "term": "assessment",
+        "score": 2
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/AGENT_PROTOCOL.md",
+        "value": "Complex prompt and strategic assessment workflow",
+        "term": "assessment",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "docs/ASSESSMENT_PACKS.md",
+        "value": "Assessment Packs",
+        "term": "assessment",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.test.ts",
+        "value": "assessmentPacksPath",
+        "term": "assessment",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/automationValidation.ts",
+        "value": "ASSESSMENT_PACKS_PATH",
+        "term": "assessment",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "assessmentReasons",
+        "term": "assessment",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "assessmentTerms",
+        "term": "assessment",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "assessmentPackRoot",
+        "term": "assessment",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "collectAssessmentPackContext",
+        "term": "assessment",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/create-assessment-pack.mjs",
+        "value": "createAssessmentPack",
+        "term": "assessment",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/import-assessment-missions.mjs",
+        "value": "importAssessmentMissions",
+        "term": "assessment",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "assessmentPrompt",
+        "term": "assessment",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
+        "value": "assessmentPaths",
+        "term": "assessment",
+        "score": 3
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
+        "value": "writeBaseAssessmentMemory",
+        "term": "assessment",
+        "score": 3
+      }
+    ]
+  },
+  {
     "id": "evaluation",
     "title": "Evaluation",
     "summary": "Durable concept inferred from 9 file(s) using export, symbol signals.",
@@ -9902,418 +10086,378 @@
     ]
   },
   {
-    "id": "doctor",
-    "title": "Doctor",
-    "summary": "Durable concept inferred from 3 file(s) using export, path, symbol signals.",
+    "id": "prompt",
+    "title": "Prompt",
+    "summary": "Durable concept inferred from 16 file(s) using export, path, symbol signals.",
     "relatedNodeIds": [
-      "module.packages",
-      "module.root",
-      "file.packages.cli.src.doctor.test.ts",
-      "file.packages.cli.src.doctor.ts",
-      "file.readme.md",
-      "architecture.cli.surface",
-      "subsystem.cli.local.api",
-      "subsystem.cli.local.api.slice.commands",
-      "subsystem.cli.local.api.file.packages.cli.src.doctor.ts",
-      "subsystem.docs.examples",
-      "subsystem.docs.examples.slice.readme",
-      "subsystem.docs.examples.file.readme.md",
-      "subsystem.tests.quality",
-      "subsystem.tests.quality.slice.cli.tests",
-      "subsystem.tests.quality.file.packages.cli.src.doctor.test.ts"
-    ],
-    "relatedFiles": [
-      "README.md",
-      "packages/cli/src/doctor.test.ts",
-      "packages/cli/src/doctor.ts"
-    ],
-    "tags": [
-      "doctor"
-    ],
-    "evidence": [
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorCheck",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorCounts",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "doctorExitCode",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorIssueSummary",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorOptions",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorReport",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorStatus",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "formatDoctorReport",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "runDoctor",
-        "term": "doctor",
-        "score": 4
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/doctor.test.ts",
-        "value": "packages/cli/src/doctor.test.ts",
-        "term": "doctor",
-        "score": 2
-      },
-      {
-        "kind": "path",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "packages/cli/src/doctor.ts",
-        "term": "doctor",
-        "score": 2
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.test.ts",
-        "value": "doctorOptions",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorCheck",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorCounts",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "doctorExitCode",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorIssueSummary",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorOptions",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorReport",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "DoctorStatus",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "formatDoctorReport",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "packages/cli/src/doctor.ts",
-        "value": "runDoctor",
-        "term": "doctor",
-        "score": 3
-      },
-      {
-        "kind": "symbol",
-        "filePath": "README.md",
-        "value": "`atree doctor`",
-        "term": "doctor",
-        "score": 3
-      }
-    ]
-  },
-  {
-    "id": "assessment",
-    "title": "Assessment",
-    "summary": "Durable concept inferred from 10 file(s) using export, path, symbol signals.",
-    "relatedNodeIds": [
+      "module.adapters",
       "module.docs",
       "module.packages",
       "module.scripts",
+      "file.adapters.codex.agents.md",
       "file.docs.agent.protocol.md",
-      "file.packages.core.src.automationvalidation.test.ts",
-      "file.packages.core.src.automationvalidation.ts",
+      "file.docs.architecture.md",
+      "file.docs.mission.runner.md",
+      "file.packages.cli.src.routecommand.test.ts",
+      "file.packages.cli.src.routecommand.ts",
+      "file.packages.core.src.promptrouter.test.ts",
       "file.packages.core.src.promptrouter.ts",
+      "file.packages.core.src.scope.ts",
       "file.scripts.create.assessment.pack.mjs",
       "file.scripts.create.assessment.pack.test.mjs",
-      "file.scripts.import.assessment.missions.mjs",
-      "file.scripts.import.assessment.missions.test.mjs",
+      "file.scripts.run.codex.missions.ps1",
       "file.scripts.run.full.self.improvement.loop.mjs",
       "file.scripts.run.full.self.improvement.loop.test.mjs",
+      "file.scripts.run.missions.mjs",
+      "file.scripts.run.missions.test.mjs",
+      "architecture.cli.surface",
       "architecture.core.engine",
       "subsystem.core.engine",
-      "subsystem.core.engine.slice.memory.quality",
-      "subsystem.core.engine.file.packages.core.src.automationvalidation.ts",
+      "subsystem.core.engine.slice.understanding.pipeline",
+      "subsystem.core.engine.file.packages.core.src.scope.ts",
       "subsystem.core.engine.slice.goal.routing",
       "subsystem.core.engine.file.packages.core.src.promptrouter.ts",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.commands",
+      "subsystem.cli.local.api.file.packages.cli.src.routecommand.ts",
       "subsystem.goal.mission.automation",
       "subsystem.goal.mission.automation.slice.prompt.goal.planning",
       "subsystem.goal.mission.automation.file.packages.core.src.promptrouter.ts",
       "subsystem.goal.mission.automation.slice.mission.runner.loop",
+      "subsystem.goal.mission.automation.file.adapters.codex.agents.md",
+      "subsystem.goal.mission.automation.file.docs.mission.runner.md",
       "subsystem.goal.mission.automation.file.scripts.create.assessment.pack.mjs",
-      "subsystem.goal.mission.automation.file.scripts.import.assessment.missions.mjs",
+      "subsystem.goal.mission.automation.file.scripts.run.codex.missions.ps1",
       "subsystem.goal.mission.automation.file.scripts.run.full.self.improvement.loop.mjs",
+      "subsystem.goal.mission.automation.file.scripts.run.missions.mjs",
       "subsystem.memory.validation.logs",
       "subsystem.memory.validation.logs.slice.validation.evaluation",
-      "subsystem.memory.validation.logs.file.packages.core.src.automationvalidation.ts",
+      "subsystem.memory.validation.logs.file.packages.core.src.scope.ts",
       "subsystem.memory.validation.logs.slice.memory.docs",
       "subsystem.memory.validation.logs.file.docs.agent.protocol.md",
+      "subsystem.memory.validation.logs.file.docs.architecture.md",
       "subsystem.docs.examples",
       "subsystem.docs.examples.slice.guides",
       "subsystem.docs.examples.file.docs.agent.protocol.md",
+      "subsystem.docs.examples.file.docs.architecture.md",
+      "subsystem.docs.examples.file.docs.mission.runner.md",
       "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.adapters",
+      "subsystem.packaging.adapters.file.adapters.codex.agents.md",
       "subsystem.packaging.adapters.slice.release.scripts",
       "subsystem.packaging.adapters.file.scripts.create.assessment.pack.mjs",
       "subsystem.packaging.adapters.file.scripts.create.assessment.pack.test.mjs",
       "subsystem.tests.quality",
       "subsystem.tests.quality.slice.core.tests",
-      "subsystem.tests.quality.file.packages.core.src.automationvalidation.test.ts",
+      "subsystem.tests.quality.file.packages.core.src.promptrouter.test.ts",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.routecommand.test.ts",
       "subsystem.tests.quality.slice.script.quality",
       "subsystem.tests.quality.file.scripts.create.assessment.pack.test.mjs",
-      "subsystem.tests.quality.file.scripts.import.assessment.missions.test.mjs",
-      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs"
+      "subsystem.tests.quality.file.scripts.run.full.self.improvement.loop.test.mjs",
+      "subsystem.tests.quality.file.scripts.run.missions.test.mjs"
     ],
     "relatedFiles": [
+      "adapters/codex/AGENTS.md",
       "docs/AGENT_PROTOCOL.md",
-      "packages/core/src/automationValidation.test.ts",
-      "packages/core/src/automationValidation.ts",
+      "docs/ARCHITECTURE.md",
+      "docs/MISSION_RUNNER.md",
+      "packages/cli/src/routeCommand.test.ts",
+      "packages/cli/src/routeCommand.ts",
+      "packages/core/src/promptRouter.test.ts",
       "packages/core/src/promptRouter.ts",
+      "packages/core/src/scope.ts",
       "scripts/create-assessment-pack.mjs",
       "scripts/create-assessment-pack.test.mjs",
-      "scripts/import-assessment-missions.mjs",
-      "scripts/import-assessment-missions.test.mjs",
+      "scripts/run-codex-missions.ps1",
       "scripts/run-full-self-improvement-loop.mjs",
-      "scripts/run-full-self-improvement-loop.test.mjs"
+      "scripts/run-full-self-improvement-loop.test.mjs",
+      "scripts/run-missions.mjs",
+      "scripts/run-missions.test.mjs"
     ],
     "tags": [
-      "assessment"
+      "prompt"
     ],
     "evidence": [
       {
         "kind": "export",
-        "filePath": "scripts/create-assessment-pack.mjs",
-        "value": "assessmentPackRoot",
-        "term": "assessment",
-        "score": 4
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "PromptRouteMemory",
+        "term": "prompt",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "readPromptRouteMemory",
+        "term": "prompt",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "formatPromptRouteResult",
+        "term": "prompt",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteComplexity",
+        "term": "prompt",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteDecision",
+        "term": "prompt",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteInput",
+        "term": "prompt",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteResult",
+        "term": "prompt",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteRisk",
+        "term": "prompt",
+        "score": 2
+      },
+      {
+        "kind": "export",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "routePrompt",
+        "term": "prompt",
+        "score": 2
       },
       {
         "kind": "export",
         "filePath": "scripts/create-assessment-pack.mjs",
         "value": "buildAssessmentPrompt",
-        "term": "assessment",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/create-assessment-pack.mjs",
-        "value": "collectAssessmentPackContext",
-        "term": "assessment",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/create-assessment-pack.mjs",
-        "value": "createAssessmentPack",
-        "term": "assessment",
-        "score": 4
-      },
-      {
-        "kind": "export",
-        "filePath": "scripts/import-assessment-missions.mjs",
-        "value": "importAssessmentMissions",
-        "term": "assessment",
-        "score": 4
+        "term": "prompt",
+        "score": 2
       },
       {
         "kind": "export",
         "filePath": "scripts/run-full-self-improvement-loop.mjs",
         "value": "buildAssessmentPrompt",
-        "term": "assessment",
-        "score": 4
+        "term": "prompt",
+        "score": 2
       },
       {
         "kind": "export",
         "filePath": "scripts/run-full-self-improvement-loop.mjs",
-        "value": "validateAssessmentOutput",
-        "term": "assessment",
-        "score": 4
+        "value": "buildCoherencePrompt",
+        "term": "prompt",
+        "score": 2
       },
       {
-        "kind": "path",
-        "filePath": "scripts/create-assessment-pack.mjs",
-        "value": "scripts/create-assessment-pack.mjs",
-        "term": "assessment",
+        "kind": "export",
+        "filePath": "scripts/run-missions.mjs",
+        "value": "assemblePrompt",
+        "term": "prompt",
         "score": 2
       },
       {
         "kind": "path",
-        "filePath": "scripts/create-assessment-pack.test.mjs",
-        "value": "scripts/create-assessment-pack.test.mjs",
-        "term": "assessment",
-        "score": 2
+        "filePath": "packages/core/src/promptRouter.test.ts",
+        "value": "packages/core/src/promptRouter.test.ts",
+        "term": "prompt",
+        "score": 1
       },
       {
         "kind": "path",
-        "filePath": "scripts/import-assessment-missions.mjs",
-        "value": "scripts/import-assessment-missions.mjs",
-        "term": "assessment",
-        "score": 2
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "packages/core/src/promptRouter.ts",
+        "term": "prompt",
+        "score": 1
       },
       {
-        "kind": "path",
-        "filePath": "scripts/import-assessment-missions.test.mjs",
-        "value": "scripts/import-assessment-missions.test.mjs",
-        "term": "assessment",
-        "score": 2
+        "kind": "symbol",
+        "filePath": "adapters/codex/AGENTS.md",
+        "value": "Prompt expansion",
+        "term": "prompt",
+        "score": 1.5
       },
       {
         "kind": "symbol",
         "filePath": "docs/AGENT_PROTOCOL.md",
-        "value": "Strategic assessment workflow",
-        "term": "assessment",
-        "score": 3
+        "value": "Complex prompt and strategic assessment workflow",
+        "term": "prompt",
+        "score": 1.5
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.test.ts",
-        "value": "assessmentPacksPath",
-        "term": "assessment",
-        "score": 3
+        "filePath": "docs/ARCHITECTURE.md",
+        "value": "Prompt-to-mission workflow",
+        "term": "prompt",
+        "score": 1.5
       },
       {
         "kind": "symbol",
-        "filePath": "packages/core/src/automationValidation.ts",
-        "value": "ASSESSMENT_PACKS_PATH",
-        "term": "assessment",
-        "score": 3
+        "filePath": "docs/MISSION_RUNNER.md",
+        "value": "Role in Complex Prompt Implementation",
+        "term": "prompt",
+        "score": 1.5
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.test.ts",
+        "value": "writePrompt",
+        "term": "prompt",
+        "score": 1.5
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "prompt",
+        "term": "prompt",
+        "score": 1.5
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "promptPath",
+        "term": "prompt",
+        "score": 1.5
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "PromptRouteMemory",
+        "term": "prompt",
+        "score": 1.5
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "readPromptRouteMemory",
+        "term": "prompt",
+        "score": 1.5
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/cli/src/routeCommand.ts",
+        "value": "readPromptSource",
+        "term": "prompt",
+        "score": 1.5
       },
       {
         "kind": "symbol",
         "filePath": "packages/core/src/promptRouter.ts",
-        "value": "assessmentReasons",
-        "term": "assessment",
-        "score": 3
+        "value": "lowerPrompt",
+        "term": "prompt",
+        "score": 1.5
       },
       {
         "kind": "symbol",
         "filePath": "packages/core/src/promptRouter.ts",
-        "value": "assessmentTerms",
-        "term": "assessment",
-        "score": 3
+        "value": "prompt",
+        "term": "prompt",
+        "score": 1.5
       },
       {
         "kind": "symbol",
-        "filePath": "scripts/create-assessment-pack.mjs",
-        "value": "assessmentPackRoot",
-        "term": "assessment",
-        "score": 3
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteComplexity",
+        "term": "prompt",
+        "score": 1.5
       },
       {
         "kind": "symbol",
-        "filePath": "scripts/create-assessment-pack.mjs",
-        "value": "collectAssessmentPackContext",
-        "term": "assessment",
-        "score": 3
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteDecision",
+        "term": "prompt",
+        "score": 1.5
       },
       {
         "kind": "symbol",
-        "filePath": "scripts/create-assessment-pack.mjs",
-        "value": "createAssessmentPack",
-        "term": "assessment",
-        "score": 3
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteInput",
+        "term": "prompt",
+        "score": 1.5
       },
       {
         "kind": "symbol",
-        "filePath": "scripts/import-assessment-missions.mjs",
-        "value": "importAssessmentMissions",
-        "term": "assessment",
-        "score": 3
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteResult",
+        "term": "prompt",
+        "score": 1.5
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "PromptRouteRisk",
+        "term": "prompt",
+        "score": 1.5
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/promptRouter.ts",
+        "value": "routePrompt",
+        "term": "prompt",
+        "score": 1.5
+      },
+      {
+        "kind": "symbol",
+        "filePath": "packages/core/src/scope.ts",
+        "value": "promptTokens",
+        "term": "prompt",
+        "score": 1.5
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/create-assessment-pack.test.mjs",
+        "value": "prompt",
+        "term": "prompt",
+        "score": 1.5
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-codex-missions.ps1",
+        "value": "Runs Codex mission prompts one by one.",
+        "term": "prompt",
+        "score": 1.5
       },
       {
         "kind": "symbol",
         "filePath": "scripts/run-full-self-improvement-loop.mjs",
         "value": "assessmentPrompt",
-        "term": "assessment",
-        "score": 3
+        "term": "prompt",
+        "score": 1.5
       },
       {
         "kind": "symbol",
-        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
-        "value": "assessmentPaths",
-        "term": "assessment",
-        "score": 3
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "coherencePrompt",
+        "term": "prompt",
+        "score": 1.5
       },
       {
         "kind": "symbol",
-        "filePath": "scripts/run-full-self-improvement-loop.test.mjs",
-        "value": "writeBaseAssessmentMemory",
-        "term": "assessment",
-        "score": 3
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "missionBodyHeadingsForPrompt",
+        "term": "prompt",
+        "score": 1.5
+      },
+      {
+        "kind": "symbol",
+        "filePath": "scripts/run-full-self-improvement-loop.mjs",
+        "value": "missionCategoryDescriptionsForPrompt",
+        "term": "prompt",
+        "score": 1.5
       }
     ]
   }

@@ -3,9 +3,9 @@
 You are working on the `Scastleman/abstraction-tree` repository.
 
 Global objective:
-Make this repo a cleaner, safer, measurable, self-dogfooding abstraction-memory system for coding agents.
+Make this repo a cleaner, safer, measurable project-memory and prompt-to-mission system for coding agents.
 
-This mission hardens the autonomous loop behavior.
+This mission hardens the bounded dogfooding loop behavior.
 
 ## Rules
 
@@ -151,7 +151,7 @@ Harden Codex loop prompt and runner.
 
 ## Hypothesis
 
-Autonomous loops become more useful when each run is hypothesis-driven, bounded, measurable, and guarded by runtime state outside source control.
+Bounded dogfooding loops become more useful when each run is hypothesis-driven, bounded, measurable, and guarded by runtime state outside source control.
 
 ## Files Changed
 

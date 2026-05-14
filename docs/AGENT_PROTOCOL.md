@@ -1,12 +1,23 @@
 # Agent Protocol
 
-The developer should not need to change how they prompt.
+Long-term goal: developers should not need to change how they prompt.
+
+Current workflow: use `atree route`, `atree goal`, mission runner commands, and scope checks explicitly, or configure an agent adapter to run that protocol internally.
 
 A user may simply ask:
 
 > Add coupon support.
 
 The agent adapter should perform this protocol internally.
+
+For complex prompts, do not treat Codex as an unlimited autonomous maintainer. Route the prompt first, then use the goal-driven workspace and mission files when the router recommends goal-driven planning.
+
+```bash
+npm run atree:route -- --file prompts/complex-goal.md
+npm run atree:goal -- --file prompts/complex-goal.md --auto-route --review-required
+```
+
+Codex should execute one bounded mission or one safe mission batch, respect affected files and nodes, run checks, write the requested report artifacts, and stop for review.
 
 ## Before editing
 
@@ -73,9 +84,9 @@ npm run atree:validate
 
 That root `.abstraction-tree/` folder is not a template for users. External projects should start with `atree init`, which creates blank project-local memory, then `atree scan`, which generates tree/files/concepts/invariants from the external project's own files. If `atree doctor` warns that a non-Abstraction-Tree project appears to contain this repo's dogfooding memory, clean the stale generated memory and scan again before using the tree for scope decisions.
 
-## Strategic assessment workflow
+## Complex prompt and strategic assessment workflow
 
-For broad repository assessment, do not make Codex invent the strategy and execute it in one pass. Use the staged workflow:
+For complex implementation prompts, use route -> goal -> missions -> scope check -> coherence review -> evaluation. For broad repository assessment, do not make Codex invent the strategy and execute it in one pass. Use the staged workflow:
 
 1. Run `npm run assessment:pack`.
 2. Review the generated `assessment-prompt.md` in ChatGPT or with a human reviewer.

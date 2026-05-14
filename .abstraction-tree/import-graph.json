@@ -368,6 +368,12 @@
     },
     {
       "from": "packages/cli/src/index.ts",
+      "to": "packages/cli/src/openBrowser.ts",
+      "specifier": "./openBrowser.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
       "to": "packages/cli/src/propose.ts",
       "specifier": "./propose.js",
       "kind": "relative"
@@ -388,6 +394,12 @@
       "from": "packages/cli/src/index.ts",
       "to": "packages/cli/src/serveHost.ts",
       "specifier": "./serveHost.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/index.ts",
+      "to": "packages/cli/src/setupGuidance.ts",
+      "specifier": "./setupGuidance.js",
       "kind": "relative"
     },
     {
@@ -416,6 +428,12 @@
       "specifier": "@abstraction-tree/core",
       "kind": "workspace-package",
       "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/openBrowser.test.ts",
+      "to": "packages/cli/src/openBrowser.ts",
+      "specifier": "./openBrowser.js",
+      "kind": "relative"
     },
     {
       "from": "packages/cli/src/propose.test.ts",
@@ -488,6 +506,26 @@
       "to": "packages/cli/src/serveHost.ts",
       "specifier": "./serveHost.js",
       "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/setupGuidance.test.ts",
+      "to": "packages/cli/src/setupGuidance.ts",
+      "specifier": "./setupGuidance.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/cli/src/setupGuidance.test.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/cli/src/setupGuidance.ts",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
     },
     {
       "from": "packages/core/src/automationValidation.test.ts",
@@ -1553,6 +1591,26 @@
       "packageName": "node:path"
     },
     {
+      "from": "packages/cli/src/openBrowser.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/openBrowser.test.ts",
+      "specifier": "node:events",
+      "packageName": "node:events"
+    },
+    {
+      "from": "packages/cli/src/openBrowser.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/openBrowser.ts",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
       "from": "packages/cli/src/propose.test.ts",
       "specifier": "node:assert/strict",
       "packageName": "node:assert/strict"
@@ -1688,12 +1746,47 @@
       "packageName": "node:util"
     },
     {
+      "from": "packages/cli/src/serveCommand.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/serveCommand.test.ts",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "packages/cli/src/serveCommand.test.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/cli/src/serveCommand.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/serveCommand.test.ts",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
       "from": "packages/cli/src/serveHost.test.ts",
       "specifier": "node:assert/strict",
       "packageName": "node:assert/strict"
     },
     {
       "from": "packages/cli/src/serveHost.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/setupGuidance.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/setupGuidance.test.ts",
       "specifier": "node:test",
       "packageName": "node:test"
     },

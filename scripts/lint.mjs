@@ -13,6 +13,14 @@ const nodeNextImportPrefixes = ["packages/", "scripts/"];
 const generatedSegments = ["/dist/", "/dist-ts/"];
 const sourceImportExtensions = new Set([".cts", ".mts", ".ts", ".tsx"]);
 const focusedTestNames = new Set(["describe", "it", "test"]);
+const autonomyClaimFiles = new Set(["README.md", ".abstraction-tree/automation/codex-loop-prompt.md"]);
+const autonomyClaimPrefixes = ["docs/", "adapters/"];
+const discouragedAutonomyClaims = [
+  /\bfully autonomous\b/iu,
+  /\bautonomous correctness\b/iu,
+  /\bself[- ]evolving\b/iu,
+  /\bfull self[- ]improvement system\b/iu
+];
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
   main().catch(error => {
@@ -41,7 +49,9 @@ export async function lintProject(root = repoRoot) {
   const issues = [];
 
   for (const filePath of projectFiles) {
-    if (!isLintableProjectFile(filePath)) continue;
+    const shouldLintSource = isLintableProjectFile(filePath);
+    const shouldLintClaims = isAutonomyClaimProjectFile(filePath);
+    if (!shouldLintSource && !shouldLintClaims) continue;
 
     const absolutePath = path.join(root, filePath);
     const fileStat = await stat(absolutePath).catch(() => undefined);
@@ -49,7 +59,8 @@ export async function lintProject(root = repoRoot) {
 
     const sourceText = await readFile(absolutePath, "utf8");
     checkedFiles.push(filePath);
-    issues.push(...lintSourceText(filePath, sourceText));
+    if (shouldLintSource) issues.push(...lintSourceText(filePath, sourceText));
+    if (shouldLintClaims) issues.push(...lintAutonomyClaims(filePath, sourceText));
   }
 
   issues.sort(compareIssues);
@@ -64,6 +75,15 @@ export function isLintableProjectFile(filePath) {
     lintableExtensions.has(extension) &&
     lintablePrefixes.some(prefix => normalizedPath.startsWith(prefix)) &&
     !generatedSegments.some(segment => normalizedPath.includes(segment))
+  );
+}
+
+export function isAutonomyClaimProjectFile(filePath) {
+  const normalizedPath = normalizePath(filePath);
+  return (
+    autonomyClaimFiles.has(normalizedPath) ||
+    autonomyClaimPrefixes.some(prefix => normalizedPath.startsWith(prefix)) ||
+    /^packages\/[^/]+\/README\.md$/u.test(normalizedPath)
   );
 }
 
@@ -99,6 +119,44 @@ export function lintSourceText(filePath, sourceText) {
 
     ts.forEachChild(node, visit);
   }
+}
+
+export function lintAutonomyClaims(filePath, sourceText) {
+  const issues = [];
+  const lines = sourceText.replace(/\r\n?/gu, "\n").split("\n");
+  let currentHeading = "";
+
+  lines.forEach((lineText, index) => {
+    const heading = markdownHeadingText(lineText);
+    if (heading) currentHeading = heading;
+
+    const match = discouragedAutonomyClaims.map(pattern => pattern.exec(lineText)).find(Boolean);
+    if (!match || isAllowedAutonomyClaimContext(lineText, currentHeading)) return;
+
+    issues.push({
+      filePath: normalizePath(filePath),
+      line: index + 1,
+      column: match.index + 1,
+      rule: "no-unsafe-autonomy-claim",
+      message:
+        "Autonomy claims must be framed as explicit non-goals, historical terminology, or bounded review guidance."
+    });
+  });
+
+  return issues;
+}
+
+export function isAllowedAutonomyClaimContext(lineText, currentHeading = "") {
+  const context = `${currentHeading}\n${lineText}`.toLowerCase();
+  return (
+    /\bwhat this is not\b/u.test(context) ||
+    /\bnon[- ]goals?\b/u.test(context) ||
+    /\bhistorical(?:ly)?\b/u.test(context) ||
+    /\bcompatibility\b/u.test(context) ||
+    /\bwithout claiming\b/u.test(context) ||
+    /\bnot (?:proof|a|an|safe|the recommended)\b/u.test(context) ||
+    /\bdoes not\b/u.test(context)
+  );
 }
 
 export function shouldLintNodeNextImportExtensions(filePath) {
@@ -149,6 +207,11 @@ function isFocusedTestCall(node) {
     ts.isIdentifier(node.expression.expression) &&
     focusedTestNames.has(node.expression.expression.text)
   );
+}
+
+function markdownHeadingText(lineText) {
+  const match = /^(#{1,6})\s+(.+?)\s*#*\s*$/u.exec(lineText);
+  return match ? match[2].trim() : undefined;
 }
 
 function issueAt(sourceFile, position, rule, message) {

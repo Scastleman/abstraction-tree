@@ -447,8 +447,9 @@ function buildMissions(input: {
     affectedFiles: uniqueStable([
       ...relevantFiles.filter(file => file.endsWith(".md")).slice(0, 6),
       "README.md",
-      "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+      "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
       "docs/MISSION_RUNNER.md",
+      "docs/SCOPE_CONTRACTS.md",
       "docs/ROADMAP.md"
     ]),
     affectedNodes: relevantNodes.filter(node => /docs|readme|memory|project/u.test(node)).slice(0, 6),

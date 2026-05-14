@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { defaultServeHost, formatServeUrl, selectServeHost } from "./serveHost.js";
+import { browserServeUrl, defaultServeHost, formatServeUrl, selectServeHost } from "./serveHost.js";
 
 test("selectServeHost defaults to loopback without a warning", () => {
   assert.deepEqual(selectServeHost(), {
@@ -38,4 +38,11 @@ test("selectServeHost warns for wildcard and non-loopback hosts", () => {
 test("formatServeUrl brackets IPv6 hosts", () => {
   assert.equal(formatServeUrl("::1", 4317), "http://[::1]:4317");
   assert.equal(formatServeUrl("[::1]", 4317), "http://[::1]:4317");
+});
+
+test("browserServeUrl prefers loopback for local and wildcard hosts", () => {
+  assert.equal(browserServeUrl("localhost", 4317), "http://127.0.0.1:4317");
+  assert.equal(browserServeUrl("127.0.0.2", 4317), "http://127.0.0.1:4317");
+  assert.equal(browserServeUrl("0.0.0.0", 4317), "http://127.0.0.1:4317");
+  assert.equal(browserServeUrl("192.168.1.20", 4317), "http://192.168.1.20:4317");
 });

@@ -3,7 +3,7 @@
 You are working on the `Scastleman/abstraction-tree` repository.
 
 Global objective:
-Make this repo a cleaner, safer, measurable, self-dogfooding abstraction-memory system for coding agents.
+Make this repo a cleaner, safer, measurable project-memory and prompt-to-mission system for coding agents.
 
 This mission adds validation for automation config/runtime hygiene.
 
@@ -89,7 +89,7 @@ Add automation state validation.
 
 ## Hypothesis
 
-The autonomous loop becomes safer when validation catches committed runtime state and malformed automation config.
+The bounded dogfooding loop becomes safer when validation catches committed runtime state and malformed automation config.
 
 ## Files Changed
 

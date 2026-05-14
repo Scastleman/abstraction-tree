@@ -2,6 +2,8 @@
 
 Abstraction Tree supports two install modes because the abstraction layer should be useful even when a developer does not want a visual interface.
 
+Both modes support the same product direction: local project memory for safer complex prompt implementation. Full mode adds the visual app so humans can inspect the generated abstraction tree before or after Codex runs scoped missions.
+
 The package names below are the intended public npm package names. They are valid workspace package names in this repository, but they are not installable from the npm registry until the first publish. Before that release, use the repo-local scripts from the root README.
 
 ## Core-only package
@@ -37,14 +39,16 @@ Use it for the complete local-first experience:
 - everything in core-only mode;
 - the local browser-based visual project explorer.
 
-Example:
+## Recommended Setup Flow
 
 ```bash
 npm install -D abstraction-tree
 npx atree init --with-app
 npx atree scan
-npx atree serve
+npx atree serve --open
 ```
+
+The `--open` flag launches the local visual app in the default browser after the server starts. Without it, `atree serve` prints the URL for manual opening. The app reads the target project's own `.abstraction-tree/` memory, not Abstraction Tree's dogfooding memory unless this repository is the target project.
 
 The full package depends on:
 

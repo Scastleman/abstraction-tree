@@ -20,13 +20,13 @@ Several root automation scripts call PowerShell directly. That may be fine for l
 
 - Audit PowerShell scripts and decide which should remain Windows-specific.
 - Create Node wrappers for cross-platform operations where feasible.
-- Document platform requirements for bounded autonomous loops.
+- Document platform requirements for bounded bounded dogfooding loops.
 - Ensure CI does not depend on local-only runtime state.
 - Add smoke tests for cross-platform wrappers where possible.
 
 ## Non-goals
 
-- Do not make autonomous loops run in public CI.
+- Do not make bounded dogfooding loops run in public CI.
 - Do not weaken existing loop guardrails.
 
 ## Likely touchpoints
@@ -56,4 +56,4 @@ npm run atree:validate
 
 - Implementation summary: `npm run diff:summary` now uses the Node wrapper, direct PowerShell npm commands are explicitly scoped behind `:windows` names, the diff summary wrapper exposes a testable runner, and docs now separate cross-platform checks from Windows-only local loop automation.
 - Tests run: `npm.cmd run build`, `npm.cmd test`, `npm.cmd run lint`, `npm.cmd run atree:scan`, and `npm.cmd run atree:validate`. Plain `npm run build` was blocked by this machine's PowerShell execution policy for `npm.ps1`, so the same npm scripts were executed through `npm.cmd`. An extra `npm.cmd run diff:summary -- --json` smoke attempt reached the Node wrapper but was blocked by this sandbox when the wrapper tried to spawn `git` (`spawn EPERM`); the wrapper now reports that as a concise collection error.
-- Follow-up risks: autonomous loop and mission-runner orchestration remain Windows PowerShell scoped; a future cross-platform Node port should preserve the same runtime guardrails before replacing those scripts.
+- Follow-up risks: bounded dogfooding loop and mission-runner orchestration remain Windows PowerShell scoped; a future cross-platform Node port should preserve the same runtime guardrails before replacing those scripts.

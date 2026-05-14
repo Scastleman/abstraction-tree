@@ -3,7 +3,7 @@
 You are working on the `Scastleman/abstraction-tree` repository.
 
 Global objective:
-Make this repo a cleaner, safer, measurable, self-dogfooding abstraction-memory system for coding agents.
+Make this repo a cleaner, safer, measurable project-memory and prompt-to-mission system for coding agents.
 
 This mission fixes automation source-control hygiene.
 
@@ -121,7 +121,7 @@ Fix automation runtime/config source-control hygiene.
 
 ## Hypothesis
 
-The autonomous loop becomes safer when stable config is committed but live runtime counters are local and ignored.
+The bounded dogfooding loop becomes safer when stable config is committed but live runtime counters are local and ignored.
 
 ## Files Changed
 
