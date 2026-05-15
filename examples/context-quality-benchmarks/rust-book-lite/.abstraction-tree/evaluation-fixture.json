@@ -1,0 +1,45 @@
+{
+  "expectedContextPacks": [
+    {
+      "name": "Rust book ownership typo",
+      "category": "documentation-heavy-mdbook",
+      "target": "Fix typo in ownership chapter borrowing explanation",
+      "expectedFilePaths": [
+        "listings/ch04-understanding-ownership/listing-04-01/src/main.rs",
+        "src/SUMMARY.md",
+        "src/ch04-01-what-is-ownership.md",
+        "src/ch04-02-references-and-borrowing.md"
+      ],
+      "expectedTreeNodeIds": [
+        "file.src.ch04.01.what.is.ownership.md",
+        "module.src"
+      ]
+    },
+    {
+      "name": "Rust book ownership tight budget",
+      "category": "documentation-heavy-mdbook",
+      "target": "tight budget ownership chapter borrowing",
+      "maxTokens": 4000,
+      "expectedFilePaths": [
+        "listings/ch04-understanding-ownership/listing-04-01/src/main.rs"
+      ],
+      "expectedTreeNodeIds": [
+        "concept-node.ownership"
+      ]
+    }
+  ],
+  "expectedRoutes": [
+    {
+      "name": "Rust book ownership route",
+      "category": "documentation-heavy-mdbook",
+      "prompt": "Fix typo in ownership chapter borrowing explanation",
+      "expectedDecision": "direct",
+      "expectedFilePaths": [
+        "listings/ch04-understanding-ownership/listing-04-01/src/main.rs",
+        "src/ch04-00-understanding-ownership.md",
+        "src/ch04-01-what-is-ownership.md",
+        "src/ch04-02-references-and-borrowing.md"
+      ]
+    }
+  ]
+}

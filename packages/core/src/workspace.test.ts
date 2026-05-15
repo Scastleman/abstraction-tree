@@ -37,6 +37,27 @@ test("ensureWorkspace creates a blank project-local workspace", async t => {
   assert.equal(existsSync(atreePath(root, "automation")), false);
 });
 
+test("ensureWorkspace preserves visual app artifact policy", async t => {
+  const root = await workspace(t);
+  await ensureWorkspace(root, { projectName: "External Project", installMode: "full" });
+  const configPath = atreePath(root, "config.json");
+  const config = await readJson<Record<string, unknown>>(configPath, {});
+  await writeJson(configPath, {
+    ...config,
+    visualApp: {
+      ...(config.visualApp as Record<string, unknown>),
+      artifacts: {
+        enabled: false
+      }
+    }
+  });
+
+  await ensureWorkspace(root, { installMode: "full" });
+  const updated = await readJson<{ visualApp?: { artifacts?: { enabled?: boolean } } }>(configPath, {});
+
+  assert.equal(updated.visualApp?.artifacts?.enabled, false);
+});
+
 test("scan memory for a temporary project is generated from that project", async t => {
   const root = await workspace(t);
   await writeFile(path.join(root, "package.json"), "{\"name\":\"external-fixture\"}\n", "utf8");
@@ -112,6 +133,40 @@ test("readEffectiveConfig merges global and root custom overrides", async t => {
   const baseOnly = await readEffectiveConfig(root, { globalConfigPath, customConfig: false });
   assert.equal(baseOnly.projectName, "Base Project");
   assert.equal(baseOnly.subsystemPatterns, undefined);
+});
+
+test("readEffectiveConfig merges selected profile before project overrides", async t => {
+  const root = await workspace(t);
+  await ensureWorkspace(root, { projectName: "Rust Fixture" });
+  const globalConfigPath = path.join(root, "missing-global.config.json");
+  await writeJson(path.join(root, "atree.config.json"), {
+    subsystemPatterns: [{
+      id: "subsystem.rust.cli",
+      title: "Project CLI Surface",
+      paths: ["crates/cli/**"],
+      priority: 100
+    }],
+    missionPlanning: {
+      testCommands: ["cargo test --workspace"]
+    }
+  });
+
+  const config = await readEffectiveConfig(root, { profile: "rust-cli", globalConfigPath });
+
+  assert.ok(config.ignored.includes("target"));
+  assert.equal(config.subsystemPatterns?.find(pattern => pattern.id === "subsystem.rust.cli")?.title, "Project CLI Surface");
+  assert.deepEqual(config.subsystemPatterns?.find(pattern => pattern.id === "subsystem.rust.cli")?.paths, ["crates/cli/**"]);
+  assert.ok(config.subsystemPatterns?.some(pattern => pattern.id === "subsystem.rust.packaging"));
+  assert.equal(config.domainVocabulary?.some(mapping => mapping.concept === "cli arguments"), true);
+  assert.deepEqual(config.missionPlanning?.testCommands, ["cargo test --workspace"]);
+  assert.deepEqual(config.missionPlanning?.buildCommands, ["cargo build"]);
+
+  const profileOnly = await readEffectiveConfig(root, {
+    profile: "rust-cli",
+    globalConfigPath,
+    customConfig: false
+  });
+  assert.equal(profileOnly.subsystemPatterns?.find(pattern => pattern.id === "subsystem.rust.cli")?.title, "Rust CLI Surface");
 });
 
 async function workspace(t: TestContext): Promise<string> {

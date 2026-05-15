@@ -1,0 +1,51 @@
+{
+  "expectedContextPacks": [
+    {
+      "name": "MERN protected goals dashboard",
+      "category": "mixed-react-express-mongo-app",
+      "target": "Implement authentication middleware protected routes across frontend backend goals dashboard flow",
+      "expectedFilePaths": [
+        "backend/controllers/goalController.js",
+        "backend/middleware/authMiddleware.js",
+        "backend/routes/goalRoutes.js",
+        "backend/server.js",
+        "frontend/src/features/goals/goalSlice.js",
+        "frontend/src/pages/Dashboard.jsx"
+      ],
+      "expectedTreeNodeIds": [
+        "architecture.local.api.routes",
+        "file.backend.middleware.authmiddleware.js"
+      ]
+    },
+    {
+      "name": "MERN protected route tight budget",
+      "category": "mixed-react-express-mongo-app",
+      "target": "tight budget authentication middleware protected routes",
+      "maxTokens": 4000,
+      "expectedFilePaths": [
+        "backend/middleware/authMiddleware.js",
+        "backend/routes/goalRoutes.js"
+      ],
+      "expectedTreeNodeIds": [
+        "architecture.local.api.routes",
+        "file.backend.middleware.authmiddleware.js"
+      ]
+    }
+  ],
+  "expectedRoutes": [
+    {
+      "name": "MERN protected goals route",
+      "category": "mixed-react-express-mongo-app",
+      "prompt": "Implement authentication middleware protected routes across frontend backend goals dashboard flow",
+      "expectedDecision": "goal-driven",
+      "expectedFilePaths": [
+        "backend/controllers/goalController.js",
+        "backend/middleware/authMiddleware.js",
+        "backend/routes/goalRoutes.js",
+        "backend/server.js",
+        "frontend/src/features/goals/goalSlice.js",
+        "frontend/src/pages/Dashboard.jsx"
+      ]
+    }
+  ]
+}

@@ -1,6 +1,549 @@
 {
   "edges": [
     {
+      "from": "CONTRIBUTING.md",
+      "to": "docs/AGENT_PROTOCOL.md",
+      "specifier": "docs/AGENT_PROTOCOL.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "CONTRIBUTING.md",
+      "to": "docs/PACKAGING.md",
+      "specifier": "docs/PACKAGING.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "CONTRIBUTING.md",
+      "to": "README.md",
+      "specifier": "README.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DATA_MODEL.md",
+      "to": "docs/CONFIGURATION.md",
+      "specifier": "CONFIGURATION.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "README.md",
+      "specifier": "../README.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/AGENT_PROTOCOL.md",
+      "specifier": "AGENT_PROTOCOL.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/ARCHITECTURE.md",
+      "specifier": "ARCHITECTURE.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/ASSESSMENT_PACKS.md",
+      "specifier": "ASSESSMENT_PACKS.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/CI_INTEGRATION.md",
+      "specifier": "CI_INTEGRATION.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/DATA_MODEL.md",
+      "specifier": "DATA_MODEL.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/EXPERIMENTAL_DOGFOODING_LOOP.md",
+      "specifier": "EXPERIMENTAL_DOGFOODING_LOOP.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+      "specifier": "FULL_SELF_IMPROVEMENT_LOOP.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/GETTING_STARTED.md",
+      "specifier": "GETTING_STARTED.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/GOAL_DRIVEN_AUTOPILOT.md",
+      "specifier": "GOAL_DRIVEN_AUTOPILOT.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "specifier": "GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/MAINTAINER_NOTES.md",
+      "specifier": "MAINTAINER_NOTES.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/MISSION_RUNNER.md",
+      "specifier": "MISSION_RUNNER.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/PACKAGING.md",
+      "specifier": "PACKAGING.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/README.md",
+      "specifier": "README.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/ROADMAP.md",
+      "specifier": "ROADMAP.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/SCOPE_CONTRACTS.md",
+      "specifier": "SCOPE_CONTRACTS.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/STABLE_VS_EXPERIMENTAL.md",
+      "specifier": "STABLE_VS_EXPERIMENTAL.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/DOCS_INDEX.md",
+      "to": "docs/VISUAL_DEMO.md",
+      "specifier": "VISUAL_DEMO.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/EXPERIMENTAL_DOGFOODING_LOOP.md",
+      "to": "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "specifier": "GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+      "to": "docs/EXPERIMENTAL_DOGFOODING_LOOP.md",
+      "specifier": "EXPERIMENTAL_DOGFOODING_LOOP.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+      "to": "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "specifier": "GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/GETTING_STARTED.md",
+      "to": "docs/ARCHITECTURE.md",
+      "specifier": "ARCHITECTURE.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/GETTING_STARTED.md",
+      "to": "docs/DATA_MODEL.md",
+      "specifier": "DATA_MODEL.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/GETTING_STARTED.md",
+      "to": "docs/PACKAGING.md",
+      "specifier": "PACKAGING.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/GETTING_STARTED.md",
+      "to": "docs/STABLE_VS_EXPERIMENTAL.md",
+      "specifier": "STABLE_VS_EXPERIMENTAL.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/GETTING_STARTED.md",
+      "to": "docs/V1_RELEASE_GATE.md",
+      "specifier": "V1_RELEASE_GATE.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/GETTING_STARTED.md",
+      "to": "docs/VISUAL_DEMO.md",
+      "specifier": "VISUAL_DEMO.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/GOAL_DRIVEN_AUTOPILOT.md",
+      "to": "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "specifier": "GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/MISSION_RUNNER.md",
+      "to": "docs/MAINTAINER_NOTES.md",
+      "specifier": "MAINTAINER_NOTES.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/PACKAGING.md",
+      "to": "docs/RELEASE_RUNBOOK.md",
+      "specifier": "RELEASE_RUNBOOK.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/PACKAGING.md",
+      "to": "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
+      "specifier": "release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/PACKAGING.md",
+      "to": "docs/release-evidence/beta-verification-template.md",
+      "specifier": "release-evidence/beta-verification-template.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/PACKAGING.md",
+      "to": "docs/V1_RELEASE_GATE.md",
+      "specifier": "V1_RELEASE_GATE.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/AGENT_PROTOCOL.md",
+      "specifier": "AGENT_PROTOCOL.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/ARCHITECTURE.md",
+      "specifier": "ARCHITECTURE.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/ASSESSMENT_PACKS.md",
+      "specifier": "ASSESSMENT_PACKS.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/CI_INTEGRATION.md",
+      "specifier": "CI_INTEGRATION.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/CONFIGURATION.md",
+      "specifier": "CONFIGURATION.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/DATA_MODEL.md",
+      "specifier": "DATA_MODEL.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/DOCS_INDEX.md",
+      "specifier": "DOCS_INDEX.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/EXPERIMENTAL_DOGFOODING_LOOP.md",
+      "specifier": "EXPERIMENTAL_DOGFOODING_LOOP.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/FULL_SELF_IMPROVEMENT_LOOP.md",
+      "specifier": "FULL_SELF_IMPROVEMENT_LOOP.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/GETTING_STARTED.md",
+      "specifier": "GETTING_STARTED.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/GOAL_DRIVEN_AUTOPILOT.md",
+      "specifier": "GOAL_DRIVEN_AUTOPILOT.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "specifier": "GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/MAINTAINER_NOTES.md",
+      "specifier": "MAINTAINER_NOTES.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/MISSION_RUNNER.md",
+      "specifier": "MISSION_RUNNER.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/PACKAGING.md",
+      "specifier": "PACKAGING.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/RELEASE_RUNBOOK.md",
+      "specifier": "RELEASE_RUNBOOK.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
+      "specifier": "release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/release-evidence/2026-05-15-diverse-repository-beta-evaluation.md",
+      "specifier": "release-evidence/2026-05-15-diverse-repository-beta-evaluation.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/release-evidence/beta-verification-template.md",
+      "specifier": "release-evidence/beta-verification-template.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/ROADMAP.md",
+      "specifier": "ROADMAP.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/SCOPE_CONTRACTS.md",
+      "specifier": "SCOPE_CONTRACTS.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/STABLE_VS_EXPERIMENTAL.md",
+      "specifier": "STABLE_VS_EXPERIMENTAL.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/V1_RELEASE_CANDIDATE_REVIEW.md",
+      "specifier": "V1_RELEASE_CANDIDATE_REVIEW.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/V1_RELEASE_GATE.md",
+      "specifier": "V1_RELEASE_GATE.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/README.md",
+      "to": "docs/VISUAL_DEMO.md",
+      "specifier": "VISUAL_DEMO.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/RELEASE_RUNBOOK.md",
+      "to": "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
+      "specifier": "release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/RELEASE_RUNBOOK.md",
+      "to": "docs/release-evidence/beta-verification-template.md",
+      "specifier": "release-evidence/beta-verification-template.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/RELEASE_RUNBOOK.md",
+      "to": "docs/V1_RELEASE_GATE.md",
+      "specifier": "V1_RELEASE_GATE.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/RELEASE_RUNBOOK.md",
+      "to": "docs/VISUAL_DEMO.md",
+      "specifier": "VISUAL_DEMO.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/ROADMAP.md",
+      "to": "docs/V1_RELEASE_CANDIDATE_REVIEW.md",
+      "specifier": "V1_RELEASE_CANDIDATE_REVIEW.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/ROADMAP.md",
+      "to": "docs/V1_RELEASE_GATE.md",
+      "specifier": "V1_RELEASE_GATE.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/STABLE_VS_EXPERIMENTAL.md",
+      "to": "docs/V1_RELEASE_GATE.md",
+      "specifier": "V1_RELEASE_GATE.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/V1_RELEASE_CANDIDATE_REVIEW.md",
+      "to": "docs/release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
+      "specifier": "release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/V1_RELEASE_CANDIDATE_REVIEW.md",
+      "to": "docs/release-evidence/2026-05-15-current-gate.md",
+      "specifier": "release-evidence/2026-05-15-current-gate.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/V1_RELEASE_CANDIDATE_REVIEW.md",
+      "to": "docs/release-evidence/2026-05-15-diverse-repository-beta-evaluation.md",
+      "specifier": "release-evidence/2026-05-15-diverse-repository-beta-evaluation.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/V1_RELEASE_GATE.md",
+      "to": "docs/RELEASE_RUNBOOK.md",
+      "specifier": "RELEASE_RUNBOOK.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "docs/V1_RELEASE_GATE.md",
+      "to": "docs/release-evidence/beta-verification-template.md",
+      "specifier": "release-evidence/beta-verification-template.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "examples/context-quality-benchmarks/click-lite/src/click/core.py",
+      "to": "examples/context-quality-benchmarks/click-lite/src/click/parser.py",
+      "specifier": ".parser",
+      "kind": "relative"
+    },
+    {
+      "from": "examples/context-quality-benchmarks/click-lite/tests/test_defaults.py",
+      "to": "examples/context-quality-benchmarks/click-lite/src/click/parser.py",
+      "specifier": "click.parser",
+      "kind": "workspace-package",
+      "packageName": "click"
+    },
+    {
+      "from": "examples/context-quality-benchmarks/click-lite/tests/test_options.py",
+      "to": "examples/context-quality-benchmarks/click-lite/src/click/parser.py",
+      "specifier": "click.parser",
+      "kind": "workspace-package",
+      "packageName": "click"
+    },
+    {
+      "from": "examples/context-quality-benchmarks/fd-lite/src/main.rs",
+      "to": "examples/context-quality-benchmarks/fd-lite/src/cli.rs",
+      "specifier": "mod:cli",
+      "kind": "relative"
+    },
+    {
+      "from": "examples/context-quality-benchmarks/fd-lite/src/main.rs",
+      "to": "examples/context-quality-benchmarks/fd-lite/src/walk.rs",
+      "specifier": "mod:walk",
+      "kind": "relative"
+    },
+    {
+      "from": "examples/context-quality-benchmarks/fd-lite/tests/tests.rs",
+      "to": "examples/context-quality-benchmarks/fd-lite/src/walk.rs",
+      "specifier": "fd_lite::walk::ignore_hidden",
+      "kind": "workspace-package",
+      "packageName": "fd-lite"
+    },
+    {
+      "from": "examples/context-quality-benchmarks/mern-lite/backend/routes/goalRoutes.js",
+      "to": "examples/context-quality-benchmarks/mern-lite/backend/controllers/goalController.js",
+      "specifier": "../controllers/goalController.js",
+      "kind": "relative"
+    },
+    {
+      "from": "examples/context-quality-benchmarks/mern-lite/backend/routes/goalRoutes.js",
+      "to": "examples/context-quality-benchmarks/mern-lite/backend/middleware/authMiddleware.js",
+      "specifier": "../middleware/authMiddleware.js",
+      "kind": "relative"
+    },
+    {
+      "from": "examples/context-quality-benchmarks/mern-lite/backend/server.js",
+      "to": "examples/context-quality-benchmarks/mern-lite/backend/routes/goalRoutes.js",
+      "specifier": "./routes/goalRoutes.js",
+      "kind": "relative"
+    },
+    {
+      "from": "examples/context-quality-benchmarks/mern-lite/frontend/src/pages/Dashboard.jsx",
+      "to": "examples/context-quality-benchmarks/mern-lite/frontend/src/features/goals/goalSlice.js",
+      "specifier": "../features/goals/goalSlice.js",
+      "kind": "relative"
+    },
+    {
+      "from": "examples/context-quality-benchmarks/rust-book-lite/src/SUMMARY.md",
+      "to": "examples/context-quality-benchmarks/rust-book-lite/src/ch04-00-understanding-ownership.md",
+      "specifier": "ch04-00-understanding-ownership.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "examples/context-quality-benchmarks/rust-book-lite/src/SUMMARY.md",
+      "to": "examples/context-quality-benchmarks/rust-book-lite/src/ch04-01-what-is-ownership.md",
+      "specifier": "ch04-01-what-is-ownership.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "examples/context-quality-benchmarks/rust-book-lite/src/SUMMARY.md",
+      "to": "examples/context-quality-benchmarks/rust-book-lite/src/ch04-02-references-and-borrowing.md",
+      "specifier": "ch04-02-references-and-borrowing.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "examples/context-quality-benchmarks/vite-lite/packages/vite/src/node/server/pluginContainer.ts",
+      "to": "examples/context-quality-benchmarks/vite-lite/packages/vite/src/node/plugin.ts",
+      "specifier": "../plugin",
+      "kind": "relative"
+    },
+    {
+      "from": "examples/context-quality-benchmarks/vite-lite/packages/vite/src/node/server/pluginContainer.ts",
+      "to": "examples/context-quality-benchmarks/vite-lite/packages/vite/src/node/server/mixedModuleGraph.ts",
+      "specifier": "./mixedModuleGraph",
+      "kind": "relative"
+    },
+    {
       "from": "examples/inventory-api/src/api/inventory.ts",
       "to": "examples/inventory-api/src/services/audit.ts",
       "specifier": "../services/audit",
@@ -272,7 +815,8 @@
       "from": "packages/app/src/main.tsx",
       "to": "packages/app/src/styles.css",
       "specifier": "./styles.css",
-      "kind": "relative"
+      "kind": "relative",
+      "classification": "static-asset"
     },
     {
       "from": "packages/app/src/nodeAccessors.ts",
@@ -685,14 +1229,50 @@
     },
     {
       "from": "packages/core/src/context.test.ts",
+      "to": "packages/core/src/evaluator.ts",
+      "specifier": "./evaluator.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/context.test.ts",
+      "to": "packages/core/src/importGraph.ts",
+      "specifier": "./importGraph.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/context.test.ts",
+      "to": "packages/core/src/promptRouter.ts",
+      "specifier": "./promptRouter.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/context.test.ts",
+      "to": "packages/core/src/scanner.ts",
+      "specifier": "./scanner.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/context.test.ts",
       "to": "packages/core/src/schema.ts",
       "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/context.test.ts",
+      "to": "packages/core/src/treeBuilder.ts",
+      "specifier": "./treeBuilder.js",
       "kind": "relative"
     },
     {
       "from": "packages/core/src/context.ts",
       "to": "packages/core/src/contextLimits.ts",
       "specifier": "./contextLimits.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/context.ts",
+      "to": "packages/core/src/promptRouter.ts",
+      "specifier": "./promptRouter.js",
       "kind": "relative"
     },
     {
@@ -751,6 +1331,12 @@
     },
     {
       "from": "packages/core/src/evaluator.ts",
+      "to": "packages/core/src/promptRouter.ts",
+      "specifier": "./promptRouter.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/evaluator.ts",
       "to": "packages/core/src/runReports.ts",
       "specifier": "./runReports.js",
       "kind": "relative"
@@ -765,6 +1351,12 @@
       "from": "packages/core/src/evaluator.ts",
       "to": "packages/core/src/schema.ts",
       "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/evaluator.ts",
+      "to": "packages/core/src/validator.ts",
+      "specifier": "./validator.js",
       "kind": "relative"
     },
     {
@@ -1129,6 +1721,12 @@
     },
     {
       "from": "packages/core/src/scope.test.ts",
+      "to": "packages/core/src/promptRouter.ts",
+      "specifier": "./promptRouter.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/scope.test.ts",
       "to": "packages/core/src/schema.ts",
       "specifier": "./schema.js",
       "kind": "relative"
@@ -1147,8 +1745,26 @@
     },
     {
       "from": "packages/core/src/scope.ts",
+      "to": "packages/core/src/promptRouter.ts",
+      "specifier": "./promptRouter.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/scope.ts",
       "to": "packages/core/src/schema.ts",
       "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/treeBuilder.test.ts",
+      "to": "packages/core/src/evaluator.ts",
+      "specifier": "./evaluator.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/treeBuilder.test.ts",
+      "to": "packages/core/src/importGraph.ts",
+      "specifier": "./importGraph.js",
       "kind": "relative"
     },
     {
@@ -1161,6 +1777,18 @@
       "from": "packages/core/src/treeBuilder.test.ts",
       "to": "packages/core/src/treeBuilder.ts",
       "specifier": "./treeBuilder.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/treeBuilder.test.ts",
+      "to": "packages/core/src/validator.ts",
+      "specifier": "./validator.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/treeBuilder.test.ts",
+      "to": "packages/core/src/workspace.ts",
+      "specifier": "./workspace.js",
       "kind": "relative"
     },
     {
@@ -1261,11 +1889,132 @@
       "packageName": "@abstraction-tree/cli"
     },
     {
+      "from": "README.md",
+      "to": "docs/AGENT_PROTOCOL.md",
+      "specifier": "docs/AGENT_PROTOCOL.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/ARCHITECTURE.md",
+      "specifier": "docs/ARCHITECTURE.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/ASSESSMENT_PACKS.md",
+      "specifier": "docs/ASSESSMENT_PACKS.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/CI_INTEGRATION.md",
+      "specifier": "docs/CI_INTEGRATION.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/CONFIGURATION.md",
+      "specifier": "docs/CONFIGURATION.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/DATA_MODEL.md",
+      "specifier": "docs/DATA_MODEL.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/EXPERIMENTAL_DOGFOODING_LOOP.md",
+      "specifier": "docs/EXPERIMENTAL_DOGFOODING_LOOP.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/GETTING_STARTED.md",
+      "specifier": "docs/GETTING_STARTED.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "specifier": "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/MISSION_RUNNER.md",
+      "specifier": "docs/MISSION_RUNNER.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/PACKAGING.md",
+      "specifier": "docs/PACKAGING.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/README.md",
+      "specifier": "docs/README.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/RELEASE_RUNBOOK.md",
+      "specifier": "docs/RELEASE_RUNBOOK.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/ROADMAP.md",
+      "specifier": "docs/ROADMAP.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/SCOPE_CONTRACTS.md",
+      "specifier": "docs/SCOPE_CONTRACTS.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/STABLE_VS_EXPERIMENTAL.md",
+      "specifier": "docs/STABLE_VS_EXPERIMENTAL.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/V1_RELEASE_CANDIDATE_REVIEW.md",
+      "specifier": "docs/V1_RELEASE_CANDIDATE_REVIEW.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/V1_RELEASE_GATE.md",
+      "specifier": "docs/V1_RELEASE_GATE.md",
+      "kind": "markdown-link"
+    },
+    {
+      "from": "README.md",
+      "to": "docs/VISUAL_DEMO.md",
+      "specifier": "docs/VISUAL_DEMO.md",
+      "kind": "markdown-link"
+    },
+    {
       "from": "scripts/app-node-accessors.test.mjs",
       "to": "packages/app/src/nodeAccessors.ts",
       "specifier": "../packages/app/dist-ts/nodeAccessors.js",
       "kind": "workspace-package",
+      "classification": "generated-artifact",
       "packageName": "@abstraction-tree/app"
+    },
+    {
+      "from": "scripts/capture-release-gate-evidence.test.mjs",
+      "to": "scripts/capture-release-gate-evidence.mjs",
+      "specifier": "./capture-release-gate-evidence.mjs",
+      "kind": "relative"
     },
     {
       "from": "scripts/check-changelog.test.mjs",
@@ -1326,6 +2075,7 @@
       "to": "packages/core/src/index.ts",
       "specifier": "../packages/core/dist/index.js",
       "kind": "workspace-package",
+      "classification": "generated-artifact",
       "packageName": "@abstraction-tree/core"
     },
     {
@@ -1429,6 +2179,7 @@
       "to": "packages/core/src/index.ts",
       "specifier": "../packages/core/dist/index.js",
       "kind": "workspace-package",
+      "classification": "generated-artifact",
       "packageName": "@abstraction-tree/core"
     }
   ],
@@ -1442,6 +2193,21 @@
       "from": "adapters/local-json/index.mjs",
       "specifier": "node:path",
       "packageName": "node:path"
+    },
+    {
+      "from": "docs/VISUAL_DEMO.md",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "examples/context-quality-benchmarks/mern-lite/backend/routes/goalRoutes.js",
+      "specifier": "express",
+      "packageName": "express"
+    },
+    {
+      "from": "examples/context-quality-benchmarks/mern-lite/backend/server.js",
+      "specifier": "express",
+      "packageName": "express"
     },
     {
       "from": "examples/inventory-api/tests/inventory.test.js",
@@ -1802,6 +2568,46 @@
       "from": "packages/cli/src/goalCommand.ts",
       "specifier": "node:path",
       "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/index.test.ts",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "packages/cli/src/index.test.ts",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "packages/cli/src/index.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/cli/src/index.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/cli/src/index.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/cli/src/index.test.ts",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "packages/cli/src/index.test.ts",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "packages/cli/src/index.test.ts",
+      "specifier": "node:util",
+      "packageName": "node:util"
     },
     {
       "from": "packages/cli/src/index.ts",
@@ -2230,8 +3036,23 @@
     },
     {
       "from": "packages/core/src/context.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/context.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/context.test.ts",
       "specifier": "node:test",
       "packageName": "node:test"
+    },
+    {
+      "from": "packages/core/src/context.test.ts",
+      "specifier": "node:url",
+      "packageName": "node:url"
     },
     {
       "from": "packages/core/src/diffSummary.test.ts",
@@ -2635,6 +3456,61 @@
     },
     {
       "from": "scripts/app-node-accessors.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "scripts/capture-release-gate-evidence.mjs",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "scripts/capture-release-gate-evidence.mjs",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "scripts/capture-release-gate-evidence.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/capture-release-gate-evidence.mjs",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "scripts/capture-release-gate-evidence.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/capture-release-gate-evidence.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/capture-release-gate-evidence.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/capture-release-gate-evidence.test.mjs",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "scripts/capture-release-gate-evidence.test.mjs",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "scripts/capture-release-gate-evidence.test.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/capture-release-gate-evidence.test.mjs",
       "specifier": "node:test",
       "packageName": "node:test"
     },
@@ -3394,8 +4270,71 @@
       "packageName": "node:url"
     }
   ],
-  "unresolvedImports": [],
-  "cycles": [],
+  "unresolvedImports": [
+    {
+      "from": "docs/VISUAL_DEMO.md",
+      "specifier": "assets/visual-demo/concepts-invariants.png",
+      "kind": "markdown-link",
+      "classification": "static-asset",
+      "reason": "Static asset import is not resolved to a scanned source file; it is classified separately from unresolved source imports."
+    },
+    {
+      "from": "docs/VISUAL_DEMO.md",
+      "specifier": "assets/visual-demo/context-or-drift.png",
+      "kind": "markdown-link",
+      "classification": "static-asset",
+      "reason": "Static asset import is not resolved to a scanned source file; it is classified separately from unresolved source imports."
+    },
+    {
+      "from": "docs/VISUAL_DEMO.md",
+      "specifier": "assets/visual-demo/file-ownership.png",
+      "kind": "markdown-link",
+      "classification": "static-asset",
+      "reason": "Static asset import is not resolved to a scanned source file; it is classified separately from unresolved source imports."
+    },
+    {
+      "from": "docs/VISUAL_DEMO.md",
+      "specifier": "assets/visual-demo/selected-node-explanation.png",
+      "kind": "markdown-link",
+      "classification": "static-asset",
+      "reason": "Static asset import is not resolved to a scanned source file; it is classified separately from unresolved source imports."
+    },
+    {
+      "from": "docs/VISUAL_DEMO.md",
+      "specifier": "assets/visual-demo/tree-hierarchy.png",
+      "kind": "markdown-link",
+      "classification": "static-asset",
+      "reason": "Static asset import is not resolved to a scanned source file; it is classified separately from unresolved source imports."
+    },
+    {
+      "from": "README.md",
+      "specifier": "docs/assets/visual-demo/tree-hierarchy.png",
+      "kind": "markdown-link",
+      "classification": "static-asset",
+      "reason": "Static asset import is not resolved to a scanned source file; it is classified separately from unresolved source imports."
+    }
+  ],
+  "cycles": [
+    {
+      "files": [
+        "docs/DOCS_INDEX.md",
+        "docs/README.md"
+      ]
+    },
+    {
+      "files": [
+        "docs/DOCS_INDEX.md",
+        "README.md",
+        "docs/README.md"
+      ]
+    },
+    {
+      "files": [
+        "docs/RELEASE_RUNBOOK.md",
+        "docs/V1_RELEASE_GATE.md"
+      ]
+    }
+  ],
   "workspacePackages": [
     {
       "name": "@abstraction-tree/app",

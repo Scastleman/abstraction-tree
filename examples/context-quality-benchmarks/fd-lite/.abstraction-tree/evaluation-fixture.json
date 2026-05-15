@@ -1,0 +1,47 @@
+{
+  "expectedContextPacks": [
+    {
+      "name": "fd hidden traversal",
+      "category": "rust-cli-project",
+      "target": "Fix ignore rules hidden files traversal",
+      "expectedFilePaths": [
+        "README.md",
+        "src/cli.rs",
+        "src/walk.rs",
+        "tests/tests.rs"
+      ],
+      "expectedTreeNodeIds": [
+        "file.src.walk.rs",
+        "module.src"
+      ]
+    },
+    {
+      "name": "fd hidden traversal tight budget",
+      "category": "rust-cli-project",
+      "target": "tight budget hidden traversal walk",
+      "maxTokens": 4000,
+      "expectedFilePaths": [
+        "README.md",
+        "src/cli.rs",
+        "src/walk.rs"
+      ],
+      "expectedTreeNodeIds": [
+        "file.src.walk.rs"
+      ]
+    }
+  ],
+  "expectedRoutes": [
+    {
+      "name": "fd hidden traversal route",
+      "category": "rust-cli-project",
+      "prompt": "Fix ignore rules hidden files traversal",
+      "expectedDecision": "direct",
+      "expectedFilePaths": [
+        "README.md",
+        "src/cli.rs",
+        "src/walk.rs",
+        "tests/tests.rs"
+      ]
+    }
+  ]
+}

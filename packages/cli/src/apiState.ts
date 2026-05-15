@@ -16,6 +16,7 @@ import {
   summarizeRunMarkdown,
   type AbstractionTreeState,
   type AgentHealth,
+  type AtreeConfig,
   type CoherenceFindingView,
   type CoherenceReviewView,
   type Concept,
@@ -26,6 +27,7 @@ import {
   type MissionPlanStageView,
   type ScopeReviewView,
   type ScopeSelectionItem,
+  type WorkflowArtifactPolicy,
   type ValidationIssue,
   type WorkflowReference,
   type WorkflowViewState,
@@ -39,7 +41,8 @@ export type ValidationIssuesLoader = (root: string) => Promise<ValidationIssue[]
 
 export async function loadApiState(
   root: string,
-  loadAgentHealth: AgentHealthLoader = loadApiAgentHealth
+  loadAgentHealth: AgentHealthLoader = loadApiAgentHealth,
+  artifactPolicy?: WorkflowArtifactPolicy
 ): Promise<ApiState> {
   const [
     config,
@@ -62,7 +65,7 @@ export async function loadApiState(
     readChangeRecords(root),
     loadAgentHealth(root)
   ]);
-  const workflow = await loadWorkflowViewState(root, { concepts, invariants });
+  const workflow = await loadWorkflowViewState(root, { concepts, invariants }, artifactPolicy ?? apiArtifactPolicy(config));
 
   const state: ApiState = {
     config,
@@ -82,7 +85,8 @@ export async function loadApiState(
 
 export async function loadWorkflowViewState(
   root: string,
-  memory: { concepts?: Concept[]; invariants?: Invariant[] } = {}
+  memory: { concepts?: Concept[]; invariants?: Invariant[] } = {},
+  artifacts: WorkflowArtifactPolicy = apiArtifactPolicy()
 ): Promise<WorkflowViewState> {
   const contextPacks = await loadContextPackViews(root);
   const goalBundles = await loadGoalWorkspaceBundles(root, contextPacks, memory);
@@ -96,7 +100,8 @@ export async function loadWorkflowViewState(
       ...standaloneScopes.filter(scope => !goalScopeIds.has(scope.id))
     ],
     coherenceReviews: goalBundles.flatMap(bundle => bundle.coherenceReview ? [bundle.coherenceReview] : []),
-    contextPacks
+    contextPacks,
+    artifacts
   };
 }
 
@@ -106,7 +111,31 @@ export interface ApiArtifact {
   text: string;
 }
 
-export async function loadApiArtifact(root: string, requestedPath: string): Promise<ApiArtifact | undefined> {
+export interface ApiArtifactOptions {
+  enabled?: boolean;
+  config?: Pick<AtreeConfig, "visualApp">;
+}
+
+export function apiArtifactPolicy(
+  config?: Pick<AtreeConfig, "visualApp">,
+  enabled = true
+): WorkflowArtifactPolicy {
+  return {
+    enabled: enabled && isApiArtifactServingEnabled(config),
+    root: ".abstraction-tree",
+    textOnly: true,
+    redacted: true
+  };
+}
+
+export function isApiArtifactServingEnabled(config?: Pick<AtreeConfig, "visualApp">): boolean {
+  return config?.visualApp?.artifacts?.enabled !== false;
+}
+
+export async function loadApiArtifact(root: string, requestedPath: string, options: ApiArtifactOptions = {}): Promise<ApiArtifact | undefined> {
+  if (options.enabled === false) return undefined;
+  if (!await loadArtifactServingEnabled(root, options.config)) return undefined;
+
   const normalized = normalizeArtifactPath(requestedPath);
   if (!normalized) return undefined;
 
@@ -124,6 +153,11 @@ export async function loadApiArtifact(root: string, requestedPath: string): Prom
     contentType: normalized.endsWith(".json") ? "application/json; charset=utf-8" : "text/plain; charset=utf-8",
     text: text.length > maxLength ? `${text.slice(0, maxLength)}\n\n[artifact truncated for visual app display]\n` : text
   };
+}
+
+async function loadArtifactServingEnabled(root: string, config?: Pick<AtreeConfig, "visualApp">): Promise<boolean> {
+  if (config) return isApiArtifactServingEnabled(config);
+  return isApiArtifactServingEnabled(await readConfig(root));
 }
 
 export async function loadApiAgentHealth(
@@ -849,16 +883,22 @@ function redactText(value: string, maxLength = 500): string {
 }
 
 function redactSecrets(value: string): string {
+  const secretKey = String.raw`(?:[A-Za-z0-9_.-]*(?:api[_-]?key|access[_-]?key(?:[_-]?id)?|access[_-]?token|auth[_-]?token|token|secret|password|credentials?|private[_-]?key))`;
+  const secretValue = String.raw`("[^"]*"|'[^']*'|` + "`[^`]*`" + String.raw`|[^\s,;}\]]+)`;
   return value
     .replace(/\bBearer\s+[A-Za-z0-9._~+/=-]+/giu, "Bearer [redacted]")
-    .replace(/\bsk-[A-Za-z0-9]{16,}\b/giu, "[redacted-secret]")
-    .replace(/\bgh[pousr]_[A-Za-z0-9_]{20,}\b/giu, "[redacted-secret]")
-    .replace(/(["']?\b(?:api[_-]?key|token|secret|password|credential)\b["']?\s*[:=]\s*)("[^"]+"|'[^']+'|[^\s,;}\]]+)/giu, redactSecretValue);
+    .replace(/\bAuthorization\s*:\s*(?:token|basic)\s+[A-Za-z0-9._~+/=-]+/giu, "Authorization: [redacted]")
+    .replace(new RegExp(`(["']?\\b${secretKey}\\b["']?\\s*[:=]\\s*)${secretValue}`, "giu"), redactSecretValue)
+    .replace(/\b((?:export\s+)?[A-Z][A-Z0-9_]*(?:API_KEY|ACCESS_KEY|TOKEN|SECRET|PASSWORD|CREDENTIAL)[A-Z0-9_]*\s*=\s*)("[^"]*"|'[^']*'|[^\s,;]+)/gu, redactSecretValue)
+    .replace(/\bsk-(?:proj-)?[A-Za-z0-9_-]{16,}\b/giu, "[redacted-secret]")
+    .replace(/\b(?:gh[pousr]|github_pat)_[A-Za-z0-9_]{20,}\b/giu, "[redacted-secret]")
+    .replace(/\b(?:AKIA|ASIA)[A-Z0-9]{16}\b/gu, "[redacted-secret]");
 }
 
 function redactSecretValue(_match: string, prefix: string, value: string): string {
   if (value.startsWith("\"")) return `${prefix}"[redacted]"`;
   if (value.startsWith("'")) return `${prefix}'[redacted]'`;
+  if (value.startsWith("`")) return `${prefix}\`[redacted]\``;
   return `${prefix}[redacted]`;
 }
 

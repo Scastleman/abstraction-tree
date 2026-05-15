@@ -1,10 +1,12 @@
 # Visual Demo
 
 > Audience: New users and evaluators
-> Status: Stable app workflow with real local screenshots
+> Status: Stable app workflow with beta read-only workflow views and real local screenshots
 > Read after: GETTING_STARTED.md
 
 The visual app shows the target project's generated `.abstraction-tree/` memory. It should show this repository's dogfooding memory only when this repository is the target project.
+
+The tree, file, concept, invariant, change, and health views are the stable visual inspection path. Goal workflow views are beta read-only summaries of existing local artifacts; they do not run missions, edit scopes, approve changes, or mutate `.abstraction-tree/` memory.
 
 ## Launch the Demo
 
@@ -28,7 +30,7 @@ npm run atree -- serve --project examples/small-web-app --open
 ## Walkthrough
 
 1. Open the root project node and read its explanation.
-2. Expand the architecture branch to see the generated API, UI, dataflow, and package-distribution surfaces.
+2. Expand the architecture branch to see generated runtime, package, and documentation surfaces such as API, UI, dataflow, book structure, chapters, listings, build tooling, and package distribution when the target project contains that evidence.
 3. Select a checkout-related node and compare its owned files with the checkout source files.
 4. Review concepts such as checkout, cart, payment, and order.
 5. Run `atree validate` after changing the example and refresh the app to see drift or health updates.
@@ -42,14 +44,36 @@ npm run atree -- serve --project examples/small-web-app --host 127.0.0.1 --port 
 
 ## Goal Workflow Views
 
-The **Goal workflow views** panel appears when `/api/state` can derive workflow artifacts from `.abstraction-tree/goals/`, `.abstraction-tree/scopes/`, or `.abstraction-tree/context-packs/`.
+The beta **Goal workflow views** panel appears when `/api/state` can derive workflow artifacts from `.abstraction-tree/goals/`, `.abstraction-tree/scopes/`, or `.abstraction-tree/context-packs/`. It is a read-only review surface.
 
 - **Goal Workspaces** lists active and historical goal workspaces with status, mode, affected-file count, planned task count, unresolved-item count, and links to generated reports.
 - **Mission Plan** renders the plan as analysis, planning, execution, and review stages. Each stage exposes its actions, evidence files, and matching context packs.
 - **Scope Review** shows selected, excluded, and questionable files, concepts, invariants, nodes, areas, and checks. Use the built-in filters to focus on high-impact or questionable selections.
 - **Coherence Review** summarizes the final verdict, remaining work, validation status, scope result, and evidence links.
 
-Report links open through `GET /api/artifact?path=...`, which only serves text artifacts from `.abstraction-tree/` and redacts obvious token/password-style values before display.
+These views do not make `goal --review-required`, `missions:run`, `goal --run`, or `goal --full-auto` stable. Execute and review missions through the documented CLI workflow.
+
+Report links open as **redacted local artifacts** through `GET /api/artifact?path=...`. The route only serves `.json`, `.md`, `.txt`, and `.log` files from `.abstraction-tree/`, and it redacts common obvious secret-like values before display. Redaction is not a complete privacy guarantee; prompts, paths, logs, and generated reports can still be sensitive.
+
+Disable artifact text serving for a workspace with:
+
+```json
+{
+  "visualApp": {
+    "artifacts": {
+      "enabled": false
+    }
+  }
+}
+```
+
+Or disable it for one local server session:
+
+```bash
+npm run atree -- serve --project examples/small-web-app --no-artifacts
+```
+
+When serving on a non-loopback host, `/api/state` and `/api/artifact` both require the same bearer token.
 
 ## Screenshots
 

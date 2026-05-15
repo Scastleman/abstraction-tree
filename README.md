@@ -111,7 +111,10 @@ The visual app reads the target project's generated `.abstraction-tree/` memory 
 - node summaries, explanations, reasons for existence, and separation logic;
 - file ownership by tree node;
 - concepts and invariants;
-- recent changes and drift status.
+- recent changes and drift status;
+- beta read-only workflow views when goal, scope, coherence, or context-pack artifacts exist.
+
+Workflow views are display-only review surfaces. They do not execute missions, edit scopes, approve changes, or make the goal workflow stable.
 
 ![Abstraction Tree visual app showing the generated tree hierarchy](docs/assets/visual-demo/tree-hierarchy.png)
 

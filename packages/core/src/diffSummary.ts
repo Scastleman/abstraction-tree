@@ -28,7 +28,17 @@ export interface DangerousFileChange {
 }
 
 export interface OverreachSignal {
-  kind: "file-count" | "line-count" | "broad-areas" | "source-app-docs-automation";
+  kind:
+    | "file-count"
+    | "line-count"
+    | "broad-areas"
+    | "generated-only-change"
+    | "docs-only-change"
+    | "package-metadata-change"
+    | "implementation-without-test"
+    | "source-changed-memory-not-refreshed"
+    | "cross-subsystem-change"
+    | "source-app-docs-automation";
   message: string;
 }
 
@@ -234,7 +244,7 @@ export function formatDiffSummary(summary: DiffSummary, options: { base?: string
   lines.push("## Possible Overreach");
   if (summary.overreach.length) {
     for (const signal of summary.overreach) {
-      lines.push(`- ${signal.message}`);
+      lines.push(`- [${signal.kind}] ${signal.message}`);
     }
   } else {
     lines.push("None detected.");
@@ -359,6 +369,44 @@ function detectOverreach(summary: DiffSummary): OverreachSignal[] {
       message: `Unrelated areas may be mixed: ${summary.changedAreas.join(", ")}.`
     });
   }
+  if (summary.changedFileCount > 0 && summary.changedGeneratedMemoryFiles === summary.changedFileCount) {
+    signals.push({
+      kind: "generated-only-change",
+      message: "Only generated abstraction memory changed; verify this was an intentional refresh."
+    });
+  }
+  if (summary.changedFileCount > 0 && summary.changedDocsFiles === summary.changedFileCount) {
+    signals.push({
+      kind: "docs-only-change",
+      message: "Only documentation changed; verify no implementation or test update was expected."
+    });
+  }
+  if (summary.changedPackageFiles > 0) {
+    signals.push({
+      kind: "package-metadata-change",
+      message: "Package metadata or lockfiles changed; review dependency, script, and install impact."
+    });
+  }
+  const implementationChangedWithoutReviewCompanion = summary.changedSourceFiles > 0 && summary.changedTestFiles === 0 && summary.changedDocsFiles === 0;
+  if (implementationChangedWithoutReviewCompanion) {
+    signals.push({
+      kind: "implementation-without-test",
+      message: "Implementation files changed without test files in the same diff."
+    });
+  }
+  if (implementationChangedWithoutReviewCompanion && summary.changedGeneratedMemoryFiles === 0) {
+    signals.push({
+      kind: "source-changed-memory-not-refreshed",
+      message: "Source files changed without tests or generated abstraction memory refresh evidence."
+    });
+  }
+  const subsystems = changedImplementationSubsystems(summary.files);
+  if (subsystems.length > 1) {
+    signals.push({
+      kind: "cross-subsystem-change",
+      message: `Implementation changes span multiple subsystems: ${subsystems.join(", ")}.`
+    });
+  }
   if (hasAllAreas(summary, ["source", "app", "docs", "automation"])) {
     signals.push({
       kind: "source-app-docs-automation",
@@ -366,6 +414,31 @@ function detectOverreach(summary: DiffSummary): OverreachSignal[] {
     });
   }
   return signals;
+}
+
+function changedImplementationSubsystems(files: DiffSummaryFile[]): string[] {
+  const subsystems = new Set<string>();
+  for (const file of files) {
+    if (!file.areas.includes("source")) continue;
+    if (file.areas.includes("tests") || file.areas.includes("memory") || file.areas.includes("docs")) continue;
+    const subsystem = implementationSubsystemForPath(file.path);
+    if (subsystem) subsystems.add(subsystem);
+  }
+  return [...subsystems].sort();
+}
+
+function implementationSubsystemForPath(filePath: string): string | undefined {
+  const lowerPath = filePath.toLowerCase();
+  if (lowerPath.startsWith("packages/core/")) return "core";
+  if (lowerPath.startsWith("packages/cli/")) return "cli";
+  if (lowerPath.startsWith("packages/app/")) return "app";
+  if (lowerPath.startsWith("packages/full/")) return "full-package";
+  if (lowerPath.startsWith("scripts/")) return "scripts";
+  if (lowerPath.startsWith("examples/")) return "examples";
+  if (lowerPath.startsWith("adapters/")) return "adapters";
+  if (lowerPath.startsWith("backend/") || lowerPath.startsWith("server/") || lowerPath.startsWith("api/")) return "backend";
+  if (lowerPath.startsWith("frontend/") || lowerPath.startsWith("client/") || lowerPath.startsWith("web/")) return "frontend";
+  return "root";
 }
 
 function hasAllAreas(summary: DiffSummary, areas: string[]): boolean {

@@ -6,6 +6,7 @@ import type {
   MissionPlanStageView,
   ScopeReviewView,
   ScopeSelectionItem,
+  WorkflowArtifactPolicy,
   WorkflowReference,
   WorkflowViewState
 } from "@abstraction-tree/core";
@@ -21,10 +22,18 @@ export interface GoalWorkflowPanelProps {
 
 type ScopeFilter = "all" | "high-impact" | "questionable";
 
+const defaultArtifactPolicy: WorkflowArtifactPolicy = {
+  enabled: true,
+  root: ".abstraction-tree",
+  textOnly: true,
+  redacted: true
+};
+
 export function GoalWorkflowPanel({ apiToken, workflow }: GoalWorkflowPanelProps) {
   const goals = workflow?.goalWorkspaces ?? [];
   const scopes = workflow?.scopeReviews ?? [];
   const coherenceReviews = workflow?.coherenceReviews ?? [];
+  const artifactPolicy = workflow?.artifacts ?? defaultArtifactPolicy;
   const [selectedGoalId, setSelectedGoalId] = useState(() => goals[0]?.id ?? "");
   const [scopeFilter, setScopeFilter] = useState<ScopeFilter>("all");
 
@@ -64,7 +73,7 @@ export function GoalWorkflowPanel({ apiToken, workflow }: GoalWorkflowPanelProps
 
         <section className="workflow-column wide">
           {selectedGoal ? (
-            <GoalWorkspaceDetails apiToken={apiToken} goal={selectedGoal} />
+            <GoalWorkspaceDetails apiToken={apiToken} artifactPolicy={artifactPolicy} goal={selectedGoal} />
           ) : (
             <p className="muted">Select a goal workspace to inspect mission planning details.</p>
           )}
@@ -74,8 +83,8 @@ export function GoalWorkflowPanel({ apiToken, workflow }: GoalWorkflowPanelProps
       <div className="workflow-layout lower">
         <section className="workflow-column">
           <h3>Scope And Coherence</h3>
-          <ScopeReviewBlock apiToken={apiToken} filter={scopeFilter} onFilterChange={setScopeFilter} scope={selectedScope} />
-          <CoherenceReviewBlock apiToken={apiToken} review={selectedCoherence} />
+          <ScopeReviewBlock apiToken={apiToken} artifactPolicy={artifactPolicy} filter={scopeFilter} onFilterChange={setScopeFilter} scope={selectedScope} />
+          <CoherenceReviewBlock apiToken={apiToken} artifactPolicy={artifactPolicy} review={selectedCoherence} />
         </section>
 
         <section className="workflow-column">
@@ -88,7 +97,7 @@ export function GoalWorkflowPanel({ apiToken, workflow }: GoalWorkflowPanelProps
               meta: pack.createdAt ? displayTimestamp(pack.createdAt) : pack.id,
               detail: `${pack.stats.files} files, ${pack.stats.concepts} concepts, ${pack.stats.invariants} invariants`,
               tone: pack.stats.excludedDiagnostics ? "warn" : undefined,
-              action: <ReferenceButton apiToken={apiToken} reference={{ label: pack.id, path: pack.file, kind: "context-pack", targetId: pack.id }} />
+              action: <ReferenceButton apiToken={apiToken} artifactPolicy={artifactPolicy} reference={{ label: pack.id, path: pack.file, kind: "context-pack", targetId: pack.id }} />
             }))}
           />
         </section>
@@ -97,13 +106,21 @@ export function GoalWorkflowPanel({ apiToken, workflow }: GoalWorkflowPanelProps
   );
 }
 
-function GoalWorkspaceDetails({ apiToken, goal }: { apiToken?: string; goal: GoalWorkspaceView }) {
+function GoalWorkspaceDetails({
+  apiToken,
+  artifactPolicy,
+  goal
+}: {
+  apiToken?: string;
+  artifactPolicy: WorkflowArtifactPolicy;
+  goal: GoalWorkspaceView;
+}) {
   const timelineItems = goal.missionStages.map(stage => ({
     id: stage.id,
     title: stage.title,
     status: stage.status,
     summary: stage.summary,
-    children: <StageDetails apiToken={apiToken} stage={stage} />
+    children: <StageDetails apiToken={apiToken} artifactPolicy={artifactPolicy} stage={stage} />
   }));
 
   return (
@@ -128,7 +145,7 @@ function GoalWorkspaceDetails({ apiToken, goal }: { apiToken?: string; goal: Goa
       </div>
 
       <CollapsibleSection defaultOpen meta={`${goal.reports.length} artifact(s)`} title="Reports">
-        <ReferenceList apiToken={apiToken} references={goal.reports} />
+        <ReferenceList apiToken={apiToken} artifactPolicy={artifactPolicy} references={goal.reports} />
       </CollapsibleSection>
 
       <CollapsibleSection defaultOpen meta={`${goal.missionStages.length} stage(s)`} title="Mission Plan">
@@ -144,7 +161,7 @@ function GoalWorkspaceDetails({ apiToken, goal }: { apiToken?: string; goal: Goa
             meta: [mission.priority, mission.risk].filter(Boolean).join(" / "),
             detail: `${mission.affectedAreas.join(", ") || "project"}; ${mission.successChecks.length} check(s)`,
             tone: mission.risk === "high" ? "bad" : mission.risk === "medium" ? "warn" : undefined,
-            action: mission.evidence[0] ? <ReferenceButton apiToken={apiToken} reference={mission.evidence[0]} /> : undefined
+            action: mission.evidence[0] ? <ReferenceButton apiToken={apiToken} artifactPolicy={artifactPolicy} reference={mission.evidence[0]} /> : undefined
           }))}
         />
       </CollapsibleSection>
@@ -152,23 +169,33 @@ function GoalWorkspaceDetails({ apiToken, goal }: { apiToken?: string; goal: Goa
   );
 }
 
-function StageDetails({ apiToken, stage }: { apiToken?: string; stage: MissionPlanStageView }) {
+function StageDetails({
+  apiToken,
+  artifactPolicy,
+  stage
+}: {
+  apiToken?: string;
+  artifactPolicy: WorkflowArtifactPolicy;
+  stage: MissionPlanStageView;
+}) {
   return (
     <div className="stage-details">
       <ReferenceGroup label="Actions" values={stage.actions} />
-      <ReferenceGroup apiToken={apiToken} label="Context packs" references={stage.contextPacks} />
-      <ReferenceGroup apiToken={apiToken} label="Evidence" references={stage.evidence} />
+      <ReferenceGroup apiToken={apiToken} artifactPolicy={artifactPolicy} label="Context packs" references={stage.contextPacks} />
+      <ReferenceGroup apiToken={apiToken} artifactPolicy={artifactPolicy} label="Evidence" references={stage.evidence} />
     </div>
   );
 }
 
 function ScopeReviewBlock({
   apiToken,
+  artifactPolicy,
   filter,
   onFilterChange,
   scope
 }: {
   apiToken?: string;
+  artifactPolicy: WorkflowArtifactPolicy;
   filter: ScopeFilter;
   onFilterChange: (filter: ScopeFilter) => void;
   scope?: ScopeReviewView;
@@ -196,12 +223,20 @@ function ScopeReviewBlock({
         emptyText="No scope selections match this filter."
         items={filteredSelections.map(scopeDiffItem)}
       />
-      <ReferenceList apiToken={apiToken} references={scope.evidence} />
+      <ReferenceList apiToken={apiToken} artifactPolicy={artifactPolicy} references={scope.evidence} />
     </CollapsibleSection>
   );
 }
 
-function CoherenceReviewBlock({ apiToken, review }: { apiToken?: string; review?: CoherenceReviewView }) {
+function CoherenceReviewBlock({
+  apiToken,
+  artifactPolicy,
+  review
+}: {
+  apiToken?: string;
+  artifactPolicy: WorkflowArtifactPolicy;
+  review?: CoherenceReviewView;
+}) {
   if (!review) return <p className="muted">No coherence review is available.</p>;
 
   return (
@@ -216,18 +251,20 @@ function CoherenceReviewBlock({ apiToken, review }: { apiToken?: string; review?
           tone: finding.tone === "good" ? "good" : finding.tone === "bad" ? "bad" : finding.tone === "warn" ? "warn" : undefined
         }))}
       />
-      <ReferenceList apiToken={apiToken} references={review.evidence} />
+      <ReferenceList apiToken={apiToken} artifactPolicy={artifactPolicy} references={review.evidence} />
     </CollapsibleSection>
   );
 }
 
 function ReferenceGroup({
   apiToken,
+  artifactPolicy = defaultArtifactPolicy,
   label,
   references,
   values
 }: {
   apiToken?: string;
+  artifactPolicy?: WorkflowArtifactPolicy;
   label: string;
   references?: WorkflowReference[];
   values?: string[];
@@ -244,31 +281,66 @@ function ReferenceGroup({
           {values.map(value => <li key={value}>{value}</li>)}
         </ul>
       ) : null}
-      {hasRefs ? <ReferenceList apiToken={apiToken} references={references ?? []} /> : null}
+      {hasRefs ? <ReferenceList apiToken={apiToken} artifactPolicy={artifactPolicy} references={references ?? []} /> : null}
     </div>
   );
 }
 
-function ReferenceList({ apiToken, references }: { apiToken?: string; references: WorkflowReference[] }) {
+function ReferenceList({
+  apiToken,
+  artifactPolicy,
+  references
+}: {
+  apiToken?: string;
+  artifactPolicy: WorkflowArtifactPolicy;
+  references: WorkflowReference[];
+}) {
   if (!references.length) return <p className="muted">No artifact references are available.</p>;
+  const hasOpenableArtifacts = references.some(reference => canOpenArtifact(reference.path));
 
   return (
     <div className="reference-list">
-      {references.map(reference => <ReferenceLink apiToken={apiToken} key={`${reference.kind}-${reference.path}-${reference.label}`} reference={reference} />)}
+      {hasOpenableArtifacts ? (
+        <p className="muted">
+          {artifactPolicy.enabled
+            ? "Redacted local artifacts. Only .abstraction-tree text artifacts are served; still sensitive."
+            : "Local artifact text serving is disabled for this server."}
+        </p>
+      ) : null}
+      {references.map(reference => (
+        <ReferenceLink
+          apiToken={apiToken}
+          artifactPolicy={artifactPolicy}
+          key={`${reference.kind}-${reference.path}-${reference.label}`}
+          reference={reference}
+        />
+      ))}
     </div>
   );
 }
 
-function ReferenceLink({ apiToken, reference }: { apiToken?: string; reference: WorkflowReference }) {
+function ReferenceLink({
+  apiToken,
+  artifactPolicy,
+  reference
+}: {
+  apiToken?: string;
+  artifactPolicy: WorkflowArtifactPolicy;
+  reference: WorkflowReference;
+}) {
+  const canOpen = artifactPolicy.enabled && canOpenArtifact(reference.path);
   const body = (
     <>
-      {canOpenArtifact(reference.path) ? <ExternalLink aria-hidden="true" size={14} /> : null}
-      <span>{reference.label}</span>
+      {canOpen ? <ExternalLink aria-hidden="true" size={14} /> : null}
+      <span>
+        {reference.label}
+        {canOpen ? <small>Redacted local artifact</small> : null}
+      </span>
       <code>{reference.path}</code>
     </>
   );
 
-  if (!canOpenArtifact(reference.path)) {
+  if (!canOpen) {
     return <div className="reference-link static">{body}</div>;
   }
 
@@ -288,12 +360,20 @@ function ReferenceLink({ apiToken, reference }: { apiToken?: string; reference: 
   );
 }
 
-function ReferenceButton({ apiToken, reference }: { apiToken?: string; reference: WorkflowReference }) {
-  if (!canOpenArtifact(reference.path)) return null;
+function ReferenceButton({
+  apiToken,
+  artifactPolicy,
+  reference
+}: {
+  apiToken?: string;
+  artifactPolicy: WorkflowArtifactPolicy;
+  reference: WorkflowReference;
+}) {
+  if (!artifactPolicy.enabled || !canOpenArtifact(reference.path)) return null;
 
   return (
     <a
-      aria-label={`Open ${reference.label}`}
+      aria-label={`Open redacted local artifact ${reference.label}`}
       className="icon-action"
       href={artifactHref(reference.path)}
       onClick={apiToken ? event => {

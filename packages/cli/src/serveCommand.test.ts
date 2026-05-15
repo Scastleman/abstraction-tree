@@ -12,6 +12,7 @@ test("serve command exposes --open in CLI help", () => {
 
   assert.match(output, /--open/);
   assert.match(output, /--token <token>/);
+  assert.match(output, /--no-artifacts/);
 });
 
 test("scan command exposes custom config options", () => {
@@ -21,6 +22,7 @@ test("scan command exposes custom config options", () => {
   });
 
   assert.match(output, /--config <path>/);
+  assert.match(output, /--profile <name>/);
   assert.match(output, /--no-custom-config/);
 });
 
@@ -44,5 +46,5 @@ test("serve command refuses non-loopback hosts without a token", () => {
   });
 
   assert.equal(result.status, 1);
-  assert.match(result.stderr, /Refusing to serve \/api\/state on non-loopback host 0\.0\.0\.0 without authentication/);
+  assert.match(result.stderr, /Refusing to serve local API routes on non-loopback host 0\.0\.0\.0 without authentication/);
 });

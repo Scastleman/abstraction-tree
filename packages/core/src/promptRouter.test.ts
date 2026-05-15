@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { routePrompt, type Concept, type FileSummary, type TreeNode } from "./index.js";
+import { routePrompt, scorePromptEvidence, type Concept, type FileSummary, type TreeNode } from "./index.js";
 
 test("router sends simple documentation typo prompts to direct", () => {
   const result = routePrompt({
@@ -25,6 +25,19 @@ test("router keeps small code bug fixes direct when memory points to a narrow ar
   assert.notEqual(result.estimatedRisk, "high");
   assert.ok(result.estimatedFiles.includes("src/checkout/validation.ts"));
   assert.ok(result.reasons.some(reason => reason.includes("Abstraction memory matched")));
+});
+
+test("shared prompt evidence scorer ranks files, nodes, and concepts deterministically", () => {
+  const evidence = scorePromptEvidence({
+    prompt: "Add subscription billing with Stripe checkout webhooks and tests.",
+    ...fixtureMemory()
+  });
+
+  assert.ok(evidence.estimatedFiles.includes("src/billing/subscriptions.ts"));
+  assert.ok(evidence.estimatedFiles.includes("src/billing/webhooks.ts"));
+  assert.ok(evidence.estimatedAffectedNodes.includes("architecture.checkout"));
+  assert.ok(evidence.estimatedAffectedConcepts.includes("billing"));
+  assert.ok(evidence.scoredFiles.find(item => item.id === "src/billing/webhooks.ts")?.reasons.length);
 });
 
 test("router sends complex multi-area implementation prompts to goal-driven", () => {

@@ -1,24 +1,21 @@
 import { existsSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
-import { TREE_NODE_THIN_EXPLANATION_CHAR_THRESHOLD, type Concept, type ContextPack, type FileSummary, type ImportGraph, type Invariant, type TreeNode, type ValidationIssue } from "./schema.js";
+import { TREE_NODE_THIN_EXPLANATION_CHAR_THRESHOLD, type Concept, type ContextPack, type FileSummary, type ImportClassification, type ImportGraph, type Invariant, type TreeNode, type ValidationIssue } from "./schema.js";
 import { scanProject } from "./scanner.js";
 import { validateAutomation } from "./automationValidation.js";
 import { buildChangeRecordReviewSummary, reviewChangeRecords, type ChangeRecordReviewSummary } from "./changeReview.js";
+import { conceptQualityReasons } from "./validator.js";
 import { atreePath, loadAtreeMemory, readJson, writeJson } from "./workspace.js";
 import { CONTEXT_OVER_BROAD_LIMITS } from "./contextLimits.js";
 import { estimateContextItemTokens } from "./context.js";
 import { summarizeRunMarkdown } from "./runReports.js";
+import { routePrompt, type PromptRouteDecision } from "./promptRouter.js";
 
 const LOOP_CONFIG_PATH = ".abstraction-tree/automation/loop-config.json";
 const LOOP_RUNTIME_PATH = ".abstraction-tree/automation/loop-runtime.json";
 const QUALITY_FIXTURE_PATH = ".abstraction-tree/evaluation-fixture.json";
 const CHANGE_RECORD_REVIEW_THRESHOLD = 10;
-const NOISY_CONCEPT_IDS = new Set([
-  "app", "component", "config", "data", "default", "doc", "example", "file", "guide", "helper",
-  "index", "item", "module", "note", "overview", "project", "readme", "record", "result", "root",
-  "script", "section", "service", "src", "test", "type", "usage", "user", "util", "value"
-]);
 
 export interface EvaluationReport {
   timestamp: string;
@@ -82,11 +79,15 @@ export interface GeneratedMemoryQualityFixture {
   expectedConceptIds?: string[];
   expectedInvariantIds?: string[];
   expectedContextPacks?: ExpectedContextPackQuality[];
+  expectedRoutes?: ExpectedRouteQuality[];
   allowedNoisyConceptIds?: string[];
 }
 
 export interface ExpectedContextPackQuality {
+  name?: string;
+  category?: string;
   target: string;
+  maxTokens?: number;
   expectedTreeNodeIds?: string[];
   expectedFilePaths?: string[];
   expectedConceptIds?: string[];
@@ -98,7 +99,18 @@ export interface ExpectedContextPackQuality {
   maxEstimatedTokens?: number;
 }
 
+export interface ExpectedRouteQuality {
+  name?: string;
+  category?: string;
+  prompt: string;
+  expectedDecision?: PromptRouteDecision;
+  expectedTreeNodeIds?: string[];
+  expectedFilePaths?: string[];
+  expectedConceptIds?: string[];
+}
+
 type ContextPackCeilingField =
+  | "maxTokens"
   | "maxRelevantNodes"
   | "maxRelevantFiles"
   | "maxRelevantConcepts"
@@ -127,9 +139,15 @@ export interface GeneratedMemoryQualityReport {
     noisyConceptIds: string[];
     conceptsWithoutEvidence: number;
     conceptsWithoutRelatedFiles: number;
+    fillerOnlyEvidenceConcepts: number;
+    fillerOnlyEvidenceConceptIds: string[];
   };
   imports: {
     unresolvedImportCount: number;
+    unresolvedSourceImportCount: number;
+    staticAssetImportCount: number;
+    generatedArtifactImportCount: number;
+    virtualImportCount: number;
   };
   architecture: {
     architectureNodeCount: number;
@@ -145,6 +163,14 @@ export interface GeneratedMemoryQualityReport {
     missingExpectedInclusions: string[];
     expectedContextPackCeilingViolationCount: number;
     expectedContextPackCeilingViolations: string[];
+  };
+  routes: {
+    expectedRouteCount: number;
+    passingExpectedRouteCount: number;
+    decisionMismatchCount: number;
+    decisionMismatches: string[];
+    missingExpectedInclusionCount: number;
+    missingExpectedInclusions: string[];
   };
 }
 
@@ -243,11 +269,16 @@ export function evaluateGeneratedMemoryQuality(input: EvaluateGeneratedMemoryQua
   const expectedInvariantIds = uniqueSorted(fixture?.expectedInvariantIds ?? []);
   const allowedNoisyConceptIds = new Set(fixture?.allowedNoisyConceptIds ?? []);
   const noisyConcepts = input.concepts
-    .filter(concept => !allowedNoisyConceptIds.has(concept.id) && noisyConceptReasons(concept).length > 0)
+    .filter(concept => !allowedNoisyConceptIds.has(concept.id) && conceptQualityReasons(concept).length > 0)
+    .map(concept => concept.id)
+    .sort();
+  const fillerOnlyEvidenceConceptIds = input.concepts
+    .filter(concept => conceptQualityReasons(concept).includes("filler-only evidence"))
     .map(concept => concept.id)
     .sort();
   const architecture = evaluateArchitectureCoverage(input.nodes, input.files);
   const context = evaluateExpectedContextPacks(input.contextPacks, fixture?.expectedContextPacks ?? []);
+  const routes = evaluateExpectedRoutes(input, fixture?.expectedRoutes ?? []);
 
   return {
     fixture: {
@@ -270,13 +301,14 @@ export function evaluateGeneratedMemoryQuality(input: EvaluateGeneratedMemoryQua
       noisyConceptCount: noisyConcepts.length,
       noisyConceptIds: noisyConcepts.slice(0, 20),
       conceptsWithoutEvidence: input.concepts.filter(concept => !arrayLength(concept.evidence)).length,
-      conceptsWithoutRelatedFiles: input.concepts.filter(concept => !arrayLength(concept.relatedFiles)).length
+      conceptsWithoutRelatedFiles: input.concepts.filter(concept => !arrayLength(concept.relatedFiles)).length,
+      fillerOnlyEvidenceConcepts: fillerOnlyEvidenceConceptIds.length,
+      fillerOnlyEvidenceConceptIds: fillerOnlyEvidenceConceptIds.slice(0, 20)
     },
-    imports: {
-      unresolvedImportCount: input.importGraph.unresolvedImports.length
-    },
+    imports: evaluateImportQuality(input.importGraph),
     architecture,
-    context
+    context,
+    routes
   };
 }
 
@@ -431,7 +463,8 @@ function normalizeQualityFixture(value: unknown, issues: EvaluationIssue[]): Gen
     ...optionalStringArrayField(record, "expectedConceptIds", issues),
     ...optionalStringArrayField(record, "expectedInvariantIds", issues),
     ...optionalStringArrayField(record, "allowedNoisyConceptIds", issues),
-    ...optionalContextPackExpectations(record, issues)
+    ...optionalContextPackExpectations(record, issues),
+    ...optionalRouteExpectations(record, issues)
   };
 }
 
@@ -483,7 +516,10 @@ function normalizeContextPackExpectation(
   }
 
   return {
+    ...optionalStringField(record, "name", issues, `expectedContextPacks[${index}].name`),
+    ...optionalStringField(record, "category", issues, `expectedContextPacks[${index}].category`),
     target: record.target,
+    ...optionalContextPositiveInteger(record, "maxTokens", index, issues),
     ...optionalContextStringArray(record, "expectedTreeNodeIds", index, issues),
     ...optionalContextStringArray(record, "expectedFilePaths", index, issues),
     ...optionalContextStringArray(record, "expectedConceptIds", index, issues),
@@ -494,6 +530,105 @@ function normalizeContextPackExpectation(
     ...optionalContextPositiveInteger(record, "maxRecentChanges", index, issues),
     ...optionalContextPositiveInteger(record, "maxEstimatedTokens", index, issues)
   };
+}
+
+function optionalRouteExpectations(
+  record: Record<string, unknown>,
+  issues: EvaluationIssue[]
+): Partial<GeneratedMemoryQualityFixture> {
+  if (!("expectedRoutes" in record)) return {};
+  const value = record.expectedRoutes;
+  if (!Array.isArray(value)) {
+    fixtureFieldIssue("expectedRoutes", "Expected an array of route expectation objects.", issues);
+    return {};
+  }
+
+  const expectedRoutes = value
+    .map((item, index) => normalizeRouteExpectation(item, index, issues))
+    .filter((item): item is ExpectedRouteQuality => Boolean(item));
+  return { expectedRoutes };
+}
+
+function normalizeRouteExpectation(
+  value: unknown,
+  index: number,
+  issues: EvaluationIssue[]
+): ExpectedRouteQuality | undefined {
+  const record = objectRecord(value);
+  if (!record || typeof record.prompt !== "string" || !record.prompt.trim()) {
+    issues.push({
+      severity: "warning",
+      area: "quality",
+      filePath: QUALITY_FIXTURE_PATH,
+      message: `expectedRoutes[${index}] must be an object with a non-empty prompt string.`
+    });
+    return undefined;
+  }
+
+  return {
+    ...optionalStringField(record, "name", issues, `expectedRoutes[${index}].name`),
+    ...optionalStringField(record, "category", issues, `expectedRoutes[${index}].category`),
+    prompt: record.prompt,
+    ...optionalRouteDecision(record, index, issues),
+    ...optionalRouteStringArray(record, "expectedTreeNodeIds", index, issues),
+    ...optionalRouteStringArray(record, "expectedFilePaths", index, issues),
+    ...optionalRouteStringArray(record, "expectedConceptIds", index, issues)
+  };
+}
+
+function optionalStringField<TField extends "name" | "category">(
+  record: Record<string, unknown>,
+  field: TField,
+  issues: EvaluationIssue[],
+  label: string
+): Partial<Record<TField, string>> {
+  if (!(field in record)) return {};
+  const value = record[field];
+  if (typeof value === "string" && value.trim()) return { [field]: value.trim() } as Partial<Record<TField, string>>;
+  issues.push({
+    severity: "warning",
+    area: "quality",
+    filePath: QUALITY_FIXTURE_PATH,
+    message: `${label} must be a non-empty string.`
+  });
+  return {};
+}
+
+function optionalRouteDecision(
+  record: Record<string, unknown>,
+  index: number,
+  issues: EvaluationIssue[]
+): Partial<ExpectedRouteQuality> {
+  if (!("expectedDecision" in record)) return {};
+  const value = record.expectedDecision;
+  if (isPromptRouteDecision(value)) return { expectedDecision: value };
+  issues.push({
+    severity: "warning",
+    area: "quality",
+    filePath: QUALITY_FIXTURE_PATH,
+    message: `expectedRoutes[${index}].expectedDecision must be one of direct, goal-driven, assessment-pack, or manual-review.`
+  });
+  return {};
+}
+
+function optionalRouteStringArray(
+  record: Record<string, unknown>,
+  field: keyof Pick<ExpectedRouteQuality, "expectedTreeNodeIds" | "expectedFilePaths" | "expectedConceptIds">,
+  index: number,
+  issues: EvaluationIssue[]
+): Partial<ExpectedRouteQuality> {
+  if (!(field in record)) return {};
+  const value = record[field];
+  if (Array.isArray(value) && value.every(item => typeof item === "string")) {
+    return { [field]: uniqueSorted(value) };
+  }
+  issues.push({
+    severity: "warning",
+    area: "quality",
+    filePath: QUALITY_FIXTURE_PATH,
+    message: `expectedRoutes[${index}].${field} must be an array of strings.`
+  });
+  return {};
 }
 
 function optionalContextStringArray(
@@ -597,24 +732,75 @@ function qualityIssues(quality: GeneratedMemoryQualityReport): EvaluationIssue[]
       message: `Generated context packs exceed fixture ceilings: ${quality.context.expectedContextPackCeilingViolations.join("; ")}.`
     });
   }
+  if (quality.routes.decisionMismatchCount) {
+    issues.push({
+      severity: "error",
+      area: "quality",
+      filePath: fixturePath,
+      message: `Generated prompt routes have unexpected decisions: ${quality.routes.decisionMismatches.join("; ")}.`
+    });
+  }
+  if (quality.routes.missingExpectedInclusionCount) {
+    issues.push({
+      severity: "error",
+      area: "quality",
+      filePath: fixturePath,
+      message: `Generated prompt routes are missing expected inclusions: ${quality.routes.missingExpectedInclusions.join("; ")}.`
+    });
+  }
   if (quality.concepts.noisyConceptCount) {
+    const fillerEvidenceSummary = quality.concepts.fillerOnlyEvidenceConcepts
+      ? ` Filler-only evidence: ${quality.concepts.fillerOnlyEvidenceConceptIds.join(", ")}.`
+      : "";
     issues.push({
       severity: "warning",
       area: "quality",
       filePath: ".abstraction-tree/concepts.json",
-      message: `Generated concepts include ${quality.concepts.noisyConceptCount} noisy concept candidate(s): ${quality.concepts.noisyConceptIds.join(", ")}.`
+      message: `Generated concepts include ${quality.concepts.noisyConceptCount} noisy concept candidate(s): ${quality.concepts.noisyConceptIds.join(", ")}.${fillerEvidenceSummary}`
     });
   }
-  if (quality.imports.unresolvedImportCount) {
+  if (quality.imports.unresolvedSourceImportCount) {
     issues.push({
       severity: "warning",
       area: "quality",
       filePath: ".abstraction-tree/import-graph.json",
-      message: `Import graph has ${quality.imports.unresolvedImportCount} unresolved import(s); architecture and context coverage may be incomplete.`
+      message: `Import graph has ${quality.imports.unresolvedSourceImportCount} unresolved source import(s); architecture and context coverage may be incomplete.${classifiedImportSummary(quality.imports)}`
     });
   }
 
   return issues;
+}
+
+function classifiedImportSummary(imports: GeneratedMemoryQualityReport["imports"]): string {
+  const categories = [
+    { label: "static asset", count: imports.staticAssetImportCount },
+    { label: "generated artifact", count: imports.generatedArtifactImportCount },
+    { label: "virtual", count: imports.virtualImportCount }
+  ]
+    .filter(category => category.count > 0)
+    .map(category => `${category.count} ${category.label}`);
+
+  return categories.length ? ` Classified separately: ${categories.join(", ")}.` : "";
+}
+
+function evaluateImportQuality(importGraph: ImportGraph): GeneratedMemoryQualityReport["imports"] {
+  const classifiedImports = [
+    ...importGraph.edges,
+    ...importGraph.externalImports,
+    ...importGraph.unresolvedImports
+  ];
+
+  return {
+    unresolvedImportCount: importGraph.unresolvedImports.length,
+    unresolvedSourceImportCount: importGraph.unresolvedImports.filter(item => importClassification(item) === "source").length,
+    staticAssetImportCount: classifiedImports.filter(item => importClassification(item) === "static-asset").length,
+    generatedArtifactImportCount: classifiedImports.filter(item => importClassification(item) === "generated-artifact").length,
+    virtualImportCount: classifiedImports.filter(item => importClassification(item) === "virtual").length
+  };
+}
+
+function importClassification(item: { classification?: ImportClassification }): ImportClassification {
+  return item.classification ?? "source";
 }
 
 function evaluateArchitectureCoverage(nodes: TreeNode[], files: FileSummary[]): GeneratedMemoryQualityReport["architecture"] {
@@ -642,7 +828,7 @@ function evaluateExpectedContextPacks(
   for (const expected of expectedPacks) {
     const candidates = packs.filter(pack => normalizeTarget(pack.target) === normalizeTarget(expected.target));
     if (!candidates.length) {
-      missingExpectedInclusions.push(`target "${expected.target}" has no generated context pack`);
+      missingExpectedInclusions.push(`${expectationPrefix(expected)} target "${expected.target}" has no generated context pack`);
       continue;
     }
 
@@ -679,7 +865,7 @@ function missingContextInclusions(pack: ContextPack, expected: ExpectedContextPa
     ...missingContextValues(pack.target, "file", expected.expectedFilePaths ?? [], pack.relevantFiles.map(file => file.path)),
     ...missingContextValues(pack.target, "concept", expected.expectedConceptIds ?? [], pack.relevantConcepts.map(concept => concept.id)),
     ...missingContextValues(pack.target, "invariant", expected.expectedInvariantIds ?? [], pack.invariants.map(invariant => invariant.id))
-  ];
+  ].map(message => `${expectationPrefix(expected)} ${message}`);
 }
 
 function missingContextValues(target: string, label: string, expected: string[], actual: string[]): string[] {
@@ -696,7 +882,82 @@ function contextPackCeilingViolations(pack: ContextPack, expected: ExpectedConte
     contextPackCeilingViolation(pack.target, "maxRelevantConcepts", pack.relevantConcepts.length, expected.maxRelevantConcepts),
     contextPackCeilingViolation(pack.target, "maxRecentChanges", pack.recentChanges.length, expected.maxRecentChanges),
     contextPackCeilingViolation(pack.target, "maxEstimatedTokens", contextPackEstimatedTokens(pack), expected.maxEstimatedTokens)
-  ].filter((violation): violation is string => Boolean(violation));
+  ]
+    .filter((violation): violation is string => Boolean(violation))
+    .map(message => `${expectationPrefix(expected)} ${message}`);
+}
+
+function evaluateExpectedRoutes(
+  input: EvaluateGeneratedMemoryQualityInput,
+  expectedRoutes: ExpectedRouteQuality[]
+): GeneratedMemoryQualityReport["routes"] {
+  const decisionMismatches: string[] = [];
+  const missingExpectedInclusions: string[] = [];
+  let passingExpectedRouteCount = 0;
+
+  for (const expected of expectedRoutes) {
+    const result = routePrompt({
+      prompt: expected.prompt,
+      nodes: input.nodes,
+      files: input.files,
+      concepts: input.concepts,
+      invariants: input.invariants,
+      memoryAvailable: input.nodes.length > 0 || input.files.length > 0 || input.concepts.length > 0 || input.invariants.length > 0
+    });
+    const routeDecisionMismatches = expected.expectedDecision && result.decision !== expected.expectedDecision
+      ? [`${routeExpectationPrefix(expected)} expected decision ${expected.expectedDecision} but got ${result.decision}`]
+      : [];
+    const routeMissing = routeMissingInclusions(result, expected);
+
+    if (!routeDecisionMismatches.length && !routeMissing.length) {
+      passingExpectedRouteCount += 1;
+      continue;
+    }
+    decisionMismatches.push(...routeDecisionMismatches);
+    missingExpectedInclusions.push(...routeMissing);
+  }
+
+  return {
+    expectedRouteCount: expectedRoutes.length,
+    passingExpectedRouteCount,
+    decisionMismatchCount: decisionMismatches.length,
+    decisionMismatches: decisionMismatches.slice(0, 20),
+    missingExpectedInclusionCount: missingExpectedInclusions.length,
+    missingExpectedInclusions: missingExpectedInclusions.slice(0, 20)
+  };
+}
+
+function routeMissingInclusions(
+  result: ReturnType<typeof routePrompt>,
+  expected: ExpectedRouteQuality
+): string[] {
+  return [
+    ...missingRouteValues(expected, "file", expected.expectedFilePaths ?? [], result.estimatedFiles),
+    ...missingRouteValues(expected, "node", expected.expectedTreeNodeIds ?? [], result.estimatedAffectedNodes),
+    ...missingRouteValues(expected, "concept", expected.expectedConceptIds ?? [], result.estimatedAffectedConcepts)
+  ];
+}
+
+function missingRouteValues(expected: ExpectedRouteQuality, label: string, expectedValues: string[], actualValues: string[]): string[] {
+  const actual = new Set(actualValues);
+  return expectedValues
+    .filter(value => !actual.has(value))
+    .map(value => `${routeExpectationPrefix(expected)} missing ${label} ${value}`);
+}
+
+function expectationPrefix(expected: Pick<ExpectedContextPackQuality, "name" | "category">): string {
+  return expectationParts(expected).join(" ");
+}
+
+function routeExpectationPrefix(expected: Pick<ExpectedRouteQuality, "name" | "category" | "prompt">): string {
+  return `${expectationParts(expected).join(" ")} prompt "${expected.prompt}"`;
+}
+
+function expectationParts(expected: Pick<ExpectedContextPackQuality, "name" | "category">): string[] {
+  return [
+    expected.category ? `[${expected.category}]` : "",
+    expected.name ?? "fixture"
+  ].filter(Boolean);
 }
 
 function contextPackCeilingViolation(
@@ -715,15 +976,6 @@ function contextPackEstimatedTokens(pack: ContextPack): number {
     return diagnosticsEstimate;
   }
   return estimateContextItemTokens(pack);
-}
-
-function noisyConceptReasons(concept: Concept): string[] {
-  const reasons: string[] = [];
-  const normalizedId = concept.id.toLowerCase().replace(/[^a-z0-9]+/g, ".");
-  if (NOISY_CONCEPT_IDS.has(normalizedId)) reasons.push("generic concept id");
-  if (!arrayLength(concept.relatedFiles)) reasons.push("no related files");
-  if (!arrayLength(concept.evidence)) reasons.push("no evidence");
-  return reasons;
 }
 
 function missingValues(expected: string[], actual: Set<string>): string[] {
@@ -852,6 +1104,10 @@ function nonEmptyString(value: unknown): value is string {
 
 function isPositiveInteger(value: unknown): value is number {
   return typeof value === "number" && Number.isInteger(value) && value > 0;
+}
+
+function isPromptRouteDecision(value: unknown): value is PromptRouteDecision {
+  return typeof value === "string" && ["direct", "goal-driven", "assessment-pack", "manual-review"].includes(value);
 }
 
 function arrayLength(value: unknown): number {

@@ -1,7 +1,7 @@
 {
   "expectedTreeNodeIds": [
     "concept-node.context",
-    "concept-node.context.pack",
+    "architecture.scanner.tree.context.pipeline",
     "file.packages.cli.src.index.ts",
     "file.packages.core.src.context.ts",
     "file.packages.core.src.evaluator.ts",
@@ -19,7 +19,7 @@
   ],
   "expectedConceptIds": [
     "abstraction",
-    "context.pack",
+    "context",
     "evaluation",
     "goal",
     "import.graph",

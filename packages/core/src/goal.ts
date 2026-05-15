@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
-import type { PromptRouteResult } from "./promptRouter.js";
+import { scorePromptEvidence, type PromptRouteResult } from "./promptRouter.js";
 import type { ChangeRecord, Concept, FileSummary, Invariant, MissionPlanningConfig, TreeNode } from "./schema.js";
 import type { ScopeContract } from "./scope.js";
 
@@ -229,9 +229,39 @@ export function buildGoalWorkspacePlan(input: GoalPlanningInput): GoalWorkspaceP
   const goalJsonRelativePath = `${workspaceRelativePath}/goal.json`;
   const missionDirRelativePath = `${workspaceRelativePath}/missions`;
   const tokens = tokenize(input.goalText);
-  const scoredFiles = scoreFiles(input.files, tokens);
-  const scoredNodes = scoreNodes(input.nodes, scoredFiles, tokens);
-  const scoredConcepts = scoreConcepts(input.concepts, tokens, scoredFiles);
+  const promptEvidence = scorePromptEvidence({
+    prompt: input.goalText,
+    nodes: input.nodes,
+    files: input.files,
+    concepts: input.concepts
+  });
+  const scoredFiles = mergeScoredItems(
+    scoreFiles(input.files, tokens),
+    promptEvidence.scoredFiles.map(item => ({
+      id: item.id,
+      item: item.item,
+      score: item.score + 6,
+      reasons: ["Route evidence selected this file."]
+    }))
+  );
+  const scoredNodes = mergeScoredItems(
+    scoreNodes(input.nodes, scoredFiles, tokens),
+    promptEvidence.scoredNodes.map(item => ({
+      id: item.id,
+      item: item.item,
+      score: item.score + 4,
+      reasons: ["Route evidence selected this node."]
+    }))
+  );
+  const scoredConcepts = mergeScoredItems(
+    scoreConcepts(input.concepts, tokens, scoredFiles),
+    promptEvidence.scoredConcepts.map(item => ({
+      id: item.id,
+      item: item.item,
+      score: item.score + 4,
+      reasons: ["Route evidence selected this concept."]
+    }))
+  );
   const selectedFiles = topScored(scoredFiles, 12);
   const selectedNodes = selectNodes(input.nodes, scoredNodes, selectedFiles);
   const selectedConcepts = topScored(scoredConcepts, 8);
@@ -1385,6 +1415,19 @@ function topScored<T>(items: Array<ScoredItem<T>>, limit: number): Array<ScoredI
   return items.filter(item => item.score > 0).sort(scoreSort).slice(0, limit);
 }
 
+function mergeScoredItems<T>(primary: Array<ScoredItem<T>>, secondary: Array<ScoredItem<T>>): Array<ScoredItem<T>> {
+  const merged = new Map<string, ScoredItem<T>>();
+  for (const item of [...primary, ...secondary]) {
+    const existing = merged.get(item.id);
+    merged.set(item.id, {
+      ...item,
+      score: (existing?.score ?? 0) + item.score,
+      reasons: uniqueReasonStrings([...(existing?.reasons ?? []), ...item.reasons])
+    });
+  }
+  return [...merged.values()].filter(item => item.score > 0).sort(scoreSort);
+}
+
 function scoreSort<T>(left: ScoredItem<T>, right: ScoredItem<T>): number {
   return right.score - left.score || left.id.localeCompare(right.id);
 }
@@ -1453,6 +1496,10 @@ function listOrNone(values: string[]): string[] {
 
 function uniqueStable(values: string[]): string[] {
   return [...new Set(values.map(normalizeRepoPath).filter(Boolean))];
+}
+
+function uniqueReasonStrings(values: string[]): string[] {
+  return [...new Set(values.filter(Boolean))];
 }
 
 function uniqueLayers(values: GoalLayer[]): GoalLayer[] {

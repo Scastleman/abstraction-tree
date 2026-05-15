@@ -21,7 +21,7 @@ The contract records:
 
 - intended change;
 - affected tree nodes;
-- allowed files;
+- allowed files grounded in node ownership, prompt matches, route estimates, concept evidence, local imports, and nearby source/test companions;
 - allowed and forbidden areas;
 - ambiguity warnings;
 - max file and line counts;
@@ -49,6 +49,17 @@ The check writes:
 The check blocks when changed source files fall outside the allowed file list or when dangerous file categories are touched. It warns when the diff exceeds the contract's size limits, when clarification was requested, or when only generated memory changed.
 
 Generated `.abstraction-tree/` memory refreshes are allowed by default, because normal implementation work often ends with `atree scan`. Automation config under `.abstraction-tree/automation/` is not treated as generated memory.
+
+Scope checks also report review-oriented categories without adding new automatic blocking rules:
+
+- generated-only changes;
+- docs-only changes;
+- package metadata or lockfile changes;
+- implementation changes without tests;
+- source changes without test or generated-memory refresh evidence;
+- implementation changes spanning multiple subsystems.
+
+The Markdown check report includes `Risky Areas` and `Recommended Reviewer Checks` sections so reviewers can distinguish source, test, docs, package, and generated-memory changes before accepting the diff.
 
 ## Goal Workspaces
 

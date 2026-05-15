@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { evaluateGeneratedMemoryQuality } from "./evaluator.js";
+import { buildImportGraphFromFiles } from "./importGraph.js";
 import { buildDeterministicTree } from "./treeBuilder.js";
-import type { FileSummary, ImportGraph } from "./schema.js";
+import { validateConcepts } from "./validator.js";
+import { BUILT_IN_ATREE_PROFILES } from "./workspace.js";
+import type { Concept, FileSummary, ImportGraph } from "./schema.js";
 
 test("buildDeterministicTree infers concepts from repo-specific paths and symbols", () => {
   const result = buildDeterministicTree("billing-app", [
@@ -165,6 +169,76 @@ test("buildDeterministicTree keeps repo concept fixtures stable and filters docu
   }
 });
 
+test("buildDeterministicTree prunes filler concepts and preserves configured domain vocabulary", () => {
+  const result = buildDeterministicTree("language-tool", [
+    file("src/the/and/orchestrator.ts", ["TheAndOfService", "GoFlow"], ["createGoFlow"]),
+    file("tests/go.test.ts", ["GoFlow"], []),
+    markdownFile("docs/the-and-guide.md"),
+    markdownFile("docs/and-the-overview.md")
+  ], {
+    config: {
+      domainVocabulary: [{
+        concept: "go",
+        synonyms: ["go"],
+        weight: 6
+      }]
+    }
+  });
+
+  const concepts = new Map(result.concepts.map(concept => [concept.id, concept]));
+
+  assertExpectedConcepts(concepts, ["go"]);
+  assertAbsentConcepts(concepts, ["and", "the", "guide", "overview"]);
+  assert.equal(result.nodes.some(node => node.id === "concept-node.and" || node.id === "concept-node.the"), false);
+  assertIncludes(concepts.get("go")?.relatedFiles ?? [], ["src/the/and/orchestrator.ts", "tests/go.test.ts"]);
+});
+
+test("concept quality validation and evaluation flag filler concepts", () => {
+  const filler = memoryConcept("and", {
+    relatedFiles: ["docs/and-the-guide.md"],
+    evidence: [{
+      kind: "doc",
+      filePath: "docs/and-the-guide.md",
+      value: "And The Guide",
+      term: "and",
+      score: 1
+    }]
+  });
+  const useful = memoryConcept("checkout", {
+    relatedFiles: ["src/checkout.ts"],
+    evidence: [{
+      kind: "symbol",
+      filePath: "src/checkout.ts",
+      value: "CheckoutFlow",
+      term: "checkout",
+      score: 3
+    }]
+  });
+
+  const issues = validateConcepts([filler, useful]);
+  const report = evaluateGeneratedMemoryQuality({
+    nodes: [],
+    files: [],
+    concepts: [filler, useful],
+    invariants: [],
+    importGraph: emptyImportGraph(),
+    contextPacks: []
+  });
+
+  assert.ok(issues.some(issue =>
+    issue.severity === "warning" &&
+    issue.message.includes("Concept and has low-quality concept signal: filler concept id")
+  ));
+  assert.ok(issues.some(issue =>
+    issue.severity === "warning" &&
+    issue.message.includes("Concept and has low-quality concept signal: filler-only evidence")
+  ));
+  assert.equal(report.concepts.noisyConceptCount, 1);
+  assert.deepEqual(report.concepts.noisyConceptIds, ["and"]);
+  assert.equal(report.concepts.fillerOnlyEvidenceConcepts, 1);
+  assert.deepEqual(report.concepts.fillerOnlyEvidenceConceptIds, ["and"]);
+});
+
 test("buildDeterministicTree applies configured subsystem patterns", () => {
   const result = buildDeterministicTree("ops-tool", [
     file("src/commands/reconcile.command.ts", ["ReconcileCommand"], ["runReconcile"]),
@@ -191,6 +265,33 @@ test("buildDeterministicTree applies configured subsystem patterns", () => {
   assertIncludes(result.files.find(candidate => candidate.path === "src/commands/reconcile.command.ts")?.ownedByNodeIds ?? [], [
     "subsystem.cli.commands",
     "subsystem.cli.commands.file.src.commands.reconcile.command.ts"
+  ]);
+});
+
+test("buildDeterministicTree uses selected profile config to alter subsystem structure", () => {
+  const rustCliProfile = BUILT_IN_ATREE_PROFILES.find(profile => profile.name === "rust-cli");
+  assert.ok(rustCliProfile);
+  const files = [
+    configFile("Cargo.toml", ["package", "bin"]),
+    rustFile("src/main.rs", ["main", "Cli"], ["mod:cli"]),
+    rustFile("src/cli.rs", ["Args", "Parser"]),
+    rustFile("src/search.rs", ["collect_entries"]),
+    rustFile("tests/cli_test.rs", ["runs_help"], [], true)
+  ];
+  const withoutProfile = buildDeterministicTree("fd-lite", files);
+  const withProfile = buildDeterministicTree("fd-lite", files, { config: rustCliProfile.config });
+  const nodes = new Map(withProfile.nodes.map(node => [node.id, node]));
+
+  assert.equal(withoutProfile.nodes.some(node => node.id === "subsystem.rust.cli"), false);
+  assertIncludes(nodes.get("project.intent")?.children ?? [], [
+    "subsystem.rust.cli",
+    "subsystem.rust.core",
+    "subsystem.rust.tests",
+    "subsystem.rust.packaging"
+  ]);
+  assert.deepEqual(nodes.get("subsystem.rust.cli")?.sourceFiles, ["src/cli.rs", "src/main.rs"]);
+  assertIncludes(withProfile.files.find(candidate => candidate.path === "src/main.rs")?.ownedByNodeIds ?? [], [
+    "subsystem.rust.cli"
   ]);
 });
 
@@ -265,6 +366,205 @@ test("buildDeterministicTree populates architecture nodes for the Abstraction Tr
   assertIncludes(result.files.find(candidate => candidate.path === "packages/cli/src/index.ts")?.ownedByNodeIds ?? [], ["architecture.cli.surface"]);
 });
 
+test("buildDeterministicTree infers Python package architecture for Click-style packages", () => {
+  const files = [
+    configFile("pyproject.toml", ["project", "project.scripts", "tool.pytest.ini_options"]),
+    pythonFile("src/click/__init__.py"),
+    pythonFile("src/click/core.py", ["Command", "parse_args"], [".parser"]),
+    pythonFile("src/click/parser.py", ["OptionParser", "value_from_envvar", "handle_parse_result"]),
+    pythonFile("src/click/cli.py", ["main"], ["click"]),
+    pythonFile("tests/test_defaults.py", ["test_envvar_default_is_used"], ["click.parser"], true),
+    pythonFile("tests/test_options.py", ["test_explicit_option_beats_envvar_default"], ["click.parser"], true),
+    rstFile("docs/options.rst", ["Options"]),
+    pythonFile("docs/conf.py")
+  ];
+  const importGraph = buildImportGraphFromFiles(files);
+  const result = buildDeterministicTree("click", files, { importGraph });
+  const nodes = new Map(result.nodes.map(node => [node.id, node]));
+  const architecture = nodes.get("project.architecture");
+  const quality = evaluateGeneratedMemoryQuality({
+    nodes: result.nodes,
+    files: result.files,
+    concepts: result.concepts,
+    invariants: result.invariants,
+    importGraph,
+    contextPacks: []
+  });
+
+  assert.ok(architecture);
+  assertIncludes(architecture.children, [
+    "architecture.python.package.api",
+    "architecture.python.cli.entrypoints",
+    "architecture.python.parser.options",
+    "architecture.python.tests",
+    "architecture.python.docs",
+    "architecture.python.packaging.metadata"
+  ]);
+  assertIncludes(nodes.get("architecture.python.package.api")?.sourceFiles ?? [], [
+    "src/click/__init__.py",
+    "src/click/core.py",
+    "src/click/parser.py"
+  ]);
+  assertIncludes(nodes.get("architecture.python.parser.options")?.sourceFiles ?? [], [
+    "src/click/core.py",
+    "src/click/parser.py"
+  ]);
+  assertIncludes(nodes.get("architecture.python.tests")?.sourceFiles ?? [], [
+    "tests/test_defaults.py",
+    "tests/test_options.py"
+  ]);
+  assertIncludes(nodes.get("architecture.python.docs")?.sourceFiles ?? [], [
+    "docs/conf.py",
+    "docs/options.rst"
+  ]);
+  assertIncludes(nodes.get("architecture.python.packaging.metadata")?.sourceFiles ?? [], ["pyproject.toml"]);
+  assertIncludes(importGraph.edges.map(edge => `${edge.from}->${edge.to}`), [
+    "src/click/core.py->src/click/parser.py",
+    "tests/test_defaults.py->src/click/parser.py",
+    "tests/test_options.py->src/click/parser.py"
+  ]);
+  assert.ok(quality.architecture.architectureCoveragePercent > 0);
+});
+
+test("buildDeterministicTree infers Rust CLI architecture for fd-style crates", () => {
+  const files = [
+    configFile("Cargo.toml", ["package", "package.name:fd-lite", "bin", "bin.name:fd", "bin.path:src/main.rs"]),
+    rustFile("src/main.rs", ["main"], ["mod:cli", "mod:walk"]),
+    rustFile("src/cli.rs", ["Options", "parse_hidden_flag"]),
+    rustFile("src/walk.rs", ["ignore_hidden", "collect_entries"]),
+    rustFile("tests/tests.rs", ["hidden_files_are_filtered_by_default"], ["fd_lite::walk::ignore_hidden"], true),
+    markdownFile("README.md")
+  ];
+  const importGraph = buildImportGraphFromFiles(files);
+  const result = buildDeterministicTree("fd-lite", files, { importGraph });
+  const nodes = new Map(result.nodes.map(node => [node.id, node]));
+  const architecture = nodes.get("project.architecture");
+  const quality = evaluateGeneratedMemoryQuality({
+    nodes: result.nodes,
+    files: result.files,
+    concepts: result.concepts,
+    invariants: result.invariants,
+    importGraph,
+    contextPacks: []
+  });
+
+  assert.ok(architecture);
+  assertIncludes(architecture.children, [
+    "architecture.rust.binary.entrypoint",
+    "architecture.rust.cli.arguments",
+    "architecture.rust.traversal.search",
+    "architecture.rust.config.ignore",
+    "architecture.rust.integration.tests",
+    "architecture.rust.packaging.metadata"
+  ]);
+  assert.deepEqual(nodes.get("architecture.rust.binary.entrypoint")?.sourceFiles, ["src/main.rs"]);
+  assert.deepEqual(nodes.get("architecture.rust.cli.arguments")?.sourceFiles, ["src/cli.rs"]);
+  assert.deepEqual(nodes.get("architecture.rust.traversal.search")?.sourceFiles, ["src/walk.rs"]);
+  assert.deepEqual(nodes.get("architecture.rust.config.ignore")?.sourceFiles, ["src/walk.rs"]);
+  assert.deepEqual(nodes.get("architecture.rust.integration.tests")?.sourceFiles, ["tests/tests.rs"]);
+  assert.deepEqual(nodes.get("architecture.rust.packaging.metadata")?.sourceFiles, ["Cargo.toml"]);
+  assertIncludes(importGraph.edges.map(edge => `${edge.from}->${edge.to}`), [
+    "src/main.rs->src/cli.rs",
+    "src/main.rs->src/walk.rs",
+    "tests/tests.rs->src/walk.rs"
+  ]);
+  assert.ok(quality.architecture.architectureCoveragePercent > 0);
+  assertIncludes(result.files.find(candidate => candidate.path === "src/walk.rs")?.ownedByNodeIds ?? [], [
+    "architecture.rust.traversal.search",
+    "architecture.rust.config.ignore"
+  ]);
+});
+
+test("buildDeterministicTree infers documentation book architecture for mdBook-style repositories", () => {
+  const files = [
+    configFile("book.toml", ["book", "book.title", "output.html"]),
+    markdownBookFile("src/SUMMARY.md", ["Summary", "Understanding Ownership", "What Is Ownership?", "References and Borrowing"], [
+      "ch04-01-what-is-ownership.md",
+      "ch04-02-references-and-borrowing.md"
+    ]),
+    markdownBookFile("src/ch04-00-understanding-ownership.md", ["Understanding Ownership"]),
+    markdownBookFile("src/ch04-01-what-is-ownership.md", ["What Is Ownership?"], [
+      "../listings/ch04-understanding-ownership/listing-04-01/src/main.rs"
+    ]),
+    markdownBookFile("src/ch04-02-references-and-borrowing.md", ["References and Borrowing"]),
+    rustFile("listings/ch04-understanding-ownership/listing-04-01/src/main.rs", ["takes_ownership"]),
+    file("scripts/build-book.mjs", ["mdbook build"], [], [], {
+      extension: ".mjs",
+      language: "JavaScript",
+      parseStrategy: "regex"
+    }),
+    file("scripts/check-links.mjs", ["mdbook linkcheck"], [], [], {
+      extension: ".mjs",
+      language: "JavaScript",
+      parseStrategy: "regex"
+    }),
+    file(".github/workflows/book.yml", ["mdbook build", "mdbook test"], [], [], {
+      extension: ".yml",
+      language: "YAML",
+      parseStrategy: "regex"
+    }),
+    markdownBookFile("translations/es/src/ch04-01-what-is-ownership.md", ["Que es ownership"])
+  ];
+  const importGraph = buildImportGraphFromFiles(files);
+  const result = buildDeterministicTree("rust-book-lite", files, { importGraph });
+  const nodes = new Map(result.nodes.map(node => [node.id, node]));
+  const architecture = nodes.get("project.architecture");
+  const quality = evaluateGeneratedMemoryQuality({
+    nodes: result.nodes,
+    files: result.files,
+    concepts: result.concepts,
+    invariants: result.invariants,
+    importGraph,
+    contextPacks: []
+  });
+
+  assert.ok(architecture);
+  assertIncludes(architecture.children, [
+    "architecture.docs.book.structure",
+    "architecture.docs.book.chapter.content",
+    "architecture.docs.book.listings.examples",
+    "architecture.docs.book.build.publishing",
+    "architecture.docs.book.translation.editions",
+    "architecture.docs.book.editorial.quality"
+  ]);
+  assertIncludes(nodes.get("architecture.docs.book.structure")?.sourceFiles ?? [], [
+    "book.toml",
+    "src/SUMMARY.md"
+  ]);
+  assertIncludes(nodes.get("architecture.docs.book.chapter.content")?.sourceFiles ?? [], [
+    "src/ch04-00-understanding-ownership.md",
+    "src/ch04-01-what-is-ownership.md",
+    "src/ch04-02-references-and-borrowing.md"
+  ]);
+  assertIncludes(nodes.get("architecture.docs.book.listings.examples")?.sourceFiles ?? [], [
+    "listings/ch04-understanding-ownership/listing-04-01/src/main.rs"
+  ]);
+  assertIncludes(nodes.get("architecture.docs.book.build.publishing")?.sourceFiles ?? [], [
+    ".github/workflows/book.yml",
+    "book.toml",
+    "scripts/build-book.mjs"
+  ]);
+  assertIncludes(nodes.get("architecture.docs.book.translation.editions")?.sourceFiles ?? [], [
+    "translations/es/src/ch04-01-what-is-ownership.md"
+  ]);
+  assertIncludes(nodes.get("architecture.docs.book.editorial.quality")?.sourceFiles ?? [], [
+    ".github/workflows/book.yml",
+    "scripts/check-links.mjs"
+  ]);
+  assert.ok(quality.architecture.architectureCoveragePercent >= 80);
+  assertIncludes(importGraph.edges.map(edge => `${edge.from}->${edge.to}`), [
+    "src/SUMMARY.md->src/ch04-01-what-is-ownership.md",
+    "src/SUMMARY.md->src/ch04-02-references-and-borrowing.md",
+    "src/ch04-01-what-is-ownership.md->listings/ch04-understanding-ownership/listing-04-01/src/main.rs"
+  ]);
+  assertIncludes(nodes.get("architecture.docs.book.chapter.content")?.dependencies ?? [], [
+    "file.listings.ch04.understanding.ownership.listing.04.01.src.main.rs"
+  ]);
+  assertIncludes(result.files.find(candidate => candidate.path === "src/ch04-01-what-is-ownership.md")?.ownedByNodeIds ?? [], [
+    "architecture.docs.book.chapter.content"
+  ]);
+});
+
 test("buildDeterministicTree infers API, UI, and dataflow architecture for a small web app fixture", () => {
   const result = buildDeterministicTree("small-web-app", [
     file("package.json"),
@@ -323,6 +623,48 @@ function markdownFile(path: string): FileSummary {
   return file(path, [], [], [], {
     extension: ".md",
     language: "Markdown",
+    parseStrategy: "regex"
+  });
+}
+
+function markdownBookFile(path: string, symbols: string[] = [], imports: string[] = []): FileSummary {
+  return file(path, symbols, [], imports, {
+    extension: ".md",
+    language: "Markdown",
+    parseStrategy: "regex"
+  });
+}
+
+function configFile(filePath: string, symbols: string[] = []): FileSummary {
+  return file(filePath, symbols, [], [], {
+    extension: filePath.endsWith(".toml") ? ".toml" : filePath.endsWith(".cfg") ? ".cfg" : ".ini",
+    language: filePath.endsWith(".toml") ? "TOML" : "INI",
+    parseStrategy: "regex"
+  });
+}
+
+function pythonFile(path: string, symbols: string[] = [], imports: string[] = [], isTest = false): FileSummary {
+  return file(path, symbols, [], imports, {
+    extension: ".py",
+    language: "Python",
+    parseStrategy: "regex",
+    isTest
+  });
+}
+
+function rustFile(path: string, symbols: string[] = [], imports: string[] = [], isTest = false): FileSummary {
+  return file(path, symbols, [], imports, {
+    extension: ".rs",
+    language: "Rust",
+    parseStrategy: "regex",
+    isTest
+  });
+}
+
+function rstFile(path: string, symbols: string[] = []): FileSummary {
+  return file(path, symbols, [], [], {
+    extension: ".rst",
+    language: "reStructuredText",
     parseStrategy: "regex"
   });
 }
@@ -391,6 +733,35 @@ function smallWebAppImportGraph(): ImportGraph {
     unresolvedImports: [],
     cycles: [],
     workspacePackages: []
+  };
+}
+
+function emptyImportGraph(): ImportGraph {
+  return {
+    edges: [],
+    externalImports: [],
+    unresolvedImports: [],
+    cycles: [],
+    workspacePackages: []
+  };
+}
+
+function memoryConcept(id: string, overrides: Partial<Concept> = {}): Concept {
+  return {
+    id,
+    title: id,
+    summary: `${id} concept.`,
+    relatedNodeIds: [],
+    relatedFiles: [],
+    tags: [id],
+    evidence: [{
+      kind: "symbol",
+      filePath: "src/app.ts",
+      value: id,
+      term: id,
+      score: 3
+    }],
+    ...overrides
   };
 }
 

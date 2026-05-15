@@ -1,0 +1,46 @@
+{
+  "expectedContextPacks": [
+    {
+      "name": "Click option envvar defaults",
+      "category": "python-utility-library",
+      "target": "Fix option parsing envvar default handling in parser tests",
+      "expectedFilePaths": [
+        "src/click/parser.py",
+        "tests/test_defaults.py",
+        "tests/test_options.py"
+      ],
+      "expectedTreeNodeIds": [
+        "file.src.click.parser.py",
+        "module.src"
+      ]
+    },
+    {
+      "name": "Click option envvar tight budget",
+      "category": "python-utility-library",
+      "target": "tight budget parser envvar default handling",
+      "maxTokens": 4000,
+      "expectedFilePaths": [
+        "src/click/parser.py"
+      ],
+      "expectedTreeNodeIds": [
+        "file.src.click.parser.py"
+      ]
+    }
+  ],
+  "expectedRoutes": [
+    {
+      "name": "Click option envvar route",
+      "category": "python-utility-library",
+      "prompt": "Fix option parsing envvar default handling in parser tests",
+      "expectedDecision": "direct",
+      "expectedFilePaths": [
+        "src/click/parser.py",
+        "tests/test_defaults.py",
+        "tests/test_options.py"
+      ],
+      "expectedTreeNodeIds": [
+        "file.src.click.parser.py"
+      ]
+    }
+  ]
+}

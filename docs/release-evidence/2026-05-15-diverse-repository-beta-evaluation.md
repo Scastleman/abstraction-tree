@@ -187,6 +187,16 @@ Python and Rust projects scanned successfully, but architecture coverage was 0% 
 
 Under a 4000-token budget, several context packs either selected no files or selected weak files while route estimates found stronger candidates. Context packing should degrade by compacting summaries before dropping all concrete source-file evidence from selected nodes.
 
+## Benchmark Follow-up
+
+Mission 06 turned these findings into local deterministic fixtures under
+`examples/context-quality-benchmarks/`. The suite uses reduced projects for the
+Vite, Click, fd, rust-lang/book, and MERN tutorial categories, then checks each
+fixture through scan, import graph, deterministic tree building, context-pack
+selection, prompt routing, and generated-memory quality expectations. The
+fixtures avoid network access and encode expected file/node inclusions so future
+context regressions fail with the missing prompt, file, or node named directly.
+
 ## Overall Assessment
 
 The stable local command path is robust across all five repositories: scan and validate succeeded everywhere, and route decisions were generally appropriate. The main beta risk is not command reliability; it is quality of inference and context packing outside the project's strongest JS/TS web-app cases.

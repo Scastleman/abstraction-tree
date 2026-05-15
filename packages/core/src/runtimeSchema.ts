@@ -51,6 +51,7 @@ const CONTEXT_HINT = "Fix the JSON shape or regenerate this context pack with `a
 const EVALUATION_HINT = "Fix the JSON shape or regenerate this evaluation report with `atree evaluate`.";
 const CHANGE_HINT = "Fix the JSON shape or replace this file with a valid semantic change record.";
 const API_STATE_HINT = "Update the CLI /api/state loader or shared app state contract.";
+const IMPORT_CLASSIFICATIONS = ["source", "static-asset", "generated-artifact", "virtual"] as const;
 
 export class RuntimeSchemaValidationError extends Error {
   readonly issues: ValidationIssue[];
@@ -138,6 +139,10 @@ export function validateAtreeConfigSchema(value: unknown, filePath = ".abstracti
   if (visualApp) {
     expectBoolean(visualApp, "enabled", filePath, "$.visualApp", CONFIG_HINT, issues);
     expectInteger(visualApp, "defaultPort", filePath, "$.visualApp", CONFIG_HINT, issues, { min: 1, max: 65535 });
+    if ("artifacts" in visualApp && visualApp.artifacts !== undefined) {
+      const artifacts = expectRecordField(visualApp, "artifacts", filePath, "$.visualApp", CONFIG_HINT, issues);
+      if (artifacts) expectBoolean(artifacts, "enabled", filePath, "$.visualApp.artifacts", CONFIG_HINT, issues);
+    }
   }
 
   return issues;
@@ -175,6 +180,10 @@ export function validateAtreeConfigOverrideSchema(value: unknown, filePath = "at
     if (visualApp) {
       expectOptionalBoolean(visualApp, "enabled", filePath, "$.visualApp", CONFIG_OVERRIDE_HINT, issues);
       expectOptionalInteger(visualApp, "defaultPort", filePath, "$.visualApp", CONFIG_OVERRIDE_HINT, issues, { min: 1, max: 65535 });
+      if ("artifacts" in visualApp && visualApp.artifacts !== undefined) {
+        const artifacts = expectRecordField(visualApp, "artifacts", filePath, "$.visualApp", CONFIG_OVERRIDE_HINT, issues);
+        if (artifacts) expectOptionalBoolean(artifacts, "enabled", filePath, "$.visualApp.artifacts", CONFIG_OVERRIDE_HINT, issues);
+      }
     }
   }
 
@@ -314,6 +323,23 @@ function validateWorkflowViewState(
   validateArrayField(workflow, "scopeReviews", filePath, fieldPath, hint, issues, validateScopeReviewView);
   validateArrayField(workflow, "coherenceReviews", filePath, fieldPath, hint, issues, validateCoherenceReviewView);
   validateArrayField(workflow, "contextPacks", filePath, fieldPath, hint, issues, validateContextPackView);
+  if ("artifacts" in workflow && workflow.artifacts !== undefined) {
+    const artifacts = expectRecordField(workflow, "artifacts", filePath, fieldPath, hint, issues);
+    if (artifacts) validateWorkflowArtifactPolicy(artifacts, filePath, `${fieldPath}.artifacts`, hint, issues);
+  }
+}
+
+function validateWorkflowArtifactPolicy(
+  artifacts: Record<string, unknown>,
+  filePath: string,
+  fieldPath: string,
+  hint: string,
+  issues: ValidationIssue[]
+): void {
+  expectBoolean(artifacts, "enabled", filePath, fieldPath, hint, issues);
+  expectString(artifacts, "root", filePath, fieldPath, hint, issues);
+  expectBoolean(artifacts, "textOnly", filePath, fieldPath, hint, issues);
+  expectBoolean(artifacts, "redacted", filePath, fieldPath, hint, issues);
 }
 
 function validateGoalWorkspaceView(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
@@ -759,7 +785,8 @@ function validateImportGraphEdge(value: unknown, filePath: string, fieldPath: st
   expectString(record, "from", filePath, fieldPath, hint, issues);
   expectString(record, "to", filePath, fieldPath, hint, issues);
   expectString(record, "specifier", filePath, fieldPath, hint, issues);
-  expectEnum(record, "kind", ["relative", "workspace-package", "alias"], filePath, fieldPath, hint, issues);
+  expectEnum(record, "kind", ["relative", "workspace-package", "alias", "go-package", "markdown-link"], filePath, fieldPath, hint, issues);
+  expectOptionalEnum(record, "classification", IMPORT_CLASSIFICATIONS, filePath, fieldPath, hint, issues);
   expectOptionalString(record, "packageName", filePath, fieldPath, hint, issues);
   expectOptionalString(record, "aliasSource", filePath, fieldPath, hint, issues);
 }
@@ -771,6 +798,7 @@ function validateExternalImport(value: unknown, filePath: string, fieldPath: str
   expectString(record, "from", filePath, fieldPath, hint, issues);
   expectString(record, "specifier", filePath, fieldPath, hint, issues);
   expectString(record, "packageName", filePath, fieldPath, hint, issues);
+  expectOptionalEnum(record, "classification", IMPORT_CLASSIFICATIONS, filePath, fieldPath, hint, issues);
 }
 
 function validateUnresolvedImport(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
@@ -779,7 +807,8 @@ function validateUnresolvedImport(value: unknown, filePath: string, fieldPath: s
 
   expectString(record, "from", filePath, fieldPath, hint, issues);
   expectString(record, "specifier", filePath, fieldPath, hint, issues);
-  expectEnum(record, "kind", ["relative", "workspace-package", "alias"], filePath, fieldPath, hint, issues);
+  expectEnum(record, "kind", ["relative", "workspace-package", "alias", "go-package", "markdown-link"], filePath, fieldPath, hint, issues);
+  expectOptionalEnum(record, "classification", IMPORT_CLASSIFICATIONS, filePath, fieldPath, hint, issues);
   expectOptionalString(record, "packageName", filePath, fieldPath, hint, issues);
   expectOptionalString(record, "aliasSource", filePath, fieldPath, hint, issues);
   expectString(record, "reason", filePath, fieldPath, hint, issues);
@@ -970,7 +999,18 @@ function validateEvaluationQuality(
     expectStringArray(concepts, "noisyConceptIds", filePath, `${fieldPath}.quality.concepts`, hint, issues);
   }
 
-  validateEvaluationCountGroup(quality, "imports", ["unresolvedImportCount"], filePath, `${fieldPath}.quality`, hint, issues);
+  const imports = expectRecordField(quality, "imports", filePath, `${fieldPath}.quality`, hint, issues);
+  if (imports) {
+    expectInteger(imports, "unresolvedImportCount", filePath, `${fieldPath}.quality.imports`, hint, issues, { min: 0 });
+    for (const key of [
+      "unresolvedSourceImportCount",
+      "staticAssetImportCount",
+      "generatedArtifactImportCount",
+      "virtualImportCount"
+    ]) {
+      expectOptionalInteger(imports, key, filePath, `${fieldPath}.quality.imports`, hint, issues, { min: 0 });
+    }
+  }
 
   const architecture = expectRecordField(quality, "architecture", filePath, `${fieldPath}.quality`, hint, issues);
   if (architecture) {

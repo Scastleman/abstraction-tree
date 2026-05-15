@@ -17,8 +17,8 @@ export interface ServeAuthSelection {
 export function selectServeHost(input?: string): ServeHostSelection {
   const host = input?.trim() || defaultServeHost;
   const warning = isLoopbackHost(host) ? undefined : [
-    `Warning: atree serve is binding to ${host}, which may expose /api/state on your network.`,
-    `Network hosts require /api/state bearer-token authentication.`,
+    `Warning: atree serve is binding to ${host}, which may expose /api/state and /api/artifact on your network.`,
+    `Network hosts require bearer-token authentication for local API requests.`,
     `Use the default host ${defaultServeHost} for local-only access.`
   ].join(" ");
 
@@ -50,7 +50,7 @@ export function selectServeAuth(
   if (!isLoopbackHost(host)) {
     return {
       error: [
-        `Refusing to serve /api/state on non-loopback host ${host} without authentication.`,
+        `Refusing to serve local API routes on non-loopback host ${host} without authentication.`,
         `Pass --token <token>, set ${serveTokenEnvVar}, or use the default host ${defaultServeHost}.`
       ].join(" ")
     };

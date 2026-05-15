@@ -6,6 +6,7 @@ import test, { type TestContext } from "node:test";
 import {
   atreePath,
   ensureWorkspace,
+  readConfig,
   validateApiStateSchema,
   writeJson,
   type AbstractionOntologyLevel,
@@ -201,10 +202,74 @@ test("/api/state exposes redacted goal workflow visual data", async t => {
   assert.equal(scope?.stats.selectedCount, 6);
   assert.ok(scope?.selections.some(selection => selection.status === "excluded" && selection.kind === "area"));
   assert.equal(coherence?.status, "planned");
+  assert.deepEqual(state.workflow?.artifacts, {
+    enabled: true,
+    root: ".abstraction-tree",
+    textOnly: true,
+    redacted: true
+  });
   assert.match(artifact?.text ?? "", /token: \[redacted\]/);
   assert.match(jsonArtifact?.text ?? "", /"token": "\[redacted\]"/);
   assert.match(jsonArtifact?.text ?? "", /"api_key": "\[redacted\]"/);
   assert.equal(await loadApiArtifact(root, "package.json"), undefined);
+  assert.equal(await loadApiArtifact(root, ".abstraction-tree/goals/2026-05-13-1200-visual-workflow/secret.exe"), undefined);
+  assert.equal(await loadApiArtifact(root, ".abstraction-tree/goals/2026-05-13-1200-visual-workflow/../../../../package.json"), undefined);
+});
+
+test("/api/artifact can be disabled from visual app config", async t => {
+  const root = await workspace(t);
+  await ensureWorkspace(root, { installMode: "full", projectName: "Artifact Policy Project" });
+  const config = await readConfig(root);
+  await writeJson(atreePath(root, "config.json"), {
+    ...config,
+    visualApp: {
+      ...config.visualApp,
+      artifacts: {
+        enabled: false
+      }
+    }
+  });
+  await mkdir(atreePath(root, "logs"), { recursive: true });
+  await writeFile(atreePath(root, "logs", "artifact.log"), "token=super-secret-value\n", "utf8");
+
+  const state = await loadApiState(root, async () => ({ validation: { issueCount: 0, errorCount: 0, warningCount: 0 } }));
+
+  assert.equal(state.config.visualApp.artifacts?.enabled, false);
+  assert.equal(state.workflow?.artifacts?.enabled, false);
+  assert.equal(await loadApiArtifact(root, ".abstraction-tree/logs/artifact.log"), undefined);
+  assert.equal(await loadApiArtifact(root, ".abstraction-tree/logs/artifact.log", { enabled: false }), undefined);
+});
+
+test("/api/artifact redacts common secret-like forms in text artifacts", async t => {
+  const root = await workspace(t);
+  await ensureWorkspace(root, { installMode: "full", projectName: "Redaction Project" });
+  await mkdir(atreePath(root, "logs"), { recursive: true });
+  await writeFile(atreePath(root, "logs", "redaction.log"), [
+    "Authorization: Bearer abc.def_1234567890",
+    "Authorization: token ghp_1234567890abcdefghijklmnopqrstuv",
+    "OPENAI_API_KEY=sk-proj-1234567890abcdefghijklmnopqrstuv",
+    "export GITHUB_TOKEN='ghp_abcdef1234567890abcdef1234567890'",
+    "password = hunter2",
+    "credentials: basic-secret",
+    "{\"nested\":{\"secret\":\"json-secret\",\"api_key\":\"sk-1234567890abcdefghijkl\"}}",
+    "aws_access_key_id=AKIAIOSFODNN7EXAMPLE",
+    "ordinary: visible"
+  ].join("\n"), "utf8");
+
+  const artifact = await loadApiArtifact(root, ".abstraction-tree/logs/redaction.log");
+  const text = artifact?.text ?? "";
+
+  assert.match(text, /Authorization: Bearer \[redacted\]/);
+  assert.match(text, /Authorization: \[redacted\]/);
+  assert.match(text, /OPENAI_API_KEY=\[redacted\]/);
+  assert.match(text, /export GITHUB_TOKEN='\[redacted\]'/);
+  assert.match(text, /password = \[redacted\]/);
+  assert.match(text, /credentials: \[redacted\]/);
+  assert.match(text, /"secret":"\[redacted\]"/);
+  assert.match(text, /"api_key":"\[redacted\]"/);
+  assert.match(text, /aws_access_key_id=\[redacted\]/);
+  assert.match(text, /ordinary: visible/);
+  assert.doesNotMatch(text, /hunter2|json-secret|basic-secret|AKIAIOSFODNN7EXAMPLE|sk-proj-|ghp_/);
 });
 
 test("/api/state contract rejects missing app-required top-level fields", async t => {

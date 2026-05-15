@@ -1,0 +1,110 @@
+{
+  "timestamp": "2026-05-15T22:17:38.073Z",
+  "tree": {
+    "nodeCount": 637,
+    "orphanNodeCount": 0,
+    "nodesWithoutSummaries": 0,
+    "nodesWithoutExplanations": 0,
+    "thinExplanationCount": 0,
+    "averageExplanationLength": 788.74,
+    "filesWithoutOwners": 0
+  },
+  "context": {
+    "lastPackCount": 2,
+    "averageFilesPerPack": 17,
+    "averageConceptsPerPack": 9.5,
+    "possibleOverBroadPacks": 0
+  },
+  "drift": {
+    "staleFileCount": 0,
+    "missingFileCount": 0
+  },
+  "runs": {
+    "runReportCount": 69,
+    "successCount": 44,
+    "partialCount": 25,
+    "failedCount": 0,
+    "noOpCount": 0
+  },
+  "changes": {
+    "totalChangeRecordCount": 62,
+    "generatedScanRecordCount": 24,
+    "semanticChangeRecordCount": 38,
+    "eligibleGeneratedScanRecordCount": 22,
+    "changeReviewIssueCount": 0,
+    "generatedScanReviewNeeded": true,
+    "retainedGeneratedScanRecordId": "scan.1778883456795"
+  },
+  "lessons": {
+    "lessonCount": 68,
+    "duplicateLessonCandidates": 0
+  },
+  "automation": {
+    "runtimeStateIgnored": true,
+    "configValid": true
+  },
+  "quality": {
+    "fixture": {
+      "path": ".abstraction-tree/evaluation-fixture.json",
+      "expectedTreeNodeCount": 9,
+      "missingExpectedTreeNodeCount": 0,
+      "missingExpectedTreeNodeIds": [],
+      "expectedArchitectureNodeCount": 5,
+      "missingExpectedArchitectureNodeCount": 0,
+      "missingExpectedArchitectureNodeIds": [],
+      "expectedConceptCount": 7,
+      "missingExpectedConceptCount": 0,
+      "missingExpectedConceptIds": [],
+      "expectedInvariantCount": 2,
+      "missingExpectedInvariantCount": 0,
+      "missingExpectedInvariantIds": []
+    },
+    "concepts": {
+      "totalConceptCount": 32,
+      "noisyConceptCount": 0,
+      "noisyConceptIds": [],
+      "conceptsWithoutEvidence": 0,
+      "conceptsWithoutRelatedFiles": 0,
+      "fillerOnlyEvidenceConcepts": 0,
+      "fillerOnlyEvidenceConceptIds": []
+    },
+    "imports": {
+      "unresolvedImportCount": 6,
+      "unresolvedSourceImportCount": 0,
+      "staticAssetImportCount": 7,
+      "generatedArtifactImportCount": 3,
+      "virtualImportCount": 0
+    },
+    "architecture": {
+      "architectureNodeCount": 23,
+      "architectureCoverableFileCount": 179,
+      "architectureCoveredFileCount": 99,
+      "architectureCoveragePercent": 55.31
+    },
+    "context": {
+      "evaluatedContextPackCount": 2,
+      "expectedContextPackCount": 1,
+      "passingExpectedContextPackCount": 1,
+      "missingExpectedInclusionCount": 0,
+      "missingExpectedInclusions": [],
+      "expectedContextPackCeilingViolationCount": 0,
+      "expectedContextPackCeilingViolations": []
+    },
+    "routes": {
+      "expectedRouteCount": 0,
+      "passingExpectedRouteCount": 0,
+      "decisionMismatchCount": 0,
+      "decisionMismatches": [],
+      "missingExpectedInclusionCount": 0,
+      "missingExpectedInclusions": []
+    }
+  },
+  "issues": [
+    {
+      "severity": "warning",
+      "area": "changes",
+      "filePath": ".abstraction-tree/changes",
+      "message": ".abstraction-tree/changes contains 24 generated scan records and 38 semantic records; 22 older generated scan records are eligible for consolidation, retaining latest generated scan scan.1778883456795. Change review reported 0 issues. Evaluation is read-only."
+    }
+  ]
+}

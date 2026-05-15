@@ -177,7 +177,25 @@ test("GoalWorkflowPanel renders mission stages, scope filters, and report links"
   assert.match(html, /High impact/);
   assert.match(html, /Questionable/);
   assert.match(html, /Goal assessment/);
+  assert.match(html, /Redacted local artifact/);
+  assert.match(html, /Only \.abstraction-tree text artifacts are served/);
   assert.match(html, /api\/artifact\?path=/);
+});
+
+test("GoalWorkflowPanel hides artifact links when local artifact serving is disabled", () => {
+  const workflow = sampleWorkflow();
+  workflow.artifacts = {
+    enabled: false,
+    root: ".abstraction-tree",
+    textOnly: true,
+    redacted: true
+  };
+
+  const html = renderToStaticMarkup(<GoalWorkflowPanel workflow={workflow} />);
+
+  assert.match(html, /Local artifact text serving is disabled/);
+  assert.doesNotMatch(html, /api\/artifact\?path=/);
+  assert.doesNotMatch(html, /Open redacted local artifact/);
 });
 
 function sampleState(): State {
@@ -285,6 +303,12 @@ function sampleWorkflow(): WorkflowViewState {
         estimatedTokens: 1200
       }
     }],
+    artifacts: {
+      enabled: true,
+      root: ".abstraction-tree",
+      textOnly: true,
+      redacted: true
+    },
     goalWorkspaces: [{
       id: "2026-05-13-1200-visual-workflow",
       title: "Improve visual workflow",
