@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Activity, AlertTriangle, FileText, GitBranch, History, Network, RefreshCw, Search } from "lucide-react";
+import { Activity, AlertTriangle, ClipboardCheck, FileText, GitBranch, History, Network, RefreshCw, Search } from "lucide-react";
 import type { AbstractionTreeState as State } from "@abstraction-tree/core";
 import { nodeFiles, nodeName } from "./nodeAccessors.js";
-import { useAbstractionState, type AbstractionStateStatus } from "./hooks/useAbstractionState.js";
+import { readApiTokenFromLocation, useAbstractionState, type AbstractionStateStatus } from "./hooks/useAbstractionState.js";
 import { AgentHealthPanel } from "./components/AgentHealthPanel.js";
 import { ChangeHistory } from "./components/ChangeHistory.js";
 import { ConceptPanel } from "./components/ConceptPanel.js";
+import { GoalWorkflowPanel } from "./components/GoalWorkflowPanel.js";
 import { InvariantPanel } from "./components/InvariantPanel.js";
 import { NodeDetails } from "./components/NodeDetails.js";
 import { Panel } from "./components/Panel.js";
@@ -13,14 +14,25 @@ import { Stat } from "./components/Stat.js";
 import { TreeList } from "./components/TreeList.js";
 
 export function App() {
-  const { state, status, error, isRefreshing, retry, refresh } = useAbstractionState();
+  const [apiToken, setApiToken] = useState(() => readApiTokenFromLocation());
+  const { state, status, error, isRefreshing, retry, refresh } = useAbstractionState(globalThis.fetch, apiToken);
 
   if (status === "loading" && !state) return <LoadingState />;
-  if (status === "error" && !state) return <LoadError error={error} onRetry={retry} />;
+  if (status === "error" && !state) {
+    return (
+      <LoadError
+        error={error}
+        needsToken={isUnauthorizedApiState(error)}
+        onRetry={retry}
+        onTokenSubmit={setApiToken}
+      />
+    );
+  }
   if (!state) return <LoadingState />;
 
   return (
     <AppExplorer
+      apiToken={apiToken}
       error={error}
       isRefreshing={isRefreshing}
       onRefresh={refresh}
@@ -34,6 +46,7 @@ export function App() {
 export interface AppExplorerProps {
   state: State;
   status: AbstractionStateStatus;
+  apiToken?: string;
   error: string | null;
   isRefreshing: boolean;
   onRetry: () => void;
@@ -41,6 +54,7 @@ export interface AppExplorerProps {
 }
 
 export function AppExplorer({
+  apiToken,
   state,
   status,
   error,
@@ -105,6 +119,7 @@ export function AppExplorer({
               <Stat label="Files" value={state.files.length} />
               <Stat label="Concepts" value={state.concepts.length} />
               <Stat label="Invariants" value={state.invariants.length} />
+              <Stat label="Goals" value={state.workflow?.goalWorkspaces.length ?? 0} />
             </div>
           </div>
         </section>
@@ -114,6 +129,9 @@ export function AppExplorer({
           </Panel>
           <Panel icon={<Activity aria-hidden="true" />} title="Agent health">
             <AgentHealthPanel health={state.agentHealth} />
+          </Panel>
+          <Panel icon={<ClipboardCheck aria-hidden="true" />} title="Goal workflow views" wide>
+            <GoalWorkflowPanel apiToken={apiToken} workflow={state.workflow} />
           </Panel>
           <Panel icon={<FileText aria-hidden="true" />} title="Owned files">
             {selectedFiles.length ? selectedFiles.map(filePath => (
@@ -145,13 +163,45 @@ export function LoadingState() {
   );
 }
 
-export function LoadError({ error, onRetry }: { error: string | null; onRetry: () => void }) {
+export function LoadError({
+  error,
+  needsToken = false,
+  onRetry,
+  onTokenSubmit
+}: {
+  error: string | null;
+  needsToken?: boolean;
+  onRetry: () => void;
+  onTokenSubmit?: (token: string) => void;
+}) {
+  const [token, setToken] = useState("");
+
   return (
     <div className="load-state error-state" role="alert">
       <AlertTriangle aria-hidden="true" />
       <h1>Unable to load Abstraction Tree</h1>
       <p>{error ?? "The /api/state request failed."}</p>
-      <button className="primary-action" onClick={onRetry} type="button">Retry</button>
+      {needsToken && onTokenSubmit ? (
+        <form
+          className="token-form"
+          onSubmit={event => {
+            event.preventDefault();
+            onTokenSubmit(token);
+          }}
+        >
+          <label htmlFor="api-token">API token</label>
+          <input
+            autoComplete="off"
+            id="api-token"
+            onChange={event => setToken(event.target.value)}
+            type="password"
+            value={token}
+          />
+          <button className="primary-action" type="submit">Unlock</button>
+        </form>
+      ) : (
+        <button className="primary-action" onClick={onRetry} type="button">Retry</button>
+      )}
     </div>
   );
 }
@@ -168,4 +218,8 @@ function InlineError({ error, onRetry }: { error: string | null; onRetry: () => 
 
 function preferredSelectedId(state: State): string | undefined {
   return state.nodes.find(node => node.id === "project.intent")?.id ?? state.nodes[0]?.id;
+}
+
+function isUnauthorizedApiState(error: string | null): boolean {
+  return /\/api\/state responded with 401\b/u.test(error ?? "");
 }

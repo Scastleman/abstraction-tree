@@ -62,7 +62,71 @@ test("goal command review-required prints mission runner commands", async t => {
   assert.equal(exitCode, 0);
   assert.match(capture.stdout[0] ?? "", /npm run missions:plan -- --missions \.abstraction-tree\/goals\/2026-05-13-1010-goal\/missions/);
   assert.match(capture.stdout[0] ?? "", /npm run missions:run -- --missions \.abstraction-tree\/goals\/2026-05-13-1010-goal\/missions/);
-  assert.match(capture.stdout[0] ?? "", /npm run atree -- scope check --project \. --scope \.abstraction-tree\/goals\/2026-05-13-1010-goal\/scope-contract\.json/);
+  assert.match(capture.stdout[0] ?? "", /npx atree scope check --project \. --scope \.abstraction-tree\/goals\/2026-05-13-1010-goal\/scope-contract\.json/);
+});
+
+test("goal command prefers repo-local atree scripts for review commands", async t => {
+  const root = await workspace(t);
+  await writeFixtureMemory(root);
+  await writeProjectFile(root, "package.json", JSON.stringify({
+    scripts: {
+      atree: "node packages/cli/dist/index.js",
+      "atree:evaluate": "node packages/cli/dist/index.js evaluate --project ."
+    }
+  }));
+  await writeGoal(root, "goal.md", "Add goal-driven planning.");
+  const capture = captureIo();
+
+  const exitCode = await runGoalCommand({
+    projectRoot: root,
+    file: "goal.md",
+    reviewRequired: true,
+    createdAt: new Date(2026, 4, 13, 10, 12)
+  }, capture.io);
+
+  assert.equal(exitCode, 0);
+  assert.match(capture.stdout[0] ?? "", /npm run atree -- scope check --project \. --scope \.abstraction-tree\/goals\/2026-05-13-1012-goal\/scope-contract\.json/);
+  assert.match(capture.stdout[0] ?? "", /npm run atree:evaluate/);
+  assert.doesNotMatch(capture.stdout[0] ?? "", /npx atree scope check/);
+});
+
+test("goal command reads mission planning overrides from config", async t => {
+  const root = await workspace(t);
+  await writeJson(atreePath(root, "tree.json"), fixtureNodes());
+  await writeJson(atreePath(root, "files.json"), [
+    ...fixtureFiles(),
+    file("handbook/goal-planning.md", "Custom handbook docs.", false),
+    file("quality/goal-planning.spec.ts", "Custom quality tests.", true)
+  ]);
+  await writeJson(atreePath(root, "concepts.json"), fixtureConcepts());
+  await writeJson(atreePath(root, "invariants.json"), fixtureInvariants());
+  const config = JSON.parse(await readFile(atreePath(root, "config.json"), "utf8"));
+  await writeJson(atreePath(root, "config.json"), {
+    ...config,
+    missionPlanning: {
+      docsPatterns: ["handbook/**/*.md"],
+      testPatterns: ["quality/**/*.spec.ts"],
+      testCommands: ["custom:test"],
+      docsCommands: ["custom:docs"]
+    }
+  });
+  await writeGoal(root, "goal.md", "Update goal planning docs and tests.");
+  const capture = captureIo();
+
+  const exitCode = await runGoalCommand({
+    projectRoot: root,
+    file: "goal.md",
+    planOnly: true,
+    createdAt: new Date(2026, 4, 13, 10, 11)
+  }, capture.io);
+
+  const missionPlan = JSON.parse(await readFile(path.join(root, ".abstraction-tree", "goals", "2026-05-13-1011-goal", "mission-plan.json"), "utf8"));
+  const missionFiles = (missionPlan.missions as Array<{ success_checks: string[] }>).flatMap(mission => mission.success_checks);
+  const missionMarkdown = await readFile(path.join(root, ".abstraction-tree", "goals", "2026-05-13-1011-goal", "missions", "02-tests-and-validation.md"), "utf8");
+  assert.equal(exitCode, 0);
+  assert.ok(missionFiles.includes("custom:test"));
+  assert.ok(missionFiles.includes("custom:docs"));
+  assert.match(missionMarkdown, /quality\/goal-planning\.spec\.ts/);
 });
 
 test("goal command auto-route writes route and scope artifacts for goal-driven prompts", async t => {
@@ -255,9 +319,13 @@ async function workspace(t: TestContext): Promise<string> {
 }
 
 async function writeGoal(root: string, goalPath: string, goalText: string): Promise<void> {
-  const absolutePath = path.join(root, goalPath);
+  await writeProjectFile(root, goalPath, goalText);
+}
+
+async function writeProjectFile(root: string, filePath: string, content: string): Promise<void> {
+  const absolutePath = path.join(root, filePath);
   await mkdir(path.dirname(absolutePath), { recursive: true });
-  await writeFile(absolutePath, goalText, "utf8");
+  await writeFile(absolutePath, content, "utf8");
 }
 
 async function goalWorkspaceNames(root: string): Promise<string[]> {

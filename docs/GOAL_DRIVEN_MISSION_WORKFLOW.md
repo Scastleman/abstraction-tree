@@ -101,6 +101,28 @@ Each goal gets a durable workspace:
 
 `goal.md` preserves the original prompt exactly. The assessment, affected-tree map, mission plan, route record, scope contract, coherence review, and goal score are deterministic first-pass artifacts built from `.abstraction-tree/tree.json`, `files.json`, `concepts.json`, `invariants.json`, change records, and evaluation reports.
 
+## Dynamic Mission Planning
+
+Goal planning derives mission shapes from the target repository's abstraction tree and scanned files. It starts with selected tree nodes and file summaries, then looks for repository-local docs, tests, build files, package scripts, and language conventions such as `package.json`, `pyproject.toml`, `Cargo.toml`, `go.mod`, `docs/conf.py`, `mkdocs.yml`, and `book.toml`.
+
+Users can supplement or override inference in `.abstraction-tree/config.json`:
+
+```json
+{
+  "missionPlanning": {
+    "docsPatterns": ["handbook/**/*.md"],
+    "testPatterns": ["quality/**/*.spec.ts"],
+    "buildPatterns": ["build/*.yml"],
+    "buildCommands": ["custom build"],
+    "testCommands": ["custom test"],
+    "docsCommands": ["custom docs"],
+    "validationCommands": ["custom validate"]
+  }
+}
+```
+
+Pattern fields are matched against scanned repository paths and are added to the inferred mission affected files. Command fields replace the inferred checks for that category, so keep any automatic command you still want in the explicit list.
+
 ## Safety Boundary
 
 The planner does not push, merge, edit secrets, delete large directories, or mark mission execution complete. Generated missions are proposals until the mission runner plan, local checks, and diff review pass.

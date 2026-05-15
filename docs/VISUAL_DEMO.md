@@ -23,6 +23,7 @@ npm run atree -- serve --project examples/small-web-app --open
 - Files owned by the selected node.
 - Concepts and invariants inferred from the target project.
 - Recent semantic changes and validation/evaluation health.
+- Goal workspaces, mission-plan stages, scope selections, coherence reviews, and context packs when those workflow artifacts exist.
 
 ## Walkthrough
 
@@ -31,6 +32,24 @@ npm run atree -- serve --project examples/small-web-app --open
 3. Select a checkout-related node and compare its owned files with the checkout source files.
 4. Review concepts such as checkout, cart, payment, and order.
 5. Run `atree validate` after changing the example and refresh the app to see drift or health updates.
+6. Create a goal workspace and refresh the app to inspect the goal workflow view:
+
+```bash
+node -e "require('node:fs').writeFileSync('examples/small-web-app/demo-goal.md', 'Add visual support for checkout mission planning.\n')"
+npm run atree -- goal --project examples/small-web-app --file demo-goal.md --review-required
+npm run atree -- serve --project examples/small-web-app --host 127.0.0.1 --port 4327
+```
+
+## Goal Workflow Views
+
+The **Goal workflow views** panel appears when `/api/state` can derive workflow artifacts from `.abstraction-tree/goals/`, `.abstraction-tree/scopes/`, or `.abstraction-tree/context-packs/`.
+
+- **Goal Workspaces** lists active and historical goal workspaces with status, mode, affected-file count, planned task count, unresolved-item count, and links to generated reports.
+- **Mission Plan** renders the plan as analysis, planning, execution, and review stages. Each stage exposes its actions, evidence files, and matching context packs.
+- **Scope Review** shows selected, excluded, and questionable files, concepts, invariants, nodes, areas, and checks. Use the built-in filters to focus on high-impact or questionable selections.
+- **Coherence Review** summarizes the final verdict, remaining work, validation status, scope result, and evidence links.
+
+Report links open through `GET /api/artifact?path=...`, which only serves text artifacts from `.abstraction-tree/` and redacts obvious token/password-style values before display.
 
 ## Screenshots
 
@@ -95,6 +114,10 @@ Open the printed URL and replace the files in `docs/assets/visual-demo/`:
 - `file-ownership.png`
 - `concepts-invariants.png`
 - `context-or-drift.png`
+
+When goal workflow views change, also capture a workflow screenshot from a project that has at least one generated goal workspace and review:
+
+- `goal-workflow.png`
 
 Then run:
 

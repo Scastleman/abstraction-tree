@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test, { type TestContext } from "node:test";
@@ -18,7 +18,7 @@ import {
   type Invariant,
   type TreeNode
 } from "@abstraction-tree/core";
-import { loadApiAgentHealth, loadApiState, type ApiState } from "./apiState.js";
+import { loadApiAgentHealth, loadApiArtifact, loadApiState, type ApiState } from "./apiState.js";
 
 type ExactApiStateContract = [ApiState] extends [AbstractionTreeState]
   ? [AbstractionTreeState] extends [ApiState]
@@ -181,6 +181,32 @@ test("/api/state agent health surfaces the latest scope contract status", async 
   }), []);
 });
 
+test("/api/state exposes redacted goal workflow visual data", async t => {
+  const root = await workspace(t);
+  await ensureWorkspace(root, { installMode: "full", projectName: "Workflow Project" });
+  await writeFixtureMemory(root);
+  await writeGoalWorkflowFixture(root);
+
+  const state = await loadApiState(root, async () => ({ validation: { issueCount: 0, errorCount: 0, warningCount: 0 } }));
+  const goal = state.workflow?.goalWorkspaces[0];
+  const scope = state.workflow?.scopeReviews.find(review => review.workspaceId === goal?.id);
+  const coherence = state.workflow?.coherenceReviews.find(review => review.workspaceId === goal?.id);
+  const artifact = await loadApiArtifact(root, ".abstraction-tree/goals/2026-05-13-1200-visual-workflow/coherence-review.md");
+  const jsonArtifact = await loadApiArtifact(root, ".abstraction-tree/goals/2026-05-13-1200-visual-workflow/secret.json");
+
+  assert.equal(goal?.id, "2026-05-13-1200-visual-workflow");
+  assert.equal(goal?.stats.affectedFileCount, 2);
+  assert.equal(goal?.stats.plannedTaskCount, 1);
+  assert.match(goal?.missionStages.map(stage => stage.title).join(" "), /Analysis Planning Execution Review/);
+  assert.equal(scope?.stats.selectedCount, 6);
+  assert.ok(scope?.selections.some(selection => selection.status === "excluded" && selection.kind === "area"));
+  assert.equal(coherence?.status, "planned");
+  assert.match(artifact?.text ?? "", /token: \[redacted\]/);
+  assert.match(jsonArtifact?.text ?? "", /"token": "\[redacted\]"/);
+  assert.match(jsonArtifact?.text ?? "", /"api_key": "\[redacted\]"/);
+  assert.equal(await loadApiArtifact(root, "package.json"), undefined);
+});
+
 test("/api/state contract rejects missing app-required top-level fields", async t => {
   const root = await workspace(t);
   await ensureWorkspace(root, { installMode: "full", projectName: "Contract Project" });
@@ -212,6 +238,20 @@ test("/api/state contract rejects missing app-required top-level fields", async 
   }
 });
 
+test("/api/state contract validates workflow view shape", async t => {
+  const root = await workspace(t);
+  await ensureWorkspace(root, { installMode: "full", projectName: "Workflow Contract Project" });
+  await writeFixtureMemory(root);
+  await writeGoalWorkflowFixture(root);
+  const candidate = await loadApiState(root, async () => ({ validation: { issueCount: 0, errorCount: 0, warningCount: 0 } })) as unknown as Record<string, unknown>;
+  const workflow = candidate.workflow as { goalWorkspaces: Array<{ stats: Record<string, unknown> }> };
+  workflow.goalWorkspaces[0].stats.affectedFileCount = "two";
+
+  const issues = validateApiStateSchema(candidate);
+
+  assert.ok(issues.some(issue => issue.fieldPath === "$.workflow.goalWorkspaces[0].stats.affectedFileCount"));
+});
+
 async function workspace(t: TestContext): Promise<string> {
   const root = await mkdtemp(path.join(tmpdir(), "atree-api-state-"));
   t.after(() => rm(root, { recursive: true, force: true }));
@@ -226,6 +266,104 @@ async function writeFixtureMemory(root: string): Promise<void> {
   await writeJson(atreePath(root, "concepts.json"), fixtureConcepts());
   await writeJson(atreePath(root, "invariants.json"), fixtureInvariants());
   await writeJson(atreePath(root, "changes", "mission-017.fixture.json"), fixtureChange());
+}
+
+async function writeGoalWorkflowFixture(root: string): Promise<void> {
+  const goalId = "2026-05-13-1200-visual-workflow";
+  const goalDir = atreePath(root, "goals", goalId);
+  const missionDir = path.join(goalDir, "missions");
+  await mkdir(missionDir, { recursive: true });
+  await writeFile(path.join(goalDir, "goal.md"), "Add visual support for goal workspaces.\n", "utf8");
+  await writeJson(path.join(goalDir, "goal.json"), {
+    id: goalId,
+    created_at: "2026-05-13T12:00:00.000Z",
+    source: "file",
+    goal_file: "goals/visual-workflow.md",
+    mode: "review-required",
+    status: "planned",
+    project_root: "."
+  });
+  await writeJson(path.join(goalDir, "affected-tree.json"), {
+    goal_id: goalId,
+    affected_nodes: [{
+      node_id: "feature.api-state",
+      reason: "Goal terms matched visual app workflow state.",
+      confidence: 0.9
+    }],
+    affected_concepts: [{
+      concept_id: "api-state-contract",
+      reason: "Goal requires new API state contract data.",
+      confidence: 0.86
+    }],
+    affected_files: [{
+      path: "packages/app/src/App.tsx",
+      reason: "Goal terms matched app shell.",
+      confidence: 0.9
+    }],
+    invariants: [{
+      id: "state-shape-documented",
+      reason: "API state changes need documentation."
+    }]
+  });
+  await writeJson(path.join(goalDir, "mission-plan.json"), {
+    goal_id: goalId,
+    created_at: "2026-05-13T12:00:00.000Z",
+    mission_dir: `.abstraction-tree/goals/${goalId}/missions`,
+    missions: [{
+      id: "visual-workflow-00-implementation",
+      title: "Implement visual workflow views",
+      priority: "P1",
+      risk: "medium",
+      depends_on: [],
+      expected_affected_areas: ["app"],
+      source_goal: `.abstraction-tree/goals/${goalId}/goal.md`,
+      success_checks: ["npm.cmd run typecheck -w @abstraction-tree/app"]
+    }]
+  });
+  await writeFile(path.join(missionDir, "00-implementation.md"), "# Mission\n", "utf8");
+  await writeJson(path.join(goalDir, "scope-contract.json"), {
+    id: `${goalId}-scope`,
+    createdAt: "2026-05-13T12:00:00.000Z",
+    prompt: "Add visual support for goal workspaces.",
+    intent: "Add visual support for goal workspaces.",
+    status: "ready",
+    affectedNodeIds: ["feature.api-state"],
+    allowedFiles: ["packages/app/src/App.tsx", "packages/cli/src/apiState.ts"],
+    allowedAreas: ["app", "source"],
+    forbiddenAreas: ["ci"],
+    ambiguities: [],
+    requiresClarification: false,
+    maxFilesChanged: 6,
+    maxDiffLines: 600,
+    allowGeneratedMemory: true,
+    requiredChecks: ["npm.cmd test"],
+    rationale: ["Selected app and API state surfaces."]
+  });
+  await writeFile(path.join(goalDir, "coherence-review.md"), [
+    "# Goal Coherence Review",
+    "",
+    "## Mission Plan Alignment",
+    "Mission plan matches the requested workflow view.",
+    "",
+    "## Scope Check Result",
+    "Scope check pending.",
+    "",
+    "## Validation / Evaluation Result",
+    "Validation pending.",
+    "",
+    "## What Remains Incomplete",
+    "Mission execution is incomplete. token: super-secret-value",
+    "",
+    "## Final Verdict",
+    "planned",
+    ""
+  ].join("\n"), "utf8");
+  await writeFile(path.join(goalDir, "secret.json"), JSON.stringify({
+    token: "super-secret-value",
+    api_key: "sk-example-secret-value",
+    ordinary: "visible"
+  }, null, 2), "utf8");
+  await writeFile(path.join(goalDir, "final-report.md"), "# Goal Final Report\n", "utf8");
 }
 
 function fixtureOntology(): AbstractionOntologyLevel[] {

@@ -77,8 +77,13 @@ and a smoke test for the product workflows that should remain deterministic and
 local-only. The workflow runs:
 
 - dependency installation with `npm ci`;
-- formatting, Unicode, lint, typecheck, build, and package smoke checks;
+- formatting, Unicode, docs command validation, lint, typecheck, build, and
+  coverage checks on both Ubuntu and Windows;
+- `npm run audit:security`, which fails on high-severity npm advisories;
 - the full test suite through `npm run coverage`;
+- package-size checks for compressed tarball and installed unpacked size;
+- package smoke checks that install the packed tarballs into a temporary
+  project;
 - strict abstraction-memory validation with `npm run atree:validate`;
 - deterministic evaluation with `npm run atree:evaluate`;
 - doctor diagnostics with `npm run atree -- doctor --project . --strict`;
@@ -89,11 +94,24 @@ local-only. The workflow runs:
 - assessment-pack generation with reduced noisy artifacts;
 - `npm run self:loop -- --assessment-pack-only`, which creates evidence and
   stops before Codex assessment, mission planning, mission execution, and
-  coherence review.
+  coherence review;
+- a clean-checkout publish rehearsal that clones the CI checkout to a fresh
+  directory, runs `npm ci`, rebuilds packages, measures package sizes, and runs
+  `npm run pack:smoke`.
 
-`npm run coverage` invokes `scripts/run-tests.mjs` under V8 coverage, so CI does
-not run `npm test` a second time. That keeps one clear test-suite pass while
-still preserving coverage artifact generation.
+`npm run coverage` invokes `scripts/run-tests.mjs` through `c8` and fails below
+80% global coverage for statements, functions, and lines, or below 75% global
+branch coverage. The measured baseline focuses on publishable package source
+and excludes script wrappers,
+adapters, tests, and example fixture tests; those tests still execute as part of
+the suite. That keeps one clear test-suite pass while enforcing a package-source
+coverage floor.
+
+`npm run package:size` uses `npm pack --json --dry-run` for every publishable
+package and fails when either the compressed tarball size or installed unpacked
+size exceeds the package budget. The budgets live in
+`scripts/check-package-size.mjs` and should be raised only when intentional
+release content grows.
 
 The workflow intentionally does not invoke Codex, run mission execution, use
 provider adapters, push, open pull requests, or depend on secrets. Smoke commands

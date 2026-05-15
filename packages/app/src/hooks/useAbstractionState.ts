@@ -15,12 +15,13 @@ export interface UseAbstractionStateResult {
 
 export async function fetchAbstractionState(
   fetcher: StateFetcher = globalThis.fetch,
-  signal?: AbortSignal
+  signal?: AbortSignal,
+  apiToken?: string
 ): Promise<State> {
   let response: Response;
 
   try {
-    response = await fetcher("/api/state", { signal });
+    response = await fetcher("/api/state", requestInit(signal, apiToken));
   } catch (error) {
     throw new Error(`Unable to request /api/state: ${errorMessage(error)}`);
   }
@@ -37,7 +38,7 @@ export async function fetchAbstractionState(
   }
 }
 
-export function useAbstractionState(fetcher: StateFetcher = globalThis.fetch): UseAbstractionStateResult {
+export function useAbstractionState(fetcher: StateFetcher = globalThis.fetch, apiToken?: string): UseAbstractionStateResult {
   const [state, setStateValue] = useState<State | null>(null);
   const [status, setStatus] = useState<AbstractionStateStatus>("loading");
   const [error, setError] = useState<string | null>(null);
@@ -62,7 +63,7 @@ export function useAbstractionState(fetcher: StateFetcher = globalThis.fetch): U
     setIsRefreshing(hadState);
     setStatus(hadState ? "ready" : "loading");
 
-    fetchAbstractionState(fetcher, controller.signal)
+    fetchAbstractionState(fetcher, controller.signal, apiToken)
       .then(nextState => {
         setState(nextState);
         setStatus("ready");
@@ -78,7 +79,7 @@ export function useAbstractionState(fetcher: StateFetcher = globalThis.fetch): U
       });
 
     return () => controller.abort();
-  }, [fetcher, requestToken, setState]);
+  }, [apiToken, fetcher, requestToken, setState]);
 
   return {
     state,
@@ -88,6 +89,27 @@ export function useAbstractionState(fetcher: StateFetcher = globalThis.fetch): U
     retry: load,
     refresh: load
   };
+}
+
+export function readApiTokenFromLocation(locationLike: { hash?: string } | undefined = browserLocation()): string | undefined {
+  const hash = locationLike?.hash?.trim();
+  if (!hash) return undefined;
+
+  const fragment = hash.startsWith("#") ? hash.slice(1) : hash;
+  const token = new URLSearchParams(fragment).get("atree_token")?.trim();
+  return token || undefined;
+}
+
+function requestInit(signal?: AbortSignal, apiToken?: string): RequestInit {
+  const init: RequestInit = { signal };
+  const token = apiToken?.trim();
+  if (token) init.headers = { authorization: `Bearer ${token}` };
+  return init;
+}
+
+function browserLocation(): { hash?: string } | undefined {
+  if (typeof window === "undefined") return undefined;
+  return window.location;
 }
 
 function errorMessage(error: unknown): string {

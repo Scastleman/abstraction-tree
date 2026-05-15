@@ -100,10 +100,11 @@ npm run format:check
 npm run check:unicode
 npm run docs:commands
 npm run lint
+npm run audit:security
 npm run typecheck
 npm run build
 npm run coverage
-npm test
+npm run package:size
 npm run pack:smoke
 npm run release:dry-run -- --version <candidate-version>
 npm run atree:scan
@@ -113,7 +114,11 @@ npm run atree -- doctor --project . --strict
 npm run diff:summary
 ```
 
-CI must not invoke Codex, run mission execution, push, merge, require secrets, or launch a browser.
+CI must run the build and coverage suite on at least Ubuntu and Windows, fail
+below the configured coverage thresholds, fail on high-severity npm audit
+findings, report package tarball and installed sizes, and rehearse package
+creation from a clean checkout. CI must not invoke Codex, run mission execution,
+push, merge, require secrets, or launch a browser.
 
 ## Memory Hygiene Gate
 

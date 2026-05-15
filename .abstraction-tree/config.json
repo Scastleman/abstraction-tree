@@ -18,5 +18,18 @@
   "visualApp": {
     "enabled": true,
     "defaultPort": 4317
-  }
+  },
+  "domainVocabulary": [
+    {
+      "concept": "evaluation",
+      "synonyms": [
+        "evaluate",
+        "evaluator",
+        "evaluation",
+        "quality fixture",
+        "quality gate"
+      ],
+      "weight": 8
+    }
+  ]
 }

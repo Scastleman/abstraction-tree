@@ -3,6 +3,7 @@ import path from "node:path";
 import type {
   ExternalImport,
   FileSummary,
+  ImportAliasPattern,
   ImportCycle,
   ImportGraph,
   ImportGraphEdge,
@@ -10,15 +11,30 @@ import type {
   UnresolvedImport,
   WorkspacePackage
 } from "./schema.js";
+import { discoverImportResolution } from "./importAliases.js";
 
 export interface BuildImportGraphOptions {
   workspacePackages?: WorkspacePackage[];
+  importAliases?: ImportAliasPattern[];
+  rootDirs?: string[];
 }
 
 type PackageManifest = Record<string, unknown>;
 interface GeneratedPackageArtifactResolution {
   to: string;
   packageName: string;
+}
+interface AliasRule extends ImportAliasPattern {
+  order: number;
+}
+interface AliasMatch {
+  candidate: string;
+  rule: AliasRule;
+}
+interface AliasResolution {
+  to?: string;
+  rule?: AliasRule;
+  matched: boolean;
 }
 
 const JAVASCRIPT_EXTENSIONS = new Set([".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs"]);
@@ -41,15 +57,25 @@ export function emptyImportGraph(): ImportGraph {
   };
 }
 
-export async function buildImportGraph(projectRoot: string, files: FileSummary[]): Promise<ImportGraph> {
-  const workspacePackages = await discoverWorkspacePackages(projectRoot, files);
-  return buildImportGraphFromFiles(files, { workspacePackages });
+export async function buildImportGraph(projectRoot: string, files: FileSummary[], options: BuildImportGraphOptions = {}): Promise<ImportGraph> {
+  const [workspacePackages, importResolution] = await Promise.all([
+    options.workspacePackages ? Promise.resolve(normalizeWorkspacePackages(options.workspacePackages)) : discoverWorkspacePackages(projectRoot, files),
+    discoverImportResolution(projectRoot, files, options.importAliases ?? [])
+  ]);
+  return buildImportGraphFromFiles(files, {
+    ...options,
+    workspacePackages,
+    importAliases: importResolution.importAliases,
+    rootDirs: uniqueStrings([...(options.rootDirs ?? []), ...importResolution.rootDirs])
+  });
 }
 
 export function buildImportGraphFromFiles(files: FileSummary[], options: BuildImportGraphOptions = {}): ImportGraph {
   const fileSet = new Set(files.map(file => file.path));
   const workspacePackages = normalizeWorkspacePackages(options.workspacePackages ?? []);
   const workspaceByName = new Map(workspacePackages.map(pkg => [pkg.name, pkg]));
+  const aliasRules = normalizeAliasRules(options.importAliases ?? []);
+  const rootDirs = normalizeRootDirs(options.rootDirs ?? []);
   const edges: ImportGraphEdge[] = [];
   const externalImports: ExternalImport[] = [];
   const unresolvedImports: UnresolvedImport[] = [];
@@ -57,7 +83,7 @@ export function buildImportGraphFromFiles(files: FileSummary[], options: BuildIm
   for (const file of files.filter(isJavaScriptFile).sort((a, b) => a.path.localeCompare(b.path))) {
     for (const specifier of [...file.imports].sort()) {
       if (isRelativeSpecifier(specifier)) {
-        const to = resolveRelativeSpecifier(file.path, specifier, fileSet);
+        const to = resolveRelativeSpecifier(file.path, specifier, fileSet, rootDirs);
         if (to) {
           edges.push({ from: file.path, to, specifier, kind: "relative" });
         } else {
@@ -74,6 +100,38 @@ export function buildImportGraphFromFiles(files: FileSummary[], options: BuildIm
           }
           unresolvedImports.push(unresolved(file.path, specifier, "relative", "Relative import could not be resolved to a scanned repository file."));
         }
+        continue;
+      }
+
+      const aliasResolution = resolveAliasSpecifier(specifier, aliasRules, fileSet);
+      if (aliasResolution.to && aliasResolution.rule) {
+        edges.push({
+          from: file.path,
+          to: aliasResolution.to,
+          specifier,
+          kind: "alias",
+          aliasSource: aliasSource(aliasResolution.rule)
+        });
+        continue;
+      }
+      if (aliasResolution.matched && aliasResolution.rule) {
+        unresolvedImports.push(unresolved(
+          file.path,
+          specifier,
+          "alias",
+          aliasUnresolvedReason(aliasResolution.rule),
+          undefined,
+          aliasSource(aliasResolution.rule)
+        ));
+        continue;
+      }
+      if (looksLikeUnconfiguredAlias(specifier)) {
+        unresolvedImports.push(unresolved(
+          file.path,
+          specifier,
+          "alias",
+          "Import looks like a local alias, but no TypeScript paths, bundler alias, or configured importAliases entry matched it. Configure compilerOptions.paths, a supported bundler resolve.alias, or .abstraction-tree config importAliases."
+        ));
         continue;
       }
 
@@ -111,7 +169,7 @@ export function buildImportGraphFromFiles(files: FileSummary[], options: BuildIm
   return {
     edges: uniqueEdges,
     externalImports: uniqueBy(externalImports, item => `${item.from}|${item.specifier}|${item.packageName}`).sort(byExternalImport),
-    unresolvedImports: uniqueBy(unresolvedImports, item => `${item.from}|${item.specifier}|${item.kind}|${item.packageName ?? ""}`).sort(byUnresolvedImport),
+    unresolvedImports: uniqueBy(unresolvedImports, item => `${item.from}|${item.specifier}|${item.kind}|${item.packageName ?? ""}|${item.aliasSource ?? ""}`).sort(byUnresolvedImport),
     cycles: detectImportCycles(uniqueEdges, fileSet),
     workspacePackages
   };
@@ -161,9 +219,10 @@ function isRelativeSpecifier(specifier: string): boolean {
   return specifier.startsWith("./") || specifier.startsWith("../");
 }
 
-function resolveRelativeSpecifier(from: string, specifier: string, fileSet: Set<string>): string | undefined {
+function resolveRelativeSpecifier(from: string, specifier: string, fileSet: Set<string>, rootDirs: string[] = []): string | undefined {
   const candidate = relativeSpecifierCandidate(from, specifier);
-  return candidate ? resolvePathCandidate(candidate, fileSet) : undefined;
+  if (!candidate) return undefined;
+  return resolvePathCandidate(candidate, fileSet) ?? resolveRootDirsCandidate(from, candidate, rootDirs, fileSet);
 }
 
 function relativeSpecifierCandidate(from: string, specifier: string): string | undefined {
@@ -301,6 +360,118 @@ function candidatePaths(candidate: string): string[] {
   }
 
   return uniqueStrings(candidates);
+}
+
+function resolveAliasSpecifier(specifier: string, aliasRules: AliasRule[], fileSet: Set<string>): AliasResolution {
+  const matches = aliasRules.flatMap(rule => aliasMatchesForRule(specifier, rule));
+  for (const match of matches) {
+    const resolved = resolvePathCandidate(match.candidate, fileSet);
+    if (resolved) return { to: resolved, rule: match.rule, matched: true };
+  }
+
+  return matches[0]
+    ? { matched: true, rule: matches[0].rule }
+    : { matched: false };
+}
+
+function aliasMatchesForRule(specifier: string, rule: AliasRule): AliasMatch[] {
+  const exactOnly = rule.find.endsWith("$");
+  const find = exactOnly ? rule.find.slice(0, -1) : rule.find;
+  if (!find) return [];
+
+  if (find.includes("*")) {
+    const match = specifier.match(aliasWildcardRegex(find));
+    if (!match) return [];
+    const wildcard = match[1] ?? "";
+    return [{ candidate: normalizeRepoPath(rule.replacement.replaceAll("*", wildcard)), rule }];
+  }
+
+  if (specifier === find) return [{ candidate: rule.replacement, rule }];
+  if (!exactOnly && specifier.startsWith(`${find}/`)) {
+    return [{ candidate: repoJoin(rule.replacement, specifier.slice(find.length + 1)), rule }];
+  }
+
+  return [];
+}
+
+function aliasWildcardRegex(pattern: string): RegExp {
+  const escaped = pattern.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replaceAll("*", "(.*)");
+  return new RegExp(`^${escaped}$`);
+}
+
+function normalizeAliasRules(patterns: ImportAliasPattern[]): AliasRule[] {
+  return patterns
+    .map((pattern, order) => ({
+      find: pattern.find.trim(),
+      replacement: normalizeRepoPath(pattern.replacement.trim()),
+      ...(pattern.source ? { source: pattern.source.trim() } : {}),
+      ...(pattern.configPath ? { configPath: normalizeRepoPath(pattern.configPath) } : {}),
+      order
+    }))
+    .filter(pattern => pattern.find && pattern.replacement)
+    .sort(byAliasSpecificity);
+}
+
+function normalizeRootDirs(rootDirs: string[]): string[] {
+  return uniqueStrings(rootDirs.map(rootDir => normalizeRepoPath(rootDir)).filter(rootDir => rootDir && !isOutsideRepo(rootDir)))
+    .sort((a, b) => b.length - a.length || a.localeCompare(b));
+}
+
+function byAliasSpecificity(a: AliasRule, b: AliasRule): number {
+  return aliasStaticPrefixLength(b.find) - aliasStaticPrefixLength(a.find) ||
+    Number(aliasIsExact(b.find)) - Number(aliasIsExact(a.find)) ||
+    a.order - b.order;
+}
+
+function aliasStaticPrefixLength(find: string): number {
+  const normalized = find.endsWith("$") ? find.slice(0, -1) : find;
+  const wildcardIndex = normalized.indexOf("*");
+  return wildcardIndex === -1 ? normalized.length : wildcardIndex;
+}
+
+function aliasIsExact(find: string): boolean {
+  return !find.includes("*") || find.endsWith("$");
+}
+
+function aliasSource(rule: AliasRule): string {
+  const source = rule.source?.trim() || "custom";
+  return rule.configPath ? `${source}:${rule.configPath}` : source;
+}
+
+function aliasUnresolvedReason(rule: AliasRule): string {
+  return `Alias matched ${aliasSource(rule)}, but none of its target candidates resolved to a scanned repository file. Check the alias target, sourceRoot/ignored scan settings, or configure .abstraction-tree importAliases.`;
+}
+
+function looksLikeUnconfiguredAlias(specifier: string): boolean {
+  return specifier.startsWith("@/") || specifier.startsWith("~/") || specifier.startsWith("#/");
+}
+
+function resolveRootDirsCandidate(from: string, candidate: string, rootDirs: string[], fileSet: Set<string>): string | undefined {
+  if (!rootDirs.length) return undefined;
+
+  const fromDir = normalizeRepoPath(path.posix.dirname(from));
+  for (const sourceRoot of rootDirs) {
+    if (!pathContains(sourceRoot, fromDir) || !pathContains(sourceRoot, candidate)) continue;
+    const virtualPath = pathRelativeToRoot(candidate, sourceRoot);
+    if (!virtualPath) continue;
+
+    for (const targetRoot of rootDirs) {
+      if (targetRoot === sourceRoot) continue;
+      const resolved = resolvePathCandidate(repoJoin(targetRoot, virtualPath), fileSet);
+      if (resolved) return resolved;
+    }
+  }
+
+  return undefined;
+}
+
+function pathContains(root: string, candidate: string): boolean {
+  return root === "." || candidate === root || candidate.startsWith(`${root}/`);
+}
+
+function pathRelativeToRoot(candidate: string, root: string): string | undefined {
+  if (root === ".") return candidate;
+  return candidate === root ? "." : candidate.startsWith(`${root}/`) ? candidate.slice(root.length + 1) : undefined;
 }
 
 function packageEntrypointCandidates(manifest: PackageManifest | undefined): string[] {
@@ -525,9 +696,10 @@ function unresolved(
   specifier: string,
   kind: ImportGraphEdgeKind,
   reason: string,
-  packageName?: string
+  packageName?: string,
+  aliasSource?: string
 ): UnresolvedImport {
-  return { from, specifier, kind, reason, ...(packageName ? { packageName } : {}) };
+  return { from, specifier, kind, reason, ...(packageName ? { packageName } : {}), ...(aliasSource ? { aliasSource } : {}) };
 }
 
 function normalizeWorkspacePackages(packages: WorkspacePackage[]): WorkspacePackage[] {
@@ -605,7 +777,7 @@ function optionalStringArrayFields<T extends Record<string, string[] | undefined
 }
 
 function edgeKey(edge: ImportGraphEdge): string {
-  return `${edge.from}|${edge.to}|${edge.specifier}|${edge.kind}|${edge.packageName ?? ""}`;
+  return `${edge.from}|${edge.to}|${edge.specifier}|${edge.kind}|${edge.packageName ?? ""}|${edge.aliasSource ?? ""}`;
 }
 
 function byEdge(a: ImportGraphEdge, b: ImportGraphEdge): number {

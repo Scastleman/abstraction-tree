@@ -165,6 +165,62 @@ test("buildDeterministicTree keeps repo concept fixtures stable and filters docu
   }
 });
 
+test("buildDeterministicTree applies configured subsystem patterns", () => {
+  const result = buildDeterministicTree("ops-tool", [
+    file("src/commands/reconcile.command.ts", ["ReconcileCommand"], ["runReconcile"]),
+    file("src/runtime/worker.ts", ["Worker"], ["runWorker"])
+  ], {
+    config: {
+      subsystemPatterns: [{
+        id: "subsystem.cli.commands",
+        title: "Configured CLI Commands",
+        summary: "Command handlers supplied by project configuration.",
+        paths: ["src/commands/**"],
+        fileNames: ["*.command.ts"],
+        priority: 50,
+        weight: 0.2,
+        responsibilities: ["Own project-specific CLI command handlers."]
+      }]
+    }
+  });
+  const nodes = new Map(result.nodes.map(node => [node.id, node]));
+
+  assert.ok(nodes.has("subsystem.cli.commands"));
+  assert.deepEqual(nodes.get("subsystem.cli.commands")?.sourceFiles, ["src/commands/reconcile.command.ts"]);
+  assertIncludes(nodes.get("project.intent")?.children ?? [], ["subsystem.cli.commands"]);
+  assertIncludes(result.files.find(candidate => candidate.path === "src/commands/reconcile.command.ts")?.ownedByNodeIds ?? [], [
+    "subsystem.cli.commands",
+    "subsystem.cli.commands.file.src.commands.reconcile.command.ts"
+  ]);
+});
+
+test("buildDeterministicTree applies configured domain vocabulary and concept weights", () => {
+  const result = buildDeterministicTree("inventory", [
+    file("src/catalog/sku.ts", ["SkuLedger"], ["createSku"]),
+    file("src/orders/order.ts", ["OrderLedger"], ["createOrder"]),
+    file("tests/order.test.ts", ["OrderLedger"], [])
+  ], {
+    config: {
+      domainVocabulary: [{
+        concept: "inventory",
+        synonyms: ["sku"],
+        weight: 20
+      }],
+      conceptSignalWeights: {
+        export: 5
+      }
+    }
+  });
+
+  const inventory = result.concepts.find(concept => concept.id === "inventory");
+
+  assert.equal(result.concepts[0]?.id, "inventory");
+  assert.ok(inventory);
+  assertIncludes(inventory.tags, ["inventory", "sku"]);
+  assert.deepEqual(inventory.relatedFiles, ["src/catalog/sku.ts"]);
+  assert.equal(result.concepts.some(concept => concept.id === "sku"), false);
+});
+
 test("buildDeterministicTree populates architecture nodes for the Abstraction Tree package shape", () => {
   const files = [
     file("package.json"),

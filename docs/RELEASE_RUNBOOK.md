@@ -24,10 +24,11 @@ npm run format:check
 npm run check:unicode
 npm run docs:commands
 npm run lint
+npm run audit:security
 npm run typecheck
 npm run build
 npm run coverage
-npm test
+npm run package:size
 npm run pack:smoke
 npm run release:changelog -- --version 0.2.0-beta.1
 npm run release:dry-run -- --version 0.2.0-beta.1

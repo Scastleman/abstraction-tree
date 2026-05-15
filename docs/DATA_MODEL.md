@@ -26,6 +26,10 @@ Project-level configuration. It includes the current install mode: `core` for ab
 
 `ignored` contains `.gitignore`-style patterns evaluated against project-relative paths. Defaults exclude generated and local-only directories such as `node_modules`, `dist`, `.git`, `.abstraction-tree`, and `coverage`. Set `respectGitignore` to `true` to also apply patterns from the project root `.gitignore`.
 
+`importAliases` is an optional custom resolver hook for local aliases that cannot be inferred from TypeScript or bundler config. Each entry has `find` and `replacement` fields, using project-relative paths and optional `*` wildcards, such as `{ "find": "@/*", "replacement": "src/*" }`.
+
+Scanner customization can also come from root `atree.config.json`, global `~/.abstraction-tree/config.json`, or `atree scan --config <path>`. These override files can add `subsystemPatterns`, `domainVocabulary`, and `conceptSignalWeights` without editing committed generated memory. Use `atree scan --no-custom-config` to ignore those override files during debugging. See [Project Configuration](CONFIGURATION.md) for examples and type definitions.
+
 ## Schema migrations
 
 Use `atree migrate` to inspect or apply schema migrations for `.abstraction-tree/` memory:
@@ -124,8 +128,9 @@ It includes:
 
 - resolved local edges for relative imports;
 - resolved workspace package edges when package roots or entrypoints can be inferred;
+- resolved alias edges from TypeScript `compilerOptions.paths`, supported bundler `resolve.alias` config, or custom `config.json` `importAliases`;
 - external package imports;
-- unresolved local imports with a reason;
+- unresolved local or alias-shaped imports with a reason;
 - detected file import cycles;
 - discovered workspace package metadata.
 
@@ -181,5 +186,8 @@ Top-level fields:
 - `invariants`: invariant records from `invariants.json`, or `[]` when missing.
 - `changes`: sorted semantic change records from `changes/*.json`, or `[]` when the directory is absent.
 - `agentHealth`: derived status for the app, including optional `latestRun`, `latestEvaluation`, `validation`, and `automation` groups.
+- `workflow`: optional visual workflow data derived from goal workspaces, scope contracts/checks, coherence reviews, and context packs.
 
-The CLI validates this payload with the runtime API-state contract before returning it. Missing run reports, evaluation reports, and automation runtime files are represented by absent nested `agentHealth` groups rather than request failures.
+The `workflow` group is read-only app data. It does not introduce a new source of truth; it summarizes artifacts already written under `.abstraction-tree/goals/`, `.abstraction-tree/scopes/`, and `.abstraction-tree/context-packs/`. Goal entries include status, mode, report links, affected-file and task counts, mission stages, and unresolved-item counts. Scope entries include selected, excluded, and questionable files, concepts, invariants, nodes, areas, and checks with reasons. Coherence entries summarize the Markdown review verdict and evidence links.
+
+The CLI validates this payload with the runtime API-state contract before returning it. Missing run reports, evaluation reports, automation runtime files, and workflow artifacts are represented by absent nested groups or empty workflow arrays rather than request failures. Workflow summaries and `GET /api/artifact?path=...` report links are restricted to `.abstraction-tree/` text artifacts and redact obvious bearer tokens, API keys, tokens, secrets, passwords, and credentials before serving text to the app.

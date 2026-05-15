@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import path from "node:path";
 import ignore, { type Ignore } from "ignore";
 import * as ts from "typescript";
-import type { FileSummary } from "./schema.js";
+import type { AtreeConfig, FileSummary } from "./schema.js";
 import { readConfig } from "./workspace.js";
 
 const createIgnore = ignore as unknown as () => Ignore;
@@ -80,8 +80,12 @@ export interface ScanDiagnostic {
   reason: string;
 }
 
-export async function scanProject(projectRoot: string): Promise<ScanResult> {
-  const config = await readConfig(projectRoot);
+export interface ScanProjectOptions {
+  config?: AtreeConfig;
+}
+
+export async function scanProject(projectRoot: string, options: ScanProjectOptions = {}): Promise<ScanResult> {
+  const config = options.config ?? await readConfig(projectRoot);
   const ignored = await buildIgnoreMatcher(projectRoot, config.ignored, config.respectGitignore ?? false);
   const sourceRoot = path.resolve(projectRoot, config.sourceRoot);
   const files: FileSummary[] = [];

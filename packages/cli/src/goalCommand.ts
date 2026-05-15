@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import {
@@ -8,6 +8,7 @@ import {
   formatPromptRouteResult,
   formatScopeContractMarkdown,
   readChangeRecords,
+  readConfig,
   readConcepts,
   readEvaluationReports,
   readFileSummaries,
@@ -50,6 +51,11 @@ export interface GoalCommandIo {
 export interface GoalCommandResult {
   mode: GoalMode;
   plan: GoalWorkspacePlan;
+}
+
+interface AtreeCommandRecommendations {
+  evaluate: string;
+  scopeCheck: (scopePath: string) => string;
 }
 
 export async function runGoalCommand(
@@ -102,7 +108,8 @@ export async function runGoalCommand(
   }
 
   await ensureWorkspace(projectRoot);
-  const [nodes, files, concepts, invariants, changes, evaluations] = await Promise.all([
+  const [config, nodes, files, concepts, invariants, changes, evaluations] = await Promise.all([
+    readConfig(projectRoot),
     readTreeNodes(projectRoot),
     readFileSummaries(projectRoot),
     readConcepts(projectRoot),
@@ -121,26 +128,30 @@ export async function runGoalCommand(
     changes,
     evaluations,
     createdAt: options.createdAt,
-    projectRoot: "."
+    projectRoot,
+    missionPlanning: config.missionPlanning
   });
+  plan.metadata.project_root = ".";
+  const atreeCommands = buildAtreeCommandRecommendations(projectRoot);
   const scopeContract = buildGoalScopeContract({
     plan,
     goalText,
     nodes,
     files,
     concepts,
-    createdAt: options.createdAt
+    createdAt: options.createdAt,
+    atreeCommands
   });
   const createPr = Boolean(options.createPr || mode === "create-pr");
   const executionRefused = mode === "full-auto" || mode === "run";
   const routeRecord = route ? buildGoalRouteRecord(plan, route, routeOverridden) : undefined;
-  const checks = executionRefused ? buildExecutionRefusalChecks(plan.id, mode) : undefined;
+  const checks = executionRefused ? buildExecutionRefusalChecks(plan, mode, plannedCheckCommands(plan), atreeCommands) : undefined;
   const status: GoalStatus = executionRefused ? "execution-refused" : "planned";
 
   plan.metadata.status = status;
   plan.scopeContract = scopeContract;
   plan.scopeContractMarkdown = formatScopeContractMarkdown(scopeContract);
-  plan.reviewCommands = reviewCommandsFor(plan, scopeContract);
+  plan.reviewCommands = reviewCommandsFor(plan, scopeContract, atreeCommands);
   plan.coherenceReviewMarkdown = formatGoalCoherenceReview({
     goalText,
     plan,
@@ -300,6 +311,7 @@ function buildGoalScopeContract(input: {
   files: FileSummary[];
   concepts: Concept[];
   createdAt?: Date;
+  atreeCommands: AtreeCommandRecommendations;
 }): ScopeContract {
   const base = buildScopeContract({
     prompt: input.goalText,
@@ -318,11 +330,10 @@ function buildGoalScopeContract(input: {
   ].map(normalizeGoalPath));
   const requiredChecks = sortedUnique([
     ...base.requiredChecks,
-    "npm run build",
-    "npm test",
-    "npm run atree:validate",
-    "npm run atree:evaluate",
-    "npm run diff:summary"
+    ...plannedCheckCommands(input.plan),
+    input.atreeCommands.scopeCheck(`${input.plan.workspaceRelativePath}/scope-contract.json`),
+    input.atreeCommands.evaluate,
+    "git diff --check"
   ]);
   return {
     ...base,
@@ -341,30 +352,32 @@ function buildGoalScopeContract(input: {
   };
 }
 
-function reviewCommandsFor(plan: GoalWorkspacePlan, scopeContract: ScopeContract): string[] {
+function reviewCommandsFor(plan: GoalWorkspacePlan, scopeContract: ScopeContract, atreeCommands: AtreeCommandRecommendations): string[] {
   return [
     `npm run missions:plan -- --missions ${plan.missionDirRelativePath} --ignore-runtime`,
     `npm run missions:run -- --missions ${plan.missionDirRelativePath} --ignore-runtime`,
-    `npm run atree -- scope check --project . --scope ${plan.workspaceRelativePath}/scope-contract.json`,
-    "npm run build",
-    "npm test",
-    "npm run atree:validate",
-    "npm run atree:evaluate",
-    "npm run diff:summary"
+    atreeCommands.scopeCheck(`${plan.workspaceRelativePath}/scope-contract.json`),
+    ...plannedCheckCommands(plan),
+    atreeCommands.evaluate,
+    "git diff --check"
   ].filter((command, index, commands) => commands.indexOf(command) === index && scopeContract.id);
 }
 
-function buildExecutionRefusalChecks(goalId: string, mode: GoalMode): GoalChecksRecord {
+function buildExecutionRefusalChecks(
+  plan: GoalWorkspacePlan,
+  mode: GoalMode,
+  plannedCommands: string[],
+  atreeCommands: AtreeCommandRecommendations
+): GoalChecksRecord {
   return {
-    goal_id: goalId,
+    goal_id: plan.id,
     status: "not-run",
     commands: [
       "npm run missions:run",
-      "npm run build",
-      "npm test",
-      "npm run atree:validate",
-      "npm run atree:evaluate",
-      "npm run diff:summary"
+      ...plannedCommands,
+      atreeCommands.scopeCheck(`${plan.workspaceRelativePath}/scope-contract.json`),
+      atreeCommands.evaluate,
+      "git diff --check"
     ].map(command => ({
       command,
       status: "not-run",
@@ -377,6 +390,50 @@ function buildExecutionRefusalChecks(goalId: string, mode: GoalMode): GoalChecks
   };
 }
 
+function plannedCheckCommands(plan: GoalWorkspacePlan): string[] {
+  return sortedUnique(plan.missionPlan.missions.flatMap(mission => mission.success_checks));
+}
+
+function buildAtreeCommandRecommendations(projectRoot: string): AtreeCommandRecommendations {
+  const scripts = readRootPackageScripts(projectRoot);
+  const hasGenericAtreeScript = scripts.has("atree");
+
+  return {
+    evaluate: scripts.has("atree:evaluate")
+      ? "npm run atree:evaluate"
+      : hasGenericAtreeScript
+        ? "npm run atree -- evaluate --project ."
+        : "npx atree evaluate --project .",
+    scopeCheck: scopePath => hasGenericAtreeScript
+      ? `npm run atree -- scope check --project . --scope ${scopePath}`
+      : `npx atree scope check --project . --scope ${scopePath}`
+  };
+}
+
+function readRootPackageScripts(projectRoot: string): Set<string> {
+  const manifestPath = path.join(projectRoot, "package.json");
+  if (!existsSync(manifestPath)) return new Set();
+
+  try {
+    const manifest = JSON.parse(readFileSync(manifestPath, "utf8")) as { scripts?: unknown };
+    if (!manifest.scripts || typeof manifest.scripts !== "object" || Array.isArray(manifest.scripts)) return new Set();
+    return new Set(Object.entries(manifest.scripts)
+      .filter(([, command]) => typeof command === "string" && command.trim())
+      .map(([name]) => name));
+  } catch {
+    return new Set();
+  }
+}
+
+function commandRunsAtreeAction(command: string, action: "evaluate" | "validate"): boolean {
+  const normalized = command.toLowerCase();
+  return normalized.includes(action) && (
+    normalized.includes("atree") ||
+    normalized.includes("packages/cli/dist/index.js") ||
+    normalized.includes("packages\\cli\\dist\\index.js")
+  );
+}
+
 function buildGoalScore(input: {
   goalId: string;
   status: GoalStatus;
@@ -387,12 +444,12 @@ function buildGoalScore(input: {
 }): GoalCompletionScore {
   const checksPassed = input.checks?.status === "passed" ? 20 : 0;
   const validationPassed = input.checks?.commands.some(command =>
-    command.command.includes("atree:validate") && command.status === "passed"
+    commandRunsAtreeAction(command.command, "validate") && command.status === "passed"
   )
     ? 20
     : 0;
   const evaluationAvailable = input.checks?.commands.some(command =>
-    command.command.includes("atree:evaluate") && command.status === "passed"
+    commandRunsAtreeAction(command.command, "evaluate") && command.status === "passed"
   )
     ? 10
     : 0;
@@ -565,7 +622,7 @@ function formatGoalFinalReport(input: {
     `Scope contract written: ${input.scopeContract.id}. Post-run scope check pending.`,
     "",
     "## Evaluation Summary",
-    input.checks?.commands.some(command => command.command.includes("atree:evaluate") && command.status === "passed")
+    input.checks?.commands.some(command => commandRunsAtreeAction(command.command, "evaluate") && command.status === "passed")
       ? "Evaluation completed."
       : "Evaluation pending execution.",
     "",
@@ -658,10 +715,11 @@ function summarizeGoal(goalText: string): string {
 
 function classifyGoalArea(filePath: string): string[] {
   const normalized = normalizeGoalPath(filePath);
+  const tokens = tokenizeGoalPath(normalized);
   const areas = new Set<string>();
-  if (normalized.startsWith("packages/app/")) areas.add("app");
-  if (normalized.startsWith("packages/core/")) areas.add("core");
-  if (normalized.startsWith("packages/cli/")) areas.add("source");
+  if (tokens.some(token => ["app", "frontend", "ui", "component", "components"].includes(token))) areas.add("app");
+  if (tokens.some(token => ["src", "source", "lib", "core", "service", "services", "api"].includes(token))) areas.add("source");
+  if (tokens.some(token => ["cli", "command", "commands", "bin"].includes(token))) areas.add("source");
   if (normalized.startsWith("scripts/")) areas.add("scripts");
   if (normalized.startsWith(".abstraction-tree/")) areas.add("memory");
   if (normalized.startsWith(".github/")) areas.add("ci");
@@ -670,6 +728,13 @@ function classifyGoalArea(filePath: string): string[] {
   if (normalized.endsWith("package.json") || normalized.endsWith("package-lock.json")) areas.add("package");
   if (normalized.startsWith(".abstraction-tree/automation/")) areas.add("automation");
   return [...areas];
+}
+
+function tokenizeGoalPath(filePath: string): string[] {
+  return normalizeGoalPath(filePath)
+    .toLowerCase()
+    .split(/[^a-z0-9]+/u)
+    .filter(Boolean);
 }
 
 function normalizeGoalPath(filePath: string): string {

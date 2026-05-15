@@ -149,6 +149,7 @@ fastest package/installability signal:
 
 ```bash
 npm run build
+npm run package:size
 npm run pack:smoke
 ```
 
@@ -166,13 +167,15 @@ npm run release:dry-run -- --version 0.2.0-beta.1
 
 `release:dry-run` verifies synchronized package versions, verifies the
 changelog section, runs the package smoke test, and runs `npm publish
---dry-run` in each publishable package directory. The package smoke test checks
-tarball contents, dogfooding-memory exclusion, local tarball installability,
-linked binaries, `init`, `scan`, `doctor`, `validate`, `context`, `export`, and
-local app serving. It also verifies that the temporary installed project starts
-with blank memory and that `scan` generates memory from that project instead of
-copying this repository's dogfooding memory. It does not publish, tag, open a
-browser, or move npm dist-tags.
+--dry-run` in each publishable package directory. The release workflow also runs
+`npm run audit:security`, `npm run package:size`, and coverage thresholds before
+the publish dry run. The package smoke test checks tarball contents,
+dogfooding-memory exclusion, local tarball installability, linked binaries,
+`init`, `scan`, `doctor`, `validate`, `context`, `export`, and local app
+serving. It also verifies that the temporary installed project starts with blank
+memory and that `scan` generates memory from that project instead of copying
+this repository's dogfooding memory. It does not publish, tag, open a browser,
+or move npm dist-tags.
 
 ## Prerelease path
 
@@ -215,19 +218,23 @@ If a prerelease package is broken, deprecate that exact version with a clear mes
 npm run format:check
 npm run check:unicode
 npm run lint
+npm run audit:security
 npm run typecheck
 npm run build
 npm run coverage
-npm test
+npm run package:size
 npm run release:dry-run -- --version <version>
 npm run atree:validate
 npm run atree -- doctor --project . --strict
 ```
 
-6. Run the `Release Dry Run` GitHub Actions workflow with the same version.
-7. Inspect the dry-run logs and confirm the package file lists contain only
+6. Confirm the main CI workflow passes, including the Ubuntu/Windows matrix,
+   security audit, package-size gate, package smoke tests, and clean-checkout
+   publish rehearsal.
+7. Run the `Release Dry Run` GitHub Actions workflow with the same version.
+8. Inspect the dry-run logs and confirm the package file lists contain only
    intended build artifacts, package manifests, README files, and binaries. They must not contain root `.abstraction-tree/` dogfooding memory.
-8. After packaging smoke tests are stable, follow [RELEASE_RUNBOOK.md](RELEASE_RUNBOOK.md). Publish manually from a clean checkout in dependency order:
+9. After packaging smoke tests are stable, follow [RELEASE_RUNBOOK.md](RELEASE_RUNBOOK.md). Publish manually from a clean checkout in dependency order:
 
 ```bash
 npm publish --workspace @abstraction-tree/core --access public --tag beta
@@ -236,5 +243,5 @@ npm publish --workspace @abstraction-tree/app --access public --tag beta
 npm publish --workspace abstraction-tree --tag beta
 ```
 
-9. Create a GitHub release for tag `v<version>` using the matching changelog
+10. Create a GitHub release for tag `v<version>` using the matching changelog
    section as the release notes.

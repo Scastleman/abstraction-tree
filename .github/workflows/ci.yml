@@ -13,8 +13,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  test:
+    name: Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -31,6 +36,32 @@ jobs:
 
       # coverage invokes scripts/run-tests.mjs, so this is the single full test-suite pass.
       - run: npm run coverage
+
+  security-audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20.19.x
+          cache: npm
+      - run: npm ci
+      - run: npm run audit:security
+
+  product-smoke:
+    name: Product Smoke
+    runs-on: ubuntu-latest
+    needs: [test, security-audit]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20.19.x
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run package:size
       - run: npm run pack:smoke
       - run: npm run atree:validate
       - run: npm run atree:evaluate
@@ -45,3 +76,26 @@ jobs:
       - run: npm run atree -- scope --prompt "Fix the README typo" --json
       - run: npm run assessment:pack -- --no-diff --no-runs --no-lessons --no-mission-runtime
       - run: npm run self:loop -- --assessment-pack-only
+
+  clean-publish-rehearsal:
+    name: Clean Checkout Publish Rehearsal
+    runs-on: ubuntu-latest
+    needs: [test, security-audit]
+    steps:
+      - uses: actions/checkout@v6
+      - name: Clone clean checkout
+        shell: bash
+        run: |
+          git clone --no-local "$GITHUB_WORKSPACE" "$RUNNER_TEMP/abstraction-tree-clean"
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20.19.x
+          cache: npm
+      - name: Install, build, size-check, and pack from clean checkout
+        shell: bash
+        working-directory: ${{ runner.temp }}/abstraction-tree-clean
+        run: |
+          npm ci
+          npm run build
+          npm run package:size
+          npm run pack:smoke

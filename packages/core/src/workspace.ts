@@ -1,8 +1,10 @@
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
+import { homedir } from "node:os";
 import path from "node:path";
 import type {
   AbstractionOntologyLevel,
+  AtreeConfigOverride,
   AtreeConfig,
   ChangeRecord,
   Concept,
@@ -20,12 +22,15 @@ import {
   CURRENT_ATREE_SCHEMA_VERSION,
   invalidJsonIssue,
   migrateAtreeConfig,
+  validateAtreeConfigOverrideSchema,
   validateAtreeConfigSchema,
   validateRuntimeSchema,
+  RuntimeSchemaValidationError,
   type RuntimeSchemaKind
 } from "./runtimeSchema.js";
 
 export const ATREE_DIR = ".abstraction-tree";
+export const ATREE_ROOT_CONFIG = "atree.config.json";
 
 export function atreePath(projectRoot: string, ...parts: string[]) {
   return path.join(projectRoot, ATREE_DIR, ...parts);
@@ -108,6 +113,29 @@ export async function readConfig(projectRoot: string): Promise<AtreeConfig> {
     "config",
     value => migrateAtreeConfig(value)
   );
+}
+
+export interface EffectiveConfigOptions {
+  configPath?: string;
+  customConfig?: boolean;
+  globalConfigPath?: string;
+}
+
+export async function readEffectiveConfig(projectRoot: string, options: EffectiveConfigOptions = {}): Promise<AtreeConfig> {
+  let config = await readConfig(projectRoot);
+  if (options.customConfig === false) return config;
+
+  const globalConfigPath = options.globalConfigPath ?? path.join(homedir(), ATREE_DIR, "config.json");
+  const globalOverride = await readConfigOverrideFile(projectRoot, globalConfigPath, { required: false });
+  if (globalOverride) config = mergeAtreeConfigOverride(config, globalOverride);
+
+  const localConfigPath = options.configPath
+    ? resolveConfigPath(projectRoot, options.configPath)
+    : path.join(projectRoot, ATREE_ROOT_CONFIG);
+  const localOverride = await readConfigOverrideFile(projectRoot, localConfigPath, { required: Boolean(options.configPath) });
+  if (localOverride) config = mergeAtreeConfigOverride(config, localOverride);
+
+  return config;
 }
 
 export interface MemoryLoadResult<T> {
@@ -304,6 +332,114 @@ async function readRequiredMemoryJson<T>(
   return migrate(result.data);
 }
 
+async function readConfigOverrideFile(
+  projectRoot: string,
+  filePath: string,
+  options: { required: boolean }
+): Promise<AtreeConfigOverride | undefined> {
+  const absolutePath = path.resolve(filePath);
+  const relativePath = configPathLabel(projectRoot, absolutePath);
+  if (!existsSync(absolutePath)) {
+    if (!options.required) return undefined;
+    throw new RuntimeSchemaValidationError([{
+      severity: "error",
+      filePath: relativePath,
+      fieldPath: "$",
+      message: `${relativePath} does not exist.`,
+      recoveryHint: "Pass an existing JSON file to `atree scan --config`, or omit --config to use the project root atree.config.json."
+    }]);
+  }
+
+  let value: unknown;
+  try {
+    value = await readJson<unknown>(absolutePath, undefined);
+  } catch {
+    throw new RuntimeSchemaValidationError([invalidJsonIssue(relativePath, "Fix the custom Abstraction Tree config JSON.")]);
+  }
+
+  const issues = validateAtreeConfigOverrideSchema(value, relativePath);
+  if (issues.some(issue => issue.severity === "error")) {
+    throw new RuntimeSchemaValidationError(issues);
+  }
+
+  return value as AtreeConfigOverride;
+}
+
+function mergeAtreeConfigOverride(base: AtreeConfig, override: AtreeConfigOverride): AtreeConfig {
+  const {
+    version: _version,
+    createdAt: _createdAt,
+    ignored,
+    importAliases,
+    subsystemPatterns,
+    domainVocabulary,
+    conceptSignalWeights,
+    missionPlanning,
+    visualApp,
+    ...rest
+  } = override;
+
+  const merged: AtreeConfig = {
+    ...base,
+    ...rest,
+    version: base.version,
+    createdAt: base.createdAt,
+    ignored: ignored ? uniqueStrings([...base.ignored, ...ignored]) : base.ignored,
+    visualApp: visualApp ? { ...base.visualApp, ...visualApp } : base.visualApp
+  };
+
+  if (missionPlanning) merged.missionPlanning = { ...base.missionPlanning, ...missionPlanning };
+  if (importAliases) merged.importAliases = [...(base.importAliases ?? []), ...importAliases];
+  if (subsystemPatterns) merged.subsystemPatterns = mergeConfigItems(base.subsystemPatterns, subsystemPatterns, "id");
+  if (domainVocabulary) merged.domainVocabulary = mergeDomainVocabulary(base.domainVocabulary, domainVocabulary);
+  if (conceptSignalWeights) merged.conceptSignalWeights = { ...base.conceptSignalWeights, ...conceptSignalWeights };
+
+  return merged;
+}
+
+function mergeConfigItems<T extends object>(base: T[] | undefined, override: T[], key: keyof T): T[] {
+  const merged = new Map<string, T>();
+  for (const item of base ?? []) merged.set(String(item[key]), item);
+  for (const item of override) {
+    const itemKey = String(item[key]);
+    merged.set(itemKey, { ...(merged.get(itemKey) ?? {}), ...item });
+  }
+  return [...merged.values()];
+}
+
+function mergeDomainVocabulary(
+  base: AtreeConfig["domainVocabulary"] | undefined,
+  override: NonNullable<AtreeConfig["domainVocabulary"]>
+): NonNullable<AtreeConfig["domainVocabulary"]> {
+  const merged = new Map<string, NonNullable<AtreeConfig["domainVocabulary"]>[number]>();
+  for (const item of base ?? []) merged.set(item.concept.toLowerCase(), item);
+  for (const item of override) {
+    const key = item.concept.toLowerCase();
+    const existing = merged.get(key);
+    merged.set(key, existing ? {
+      ...existing,
+      ...item,
+      synonyms: uniqueStrings([...(existing.synonyms ?? []), ...item.synonyms])
+    } : item);
+  }
+  return [...merged.values()];
+}
+
+function resolveConfigPath(projectRoot: string, input: string): string {
+  const expanded = input === "~" || input.startsWith("~/") || input.startsWith("~\\")
+    ? path.join(homedir(), input.slice(2))
+    : input;
+  return path.resolve(projectRoot, expanded);
+}
+
+function configPathLabel(projectRoot: string, absolutePath: string): string {
+  const relative = path.relative(projectRoot, absolutePath);
+  if (relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative))) {
+    return normalizePath(relative || ".");
+  }
+  return normalizePath(absolutePath);
+}
+
 async function loadMemoryJson<T>(
   filePath: string,
   relativePath: string,
@@ -395,4 +531,12 @@ function recoveryHintForKind(kind: RuntimeSchemaKind): string {
 function objectRecord(value: unknown): Record<string, unknown> | undefined {
   if (typeof value !== "object" || value === null || Array.isArray(value)) return undefined;
   return value as Record<string, unknown>;
+}
+
+function uniqueStrings(values: string[]): string[] {
+  return [...new Set(values)];
+}
+
+function normalizePath(input: string): string {
+  return input.replaceAll(path.sep, "/");
 }

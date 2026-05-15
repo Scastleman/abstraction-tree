@@ -25,14 +25,15 @@ jobs:
           node-version: 20.19.x
           cache: npm
       - run: npm ci
+      - run: npm run audit:security
       - run: npm run format:check
       - run: npm run check:unicode
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run release:changelog -- --version "${{ inputs.version }}"
       - run: npm run build
+      - run: npm run package:size
       - run: npm run coverage
-      - run: npm test
       # release:dry-run includes pack:smoke so package contents and installability are checked once here.
       - run: npm run release:dry-run -- --version "${{ inputs.version }}"
       - run: npm run atree:validate

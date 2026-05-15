@@ -105,6 +105,8 @@ npm run diff:summary
 
 `atree route` is the read-only decision layer before goal planning. It recommends direct execution for small prompts, `atree goal` for complex implementation prompts, `assessment:pack` for broad strategy prompts, and manual review for risky prompts. The router never invokes Codex or the mission runner by itself.
 
+Goal-generated mission files use repository-specific inference rather than a fixed list of Abstraction Tree source files. The planner derives likely implementation, test, docs, and build surfaces from selected tree nodes, scanned file paths, package scripts, and common JS/TS, Python, Rust, Go, Java, docs-site, and Markdown-book conventions. `.abstraction-tree/config.json` can add path patterns or replace inferred build/test/docs/validation commands through `missionPlanning`.
+
 The runner discovers Markdown files recursively, excludes `README.md`, and never deletes mission files after running them. By default, it also reads `.abstraction-tree/automation/mission-runtime.json` and skips missions already listed as completed or failed. You can point it at another folder:
 
 ```bash

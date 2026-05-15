@@ -62,6 +62,12 @@
     },
     {
       "from": "packages/app/src/app.test.tsx",
+      "to": "packages/app/src/components/GoalWorkflowPanel.tsx",
+      "specifier": "./components/GoalWorkflowPanel.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/app.test.tsx",
       "to": "packages/app/src/components/InvariantPanel.tsx",
       "specifier": "./components/InvariantPanel.js",
       "kind": "relative"
@@ -107,6 +113,12 @@
       "from": "packages/app/src/App.tsx",
       "to": "packages/app/src/components/ConceptPanel.tsx",
       "specifier": "./components/ConceptPanel.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/App.tsx",
+      "to": "packages/app/src/components/GoalWorkflowPanel.tsx",
+      "specifier": "./components/GoalWorkflowPanel.js",
       "kind": "relative"
     },
     {
@@ -174,6 +186,37 @@
     },
     {
       "from": "packages/app/src/components/ConceptPanel.tsx",
+      "to": "packages/core/src/index.ts",
+      "specifier": "@abstraction-tree/core",
+      "kind": "workspace-package",
+      "packageName": "@abstraction-tree/core"
+    },
+    {
+      "from": "packages/app/src/components/GoalWorkflowPanel.tsx",
+      "to": "packages/app/src/components/CollapsibleSection.tsx",
+      "specifier": "./CollapsibleSection.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/components/GoalWorkflowPanel.tsx",
+      "to": "packages/app/src/components/DiffView.tsx",
+      "specifier": "./DiffView.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/components/GoalWorkflowPanel.tsx",
+      "to": "packages/app/src/components/Timeline.tsx",
+      "specifier": "./Timeline.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/components/GoalWorkflowPanel.tsx",
+      "to": "packages/app/src/components/WorkflowList.tsx",
+      "specifier": "./WorkflowList.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/app/src/components/GoalWorkflowPanel.tsx",
       "to": "packages/core/src/index.ts",
       "specifier": "@abstraction-tree/core",
       "kind": "workspace-package",
@@ -755,6 +798,12 @@
       "kind": "relative"
     },
     {
+      "from": "packages/core/src/importAliases.ts",
+      "to": "packages/core/src/schema.ts",
+      "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
       "from": "packages/core/src/importGraph.test.ts",
       "to": "packages/core/src/importGraph.ts",
       "specifier": "./importGraph.js",
@@ -770,6 +819,12 @@
       "from": "packages/core/src/importGraph.test.ts",
       "to": "packages/core/src/schema.ts",
       "specifier": "./schema.js",
+      "kind": "relative"
+    },
+    {
+      "from": "packages/core/src/importGraph.ts",
+      "to": "packages/core/src/importAliases.ts",
+      "specifier": "./importAliases.js",
       "kind": "relative"
     },
     {
@@ -1225,6 +1280,18 @@
       "kind": "relative"
     },
     {
+      "from": "scripts/check-package-size.mjs",
+      "to": "scripts/check-changelog.mjs",
+      "specifier": "./check-changelog.mjs",
+      "kind": "relative"
+    },
+    {
+      "from": "scripts/check-package-size.test.mjs",
+      "to": "scripts/check-package-size.mjs",
+      "specifier": "./check-package-size.mjs",
+      "kind": "relative"
+    },
+    {
       "from": "scripts/check-unicode.mjs",
       "to": "scripts/project-text-files.mjs",
       "specifier": "./project-text-files.mjs",
@@ -1452,7 +1519,32 @@
       "packageName": "react"
     },
     {
+      "from": "packages/app/src/components/CollapsibleSection.tsx",
+      "specifier": "lucide-react",
+      "packageName": "lucide-react"
+    },
+    {
+      "from": "packages/app/src/components/CollapsibleSection.tsx",
+      "specifier": "react",
+      "packageName": "react"
+    },
+    {
+      "from": "packages/app/src/components/GoalWorkflowPanel.tsx",
+      "specifier": "lucide-react",
+      "packageName": "lucide-react"
+    },
+    {
+      "from": "packages/app/src/components/GoalWorkflowPanel.tsx",
+      "specifier": "react",
+      "packageName": "react"
+    },
+    {
       "from": "packages/app/src/components/Panel.tsx",
+      "specifier": "react",
+      "packageName": "react"
+    },
+    {
+      "from": "packages/app/src/components/Timeline.tsx",
       "specifier": "react",
       "packageName": "react"
     },
@@ -1463,6 +1555,11 @@
     },
     {
       "from": "packages/app/src/components/TreeList.tsx",
+      "specifier": "react",
+      "packageName": "react"
+    },
+    {
+      "from": "packages/app/src/components/WorkflowList.tsx",
       "specifier": "react",
       "packageName": "react"
     },
@@ -1947,6 +2044,11 @@
       "packageName": "node:test"
     },
     {
+      "from": "packages/cli/src/serveHost.ts",
+      "specifier": "node:crypto",
+      "packageName": "node:crypto"
+    },
+    {
       "from": "packages/cli/src/serveProject.test.ts",
       "specifier": "node:assert/strict",
       "packageName": "node:assert/strict"
@@ -2188,13 +2290,48 @@
     },
     {
       "from": "packages/core/src/goal.test.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/goal.test.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/core/src/goal.test.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/goal.test.ts",
       "specifier": "node:test",
       "packageName": "node:test"
     },
     {
       "from": "packages/core/src/goal.ts",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
+    },
+    {
+      "from": "packages/core/src/goal.ts",
       "specifier": "node:path",
       "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/importAliases.ts",
+      "specifier": "node:fs/promises",
+      "packageName": "node:fs/promises"
+    },
+    {
+      "from": "packages/core/src/importAliases.ts",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "packages/core/src/importAliases.ts",
+      "specifier": "typescript",
+      "packageName": "typescript"
     },
     {
       "from": "packages/core/src/importGraph.test.ts",
@@ -2483,6 +2620,11 @@
     },
     {
       "from": "packages/core/src/workspace.ts",
+      "specifier": "node:os",
+      "packageName": "node:os"
+    },
+    {
+      "from": "packages/core/src/workspace.ts",
       "specifier": "node:path",
       "packageName": "node:path"
     },
@@ -2578,6 +2720,31 @@
     },
     {
       "from": "scripts/check-doc-commands.test.mjs",
+      "specifier": "node:test",
+      "packageName": "node:test"
+    },
+    {
+      "from": "scripts/check-package-size.mjs",
+      "specifier": "node:child_process",
+      "packageName": "node:child_process"
+    },
+    {
+      "from": "scripts/check-package-size.mjs",
+      "specifier": "node:path",
+      "packageName": "node:path"
+    },
+    {
+      "from": "scripts/check-package-size.mjs",
+      "specifier": "node:url",
+      "packageName": "node:url"
+    },
+    {
+      "from": "scripts/check-package-size.test.mjs",
+      "specifier": "node:assert/strict",
+      "packageName": "node:assert/strict"
+    },
+    {
+      "from": "scripts/check-package-size.test.mjs",
       "specifier": "node:test",
       "packageName": "node:test"
     },
@@ -2995,6 +3162,11 @@
       "from": "scripts/run-coverage.mjs",
       "specifier": "node:child_process",
       "packageName": "node:child_process"
+    },
+    {
+      "from": "scripts/run-coverage.mjs",
+      "specifier": "node:fs",
+      "packageName": "node:fs"
     },
     {
       "from": "scripts/run-coverage.mjs",

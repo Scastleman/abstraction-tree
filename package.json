@@ -20,6 +20,8 @@
     "format:check": "node scripts/format.mjs --check",
     "check:unicode": "node scripts/check-unicode.mjs",
     "docs:commands": "node scripts/check-doc-commands.mjs",
+    "audit:security": "npm audit --audit-level=high",
+    "package:size": "node scripts/check-package-size.mjs",
     "pack:smoke": "node scripts/pack-smoke-test.mjs",
     "release:changelog": "node scripts/check-changelog.mjs",
     "release:dry-run": "node scripts/release-dry-run.mjs",
@@ -48,5 +50,8 @@
   "engines": {
     "node": ">=20.19.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "c8": "^11.0.0"
+  }
 }

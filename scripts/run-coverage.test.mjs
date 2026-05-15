@@ -1,25 +1,40 @@
 import assert from "node:assert/strict";
 import path from "node:path";
 import test from "node:test";
-import { buildCoverageEnv, coverageDirectory, isCoverageArtifact } from "./run-coverage.mjs";
+import { buildCoverageArgs, coverageDirectory, coverageExcludes, coverageThresholds, resolveC8CliPath } from "./run-coverage.mjs";
 
-test("coverageDirectory resolves the ignored V8 coverage folder", () => {
+test("coverageDirectory resolves the ignored c8 coverage folder", () => {
   const root = path.resolve("fixture-root");
 
-  assert.equal(coverageDirectory(root), path.join(root, "coverage", "v8"));
+  assert.equal(coverageDirectory(root), path.join(root, "coverage", "c8"));
 });
 
-test("buildCoverageEnv preserves existing env while setting NODE_V8_COVERAGE", () => {
+test("resolveC8CliPath points at the project-local c8 binary", () => {
   const root = path.resolve("fixture-root");
 
-  assert.deepEqual(buildCoverageEnv(root, { EXISTING: "1" }), {
-    EXISTING: "1",
-    NODE_V8_COVERAGE: path.join(root, "coverage", "v8")
-  });
+  assert.equal(resolveC8CliPath(root), path.join(root, "node_modules", "c8", "bin", "c8.js"));
 });
 
-test("isCoverageArtifact recognizes V8 coverage files", () => {
-  assert.equal(isCoverageArtifact("coverage-123-456-0.json"), true);
-  assert.equal(isCoverageArtifact("coverage-final.json"), false);
-  assert.equal(isCoverageArtifact("README.md"), false);
+test("buildCoverageArgs enforces global c8 thresholds and report paths", () => {
+  const root = path.resolve("fixture-root");
+  const args = buildCoverageArgs(root);
+
+  assert.equal(coverageThresholds.statements, 80);
+  assert.equal(coverageThresholds.branches, 75);
+  assert.equal(coverageThresholds.functions, 80);
+  assert.equal(args.includes("--check-coverage"), true);
+  assert.equal(args.at(args.indexOf("--statements") + 1), "80");
+  assert.equal(args.at(args.indexOf("--branches") + 1), "75");
+  assert.equal(args.at(args.indexOf("--functions") + 1), "80");
+  assert.equal(args.at(args.indexOf("--lines") + 1), "80");
+  assert.equal(args.at(args.indexOf("--report-dir") + 1), path.join(root, "coverage", "c8"));
+});
+
+test("coverage excludes scripts, adapters, tests, and example fixture tests from package-source thresholds", () => {
+  assert.deepEqual(coverageExcludes, [
+    "scripts/**",
+    "adapters/**",
+    "**/*.test.*",
+    "examples/**/tests/**"
+  ]);
 });

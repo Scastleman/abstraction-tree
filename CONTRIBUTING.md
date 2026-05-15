@@ -18,18 +18,24 @@ Before opening a PR, run:
 npm ci
 npm run format:check
 npm run check:unicode
+npm run docs:commands
 npm run lint
+npm run audit:security
 npm run typecheck
 npm run build
 npm run coverage
+npm run package:size
 npm run pack:smoke
-npm test
 npm run atree:validate
 ```
 
-This is the same command sequence enforced by CI after checkout. Use `npm install` for day-to-day dependency updates, but use `npm ci` when you want to reproduce CI from a clean lockfile state.
+This mirrors the main local CI gates after checkout. CI also runs the build and coverage suite on both Ubuntu and Windows, then runs package smoke checks and a clean-checkout publish rehearsal on Ubuntu. Use `npm install` for day-to-day dependency updates, but use `npm ci` when you want to reproduce CI from a clean lockfile state.
 
-`npm run coverage` uses Node's built-in test coverage reporting against the built package artifacts and script tests. The report establishes the current baseline in CI, but there is no coverage threshold yet. `npm run pack:smoke` verifies the publishable package tarballs, installed binaries, and installed commands; it is part of CI for every PR.
+`npm run coverage` runs the full test suite through `c8` and fails when global package-source coverage drops below 80% for statements, branches, functions, or lines. The threshold excludes script wrappers, adapters, test files, and example fixture tests from the measured package-source baseline, but those tests still run. If coverage fails, add focused tests or intentionally adjust the threshold in `scripts/run-coverage.mjs` with a clear rationale.
+
+`npm run audit:security` fails on high-severity npm advisories. Upgrade, replace, or remove the vulnerable dependency before merging; only document an exception when no patched release exists and the vulnerable path is not reachable.
+
+`npm run package:size` measures compressed tarball size and installed unpacked size for each publishable package. If it fails, inspect the dry-run package file list, remove accidental artifacts, or intentionally raise the budget in `scripts/check-package-size.mjs` with release-note context. `npm run pack:smoke` verifies the publishable package tarballs, installed binaries, installed commands, and app serving path; it is part of CI for every PR.
 
 For feature work, update docs and the example project when relevant.
 

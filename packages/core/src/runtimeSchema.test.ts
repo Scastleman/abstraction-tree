@@ -10,6 +10,7 @@ import {
   formatRuntimeValidationIssue,
   migrateAtreeConfig,
   validateApiStateSchema,
+  validateAtreeConfigOverrideSchema,
   validateAtreeConfigSchema,
   validateChangeRecordSchema,
   validateConceptsSchema,
@@ -24,7 +25,28 @@ import {
 import { atreePath, defaultConfig, loadAtreeMemory, loadChangeRecords, readChangeRecords, readConfig, writeJson } from "./workspace.js";
 
 test("runtime schema accepts valid v0.1 memory shapes", () => {
-  const config = defaultConfig(process.cwd());
+  const config = {
+    ...defaultConfig(process.cwd()),
+    importAliases: [{ find: "@/*", replacement: "src/*" }],
+    subsystemPatterns: [{
+      id: "subsystem.commands",
+      title: "Commands",
+      paths: ["src/commands/**"],
+      priority: 10,
+      weight: 0.2
+    }],
+    domainVocabulary: [{
+      concept: "inventory",
+      synonyms: ["sku"],
+      weight: 5
+    }],
+    conceptSignalWeights: {
+      path: 2,
+      symbol: 4,
+      export: 5,
+      doc: 1
+    }
+  };
   const ontology = [ontologyLevel("component", 0)];
   const files = [fileSummary("src/app.ts")];
   const importGraph = importGraphRecord();
@@ -74,6 +96,41 @@ test("api state schema rejects missing app-required top-level fields", () => {
   assert.ok(issues.some(issue => issue.fieldPath === "$.invariants"));
   assert.ok(issues.some(issue => issue.fieldPath === "$.changes"));
   assert.ok(issues.some(issue => issue.fieldPath === "$.agentHealth"));
+});
+
+test("custom config override schema validates project-specific scanner settings", () => {
+  assert.deepEqual(validateAtreeConfigOverrideSchema({
+    sourceRoot: "src",
+    ignored: ["**/*.generated.ts"],
+    subsystemPatterns: [{
+      id: "subsystem.api.routes",
+      title: "API Routes",
+      paths: ["src/routes/**"],
+      imports: ["hono"],
+      minimumMatches: 1
+    }],
+    domainVocabulary: [{
+      concept: "inventory",
+      synonyms: ["sku", "stock unit"],
+      weight: 3
+    }],
+    conceptSignalWeights: {
+      symbol: 5
+    }
+  }), []);
+
+  const issues = validateAtreeConfigOverrideSchema({
+    subsystemPatterns: [{
+      id: "subsystem.bad",
+      title: "Bad"
+    }],
+    conceptSignalWeights: {
+      typo: 4
+    }
+  });
+
+  assert.ok(issues.some(issue => issue.fieldPath === "$.subsystemPatterns[0]"));
+  assert.ok(issues.some(issue => issue.fieldPath === "$.conceptSignalWeights.typo"));
 });
 
 test("loadAtreeMemory treats missing memory files as empty valid collections", async t => {
@@ -264,6 +321,12 @@ function importGraphRecord(): ImportGraph {
       to: "src/run.ts",
       specifier: "./run.js",
       kind: "relative"
+    }, {
+      from: "src/app.ts",
+      to: "src/components/Button.ts",
+      specifier: "@/components/Button",
+      kind: "alias",
+      aliasSource: "typescript:tsconfig.json"
     }],
     externalImports: [{
       from: "src/app.ts",
@@ -275,6 +338,12 @@ function importGraphRecord(): ImportGraph {
       specifier: "./missing.js",
       kind: "relative",
       reason: "Relative import could not be resolved."
+    }, {
+      from: "src/app.ts",
+      specifier: "@/missing",
+      kind: "alias",
+      aliasSource: "typescript:tsconfig.json",
+      reason: "Alias matched, but the target file was not scanned."
     }],
     cycles: [{
       files: ["src/app.ts", "src/run.ts"]

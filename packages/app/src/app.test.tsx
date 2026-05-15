@@ -6,17 +6,37 @@ import { AppExplorer, LoadError } from "./App.js";
 import { AgentHealthPanel } from "./components/AgentHealthPanel.js";
 import { ChangeHistory } from "./components/ChangeHistory.js";
 import { ConceptPanel } from "./components/ConceptPanel.js";
+import { GoalWorkflowPanel } from "./components/GoalWorkflowPanel.js";
 import { InvariantPanel } from "./components/InvariantPanel.js";
 import { NodeDetails } from "./components/NodeDetails.js";
 import { TreeList, buildTreeItems, flattenTreeItems, flattenVisibleTreeItems, moveTreeSelection } from "./components/TreeList.js";
-import { fetchAbstractionState } from "./hooks/useAbstractionState.js";
-import type { AbstractionTreeState as State, TreeNode } from "@abstraction-tree/core";
+import { fetchAbstractionState, readApiTokenFromLocation } from "./hooks/useAbstractionState.js";
+import type { AbstractionTreeState as State, TreeNode, WorkflowViewState } from "@abstraction-tree/core";
 
 test("fetchAbstractionState reports failed /api/state responses", async () => {
   await assert.rejects(
     fetchAbstractionState(async () => new Response("Unavailable", { status: 503, statusText: "Service Unavailable" })),
     /\/api\/state responded with 503 Service Unavailable/
   );
+});
+
+test("fetchAbstractionState sends bearer token when supplied", async () => {
+  let requestInit: RequestInit | undefined;
+  await fetchAbstractionState(async (_input, init) => {
+    requestInit = init;
+    return new Response(JSON.stringify(sampleState()), {
+      headers: { "content-type": "application/json" }
+    });
+  }, undefined, "network-token");
+
+  const headers = new Headers(requestInit?.headers);
+  assert.equal(headers.get("authorization"), "Bearer network-token");
+});
+
+test("readApiTokenFromLocation reads the URL fragment token", () => {
+  assert.equal(readApiTokenFromLocation({ hash: "#atree_token=network-token" }), "network-token");
+  assert.equal(readApiTokenFromLocation({ hash: "#atree_token=network-token&unused=true" }), "network-token");
+  assert.equal(readApiTokenFromLocation({ hash: "#other=value" }), undefined);
 });
 
 test("LoadError renders a useful /api/state error and retry control", () => {
@@ -26,6 +46,21 @@ test("LoadError renders a useful /api/state error and retry control", () => {
   assert.match(html, /\/api\/state responded with 500/);
   assert.match(html, /Retry/);
   assert.match(html, /role="alert"/);
+});
+
+test("LoadError renders a token form for unauthorized /api/state responses", () => {
+  const html = renderToStaticMarkup(
+    <LoadError
+      error="/api/state responded with 401 Unauthorized."
+      needsToken
+      onRetry={() => undefined}
+      onTokenSubmit={() => undefined}
+    />
+  );
+
+  assert.match(html, /API token/);
+  assert.match(html, /type="password"/);
+  assert.match(html, /Unlock/);
 });
 
 test("AppExplorer renders the selected node summary once", () => {
@@ -101,7 +136,8 @@ test("mission panels render independently", () => {
     renderToStaticMarkup(<AgentHealthPanel health={state.agentHealth} />),
     renderToStaticMarkup(<ConceptPanel concepts={state.concepts} />),
     renderToStaticMarkup(<InvariantPanel invariants={state.invariants} />),
-    renderToStaticMarkup(<ChangeHistory changes={state.changes} />)
+    renderToStaticMarkup(<ChangeHistory changes={state.changes} />),
+    renderToStaticMarkup(<GoalWorkflowPanel workflow={sampleWorkflow()} />)
   ].join("\n");
 
   assert.match(html, /Confidence/);
@@ -114,6 +150,10 @@ test("mission panels render independently", () => {
   assert.match(html, /Navigation/);
   assert.match(html, /Tree memory/);
   assert.match(html, /Visual app refactor/);
+  assert.match(html, /Goal Workspaces/);
+  assert.match(html, /Mission Plan/);
+  assert.match(html, /Scope Review/);
+  assert.match(html, /Coherence Review/);
 });
 
 test("NodeDetails starts with the selected node representation summary", () => {
@@ -124,6 +164,20 @@ test("NodeDetails starts with the selected node representation summary", () => {
   assert.ok(html.indexOf("Explanation") > html.indexOf("Root project purpose."));
   assert.ok(html.indexOf("Reason For Its Existence") > html.indexOf("Explanation"));
   assert.ok(html.indexOf("Separation Logic") > html.indexOf("Reason For Its Existence"));
+});
+
+test("GoalWorkflowPanel renders mission stages, scope filters, and report links", () => {
+  const html = renderToStaticMarkup(<GoalWorkflowPanel workflow={sampleWorkflow()} />);
+
+  assert.match(html, /Improve visual workflow/);
+  assert.match(html, /Analysis/);
+  assert.match(html, /Planning/);
+  assert.match(html, /Execution/);
+  assert.match(html, /Review/);
+  assert.match(html, /High impact/);
+  assert.match(html, /Questionable/);
+  assert.match(html, /Goal assessment/);
+  assert.match(html, /api\/artifact\?path=/);
 });
 
 function sampleState(): State {
@@ -211,6 +265,177 @@ function sampleNodes(): TreeNode[] {
     node("feature.checkout", "Checkout explorer", "feature", "Nested checkout UI.", [], "architecture.app", ["src/checkout.tsx"]),
     node("feature.search", "Search", "feature", "Search UI.", [], "architecture.app")
   ];
+}
+
+function sampleWorkflow(): WorkflowViewState {
+  return {
+    contextPacks: [{
+      id: "context.visual-workflow",
+      target: "visual workflow",
+      file: ".abstraction-tree/context-packs/context.visual-workflow.json",
+      createdAt: "2026-05-13T12:00:00.000Z",
+      stats: {
+        nodes: 2,
+        files: 3,
+        concepts: 1,
+        invariants: 1,
+        changes: 1,
+        selectedDiagnostics: 4,
+        excludedDiagnostics: 1,
+        estimatedTokens: 1200
+      }
+    }],
+    goalWorkspaces: [{
+      id: "2026-05-13-1200-visual-workflow",
+      title: "Improve visual workflow",
+      status: "planned",
+      mode: "review-required",
+      createdAt: "2026-05-13T12:00:00.000Z",
+      workspacePath: ".abstraction-tree/goals/2026-05-13-1200-visual-workflow",
+      goalPath: ".abstraction-tree/goals/2026-05-13-1200-visual-workflow/goal.md",
+      missionDirPath: ".abstraction-tree/goals/2026-05-13-1200-visual-workflow/missions",
+      summary: "Add visual support for goal workspaces.",
+      stats: {
+        affectedFileCount: 3,
+        affectedNodeCount: 1,
+        affectedConceptCount: 1,
+        invariantCount: 1,
+        plannedTaskCount: 2,
+        unresolvedItemCount: 1,
+        checkCount: 2,
+        failedCheckCount: 0
+      },
+      reports: [{
+        label: "Goal assessment",
+        path: ".abstraction-tree/goals/2026-05-13-1200-visual-workflow/goal-assessment.md",
+        kind: "markdown"
+      }, {
+        label: "Mission plan",
+        path: ".abstraction-tree/goals/2026-05-13-1200-visual-workflow/mission-plan.json",
+        kind: "json"
+      }],
+      missionStages: [{
+        id: "analysis",
+        title: "Analysis",
+        status: "complete",
+        summary: "Scope has been mapped.",
+        actions: ["Goal assessment written."],
+        contextPacks: [{
+          label: "visual workflow",
+          path: ".abstraction-tree/context-packs/context.visual-workflow.json",
+          kind: "context-pack"
+        }],
+        evidence: [{
+          label: "Goal assessment",
+          path: ".abstraction-tree/goals/2026-05-13-1200-visual-workflow/goal-assessment.md",
+          kind: "markdown"
+        }]
+      }, {
+        id: "planning",
+        title: "Planning",
+        status: "complete",
+        summary: "Two missions planned.",
+        actions: ["visual-workflow-00-scope: Map scope"],
+        contextPacks: [],
+        evidence: []
+      }, {
+        id: "execution",
+        title: "Execution",
+        status: "pending",
+        summary: "Mission execution is pending review.",
+        actions: ["not-run: npm.cmd test"],
+        contextPacks: [],
+        evidence: []
+      }, {
+        id: "review",
+        title: "Review",
+        status: "complete",
+        summary: "Coherence review written.",
+        actions: ["Coherence review written."],
+        contextPacks: [],
+        evidence: []
+      }],
+      missions: [{
+        id: "visual-workflow-00-scope",
+        title: "Map scope, invariants, and non-goals",
+        priority: "P0",
+        risk: "low",
+        dependsOn: [],
+        affectedAreas: ["app"],
+        successChecks: ["npm.cmd test"],
+        evidence: [{
+          label: "00-scope.md",
+          path: ".abstraction-tree/goals/2026-05-13-1200-visual-workflow/missions/00-scope.md",
+          kind: "mission"
+        }]
+      }],
+      scopeReviewId: "2026-05-13-1200-visual-workflow-scope",
+      coherenceReviewId: "2026-05-13-1200-visual-workflow-coherence",
+      score: 5
+    }],
+    scopeReviews: [{
+      id: "2026-05-13-1200-visual-workflow-scope",
+      status: "ready",
+      file: ".abstraction-tree/goals/2026-05-13-1200-visual-workflow/scope-contract.json",
+      prompt: "Add visual support for goal workspaces.",
+      createdAt: "2026-05-13T12:00:00.000Z",
+      workspaceId: "2026-05-13-1200-visual-workflow",
+      summary: "ready: Add visual support for goal workspaces. No scope check violations recorded.",
+      stats: {
+        selectedCount: 2,
+        excludedCount: 1,
+        questionableCount: 1,
+        violationCount: 0,
+        affectedNodeCount: 1,
+        allowedFileCount: 3
+      },
+      selections: [{
+        id: "packages/app/src/App.tsx",
+        label: "packages/app/src/App.tsx",
+        kind: "file",
+        status: "selected",
+        impact: "high",
+        reason: "Selected by affected-tree mapping."
+      }, {
+        id: "ci",
+        label: "ci",
+        kind: "area",
+        status: "excluded",
+        impact: "high",
+        reason: "Excluded because it is outside the selected scope areas."
+      }, {
+        id: "ambiguous scope",
+        label: "Scope ambiguity",
+        kind: "check",
+        status: "questionable",
+        impact: "high",
+        reason: "Clarify whether this includes mission execution."
+      }],
+      violations: [],
+      evidence: [{
+        label: "Scope contract",
+        path: ".abstraction-tree/goals/2026-05-13-1200-visual-workflow/scope-contract.json",
+        kind: "scope"
+      }]
+    }],
+    coherenceReviews: [{
+      id: "2026-05-13-1200-visual-workflow-coherence",
+      status: "planned",
+      file: ".abstraction-tree/goals/2026-05-13-1200-visual-workflow/coherence-review.md",
+      workspaceId: "2026-05-13-1200-visual-workflow",
+      summary: "Mission execution is incomplete.",
+      findings: [{
+        label: "Final verdict",
+        value: "planned",
+        tone: "warn"
+      }],
+      evidence: [{
+        label: "Coherence review",
+        path: ".abstraction-tree/goals/2026-05-13-1200-visual-workflow/coherence-review.md",
+        kind: "markdown"
+      }]
+    }]
+  };
 }
 
 function node(

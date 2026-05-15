@@ -1,6 +1,7 @@
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import type { PromptRouteResult } from "./promptRouter.js";
-import type { ChangeRecord, Concept, FileSummary, Invariant, TreeNode } from "./schema.js";
+import type { ChangeRecord, Concept, FileSummary, Invariant, MissionPlanningConfig, TreeNode } from "./schema.js";
 import type { ScopeContract } from "./scope.js";
 
 export type GoalMode = "plan-only" | "review-required" | "full-auto" | "create-pr" | "run";
@@ -22,6 +23,7 @@ export interface GoalPlanningInput {
   evaluations?: Record<string, unknown>[];
   createdAt?: Date;
   projectRoot?: string;
+  missionPlanning?: MissionPlanningConfig;
 }
 
 export interface GoalMetadata {
@@ -167,6 +169,25 @@ interface ScoredItem<T> {
   reasons: string[];
 }
 
+interface MissionPlanningProfile {
+  implementationFiles: string[];
+  testFiles: string[];
+  docFiles: string[];
+  buildFiles: string[];
+  scopeFiles: string[];
+  buildChecks: string[];
+  testChecks: string[];
+  docsChecks: string[];
+  validationChecks: string[];
+  scanChecks: string[];
+}
+
+interface PackageScript {
+  name: string;
+  command: string;
+  manifestPath: string;
+}
+
 const stopWords = new Set([
   "a",
   "an",
@@ -215,7 +236,16 @@ export function buildGoalWorkspacePlan(input: GoalPlanningInput): GoalWorkspaceP
   const selectedNodes = selectNodes(input.nodes, scoredNodes, selectedFiles);
   const selectedConcepts = topScored(scoredConcepts, 8);
   const selectedInvariants = selectInvariants(input.invariants, selectedNodes, selectedFiles, tokens);
-  const selectedLayers = inferLayers(selectedNodes.map(score => score.item), selectedFiles.map(score => score.item), tokens);
+  const baseSelectedLayers = inferLayers(selectedNodes.map(score => score.item), selectedFiles.map(score => score.item), tokens);
+  const missionProfile = buildMissionPlanningProfile({
+    files: input.files,
+    selectedFiles,
+    selectedNodes,
+    tokens,
+    projectRoot: input.projectRoot,
+    config: input.missionPlanning
+  });
+  const selectedLayers = enrichLayersFromMissionProfile(baseSelectedLayers, missionProfile);
   const affectedTree = buildAffectedTree(id, selectedNodes, selectedConcepts, selectedFiles, selectedInvariants);
   const metadata: GoalMetadata = {
     id,
@@ -235,7 +265,8 @@ export function buildGoalWorkspacePlan(input: GoalPlanningInput): GoalWorkspaceP
     selectedLayers,
     selectedFiles,
     selectedNodes,
-    tokens
+    tokens,
+    profile: missionProfile
   });
   const missionPlan = buildMissionPlan(id, createdAtIso, missionDirRelativePath, missions);
   const reviewCommands = [
@@ -351,9 +382,13 @@ function buildMissions(input: {
   selectedFiles: Array<ScoredItem<FileSummary>>;
   selectedNodes: Array<ScoredItem<TreeNode>>;
   tokens: string[];
+  profile: MissionPlanningProfile;
 }): GoalMissionFile[] {
   const group = input.goalId;
-  const relevantFiles = input.selectedFiles.map(file => normalizeRepoPath(file.item.path));
+  const relevantFiles = uniqueStable([
+    ...input.selectedFiles.map(file => file.item.path),
+    ...input.selectedNodes.flatMap(node => [...node.item.sourceFiles, ...node.item.ownedFiles])
+  ]);
   const relevantNodes = input.selectedNodes.map(node => node.item.id);
   const missionSpecs: Omit<GoalMissionSummary, "id" | "source_goal" | "parallelGroup" | "parallelGroupSafe">[] = [];
 
@@ -363,47 +398,32 @@ function buildMissions(input: {
     risk: "low",
     category: "safety",
     affectedFiles: uniqueStable([
-      ".abstraction-tree/tree.json",
-      ".abstraction-tree/invariants.json",
-      ...relevantFiles.filter(file => file.startsWith("docs/")).slice(0, 2)
+      ...input.profile.scopeFiles,
+      ...input.profile.docFiles.slice(0, 2)
     ]),
     affectedNodes: relevantNodes.slice(0, 5),
     dependsOn: [],
     expected_affected_areas: uniqueLayers(["project", ...input.selectedLayers]),
-    success_checks: ["npm run atree:validate"]
+    success_checks: input.profile.validationChecks
   });
 
-  if (needsCoreOrCliMission(input.tokens, relevantFiles)) {
-    missionSpecs.push({
-      title: "Implement bounded core and CLI workflow",
-      priority: "P1",
-      risk: "medium",
-      category: "product-value",
-      affectedFiles: uniqueStable([
-        ...relevantFiles.filter(file => file.startsWith("packages/core/") || file.startsWith("packages/cli/")).slice(0, 8),
-        "packages/core/src/goal.ts",
-        "packages/cli/src/goalCommand.ts",
-        "packages/cli/src/index.ts",
-        "package.json"
-      ]),
-      affectedNodes: relevantNodes.filter(node => /core|cli|package|architecture/u.test(node)).slice(0, 6),
-      dependsOn: [`${input.slug}-00-scope-and-invariants`],
-      expected_affected_areas: uniqueLayers(["module", "cli", "file", ...input.selectedLayers]),
-      success_checks: ["npm run build", "npm test"]
-    });
-  } else {
-    missionSpecs.push({
-      title: "Implement the smallest useful product change",
-      priority: "P1",
-      risk: "medium",
-      category: "product-value",
-      affectedFiles: uniqueStable(relevantFiles.slice(0, 10)),
-      affectedNodes: relevantNodes.slice(0, 6),
-      dependsOn: [`${input.slug}-00-scope-and-invariants`],
-      expected_affected_areas: uniqueLayers(input.selectedLayers.length ? input.selectedLayers : ["module", "file"]),
-      success_checks: ["npm run build", "npm test"]
-    });
-  }
+  missionSpecs.push({
+    title: implementationMissionTitle(input.selectedLayers, input.tokens),
+    priority: "P1",
+    risk: "medium",
+    category: "product-value",
+    affectedFiles: uniqueStable([
+      ...input.profile.implementationFiles,
+      ...input.profile.buildFiles.slice(0, 4)
+    ]),
+    affectedNodes: implementationNodes(relevantNodes),
+    dependsOn: [`${input.slug}-00-scope-and-invariants`],
+    expected_affected_areas: uniqueLayers(input.selectedLayers.length ? input.selectedLayers : ["module", "file"]),
+    success_checks: uniqueCommands([
+      ...input.profile.buildChecks,
+      ...input.profile.testChecks.slice(0, 1)
+    ])
+  });
 
   if (input.selectedLayers.includes("tests") || input.tokens.some(token => ["test", "tests", "validation", "validate", "quality"].includes(token))) {
     missionSpecs.push({
@@ -411,15 +431,11 @@ function buildMissions(input: {
       priority: "P1",
       risk: "medium",
       category: "quality",
-      affectedFiles: uniqueStable([
-        ...relevantFiles.filter(file => file.includes(".test.")).slice(0, 8),
-        "packages/core/src/goal.test.ts",
-        "packages/cli/src/goalCommand.test.ts"
-      ]),
-      affectedNodes: relevantNodes.filter(node => /test|core|cli|quality/u.test(node)).slice(0, 6),
+      affectedFiles: input.profile.testFiles,
+      affectedNodes: relevantNodes.filter(node => /test|quality|validation|spec/u.test(node)).slice(0, 6),
       dependsOn: [missionSpecs[1]?.title ? `${input.slug}-01-implementation` : `${input.slug}-00-scope-and-invariants`],
       expected_affected_areas: ["tests"],
-      success_checks: ["npm test", "npm run atree:validate"]
+      success_checks: uniqueCommands([...input.profile.testChecks, ...input.profile.validationChecks])
     });
   } else {
     missionSpecs.push({
@@ -427,15 +443,11 @@ function buildMissions(input: {
       priority: "P2",
       risk: "low",
       category: "quality",
-      affectedFiles: uniqueStable([
-        ...relevantFiles.filter(file => file.includes(".test.")).slice(0, 5),
-        "packages/core/src/goal.test.ts",
-        "packages/cli/src/goalCommand.test.ts"
-      ]),
+      affectedFiles: input.profile.testFiles,
       affectedNodes: relevantNodes.slice(0, 5),
       dependsOn: [`${input.slug}-01-implementation`],
       expected_affected_areas: ["tests"],
-      success_checks: ["npm test", "npm run atree:validate"]
+      success_checks: uniqueCommands([...input.profile.testChecks, ...input.profile.validationChecks])
     });
   }
 
@@ -445,17 +457,17 @@ function buildMissions(input: {
     risk: "low",
     category: "developer-experience",
     affectedFiles: uniqueStable([
-      ...relevantFiles.filter(file => file.endsWith(".md")).slice(0, 6),
-      "README.md",
-      "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
-      "docs/MISSION_RUNNER.md",
-      "docs/SCOPE_CONTRACTS.md",
-      "docs/ROADMAP.md"
+      ...input.profile.docFiles,
+      ...input.profile.scopeFiles.slice(0, 2)
     ]),
     affectedNodes: relevantNodes.filter(node => /docs|readme|memory|project/u.test(node)).slice(0, 6),
     dependsOn: [`${input.slug}-02-tests-and-validation`],
     expected_affected_areas: ["docs", "project"],
-    success_checks: ["npm run atree:scan", "npm run atree:validate"]
+    success_checks: uniqueCommands([
+      ...input.profile.docsChecks,
+      ...input.profile.scanChecks,
+      ...input.profile.validationChecks
+    ])
   });
 
   missionSpecs.push({
@@ -470,7 +482,7 @@ function buildMissions(input: {
     affectedNodes: relevantNodes.slice(0, 6),
     dependsOn: [`${input.slug}-03-docs-and-memory`],
     expected_affected_areas: uniqueLayers(["project", ...input.selectedLayers]),
-    success_checks: ["git diff --check", "npm run atree:validate"]
+    success_checks: uniqueCommands(["git diff --check", ...input.profile.validationChecks])
   });
 
   return missionSpecs.map((spec, index) => {
@@ -500,6 +512,366 @@ function buildMissions(input: {
       content: formatMissionMarkdown(mission, input.goalText)
     };
   });
+}
+
+function buildMissionPlanningProfile(input: {
+  files: FileSummary[];
+  selectedFiles: Array<ScoredItem<FileSummary>>;
+  selectedNodes: Array<ScoredItem<TreeNode>>;
+  tokens: string[];
+  projectRoot?: string;
+  config?: MissionPlanningConfig;
+}): MissionPlanningProfile {
+  const allPaths = input.files.map(file => normalizeRepoPath(file.path));
+  const relevantFiles = uniqueStable([
+    ...input.selectedFiles.map(file => file.item.path),
+    ...input.selectedNodes.flatMap(node => [...node.item.sourceFiles, ...node.item.ownedFiles])
+  ]);
+  const packageScripts = readPackageScripts(input.projectRoot, input.files);
+  const packageManager = detectPackageManager(input.projectRoot, input.files);
+  const configuredDocFiles = filesMatchingPatterns(allPaths, input.config?.docsPatterns ?? []);
+  const configuredTestFiles = filesMatchingPatterns(allPaths, input.config?.testPatterns ?? []);
+  const configuredBuildFiles = filesMatchingPatterns(allPaths, input.config?.buildPatterns ?? []);
+  const docFiles = prioritizedPaths([
+    ...relevantFiles.filter(file => isDocPath(file, allPaths)),
+    ...configuredDocFiles,
+    ...allPaths.filter(file => isDocPath(file, allPaths))
+  ], relevantFiles, input.tokens).slice(0, 10);
+  const testFiles = prioritizedPaths([
+    ...relevantFiles.filter(file => isTestPath(file)),
+    ...configuredTestFiles,
+    ...input.files.filter(file => file.isTest || isTestPath(file.path)).map(file => file.path)
+  ], relevantFiles, input.tokens).slice(0, 10);
+  const buildFiles = prioritizedPaths([
+    ...relevantFiles.filter(file => isBuildPath(file)),
+    ...configuredBuildFiles,
+    ...allPaths.filter(isBuildPath)
+  ], relevantFiles, input.tokens).slice(0, 8);
+  const implementationFiles = prioritizedPaths([
+    ...relevantFiles.filter(file => isImplementationPath(file, allPaths)),
+    ...allPaths.filter(file => isImplementationPath(file, allPaths))
+  ], relevantFiles, input.tokens).slice(0, 12);
+
+  return {
+    implementationFiles: withFallback(implementationFiles, fallbackImplementationFiles(allPaths)),
+    testFiles: withFallback(testFiles, ["tests"]),
+    docFiles: withFallback(docFiles, fallbackDocFiles(allPaths)),
+    buildFiles,
+    scopeFiles: [".abstraction-tree/tree.json", ".abstraction-tree/invariants.json", ".abstraction-tree/config.json"],
+    buildChecks: configuredCommands(input.config?.buildCommands) ??
+      withFallback(inferBuildChecks(input.files, packageScripts, packageManager), ["git diff --check"]),
+    testChecks: configuredCommands(input.config?.testCommands) ??
+      withFallback(inferTestChecks(input.files, packageScripts, packageManager), ["git diff --check"]),
+    docsChecks: configuredCommands(input.config?.docsCommands) ??
+      inferDocsChecks(input.files, packageScripts, packageManager),
+    validationChecks: configuredCommands(input.config?.validationCommands) ??
+      [atreeCheckCommand(packageScripts, packageManager, "validate", "npx atree validate --project . --strict")],
+    scanChecks: configuredCommands(input.config?.scanCommands) ??
+      [atreeCheckCommand(packageScripts, packageManager, "scan", "npx atree scan --project .")]
+  };
+}
+
+function enrichLayersFromMissionProfile(layers: GoalLayer[], profile: MissionPlanningProfile): GoalLayer[] {
+  return uniqueLayers([
+    ...layers,
+    profile.testFiles.length ? "tests" : "file",
+    profile.docFiles.length ? "docs" : "file"
+  ]);
+}
+
+function implementationMissionTitle(layers: GoalLayer[], tokens: string[]): string {
+  if (layers.includes("cli") || tokens.some(token => ["cli", "command", "terminal"].includes(token))) {
+    return "Implement bounded command workflow";
+  }
+  if (tokens.some(token => ["api", "endpoint", "route"].includes(token))) return "Implement bounded API workflow";
+  if (tokens.some(token => ["ui", "app", "frontend", "component"].includes(token))) return "Implement bounded application workflow";
+  return "Implement the smallest useful product change";
+}
+
+function implementationNodes(nodeIds: string[]): string[] {
+  const prioritized = nodeIds.filter(node => /architecture|module|source|service|api|cli|ui|app|feature/u.test(node));
+  return (prioritized.length ? prioritized : nodeIds).slice(0, 6);
+}
+
+function readPackageScripts(projectRoot: string | undefined, files: FileSummary[]): PackageScript[] {
+  if (!projectRoot) return [];
+  const root = path.resolve(projectRoot);
+  const scripts: PackageScript[] = [];
+  for (const manifestPath of files.map(file => normalizeRepoPath(file.path)).filter(file => path.basename(file) === "package.json").sort()) {
+    const absolutePath = resolveInsideProject(root, manifestPath);
+    if (!absolutePath) continue;
+    const manifest = readJsonRecord(absolutePath);
+    const scriptRecord = objectRecord(manifest?.scripts);
+    if (!scriptRecord) continue;
+    for (const [name, command] of Object.entries(scriptRecord)) {
+      if (typeof command === "string" && command.trim() && !isPlaceholderScript(command)) {
+        scripts.push({ name, command, manifestPath });
+      }
+    }
+  }
+  return scripts;
+}
+
+function detectPackageManager(projectRoot: string | undefined, files: FileSummary[]): "npm" | "pnpm" | "yarn" | "bun" {
+  const paths = files.map(file => normalizeRepoPath(file.path));
+  if (paths.some(file => /(^|\/)(pnpm-lock\.yaml|pnpm-workspace\.yaml)$/u.test(file))) return "pnpm";
+  if (paths.some(file => /(^|\/)bun\.lockb?$/u.test(file))) return "bun";
+  if (paths.some(file => /(^|\/)yarn\.lock$/u.test(file))) return "yarn";
+  if (projectRoot) {
+    const root = path.resolve(projectRoot);
+    const manifest = readJsonRecord(resolveInsideProject(root, "package.json") ?? "");
+    const packageManager = typeof manifest?.packageManager === "string" ? manifest.packageManager : "";
+    if (packageManager.startsWith("pnpm@")) return "pnpm";
+    if (packageManager.startsWith("yarn@")) return "yarn";
+    if (packageManager.startsWith("bun@")) return "bun";
+  }
+  return "npm";
+}
+
+function inferBuildChecks(files: FileSummary[], scripts: PackageScript[], packageManager: "npm" | "pnpm" | "yarn" | "bun"): string[] {
+  const scriptChecks = scriptChecksFor(scripts, packageManager, "build", 2);
+  if (scriptChecks.length) return scriptChecks;
+  const paths = new Set(files.map(file => normalizeRepoPath(file.path)));
+  if (paths.has("Cargo.toml")) return ["cargo build"];
+  if (paths.has("go.mod")) return ["go build ./..."];
+  if (paths.has("pom.xml")) return ["mvn package"];
+  if (paths.has("build.gradle") || paths.has("build.gradle.kts")) return ["./gradlew build"];
+  if (paths.has("pyproject.toml")) return ["python -m build"];
+  if (paths.has("Makefile")) return ["make"];
+  return [];
+}
+
+function inferTestChecks(files: FileSummary[], scripts: PackageScript[], packageManager: "npm" | "pnpm" | "yarn" | "bun"): string[] {
+  const scriptChecks = scriptChecksFor(scripts, packageManager, "test", 2);
+  if (scriptChecks.length) return scriptChecks;
+  const paths = new Set(files.map(file => normalizeRepoPath(file.path)));
+  if (paths.has("Cargo.toml")) return ["cargo test"];
+  if (paths.has("go.mod")) return ["go test ./..."];
+  if (paths.has("pom.xml")) return ["mvn test"];
+  if (paths.has("build.gradle") || paths.has("build.gradle.kts")) return ["./gradlew test"];
+  if (paths.has("book.toml") || paths.has("src/SUMMARY.md")) return ["mdbook test"];
+  if (paths.has("pyproject.toml") || paths.has("pytest.ini") || paths.has("tox.ini") || files.some(file => file.isTest || isTestPath(file.path))) {
+    return ["python -m pytest"];
+  }
+  return [];
+}
+
+function inferDocsChecks(files: FileSummary[], scripts: PackageScript[], packageManager: "npm" | "pnpm" | "yarn" | "bun"): string[] {
+  const scriptChecks = scriptChecksFor(scripts, packageManager, "docs", 1);
+  if (scriptChecks.length) return scriptChecks;
+  const paths = new Set(files.map(file => normalizeRepoPath(file.path)));
+  if (paths.has("book.toml") || paths.has("src/SUMMARY.md")) return ["mdbook build"];
+  if (paths.has("mkdocs.yml") || paths.has("mkdocs.yaml")) return ["mkdocs build"];
+  if (paths.has("docs/conf.py")) return ["sphinx-build docs docs/_build"];
+  if (paths.has("Cargo.toml")) return ["cargo doc --no-deps"];
+  return [];
+}
+
+function scriptChecksFor(
+  scripts: PackageScript[],
+  packageManager: "npm" | "pnpm" | "yarn" | "bun",
+  category: "build" | "test" | "docs",
+  limit: number
+): string[] {
+  return uniqueCommands(scripts
+    .map(script => ({ script, score: scriptScore(script.name, category) }))
+    .filter(item => item.score > 0)
+    .sort((left, right) => right.score - left.score || left.script.name.localeCompare(right.script.name))
+    .slice(0, limit)
+    .map(item => formatPackageScriptCommand(item.script, packageManager)));
+}
+
+function scriptScore(name: string, category: "build" | "test" | "docs"): number {
+  const lowerName = name.toLowerCase();
+  if (category === "test") {
+    if (lowerName === "test") return 100;
+    if (lowerName === "test:ci" || lowerName === "ci:test") return 95;
+    if (/^(test|tests)(:|$)|(:|-)test$/u.test(lowerName)) return 80;
+    if (lowerName.includes("vitest") || lowerName.includes("pytest")) return 60;
+  }
+  if (category === "build") {
+    if (lowerName === "build") return 100;
+    if (lowerName === "compile") return 90;
+    if (lowerName === "typecheck" || lowerName === "check") return 70;
+    if (/^(build|compile)(:|$)|(:|-)build$/u.test(lowerName)) return 60;
+  }
+  if (category === "docs") {
+    if (lowerName === "docs:build" || lowerName === "build:docs") return 100;
+    if (lowerName === "docs" || lowerName === "doc") return 90;
+    if (lowerName.includes("docs") || lowerName.includes("doc")) return 70;
+  }
+  return 0;
+}
+
+function formatPackageScriptCommand(script: PackageScript, packageManager: "npm" | "pnpm" | "yarn" | "bun"): string {
+  const manifestDir = path.posix.dirname(normalizeRepoPath(script.manifestPath));
+  const inRoot = manifestDir === ".";
+  if (packageManager === "pnpm") return inRoot ? `pnpm run ${script.name}` : `pnpm --dir ${manifestDir} run ${script.name}`;
+  if (packageManager === "yarn") return inRoot ? `yarn ${script.name}` : `yarn --cwd ${manifestDir} ${script.name}`;
+  if (packageManager === "bun") return inRoot ? `bun run ${script.name}` : `bun --cwd ${manifestDir} run ${script.name}`;
+  if (script.name === "test") return inRoot ? "npm test" : `npm --prefix ${manifestDir} test`;
+  return inRoot ? `npm run ${script.name}` : `npm --prefix ${manifestDir} run ${script.name}`;
+}
+
+function atreeCheckCommand(
+  scripts: PackageScript[],
+  packageManager: "npm" | "pnpm" | "yarn" | "bun",
+  action: "scan" | "validate",
+  fallback: string
+): string {
+  const script = scripts.find(candidate => candidate.manifestPath === "package.json" && candidate.name === `atree:${action}`);
+  return script ? formatPackageScriptCommand(script, packageManager) : fallback;
+}
+
+function filesMatchingPatterns(files: string[], patterns: string[]): string[] {
+  const matchers = patterns.map(simpleGlobMatcher);
+  return files.filter(file => matchers.some(matches => matches(file)));
+}
+
+function simpleGlobMatcher(pattern: string): (filePath: string) => boolean {
+  const normalized = normalizeRepoPath(pattern).replace(/^\//u, "");
+  let regex = "";
+  for (let index = 0; index < normalized.length; index += 1) {
+    if (normalized.startsWith("**/", index)) {
+      regex += "(?:.*/)?";
+      index += 2;
+    } else if (normalized.startsWith("**", index)) {
+      regex += ".*";
+      index += 1;
+    } else if (normalized[index] === "*") {
+      regex += "[^/]*";
+    } else {
+      regex += escapeRegex(normalized[index]);
+    }
+  }
+  const compiled = new RegExp(`^${regex}$`, "u");
+  return filePath => compiled.test(normalizeRepoPath(filePath));
+}
+
+function prioritizedPaths(paths: string[], relevantFiles: string[], tokens: string[]): string[] {
+  const relevant = new Set(relevantFiles.map(normalizeRepoPath));
+  return uniqueStable(paths).sort((left, right) =>
+    pathRelevanceScore(right, relevant, tokens) - pathRelevanceScore(left, relevant, tokens) ||
+    left.localeCompare(right));
+}
+
+function pathRelevanceScore(filePath: string, relevantFiles: Set<string>, tokens: string[]): number {
+  const normalized = normalizeRepoPath(filePath);
+  const pathTokens = tokenize(normalized);
+  return (relevantFiles.has(normalized) ? 10 : 0) +
+    scoreTokenOverlap(tokens, pathTokens) +
+    (path.basename(normalized).toLowerCase() === "readme.md" ? 1 : 0);
+}
+
+function fallbackImplementationFiles(files: string[]): string[] {
+  return files.filter(file => isImplementationPath(file, files)).slice(0, 5);
+}
+
+function fallbackDocFiles(files: string[]): string[] {
+  const readme = files.find(file => /^readme\./u.test(path.basename(file).toLowerCase()));
+  if (readme) return [readme];
+  const docFile = files.find(file => [".md", ".mdx", ".rst", ".adoc", ".txt"].some(extension => file.toLowerCase().endsWith(extension)));
+  return docFile ? [docFile] : ["README.md"];
+}
+
+function isImplementationPath(filePath: string, allPaths: string[]): boolean {
+  return !isDocPath(filePath, allPaths) && !isTestPath(filePath) && !isBuildPath(filePath) && !normalizeRepoPath(filePath).startsWith(".abstraction-tree/");
+}
+
+function isDocPath(filePath: string, allPaths: string[]): boolean {
+  const normalized = normalizeRepoPath(filePath);
+  const lowerPath = normalized.toLowerCase();
+  const basename = path.basename(lowerPath);
+  const hasMdBook = allPaths.includes("book.toml") || allPaths.includes("src/SUMMARY.md");
+  const docExtension = [".md", ".mdx", ".rst", ".adoc", ".txt"].some(extension => lowerPath.endsWith(extension));
+  return docExtension && (
+    lowerPath.startsWith("docs/") ||
+    lowerPath.startsWith("doc/") ||
+    lowerPath.startsWith("book/") ||
+    lowerPath.startsWith("website/") ||
+    (hasMdBook && lowerPath.startsWith("src/")) ||
+    /^(readme|changelog|contributing|roadmap)\./u.test(basename)
+  );
+}
+
+function isTestPath(filePath: string): boolean {
+  const normalized = normalizeRepoPath(filePath);
+  const basename = path.basename(normalized);
+  return /(^|\/)(__tests__|tests?|spec)\//iu.test(normalized) ||
+    /\.(test|spec)\.[cm]?[jt]sx?$/iu.test(normalized) ||
+    /^test_/iu.test(basename) ||
+    /_test\.[a-z0-9]+$/iu.test(basename);
+}
+
+function isBuildPath(filePath: string): boolean {
+  const normalized = normalizeRepoPath(filePath);
+  const basename = path.basename(normalized);
+  return [
+    "package.json",
+    "package-lock.json",
+    "pnpm-workspace.yaml",
+    "pnpm-lock.yaml",
+    "pyproject.toml",
+    "requirements.txt",
+    "setup.py",
+    "setup.cfg",
+    "tox.ini",
+    "noxfile.py",
+    "pytest.ini",
+    "Cargo.toml",
+    "Cargo.lock",
+    "go.mod",
+    "go.sum",
+    "pom.xml",
+    "build.gradle",
+    "build.gradle.kts",
+    "Makefile",
+    "mkdocs.yml",
+    "mkdocs.yaml",
+    "conf.py",
+    "book.toml"
+  ].includes(basename) || /(^|\/)(vite|vitest|webpack|rollup|tsup|tsconfig|eslint|prettier|ruff|mypy)\.config\./iu.test(normalized);
+}
+
+function configuredCommands(commands: string[] | undefined): string[] | undefined {
+  const configured = uniqueCommands(commands ?? []);
+  return configured.length ? configured : undefined;
+}
+
+function withFallback(values: string[], fallback: string[]): string[] {
+  return values.length ? values : fallback;
+}
+
+function uniqueCommands(values: string[]): string[] {
+  return [...new Set(values.map(value => value.trim()).filter(Boolean))];
+}
+
+function isPlaceholderScript(command: string): boolean {
+  return /no test specified|exit 1|todo|placeholder/iu.test(command);
+}
+
+function readJsonRecord(filePath: string): Record<string, unknown> | undefined {
+  if (!filePath || !existsSync(filePath)) return undefined;
+  try {
+    return objectRecord(JSON.parse(readFileSync(filePath, "utf8")));
+  } catch {
+    return undefined;
+  }
+}
+
+function resolveInsideProject(root: string, relativePath: string): string | undefined {
+  const absolutePath = path.resolve(root, normalizeRepoPath(relativePath));
+  const relative = path.relative(root, absolutePath);
+  if (relative.startsWith("..") || path.isAbsolute(relative)) return undefined;
+  return absolutePath;
+}
+
+function objectRecord(value: unknown): Record<string, unknown> | undefined {
+  return typeof value === "object" && value !== null && !Array.isArray(value) ? value as Record<string, unknown> : undefined;
+}
+
+function escapeRegex(value: string): string {
+  return value.replace(/[\\^$.*+?()[\]{}|]/gu, "\\$&");
 }
 
 function normalizeMissionDependencies(
@@ -603,7 +975,7 @@ function formatGoalAssessment(input: {
     summarizeGoal(input.goalText),
     "",
     "## Interpreted User Intent",
-    "Use Abstraction Tree as a prompt-to-mission compiler so complex user goals are scoped, decomposed, reviewed, and executed through existing project safety machinery.",
+    "Use the repository abstraction tree to scope the request, decompose it into bounded missions, and keep execution reviewable.",
     "",
     "## Affected Abstraction Layers",
     ...listOrNone(input.selectedLayers),
@@ -629,8 +1001,8 @@ function formatGoalAssessment(input: {
     ...listOrNone(likelyRequiredChanges(input.tokens, files)),
     "",
     "## Explicit Non-Goals",
-    "- Replacing the existing repository dogfooding loop.",
-    "- Running Codex automatically without a review gate in the first safe version.",
+    "- Replacing the repository's existing development, release, or deployment process.",
+    "- Running Codex automatically without a review gate.",
     "- Auto-pushing or auto-merging generated changes.",
     "",
     "## Risks",
@@ -940,11 +1312,14 @@ function inferLayers(
 
 function layersForFile(filePath: string): GoalLayer[] {
   const normalized = normalizeRepoPath(filePath);
+  const pathTokens = tokenize(normalized);
   const layers = new Set<GoalLayer>(["file"]);
-  if (normalized.startsWith("packages/cli/")) layers.add("cli");
-  if (normalized.startsWith("packages/core/") || normalized.startsWith("packages/app/")) layers.add("module");
-  if (normalized.endsWith(".md") || normalized.startsWith("docs/")) layers.add("docs");
-  if (normalized.includes(".test.") || normalized.includes("/test/") || normalized.includes("/tests/")) layers.add("tests");
+  if (pathTokens.some(token => ["cli", "command", "commands", "bin"].includes(token))) layers.add("cli");
+  if (pathTokens.some(token => ["src", "lib", "module", "modules", "package", "packages", "app", "backend", "frontend", "service", "services"].includes(token))) {
+    layers.add("module");
+  }
+  if (normalized.endsWith(".md") || normalized.startsWith("docs/") || normalized.startsWith("doc/")) layers.add("docs");
+  if (isTestPath(normalized)) layers.add("tests");
   if (/schema|migration|model|runtimeSchema/u.test(normalized)) layers.add("schema");
   return allLayers.filter(layer => layers.has(layer));
 }
@@ -952,12 +1327,13 @@ function layersForFile(filePath: string): GoalLayer[] {
 function likelyRequiredChanges(tokens: string[], files: string[]): string[] {
   const changes = new Set<string>();
   if (tokens.some(token => ["goal", "autopilot", "mission", "prompt"].includes(token))) {
-    changes.add("Add a deterministic goal intake and planning workflow.");
-    changes.add("Generate mission-runner-compatible mission files from a complex prompt.");
+    changes.add("Update the repository workflow that maps broad requests into bounded implementation work.");
   }
-  if (tokens.includes("cli") || tokens.includes("command")) changes.add("Expose the workflow through the CLI.");
-  if (files.some(file => file.startsWith("packages/app/"))) changes.add("Adjust the visual app only if the goal affects UI behavior.");
-  changes.add("Add tests, documentation, final reports, and durable lessons.");
+  if (tokens.includes("cli") || tokens.includes("command")) changes.add("Update the command surface or command documentation.");
+  if (files.some(file => tokenize(file).some(token => ["app", "frontend", "ui", "component"].includes(token)))) {
+    changes.add("Adjust user-facing application behavior only where the goal requires it.");
+  }
+  changes.add("Add or update tests, documentation, and project memory when the implementation changes them.");
   return [...changes];
 }
 
@@ -972,27 +1348,23 @@ function goalRisks(selectedFiles: Array<ScoredItem<FileSummary>>, layers: GoalLa
   return risks;
 }
 
-function needsCoreOrCliMission(tokens: string[], files: string[]): boolean {
-  return tokens.some(token => ["cli", "command", "goal", "autopilot", "planner", "mission", "runner"].includes(token)) ||
-    files.some(file => file.startsWith("packages/core/") || file.startsWith("packages/cli/"));
-}
-
 function confidenceFor(score: number): number {
   return Math.max(0.5, Math.min(0.95, Number((0.5 + score / 20).toFixed(2))));
 }
 
 function filePathBoost(filePath: string, goalTokens: string[]): number {
   const lowerPath = normalizeRepoPath(filePath).toLowerCase();
+  const pathTokens = tokenize(lowerPath);
   let score = 0;
-  if (goalTokens.includes("cli") && lowerPath.startsWith("packages/cli/")) score += 3;
-  if (goalTokens.includes("core") && lowerPath.startsWith("packages/core/")) score += 3;
-  if ((goalTokens.includes("app") || goalTokens.includes("ui")) && lowerPath.startsWith("packages/app/")) score += 3;
+  if (goalTokens.includes("cli") && pathTokens.some(token => ["cli", "command", "commands", "bin"].includes(token))) score += 3;
+  if (goalTokens.includes("core") && pathTokens.some(token => ["core", "src", "lib", "engine"].includes(token))) score += 3;
+  if ((goalTokens.includes("app") || goalTokens.includes("ui")) && pathTokens.some(token => ["app", "ui", "frontend", "component", "components"].includes(token))) score += 3;
   if ((goalTokens.includes("mission") || goalTokens.includes("runner")) && lowerPath.includes("mission")) score += 4;
   if ((goalTokens.includes("goal") || goalTokens.includes("autopilot")) && lowerPath.includes("goal")) score += 4;
   if ((goalTokens.includes("self") || goalTokens.includes("improvement")) && lowerPath.includes("self")) score += 2;
   if ((goalTokens.includes("scope") || goalTokens.includes("overreach")) && lowerPath.includes("scope")) score += 4;
-  if (goalTokens.includes("docs") && (lowerPath.startsWith("docs/") || lowerPath.endsWith(".md"))) score += 3;
-  if (goalTokens.includes("test") && lowerPath.includes(".test.")) score += 3;
+  if (goalTokens.includes("docs") && (lowerPath.startsWith("docs/") || lowerPath.startsWith("doc/") || lowerPath.endsWith(".md"))) score += 3;
+  if (goalTokens.includes("test") && isTestPath(lowerPath)) score += 3;
   return score;
 }
 

@@ -7,7 +7,7 @@ import test, { type TestContext } from "node:test";
 import { buildImportGraphFromFiles } from "./importGraph.js";
 import { scanProject } from "./scanner.js";
 import { buildDeterministicTree } from "./treeBuilder.js";
-import { atreePath, ensureWorkspace, readJson, writeJson } from "./workspace.js";
+import { atreePath, ensureWorkspace, readEffectiveConfig, readJson, writeJson } from "./workspace.js";
 
 test("readJson accepts JSON files with a leading BOM", async t => {
   const root = await workspace(t);
@@ -64,6 +64,54 @@ test("scan memory for a temporary project is generated from that project", async
   assert.equal(existsSync(atreePath(root, "lessons")), false);
   assert.equal(existsSync(atreePath(root, "evaluations")), false);
   assert.equal(existsSync(atreePath(root, "automation")), false);
+});
+
+test("readEffectiveConfig merges global and root custom overrides", async t => {
+  const root = await workspace(t);
+  const globalRoot = await workspace(t);
+  await ensureWorkspace(root, { projectName: "Base Project" });
+  const globalConfigPath = path.join(globalRoot, "global-atree.config.json");
+  await writeJson(globalConfigPath, {
+    ignored: ["**/*.global.ts"],
+    subsystemPatterns: [{
+      id: "subsystem.shared",
+      title: "Shared Global",
+      paths: ["src/shared/**"],
+      priority: 5
+    }],
+    domainVocabulary: [{
+      concept: "inventory",
+      synonyms: ["sku"],
+      weight: 3
+    }]
+  });
+  await writeJson(path.join(root, "atree.config.json"), {
+    projectName: "Configured Project",
+    ignored: ["**/*.local.ts"],
+    subsystemPatterns: [{
+      id: "subsystem.shared",
+      title: "Shared Local",
+      paths: ["src/local-shared/**"],
+      priority: 10
+    }],
+    conceptSignalWeights: {
+      symbol: 5
+    }
+  });
+
+  const config = await readEffectiveConfig(root, { globalConfigPath });
+
+  assert.equal(config.projectName, "Configured Project");
+  assert.ok(config.ignored.includes("**/*.global.ts"));
+  assert.ok(config.ignored.includes("**/*.local.ts"));
+  assert.equal(config.subsystemPatterns?.find(pattern => pattern.id === "subsystem.shared")?.title, "Shared Local");
+  assert.deepEqual(config.subsystemPatterns?.find(pattern => pattern.id === "subsystem.shared")?.paths, ["src/local-shared/**"]);
+  assert.equal(config.domainVocabulary?.[0]?.concept, "inventory");
+  assert.equal(config.conceptSignalWeights?.symbol, 5);
+
+  const baseOnly = await readEffectiveConfig(root, { globalConfigPath, customConfig: false });
+  assert.equal(baseOnly.projectName, "Base Project");
+  assert.equal(baseOnly.subsystemPatterns, undefined);
 });
 
 async function workspace(t: TestContext): Promise<string> {

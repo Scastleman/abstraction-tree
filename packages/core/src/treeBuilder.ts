@@ -1,5 +1,19 @@
 import path from "node:path";
-import type { AbstractionOntologyLevel, Concept, ConceptEvidence, ConceptEvidenceKind, FileSummary, ImportGraph, Invariant, TreeNode, WorkspacePackage } from "./schema.js";
+import type {
+  AbstractionOntologyLevel,
+  AtreeConfig,
+  Concept,
+  ConceptEvidence,
+  ConceptEvidenceKind,
+  ConceptSignalWeightsConfig,
+  DomainVocabularyMapping,
+  FileSummary,
+  ImportGraph,
+  Invariant,
+  SubsystemPatternConfig,
+  TreeNode,
+  WorkspacePackage
+} from "./schema.js";
 
 export interface BuildTreeResult {
   ontology: AbstractionOntologyLevel[];
@@ -11,6 +25,7 @@ export interface BuildTreeResult {
 
 export interface BuildTreeOptions {
   importGraph?: ImportGraph;
+  config?: Pick<AtreeConfig, "subsystemPatterns" | "domainVocabulary" | "conceptSignalWeights">;
 }
 
 export function buildDeterministicTree(projectName: string, files: FileSummary[], options: BuildTreeOptions = {}): BuildTreeResult {
@@ -81,7 +96,7 @@ export function buildDeterministicTree(projectName: string, files: FileSummary[]
     }
   }
 
-  const subsystemTree = inferHumanSubsystemNodes(files, levels[1], levels[2], levels[6], root.id, options.importGraph);
+  const subsystemTree = inferHumanSubsystemNodes(files, levels[1], levels[2], levels[6], root.id, options.importGraph, options.config);
   for (const subsystemNode of subsystemTree.nodes) {
     nodes.set(subsystemNode.id, subsystemNode);
     for (const sourceFile of subsystemNode.sourceFiles) {
@@ -91,7 +106,7 @@ export function buildDeterministicTree(projectName: string, files: FileSummary[]
   }
   root.children.push(...subsystemTree.roots.map(subsystemNode => subsystemNode.id), indexes.id);
 
-  const concepts = inferConcepts(files, [...nodes.values()]);
+  const concepts = inferConcepts(files, [...nodes.values()], options.config);
   for (const c of concepts) domain.children.push(`concept-node.${c.id}`);
   for (const c of concepts) {
     const cn = node(`concept-node.${c.id}`, c.title, levels[3], c.summary, domain.id);
@@ -738,14 +753,33 @@ const CONCEPT_SIGNAL_WEIGHT: Record<ConceptEvidenceKind, number> = {
   doc: 1
 };
 
-function inferConcepts(files: FileSummary[], nodes: TreeNode[]): Concept[] {
+interface ConceptVocabularyEntry {
+  concept: string;
+  synonyms: string[];
+  weight: number;
+}
+
+interface ConceptBuildOptions {
+  vocabulary: Map<string, ConceptVocabularyEntry>;
+  signalWeights?: ConceptSignalWeightsConfig;
+}
+
+function inferConcepts(
+  files: FileSummary[],
+  nodes: TreeNode[],
+  config?: Pick<AtreeConfig, "domainVocabulary" | "conceptSignalWeights">
+): Concept[] {
   const candidates = new Map<string, ConceptCandidate>();
+  const options: ConceptBuildOptions = {
+    vocabulary: buildConceptVocabulary(config?.domainVocabulary),
+    signalWeights: config?.conceptSignalWeights
+  };
 
   for (const file of files) {
     const pathSignal = isMarkdownFile(file) ? "doc" : "path";
-    addConceptTerms(candidates, conceptTerms(file.path, { sourceKind: pathSignal }), file.path, file.path, pathSignal);
-    for (const symbol of file.symbols) addConceptTerms(candidates, conceptTerms(symbol), file.path, symbol, "symbol");
-    for (const exported of file.exports) addConceptTerms(candidates, conceptTerms(exported), file.path, exported, "export");
+    addConceptTerms(candidates, conceptTerms(file.path, { sourceKind: pathSignal }), file.path, file.path, pathSignal, options);
+    for (const symbol of file.symbols) addConceptTerms(candidates, conceptTerms(symbol), file.path, symbol, "symbol", options);
+    for (const exported of file.exports) addConceptTerms(candidates, conceptTerms(exported), file.path, exported, "export", options);
   }
 
   return pruneShadowedSingleConcepts([...candidates.values()].filter(isQualityConcept))
@@ -814,6 +848,7 @@ interface HumanSubsystemSpec {
   responsibilities: string[];
   dependencies?: string[];
   confidence?: number;
+  priority?: number;
 }
 
 interface HumanSubsystemBuildResult {
@@ -836,10 +871,13 @@ function inferHumanSubsystemNodes(
   sliceLevel: TreeNode["level"],
   fileLeafLevel: TreeNode["level"],
   parentId: string,
-  importGraph?: ImportGraph
+  importGraph?: ImportGraph,
+  config?: Pick<AtreeConfig, "subsystemPatterns">
 ): HumanSubsystemBuildResult {
   const workspacePackages = importGraph?.workspacePackages ?? [];
   const specs: HumanSubsystemSpec[] = [];
+  const customSpecs = configuredHumanSubsystemSpecs(files, config?.subsystemPatterns);
+  specs.push(...customSpecs);
 
   const uiPackages = workspacePackages.filter(pkg =>
     packageLeaf(pkg) === "app" || hasAny(pkg.dependencyPackageNames, ["react", "react-dom", "vite"])
@@ -986,7 +1024,8 @@ function inferHumanSubsystemNodes(
   }
 
   const usefulSpecs = specs.filter(spec => existingFilePaths(spec.sourceFiles, files).length > 0);
-  const finalSpecs = usefulSpecs.length >= 2 ? usefulSpecs : fallbackHumanSubsystemSpecs(files);
+  const hasCustomSpecs = customSpecs.some(spec => existingFilePaths(spec.sourceFiles, files).length > 0);
+  const finalSpecs = orderHumanSubsystemSpecs(usefulSpecs.length >= 2 || hasCustomSpecs ? usefulSpecs : fallbackHumanSubsystemSpecs(files));
   const roots: TreeNode[] = [];
   const allNodes: TreeNode[] = [];
 
@@ -999,6 +1038,98 @@ function inferHumanSubsystemNodes(
   }
 
   return { roots, nodes: allNodes };
+}
+
+function configuredHumanSubsystemSpecs(files: FileSummary[], patterns: SubsystemPatternConfig[] | undefined): HumanSubsystemSpec[] {
+  const specs = new Map<string, HumanSubsystemSpec>();
+
+  for (const pattern of patterns ?? []) {
+    const sourceFiles = uniqueFilePaths(files.filter(file => fileMatchesSubsystemPattern(file, pattern)));
+    if (sourceFiles.length < (pattern.minimumMatches ?? 1)) continue;
+
+    const id = pattern.id.startsWith("subsystem.") ? pattern.id : `subsystem.${slug(pattern.id)}`;
+    const existing = specs.get(id);
+    const title = pattern.title || existing?.title || titleize(id.replace(/^subsystem\./, ""));
+    const summary = pattern.summary ?? existing?.summary ?? `Configured human subsystem inferred from custom pattern ${pattern.id}.`;
+    specs.set(id, {
+      id,
+      title,
+      summary,
+      sourceFiles: uniqueStrings([...(existing?.sourceFiles ?? []), ...sourceFiles]).sort(),
+      responsibilities: pattern.responsibilities?.length
+        ? pattern.responsibilities
+        : existing?.responsibilities ?? [`Group files matching configured subsystem pattern ${pattern.id}.`],
+      dependencies: uniqueStrings([...(existing?.dependencies ?? []), `custom-subsystem-pattern:${pattern.id}`]),
+      confidence: clampConfidence(Math.max(existing?.confidence ?? 0, 0.68 + (pattern.weight ?? 0))),
+      priority: pattern.priority ?? existing?.priority
+    });
+  }
+
+  return [...specs.values()];
+}
+
+function fileMatchesSubsystemPattern(file: FileSummary, pattern: SubsystemPatternConfig): boolean {
+  return (
+    matchesAnyPattern(file.path, pattern.paths) ||
+    matchesAnyPattern(path.basename(file.path), pattern.fileNames) ||
+    matchesAnyPattern(file.extension, normalizedExtensions(pattern.extensions)) ||
+    matchesAnyPatternArray(file.imports, pattern.imports) ||
+    matchesAnyPatternArray(file.symbols, pattern.symbols)
+  );
+}
+
+function normalizedExtensions(extensions: string[] | undefined): string[] | undefined {
+  return extensions?.map(extension => extension.startsWith(".") ? extension.toLowerCase() : `.${extension.toLowerCase()}`);
+}
+
+function matchesAnyPatternArray(values: string[] | undefined, patterns: string[] | undefined): boolean {
+  return (values ?? []).some(value => matchesAnyPattern(value, patterns));
+}
+
+function matchesAnyPattern(value: string, patterns: string[] | undefined): boolean {
+  return (patterns ?? []).some(pattern => globMatch(value, pattern));
+}
+
+function globMatch(value: string, pattern: string): boolean {
+  const normalizedValue = value.replaceAll("\\", "/").toLowerCase();
+  const normalizedPattern = pattern.replaceAll("\\", "/").toLowerCase().replace(/\/+$/u, "/**");
+  return globToRegExp(normalizedPattern).test(normalizedValue);
+}
+
+function globToRegExp(pattern: string): RegExp {
+  let regex = "^";
+  for (let index = 0; index < pattern.length; index += 1) {
+    const char = pattern[index];
+    const next = pattern[index + 1];
+    if (char === "*" && next === "*") {
+      regex += ".*";
+      index += 1;
+      continue;
+    }
+    if (char === "*") {
+      regex += "[^/]*";
+      continue;
+    }
+    if (char === "?") {
+      regex += "[^/]";
+      continue;
+    }
+    regex += escapeRegExp(char);
+  }
+  return new RegExp(`${regex}$`, "u");
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&");
+}
+
+function orderHumanSubsystemSpecs(specs: HumanSubsystemSpec[]): HumanSubsystemSpec[] {
+  if (!specs.some(spec => spec.priority !== undefined)) return specs;
+  return [...specs].sort((a, b) =>
+    (b.priority ?? 0) - (a.priority ?? 0) ||
+    (b.confidence ?? 0) - (a.confidence ?? 0) ||
+    a.title.localeCompare(b.title)
+  );
 }
 
 function fallbackHumanSubsystemSpecs(files: FileSummary[]): HumanSubsystemSpec[] {
@@ -1664,14 +1795,19 @@ function uniqueStrings(values: string[]): string[] {
   return [...new Set(values)];
 }
 
+function clampConfidence(value: number): number {
+  return Math.max(0, Math.min(1, value));
+}
+
 function addConceptTerms(
   candidates: Map<string, ConceptCandidate>,
   terms: string[],
   filePath: string,
   value: string,
-  kind: ConceptEvidenceKind
+  kind: ConceptEvidenceKind,
+  options: ConceptBuildOptions
 ) {
-  for (const term of terms) addConceptSignal(candidates, term, filePath, value, kind);
+  for (const term of terms) addConceptSignal(candidates, term, filePath, value, kind, options);
 }
 
 function addConceptSignal(
@@ -1679,29 +1815,67 @@ function addConceptSignal(
   term: string,
   filePath: string,
   value: string,
-  kind: ConceptEvidenceKind
+  kind: ConceptEvidenceKind,
+  options: ConceptBuildOptions
 ) {
-  if (!term || isStoppedConceptTerm(term)) return;
-  const score = conceptSignalScore(kind, term);
+  if (!term) return;
+  const vocabulary = options.vocabulary.get(normalizeVocabularyTerm(term));
+  if (!vocabulary && isStoppedConceptTerm(term)) return;
+  const canonicalTerm = vocabulary?.concept ?? term;
+  if (!canonicalTerm || (!vocabulary && isStoppedConceptTerm(canonicalTerm))) return;
+  const score = conceptSignalScore(kind, canonicalTerm, options.signalWeights) + (vocabulary?.weight ?? 0);
   if (score <= 0) return;
 
-  const existing = candidates.get(term) ?? {
-    term,
+  const existing = candidates.get(canonicalTerm) ?? {
+    term: canonicalTerm,
     files: new Set<string>(),
     score: 0,
     signals: new Set<ConceptEvidenceKind>(),
     tags: new Set<string>(),
     evidence: []
   };
-  const evidenceKey = conceptEvidenceKey(kind, filePath, value, term);
+  const evidenceKey = conceptEvidenceKey(kind, filePath, value, canonicalTerm);
   const hasEvidence = existing.evidence.some(evidence => conceptEvidenceKey(evidence.kind, evidence.filePath, evidence.value, evidence.term) === evidenceKey);
 
   existing.files.add(filePath);
   existing.score += score;
   existing.signals.add(kind);
+  existing.tags.add(canonicalTerm);
   existing.tags.add(term);
-  if (!hasEvidence) existing.evidence.push({ kind, filePath, value, term, score });
-  candidates.set(term, existing);
+  for (const synonym of vocabulary?.synonyms ?? []) existing.tags.add(synonym);
+  if (!hasEvidence) existing.evidence.push({ kind, filePath, value, term: canonicalTerm, score });
+  candidates.set(canonicalTerm, existing);
+}
+
+function buildConceptVocabulary(mappings: DomainVocabularyMapping[] | undefined): Map<string, ConceptVocabularyEntry> {
+  const vocabulary = new Map<string, ConceptVocabularyEntry>();
+  for (const mapping of mappings ?? []) {
+    const concept = normalizeVocabularyTerm(mapping.concept);
+    if (!concept) continue;
+    const synonyms = uniqueStrings(
+      [mapping.concept, ...mapping.synonyms]
+        .map(normalizeVocabularyTerm)
+        .filter(Boolean)
+    );
+    const entry: ConceptVocabularyEntry = {
+      concept,
+      synonyms,
+      weight: mapping.weight ?? 0
+    };
+    vocabulary.set(concept, entry);
+    for (const synonym of synonyms) vocabulary.set(synonym, entry);
+  }
+  return vocabulary;
+}
+
+function normalizeVocabularyTerm(input: string): string {
+  return input
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .map(singularizeConceptWord)
+    .filter(token => token.length >= 2 && !CONCEPT_STOP_WORDS.has(token))
+    .join(" ");
 }
 
 function conceptTerms(input: string, options: { sourceKind?: ConceptEvidenceKind } = {}): string[] {
@@ -1793,8 +1967,8 @@ function pruneShadowedSingleConcepts(candidates: ConceptCandidate[]): ConceptCan
   });
 }
 
-function conceptSignalScore(kind: ConceptEvidenceKind, term: string): number {
-  const baseScore = CONCEPT_SIGNAL_WEIGHT[kind];
+function conceptSignalScore(kind: ConceptEvidenceKind, term: string, weights?: ConceptSignalWeightsConfig): number {
+  const baseScore = weights?.[kind] ?? CONCEPT_SIGNAL_WEIGHT[kind];
   const words = term.split(/\s+/);
   const docPenalty = words.some(word => DOC_FILLER_WORDS.has(word)) ? 0.5 : 1;
   const singleGenericPenalty = words.length === 1 && SINGLE_WORD_CONCEPT_STOP_WORDS.has(words[0]) ? 0 : 1;

@@ -17,6 +17,7 @@ Use this page to choose the right document for your current task.
 | --- | --- |
 | [Architecture](ARCHITECTURE.md) | Core package, CLI, visual app, adapters, and data flow. |
 | [Data Model](DATA_MODEL.md) | `.abstraction-tree/` memory files, schema maturity, and dogfooding boundary. |
+| [Project Configuration](CONFIGURATION.md) | Custom subsystem patterns, domain vocabulary, and scan config overrides. |
 | [CI Integration](CI_INTEGRATION.md) | Deterministic CI checks and smoke workflows. |
 | [Scope Contracts](SCOPE_CONTRACTS.md) | Prompt scope creation and diff checking. |
 
@@ -41,6 +42,7 @@ Use this page to choose the right document for your current task.
 | [V1 Release Candidate Review](V1_RELEASE_CANDIDATE_REVIEW.md) | Current gate-by-gate release candidate assessment. |
 | [Beta Verification Evidence Template](release-evidence/beta-verification-template.md) | External npm verification evidence template for public beta testing. |
 | [0.2.0-beta.1 Verification Evidence](release-evidence/2026-05-14-0.2.0-beta.1-verification.md) | Completed public npm beta install verification. |
+| [Diverse Repository Beta Evaluation](release-evidence/2026-05-15-diverse-repository-beta-evaluation.md) | Internal five-repository beta scan, context, route, and quality findings. |
 
 ## Compatibility Pages
 

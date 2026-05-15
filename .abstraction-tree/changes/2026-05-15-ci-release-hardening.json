@@ -1,0 +1,33 @@
+{
+  "id": "2026-05-15-ci-release-hardening",
+  "timestamp": "2026-05-15T11:36:55.9359140-04:00",
+  "title": "Harden CI release gates",
+  "reason": "Added enforced c8 coverage thresholds, high-severity npm audit checks, package tarball and installed-size budgets, multi-OS CI testing, and a clean-checkout package rehearsal before release smoke validation.",
+  "affectedNodeIds": [
+    "subsystem.tests.quality",
+    "subsystem.tests.quality.slice.ci",
+    "subsystem.packaging.adapters",
+    "subsystem.packaging.adapters.slice.release.scripts",
+    "subsystem.docs.examples"
+  ],
+  "filesChanged": [
+    ".github/workflows/ci.yml",
+    ".github/workflows/release.yml",
+    "package.json",
+    "package-lock.json",
+    "scripts/run-coverage.mjs",
+    "scripts/run-coverage.test.mjs",
+    "scripts/check-package-size.mjs",
+    "scripts/check-package-size.test.mjs",
+    "CONTRIBUTING.md",
+    "docs/CI_INTEGRATION.md",
+    "docs/PACKAGING.md",
+    "docs/V1_RELEASE_GATE.md",
+    "docs/ARCHITECTURE.md",
+    "docs/RELEASE_RUNBOOK.md"
+  ],
+  "invariantsPreserved": [
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "medium"
+}

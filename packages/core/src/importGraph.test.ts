@@ -129,6 +129,126 @@ test("buildImportGraph resolves relative generated package artifact imports to s
   assert.deepEqual(validateImportGraphSchema(graph), []);
 });
 
+test("buildImportGraph resolves TypeScript paths aliases with baseUrl, rootDirs, and specific pattern conflicts", async t => {
+  const root = await workspace(t);
+  await mkdir(path.join(root, "src", "view"), { recursive: true });
+  await writeFile(path.join(root, "tsconfig.json"), JSON.stringify({
+    compilerOptions: {
+      baseUrl: ".",
+      rootDirs: ["src", "generated"],
+      paths: {
+        "@/*": ["src/*"],
+        "@/components/*": ["src/ui/*"],
+        "@exact": ["test-support/exact.ts"]
+      }
+    }
+  }), "utf8");
+
+  const graph = await buildImportGraph(root, [
+    file("tsconfig.json"),
+    file("src/app.ts", ["@/components/Button", "@/utils/math", "@exact"]),
+    file("src/components/Button.ts"),
+    file("src/ui/Button.ts"),
+    file("src/utils/math.ts"),
+    file("src/view/screen.ts", ["./template"]),
+    file("generated/view/template.ts"),
+    file("test-support/exact.ts")
+  ]);
+
+  assert.deepEqual(graph.edges.map(edge => [edge.from, edge.specifier, edge.to, edge.kind, edge.aliasSource]), [
+    ["src/app.ts", "@/components/Button", "src/ui/Button.ts", "alias", "typescript:tsconfig.json"],
+    ["src/app.ts", "@/utils/math", "src/utils/math.ts", "alias", "typescript:tsconfig.json"],
+    ["src/app.ts", "@exact", "test-support/exact.ts", "alias", "typescript:tsconfig.json"],
+    ["src/view/screen.ts", "./template", "generated/view/template.ts", "relative", undefined]
+  ]);
+  assert.deepEqual(graph.externalImports, []);
+  assert.deepEqual(graph.unresolvedImports, []);
+  assert.deepEqual(validateImportGraphSchema(graph), []);
+});
+
+test("buildImportGraph resolves Vite resolve.alias entries", async t => {
+  const root = await workspace(t);
+  await writeFile(path.join(root, "vite.config.ts"), `
+    import path from "node:path";
+    import { defineConfig } from "vite";
+
+    export default defineConfig({
+      resolve: {
+        alias: [
+          { find: "@", replacement: path.resolve(__dirname, "src") },
+          { find: "~icons", replacement: "/src/icons" }
+        ]
+      }
+    });
+  `, "utf8");
+
+  const graph = await buildImportGraph(root, [
+    file("vite.config.ts"),
+    file("src/main.ts", ["@/App", "~icons/logo"]),
+    file("src/App.tsx"),
+    file("src/icons/logo.ts")
+  ]);
+
+  assert.deepEqual(graph.edges.map(edge => [edge.specifier, edge.to, edge.kind, edge.aliasSource]), [
+    ["@/App", "src/App.tsx", "alias", "vite:vite.config.ts"],
+    ["~icons/logo", "src/icons/logo.ts", "alias", "vite:vite.config.ts"]
+  ]);
+  assert.deepEqual(graph.unresolvedImports, []);
+  assert.deepEqual(validateImportGraphSchema(graph), []);
+});
+
+test("buildImportGraph resolves Webpack aliases and reports matched aliases with missing targets", async t => {
+  const root = await workspace(t);
+  await writeFile(path.join(root, "webpack.config.js"), `
+    const path = require("node:path");
+    const aliases = {
+      "@shared": path.resolve(__dirname, "src/shared"),
+      "legacy$": path.resolve(__dirname, "src/legacy.ts")
+    };
+
+    module.exports = {
+      resolve: {
+        alias: aliases
+      }
+    };
+  `, "utf8");
+
+  const graph = await buildImportGraph(root, [
+    file("webpack.config.js"),
+    file("src/entry.ts", ["@shared/api", "@shared/missing", "legacy"]),
+    file("src/shared/api.ts"),
+    file("src/legacy.ts")
+  ]);
+
+  assert.deepEqual(graph.edges.map(edge => [edge.specifier, edge.to, edge.kind, edge.aliasSource]), [
+    ["@shared/api", "src/shared/api.ts", "alias", "webpack:webpack.config.js"],
+    ["legacy", "src/legacy.ts", "alias", "webpack:webpack.config.js"]
+  ]);
+  assert.deepEqual(graph.unresolvedImports.map(item => [item.specifier, item.kind, item.aliasSource]), [
+    ["@shared/missing", "alias", "webpack:webpack.config.js"]
+  ]);
+  assert.match(graph.unresolvedImports[0]?.reason ?? "", /Alias matched webpack:webpack\.config\.js/);
+  assert.deepEqual(validateImportGraphSchema(graph), []);
+});
+
+test("buildImportGraphFromFiles resolves configured alias hooks and diagnoses unconfigured alias-shaped imports", () => {
+  const graph = buildImportGraphFromFiles([
+    file("src/app.ts", ["#/thing", "~/missing"]),
+    file("src/custom/thing.ts")
+  ], {
+    importAliases: [{ find: "#/*", replacement: "src/custom/*" }]
+  });
+
+  assert.deepEqual(graph.edges.map(edge => [edge.specifier, edge.to, edge.kind, edge.aliasSource]), [
+    ["#/thing", "src/custom/thing.ts", "alias", "custom"]
+  ]);
+  assert.deepEqual(graph.unresolvedImports.map(item => [item.specifier, item.kind]), [
+    ["~/missing", "alias"]
+  ]);
+  assert.match(graph.unresolvedImports[0]?.reason ?? "", /no TypeScript paths, bundler alias, or configured importAliases/);
+  assert.deepEqual(validateImportGraphSchema(graph), []);
+});
+
 test("buildImportGraphFromFiles keeps genuinely missing relative source imports unresolved", () => {
   const graph = buildImportGraphFromFiles([
     file("scripts/check-source.test.mjs", ["../src/missing.js"]),

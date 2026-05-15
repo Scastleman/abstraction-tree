@@ -44,6 +44,7 @@ export const ATREE_CONFIG_MIGRATIONS: RuntimeMigration<AtreeConfig>[] = [{
 }];
 
 const CONFIG_HINT = "Fix .abstraction-tree/config.json or recreate it with `atree init`.";
+const CONFIG_OVERRIDE_HINT = "Fix the custom Abstraction Tree config JSON or rerun `atree scan --no-custom-config`.";
 const VERSION_HINT = "Upgrade the Abstraction Tree CLI or migrate .abstraction-tree/config.json before continuing.";
 const SCAN_HINT = "Fix the JSON shape or regenerate project memory with `atree scan`.";
 const CONTEXT_HINT = "Fix the JSON shape or regenerate this context pack with `atree context`.";
@@ -131,10 +132,50 @@ export function validateAtreeConfigSchema(value: unknown, filePath = ".abstracti
     validateArrayField(record, "abstractionOntology", filePath, "$", CONFIG_HINT, issues, validateOntologyLevel);
   }
 
+  validateOptionalAtreeConfigFields(record, filePath, "$", CONFIG_HINT, issues);
+
   const visualApp = expectRecordField(record, "visualApp", filePath, "$", CONFIG_HINT, issues);
   if (visualApp) {
     expectBoolean(visualApp, "enabled", filePath, "$.visualApp", CONFIG_HINT, issues);
     expectInteger(visualApp, "defaultPort", filePath, "$.visualApp", CONFIG_HINT, issues, { min: 1, max: 65535 });
+  }
+
+  return issues;
+}
+
+export function validateAtreeConfigOverrideSchema(value: unknown, filePath = "atree.config.json"): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const record = expectRecord(value, filePath, "$", "Config override", CONFIG_OVERRIDE_HINT, issues);
+  if (!record) return issues;
+
+  if ("version" in record && record.version !== undefined) {
+    expectString(record, "version", filePath, "$", CONFIG_OVERRIDE_HINT, issues);
+    if (typeof record.version === "string") {
+      issues.push(...validateConfigVersion(record.version, filePath, "$.version"));
+    }
+  }
+  expectOptionalString(record, "projectName", filePath, "$", CONFIG_OVERRIDE_HINT, issues);
+  if ("createdAt" in record && record.createdAt !== undefined) {
+    expectTimestamp(record, "createdAt", filePath, "$", CONFIG_OVERRIDE_HINT, issues);
+  }
+  expectOptionalString(record, "sourceRoot", filePath, "$", CONFIG_OVERRIDE_HINT, issues);
+  expectOptionalStringArray(record, "ignored", filePath, "$", CONFIG_OVERRIDE_HINT, issues);
+  expectOptionalBoolean(record, "respectGitignore", filePath, "$", CONFIG_OVERRIDE_HINT, issues);
+  expectOptionalEnum(record, "treeBuilder", ["deterministic", "llm"], filePath, "$", CONFIG_OVERRIDE_HINT, issues);
+  expectOptionalEnum(record, "installMode", ["core", "full"], filePath, "$", CONFIG_OVERRIDE_HINT, issues);
+
+  if ("abstractionOntology" in record && record.abstractionOntology !== undefined) {
+    validateArrayField(record, "abstractionOntology", filePath, "$", CONFIG_OVERRIDE_HINT, issues, validateOntologyLevel);
+  }
+
+  validateOptionalAtreeConfigFields(record, filePath, "$", CONFIG_OVERRIDE_HINT, issues);
+
+  if ("visualApp" in record && record.visualApp !== undefined) {
+    const visualApp = expectRecordField(record, "visualApp", filePath, "$", CONFIG_OVERRIDE_HINT, issues);
+    if (visualApp) {
+      expectOptionalBoolean(visualApp, "enabled", filePath, "$.visualApp", CONFIG_OVERRIDE_HINT, issues);
+      expectOptionalInteger(visualApp, "defaultPort", filePath, "$.visualApp", CONFIG_OVERRIDE_HINT, issues, { min: 1, max: 65535 });
+    }
   }
 
   return issues;
@@ -245,6 +286,11 @@ export function validateApiStateSchema(value: unknown, filePath = "/api/state"):
   const agentHealth = expectRecordField(record, "agentHealth", filePath, "$", API_STATE_HINT, issues);
   if (agentHealth) validateAgentHealth(agentHealth, filePath, "$.agentHealth", API_STATE_HINT, issues);
 
+  if ("workflow" in record && record.workflow !== undefined) {
+    const workflow = expectRecordField(record, "workflow", filePath, "$", API_STATE_HINT, issues);
+    if (workflow) validateWorkflowViewState(workflow, filePath, "$.workflow", API_STATE_HINT, issues);
+  }
+
   return issues;
 }
 
@@ -255,6 +301,204 @@ function validateNestedStateField<K extends Exclude<keyof AbstractionTreeState, 
   validate: (value: unknown, filePath: string) => ValidationIssue[]
 ): ValidationIssue[] {
   return prefixIssues(validate(record[field], filePath), `$.${field}`);
+}
+
+function validateWorkflowViewState(
+  workflow: Record<string, unknown>,
+  filePath: string,
+  fieldPath: string,
+  hint: string,
+  issues: ValidationIssue[]
+): void {
+  validateArrayField(workflow, "goalWorkspaces", filePath, fieldPath, hint, issues, validateGoalWorkspaceView);
+  validateArrayField(workflow, "scopeReviews", filePath, fieldPath, hint, issues, validateScopeReviewView);
+  validateArrayField(workflow, "coherenceReviews", filePath, fieldPath, hint, issues, validateCoherenceReviewView);
+  validateArrayField(workflow, "contextPacks", filePath, fieldPath, hint, issues, validateContextPackView);
+}
+
+function validateGoalWorkspaceView(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
+  const record = expectRecord(value, filePath, fieldPath, "Goal workspace view", hint, issues);
+  if (!record) return;
+
+  expectString(record, "id", filePath, fieldPath, hint, issues);
+  expectString(record, "title", filePath, fieldPath, hint, issues);
+  expectString(record, "status", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "mode", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "createdAt", filePath, fieldPath, hint, issues);
+  expectString(record, "workspacePath", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "goalPath", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "missionDirPath", filePath, fieldPath, hint, issues);
+  expectString(record, "summary", filePath, fieldPath, hint, issues);
+  validateWorkflowStats(record, "stats", [
+    "affectedFileCount",
+    "affectedNodeCount",
+    "affectedConceptCount",
+    "invariantCount",
+    "plannedTaskCount",
+    "unresolvedItemCount",
+    "checkCount",
+    "failedCheckCount"
+  ], filePath, fieldPath, hint, issues);
+  validateArrayField(record, "reports", filePath, fieldPath, hint, issues, validateWorkflowReference);
+  validateArrayField(record, "missionStages", filePath, fieldPath, hint, issues, validateMissionPlanStageView);
+  validateArrayField(record, "missions", filePath, fieldPath, hint, issues, validateMissionPlanItemView);
+  expectOptionalString(record, "scopeReviewId", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "coherenceReviewId", filePath, fieldPath, hint, issues);
+  expectOptionalNumber(record, "score", filePath, fieldPath, hint, issues, { min: 0 });
+}
+
+function validateMissionPlanStageView(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
+  const record = expectRecord(value, filePath, fieldPath, "Mission plan stage view", hint, issues);
+  if (!record) return;
+
+  expectEnum(record, "id", ["analysis", "planning", "execution", "review"], filePath, fieldPath, hint, issues);
+  expectString(record, "title", filePath, fieldPath, hint, issues);
+  expectEnum(record, "status", ["complete", "pending", "warning", "blocked"], filePath, fieldPath, hint, issues);
+  expectString(record, "summary", filePath, fieldPath, hint, issues);
+  expectStringArray(record, "actions", filePath, fieldPath, hint, issues);
+  validateArrayField(record, "contextPacks", filePath, fieldPath, hint, issues, validateWorkflowReference);
+  validateArrayField(record, "evidence", filePath, fieldPath, hint, issues, validateWorkflowReference);
+}
+
+function validateMissionPlanItemView(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
+  const record = expectRecord(value, filePath, fieldPath, "Mission plan item view", hint, issues);
+  if (!record) return;
+
+  expectString(record, "id", filePath, fieldPath, hint, issues);
+  expectString(record, "title", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "priority", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "risk", filePath, fieldPath, hint, issues);
+  expectStringArray(record, "dependsOn", filePath, fieldPath, hint, issues);
+  expectStringArray(record, "affectedAreas", filePath, fieldPath, hint, issues);
+  expectStringArray(record, "successChecks", filePath, fieldPath, hint, issues);
+  validateArrayField(record, "evidence", filePath, fieldPath, hint, issues, validateWorkflowReference);
+}
+
+function validateScopeReviewView(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
+  const record = expectRecord(value, filePath, fieldPath, "Scope review view", hint, issues);
+  if (!record) return;
+
+  expectString(record, "id", filePath, fieldPath, hint, issues);
+  expectString(record, "status", filePath, fieldPath, hint, issues);
+  expectString(record, "file", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "prompt", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "createdAt", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "checkedAt", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "workspaceId", filePath, fieldPath, hint, issues);
+  expectString(record, "summary", filePath, fieldPath, hint, issues);
+  validateWorkflowStats(record, "stats", [
+    "selectedCount",
+    "excludedCount",
+    "questionableCount",
+    "violationCount",
+    "affectedNodeCount",
+    "allowedFileCount"
+  ], filePath, fieldPath, hint, issues);
+  validateArrayField(record, "selections", filePath, fieldPath, hint, issues, validateScopeSelectionItem);
+  validateArrayField(record, "violations", filePath, fieldPath, hint, issues, validateScopeSelectionItem);
+  validateArrayField(record, "evidence", filePath, fieldPath, hint, issues, validateWorkflowReference);
+}
+
+function validateScopeSelectionItem(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
+  const record = expectRecord(value, filePath, fieldPath, "Scope selection item", hint, issues);
+  if (!record) return;
+
+  expectString(record, "id", filePath, fieldPath, hint, issues);
+  expectString(record, "label", filePath, fieldPath, hint, issues);
+  expectEnum(record, "kind", ["concept", "file", "invariant", "node", "area", "check"], filePath, fieldPath, hint, issues);
+  expectEnum(record, "status", ["selected", "excluded", "questionable"], filePath, fieldPath, hint, issues);
+  expectEnum(record, "impact", ["low", "medium", "high"], filePath, fieldPath, hint, issues);
+  expectString(record, "reason", filePath, fieldPath, hint, issues);
+  if ("evidence" in record && record.evidence !== undefined) {
+    validateWorkflowReference(record.evidence, filePath, `${fieldPath}.evidence`, hint, issues);
+  }
+}
+
+function validateCoherenceReviewView(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
+  const record = expectRecord(value, filePath, fieldPath, "Coherence review view", hint, issues);
+  if (!record) return;
+
+  expectString(record, "id", filePath, fieldPath, hint, issues);
+  expectString(record, "status", filePath, fieldPath, hint, issues);
+  expectString(record, "file", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "workspaceId", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "createdAt", filePath, fieldPath, hint, issues);
+  expectString(record, "summary", filePath, fieldPath, hint, issues);
+  validateArrayField(record, "findings", filePath, fieldPath, hint, issues, validateCoherenceFindingView);
+  validateArrayField(record, "evidence", filePath, fieldPath, hint, issues, validateWorkflowReference);
+}
+
+function validateCoherenceFindingView(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
+  const record = expectRecord(value, filePath, fieldPath, "Coherence finding view", hint, issues);
+  if (!record) return;
+
+  expectString(record, "label", filePath, fieldPath, hint, issues);
+  expectString(record, "value", filePath, fieldPath, hint, issues);
+  expectOptionalEnum(record, "tone", ["good", "warn", "bad"], filePath, fieldPath, hint, issues);
+}
+
+function validateContextPackView(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
+  const record = expectRecord(value, filePath, fieldPath, "Context pack view", hint, issues);
+  if (!record) return;
+
+  expectString(record, "id", filePath, fieldPath, hint, issues);
+  expectString(record, "target", filePath, fieldPath, hint, issues);
+  expectString(record, "file", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "createdAt", filePath, fieldPath, hint, issues);
+  validateWorkflowStats(record, "stats", [
+    "nodes",
+    "files",
+    "concepts",
+    "invariants",
+    "changes"
+  ], filePath, fieldPath, hint, issues);
+
+  const stats = expectRecordField(record, "stats", filePath, fieldPath, hint, issues);
+  if (stats) {
+    expectOptionalInteger(stats, "selectedDiagnostics", filePath, `${fieldPath}.stats`, hint, issues, { min: 0 });
+    expectOptionalInteger(stats, "excludedDiagnostics", filePath, `${fieldPath}.stats`, hint, issues, { min: 0 });
+    expectOptionalInteger(stats, "estimatedTokens", filePath, `${fieldPath}.stats`, hint, issues, { min: 0 });
+  }
+}
+
+function validateWorkflowReference(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
+  const record = expectRecord(value, filePath, fieldPath, "Workflow reference", hint, issues);
+  if (!record) return;
+
+  expectString(record, "label", filePath, fieldPath, hint, issues);
+  expectString(record, "path", filePath, fieldPath, hint, issues);
+  expectEnum(record, "kind", [
+    "goal",
+    "mission",
+    "report",
+    "json",
+    "markdown",
+    "context-pack",
+    "scope",
+    "tree-node",
+    "file",
+    "concept",
+    "invariant",
+    "area",
+    "check"
+  ], filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "targetId", filePath, fieldPath, hint, issues);
+}
+
+function validateWorkflowStats(
+  record: Record<string, unknown>,
+  field: string,
+  keys: string[],
+  filePath: string,
+  fieldPath: string,
+  hint: string,
+  issues: ValidationIssue[]
+): void {
+  const group = expectRecordField(record, field, filePath, fieldPath, hint, issues);
+  if (!group) return;
+  for (const key of keys) {
+    expectInteger(group, key, filePath, `${fieldPath}.${field}`, hint, issues, { min: 0 });
+  }
 }
 
 function validateAgentHealth(
@@ -360,6 +604,112 @@ function validateOntologyLevel(value: unknown, filePath: string, fieldPath: stri
   expectNumber(record, "confidence", filePath, fieldPath, hint, issues, { min: 0, max: 1 });
 }
 
+function validateMissionPlanningConfig(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
+  const record = expectRecord(value, filePath, fieldPath, "Mission planning config", hint, issues);
+  if (!record) return;
+
+  for (const field of [
+    "docsPatterns",
+    "testPatterns",
+    "buildPatterns",
+    "docsCommands",
+    "testCommands",
+    "buildCommands",
+    "validationCommands",
+    "scanCommands"
+  ]) {
+    expectOptionalStringArray(record, field, filePath, fieldPath, hint, issues);
+  }
+}
+
+function validateOptionalAtreeConfigFields(
+  record: Record<string, unknown>,
+  filePath: string,
+  fieldPath: string,
+  hint: string,
+  issues: ValidationIssue[]
+): void {
+  if ("missionPlanning" in record && record.missionPlanning !== undefined) {
+    validateMissionPlanningConfig(record.missionPlanning, filePath, `${fieldPath}.missionPlanning`, hint, issues);
+  }
+
+  if ("importAliases" in record && record.importAliases !== undefined) {
+    validateArrayField(record, "importAliases", filePath, fieldPath, hint, issues, validateImportAliasPattern);
+  }
+
+  if ("subsystemPatterns" in record && record.subsystemPatterns !== undefined) {
+    validateArrayField(record, "subsystemPatterns", filePath, fieldPath, hint, issues, validateSubsystemPatternConfig);
+  }
+
+  if ("domainVocabulary" in record && record.domainVocabulary !== undefined) {
+    validateArrayField(record, "domainVocabulary", filePath, fieldPath, hint, issues, validateDomainVocabularyMapping);
+  }
+
+  if ("conceptSignalWeights" in record && record.conceptSignalWeights !== undefined) {
+    validateConceptSignalWeightsConfig(record.conceptSignalWeights, filePath, `${fieldPath}.conceptSignalWeights`, hint, issues);
+  }
+}
+
+function validateImportAliasPattern(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
+  const record = expectRecord(value, filePath, fieldPath, "Import alias pattern", hint, issues);
+  if (!record) return;
+
+  expectString(record, "find", filePath, fieldPath, hint, issues);
+  expectString(record, "replacement", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "source", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "configPath", filePath, fieldPath, hint, issues);
+}
+
+function validateSubsystemPatternConfig(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
+  const record = expectRecord(value, filePath, fieldPath, "Subsystem pattern", hint, issues);
+  if (!record) return;
+
+  expectString(record, "id", filePath, fieldPath, hint, issues);
+  expectString(record, "title", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "summary", filePath, fieldPath, hint, issues);
+  for (const field of ["paths", "fileNames", "imports", "symbols", "extensions", "responsibilities"]) {
+    expectOptionalStringArray(record, field, filePath, fieldPath, hint, issues);
+  }
+  if ("priority" in record && record.priority !== undefined) {
+    expectNumber(record, "priority", filePath, fieldPath, hint, issues);
+  }
+  if ("weight" in record && record.weight !== undefined) {
+    expectNumber(record, "weight", filePath, fieldPath, hint, issues, { min: 0 });
+  }
+  expectOptionalInteger(record, "minimumMatches", filePath, fieldPath, hint, issues, { min: 1 });
+
+  const selectorFields = ["paths", "fileNames", "imports", "symbols", "extensions"];
+  const hasSelector = selectorFields.some(field => Array.isArray(record[field]) && (record[field] as unknown[]).length > 0);
+  if (!hasSelector) {
+    issues.push(runtimeIssue(filePath, fieldPath, "Subsystem patterns must include at least one selector: paths, fileNames, imports, symbols, or extensions.", hint));
+  }
+}
+
+function validateDomainVocabularyMapping(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
+  const record = expectRecord(value, filePath, fieldPath, "Domain vocabulary mapping", hint, issues);
+  if (!record) return;
+
+  expectString(record, "concept", filePath, fieldPath, hint, issues);
+  expectStringArray(record, "synonyms", filePath, fieldPath, hint, issues);
+  if ("weight" in record && record.weight !== undefined) {
+    expectNumber(record, "weight", filePath, fieldPath, hint, issues, { min: 0 });
+  }
+}
+
+function validateConceptSignalWeightsConfig(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
+  const record = expectRecord(value, filePath, fieldPath, "Concept signal weights", hint, issues);
+  if (!record) return;
+
+  const allowed = new Set(["path", "symbol", "export", "doc"]);
+  for (const field of Object.keys(record)) {
+    if (!allowed.has(field)) {
+      issues.push(runtimeIssue(filePath, `${fieldPath}.${field}`, `Unsupported concept signal weight ${field}.`, hint));
+      continue;
+    }
+    expectNumber(record, field, filePath, fieldPath, hint, issues, { min: 0 });
+  }
+}
+
 function validateTreeNode(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
   const record = expectRecord(value, filePath, fieldPath, "Tree node", hint, issues);
   if (!record) return;
@@ -409,8 +759,9 @@ function validateImportGraphEdge(value: unknown, filePath: string, fieldPath: st
   expectString(record, "from", filePath, fieldPath, hint, issues);
   expectString(record, "to", filePath, fieldPath, hint, issues);
   expectString(record, "specifier", filePath, fieldPath, hint, issues);
-  expectEnum(record, "kind", ["relative", "workspace-package"], filePath, fieldPath, hint, issues);
+  expectEnum(record, "kind", ["relative", "workspace-package", "alias"], filePath, fieldPath, hint, issues);
   expectOptionalString(record, "packageName", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "aliasSource", filePath, fieldPath, hint, issues);
 }
 
 function validateExternalImport(value: unknown, filePath: string, fieldPath: string, hint: string, issues: ValidationIssue[]): void {
@@ -428,8 +779,9 @@ function validateUnresolvedImport(value: unknown, filePath: string, fieldPath: s
 
   expectString(record, "from", filePath, fieldPath, hint, issues);
   expectString(record, "specifier", filePath, fieldPath, hint, issues);
-  expectEnum(record, "kind", ["relative", "workspace-package"], filePath, fieldPath, hint, issues);
+  expectEnum(record, "kind", ["relative", "workspace-package", "alias"], filePath, fieldPath, hint, issues);
   expectOptionalString(record, "packageName", filePath, fieldPath, hint, issues);
+  expectOptionalString(record, "aliasSource", filePath, fieldPath, hint, issues);
   expectString(record, "reason", filePath, fieldPath, hint, issues);
 }
 
@@ -918,6 +1270,19 @@ function expectNumber(
   const value = record[field];
   if (typeof value === "number" && Number.isFinite(value) && inRange(value, options)) return;
   issues.push(runtimeIssue(filePath, `${fieldPath}.${field}`, `Expected ${field} to be a finite number${rangeLabel(options)}.`, recoveryHint));
+}
+
+function expectOptionalNumber(
+  record: Record<string, unknown>,
+  field: string,
+  filePath: string,
+  fieldPath: string,
+  recoveryHint: string,
+  issues: ValidationIssue[],
+  options: { min?: number; max?: number } = {}
+): void {
+  if (!(field in record) || record[field] === undefined) return;
+  expectNumber(record, field, filePath, fieldPath, recoveryHint, issues, options);
 }
 
 function inRange(value: number, options: { min?: number; max?: number }): boolean {

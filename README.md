@@ -41,6 +41,8 @@ npx atree serve --open
 
 `atree init` creates a blank project-local `.abstraction-tree/` workspace. It does not copy this repository's dogfooding memory. `atree scan` generates tree, file, concept, invariant, and change memory from the target project's own files.
 
+Projects with custom layouts can add `atree.config.json` at the repository root, or use `atree scan --config <path>`, to tune subsystem patterns and domain vocabulary. See [Project Configuration](docs/CONFIGURATION.md).
+
 In this repository today:
 
 ```bash
@@ -117,7 +119,14 @@ It should only show this repository's dogfooding memory when this repository is 
 
 At startup, `serve` prints the resolved project root, project name, memory counts, and warnings for unscanned memory or accidental serving of this repository's dogfooding memory. Check those lines when replacing an existing preview; the browser should show the same project name as the startup summary.
 
-Use `--host 0.0.0.0` only when you intentionally want LAN access; the CLI prints a risk warning for wildcard or non-loopback hosts.
+Use `--host 0.0.0.0` only when you intentionally want LAN access. Loopback hosts such as `127.0.0.1` work without extra configuration. Wildcard or other non-loopback hosts refuse to start unless `/api/state` authentication is configured with `--token` or `ATREE_SERVE_TOKEN`:
+
+```bash
+npx atree serve --host 0.0.0.0 --token "choose-a-long-random-token"
+# or set ATREE_SERVE_TOKEN in your shell and omit --token
+```
+
+Network clients must send the token as `Authorization: Bearer <token>` when requesting `/api/state`. In the browser app, open the URL with a fragment such as `http://<host>:4317/#atree_token=<token>` or enter the token when the app prompts after a 401 response. Do not commit or share the token beyond the session that needs network access.
 
 ## Development
 

@@ -13,6 +13,7 @@ import {
   formatRuntimeValidationIssue,
   writeEvaluationReport,
   readConfig,
+  readEffectiveConfig,
   readChangeRecords,
   readConcepts,
   readFileSummaries,
@@ -25,7 +26,7 @@ import {
   type ChangeRecord,
   type InstallMode
 } from "@abstraction-tree/core";
-import { loadApiAgentHealth, loadApiState } from "./apiState.js";
+import { loadApiAgentHealth, loadApiArtifact, loadApiState } from "./apiState.js";
 import { runChangePruneGeneratedCommand, runChangeReviewCommand } from "./changeReviewCommand.js";
 import { collectValidationIssues, doctorExitCode, findVisualAppDist, formatDoctorReport, runDoctor } from "./doctor.js";
 import { runGoalCommand } from "./goalCommand.js";
@@ -33,7 +34,7 @@ import { formatMigrationResult, migrationExitCode, runMigrateCommand } from "./m
 import { openBrowser } from "./openBrowser.js";
 import { runProposeCommand } from "./propose.js";
 import { runRouteCommand } from "./routeCommand.js";
-import { browserServeUrl, formatServeUrl, selectServeHost } from "./serveHost.js";
+import { browserServeUrl, formatServeUrl, isServeRequestAuthorized, selectServeAuth, selectServeHost } from "./serveHost.js";
 import { buildServeProjectSummary, formatServeProjectSummary } from "./serveProject.js";
 import { formatInitGuidance, formatScanGuidance } from "./setupGuidance.js";
 import { runScopeCheckCommand, runScopeCreateCommand } from "./scopeCommand.js";
@@ -90,13 +91,23 @@ program.command("mode")
 program.command("scan")
   .description("[stable] Scan files and build deterministic abstraction memory")
   .option("-p, --project <path>", "project root")
+  .option("--config <path>", "custom config override JSON path; defaults to project root atree.config.json when present")
+  .option("--no-custom-config", "ignore global, root, and --config custom configuration")
   .action(async opts => {
     const root = projectPath(opts.project);
     await ensureWorkspace(root);
-    const config = await readConfig(root);
-    const scan = await scanProject(root);
-    const importGraph = await buildImportGraph(root, scan.files);
-    const built = buildDeterministicTree(config.projectName, scan.files, { importGraph });
+    if (opts.config && opts.customConfig === false) {
+      console.error("Use either --config or --no-custom-config, not both.");
+      process.exitCode = 1;
+      return;
+    }
+    const config = await readEffectiveConfig(root, {
+      configPath: opts.config,
+      customConfig: opts.customConfig !== false
+    });
+    const scan = await scanProject(root, { config });
+    const importGraph = await buildImportGraph(root, scan.files, { importAliases: config.importAliases });
+    const built = buildDeterministicTree(config.projectName, scan.files, { importGraph, config });
     await writeJson(atreePath(root, "files.json"), built.files);
     await writeJson(atreePath(root, "import-graph.json"), importGraph);
     await writeJson(atreePath(root, "ontology.json"), built.ontology);
@@ -366,12 +377,19 @@ program.command("serve")
   .option("-p, --project <path>", "project root")
   .option("--port <number>", "port; defaults to config visualApp.defaultPort or 4317")
   .option("--host <host>", "host to bind; defaults to 127.0.0.1")
+  .option("--token <token>", "bearer token required for /api/state; required for non-loopback hosts")
   .option("--open", "open the visual app in the default browser after the server starts")
   .action(async opts => {
     const root = projectPath(opts.project);
+    const { host, warning } = selectServeHost(opts.host);
+    const auth = selectServeAuth(host, opts.token);
+    if (auth.error) {
+      console.error(auth.error);
+      process.exitCode = 1;
+      return;
+    }
     const config = await readConfig(root);
     const port = Number(opts.port ?? config.visualApp?.defaultPort ?? 4317);
-    const { host, warning } = selectServeHost(opts.host);
     const appDist = findVisualAppDist();
     if (!appDist) {
       console.error("The visual app is not installed or has not been built.");
@@ -389,14 +407,44 @@ program.command("serve")
     const server = createServer(async (req, res) => {
       if (!req.url) return res.end();
       if (req.url.startsWith("/api/state")) {
+        if (!isServeRequestAuthorized(req.headers.authorization, auth.token)) {
+          res.statusCode = 401;
+          res.setHeader("content-type", "application/json");
+          res.setHeader("www-authenticate", "Bearer");
+          res.end(JSON.stringify({ error: "Unauthorized /api/state request." }));
+          return;
+        }
         const state = await loadApiState(root, projectRoot => loadApiAgentHealth(projectRoot, collectValidationIssues));
         res.setHeader("content-type", "application/json");
         res.end(JSON.stringify(state));
         return;
       }
+      if (req.url.startsWith("/api/artifact")) {
+        if (!isServeRequestAuthorized(req.headers.authorization, auth.token)) {
+          res.statusCode = 401;
+          res.setHeader("content-type", "application/json");
+          res.setHeader("www-authenticate", "Bearer");
+          res.end(JSON.stringify({ error: "Unauthorized /api/artifact request." }));
+          return;
+        }
+        const requestUrl = new URL(req.url, "http://127.0.0.1");
+        const artifact = await loadApiArtifact(root, requestUrl.searchParams.get("path") ?? "");
+        if (!artifact) {
+          res.statusCode = 404;
+          res.setHeader("content-type", "application/json");
+          res.end(JSON.stringify({ error: "Artifact not found or not allowed." }));
+          return;
+        }
+        res.setHeader("content-type", artifact.contentType);
+        res.end(artifact.text);
+        return;
+      }
       serveStatic(req, res, () => fallback(res));
     });
     if (warning) console.warn(warning);
+    if (auth.token) {
+      console.log("API state authentication enabled. Send `Authorization: Bearer <token>` or open the app with `#atree_token=<token>`.");
+    }
     server.listen(port, host, () => {
       const appUrl = formatServeUrl(host, port);
       const openUrl = browserServeUrl(host, port);

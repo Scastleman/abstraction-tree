@@ -1,0 +1,39 @@
+{
+  "id": "2026-05-15-dynamic-goal-mission-planning",
+  "timestamp": "2026-05-15T11:18:32.8925910-04:00",
+  "title": "Make goal mission planning repository-aware",
+  "reason": "Refactored goal-generated mission files to infer implementation, test, docs, build files, and checks from the target repository abstraction tree, manifests, language conventions, and missionPlanning config overrides.",
+  "affectedNodeIds": [
+    "subsystem.goal.mission.automation",
+    "subsystem.goal.mission.automation.slice.prompt.goal.planning",
+    "subsystem.goal.mission.automation.file.packages.core.src.goal.ts",
+    "subsystem.goal.mission.automation.file.docs.goal.driven.mission.workflow.md",
+    "subsystem.goal.mission.automation.file.docs.mission.runner.md",
+    "subsystem.cli.local.api.slice.commands",
+    "subsystem.cli.local.api.file.packages.cli.src.goalcommand.ts",
+    "subsystem.core.engine.slice.memory.quality",
+    "subsystem.core.engine.file.packages.core.src.runtimeschema.ts",
+    "subsystem.core.engine.file.packages.core.src.schema.ts",
+    "subsystem.tests.quality.file.packages.core.src.goal.test.ts",
+    "subsystem.tests.quality.file.packages.cli.src.goalcommand.test.ts"
+  ],
+  "filesChanged": [
+    "packages/core/src/goal.ts",
+    "packages/core/src/goal.test.ts",
+    "packages/core/src/schema.ts",
+    "packages/core/src/runtimeSchema.ts",
+    "packages/cli/src/goalCommand.ts",
+    "packages/cli/src/goalCommand.test.ts",
+    "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+    "docs/MISSION_RUNNER.md",
+    ".abstraction-tree/files.json",
+    ".abstraction-tree/tree.json",
+    ".abstraction-tree/concepts.json",
+    ".abstraction-tree/invariants.json",
+    ".abstraction-tree/import-graph.json"
+  ],
+  "invariantsPreserved": [
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "medium"
+}
