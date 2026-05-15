@@ -1,0 +1,36 @@
+{
+  "id": "2026-05-15-context-quality-benchmarks",
+  "timestamp": "2026-05-15T18:00:00.000Z",
+  "title": "Add context-quality benchmark fixtures",
+  "reason": "Turn the diverse-repository beta findings into deterministic local fixtures that assert expected context-pack and route file inclusions without network access.",
+  "affectedNodeIds": [
+    "architecture.core.engine",
+    "module.docs",
+    "module.packages",
+    "subsystem.core.engine",
+    "subsystem.core.engine.slice.memory.quality",
+    "subsystem.docs.examples",
+    "subsystem.docs.examples.slice.guides",
+    "subsystem.memory.validation.logs",
+    "subsystem.memory.validation.logs.slice.validation.evaluation",
+    "subsystem.tests.quality",
+    "subsystem.tests.quality.slice.core.tests"
+  ],
+  "filesChanged": [
+    "docs/release-evidence/2026-05-15-diverse-repository-beta-evaluation.md",
+    "examples/context-quality-benchmarks/README.md",
+    "examples/context-quality-benchmarks/vite-lite/.abstraction-tree/evaluation-fixture.json",
+    "examples/context-quality-benchmarks/click-lite/.abstraction-tree/evaluation-fixture.json",
+    "examples/context-quality-benchmarks/fd-lite/.abstraction-tree/evaluation-fixture.json",
+    "examples/context-quality-benchmarks/rust-book-lite/.abstraction-tree/evaluation-fixture.json",
+    "examples/context-quality-benchmarks/mern-lite/.abstraction-tree/evaluation-fixture.json",
+    "packages/core/src/context.test.ts",
+    "packages/core/src/evaluator.test.ts",
+    "packages/core/src/evaluator.ts"
+  ],
+  "invariantsPreserved": [
+    "invariant.tests-reflect-behavior",
+    "invariant.tree-updated-after-change"
+  ],
+  "risk": "medium"
+}

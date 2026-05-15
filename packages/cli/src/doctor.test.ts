@@ -79,7 +79,13 @@ test("doctor warns when external projects contain Abstraction Tree dogfooding me
 
   assert.equal(report.status, "warning");
   assert.equal(checkStatus(report, "self-memory-contamination"), "warning");
-  assert.ok(report.checks.find(check => check.id === "self-memory-contamination")?.issues?.[0]?.message.includes("dogfooding memory"));
+  const contaminationCheck = report.checks.find(check => check.id === "self-memory-contamination");
+  assert.ok(contaminationCheck?.issues?.[0]?.message.includes("dogfooding memory"));
+  assert.ok(contaminationCheck?.issues?.[0]?.message.includes("Hard evidence:"));
+  assert.deepEqual(contaminationCheck?.details?.markers, [
+    "config projectName is abstraction-tree",
+    "memory owns Abstraction Tree source files: packages/core/src/treeBuilder.ts"
+  ]);
 });
 
 test("doctor does not warn when an external project merely documents Abstraction Tree commands", async t => {
@@ -107,6 +113,27 @@ test("doctor does not warn when an external project merely documents Abstraction
   await writeJson(atreePath(root, "tree.json"), built.nodes);
   await writeJson(atreePath(root, "concepts.json"), built.concepts);
   await writeJson(atreePath(root, "invariants.json"), built.invariants);
+
+  const report = await runDoctor(root, doctorOptions);
+
+  assert.equal(checkStatus(report, "self-memory-contamination"), "ok");
+});
+
+test("doctor does not warn for book-like projects with generic subsystem ids", async t => {
+  const root = await workspace(t);
+  await writeFile(path.join(root, "package.json"), "{\"name\":\"external-book\"}\n", "utf8");
+  await mkdir(path.join(root, "src"), { recursive: true });
+  await mkdir(path.join(root, "docs"), { recursive: true });
+  await mkdir(path.join(root, "cli"), { recursive: true });
+  await writeFile(path.join(root, "README.md"), "# External Book\n\nA documentation-heavy project.\n", "utf8");
+  await writeFile(path.join(root, "src", "SUMMARY.md"), "# Summary\n\n- [Ownership](ownership.md)\n", "utf8");
+  await writeFile(path.join(root, "docs", "mission-guide.md"), "# Mission Guide\n\nDocs for a local mission workflow.\n", "utf8");
+  await writeFile(path.join(root, "cli", "local-api.ts"), "import http from \"node:http\";\nexport const server = http.createServer();\n", "utf8");
+  const built = await writeDeterministicMemory(root, "external-book");
+  assert.ok(built.nodes.some(node => node.id === "subsystem.goal.mission.automation"));
+  assert.ok(built.nodes.some(node => node.id === "subsystem.cli.local.api"));
+  await writeHealthyAutomationFiles(root);
+  await writeJson(atreePath(root, "evaluations", "local-evaluation.json"), minimalEvaluationReport());
 
   const report = await runDoctor(root, doctorOptions);
 
@@ -167,17 +194,18 @@ async function workspace(t: TestContext): Promise<string> {
   return root;
 }
 
-async function writeDeterministicMemory(projectRoot: string) {
-  await ensureWorkspace(projectRoot, { projectName: "Doctor Fixture" });
+async function writeDeterministicMemory(projectRoot: string, projectName = "Doctor Fixture") {
+  await ensureWorkspace(projectRoot, { projectName });
   const scan = await scanProject(projectRoot);
   const importGraph = await buildImportGraph(projectRoot, scan.files);
-  const built = buildDeterministicTree("Doctor Fixture", scan.files, { importGraph });
+  const built = buildDeterministicTree(projectName, scan.files, { importGraph });
   await writeJson(atreePath(projectRoot, "files.json"), built.files);
   await writeJson(atreePath(projectRoot, "import-graph.json"), importGraph);
   await writeJson(atreePath(projectRoot, "ontology.json"), built.ontology);
   await writeJson(atreePath(projectRoot, "tree.json"), built.nodes);
   await writeJson(atreePath(projectRoot, "concepts.json"), built.concepts);
   await writeJson(atreePath(projectRoot, "invariants.json"), built.invariants);
+  return built;
 }
 
 async function writeHealthyAutomationFiles(projectRoot: string) {
@@ -216,4 +244,42 @@ async function cleanRuntimeBoundaryGit(args: string[]): Promise<Awaited<ReturnTy
 
 function checkStatus(report: Awaited<ReturnType<typeof runDoctor>>, id: string): string | undefined {
   return report.checks.find(check => check.id === id)?.status;
+}
+
+function minimalEvaluationReport() {
+  return {
+    timestamp: "2026-05-15T00:00:00.000Z",
+    tree: {
+      nodeCount: 1,
+      orphanNodeCount: 0,
+      nodesWithoutSummaries: 0,
+      filesWithoutOwners: 0
+    },
+    context: {
+      lastPackCount: 0,
+      averageFilesPerPack: 0,
+      averageConceptsPerPack: 0,
+      possibleOverBroadPacks: 0
+    },
+    drift: {
+      staleFileCount: 0,
+      missingFileCount: 0
+    },
+    runs: {
+      runReportCount: 0,
+      successCount: 0,
+      partialCount: 0,
+      failedCount: 0,
+      noOpCount: 0
+    },
+    lessons: {
+      lessonCount: 0,
+      duplicateLessonCandidates: 0
+    },
+    automation: {
+      runtimeStateIgnored: true,
+      configValid: true
+    },
+    issues: []
+  };
 }

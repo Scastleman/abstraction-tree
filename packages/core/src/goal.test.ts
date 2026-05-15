@@ -3,7 +3,7 @@ import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test, { type TestContext } from "node:test";
-import { buildGoalWorkspacePlan, type Concept, type FileSummary, type Invariant, type TreeNode } from "./index.js";
+import { buildGoalWorkspacePlan, routePrompt, type Concept, type FileSummary, type Invariant, type TreeNode } from "./index.js";
 
 test("goal planner creates deterministic goal workspace artifacts", () => {
   const plan = buildGoalWorkspacePlan({
@@ -56,6 +56,35 @@ test("goal planner writes create-pr planning body without execution claims", () 
   assert.ok(plan.prBodyMarkdown);
   assert.match(plan.prBodyMarkdown ?? "", /# Goal-Driven Abstraction Tree PR/);
   assert.match(plan.prBodyMarkdown ?? "", /None\. This PR body was prepared after deterministic planning only\./);
+});
+
+test("goal planner carries route-estimated files into affected tree and missions", () => {
+  const goalText = "Add subscription billing with Stripe checkout, webhooks, user plans, tests, and docs.";
+  const route = routePrompt({
+    prompt: goalText,
+    nodes: fixtureNodes(),
+    files: fixtureFiles(),
+    concepts: fixtureConcepts(),
+    invariants: fixtureInvariants()
+  });
+  const plan = buildGoalWorkspacePlan({
+    goalText,
+    goalFile: "goal.md",
+    mode: "plan-only",
+    createdAt: new Date(2026, 4, 13, 9, 45),
+    nodes: fixtureNodes(),
+    files: fixtureFiles(),
+    concepts: fixtureConcepts(),
+    invariants: fixtureInvariants()
+  });
+  const affectedFiles = new Set(plan.affectedTree.affected_files.map(file => file.path));
+  const missionFiles = new Set(plan.missions.flatMap(mission => mission.mission.affectedFiles));
+
+  for (const filePath of route.estimatedFiles.filter(filePath => filePath.startsWith("packages/"))) {
+    assert.ok(affectedFiles.has(filePath), `affected tree missing route file ${filePath}`);
+    assert.ok(missionFiles.has(filePath), `missions missing route file ${filePath}`);
+  }
+  assert.ok(plan.affectedTree.affected_files.some(file => file.reason.includes("Route evidence selected this file.")));
 });
 
 test("goal planner derives mission shapes for external repository conventions", async t => {

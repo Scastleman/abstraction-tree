@@ -1,0 +1,7 @@
+{
+  "name": "vite",
+  "type": "module",
+  "exports": {
+    ".": "./src/node/plugin.ts"
+  }
+}

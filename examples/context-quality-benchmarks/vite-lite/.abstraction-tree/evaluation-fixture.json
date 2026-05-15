@@ -1,0 +1,48 @@
+{
+  "expectedContextPacks": [
+    {
+      "name": "Vite plugin container module resolution",
+      "category": "large-js-ts-monorepo",
+      "target": "Implement plugin container module resolution workflow across server plugin graph tests and docs",
+      "expectedFilePaths": [
+        "docs/guide/api-plugin.md",
+        "packages/vite/src/node/plugin.ts",
+        "packages/vite/src/node/server/mixedModuleGraph.ts",
+        "packages/vite/src/node/server/pluginContainer.ts"
+      ],
+      "expectedTreeNodeIds": [
+        "file.packages.vite.src.node.server.plugincontainer.ts",
+        "module.packages"
+      ]
+    },
+    {
+      "name": "Vite plugin container tight budget",
+      "category": "large-js-ts-monorepo",
+      "target": "tight budget plugin container module resolution",
+      "maxTokens": 4000,
+      "expectedFilePaths": [
+        "packages/vite/src/node/plugin.ts"
+      ],
+      "expectedTreeNodeIds": [
+        "file.packages.vite.src.node.server.plugincontainer.ts"
+      ]
+    }
+  ],
+  "expectedRoutes": [
+    {
+      "name": "Vite plugin container route",
+      "category": "large-js-ts-monorepo",
+      "prompt": "Implement plugin container module resolution workflow across server plugin graph tests and docs",
+      "expectedDecision": "goal-driven",
+      "expectedFilePaths": [
+        "docs/guide/api-plugin.md",
+        "packages/vite/src/node/plugin.ts",
+        "packages/vite/src/node/server/mixedModuleGraph.ts",
+        "packages/vite/src/node/server/pluginContainer.ts"
+      ],
+      "expectedTreeNodeIds": [
+        "file.packages.vite.src.node.server.plugincontainer.ts"
+      ]
+    }
+  ]
+}

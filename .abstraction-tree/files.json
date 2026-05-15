@@ -287,7 +287,11 @@
     "contentHash": "a0ecb14766f2b0f55c235009cb60d9e0907f490473ced5d69c2d2cb95eb5ba0d",
     "sizeBytes": 5032,
     "lines": 97,
-    "imports": [],
+    "imports": [
+      "docs/AGENT_PROTOCOL.md",
+      "docs/PACKAGING.md",
+      "README.md"
+    ],
     "exports": [],
     "symbols": [
       "Contributing",
@@ -299,7 +303,7 @@
       "md"
     ],
     "isTest": false,
-    "summary": "CONTRIBUTING.md is a Markdown implementation file. Defines Contributing, Dogfooding memory, Automation files, PR checklist, Related docs.",
+    "summary": "CONTRIBUTING.md is a Markdown implementation file. Defines Contributing, Dogfooding memory, Automation files, PR checklist, Related docs. Depends on docs/AGENT_PROTOCOL.md, docs/PACKAGING.md, README.md.",
     "ownedByNodeIds": [
       "file.contributing.md",
       "module.root"
@@ -349,8 +353,8 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "9a70121eb564b9608ad595e9682d41208f49f8c523a8de00181524afdf7ed154",
-    "sizeBytes": 13424,
+    "contentHash": "40c4c9e1771336e0b6863f51d777d0b2e444aabe799f55a8c8f027f109b97b25",
+    "sizeBytes": 13482,
     "lines": 157,
     "imports": [],
     "exports": [],
@@ -478,25 +482,37 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "bc18e9b46aad616cbeb1843bb3e97309d3ab7b854f700887f8ce0c143bcf5195",
-    "sizeBytes": 2942,
-    "lines": 88,
+    "contentHash": "79c727abac0676d97a57a300560fc3345b087e2942e17318bda3d1f0cea27b5d",
+    "sizeBytes": 8735,
+    "lines": 176,
     "imports": [],
     "exports": [],
     "symbols": [
+      "profile",
+      "and",
       "SubsystemPatternConfig",
       "DomainVocabularyMapping",
       "ConceptSignalWeightsConfig",
+      "AtreeBuiltInProfileName",
       "Project Configuration",
+      "Built-In Repo-Type Profiles",
+      "Workspace Package Discovery",
+      "Built-In Python Heuristics",
+      "Built-In Rust Heuristics",
+      "Built-In Go Heuristics",
+      "Built-In Documentation Book Heuristics",
       "Example",
       "Type Shape",
       "config",
+      "json",
+      "rust",
+      "parser",
       "api",
       "route",
       "domain"
     ],
     "isTest": false,
-    "summary": "CONFIGURATION.md is a Markdown implementation file. Defines SubsystemPatternConfig, DomainVocabularyMapping, ConceptSignalWeightsConfig, Project Configuration, Example.",
+    "summary": "CONFIGURATION.md is a Markdown implementation file. Defines profile, and, SubsystemPatternConfig, DomainVocabularyMapping, ConceptSignalWeightsConfig.",
     "ownedByNodeIds": [
       "file.docs.configuration.md",
       "module.docs",
@@ -510,10 +526,12 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "5fb36858d742722185e9627f5c54385fcd2a74376f95c6d3b2600a11c2f155f4",
-    "sizeBytes": 12063,
-    "lines": 194,
-    "imports": [],
+    "contentHash": "a230d6ff29c908fcd1c3b58db7f9ff49d7e0e7ff667902d5252cc051408d1aef",
+    "sizeBytes": 13969,
+    "lines": 212,
+    "imports": [
+      "CONFIGURATION.md"
+    ],
     "exports": [],
     "symbols": [
       "definitions",
@@ -530,10 +548,11 @@
       "`changes/`",
       "`context-packs/`",
       "`/api/state`",
+      "artifacts",
       "config"
     ],
     "isTest": false,
-    "summary": "DATA_MODEL.md is a Markdown implementation file. Defines definitions, Data Model, Workspace ownership, `config.json`, Schema migrations.",
+    "summary": "DATA_MODEL.md is a Markdown implementation file. Defines definitions, Data Model, Workspace ownership, `config.json`, Schema migrations. Depends on CONFIGURATION.md.",
     "ownedByNodeIds": [
       "file.docs.data.model.md",
       "module.docs",
@@ -553,13 +572,33 @@
     "contentHash": "15a96f8b8a13d3070f1c86f2b5b0a19c20e26162d298aca97a25bf1f85dd07f3",
     "sizeBytes": 2143,
     "lines": 29,
-    "imports": [],
+    "imports": [
+      "README.md",
+      "GETTING_STARTED.md",
+      "STABLE_VS_EXPERIMENTAL.md",
+      "VISUAL_DEMO.md",
+      "../README.md",
+      "GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "MISSION_RUNNER.md",
+      "SCOPE_CONTRACTS.md",
+      "ASSESSMENT_PACKS.md",
+      "EXPERIMENTAL_DOGFOODING_LOOP.md",
+      "AGENT_PROTOCOL.md",
+      "DATA_MODEL.md",
+      "ARCHITECTURE.md",
+      "PACKAGING.md",
+      "CI_INTEGRATION.md",
+      "ROADMAP.md",
+      "MAINTAINER_NOTES.md",
+      "GOAL_DRIVEN_AUTOPILOT.md",
+      "FULL_SELF_IMPROVEMENT_LOOP.md"
+    ],
     "exports": [],
     "symbols": [
       "Documentation Index"
     ],
     "isTest": false,
-    "summary": "DOCS_INDEX.md is a Markdown implementation file. Defines Documentation Index.",
+    "summary": "DOCS_INDEX.md is a Markdown implementation file. Defines Documentation Index. Depends on README.md, GETTING_STARTED.md, STABLE_VS_EXPERIMENTAL.md, VISUAL_DEMO.md.",
     "ownedByNodeIds": [
       "file.docs.docs.index.md",
       "module.docs",
@@ -576,7 +615,9 @@
     "contentHash": "e15fff149a27190652d48d62f56155155848a3db5fcdca52775f7978d407f0f4",
     "sizeBytes": 3946,
     "lines": 93,
-    "imports": [],
+    "imports": [
+      "GOAL_DRIVEN_MISSION_WORKFLOW.md"
+    ],
     "exports": [],
     "symbols": [
       "Experimental Dogfooding Loop",
@@ -590,7 +631,7 @@
       "md"
     ],
     "isTest": false,
-    "summary": "EXPERIMENTAL_DOGFOODING_LOOP.md is a Markdown implementation file. Defines Experimental Dogfooding Loop, What The Loop Does, Safer Starting Point, Pack-Only Mode, External Mission Mode.",
+    "summary": "EXPERIMENTAL_DOGFOODING_LOOP.md is a Markdown implementation file. Defines Experimental Dogfooding Loop, What The Loop Does, Safer Starting Point, Pack-Only Mode, External Mission Mode. Depends on GOAL_DRIVEN_MISSION_WORKFLOW.md.",
     "ownedByNodeIds": [
       "file.docs.experimental.dogfooding.loop.md",
       "module.docs",
@@ -633,14 +674,17 @@
     "contentHash": "d1b6f42c8696d739f5a8ef0b6ea5f5017d3693110af2ec0c87853422fbad48ec",
     "sizeBytes": 525,
     "lines": 12,
-    "imports": [],
+    "imports": [
+      "GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "EXPERIMENTAL_DOGFOODING_LOOP.md"
+    ],
     "exports": [],
     "symbols": [
       "Experimental Dogfooding Loop",
       "md"
     ],
     "isTest": false,
-    "summary": "FULL_SELF_IMPROVEMENT_LOOP.md is a Markdown implementation file. Defines Experimental Dogfooding Loop, md.",
+    "summary": "FULL_SELF_IMPROVEMENT_LOOP.md is a Markdown implementation file. Defines Experimental Dogfooding Loop, md. Depends on GOAL_DRIVEN_MISSION_WORKFLOW.md, EXPERIMENTAL_DOGFOODING_LOOP.md.",
     "ownedByNodeIds": [
       "file.docs.full.self.improvement.loop.md",
       "module.docs",
@@ -660,7 +704,14 @@
     "contentHash": "571e536a82dfa7ebd2d87d6e38b626010135dd6eb98afbd02887d27e5a64f5c0",
     "sizeBytes": 4482,
     "lines": 155,
-    "imports": [],
+    "imports": [
+      "STABLE_VS_EXPERIMENTAL.md",
+      "VISUAL_DEMO.md",
+      "DATA_MODEL.md",
+      "ARCHITECTURE.md",
+      "PACKAGING.md",
+      "V1_RELEASE_GATE.md"
+    ],
     "exports": [],
     "symbols": [
       "Getting Started",
@@ -683,7 +734,7 @@
       "dot"
     ],
     "isTest": false,
-    "summary": "GETTING_STARTED.md is a Markdown implementation file. Defines Getting Started, Prerequisites, Option A: Use Repo-Local Commands, Option B: Use Public Beta Packages, Scan the Included Example.",
+    "summary": "GETTING_STARTED.md is a Markdown implementation file. Defines Getting Started, Prerequisites, Option A: Use Repo-Local Commands, Option B: Use Public Beta Packages, Scan the Included Example. Depends on STABLE_VS_EXPERIMENTAL.md, VISUAL_DEMO.md, DATA_MODEL.md, ARCHITECTURE.md.",
     "ownedByNodeIds": [
       "file.docs.getting.started.md",
       "module.docs",
@@ -700,14 +751,16 @@
     "contentHash": "5182cca624603b745434170896b22cdcf3719ed0642edf70d02a1f26a5dab203",
     "sizeBytes": 574,
     "lines": 12,
-    "imports": [],
+    "imports": [
+      "GOAL_DRIVEN_MISSION_WORKFLOW.md"
+    ],
     "exports": [],
     "symbols": [
       "Goal-Driven Mission Workflow",
       "md"
     ],
     "isTest": false,
-    "summary": "GOAL_DRIVEN_AUTOPILOT.md is a Markdown implementation file. Defines Goal-Driven Mission Workflow, md.",
+    "summary": "GOAL_DRIVEN_AUTOPILOT.md is a Markdown implementation file. Defines Goal-Driven Mission Workflow, md. Depends on GOAL_DRIVEN_MISSION_WORKFLOW.md.",
     "ownedByNodeIds": [
       "file.docs.goal.driven.autopilot.md",
       "module.docs",
@@ -794,7 +847,9 @@
     "contentHash": "21ca097f02b962233ee6fa147ab66858767c0608e87219f187e9a6a25e950702",
     "sizeBytes": 14431,
     "lines": 304,
-    "imports": [],
+    "imports": [
+      "MAINTAINER_NOTES.md"
+    ],
     "exports": [],
     "symbols": [
       "Mission Runner",
@@ -815,6 +870,8 @@
       "Git Ignore",
       "Abstraction Tree Memory",
       "Maintainer Notes",
+      "```md",
+      "parallelGroup: cli-security",
       "md",
       "json",
       "mjs",
@@ -825,7 +882,7 @@
       "pid"
     ],
     "isTest": false,
-    "summary": "MISSION_RUNNER.md is a Markdown implementation file. Defines Mission Runner, Role in Complex Prompt Implementation, Mission Folder, Goal-Generated Mission Folders, Frontmatter.",
+    "summary": "MISSION_RUNNER.md is a Markdown implementation file. Defines Mission Runner, Role in Complex Prompt Implementation, Mission Folder, Goal-Generated Mission Folders, Frontmatter. Depends on MAINTAINER_NOTES.md.",
     "ownedByNodeIds": [
       "file.docs.mission.runner.md",
       "module.docs",
@@ -845,7 +902,12 @@
     "contentHash": "54d0d781697859c5be036c8d411f6ec4b9fa38f9ec91c83e8c9eb1e8e61e63d6",
     "sizeBytes": 9249,
     "lines": 248,
-    "imports": [],
+    "imports": [
+      "RELEASE_RUNBOOK.md",
+      "release-evidence/beta-verification-template.md",
+      "release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
+      "V1_RELEASE_GATE.md"
+    ],
     "exports": [],
     "symbols": [
       "Packaging and install modes",
@@ -865,7 +927,7 @@
       "json"
     ],
     "isTest": false,
-    "summary": "PACKAGING.md is a Markdown implementation file. Defines Packaging and install modes, Core-only package, Full package, Recommended Setup Flow, Source of truth.",
+    "summary": "PACKAGING.md is a Markdown implementation file. Defines Packaging and install modes, Core-only package, Full package, Recommended Setup Flow, Source of truth. Depends on RELEASE_RUNBOOK.md, release-evidence/beta-verification-template.md, release-evidence/2026-05-14-0.2.0-beta.1-verification.md, V1_RELEASE_GATE.md.",
     "ownedByNodeIds": [
       "file.docs.packaging.md",
       "module.docs",
@@ -882,7 +944,33 @@
     "contentHash": "5bb344b601d2d57e0a69c2068c8c3b6c4a618e2b0083a37a12042d544c5c9dba",
     "sizeBytes": 3181,
     "lines": 52,
-    "imports": [],
+    "imports": [
+      "GETTING_STARTED.md",
+      "VISUAL_DEMO.md",
+      "STABLE_VS_EXPERIMENTAL.md",
+      "V1_RELEASE_GATE.md",
+      "ARCHITECTURE.md",
+      "DATA_MODEL.md",
+      "CONFIGURATION.md",
+      "CI_INTEGRATION.md",
+      "SCOPE_CONTRACTS.md",
+      "AGENT_PROTOCOL.md",
+      "GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "MISSION_RUNNER.md",
+      "ASSESSMENT_PACKS.md",
+      "EXPERIMENTAL_DOGFOODING_LOOP.md",
+      "PACKAGING.md",
+      "RELEASE_RUNBOOK.md",
+      "ROADMAP.md",
+      "MAINTAINER_NOTES.md",
+      "V1_RELEASE_CANDIDATE_REVIEW.md",
+      "release-evidence/beta-verification-template.md",
+      "release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
+      "release-evidence/2026-05-15-diverse-repository-beta-evaluation.md",
+      "GOAL_DRIVEN_AUTOPILOT.md",
+      "FULL_SELF_IMPROVEMENT_LOOP.md",
+      "DOCS_INDEX.md"
+    ],
     "exports": [],
     "symbols": [
       "Abstraction Tree Docs",
@@ -910,7 +998,12 @@
     "contentHash": "219476e3e875aaf980c36b2c16807e2a9367538b224d7fb568fcdeb4dde0d30b",
     "sizeBytes": 6010,
     "lines": 148,
-    "imports": [],
+    "imports": [
+      "V1_RELEASE_GATE.md",
+      "VISUAL_DEMO.md",
+      "release-evidence/beta-verification-template.md",
+      "release-evidence/2026-05-14-0.2.0-beta.1-verification.md"
+    ],
     "exports": [],
     "symbols": [
       "Release Runbook",
@@ -924,7 +1017,7 @@
       "md"
     ],
     "isTest": false,
-    "summary": "RELEASE_RUNBOOK.md is a Markdown implementation file. Defines Release Runbook, Current Candidate, Preflight, Screenshot Freshness, Manual Publish.",
+    "summary": "RELEASE_RUNBOOK.md is a Markdown implementation file. Defines Release Runbook, Current Candidate, Preflight, Screenshot Freshness, Manual Publish. Depends on V1_RELEASE_GATE.md, VISUAL_DEMO.md, release-evidence/beta-verification-template.md, release-evidence/2026-05-14-0.2.0-beta.1-verification.md.",
     "ownedByNodeIds": [
       "file.docs.release.runbook.md",
       "module.docs",
@@ -965,13 +1058,75 @@
     ]
   },
   {
+    "path": "docs/release-evidence/2026-05-15-current-gate.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "fe552a555baefde82bc45e75d7d93d37e471070b4ce845d086aa36d50e5c67dd",
+    "sizeBytes": 70432,
+    "lines": 1385,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "Current Release Gate Evidence",
+      "Run Metadata",
+      "Environment",
+      "Git Status Before",
+      "main...origin/main",
+      "Command Summary",
+      "Git Status After",
+      "Command Outputs",
+      "npm run format:check",
+      "npm run check:unicode",
+      "npm run docs:commands",
+      "npm run lint",
+      "npm run audit:security",
+      "npm run typecheck",
+      "npm run build",
+      "npm run coverage",
+      "npm run package:size",
+      "npm run pack:smoke",
+      "npm run release:dry-run -- --version 0.2.0-beta.1",
+      "npm run atree:scan",
+      "npm run atree:validate",
+      "npm run atree:evaluate",
+      "npm run atree -- doctor --project . --strict",
+      "npm run diff:summary",
+      "Diff Summary Since Last Commit",
+      "Totals",
+      "Dangerous Changes",
+      "Possible Overreach",
+      "Files",
+      "md",
+      "windows",
+      "json",
+      "tsx",
+      "ts",
+      "mjs",
+      "html",
+      "css",
+      "js",
+      "alias",
+      "ps1"
+    ],
+    "isTest": false,
+    "summary": "2026-05-15-current-gate.md is a Markdown implementation file. Defines Current Release Gate Evidence, Run Metadata, Environment, Git Status Before, main...origin/main.",
+    "ownedByNodeIds": [
+      "file.docs.release.evidence.2026.05.15.current.gate.md",
+      "module.docs",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.guides",
+      "subsystem.docs.examples.file.docs.release.evidence.2026.05.15.current.gate.md"
+    ]
+  },
+  {
     "path": "docs/release-evidence/2026-05-15-diverse-repository-beta-evaluation.md",
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "fbb8a599fdf033f9cc93b4e938d127cc452d344e5ac6c6ce2852b0bdb5c2c565",
-    "sizeBytes": 11919,
-    "lines": 195,
+    "contentHash": "3050a430582b9a4dd8cbc4c38345f4f45966a40139f32d287a8a8d30f79eeedd",
+    "sizeBytes": 12490,
+    "lines": 205,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -993,6 +1148,7 @@
       "Gap: pnpm workspaces are not detected",
       "Gap: non-JS architecture inference is thin",
       "Gap: context selection can lose concrete edit files",
+      "Benchmark Follow-up",
       "Overall Assessment",
       "js",
       "cmd",
@@ -1045,14 +1201,16 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "c227f6f38836b54d3f22dd2c6e4563096ae6ad1afb17d184c317bd8d4dffc304",
-    "sizeBytes": 5633,
+    "contentHash": "0933b8df0d5bbbdb08abbcb02386a6126914c9b2d7b0da3b4d906cdcbb7e9466",
+    "sizeBytes": 5720,
     "lines": 76,
-    "imports": [],
+    "imports": [
+      "V1_RELEASE_GATE.md",
+      "V1_RELEASE_CANDIDATE_REVIEW.md"
+    ],
     "exports": [],
     "symbols": [
       "and",
-      "views",
       "Roadmap",
       "Implemented",
       "Current Limitations",
@@ -1061,7 +1219,7 @@
       "md"
     ],
     "isTest": false,
-    "summary": "ROADMAP.md is a Markdown implementation file. Defines and, views, Roadmap, Implemented, Current Limitations.",
+    "summary": "ROADMAP.md is a Markdown implementation file. Defines and, Roadmap, Implemented, Current Limitations, Next Priorities. Depends on V1_RELEASE_GATE.md, V1_RELEASE_CANDIDATE_REVIEW.md.",
     "ownedByNodeIds": [
       "file.docs.roadmap.md",
       "module.docs",
@@ -1078,9 +1236,9 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "26e640da7ba4d69cd7b5a0f8e149bfe0e15ac37b126b8e1c1f45b9ac38099a62",
-    "sizeBytes": 2796,
-    "lines": 80,
+    "contentHash": "d9de9cdb213b977a51acdf74d571068452552ea64e9e370544118feb5fd216a5",
+    "sizeBytes": 3480,
+    "lines": 91,
     "imports": [],
     "exports": [],
     "symbols": [
@@ -1109,10 +1267,12 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "dbea4d52492f2d5df8135ac494129740de7e7dd5a482768786fc4aaeb298eca0",
-    "sizeBytes": 3465,
-    "lines": 46,
-    "imports": [],
+    "contentHash": "a915a415654ccc5816e467aad2c846c4175f38d2789e2d979bfe10f712184c16",
+    "sizeBytes": 3941,
+    "lines": 48,
+    "imports": [
+      "V1_RELEASE_GATE.md"
+    ],
     "exports": [],
     "symbols": [
       "Stable vs Experimental",
@@ -1121,7 +1281,7 @@
       "Safety Boundaries"
     ],
     "isTest": false,
-    "summary": "STABLE_VS_EXPERIMENTAL.md is a Markdown implementation file. Defines Stable vs Experimental, Status Definitions, V1 Goal Workflow Boundary, Safety Boundaries.",
+    "summary": "STABLE_VS_EXPERIMENTAL.md is a Markdown implementation file. Defines Stable vs Experimental, Status Definitions, V1 Goal Workflow Boundary, Safety Boundaries. Depends on V1_RELEASE_GATE.md.",
     "ownedByNodeIds": [
       "file.docs.stable.vs.experimental.md",
       "module.docs",
@@ -1135,16 +1295,21 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "c93b7220888e2efebfe5e370094e17122697be3d2ac4360cc103038db7f72091",
-    "sizeBytes": 72623,
-    "lines": 1227,
-    "imports": [],
+    "contentHash": "5e7678bd3f7704b1b57cc6d3a531fc3df77963e7e7b3b739e4d5a9b8536517af",
+    "sizeBytes": 73789,
+    "lines": 1242,
+    "imports": [
+      "release-evidence/2026-05-14-0.2.0-beta.1-verification.md",
+      "release-evidence/2026-05-15-diverse-repository-beta-evaluation.md",
+      "release-evidence/2026-05-15-current-gate.md"
+    ],
     "exports": [],
     "symbols": [
       "V1 Release Candidate Review",
       "Summary",
       "Gate Results",
       "Public Beta Evidence",
+      "Current Commit Release-Gate Evidence",
       "Blockers Before V1",
       "Beta Feedback Triage",
       "Non-Blockers For V1",
@@ -1172,17 +1337,17 @@
       "Possible Overreach",
       "Files",
       "md",
+      "mjs",
       "exe",
       "windows",
       "json",
-      "mjs",
       "html",
       "css",
       "js",
       "cmd"
     ],
     "isTest": false,
-    "summary": "V1_RELEASE_CANDIDATE_REVIEW.md is a Markdown implementation file. Defines V1 Release Candidate Review, Summary, Gate Results, Public Beta Evidence, Blockers Before V1.",
+    "summary": "V1_RELEASE_CANDIDATE_REVIEW.md is a Markdown implementation file. Defines V1 Release Candidate Review, Summary, Gate Results, Public Beta Evidence, Current Commit Release-Gate Evidence. Depends on release-evidence/2026-05-14-0.2.0-beta.1-verification.md, release-evidence/2026-05-15-diverse-repository-beta-evaluation.md, release-evidence/2026-05-15-current-gate.md.",
     "ownedByNodeIds": [
       "file.docs.v1.release.candidate.review.md",
       "module.docs",
@@ -1196,10 +1361,13 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "29de61da9d5873c1868751767699313227d337c36da60e9c971a6b26f0f4ec46",
-    "sizeBytes": 7355,
-    "lines": 155,
-    "imports": [],
+    "contentHash": "26d46d0d66f8171d214157251bb3298696f44eda65470c52eff1184c2b303cb5",
+    "sizeBytes": 8167,
+    "lines": 163,
+    "imports": [
+      "release-evidence/beta-verification-template.md",
+      "RELEASE_RUNBOOK.md"
+    ],
     "exports": [],
     "symbols": [
       "V1 Release Gate",
@@ -1212,10 +1380,11 @@
       "Memory Hygiene Gate",
       "Explicit V1 Non-Goals",
       "Release Decision",
-      "md"
+      "md",
+      "mjs"
     ],
     "isTest": false,
-    "summary": "V1_RELEASE_GATE.md is a Markdown implementation file. Defines V1 Release Gate, Stable User Path, Install And Package Gate, Schema And Migration Gate, Visual Proof Gate.",
+    "summary": "V1_RELEASE_GATE.md is a Markdown implementation file. Defines V1 Release Gate, Stable User Path, Install And Package Gate, Schema And Migration Gate, Visual Proof Gate. Depends on release-evidence/beta-verification-template.md, RELEASE_RUNBOOK.md.",
     "ownedByNodeIds": [
       "file.docs.v1.release.gate.md",
       "module.docs",
@@ -1229,11 +1398,16 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "422cf219d00cf1e41da22eef04b3fe7bd7cfc98a6e934cc7aec7fa4fefc404ac",
-    "sizeBytes": 5680,
-    "lines": 129,
+    "contentHash": "6d9421debb073686722bd3feca28ca1baffea9f50e68bca13223f9417ee7e29a",
+    "sizeBytes": 6895,
+    "lines": 153,
     "imports": [
-      "node:fs"
+      "node:fs",
+      "assets/visual-demo/tree-hierarchy.png",
+      "assets/visual-demo/selected-node-explanation.png",
+      "assets/visual-demo/file-ownership.png",
+      "assets/visual-demo/concepts-invariants.png",
+      "assets/visual-demo/context-or-drift.png"
     ],
     "exports": [],
     "symbols": [
@@ -1252,13 +1426,940 @@
       "md"
     ],
     "isTest": false,
-    "summary": "VISUAL_DEMO.md is a Markdown implementation file. Defines Visual Demo, Launch the Demo, What the App Shows, Walkthrough, Goal Workflow Views. Depends on node:fs.",
+    "summary": "VISUAL_DEMO.md is a Markdown implementation file. Defines Visual Demo, Launch the Demo, What the App Shows, Walkthrough, Goal Workflow Views. Depends on node:fs, assets/visual-demo/tree-hierarchy.png, assets/visual-demo/selected-node-explanation.png, assets/visual-demo/file-ownership.png.",
     "ownedByNodeIds": [
       "file.docs.visual.demo.md",
       "module.docs",
       "subsystem.docs.examples",
       "subsystem.docs.examples.slice.guides",
       "subsystem.docs.examples.file.docs.visual.demo.md"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/click-lite/docs/options.rst",
+    "extension": ".rst",
+    "language": "reStructuredText",
+    "parseStrategy": "regex",
+    "contentHash": "96f791150ada6592d907eb0049684817c91f9e19e7dae778725b64277b8eed12",
+    "sizeBytes": 191,
+    "lines": 7,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "Options"
+    ],
+    "isTest": false,
+    "summary": "options.rst is a reStructuredText implementation file. Defines Options.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.click.lite.docs.options.rst",
+      "module.examples",
+      "architecture.python.docs",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.click.lite.docs.options.rst"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/click-lite/pyproject.toml",
+    "extension": ".toml",
+    "language": "TOML",
+    "parseStrategy": "regex",
+    "contentHash": "7a24f97337291005b2f126bffdd34e9593970814a34fae9a811d5eecd781ea3f",
+    "sizeBytes": 97,
+    "lines": 7,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "project",
+      "tool.pytest.ini_options",
+      "pytest"
+    ],
+    "isTest": false,
+    "summary": "pyproject.toml is a TOML implementation file. Defines project, tool.pytest.ini_options, pytest.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.click.lite.pyproject.toml",
+      "module.examples",
+      "architecture.python.packaging.metadata",
+      "architecture.package.distribution",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.click.lite.pyproject.toml"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/click-lite/src/click/core.py",
+    "extension": ".py",
+    "language": "Python",
+    "parseStrategy": "regex",
+    "contentHash": "08ca06800240f2e41cd564ddbd99e338a24a95b2c09aac84cb1eeec0a1afef75",
+    "sizeBytes": 215,
+    "lines": 10,
+    "imports": [
+      ".parser"
+    ],
+    "exports": [],
+    "symbols": [
+      "Command",
+      "__init__",
+      "parse_args",
+      "parser"
+    ],
+    "isTest": false,
+    "summary": "core.py is a Python implementation file. Defines Command, __init__, parse_args, parser. Depends on .parser.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.click.lite.src.click.core.py",
+      "module.examples",
+      "architecture.python.package.api",
+      "architecture.python.parser.options",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.click.lite.src.click.core.py"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/click-lite/src/click/parser.py",
+    "extension": ".py",
+    "language": "Python",
+    "parseStrategy": "regex",
+    "contentHash": "da7aa4ed44ec55f998a00e3494db543a30839307ac8e19fa5a40b6faa2a5fc80",
+    "sizeBytes": 303,
+    "lines": 10,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "OptionParser",
+      "value_from_envvar",
+      "handle_parse_result"
+    ],
+    "isTest": false,
+    "summary": "parser.py is a Python implementation file. Defines OptionParser, value_from_envvar, handle_parse_result.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.click.lite.src.click.parser.py",
+      "module.examples",
+      "architecture.python.package.api",
+      "architecture.python.parser.options",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.click.lite.src.click.parser.py"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/click-lite/tests/test_defaults.py",
+    "extension": ".py",
+    "language": "Python",
+    "parseStrategy": "regex",
+    "contentHash": "d4075557ee3cb3f03297b01074df517b00944fa3e9a69924f5f3bd2f841d045d",
+    "sizeBytes": 201,
+    "lines": 7,
+    "imports": [
+      "click.parser"
+    ],
+    "exports": [],
+    "symbols": [
+      "test_envvar_default_is_used",
+      "parser"
+    ],
+    "isTest": true,
+    "summary": "test_defaults.py is a Python test coverage file. Defines test_envvar_default_is_used, parser. Depends on click.parser.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.click.lite.tests.test.defaults.py",
+      "module.examples",
+      "architecture.python.tests",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.click.lite.tests.test.defaults.py",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.example.tests",
+      "subsystem.tests.quality.file.examples.context.quality.benchmarks.click.lite.tests.test.defaults.py"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/click-lite/tests/test_options.py",
+    "extension": ".py",
+    "language": "Python",
+    "parseStrategy": "regex",
+    "contentHash": "e080b63db93995c2b78812e53d299ddd27939dc27805276120b779477063b462",
+    "sizeBytes": 231,
+    "lines": 7,
+    "imports": [
+      "click.parser"
+    ],
+    "exports": [],
+    "symbols": [
+      "test_explicit_option_beats_envvar_default",
+      "parser"
+    ],
+    "isTest": true,
+    "summary": "test_options.py is a Python test coverage file. Defines test_explicit_option_beats_envvar_default, parser. Depends on click.parser.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.click.lite.tests.test.options.py",
+      "module.examples",
+      "architecture.python.tests",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.click.lite.tests.test.options.py",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.example.tests",
+      "subsystem.tests.quality.file.examples.context.quality.benchmarks.click.lite.tests.test.options.py"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/fd-lite/Cargo.toml",
+    "extension": ".toml",
+    "language": "TOML",
+    "parseStrategy": "regex",
+    "contentHash": "b5f459f918e9e6e95db1b469843281744a306fd57bdd21e89ce8d866af44865d",
+    "sizeBytes": 104,
+    "lines": 9,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "package",
+      "package.name:fd-lite",
+      "bin",
+      "bin.name:fd",
+      "bin.path:src/main.rs"
+    ],
+    "isTest": false,
+    "summary": "Cargo.toml is a TOML implementation file. Defines package, package.name:fd-lite, bin, bin.name:fd, bin.path:src/main.rs.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.fd.lite.cargo.toml",
+      "module.examples",
+      "architecture.rust.packaging.metadata",
+      "architecture.package.distribution",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.fd.lite.cargo.toml"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/fd-lite/README.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "5271613181999acd489f117252ebec79e65a484e0ae0920aba91751e2df50fed",
+    "sizeBytes": 171,
+    "lines": 5,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "fd-lite"
+    ],
+    "isTest": false,
+    "summary": "The hidden file traversal behavior depends on ignore rules, the CLI hidden flag, and walker filtering. Hidden files should be filtered unless the user opts in.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.fd.lite.readme.md",
+      "module.examples",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.fd.lite.readme.md"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/fd-lite/src/cli.rs",
+    "extension": ".rs",
+    "language": "Rust",
+    "parseStrategy": "regex",
+    "contentHash": "80ce533c29144e01a342d3d98a75976daf242a933ee441b97a8ce870da787546",
+    "sizeBytes": 181,
+    "lines": 10,
+    "imports": [],
+    "exports": [
+      "parse_hidden_flag",
+      "Options"
+    ],
+    "symbols": [
+      "parse_hidden_flag",
+      "Options"
+    ],
+    "isTest": false,
+    "summary": "cli.rs is a Rust implementation file. Defines parse_hidden_flag, Options.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.fd.lite.src.cli.rs",
+      "module.examples",
+      "architecture.rust.cli.arguments",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.fd.lite.src.cli.rs"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/fd-lite/src/main.rs",
+    "extension": ".rs",
+    "language": "Rust",
+    "parseStrategy": "regex",
+    "contentHash": "aeb75dc27d6fa53c0a447e2421ac86d9663f76514459b87361ceb8dc4fe8d8b7",
+    "sizeBytes": 200,
+    "lines": 9,
+    "imports": [
+      "mod:cli",
+      "mod:walk"
+    ],
+    "exports": [],
+    "symbols": [
+      "options",
+      "_files",
+      "main",
+      "cli",
+      "walk"
+    ],
+    "isTest": false,
+    "summary": "main.rs is a Rust implementation file. Defines options, _files, main, cli, walk. Depends on mod:cli, mod:walk.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.fd.lite.src.main.rs",
+      "module.examples",
+      "architecture.rust.binary.entrypoint",
+      "architecture.rust.cli.arguments",
+      "architecture.rust.traversal.search",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.fd.lite.src.main.rs"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/fd-lite/src/walk.rs",
+    "extension": ".rs",
+    "language": "Rust",
+    "parseStrategy": "regex",
+    "contentHash": "eb7dc688144e7b205669ed1d07e5e7f2794be4e860e2c2151ca183e76366a468",
+    "sizeBytes": 345,
+    "lines": 11,
+    "imports": [],
+    "exports": [
+      "ignore_hidden",
+      "collect_entries"
+    ],
+    "symbols": [
+      "ignore_hidden",
+      "collect_entries"
+    ],
+    "isTest": false,
+    "summary": "walk.rs is a Rust implementation file. Defines ignore_hidden, collect_entries.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.fd.lite.src.walk.rs",
+      "module.examples",
+      "architecture.rust.traversal.search",
+      "architecture.rust.config.ignore",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.fd.lite.src.walk.rs"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/fd-lite/tests/tests.rs",
+    "extension": ".rs",
+    "language": "Rust",
+    "parseStrategy": "regex",
+    "contentHash": "a3e0f366f90efd0b4850f5af97fa8d407de21bafe9823598e1733f02d4fd0538",
+    "sizeBytes": 139,
+    "lines": 7,
+    "imports": [
+      "fd_lite::walk::ignore_hidden"
+    ],
+    "exports": [],
+    "symbols": [
+      "hidden_files_are_filtered_by_default"
+    ],
+    "isTest": true,
+    "summary": "tests.rs is a Rust test coverage file. Defines hidden_files_are_filtered_by_default. Depends on fd_lite::walk::ignore_hidden.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.fd.lite.tests.tests.rs",
+      "module.examples",
+      "architecture.rust.integration.tests",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.fd.lite.tests.tests.rs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.example.tests",
+      "subsystem.tests.quality.file.examples.context.quality.benchmarks.fd.lite.tests.tests.rs"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/mern-lite/backend/controllers/goalController.js",
+    "extension": ".js",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "7d5305a6f41366f2a8682d0abc8fb44d07488841d6f0c3e29a17f0957d55d2d3",
+    "sizeBytes": 219,
+    "lines": 8,
+    "imports": [],
+    "exports": [
+      "getGoals",
+      "createGoal"
+    ],
+    "symbols": [
+      "getGoals",
+      "createGoal"
+    ],
+    "isTest": false,
+    "summary": "goalController.js is a JavaScript implementation file. AST-backed scan. Defines getGoals, createGoal.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.mern.lite.backend.controllers.goalcontroller.js",
+      "module.examples",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.mern.lite.backend.controllers.goalcontroller.js"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/mern-lite/backend/middleware/authMiddleware.js",
+    "extension": ".js",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "c1d5c5476f5ebbf0cc776689e5153c7877fd382ffbfc2727ffc491a0c2d9781a",
+    "sizeBytes": 241,
+    "lines": 10,
+    "imports": [],
+    "exports": [
+      "protect"
+    ],
+    "symbols": [
+      "protect",
+      "token"
+    ],
+    "isTest": false,
+    "summary": "authMiddleware.js is a JavaScript implementation file. AST-backed scan. Defines protect, token.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.mern.lite.backend.middleware.authmiddleware.js",
+      "module.examples",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.mern.lite.backend.middleware.authmiddleware.js"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/mern-lite/backend/routes/goalRoutes.js",
+    "extension": ".js",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "4fed8f8998bb328a6f4968e3ba2375e493fbdf710b32507ee025f2087947529b",
+    "sizeBytes": 276,
+    "lines": 8,
+    "imports": [
+      "express",
+      "../controllers/goalController.js",
+      "../middleware/authMiddleware.js"
+    ],
+    "exports": [
+      "goalRouter"
+    ],
+    "symbols": [
+      "goalRouter"
+    ],
+    "isTest": false,
+    "summary": "goalRoutes.js is a JavaScript implementation file. AST-backed scan. Defines goalRouter. Depends on express, ../controllers/goalController.js, ../middleware/authMiddleware.js.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.mern.lite.backend.routes.goalroutes.js",
+      "module.examples",
+      "architecture.visual.app.api",
+      "architecture.local.api.routes",
+      "architecture.runtime.dataflow",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.local.api",
+      "subsystem.cli.local.api.file.examples.context.quality.benchmarks.mern.lite.backend.routes.goalroutes.js",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.mern.lite.backend.routes.goalroutes.js"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/mern-lite/backend/server.js",
+    "extension": ".js",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "9a626ffc9133dc0f9b5d92df7a9bffe0d70f8a5db66e682a21c0923178aa8153",
+    "sizeBytes": 189,
+    "lines": 9,
+    "imports": [
+      "express",
+      "./routes/goalRoutes.js"
+    ],
+    "exports": [
+      "app"
+    ],
+    "symbols": [
+      "app"
+    ],
+    "isTest": false,
+    "summary": "server.js is a JavaScript implementation file. AST-backed scan. Defines app. Depends on express, ./routes/goalRoutes.js.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.mern.lite.backend.server.js",
+      "module.examples",
+      "architecture.visual.app.api",
+      "subsystem.cli.local.api",
+      "subsystem.cli.local.api.slice.local.api",
+      "subsystem.cli.local.api.file.examples.context.quality.benchmarks.mern.lite.backend.server.js",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.mern.lite.backend.server.js"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/mern-lite/frontend/package.json",
+    "extension": ".json",
+    "language": "JSON",
+    "parseStrategy": "regex",
+    "contentHash": "784915167a6bbefb2f13113b87f84e8d7fc454a61643c78d28afd6c1350f85dd",
+    "sizeBytes": 156,
+    "lines": 10,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "package.json is a JSON implementation file.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.mern.lite.frontend.package.json",
+      "module.examples",
+      "architecture.package.distribution",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.mern.lite.frontend.package.json",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.manifests",
+      "subsystem.packaging.adapters.file.examples.context.quality.benchmarks.mern.lite.frontend.package.json"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/mern-lite/frontend/src/features/goals/goalSlice.js",
+    "extension": ".js",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "8b4b715bcb168630497acdb7018456b80d960e3bc03dfff97aa8272dba778d68",
+    "sizeBytes": 234,
+    "lines": 12,
+    "imports": [],
+    "exports": [
+      "fetchGoals",
+      "goalSlice"
+    ],
+    "symbols": [
+      "fetchGoals",
+      "response",
+      "goalSlice"
+    ],
+    "isTest": false,
+    "summary": "goalSlice.js is a JavaScript implementation file. AST-backed scan. Defines fetchGoals, response, goalSlice.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.mern.lite.frontend.src.features.goals.goalslice.js",
+      "module.examples",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.mern.lite.frontend.src.features.goals.goalslice.js"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/mern-lite/frontend/src/pages/Dashboard.jsx",
+    "extension": ".jsx",
+    "language": "JavaScript React",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "bef31162049b83abf9d780205141bf32002d0de90d58b98abe64c24c90802bd3",
+    "sizeBytes": 178,
+    "lines": 7,
+    "imports": [
+      "../features/goals/goalSlice.js"
+    ],
+    "exports": [
+      "Dashboard"
+    ],
+    "symbols": [
+      "Dashboard"
+    ],
+    "isTest": false,
+    "summary": "Dashboard.jsx is a JavaScript React implementation file. AST-backed scan. Defines Dashboard. Depends on ../features/goals/goalSlice.js.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.mern.lite.frontend.src.pages.dashboard.jsx",
+      "module.examples",
+      "architecture.visual.app.ui",
+      "subsystem.visual.app",
+      "subsystem.visual.app.slice.visual.support",
+      "subsystem.visual.app.file.examples.context.quality.benchmarks.mern.lite.frontend.src.pages.dashboard.jsx",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.mern.lite.frontend.src.pages.dashboard.jsx"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/mern-lite/package.json",
+    "extension": ".json",
+    "language": "JSON",
+    "parseStrategy": "regex",
+    "contentHash": "c73f7ea05fe83d58acdec908d6ef8d0a6066be5b6351c866eff25a32785bc051",
+    "sizeBytes": 239,
+    "lines": 14,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "package.json is a JSON implementation file.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.mern.lite.package.json",
+      "module.examples",
+      "architecture.package.distribution",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.mern.lite.package.json",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.manifests",
+      "subsystem.packaging.adapters.file.examples.context.quality.benchmarks.mern.lite.package.json"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/README.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "a9a1816286e52d10658a855efb2fdc392fdfa21217c38deeece43a2542f86b61",
+    "sizeBytes": 900,
+    "lines": 17,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "Context Quality Benchmarks"
+    ],
+    "isTest": false,
+    "summary": "These fixtures are small, local-only projects that preserve the diverse-repository context expectations from the 2026-05-15 beta evaluation without cloning external repositories during tests. Each fixture contains an `.abstraction-tree/evaluation-fixture.json` file with at least one prompt and expected file inclusions for both context-pack selection and prompt routing. The source projects are intentionally reduced, but their folder shapes mirror the evaluated categories:",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.readme.md",
+      "module.examples",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.readme.md"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/rust-book-lite/book.toml",
+    "extension": ".toml",
+    "language": "TOML",
+    "parseStrategy": "regex",
+    "contentHash": "89f95c7f9024849bacb384f8e3aaa083c09216b7b2cc5087c42c29ee1e816cba",
+    "sizeBytes": 64,
+    "lines": 4,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "book"
+    ],
+    "isTest": false,
+    "summary": "book.toml is a TOML implementation file. Defines book.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.rust.book.lite.book.toml",
+      "module.examples",
+      "architecture.docs.book.structure",
+      "architecture.docs.book.build.publishing",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.rust.book.lite.book.toml"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/rust-book-lite/listings/ch04-understanding-ownership/listing-04-01/src/main.rs",
+    "extension": ".rs",
+    "language": "Rust",
+    "parseStrategy": "regex",
+    "contentHash": "a19f81dc3d072ff5f15cb750d68964aab1b2f607b717218eeec0127342c9cb71",
+    "sizeBytes": 137,
+    "lines": 9,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "s",
+      "main",
+      "takes_ownership"
+    ],
+    "isTest": false,
+    "summary": "main.rs is a Rust implementation file. Defines s, main, takes_ownership.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.rust.book.lite.listings.ch04.understanding.ownership.listing.04.01.src.main.rs",
+      "module.examples",
+      "architecture.rust.binary.entrypoint",
+      "architecture.docs.book.listings.examples",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.rust.book.lite.listings.ch04.understanding.ownership.listing.04.01.src.main.rs"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/rust-book-lite/src/ch04-00-understanding-ownership.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "3e0e5196c2fbda82e2480c2804fe4612486b330d55314cf05298abb9307d2fc4",
+    "sizeBytes": 177,
+    "lines": 5,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "Understanding Ownership"
+    ],
+    "isTest": false,
+    "summary": "ch04-00-understanding-ownership.md is a Markdown implementation file. Defines Understanding Ownership.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.rust.book.lite.src.ch04.00.understanding.ownership.md",
+      "module.examples",
+      "architecture.docs.book.chapter.content",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.rust.book.lite.src.ch04.00.understanding.ownership.md"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/rust-book-lite/src/ch04-01-what-is-ownership.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "920fd2765ca8e37db6b99ce5ea2d7cd9ced244409fb1c3d5977060ec85620d39",
+    "sizeBytes": 214,
+    "lines": 6,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "takes",
+      "What Is Ownership?"
+    ],
+    "isTest": false,
+    "summary": "ch04-01-what-is-ownership.md is a Markdown implementation file. Defines takes, What Is Ownership?.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.rust.book.lite.src.ch04.01.what.is.ownership.md",
+      "module.examples",
+      "architecture.docs.book.chapter.content",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.rust.book.lite.src.ch04.01.what.is.ownership.md"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/rust-book-lite/src/ch04-02-references-and-borrowing.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "f633561ac12069de443accdb270102f9bc59ad1318239578cc7e2dfb55b139b7",
+    "sizeBytes": 199,
+    "lines": 6,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "References and Borrowing"
+    ],
+    "isTest": false,
+    "summary": "ch04-02-references-and-borrowing.md is a Markdown implementation file. Defines References and Borrowing.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.rust.book.lite.src.ch04.02.references.and.borrowing.md",
+      "module.examples",
+      "architecture.docs.book.chapter.content",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.rust.book.lite.src.ch04.02.references.and.borrowing.md"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/rust-book-lite/src/SUMMARY.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "adebeda83d6d15dd5bec641b5fd588e0a0439bc28be77011df20d1d626338de6",
+    "sizeBytes": 198,
+    "lines": 6,
+    "imports": [
+      "ch04-00-understanding-ownership.md",
+      "ch04-01-what-is-ownership.md",
+      "ch04-02-references-and-borrowing.md"
+    ],
+    "exports": [],
+    "symbols": [
+      "Summary"
+    ],
+    "isTest": false,
+    "summary": "SUMMARY.md is a Markdown implementation file. Defines Summary. Depends on ch04-00-understanding-ownership.md, ch04-01-what-is-ownership.md, ch04-02-references-and-borrowing.md.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.rust.book.lite.src.summary.md",
+      "module.examples",
+      "architecture.docs.book.structure",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.rust.book.lite.src.summary.md"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/vite-lite/docs/guide/api-plugin.md",
+    "extension": ".md",
+    "language": "Markdown",
+    "parseStrategy": "regex",
+    "contentHash": "935846c793380b72e3ea85327ad0b7bc78ae2ec43dd0fc7cbaff71cfdfc35f44",
+    "sizeBytes": 350,
+    "lines": 9,
+    "imports": [],
+    "exports": [],
+    "symbols": [
+      "contracts",
+      "Plugin API"
+    ],
+    "isTest": false,
+    "summary": "api-plugin.md is a Markdown implementation file. Defines contracts, Plugin API.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.vite.lite.docs.guide.api.plugin.md",
+      "module.examples",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.vite.lite.docs.guide.api.plugin.md"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/vite-lite/package.json",
+    "extension": ".json",
+    "language": "JSON",
+    "parseStrategy": "regex",
+    "contentHash": "d56315da2c4e037b4bf9f46c1494b4fda4a0d48b438104663a9d42905fe15e70",
+    "sizeBytes": 171,
+    "lines": 12,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "package.json is a JSON implementation file.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.vite.lite.package.json",
+      "module.examples",
+      "architecture.package.distribution",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.vite.lite.package.json",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.manifests",
+      "subsystem.packaging.adapters.file.examples.context.quality.benchmarks.vite.lite.package.json"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/vite-lite/packages/vite/package.json",
+    "extension": ".json",
+    "language": "JSON",
+    "parseStrategy": "regex",
+    "contentHash": "eabfff981178fd2d58ba625e319143a66ac25369478de6c4f1239cd069bfbeb0",
+    "sizeBytes": 93,
+    "lines": 8,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "package.json is a JSON implementation file.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.vite.lite.packages.vite.package.json",
+      "module.examples",
+      "architecture.package.distribution",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.vite.lite.packages.vite.package.json",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.manifests",
+      "subsystem.packaging.adapters.file.examples.context.quality.benchmarks.vite.lite.packages.vite.package.json"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/vite-lite/packages/vite/src/node/plugin.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "c4299e6bbbe36c396841df6bf204b726c055dd54fa2397fd27c8ab2b356661b1",
+    "sizeBytes": 227,
+    "lines": 9,
+    "imports": [],
+    "exports": [
+      "Plugin",
+      "normalizePluginName"
+    ],
+    "symbols": [
+      "Plugin",
+      "normalizePluginName"
+    ],
+    "isTest": false,
+    "summary": "plugin.ts is a TypeScript implementation file. AST-backed scan. Defines Plugin, normalizePluginName.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.vite.lite.packages.vite.src.node.plugin.ts",
+      "module.examples",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.vite.lite.packages.vite.src.node.plugin.ts"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/vite-lite/packages/vite/src/node/server/mixedModuleGraph.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "d369da69ae7a48763fb8cacf89f4b5424a3f6fb78fba3e3a9d2d69979409c97f",
+    "sizeBytes": 417,
+    "lines": 16,
+    "imports": [],
+    "exports": [
+      "MixedModuleNode",
+      "MixedModuleGraph"
+    ],
+    "symbols": [
+      "MixedModuleNode",
+      "MixedModuleGraph",
+      "modules",
+      "registerResolvedModule",
+      "existing"
+    ],
+    "isTest": false,
+    "summary": "mixedModuleGraph.ts is a TypeScript implementation file. AST-backed scan. Defines MixedModuleNode, MixedModuleGraph, modules, registerResolvedModule, existing.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.vite.lite.packages.vite.src.node.server.mixedmodulegraph.ts",
+      "module.examples",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.vite.lite.packages.vite.src.node.server.mixedmodulegraph.ts"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/vite-lite/packages/vite/src/node/server/pluginContainer.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "f8ee3b9ce1de41f2b1455a2e2f5544bb19b7fb820dff57f5249847cfa3f2def4",
+    "sizeBytes": 559,
+    "lines": 21,
+    "imports": [
+      "../plugin",
+      "./mixedModuleGraph"
+    ],
+    "exports": [
+      "PluginContainer"
+    ],
+    "symbols": [
+      "PluginContainer",
+      "resolveId",
+      "plugin",
+      "resolved"
+    ],
+    "isTest": false,
+    "summary": "pluginContainer.ts is a TypeScript implementation file. AST-backed scan. Defines PluginContainer, resolveId, plugin, resolved. Depends on ../plugin, ./mixedModuleGraph.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.vite.lite.packages.vite.src.node.server.plugincontainer.ts",
+      "module.examples",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.vite.lite.packages.vite.src.node.server.plugincontainer.ts"
+    ]
+  },
+  {
+    "path": "examples/context-quality-benchmarks/vite-lite/pnpm-workspace.yaml",
+    "extension": ".yaml",
+    "language": "YAML",
+    "parseStrategy": "regex",
+    "contentHash": "0fb360452b0231d114d0b0ad6cc76bb48fe528382f55827cf93739bf64ec79e1",
+    "sizeBytes": 27,
+    "lines": 3,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "isTest": false,
+    "summary": "pnpm-workspace.yaml is a YAML implementation file.",
+    "ownedByNodeIds": [
+      "file.examples.context.quality.benchmarks.vite.lite.pnpm.workspace.yaml",
+      "module.examples",
+      "subsystem.docs.examples",
+      "subsystem.docs.examples.slice.examples",
+      "subsystem.docs.examples.file.examples.context.quality.benchmarks.vite.lite.pnpm.workspace.yaml"
     ]
   },
   {
@@ -1813,9 +2914,9 @@
     "extension": ".tsx",
     "language": "TypeScript React",
     "parseStrategy": "typescript-ast",
-    "contentHash": "04c6c68be957f3e52eead92a2695b340fc644d418c82f7f853dd87528749f765",
-    "sizeBytes": 17240,
-    "lines": 476,
+    "contentHash": "3d89cd1cebc9b7fb24a8b17af31e9f5e9b877341bd1ef8da9418f4d252980a50",
+    "sizeBytes": 18003,
+    "lines": 500,
     "imports": [
       "node:assert/strict",
       "node:test",
@@ -1842,6 +2943,7 @@
       "rootOnly",
       "expandedApp",
       "state",
+      "workflow",
       "sampleState",
       "sampleNodes",
       "sampleWorkflow",
@@ -2105,9 +3207,9 @@
     "extension": ".tsx",
     "language": "TypeScript React",
     "parseStrategy": "typescript-ast",
-    "contentHash": "a64d9494a599eb35552c1369891fc030c21d45a7640753ccac2b7ff0297b35e0",
-    "sizeBytes": 14853,
-    "lines": 405,
+    "contentHash": "1f50f9f31dc065993a08fedd489c0bb0d3f540a48085ff6bcbbba3a54b4826b6",
+    "sizeBytes": 16696,
+    "lines": 485,
     "imports": [
       "react",
       "lucide-react",
@@ -2124,10 +3226,12 @@
     "symbols": [
       "GoalWorkflowPanelProps",
       "ScopeFilter",
+      "defaultArtifactPolicy",
       "GoalWorkflowPanel",
       "goals",
       "scopes",
       "coherenceReviews",
+      "artifactPolicy",
       "selectedGoalId",
       "setSelectedGoalId",
       "scopeFilter",
@@ -2145,7 +3249,9 @@
       "hasValues",
       "hasRefs",
       "ReferenceList",
+      "hasOpenableArtifacts",
       "ReferenceLink",
+      "canOpen",
       "body",
       "ReferenceButton",
       "FilterButton",
@@ -2157,14 +3263,10 @@
       "artifactHref",
       "openArtifactWithToken",
       "response",
-      "text",
-      "objectUrl",
-      "canOpenArtifact",
-      "displayTimestamp",
-      "timestamp"
+      "text"
     ],
     "isTest": false,
-    "summary": "GoalWorkflowPanel.tsx is a TypeScript React implementation file. AST-backed scan. Defines GoalWorkflowPanelProps, ScopeFilter, GoalWorkflowPanel, goals, scopes. Depends on react, lucide-react, @abstraction-tree/core, ./CollapsibleSection.js.",
+    "summary": "GoalWorkflowPanel.tsx is a TypeScript React implementation file. AST-backed scan. Defines GoalWorkflowPanelProps, ScopeFilter, defaultArtifactPolicy, GoalWorkflowPanel, goals. Depends on react, lucide-react, @abstraction-tree/core, ./CollapsibleSection.js.",
     "ownedByNodeIds": [
       "file.packages.app.src.components.goalworkflowpanel.tsx",
       "module.packages",
@@ -2743,9 +3845,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "7dae80ac266847b4b494beab7ea574ac5fa66041ff68441cc769c162b27e4712",
-    "sizeBytes": 18364,
-    "lines": 522,
+    "contentHash": "9293a7cac5a36de055e820793db8e1a22ed19eaaff2d7940a39557067072ba94",
+    "sizeBytes": 21407,
+    "lines": 587,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
@@ -2769,6 +3871,8 @@
       "coherence",
       "artifact",
       "jsonArtifact",
+      "config",
+      "text",
       "requiredFields",
       "field",
       "candidate",
@@ -2803,9 +3907,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "2bb2eb1d4db3f30cbc85d23862cd4660618b72cc5241688cfe1b6f00ceb31ce0",
-    "sizeBytes": 40628,
-    "lines": 975,
+    "contentHash": "9c5a6d8eee426d33ebb507c856f377d49168cb8341453ebca214db856c0613a3",
+    "sizeBytes": 42459,
+    "lines": 1015,
     "imports": [
       "node:fs",
       "node:fs/promises",
@@ -2820,6 +3924,9 @@
       "loadApiState",
       "loadWorkflowViewState",
       "ApiArtifact",
+      "ApiArtifactOptions",
+      "apiArtifactPolicy",
+      "isApiArtifactServingEnabled",
       "loadApiArtifact",
       "loadApiAgentHealth"
     ],
@@ -2845,6 +3952,9 @@
       "goalScopeIds",
       "standaloneScopes",
       "ApiArtifact",
+      "ApiArtifactOptions",
+      "apiArtifactPolicy",
+      "isApiArtifactServingEnabled",
       "loadApiArtifact",
       "normalized",
       "absolutePath",
@@ -2852,6 +3962,7 @@
       "raw",
       "text",
       "maxLength",
+      "loadArtifactServingEnabled",
       "loadApiAgentHealth",
       "issues",
       "loadScopeHealth",
@@ -2859,11 +3970,7 @@
       "report",
       "GoalWorkspaceBundle",
       "loadContextPackViews",
-      "dir",
-      "names",
-      "views",
-      "record",
-      "diagnostics"
+      "dir"
     ],
     "isTest": false,
     "summary": "apiState.ts is a TypeScript implementation file. AST-backed scan. Defines ApiState, AgentHealthLoader, ValidationIssuesLoader, loadApiState, config. Depends on node:fs, node:fs/promises, node:path, @abstraction-tree/core.",
@@ -2999,9 +4106,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "917404a3e086887bf386e91fca98baab159371bcec6156fe6b7ff8a80cbaf8e7",
-    "sizeBytes": 9034,
-    "lines": 220,
+    "contentHash": "33fd7b046cba0ce7c7f3d4e6d89730680f61eb371418d9ff4cf5e81ba17e4c99",
+    "sizeBytes": 11547,
+    "lines": 286,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
@@ -3019,12 +4126,14 @@
       "scan",
       "importGraph",
       "built",
+      "contaminationCheck",
       "checkedRoot",
       "workspace",
       "writeDeterministicMemory",
       "writeHealthyAutomationFiles",
       "cleanRuntimeBoundaryGit",
-      "checkStatus"
+      "checkStatus",
+      "minimalEvaluationReport"
     ],
     "isTest": true,
     "summary": "doctor.test.ts is a TypeScript test coverage file. AST-backed scan. Defines doctorOptions, root, report, scan, importGraph. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
@@ -3041,9 +4150,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "78fb948837c05fa7ef66fbdfeb947c89e9a44226e1775a09245c8b015fa13f8d",
-    "sizeBytes": 18121,
-    "lines": 536,
+    "contentHash": "3f0068d6322069e961813d7f169fa2eff55ba5a0fe9ad20ef8c13ce7de2580c8",
+    "sizeBytes": 21119,
+    "lines": 621,
     "imports": [
       "node:fs",
       "node:fs/promises",
@@ -3073,6 +4182,9 @@
       "DoctorOptions",
       "REQUIRED_MEMORY_FILES",
       "MINIMUM_NODE_VERSION",
+      "ABSTRACTION_TREE_PACKAGE_NAMES",
+      "DOGFOODING_SOURCE_FILE_MARKERS",
+      "DOGFOODING_PRODUCT_TEXT_MARKERS",
       "runDoctor",
       "root",
       "configPath",
@@ -3101,10 +4213,7 @@
       "collectValidationIssues",
       "formatDoctorReport",
       "lines",
-      "issuePreview",
-      "doctorExitCode",
-      "findVisualAppDist",
-      "cliDir"
+      "issuePreview"
     ],
     "isTest": false,
     "summary": "doctor.ts is a TypeScript implementation file. AST-backed scan. Defines DoctorStatus, DoctorIssueSummary, DoctorCheck, DoctorCounts, DoctorReport. Depends on node:fs, node:fs/promises, node:path, node:url.",
@@ -3294,13 +4403,50 @@
     ]
   },
   {
+    "path": "packages/cli/src/index.test.ts",
+    "extension": ".ts",
+    "language": "TypeScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "fa85b20ce4ba1a96289f50855e5f35e3ce46cf32921df8b8f0431704b697ba4a",
+    "sizeBytes": 2171,
+    "lines": 62,
+    "imports": [
+      "node:assert/strict",
+      "node:child_process",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:test",
+      "node:url",
+      "node:util"
+    ],
+    "exports": [],
+    "symbols": [
+      "execFileAsync",
+      "cliPath",
+      "root",
+      "result",
+      "tree",
+      "workspace"
+    ],
+    "isTest": true,
+    "summary": "index.test.ts is a TypeScript test coverage file. AST-backed scan. Defines execFileAsync, cliPath, root, result, tree. Depends on node:assert/strict, node:child_process, node:fs/promises, node:os.",
+    "ownedByNodeIds": [
+      "file.packages.cli.src.index.test.ts",
+      "module.packages",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.cli.tests",
+      "subsystem.tests.quality.file.packages.cli.src.index.test.ts"
+    ]
+  },
+  {
     "path": "packages/cli/src/index.ts",
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "d23a91c8031562ef0636be349e91136798d1c088b1b497a348e8ee0274919d1a",
-    "sizeBytes": 21068,
-    "lines": 477,
+    "contentHash": "656d0c038eaed4934f34f64ae30eda86648c66e33f95d5ae33ddf314b8ff761f",
+    "sizeBytes": 21859,
+    "lines": 491,
     "imports": [
       "commander",
       "node:path",
@@ -3358,11 +4504,11 @@
       "warning",
       "auth",
       "port",
+      "artifactPolicy",
       "appDist",
       "serveStatic",
       "server",
-      "state",
-      "requestUrl"
+      "state"
     ],
     "isTest": false,
     "summary": "index.ts is a TypeScript implementation file. AST-backed scan. Defines program, projectPath, ContextOutputFormat, contextOutputFormat, contextMaxTokens. Depends on commander, node:path, node:http, sirv.",
@@ -3861,9 +5007,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "af081f8941f74b2456a7574254a5cdf9bffb668aa7518947ef626b1ea492e781",
-    "sizeBytes": 1730,
-    "lines": 49,
+    "contentHash": "c0c112c7b8f7e55b242b1096d6716db9d9d15830edaddbc1246cf9654397f2d8",
+    "sizeBytes": 1820,
+    "lines": 51,
     "imports": [
       "node:assert/strict",
       "node:child_process",
@@ -3894,8 +5040,8 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "50a5691c9504aac0f41d49a06dd3e1cecf264456926278b55c8a298e53ba5556",
-    "sizeBytes": 3802,
+    "contentHash": "59205380920effd9ca2d80ae0baaca10bfdad77c6b8d2dbae93173fc585bb043",
+    "sizeBytes": 3866,
     "lines": 95,
     "imports": [
       "node:assert/strict",
@@ -3924,8 +5070,8 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "9a7ac78b543d2f626e2285f3d1d9bdb5269b6c75be9179d0b6b07f2978f5a4d6",
-    "sizeBytes": 4375,
+    "contentHash": "98d5d6f172da3e7161408c8c79efdb0483588470965a6b8dfee3d1ad259144a8",
+    "sizeBytes": 4411,
     "lines": 138,
     "imports": [
       "node:crypto"
@@ -4244,19 +5390,19 @@
     "extension": ".json",
     "language": "JSON",
     "parseStrategy": "regex",
-    "contentHash": "759f3efce569c69af57d8c167cd1ca2ef7b8fb6d3321d1da71ad69897245267f",
-    "sizeBytes": 440,
+    "contentHash": "b943b9d9c85031bc2d2c4af32a8b1e366e99038c4b761d10b88243ce3745a02e",
+    "sizeBytes": 435,
     "lines": 22,
     "imports": [],
     "exports": [],
     "symbols": [
       "d",
-      "test",
       "js",
+      "test",
       "json"
     ],
     "isTest": false,
-    "summary": "package.json is a JSON implementation file. Defines d, test, js, json.",
+    "summary": "package.json is a JSON implementation file. Defines d, js, test, json.",
     "ownedByNodeIds": [
       "file.packages.core.package.json",
       "module.packages",
@@ -4524,15 +5670,23 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "6a3d1e66326c1deee28ebf3f269c7ab0bfe51208a430382c494f702e8c185a7e",
-    "sizeBytes": 12008,
-    "lines": 278,
+    "contentHash": "fd1bc57c3e761440f5962221260374cfc397337573e4ddbd176891e5cb252afa",
+    "sizeBytes": 23654,
+    "lines": 550,
     "imports": [
       "node:assert/strict",
+      "node:fs/promises",
+      "node:path",
       "node:test",
+      "node:url",
       "./context.js",
       "./contextLimits.js",
-      "./schema.js"
+      "./evaluator.js",
+      "./importGraph.js",
+      "./promptRouter.js",
+      "./schema.js",
+      "./scanner.js",
+      "./treeBuilder.js"
     ],
     "exports": [],
     "symbols": [
@@ -4546,6 +5700,26 @@
       "baseEstimate",
       "firstItem",
       "budgeted",
+      "fullNode",
+      "paths",
+      "prompt",
+      "route",
+      "filePath",
+      "root",
+      "benchmarkRoot",
+      "fixtures",
+      "categories",
+      "fixtureProject",
+      "fixture",
+      "expected",
+      "scan",
+      "importGraph",
+      "built",
+      "contextPacks",
+      "routeContext",
+      "contextFiles",
+      "expectedRouteFiles",
+      "quality",
       "file",
       "node",
       "conceptEvidence",
@@ -4553,10 +5727,12 @@
       "id",
       "diagnostic",
       "selectedTokenTotal",
-      "totalSelectedItems"
+      "totalSelectedItems",
+      "BenchmarkFixture",
+      "readBenchmarkFixture"
     ],
     "isTest": true,
-    "summary": "context.test.ts is a TypeScript test coverage file. AST-backed scan. Defines files, nodes, concepts, invariants, pack. Depends on node:assert/strict, node:test, ./context.js, ./contextLimits.js.",
+    "summary": "context.test.ts is a TypeScript test coverage file. AST-backed scan. Defines files, nodes, concepts, invariants, pack. Depends on node:assert/strict, node:fs/promises, node:path, node:test.",
     "ownedByNodeIds": [
       "file.packages.core.src.context.test.ts",
       "module.packages",
@@ -4570,12 +5746,13 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "4ac29ad1836addd103498e33a50df3f1f3bed156dc4e55617ba2c7344869bee8",
-    "sizeBytes": 23260,
-    "lines": 661,
+    "contentHash": "372892b65ce9d07a4a4c58bbd1aea4efb81143ff12d5ca6c6d11b48116cfe086",
+    "sizeBytes": 46043,
+    "lines": 1230,
     "imports": [
       "./schema.js",
-      "./contextLimits.js"
+      "./contextLimits.js",
+      "./promptRouter.js"
     ],
     "exports": [
       "buildContextPack",
@@ -4585,20 +5762,35 @@
     "symbols": [
       "TOKEN_ESTIMATOR",
       "EXCLUDED_NEARBY_LIMIT",
+      "REPRESENTATIVE_FILES_PER_NODE",
+      "COMPACTED_NODE_REASON",
+      "FORCED_FILE_REASON",
+      "PRESERVED_EXCLUDED_FILE_REASON",
+      "ROUTE_FILE_REASON",
+      "ROUTE_NODE_REASON",
+      "ROUTE_CONCEPT_REASON",
+      "ROUTE_PRESERVED_FILE_REASON",
+      "PRESERVED_EXCLUDED_FILE_LIMIT",
+      "ROUTE_DISAGREEMENT_LIMIT",
+      "DOCS_BOOK_PROMPT_TERMS",
       "buildContextPack",
       "query",
       "queryTokens",
+      "promptEvidence",
+      "promptFileScores",
+      "promptNodeScores",
+      "promptConceptScores",
+      "routeEstimatedFileSet",
       "diagnosticsEnabled",
       "agentInstructions",
       "basePack",
       "budget",
-      "selectedDiagnostics",
-      "excludedDiagnostics",
       "conceptScores",
+      "scored",
+      "routeBoost",
       "conceptFileSet",
       "conceptNodeSet",
       "nodeScores",
-      "scored",
       "files",
       "conceptOverlap",
       "conceptNodeBoost",
@@ -4607,25 +5799,10 @@
       "relevantNodes",
       "nodeFileSet",
       "fileScores",
-      "ownershipBoost",
-      "conceptBoost",
-      "fileSelection",
-      "relevantFiles",
-      "fileSet",
-      "node",
-      "filePath",
-      "nodeIds",
-      "conceptSelection",
-      "relevantConcepts",
-      "invariantSelection",
-      "invariants",
-      "changeSelection",
-      "pack",
-      "formatContextPackMarkdown",
-      "lines"
+      "ownershipBoost"
     ],
     "isTest": false,
-    "summary": "context.ts is a TypeScript implementation file. AST-backed scan. Defines TOKEN_ESTIMATOR, EXCLUDED_NEARBY_LIMIT, buildContextPack, query, queryTokens. Depends on ./schema.js, ./contextLimits.js.",
+    "summary": "context.ts is a TypeScript implementation file. AST-backed scan. Defines TOKEN_ESTIMATOR, EXCLUDED_NEARBY_LIMIT, REPRESENTATIVE_FILES_PER_NODE, COMPACTED_NODE_REASON, FORCED_FILE_REASON. Depends on ./schema.js, ./contextLimits.js, ./promptRouter.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.context.ts",
       "module.packages",
@@ -4673,9 +5850,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "25cbb70cdd7bf8c42bcfdd520ca99035faefb9562e4aa22f8c1a798855e5813c",
-    "sizeBytes": 3775,
-    "lines": 87,
+    "contentHash": "045a1c538737713fd1f925f423270002cb50e580482ba7e71a13de6e197cedad",
+    "sizeBytes": 5365,
+    "lines": 115,
     "imports": [
       "node:assert/strict",
       "node:test",
@@ -4685,11 +5862,15 @@
     "symbols": [
       "changes",
       "summary",
+      "docsSummary",
+      "implementationSummary",
+      "fullStackSummary",
+      "fullStackSignal",
       "assertDanger",
       "change"
     ],
     "isTest": true,
-    "summary": "diffSummary.test.ts is a TypeScript test coverage file. AST-backed scan. Defines changes, summary, assertDanger, change. Depends on node:assert/strict, node:test, ./diffSummary.js.",
+    "summary": "diffSummary.test.ts is a TypeScript test coverage file. AST-backed scan. Defines changes, summary, docsSummary, implementationSummary, fullStackSummary. Depends on node:assert/strict, node:test, ./diffSummary.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.diffsummary.test.ts",
       "module.packages",
@@ -4703,9 +5884,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "4bc87b5a7b671a602411ea5007051cb7bd6c34d79cace842e68bd0705d923aab",
-    "sizeBytes": 15267,
-    "lines": 482,
+    "contentHash": "65279fa5a19b3367589008ee010f57b08dbb9ea48aca78cbd4d09cb3d0ea2648",
+    "sizeBytes": 18436,
+    "lines": 555,
     "imports": [],
     "exports": [
       "DiffFileChange",
@@ -4780,9 +5961,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "e11bfa7557c93b0455654b5425659f4aeb17dac04b7f479633b49e1996b24824",
-    "sizeBytes": 18834,
-    "lines": 481,
+    "contentHash": "3139b7a6770839baaee5a76135bd94eee560dd1afd1155807ee3be771a579cbd",
+    "sizeBytes": 23588,
+    "lines": 598,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
@@ -4803,6 +5984,7 @@
       "index",
       "ceilingViolations",
       "field",
+      "tokenFile",
       "parsed",
       "workspace",
       "writeValidAutomationFiles",
@@ -4817,6 +5999,7 @@
       "concept",
       "noisyConcept",
       "importGraphWithUnresolvedImport",
+      "importGraphWithClassifiedNonSourceImports",
       "contextPack"
     ],
     "isTest": true,
@@ -4834,9 +6017,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "40dd5a762cfb8b790f6061e7557c1884b8a743d60cfd9d3c3f9ad683cc4feb7b",
-    "sizeBytes": 33923,
-    "lines": 887,
+    "contentHash": "400d3f33881c18f884ffedda02b05d81b2beda919ab6d02f8541f180c2e3a7a9",
+    "sizeBytes": 43839,
+    "lines": 1143,
     "imports": [
       "node:fs",
       "node:fs/promises",
@@ -4845,16 +6028,19 @@
       "./scanner.js",
       "./automationValidation.js",
       "./changeReview.js",
+      "./validator.js",
       "./workspace.js",
       "./contextLimits.js",
       "./context.js",
-      "./runReports.js"
+      "./runReports.js",
+      "./promptRouter.js"
     ],
     "exports": [
       "EvaluationReport",
       "EvaluationIssue",
       "GeneratedMemoryQualityFixture",
       "ExpectedContextPackQuality",
+      "ExpectedRouteQuality",
       "GeneratedMemoryQualityReport",
       "EvaluateGeneratedMemoryQualityInput",
       "EvaluateProjectOptions",
@@ -4869,11 +6055,11 @@
       "LOOP_RUNTIME_PATH",
       "QUALITY_FIXTURE_PATH",
       "CHANGE_RECORD_REVIEW_THRESHOLD",
-      "NOISY_CONCEPT_IDS",
       "EvaluationReport",
       "EvaluationIssue",
       "GeneratedMemoryQualityFixture",
       "ExpectedContextPackQuality",
+      "ExpectedRouteQuality",
       "ContextPackCeilingField",
       "GeneratedMemoryQualityReport",
       "EvaluateGeneratedMemoryQualityInput",
@@ -4907,7 +6093,7 @@
       "allowedNoisyConceptIds"
     ],
     "isTest": false,
-    "summary": "evaluator.ts is a TypeScript implementation file. AST-backed scan. Defines LOOP_CONFIG_PATH, LOOP_RUNTIME_PATH, QUALITY_FIXTURE_PATH, CHANGE_RECORD_REVIEW_THRESHOLD, NOISY_CONCEPT_IDS. Depends on node:fs, node:fs/promises, node:path, ./schema.js.",
+    "summary": "evaluator.ts is a TypeScript implementation file. AST-backed scan. Defines LOOP_CONFIG_PATH, LOOP_RUNTIME_PATH, QUALITY_FIXTURE_PATH, CHANGE_RECORD_REVIEW_THRESHOLD, EvaluationReport. Depends on node:fs, node:fs/promises, node:path, ./schema.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.evaluator.ts",
       "module.packages",
@@ -4925,9 +6111,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "9615622c178fb3d4821fcb6c9e6097318e457a4add5bdb8179598302a78efe2f",
-    "sizeBytes": 13278,
-    "lines": 330,
+    "contentHash": "3e4247dfe349bead40f810ac21649bc464baeb7822166971cde9dcc91a2759d2",
+    "sizeBytes": 14544,
+    "lines": 359,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
@@ -4940,12 +6126,15 @@
     "symbols": [
       "plan",
       "mission",
+      "goalText",
+      "route",
+      "affectedFiles",
+      "missionFiles",
+      "filePath",
       "cases",
       "fixture",
       "root",
-      "filePath",
       "content",
-      "affectedFiles",
       "checks",
       "expectedFile",
       "expectedCheck",
@@ -4963,7 +6152,7 @@
       "file"
     ],
     "isTest": true,
-    "summary": "goal.test.ts is a TypeScript test coverage file. AST-backed scan. Defines plan, mission, cases, fixture, root. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "summary": "goal.test.ts is a TypeScript test coverage file. AST-backed scan. Defines plan, mission, goalText, route, affectedFiles. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.packages.core.src.goal.test.ts",
       "module.packages",
@@ -4977,9 +6166,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "37d673467fbcea1c1fad078ee321c3eaa6b8af881262c956471fb3495baccd32",
-    "sizeBytes": 55424,
-    "lines": 1471,
+    "contentHash": "a2348365f6191b8985e8a651240025f2f0e81f611eb5c26267c902eff17aac7c",
+    "sizeBytes": 56865,
+    "lines": 1518,
     "imports": [
       "node:fs",
       "node:path",
@@ -5038,6 +6227,7 @@
       "goalJsonRelativePath",
       "missionDirRelativePath",
       "tokens",
+      "promptEvidence",
       "scoredFiles",
       "scoredNodes",
       "scoredConcepts",
@@ -5045,8 +6235,7 @@
       "selectedNodes",
       "selectedConcepts",
       "selectedInvariants",
-      "baseSelectedLayers",
-      "missionProfile"
+      "baseSelectedLayers"
     ],
     "isTest": false,
     "summary": "goal.ts is a TypeScript implementation file. AST-backed scan. Defines GoalMode, GoalStatus, GoalLayer, GoalMissionPriority, GoalMissionRisk. Depends on node:fs, node:path, ./promptRouter.js, ./schema.js.",
@@ -5138,9 +6327,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "fc1c57d952b568273593f653b154292516335e202a253e9e6a2cba2874fe243d",
-    "sizeBytes": 11812,
-    "lines": 300,
+    "contentHash": "806d466c7223eba11e14204f462884e74dd2d9f1a5f2d56186c2055b602c0f62",
+    "sizeBytes": 22920,
+    "lines": 534,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
@@ -5156,10 +6345,11 @@
       "graph",
       "root",
       "workspace",
-      "file"
+      "file",
+      "fileLanguage"
     ],
     "isTest": true,
-    "summary": "importGraph.test.ts is a TypeScript test coverage file. AST-backed scan. Defines graph, root, workspace, file. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "summary": "importGraph.test.ts is a TypeScript test coverage file. AST-backed scan. Defines graph, root, workspace, file, fileLanguage. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
     "ownedByNodeIds": [
       "file.packages.core.src.importgraph.test.ts",
       "module.packages",
@@ -5173,9 +6363,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "a50f9e0d2852912e6d23bca93e95a050c3973b6bc358c28e8eaa9cdb656a216d",
-    "sizeBytes": 28848,
-    "lines": 794,
+    "contentHash": "fe383f6da5271c725a6441332a9459ab52c69ebfe8afab4b22c583c0e4edb400",
+    "sizeBytes": 64165,
+    "lines": 1752,
     "imports": [
       "node:fs/promises",
       "node:path",
@@ -5184,6 +6374,8 @@
     ],
     "exports": [
       "BuildImportGraphOptions",
+      "RustPackageRoot",
+      "GoModuleRoot",
       "emptyImportGraph",
       "buildImportGraph",
       "buildImportGraphFromFiles",
@@ -5192,47 +6384,47 @@
     "symbols": [
       "BuildImportGraphOptions",
       "PackageManifest",
+      "WorkspacePatternSpec",
       "GeneratedPackageArtifactResolution",
       "AliasRule",
       "AliasMatch",
       "AliasResolution",
+      "PythonPackageRoot",
+      "PythonResolution",
+      "RustPackageRoot",
+      "RustResolution",
+      "GoModuleRoot",
+      "GoResolution",
       "JAVASCRIPT_EXTENSIONS",
-      "RESOLUTION_EXTENSIONS",
+      "PYTHON_EXTENSIONS",
+      "RUST_EXTENSIONS",
+      "GO_EXTENSIONS",
+      "MARKDOWN_EXTENSIONS",
+      "IMPORT_GRAPH_EXTENSIONS",
+      "JAVASCRIPT_RESOLUTION_EXTENSIONS",
+      "PYTHON_RESOLUTION_EXTENSIONS",
+      "RUST_RESOLUTION_EXTENSIONS",
+      "MARKDOWN_RESOLUTION_EXTENSIONS",
+      "STATIC_ASSET_EXTENSIONS",
+      "STATIC_ASSET_QUERY_KEYS",
       "EXTENSION_ALIASES",
       "GENERATED_PACKAGE_BUILD_DIRS",
+      "GENERATED_ARTIFACT_DIRS",
       "emptyImportGraph",
       "buildImportGraph",
       "workspacePackages",
+      "rustPackages",
+      "goModules",
       "importResolution",
       "buildImportGraphFromFiles",
       "fileSet",
       "workspaceByName",
       "aliasRules",
       "rootDirs",
-      "edges",
-      "externalImports",
-      "unresolvedImports",
-      "file",
-      "specifier",
-      "to",
-      "generatedArtifact",
-      "aliasResolution",
-      "packageName",
-      "workspacePackage",
-      "workspaceResolution",
-      "uniqueEdges",
-      "discoverWorkspacePackages",
-      "rootManifest",
-      "patterns",
-      "roots",
-      "pattern",
-      "root",
-      "packages",
-      "manifest",
-      "name"
+      "pythonPackages"
     ],
     "isTest": false,
-    "summary": "importGraph.ts is a TypeScript implementation file. AST-backed scan. Defines BuildImportGraphOptions, PackageManifest, GeneratedPackageArtifactResolution, AliasRule, AliasMatch. Depends on node:fs/promises, node:path, ./schema.js, ./importAliases.js.",
+    "summary": "importGraph.ts is a TypeScript implementation file. AST-backed scan. Defines BuildImportGraphOptions, PackageManifest, WorkspacePatternSpec, GeneratedPackageArtifactResolution, AliasRule. Depends on node:fs/promises, node:path, ./schema.js, ./importAliases.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.importgraph.ts",
       "module.packages",
@@ -5671,9 +6863,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "9ed018f38b948abdab2cfe21f00e18402796b77a0c6409f146f83418ab6f380f",
-    "sizeBytes": 6431,
-    "lines": 183,
+    "contentHash": "62735a20813cf0b9371b84a57cf104e596d91ae450372b19eacbaea3f69cfbdc",
+    "sizeBytes": 7111,
+    "lines": 196,
     "imports": [
       "node:assert/strict",
       "node:test",
@@ -5682,12 +6874,13 @@
     "exports": [],
     "symbols": [
       "result",
+      "evidence",
       "fixtureMemory",
       "node",
       "file"
     ],
     "isTest": true,
-    "summary": "promptRouter.test.ts is a TypeScript test coverage file. AST-backed scan. Defines result, fixtureMemory, node, file. Depends on node:assert/strict, node:test, ./index.js.",
+    "summary": "promptRouter.test.ts is a TypeScript test coverage file. AST-backed scan. Defines result, evidence, fixtureMemory, node, file. Depends on node:assert/strict, node:test, ./index.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.promptrouter.test.ts",
       "module.packages",
@@ -5701,9 +6894,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "2227b4b8da698ecefd5b914dac72c7b1000887794b10f658b1cc51dafc05c5dd",
-    "sizeBytes": 21399,
-    "lines": 519,
+    "contentHash": "0be92744e28b52bf9c5f0ac5bf34d8e67fc360152448d31c78acb7ffd69cfd90",
+    "sizeBytes": 24005,
+    "lines": 581,
     "imports": [
       "./schema.js"
     ],
@@ -5713,7 +6906,11 @@
       "PromptRouteComplexity",
       "PromptRouteInput",
       "PromptRouteResult",
+      "PromptScoredEvidence",
+      "PromptEvidenceInput",
+      "PromptEvidenceResult",
       "routePrompt",
+      "scorePromptEvidence",
       "formatPromptRouteResult"
     ],
     "symbols": [
@@ -5722,7 +6919,9 @@
       "PromptRouteComplexity",
       "PromptRouteInput",
       "PromptRouteResult",
-      "ScoredItem",
+      "PromptScoredEvidence",
+      "PromptEvidenceInput",
+      "PromptEvidenceResult",
       "stopWords",
       "orderedLayers",
       "directTerms",
@@ -5735,15 +6934,13 @@
       "routePrompt",
       "prompt",
       "lowerPrompt",
-      "tokens",
       "nodes",
       "files",
       "concepts",
       "invariants",
       "memoryAvailable",
-      "scoredFiles",
-      "scoredNodes",
-      "scoredConcepts",
+      "evidence",
+      "tokens",
       "estimatedFiles",
       "estimatedAffectedNodes",
       "estimatedAffectedConcepts",
@@ -5842,9 +7039,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "f3c39c60a8c0dedf71405f51f78b1683b42010d33b0ebeb6428605e251358d87",
-    "sizeBytes": 16580,
-    "lines": 524,
+    "contentHash": "3580948e302b0cc2426034f095695c5b8ffc628f0834babe3b1869566d15dd1e",
+    "sizeBytes": 17131,
+    "lines": 547,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
@@ -5902,9 +7099,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "229096b32bb7d78218c025e2f11357e639172e252593dba6d965dfcede9c39b9",
-    "sizeBytes": 62414,
-    "lines": 1344,
+    "contentHash": "40edf3eaeee1bf6b24700800eda25035fe7bd89213dd7a28670cdceac47a9788",
+    "sizeBytes": 64703,
+    "lines": 1384,
     "imports": [
       "./schema.js"
     ],
@@ -5951,6 +7148,7 @@
       "EVALUATION_HINT",
       "CHANGE_HINT",
       "API_STATE_HINT",
+      "IMPORT_CLASSIFICATIONS",
       "RuntimeSchemaValidationError",
       "issues",
       "formatRuntimeValidationIssue",
@@ -5962,6 +7160,7 @@
       "validateAtreeConfigSchema",
       "record",
       "visualApp",
+      "artifacts",
       "validateAtreeConfigOverrideSchema",
       "validateConfigVersion",
       "comparison",
@@ -5975,9 +7174,7 @@
       "validateTreeNodesSchema",
       "validateImportGraphSchema",
       "validateConceptsSchema",
-      "validateInvariantsSchema",
-      "validateChangeRecordsSchema",
-      "validateChangeRecordSchema"
+      "validateInvariantsSchema"
     ],
     "isTest": false,
     "summary": "runtimeSchema.ts is a TypeScript implementation file. AST-backed scan. Defines CURRENT_ATREE_SCHEMA_VERSION, SUPPORTED_ATREE_SCHEMA_VERSIONS, RuntimeSchemaKind, RuntimeMigration, ATREE_CONFIG_MIGRATIONS. Depends on ./schema.js.",
@@ -5998,9 +7195,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "4925247ea3c0af6eb33c88eec7aa730272e925e6ef8a533d34ad3abf6b00b1cc",
-    "sizeBytes": 14090,
-    "lines": 300,
+    "contentHash": "8e221e6f5b34dc8f33487f078cb204677432d5abd9ea73cedd043c2201f37565",
+    "sizeBytes": 17013,
+    "lines": 381,
     "imports": [
       "node:assert/strict",
       "node:fs/promises",
@@ -6019,8 +7216,19 @@
       "dottedPyTest",
       "prefixPyTest",
       "suffixPyTest",
+      "goSource",
+      "goSummary",
+      "goModSource",
+      "goModSummary",
       "goTestSource",
       "goTest",
+      "rustSource",
+      "rustSummary",
+      "rustTest",
+      "cargoSource",
+      "cargoSummary",
+      "markdownSource",
+      "markdownSummary",
       "root",
       "scan",
       "files",
@@ -6048,9 +7256,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "685d902eee5d810f77d3cf150e37f1bb6a0d2ddd9fe687671a85811817bb3fcd",
-    "sizeBytes": 17397,
-    "lines": 488,
+    "contentHash": "b1510ec08a5bf8aeb816407259e3f357cc4396898138c9a64bd78f2cc30c0ecd",
+    "sizeBytes": 24850,
+    "lines": 678,
     "imports": [
       "node:fs/promises",
       "node:crypto",
@@ -6126,9 +7334,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "61af2ec3509bf9cb44e047ad1d453b61c2bf8c3587dac0d3aa9925c6d2d67096",
-    "sizeBytes": 10540,
-    "lines": 466,
+    "contentHash": "38ab7f23e1909c5c8601fcf48a17f85bd117439c3ef55f753c1903408e4776d9",
+    "sizeBytes": 11693,
+    "lines": 509,
     "imports": [],
     "exports": [
       "AbstractionLevel",
@@ -6143,9 +7351,13 @@
       "ConceptSignalWeightsConfig",
       "AtreeConfig",
       "AtreeConfigOverride",
+      "ATREE_BUILT_IN_PROFILE_NAMES",
+      "AtreeBuiltInProfileName",
+      "AtreeBuiltInProfile",
       "FileSummary",
       "TreeNode",
       "ImportGraphEdgeKind",
+      "ImportClassification",
       "WorkspacePackage",
       "ImportGraphEdge",
       "ExternalImport",
@@ -6174,10 +7386,12 @@
       "CoherenceFindingView",
       "CoherenceReviewView",
       "ContextPackView",
+      "WorkflowArtifactPolicy",
       "WorkflowViewState",
       "AbstractionTreeState",
       "ContextSelectionKind",
       "ContextSelectionDiagnostic",
+      "ContextRouteDisagreementDiagnostic",
       "ContextPackDiagnostics",
       "ContextPack",
       "ValidationIssue"
@@ -6195,9 +7409,13 @@
       "ConceptSignalWeightsConfig",
       "AtreeConfig",
       "AtreeConfigOverride",
+      "ATREE_BUILT_IN_PROFILE_NAMES",
+      "AtreeBuiltInProfileName",
+      "AtreeBuiltInProfile",
       "FileSummary",
       "TreeNode",
       "ImportGraphEdgeKind",
+      "ImportClassification",
       "WorkspacePackage",
       "ImportGraphEdge",
       "ExternalImport",
@@ -6218,11 +7436,7 @@
       "GoalWorkspaceStats",
       "GoalWorkspaceView",
       "ScopeSelectionKind",
-      "ScopeSelectionStatus",
-      "ScopeSelectionImpact",
-      "ScopeSelectionItem",
-      "ScopeReviewStats",
-      "ScopeReviewView"
+      "ScopeSelectionStatus"
     ],
     "isTest": false,
     "summary": "schema.ts is a TypeScript data/schema file. AST-backed scan. Defines AbstractionLevel, TREE_NODE_THIN_EXPLANATION_CHAR_THRESHOLD, AbstractionOntologyLevel, InstallMode, MissionPlanningConfig.",
@@ -6243,26 +7457,35 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "7076963e510859a69c0ccd00f9c1219965af7ae9654c4ae5d4ecd708de55bf6f",
-    "sizeBytes": 4753,
-    "lines": 139,
+    "contentHash": "0fc6fd8c0ce3eb69f170b4fe5b50ba71ab1fec56d4afa6e97345df72a4ee91a2",
+    "sizeBytes": 9554,
+    "lines": 257,
     "imports": [
       "node:assert/strict",
       "node:test",
       "./scope.js",
+      "./promptRouter.js",
       "./schema.js"
     ],
     "exports": [],
     "symbols": [
       "contract",
       "report",
+      "files",
+      "nodes",
+      "prompt",
+      "route",
+      "filePath",
+      "sourceReport",
+      "docsReport",
       "fixtureNodes",
       "fixtureFiles",
       "node",
-      "file"
+      "file",
+      "concept"
     ],
     "isTest": true,
-    "summary": "scope.test.ts is a TypeScript test coverage file. AST-backed scan. Defines contract, report, fixtureNodes, fixtureFiles, node. Depends on node:assert/strict, node:test, ./scope.js, ./schema.js.",
+    "summary": "scope.test.ts is a TypeScript test coverage file. AST-backed scan. Defines contract, report, files, nodes, prompt. Depends on node:assert/strict, node:test, ./scope.js, ./promptRouter.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.scope.test.ts",
       "module.packages",
@@ -6276,12 +7499,13 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "5fa68f5eb719085f7dfa3432505ed17ab8b5ace907f9d503de773760762a3ec2",
-    "sizeBytes": 18674,
-    "lines": 532,
+    "contentHash": "e8925346a2543c5cd44c3aaa61666699c7a34ea1180bfd2d77a519954c8f6901",
+    "sizeBytes": 32736,
+    "lines": 840,
     "imports": [
       "./schema.js",
-      "./diffSummary.js"
+      "./diffSummary.js",
+      "./promptRouter.js"
     ],
     "exports": [
       "ScopeContractStatus",
@@ -6311,10 +7535,12 @@
       "buildScopeContract",
       "createdAt",
       "promptTokens",
+      "promptEvidence",
       "fileScores",
       "nodeScores",
       "selectedNodes",
       "affectedNodeIds",
+      "allowedFileInference",
       "allowedFiles",
       "allowedAreas",
       "ambiguities",
@@ -6323,24 +7549,22 @@
       "contract",
       "diffSummary",
       "violations",
+      "violationKinds",
+      "addViolation",
       "changedFiles",
       "nonMemoryFiles",
       "file",
       "dangerous",
+      "signal",
       "formatScopeContractMarkdown",
       "lines",
       "formatScopeCheckMarkdown",
       "scoreFiles",
       "haystack",
-      "scoreNodes",
-      "fileScoreMap",
-      "nodeFiles",
-      "fileScore",
-      "directScore",
-      "breadthPenalty"
+      "scoreNodes"
     ],
     "isTest": false,
-    "summary": "scope.ts is a TypeScript implementation file. AST-backed scan. Defines ScopeContractStatus, ScopeCheckStatus, ScopeViolationSeverity, ScopeContract, ScopeBuildInput. Depends on ./schema.js, ./diffSummary.js.",
+    "summary": "scope.ts is a TypeScript implementation file. AST-backed scan. Defines ScopeContractStatus, ScopeCheckStatus, ScopeViolationSeverity, ScopeContract, ScopeBuildInput. Depends on ./schema.js, ./diffSummary.js, ./promptRouter.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.scope.ts",
       "module.packages",
@@ -6358,13 +7582,17 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "eafb16b433e6b3ff9d7cd2a0bc6ce2469ef16cbe58861ee349f97125d7134746",
-    "sizeBytes": 18968,
-    "lines": 414,
+    "contentHash": "3c8470b4a8ffb76b6fa1405f6456f5e5fb1ae7e069b334362ab4816a0b1c033d",
+    "sizeBytes": 33604,
+    "lines": 785,
     "imports": [
       "node:assert/strict",
       "node:test",
+      "./evaluator.js",
+      "./importGraph.js",
       "./treeBuilder.js",
+      "./validator.js",
+      "./workspace.js",
       "./schema.js"
     ],
     "exports": [],
@@ -6376,15 +7604,31 @@
       "files",
       "indexes",
       "concepts",
+      "filler",
+      "useful",
+      "issues",
+      "report",
+      "rustCliProfile",
+      "withoutProfile",
+      "withProfile",
       "inventory",
       "architecture",
       "nodeId",
       "architectureNode",
+      "importGraph",
+      "quality",
       "dataflow",
       "file",
       "markdownFile",
+      "markdownBookFile",
+      "configFile",
+      "pythonFile",
+      "rustFile",
+      "rstFile",
       "monorepoImportGraph",
       "smallWebAppImportGraph",
+      "emptyImportGraph",
+      "memoryConcept",
       "assertIncludes",
       "value",
       "assertExpectedConcepts",
@@ -6392,7 +7636,7 @@
       "assertAbsentConcepts"
     ],
     "isTest": true,
-    "summary": "treeBuilder.test.ts is a TypeScript test coverage file. AST-backed scan. Defines result, concept, root, nodes, files. Depends on node:assert/strict, node:test, ./treeBuilder.js, ./schema.js.",
+    "summary": "treeBuilder.test.ts is a TypeScript test coverage file. AST-backed scan. Defines result, concept, root, nodes, files. Depends on node:assert/strict, node:test, ./evaluator.js, ./importGraph.js.",
     "ownedByNodeIds": [
       "file.packages.core.src.treebuilder.test.ts",
       "module.packages",
@@ -6406,9 +7650,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "4cbd0f00b09922ade54c77154c534520320aea81ccc3cca74510e7a22eea1716",
-    "sizeBytes": 97874,
-    "lines": 2006,
+    "contentHash": "b4bc5238caba63d65c31a4c8e8e60dcfe927a930369a844d362e1a1087b1fba0",
+    "sizeBytes": 130905,
+    "lines": 2745,
     "imports": [
       "node:path",
       "./schema.js"
@@ -6623,9 +7867,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "4e80be98a83bf7a760f54fcdfd7f99ed67babaaf125171743fd82b8c1dbceb4e",
-    "sizeBytes": 28438,
-    "lines": 844,
+    "contentHash": "52a807b6f63f584632834787d55361fac757f3d5c2e7038b5d30ea041b48e754",
+    "sizeBytes": 31105,
+    "lines": 906,
     "imports": [
       "./schema.js"
     ],
@@ -6633,6 +7877,7 @@
       "validateTree",
       "detectFileDrift",
       "validateConcepts",
+      "conceptQualityReasons",
       "validateInvariants",
       "validateChanges",
       "validateContextPacks"
@@ -6664,7 +7909,12 @@
       "filePath",
       "validateConcepts",
       "concept",
+      "qualityReasons",
+      "reason",
       "nodeId",
+      "conceptQualityReasons",
+      "reasons",
+      "normalizedId",
       "validateInvariants",
       "invariant",
       "invariantIds",
@@ -6672,12 +7922,7 @@
       "validateChanges",
       "change",
       "record",
-      "changeId",
-      "validateContextPacks",
-      "conceptIds",
-      "changeIds",
-      "packId",
-      "nodeRef"
+      "changeId"
     ],
     "isTest": false,
     "summary": "validator.ts is a TypeScript implementation file. AST-backed scan. Defines validateTree, issues, filePaths, nodeIds, nodeById. Depends on ./schema.js.",
@@ -6698,9 +7943,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "b7a72b5ac45d89ac09d49365dae7f9b4833e6134b3be95d44bd7c26969d75beb",
-    "sizeBytes": 5893,
-    "lines": 126,
+    "contentHash": "81cb9058a89a0e371f850b1ea15b32be88303d525a2871a5a699690b4d0ec0c1",
+    "sizeBytes": 8211,
+    "lines": 181,
     "imports": [
       "node:assert/strict",
       "node:fs",
@@ -6717,6 +7962,9 @@
     "symbols": [
       "root",
       "filePath",
+      "configPath",
+      "config",
+      "updated",
       "scan",
       "importGraph",
       "built",
@@ -6724,13 +7972,13 @@
       "tree",
       "globalRoot",
       "globalConfigPath",
-      "config",
       "baseOnly",
+      "profileOnly",
       "workspace",
       "sortedEntries"
     ],
     "isTest": true,
-    "summary": "workspace.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, filePath, scan, importGraph, built. Depends on node:assert/strict, node:fs, node:fs/promises, node:os.",
+    "summary": "workspace.test.ts is a TypeScript test coverage file. AST-backed scan. Defines root, filePath, configPath, config, updated. Depends on node:assert/strict, node:fs, node:fs/promises, node:os.",
     "ownedByNodeIds": [
       "file.packages.core.src.workspace.test.ts",
       "module.packages",
@@ -6744,9 +7992,9 @@
     "extension": ".ts",
     "language": "TypeScript",
     "parseStrategy": "typescript-ast",
-    "contentHash": "27bae767b51c48d568a1e35751069ed17fb03b54e94789c0d570441f3380dc4d",
-    "sizeBytes": 19625,
-    "lines": 543,
+    "contentHash": "134de45e659a059433a2fff98d72866c5d725ef59e27d6b998ea3cf873cba72a",
+    "sizeBytes": 35930,
+    "lines": 932,
     "imports": [
       "node:fs/promises",
       "node:fs",
@@ -6759,6 +8007,8 @@
     "exports": [
       "ATREE_DIR",
       "ATREE_ROOT_CONFIG",
+      "BUILT_IN_ATREE_PROFILES",
+      "builtInAtreeProfileNames",
       "atreePath",
       "defaultConfig",
       "ensureWorkspace",
@@ -6788,6 +8038,8 @@
     "symbols": [
       "ATREE_DIR",
       "ATREE_ROOT_CONFIG",
+      "BUILT_IN_ATREE_PROFILES",
+      "builtInAtreeProfileNames",
       "atreePath",
       "defaultConfig",
       "ensureWorkspace",
@@ -6823,12 +8075,10 @@
       "evaluations",
       "readFileSummaries",
       "readImportGraph",
-      "readOntology",
-      "readTreeNodes",
-      "readConcepts"
+      "readOntology"
     ],
     "isTest": false,
-    "summary": "workspace.ts is a TypeScript implementation file. AST-backed scan. Defines ATREE_DIR, ATREE_ROOT_CONFIG, atreePath, defaultConfig, ensureWorkspace. Depends on node:fs/promises, node:fs, node:os, node:path.",
+    "summary": "workspace.ts is a TypeScript implementation file. AST-backed scan. Defines ATREE_DIR, ATREE_ROOT_CONFIG, BUILT_IN_ATREE_PROFILES, builtInAtreeProfileNames, atreePath. Depends on node:fs/promises, node:fs, node:os, node:path.",
     "ownedByNodeIds": [
       "file.packages.core.src.workspace.ts",
       "module.packages",
@@ -6943,10 +8193,31 @@
     "extension": ".md",
     "language": "Markdown",
     "parseStrategy": "regex",
-    "contentHash": "556ae15068d6bc1a07c25ee595b1f63a327915ef1bbb1e9db48c553a8779c4db",
-    "sizeBytes": 9532,
-    "lines": 191,
-    "imports": [],
+    "contentHash": "b650752dee1b1fa2168de88878d44079e7f88f98c2e220202adada9004ffad08",
+    "sizeBytes": 9770,
+    "lines": 194,
+    "imports": [
+      "docs/CONFIGURATION.md",
+      "docs/GETTING_STARTED.md",
+      "docs/STABLE_VS_EXPERIMENTAL.md",
+      "docs/VISUAL_DEMO.md",
+      "docs/assets/visual-demo/tree-hierarchy.png",
+      "docs/README.md",
+      "docs/V1_RELEASE_GATE.md",
+      "docs/GOAL_DRIVEN_MISSION_WORKFLOW.md",
+      "docs/MISSION_RUNNER.md",
+      "docs/SCOPE_CONTRACTS.md",
+      "docs/ASSESSMENT_PACKS.md",
+      "docs/AGENT_PROTOCOL.md",
+      "docs/DATA_MODEL.md",
+      "docs/ARCHITECTURE.md",
+      "docs/PACKAGING.md",
+      "docs/RELEASE_RUNBOOK.md",
+      "docs/CI_INTEGRATION.md",
+      "docs/EXPERIMENTAL_DOGFOODING_LOOP.md",
+      "docs/ROADMAP.md",
+      "docs/V1_RELEASE_CANDIDATE_REVIEW.md"
+    ],
     "exports": [],
     "symbols": [
       "Abstraction Tree",
@@ -7001,6 +8272,130 @@
       "subsystem.tests.quality",
       "subsystem.tests.quality.slice.script.quality",
       "subsystem.tests.quality.file.scripts.app.node.accessors.test.mjs"
+    ]
+  },
+  {
+    "path": "scripts/capture-release-gate-evidence.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "7076a60c8c3db629fd2c556ece5ebd0e120e00a5536ed7581bb4a858f67cb7b6",
+    "sizeBytes": 14628,
+    "lines": 479,
+    "imports": [
+      "node:child_process",
+      "node:fs",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:url"
+    ],
+    "exports": [
+      "releaseGateCommands",
+      "installCommand",
+      "main",
+      "captureReleaseGateEvidence",
+      "buildGateCommands",
+      "runGateCommands",
+      "runCommandWithCapture",
+      "buildCommandInvocation",
+      "resolveNpmInvocation",
+      "formatEvidenceTimestamp",
+      "defaultEvidencePath",
+      "normalizeEvidencePath",
+      "normalizePathSeparators",
+      "renderEvidenceMarkdown"
+    ],
+    "symbols": [
+      "repoRoot",
+      "releaseGateCommands",
+      "installCommand",
+      "main",
+      "options",
+      "result",
+      "captureReleaseGateEvidence",
+      "root",
+      "now",
+      "version",
+      "outputPath",
+      "commandSpecs",
+      "startedAt",
+      "environment",
+      "results",
+      "endedAt",
+      "status",
+      "provisionalFinalGitStatus",
+      "provisionalMarkdown",
+      "finalGitStatus",
+      "markdown",
+      "buildGateCommands",
+      "commands",
+      "runGateCommands",
+      "runner",
+      "spec",
+      "runCommandWithCapture",
+      "invocation",
+      "cwd",
+      "startTime",
+      "child",
+      "error",
+      "stdout",
+      "stderr",
+      "buildCommandInvocation",
+      "npm",
+      "resolveNpmInvocation",
+      "env",
+      "platform",
+      "execPath"
+    ],
+    "isTest": false,
+    "summary": "capture-release-gate-evidence.mjs is a JavaScript implementation file. AST-backed scan. Defines repoRoot, releaseGateCommands, installCommand, main, options. Depends on node:child_process, node:fs, node:fs/promises, node:os.",
+    "ownedByNodeIds": [
+      "file.scripts.capture.release.gate.evidence.mjs",
+      "module.scripts",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.capture.release.gate.evidence.mjs"
+    ]
+  },
+  {
+    "path": "scripts/capture-release-gate-evidence.test.mjs",
+    "extension": ".mjs",
+    "language": "JavaScript",
+    "parseStrategy": "typescript-ast",
+    "contentHash": "887f92923a1a598c0bd57d14b87ae02dcc57c673fb29909449a21d3a56c7e102",
+    "sizeBytes": 4778,
+    "lines": 133,
+    "imports": [
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:os",
+      "node:path",
+      "node:test",
+      "./capture-release-gate-evidence.mjs"
+    ],
+    "exports": [],
+    "symbols": [
+      "commands",
+      "invocation",
+      "seen",
+      "results",
+      "root",
+      "outputPath",
+      "result",
+      "evidence"
+    ],
+    "isTest": true,
+    "summary": "capture-release-gate-evidence.test.mjs is a JavaScript test coverage file. AST-backed scan. Defines commands, invocation, seen, results, root. Depends on node:assert/strict, node:fs/promises, node:os, node:path.",
+    "ownedByNodeIds": [
+      "file.scripts.capture.release.gate.evidence.test.mjs",
+      "module.scripts",
+      "subsystem.packaging.adapters",
+      "subsystem.packaging.adapters.slice.release.scripts",
+      "subsystem.packaging.adapters.file.scripts.capture.release.gate.evidence.test.mjs",
+      "subsystem.tests.quality",
+      "subsystem.tests.quality.slice.script.quality",
+      "subsystem.tests.quality.file.scripts.capture.release.gate.evidence.test.mjs"
     ]
   },
   {

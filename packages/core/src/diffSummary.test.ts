@@ -77,6 +77,34 @@ test("buildDiffSummary detects generated memory files", () => {
   assert.equal(summary.changedMemoryFiles, 3);
   assert.equal(summary.changedGeneratedMemoryFiles, 3);
   assert.equal(summary.files.find(file => file.path.endsWith("agent-run.md"))?.addedLines, 38);
+  assert.ok(summary.overreach.some(signal => signal.kind === "generated-only-change"));
+});
+
+test("buildDiffSummary reports review-specific overreach categories", () => {
+  const docsSummary = buildDiffSummary([
+    { path: "docs/SCOPE_CONTRACTS.md", addedLines: 5, deletedLines: 1 }
+  ]);
+  assert.ok(docsSummary.overreach.some(signal => signal.kind === "docs-only-change"));
+
+  const implementationSummary = buildDiffSummary([
+    { path: "packages/core/src/scope.ts", addedLines: 20, deletedLines: 4 },
+    { path: "packages/cli/src/scopeCommand.ts", addedLines: 8, deletedLines: 2 },
+    { path: "package.json", addedLines: 1, deletedLines: 0 }
+  ]);
+
+  assert.ok(implementationSummary.overreach.some(signal => signal.kind === "package-metadata-change"));
+  assert.ok(implementationSummary.overreach.some(signal => signal.kind === "implementation-without-test"));
+  assert.ok(implementationSummary.overreach.some(signal => signal.kind === "source-changed-memory-not-refreshed"));
+  assert.ok(implementationSummary.overreach.some(signal => signal.kind === "cross-subsystem-change"));
+
+  const fullStackSummary = buildDiffSummary([
+    { path: "backend/middleware/authMiddleware.js", addedLines: 10, deletedLines: 1 },
+    { path: "backend/routes/goalRoutes.js", addedLines: 8, deletedLines: 2 },
+    { path: "frontend/src/pages/Dashboard.jsx", addedLines: 15, deletedLines: 3 }
+  ]);
+  const fullStackSignal = fullStackSummary.overreach.find(signal => signal.kind === "cross-subsystem-change");
+  assert.ok(fullStackSignal);
+  assert.match(fullStackSignal.message, /backend, frontend/);
 });
 
 function assertDanger(summary: ReturnType<typeof buildDiffSummary>, filePath: string, reason: string) {

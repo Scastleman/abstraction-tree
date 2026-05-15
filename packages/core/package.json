@@ -6,8 +6,8 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist",
+    "!dist/**/*.js.map",
     "!dist/**/*.test.js",
-    "!dist/**/*.test.js.map",
     "!dist/**/*.test.d.ts"
   ],
   "scripts": {

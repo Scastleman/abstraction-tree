@@ -50,7 +50,11 @@ const EXTENSION_DESCRIPTORS: Record<string, ExtensionDescriptor> = {
   ".yml": { language: "YAML", parseStrategy: "regex" },
   ".md": { language: "Markdown", parseStrategy: "regex" },
   ".mdx": { language: "MDX", parseStrategy: "regex" },
+  ".rst": { language: "reStructuredText", parseStrategy: "regex" },
+  ".mod": { language: "Go Module", parseStrategy: "regex" },
   ".toml": { language: "TOML", parseStrategy: "regex" },
+  ".cfg": { language: "INI", parseStrategy: "regex" },
+  ".ini": { language: "INI", parseStrategy: "regex" },
   ".sh": { language: "Shell", parseStrategy: "regex" },
   ".ps1": { language: "PowerShell", parseStrategy: "regex" },
   ".html": { language: "HTML", parseStrategy: "regex" },
@@ -238,6 +242,7 @@ function isLanguageTestConvention(basenameWithoutExtension: string, extension: s
   const normalizedExtension = extension.toLowerCase();
   if (normalizedExtension === ".py") return /^test_/i.test(basenameWithoutExtension) || /_test$/i.test(basenameWithoutExtension);
   if (normalizedExtension === ".go") return /_test$/i.test(basenameWithoutExtension);
+  if (normalizedExtension === ".rs") return /_test$/i.test(basenameWithoutExtension);
   return false;
 }
 
@@ -246,7 +251,7 @@ function extractSourceFacts(filePath: string, descriptor: ExtensionDescriptor | 
     return extractTypeScriptFacts(filePath, descriptor.scriptKind, text);
   }
 
-  return extractRegexFacts(text);
+  return extractRegexFacts(filePath, text);
 }
 
 function extractTypeScriptFacts(filePath: string, scriptKind: ts.ScriptKind, text: string): SourceFacts {
@@ -272,36 +277,217 @@ function extractTypeScriptFacts(filePath: string, scriptKind: ts.ScriptKind, tex
   };
 }
 
-function extractRegexFacts(text: string): SourceFacts {
-  const imports = extractMatches(text, [
-    /import\s+(?:[^"']+\s+from\s+)?["']([^"']+)["']/g,
-    /require\(["']([^"']+)["']\)/g,
-    /^from\s+([\w.]+)\s+import\s+/gm,
-    /^import\s+([\w.]+)/gm,
-    /^#include\s+[<"]([^>"]+)[>"]/gm,
-    /^\s*(?:source|\.)\s+["']?([^"'\s]+)["']?/gm,
-    /^\s*Import-Module\s+["']?([^"'\s]+)["']?/gim,
-    /^\s*@(?:import|use|forward)\s+(?:url\(\s*)?["']?([^"')\s;]+)["']?\s*\)?/gm,
-    /<(?:script|link)\b[^>]+\b(?:src|href)=["']([^"']+)["']/gim
-  ]);
-  const exports = extractMatches(text, [
-    /export\s+(?:default\s+)?(?:class|function|const|let|var|interface|type)\s+([A-Za-z0-9_]+)/g,
-    /module\.exports\s*=\s*([A-Za-z0-9_]+)/g
-  ]);
-  const symbols = extractMatches(text, [
-    /(?:class|interface|type|function)\s+([A-Za-z0-9_]+)/g,
-    /(?:const|let|var)\s+([A-Za-z0-9_]+)\s*=/g,
-    /^def\s+([A-Za-z0-9_]+)\s*\(/gm,
-    /^class\s+([A-Za-z0-9_]+)/gm,
-    /func\s+([A-Za-z0-9_]+)\s*\(/g,
-    /^\s*(?:function\s+)?([A-Za-z_][A-Za-z0-9_-]*)\s*\(\)\s*\{/gm,
-    /^\s*function\s+([A-Za-z_][A-Za-z0-9_-]*)\b/gim,
-    /^\s*\[([A-Za-z0-9_.-]+)\]/gm,
-    /^\s*#{1,6}\s+(.+?)\s*#*$/gm,
-    /^[^{\n]*[.#]([A-Za-z_][A-Za-z0-9_-]*)[\s:{.#,\[>]/gm
+function extractRegexFacts(filePath: string, text: string): SourceFacts {
+  const imports = uniqueStrings([
+    ...extractMatches(text, [
+      /import\s+(?:[^"']+\s+from\s+)?["']([^"']+)["']/g,
+      /require\(["']([^"']+)["']\)/g,
+      /^\s*from\s+([.\w]+)\s+import\s+/gm,
+      /^\s*import\s+([.\w]+)/gm,
+      /^#include\s+[<"]([^>"]+)[>"]/gm,
+      /^\s*(?:source|\.)\s+["']?([^"'\s]+)["']?/gm,
+      /^\s*Import-Module\s+["']?([^"'\s]+)["']?/gim,
+      /^\s*@(?:import|use|forward)\s+(?:url\(\s*)?["']?([^"')\s;]+)["']?\s*\)?/gm,
+      /<(?:script|link)\b[^>]+\b(?:src|href)=["']([^"']+)["']/gim
+    ]),
+    ...extractGoImports(filePath, text),
+    ...extractMarkdownImports(filePath, text),
+    ...extractRustImports(filePath, text)
+  ]).slice(0, 80);
+  const exports = uniqueStrings([
+    ...extractMatches(text, [
+      /export\s+(?:default\s+)?(?:class|function|const|let|var|interface|type)\s+([A-Za-z0-9_]+)/g,
+      /module\.exports\s*=\s*([A-Za-z0-9_]+)/g
+    ]),
+    ...extractGoExports(filePath, text),
+    ...extractRustExports(filePath, text)
+  ]).slice(0, 80);
+  const symbols = uniqueStrings([
+    ...extractMatches(text, [
+      /(?:class|interface|type|function)\s+([A-Za-z0-9_]+)/g,
+      /(?:const|let|var)\s+([A-Za-z0-9_]+)\s*=/g,
+      /^\s*(?:async\s+)?def\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(/gm,
+      /^\s*class\s+([A-Za-z_][A-Za-z0-9_]*)/gm,
+      /func\s+([A-Za-z0-9_]+)\s*\(/g,
+      /^\s*(?:function\s+)?([A-Za-z_][A-Za-z0-9_-]*)\s*\(\)\s*\{/gm,
+      /^\s*function\s+([A-Za-z_][A-Za-z0-9_-]*)\b/gim,
+      /^\s*\[([A-Za-z0-9_.-]+)\]/gm,
+      /^\s*#{1,6}\s+(.+?)\s*#*$/gm,
+      /^(.{3,80})\r?\n[=-]{3,}\s*$/gm,
+      /^[^{\n]*[.#]([A-Za-z_][A-Za-z0-9_-]*)[\s:{.#,\[>]/gm
+    ]),
+    ...extractGoSymbols(filePath, text),
+    ...extractGoModSymbols(filePath, text),
+    ...extractRustSymbols(filePath, text),
+    ...extractCargoTomlSymbols(filePath, text)
   ]).slice(0, 40);
 
   return { imports, exports, symbols, parseStrategy: "regex" };
+}
+
+function extractGoImports(filePath: string, text: string): string[] {
+  if (path.extname(filePath).toLowerCase() !== ".go") return [];
+  const imports = new Set<string>(extractMatches(text, [
+    /^\s*import\s+(?:(?:[A-Za-z_][A-Za-z0-9_]*|\.|_)\s+)?["`]([^"`]+)["`]/gm
+  ]));
+
+  for (const match of text.matchAll(/^\s*import\s*\(([\s\S]*?)^\s*\)/gm)) {
+    const block = match[1] ?? "";
+    for (const rawLine of block.split(/\r?\n/u)) {
+      const line = rawLine.replace(/\/\/.*$/u, "").trim();
+      const importMatch = line.match(/^(?:(?:[A-Za-z_][A-Za-z0-9_]*|\.|_)\s+)?["`]([^"`]+)["`]/u);
+      if (importMatch?.[1]) imports.add(importMatch[1]);
+    }
+  }
+
+  return [...imports];
+}
+
+function extractGoExports(filePath: string, text: string): string[] {
+  if (path.extname(filePath).toLowerCase() !== ".go") return [];
+  return extractGoSymbols(filePath, text).filter(symbol => /^[A-Z]/u.test(symbol));
+}
+
+function extractGoSymbols(filePath: string, text: string): string[] {
+  if (path.extname(filePath).toLowerCase() !== ".go") return [];
+  return uniqueStrings([
+    ...extractMatches(text, [
+      /^\s*package\s+([A-Za-z_][A-Za-z0-9_]*)/gm,
+      /^\s*func\s+(?:\([^)]*\)\s*)?([A-Za-z_][A-Za-z0-9_]*)\s*\(/gm,
+      /^\s*type\s+([A-Za-z_][A-Za-z0-9_]*)\s+(?:struct|interface|func|map|\[\]|\w+)/gm
+    ])
+  ]);
+}
+
+function extractGoModSymbols(filePath: string, text: string): string[] {
+  if (path.basename(filePath).toLowerCase() !== "go.mod") return [];
+  const symbols: string[] = [];
+  for (const rawLine of text.split(/\r?\n/u)) {
+    const line = rawLine.replace(/\/\/.*$/u, "").trim();
+    const moduleMatch = line.match(/^module\s+(\S+)/u);
+    if (moduleMatch?.[1]) symbols.push(`go.module:${moduleMatch[1]}`);
+    const versionMatch = line.match(/^go\s+([0-9.]+)/u);
+    if (versionMatch?.[1]) symbols.push(`go.version:${versionMatch[1]}`);
+  }
+  return uniqueStrings(symbols);
+}
+
+function extractMarkdownImports(filePath: string, text: string): string[] {
+  const extension = path.extname(filePath).toLowerCase();
+  if (extension !== ".md" && extension !== ".mdx") return [];
+
+  return uniqueStrings([
+    ...extractMatches(text, [/!?\[[^\]]*]\(([^)]+)\)/g]),
+    ...extractMatches(text, [/^\s*\[[^\]]+]:\s*(\S+)/gm])
+  ].map(cleanMarkdownLinkTarget).filter((target): target is string => Boolean(target)));
+}
+
+function cleanMarkdownLinkTarget(raw: string): string | undefined {
+  let target = raw.trim();
+  if (!target || target.startsWith("#")) return undefined;
+
+  const angleMatch = target.match(/^<([^>]+)>/u);
+  if (angleMatch) {
+    target = angleMatch[1];
+  } else {
+    target = target.split(/\s+/u, 1)[0] ?? "";
+  }
+
+  target = target.trim().replace(/^['"]|['"]$/gu, "");
+  if (!target || target.startsWith("#")) return undefined;
+  if (/^[A-Za-z][A-Za-z0-9+.-]*:/u.test(target) || target.startsWith("//")) return undefined;
+
+  const [withoutHash] = target.split("#", 1);
+  const [withoutQuery] = withoutHash.split("?", 1);
+  return withoutQuery || undefined;
+}
+
+function extractRustImports(filePath: string, text: string): string[] {
+  if (path.extname(filePath).toLowerCase() !== ".rs") return [];
+  return uniqueStrings([
+    ...extractMatches(text, [/^\s*(?:pub(?:\([^)]*\))?\s+)?mod\s+([A-Za-z_][A-Za-z0-9_]*)\s*;/gm])
+      .map(moduleName => `mod:${moduleName}`),
+    ...extractMatches(text, [/^\s*extern\s+crate\s+([A-Za-z_][A-Za-z0-9_]*)\s*;/gm]),
+    ...extractMatches(text, [/^\s*use\s+([^;]+);/gm]).flatMap(rustUseSpecifiers)
+  ]);
+}
+
+function extractRustExports(filePath: string, text: string): string[] {
+  if (path.extname(filePath).toLowerCase() !== ".rs") return [];
+  return extractMatches(text, [
+    /^\s*pub(?:\([^)]*\))?\s+(?:async\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)\s*[<(]/gm,
+    /^\s*pub(?:\([^)]*\))?\s+(?:struct|enum|trait|type)\s+([A-Za-z_][A-Za-z0-9_]*)\b/gm
+  ]);
+}
+
+function extractRustSymbols(filePath: string, text: string): string[] {
+  if (path.extname(filePath).toLowerCase() !== ".rs") return [];
+  return extractMatches(text, [
+    /^\s*(?:pub(?:\([^)]*\))?\s+)?(?:async\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)\s*[<(]/gm,
+    /^\s*(?:pub(?:\([^)]*\))?\s+)?(?:struct|enum|trait|type)\s+([A-Za-z_][A-Za-z0-9_]*)\b/gm,
+    /^\s*(?:pub(?:\([^)]*\))?\s+)?mod\s+([A-Za-z_][A-Za-z0-9_]*)\s*;/gm
+  ]);
+}
+
+function rustUseSpecifiers(raw: string): string[] {
+  const cleaned = raw.replace(/\s+/g, " ").trim();
+  if (!cleaned) return [];
+  const openBrace = cleaned.indexOf("{");
+  const closeBrace = cleaned.lastIndexOf("}");
+  if (openBrace === -1 || closeBrace < openBrace) return [normalizeRustUseSpecifier(cleaned)].filter(Boolean);
+
+  const prefix = cleaned.slice(0, openBrace).replace(/::$/u, "").trim();
+  const inner = cleaned.slice(openBrace + 1, closeBrace);
+  return splitRustUseGroup(inner)
+    .map(part => normalizeRustUseSpecifier(prefix ? `${prefix}::${part}` : part))
+    .filter(Boolean);
+}
+
+function splitRustUseGroup(value: string): string[] {
+  const parts: string[] = [];
+  let current = "";
+  let depth = 0;
+  for (const character of value) {
+    if (character === "{") depth += 1;
+    if (character === "}") depth = Math.max(0, depth - 1);
+    if (character === "," && depth === 0) {
+      parts.push(current.trim());
+      current = "";
+      continue;
+    }
+    current += character;
+  }
+  if (current.trim()) parts.push(current.trim());
+  return parts;
+}
+
+function normalizeRustUseSpecifier(value: string): string {
+  return value
+    .replace(/\s+as\s+[A-Za-z_][A-Za-z0-9_]*$/u, "")
+    .replace(/\s+/g, "")
+    .trim();
+}
+
+function extractCargoTomlSymbols(filePath: string, text: string): string[] {
+  if (path.basename(filePath).toLowerCase() !== "cargo.toml") return [];
+  const symbols: string[] = [];
+  let section = "";
+  for (const rawLine of text.split(/\r?\n/u)) {
+    const line = rawLine.trim();
+    const sectionMatch = line.match(/^\[\[?([A-Za-z0-9_.-]+)\]?\]\s*$/u);
+    if (sectionMatch) {
+      section = sectionMatch[1];
+      symbols.push(section);
+      continue;
+    }
+    const keyValue = line.match(/^([A-Za-z0-9_.-]+)\s*=\s*["']([^"']+)["']/u);
+    if (!keyValue) continue;
+    const key = keyValue[1];
+    const value = keyValue[2];
+    if (section === "package" && key === "name") symbols.push(`package.name:${value}`);
+    if (section === "bin" && (key === "name" || key === "path")) symbols.push(`bin.${key}:${value}`);
+  }
+  return uniqueStrings(symbols);
 }
 
 function extractMatches(text: string, regexes: RegExp[]): string[] {
@@ -404,6 +590,10 @@ function isStringLiteralLike(node: ts.Node): node is ts.StringLiteral | ts.NoSub
 
 function take(values: Set<string>, limit: number): string[] {
   return [...values].filter(Boolean).slice(0, limit);
+}
+
+function uniqueStrings(values: string[]): string[] {
+  return [...new Set(values.filter(Boolean))];
 }
 
 function inferSummary(

@@ -216,11 +216,35 @@ test("evaluateProject reports generated-memory quality regressions", async t => 
   assert.equal(report.quality.concepts.noisyConceptCount, 1);
   assert.deepEqual(report.quality.fixture.missingExpectedConceptIds, ["checkout"]);
   assert.equal(report.quality.imports.unresolvedImportCount, 1);
+  assert.equal(report.quality.imports.unresolvedSourceImportCount, 1);
   assert.equal(report.quality.architecture.architectureCoveragePercent, 0);
   assert.equal(report.quality.context.missingExpectedInclusionCount, 1);
   assert.ok(report.issues.some(issue => issue.area === "quality" && issue.message.includes("missing expected concepts")));
   assert.ok(report.issues.some(issue => issue.area === "quality" && issue.message.includes("noisy concept")));
-  assert.ok(report.issues.some(issue => issue.area === "quality" && issue.message.includes("unresolved import")));
+  assert.ok(report.issues.some(issue => issue.area === "quality" && issue.message.includes("unresolved source import")));
+});
+
+test("evaluateProject excludes classified asset, generated, and virtual imports from source unresolved warnings", async t => {
+  const root = await workspace(t);
+  await writeValidAutomationFiles(root);
+  await mkdir(path.join(root, "src"), { recursive: true });
+  await writeFile(path.join(root, "src", "app.ts"), "import './logo.svg';\n", "utf8");
+  await writeJson(root, ".abstraction-tree/files.json", [file("src/app.ts", ["file.src.app.ts"])]);
+  await writeJson(root, ".abstraction-tree/tree.json", [node("file.src.app.ts", undefined, [])]);
+  await writeJson(root, ".abstraction-tree/import-graph.json", importGraphWithClassifiedNonSourceImports());
+
+  const report = await evaluateProject(root, { now: fixedNow() });
+
+  assert.equal(report.quality.imports.unresolvedImportCount, 2);
+  assert.equal(report.quality.imports.unresolvedSourceImportCount, 0);
+  assert.equal(report.quality.imports.staticAssetImportCount, 1);
+  assert.equal(report.quality.imports.generatedArtifactImportCount, 2);
+  assert.equal(report.quality.imports.virtualImportCount, 1);
+  assert.ok(!report.issues.some(issue =>
+    issue.area === "quality" &&
+    issue.filePath === ".abstraction-tree/import-graph.json" &&
+    issue.message.includes("unresolved source import")
+  ));
 });
 
 test("evaluateProject warns when expected context pack exceeds fixture ceilings", async t => {
@@ -295,6 +319,65 @@ test("evaluateProject validates context-pack fixture ceilings", async t => {
       issue.message.includes(`expectedContextPacks[0].${field} must be a positive integer`)
     ));
   }
+});
+
+test("evaluateProject checks expected prompt route inclusions", async t => {
+  const root = await workspace(t);
+  await writeValidAutomationFiles(root);
+  await mkdir(path.join(root, "src"), { recursive: true });
+  await writeFile(path.join(root, "src", "token.ts"), "export function parseSessionToken() { return true; }\n", "utf8");
+  const tokenFile = {
+    ...file("src/token.ts", ["file.src.token.ts"]),
+    summary: "Session token handling and parser behavior.",
+    exports: ["parseSessionToken"],
+    symbols: ["parseSessionToken", "session", "token"]
+  };
+  await writeJson(root, ".abstraction-tree/files.json", [tokenFile]);
+  await writeJson(root, ".abstraction-tree/tree.json", [{
+    ...node("file.src.token.ts", undefined, []),
+    summary: "Session token handling and parser behavior.",
+    sourceFiles: ["src/token.ts"],
+    ownedFiles: ["src/token.ts"]
+  }]);
+  await writeJson(root, ".abstraction-tree/concepts.json", [{
+    ...concept("token"),
+    relatedNodeIds: ["file.src.token.ts"],
+    relatedFiles: ["src/token.ts"]
+  }]);
+  await writeJson(root, ".abstraction-tree/evaluation-fixture.json", {
+    expectedRoutes: [{
+      name: "token route",
+      category: "route-benchmark",
+      prompt: "Fix session token handling",
+      expectedDecision: "direct",
+      expectedFilePaths: ["src/token.ts"],
+      expectedTreeNodeIds: ["file.src.token.ts"],
+      expectedConceptIds: ["token"]
+    }, {
+      name: "missing route",
+      category: "route-benchmark",
+      prompt: "Fix session token handling",
+      expectedDecision: "goal-driven",
+      expectedFilePaths: ["src/missing.ts"]
+    }]
+  });
+
+  const report = await evaluateProject(root, { now: fixedNow() });
+
+  assert.equal(report.quality.routes.expectedRouteCount, 2);
+  assert.equal(report.quality.routes.passingExpectedRouteCount, 1);
+  assert.equal(report.quality.routes.decisionMismatchCount, 1);
+  assert.equal(report.quality.routes.missingExpectedInclusionCount, 1);
+  assert.ok(report.quality.routes.decisionMismatches[0].includes("[route-benchmark] missing route"));
+  assert.ok(report.quality.routes.missingExpectedInclusions[0].includes("src/missing.ts"));
+  assert.ok(report.issues.some(issue =>
+    issue.area === "quality" &&
+    issue.message.includes("Generated prompt routes have unexpected decisions")
+  ));
+  assert.ok(report.issues.some(issue =>
+    issue.area === "quality" &&
+    issue.message.includes("Generated prompt routes are missing expected inclusions")
+  ));
 });
 
 test("evaluation output is serializable", async t => {
@@ -455,6 +538,40 @@ function importGraphWithUnresolvedImport(): ImportGraph {
       specifier: "./missing",
       kind: "relative",
       reason: "Relative import could not be resolved to a scanned repository file."
+    }],
+    cycles: [],
+    workspacePackages: []
+  };
+}
+
+function importGraphWithClassifiedNonSourceImports(): ImportGraph {
+  return {
+    edges: [{
+      from: "src/app.ts",
+      to: "src/index.ts",
+      specifier: "../dist/index.js",
+      kind: "workspace-package",
+      classification: "generated-artifact",
+      packageName: "@scope/app"
+    }],
+    externalImports: [{
+      from: "src/app.ts",
+      specifier: "virtual:generated",
+      packageName: "virtual",
+      classification: "virtual"
+    }],
+    unresolvedImports: [{
+      from: "src/app.ts",
+      specifier: "./logo.svg",
+      kind: "relative",
+      classification: "static-asset",
+      reason: "Static asset import was classified separately."
+    }, {
+      from: "src/app.ts",
+      specifier: "../dist/index.js",
+      kind: "relative",
+      classification: "generated-artifact",
+      reason: "Generated artifact import was classified separately."
     }],
     cycles: [],
     workspacePackages: []

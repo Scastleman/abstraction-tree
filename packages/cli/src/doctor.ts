@@ -1,5 +1,5 @@
 import { existsSync } from "node:fs";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -67,6 +67,29 @@ const REQUIRED_MEMORY_FILES = [
 ] as const;
 
 const MINIMUM_NODE_VERSION = "20.19.0";
+const ABSTRACTION_TREE_PACKAGE_NAMES = new Set([
+  "abstraction-tree-monorepo",
+  "abstraction-tree",
+  "@abstraction-tree/core",
+  "@abstraction-tree/cli",
+  "@abstraction-tree/app"
+]);
+const DOGFOODING_SOURCE_FILE_MARKERS = new Set([
+  "packages/core/src/treeBuilder.ts",
+  "packages/core/src/workspace.ts",
+  "packages/core/src/validator.ts",
+  "packages/cli/src/doctor.ts",
+  "packages/cli/src/index.ts",
+  "packages/app/src/App.tsx",
+  "scripts/run-full-self-improvement-loop.mjs",
+  "adapters/codex/AGENTS.md",
+  "docs/EXPERIMENTAL_DOGFOODING_LOOP.md"
+]);
+const DOGFOODING_PRODUCT_TEXT_MARKERS = [
+  "local project-memory and prompt-to-mission planning layer",
+  "mapping a prompt onto project memory",
+  "bounded local dogfooding loops"
+];
 
 export async function runDoctor(projectRoot: string, options: DoctorOptions = {}): Promise<DoctorReport> {
   const root = path.resolve(projectRoot);
@@ -328,13 +351,7 @@ function buildValidationSkippedCheck(
 
 async function buildSelfDogfoodingMemoryCheck(root: string, memory: AtreeMemory): Promise<DoctorCheck> {
   const packageName = await readPackageName(root);
-  const isThisRepositoryPackage = new Set([
-    "abstraction-tree-monorepo",
-    "abstraction-tree",
-    "@abstraction-tree/core",
-    "@abstraction-tree/cli",
-    "@abstraction-tree/app"
-  ]).has(packageName);
+  const isThisRepositoryPackage = ABSTRACTION_TREE_PACKAGE_NAMES.has(packageName);
   if (isThisRepositoryPackage) {
     return {
       id: "self-memory-contamination",
@@ -344,22 +361,8 @@ async function buildSelfDogfoodingMemoryCheck(root: string, memory: AtreeMemory)
     };
   }
 
-  const markerFiles = new Set(memory.files.map(file => file.path));
-  const markerNodeIds = new Set(memory.nodes.map(node => node.id));
-  const hardMarkers = [
-    memory.config.projectName === "abstraction-tree" ? "config projectName is abstraction-tree" : "",
-    markerFiles.has("packages/core/src/treeBuilder.ts") ? "contains Abstraction Tree core source file ownership" : "",
-    existsSync(atreePath(root, "automation", "codex-loop-prompt.md")) ? "contains Abstraction Tree automation prompt" : ""
-  ].filter(Boolean);
-  const weakMarkers = [
-    markerNodeIds.has("subsystem.goal.mission.automation") ? "contains Abstraction Tree goal/mission subsystem node" : "",
-    markerNodeIds.has("subsystem.cli.local.api") ? "contains Abstraction Tree CLI/local API subsystem node" : "",
-    existsSync(atreePath(root, "runs")) ? "contains committed run reports" : "",
-    existsSync(atreePath(root, "lessons")) ? "contains committed lessons" : "",
-    existsSync(atreePath(root, "evaluations")) ? "contains committed evaluations" : ""
-  ].filter(Boolean);
-
-  if (!hardMarkers.length && weakMarkers.length < 2) {
+  const hardEvidence = await collectDogfoodingMemoryEvidence(root, memory);
+  if (hardEvidence.length < 2) {
     return {
       id: "self-memory-contamination",
       label: "Self dogfooding memory",
@@ -377,14 +380,92 @@ async function buildSelfDogfoodingMemoryCheck(root: string, memory: AtreeMemory)
       severity: "warning",
       filePath: ".abstraction-tree",
       fieldPath: "$",
-      message: "This workspace appears to contain Abstraction Tree's own dogfooding memory instead of project-local memory.",
+      message: `This workspace appears to contain Abstraction Tree's own dogfooding memory instead of project-local memory. Hard evidence: ${hardEvidence.join("; ")}.`,
       recoveryHint: "Remove stale generated memory from .abstraction-tree, run `atree init`, then run `atree scan` in this project."
     }],
     details: {
       packageName,
-      markers: [...hardMarkers, ...weakMarkers]
+      markers: hardEvidence
     }
   };
+}
+
+async function collectDogfoodingMemoryEvidence(root: string, memory: AtreeMemory): Promise<string[]> {
+  const evidence = [
+    memory.config.projectName === "abstraction-tree" ? "config projectName is abstraction-tree" : "",
+    sourceFileMarkerEvidence(memory),
+    packageMarkerEvidence(memory),
+    productTextEvidence(memory),
+    existsSync(atreePath(root, "automation", "codex-loop-prompt.md")) ? "contains Abstraction Tree automation prompt" : "",
+    ...(await dogfoodingArtifactEvidence(root))
+  ].filter(Boolean);
+
+  return uniqueStrings(evidence);
+}
+
+function sourceFileMarkerEvidence(memory: AtreeMemory): string {
+  const matchingFiles = memory.files
+    .map(file => file.path)
+    .filter(filePath => DOGFOODING_SOURCE_FILE_MARKERS.has(filePath))
+    .sort();
+  if (!matchingFiles.length) return "";
+  return `memory owns Abstraction Tree source files: ${matchingFiles.slice(0, 3).join(", ")}${matchingFiles.length > 3 ? ", ..." : ""}`;
+}
+
+function packageMarkerEvidence(memory: AtreeMemory): string {
+  const workspacePackages = memory.importGraph.workspacePackages
+    .map(workspacePackage => workspacePackage.name)
+    .filter(packageName => ABSTRACTION_TREE_PACKAGE_NAMES.has(packageName))
+    .sort();
+  const packageDependencies = memory.nodes
+    .flatMap(node => [...(node.dependencies ?? []), ...(node.dependsOn ?? [])])
+    .filter(dependency => dependency.startsWith("package:"))
+    .map(dependency => dependency.slice("package:".length))
+    .filter(packageName => ABSTRACTION_TREE_PACKAGE_NAMES.has(packageName))
+    .sort();
+  const packageNames = uniqueStrings([...workspacePackages, ...packageDependencies]);
+  if (!packageNames.length) return "";
+  return `memory references Abstraction Tree workspace packages: ${packageNames.join(", ")}`;
+}
+
+function productTextEvidence(memory: AtreeMemory): string {
+  const searchableText = [
+    ...memory.nodes.flatMap(node => [node.summary, node.explanation, node.reasonForExistence]),
+    ...memory.files.map(file => file.summary)
+  ]
+    .filter((value): value is string => typeof value === "string")
+    .join("\n")
+    .toLowerCase();
+  return DOGFOODING_PRODUCT_TEXT_MARKERS.some(marker => searchableText.includes(marker))
+    ? "memory contains Abstraction Tree product text"
+    : "";
+}
+
+async function dogfoodingArtifactEvidence(root: string): Promise<string[]> {
+  const evidence: string[] = [];
+  for (const directory of ["runs", "lessons"] as const) {
+    if (await containsAbstractionTreeArtifact(root, directory)) {
+      evidence.push(`contains Abstraction Tree ${directory} artifacts`);
+    }
+  }
+  return evidence;
+}
+
+async function containsAbstractionTreeArtifact(root: string, directory: "runs" | "lessons"): Promise<boolean> {
+  const artifactRoot = atreePath(root, directory);
+  if (!existsSync(artifactRoot)) return false;
+
+  const names = await readdir(artifactRoot).catch(() => []);
+  const candidates = names
+    .filter(name => /\.(json|md)$/u.test(name))
+    .sort()
+    .slice(0, 20);
+  for (const name of candidates) {
+    const raw = await readFile(path.join(artifactRoot, name), "utf8").catch(() => "");
+    const text = raw.toLowerCase();
+    if (text.includes("abstraction tree") || text.includes("abstraction-tree")) return true;
+  }
+  return false;
 }
 
 function buildAutomationCheck(issues: ValidationIssue[]): DoctorCheck {
@@ -532,4 +613,8 @@ function compareVersions(left: string, right: string): number {
 
 function versionParts(value: string): number[] {
   return value.split(".").map(part => Number.parseInt(part, 10)).filter(Number.isFinite);
+}
+
+function uniqueStrings(values: string[]): string[] {
+  return [...new Set(values)];
 }

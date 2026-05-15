@@ -45,6 +45,12 @@ test("runtime schema accepts valid v0.1 memory shapes", () => {
       symbol: 4,
       export: 5,
       doc: 1
+    },
+    visualApp: {
+      ...defaultConfig(process.cwd()).visualApp,
+      artifacts: {
+        enabled: false
+      }
     }
   };
   const ontology = [ontologyLevel("component", 0)];
@@ -116,6 +122,11 @@ test("custom config override schema validates project-specific scanner settings"
     }],
     conceptSignalWeights: {
       symbol: 5
+    },
+    visualApp: {
+      artifacts: {
+        enabled: false
+      }
     }
   }), []);
 
@@ -326,18 +337,30 @@ function importGraphRecord(): ImportGraph {
       to: "src/components/Button.ts",
       specifier: "@/components/Button",
       kind: "alias",
+      classification: "source",
       aliasSource: "typescript:tsconfig.json"
     }],
     externalImports: [{
       from: "src/app.ts",
       specifier: "react",
       packageName: "react"
+    }, {
+      from: "src/app.ts",
+      specifier: "virtual:theme",
+      packageName: "virtual",
+      classification: "virtual"
     }],
     unresolvedImports: [{
       from: "src/app.ts",
       specifier: "./missing.js",
       kind: "relative",
       reason: "Relative import could not be resolved."
+    }, {
+      from: "src/app.ts",
+      specifier: "./logo.svg",
+      kind: "relative",
+      classification: "static-asset",
+      reason: "Static asset import was classified separately."
     }, {
       from: "src/app.ts",
       specifier: "@/missing",

@@ -1,5 +1,6 @@
 import type { Concept, FileSummary, TreeNode } from "./schema.js";
 import { buildDiffSummary, type DiffFileChange, type DiffSummary } from "./diffSummary.js";
+import { scorePromptEvidence, type PromptScoredEvidence } from "./promptRouter.js";
 
 export type ScopeContractStatus = "draft" | "needs-clarification" | "ready";
 export type ScopeCheckStatus = "clean" | "warning" | "blocked";
@@ -40,7 +41,15 @@ export interface ScopeViolation {
     | "dangerous-file"
     | "file-count"
     | "line-count"
-    | "memory-without-source";
+    | "memory-without-source"
+    | "broad-areas"
+    | "generated-only-change"
+    | "docs-only-change"
+    | "package-metadata-change"
+    | "implementation-without-test"
+    | "source-changed-memory-not-refreshed"
+    | "cross-subsystem-change"
+    | "source-app-docs-automation";
   message: string;
   filePath?: string;
 }
@@ -93,13 +102,34 @@ const stopWords = new Set([
 export function buildScopeContract(input: ScopeBuildInput): ScopeContract {
   const createdAt = input.createdAt ?? new Date();
   const promptTokens = tokenize(input.prompt);
-  const fileScores = scoreFiles(input.files, promptTokens);
-  const nodeScores = scoreNodes(input.nodes, fileScores, promptTokens);
+  const promptEvidence = scorePromptEvidence({
+    prompt: input.prompt,
+    nodes: input.nodes,
+    files: input.files,
+    concepts: input.concepts ?? []
+  });
+  const fileScores = mergeScoredItems(
+    scoreFiles(input.files, promptTokens),
+    promptEvidence.scoredFiles.map(item => ({ id: item.id, score: item.score + 6 }))
+  );
+  const nodeScores = mergeScoredItems(
+    scoreNodes(input.nodes, fileScores, promptTokens),
+    promptEvidence.scoredNodes.map(item => ({ id: item.id, score: item.score + 4 }))
+  );
   const selectedNodes = topScored(nodeScores, 6);
   const affectedNodeIds = selectedNodes.length
     ? selectedNodes.map(score => score.id)
     : fallbackNodeIds(input.nodes);
-  const allowedFiles = inferAllowedFiles(affectedNodeIds, input.nodes, input.files, fileScores, promptTokens);
+  const allowedFileInference = inferAllowedFiles(
+    affectedNodeIds,
+    input.nodes,
+    input.files,
+    fileScores,
+    promptTokens,
+    promptEvidence.estimatedFiles,
+    promptEvidence.scoredConcepts
+  );
+  const allowedFiles = allowedFileInference.allowedFiles;
   const allowedAreas = [...new Set(allowedFiles.flatMap(classifyScopeArea))].sort();
   const ambiguities = detectPromptAmbiguities(input.prompt, promptTokens);
   const requiresClarification = ambiguities.length > 0;
@@ -120,7 +150,7 @@ export function buildScopeContract(input: ScopeBuildInput): ScopeContract {
     maxDiffLines: 600,
     allowGeneratedMemory: true,
     requiredChecks: inferRequiredChecks(allowedFiles),
-    rationale: buildRationale(affectedNodeIds, allowedFiles, selectedNodes, fileScores)
+    rationale: buildRationale(affectedNodeIds, allowedFiles, selectedNodes, fileScores, allowedFileInference)
   };
 }
 
@@ -132,11 +162,16 @@ export function checkScope(input: ScopeCheckInput): ScopeCheckReport {
   });
   const allowedFiles = new Set(contract.allowedFiles.map(normalizeScopePath));
   const violations: ScopeViolation[] = [];
+  const violationKinds = new Set<ScopeViolation["kind"]>();
+  const addViolation = (violation: ScopeViolation) => {
+    violations.push(violation);
+    violationKinds.add(violation.kind);
+  };
   const changedFiles = diffSummary.files.map(file => file.path);
   const nonMemoryFiles = diffSummary.files.filter(file => !isMemoryPath(file.path));
 
   if (contract.requiresClarification) {
-    violations.push({
+    addViolation({
       severity: "warning",
       kind: "clarification-required",
       message: "Scope contract requested clarification before implementation."
@@ -146,7 +181,7 @@ export function checkScope(input: ScopeCheckInput): ScopeCheckReport {
   for (const file of diffSummary.files) {
     if (isGeneratedMemoryPath(file.path) && contract.allowGeneratedMemory) continue;
     if (!allowedFiles.has(file.path)) {
-      violations.push({
+      addViolation({
         severity: "error",
         kind: "file-out-of-scope",
         filePath: file.path,
@@ -156,15 +191,17 @@ export function checkScope(input: ScopeCheckInput): ScopeCheckReport {
   }
 
   if (diffSummary.changedMemoryFiles > 0 && nonMemoryFiles.length === 0) {
-    violations.push({
+    addViolation({
       severity: "warning",
-      kind: "memory-without-source",
-      message: "Only abstraction memory changed; verify this was an intentional memory refresh."
+      kind: diffSummary.changedGeneratedMemoryFiles === diffSummary.changedFileCount ? "generated-only-change" : "memory-without-source",
+      message: diffSummary.changedGeneratedMemoryFiles === diffSummary.changedFileCount
+        ? "Only generated abstraction memory changed; verify this was an intentional memory refresh."
+        : "Only abstraction memory changed; verify this was an intentional memory refresh."
     });
   }
 
   for (const dangerous of diffSummary.dangerousFileChanges) {
-    violations.push({
+    addViolation({
       severity: "error",
       kind: "dangerous-file",
       filePath: dangerous.path,
@@ -173,7 +210,7 @@ export function checkScope(input: ScopeCheckInput): ScopeCheckReport {
   }
 
   if (diffSummary.changedFileCount > contract.maxFilesChanged) {
-    violations.push({
+    addViolation({
       severity: "warning",
       kind: "file-count",
       message: `${diffSummary.changedFileCount} files changed; scope contract expected at most ${contract.maxFilesChanged}.`
@@ -181,10 +218,20 @@ export function checkScope(input: ScopeCheckInput): ScopeCheckReport {
   }
 
   if (diffSummary.changedLines > contract.maxDiffLines) {
-    violations.push({
+    addViolation({
       severity: "warning",
       kind: "line-count",
       message: `${diffSummary.changedLines} lines changed; scope contract expected at most ${contract.maxDiffLines}.`
+    });
+  }
+
+  for (const signal of diffSummary.overreach) {
+    if (signal.kind === "file-count" || signal.kind === "line-count") continue;
+    if (violationKinds.has(signal.kind)) continue;
+    addViolation({
+      severity: "warning",
+      kind: signal.kind,
+      message: signal.message
     });
   }
 
@@ -250,7 +297,13 @@ export function formatScopeCheckMarkdown(report: ScopeCheckReport): string {
   pushList(lines, report.changedFiles.length ? report.changedFiles : ["No changed files."]);
   lines.push("");
   lines.push("## Violations");
-  pushList(lines, report.violations.length ? report.violations.map(violation => `[${violation.severity}] ${violation.message}`) : ["None detected."]);
+  pushList(lines, report.violations.length ? report.violations.map(violation => `[${violation.severity}/${violation.kind}] ${violation.message}`) : ["None detected."]);
+  lines.push("");
+  lines.push("## Risky Areas");
+  pushList(lines, riskyAreaLines(report));
+  lines.push("");
+  lines.push("## Recommended Reviewer Checks");
+  pushList(lines, recommendedReviewerChecks(report));
   lines.push("");
   lines.push("## Totals");
   lines.push(`- Changed files: ${report.diffSummary.changedFileCount}`);
@@ -314,39 +367,87 @@ function inferAllowedFiles(
   nodes: TreeNode[],
   files: FileSummary[],
   fileScores: ScoredItem[],
-  promptTokens: string[]
-): string[] {
+  promptTokens: string[],
+  routeEstimatedFiles: string[],
+  scoredConcepts: Array<PromptScoredEvidence<Concept>>
+): AllowedFileInference {
   const byNode = new Map(nodes.map(node => [node.id, node]));
-  const existing = new Set(files.map(file => file.path));
-  const allowed = new Set<string>();
+  const byFile = new Map(files.map(file => [normalizeScopePath(file.path), file]));
+  const existing = new Set(byFile.keys());
+  const candidates = new Set<string>();
+  const evidenceByFile = new Map<string, Set<AllowedFileEvidenceKind>>();
+  const promptScoreByFile = new Map(fileScores.map(score => [normalizeScopePath(score.id), score.score]));
+  const scoreByFile = new Map(promptScoreByFile);
+  const routeFiles = routeEstimatedFiles.map(normalizeScopePath);
+  const routeFileSet = new Set(routeFiles);
+  const addCandidate = (filePath: string, evidence: AllowedFileEvidenceKind, score = 0): void => {
+    const normalized = normalizeScopePath(filePath);
+    if (!existing.has(normalized)) return;
+    candidates.add(normalized);
+    const evidenceSet = evidenceByFile.get(normalized) ?? new Set<AllowedFileEvidenceKind>();
+    evidenceSet.add(evidence);
+    evidenceByFile.set(normalized, evidenceSet);
+    scoreByFile.set(normalized, Math.max(scoreByFile.get(normalized) ?? 0, score));
+  };
 
   for (const nodeId of affectedNodeIds) {
     const node = byNode.get(nodeId);
-    const nodeFiles = [...(node?.sourceFiles ?? []), ...(node?.ownedFiles ?? [])];
+    const nodeFiles = sortedUnique([...(node?.sourceFiles ?? []), ...(node?.ownedFiles ?? [])].map(normalizeScopePath));
     const allowedNodeFiles = nodeFiles.length <= 5
       ? nodeFiles
-      : nodeFiles.filter(filePath => fileScores.some(score => score.id === filePath));
+      : nodeFiles.filter(filePath => promptScoreByFile.has(filePath) || routeFileSet.has(filePath));
     for (const filePath of allowedNodeFiles) {
-      if (existing.has(filePath)) allowed.add(filePath);
+      addCandidate(filePath, "selected-node", (promptScoreByFile.get(filePath) ?? 0) + 2);
     }
   }
 
   for (const fileScore of topScored(fileScores, 8)) {
-    allowed.add(fileScore.id);
+    addCandidate(fileScore.id, "direct-prompt", fileScore.score + 3);
   }
 
-  if ([...allowed].some(filePath => filePath.startsWith("packages/app/"))) {
-    addIfExists(allowed, existing, "packages/app/src/app.test.tsx");
+  for (const filePath of routeFiles.slice(0, 8)) {
+    addCandidate(filePath, "route", (promptScoreByFile.get(filePath) ?? 0) + 3);
+  }
+
+  for (const conceptFile of conceptRelatedFileCandidates(scoredConcepts, byFile, promptScoreByFile, promptTokens).slice(0, 8)) {
+    addCandidate(conceptFile.id, "concept", conceptFile.score + 2);
+  }
+
+  if ([...candidates].some(filePath => filePath.startsWith("packages/app/"))) {
+    addCandidate("packages/app/src/app.test.tsx", "nearby-test", 3);
     if (promptTokens.some(token => ["collapse", "collapsible", "dropdown", "style", "ui", "visual"].includes(token))) {
-      addIfExists(allowed, existing, "packages/app/src/styles.css");
+      addCandidate("packages/app/src/styles.css", "direct-prompt", (promptScoreByFile.get("packages/app/src/styles.css") ?? 0) + 2);
     }
   }
 
-  for (const filePath of [...allowed]) {
-    addNearbyTestFile(allowed, existing, filePath);
+  for (const filePath of importNeighborCandidates([...candidates], files, existing).slice(0, 8)) {
+    addCandidate(filePath, "import-neighbor", (promptScoreByFile.get(filePath) ?? 0) + 2);
   }
 
-  return limitAllowedFiles([...allowed], fileScores, 16);
+  for (const filePath of [...candidates]) {
+    const baseScore = scoreByFile.get(filePath) ?? 0;
+    for (const testPath of nearbyTestCandidates(filePath)) {
+      addCandidate(testPath, "nearby-test", baseScore + 3);
+    }
+    for (const sourcePath of nearbySourceCandidates(filePath)) {
+      addCandidate(sourcePath, "nearby-source", baseScore + 3);
+    }
+  }
+
+  const candidateFiles = [...candidates];
+  const allowedFiles = limitAllowedFiles(candidateFiles, scoreByFile, 16);
+  return {
+    allowedFiles,
+    candidateCount: candidateFiles.length,
+    excludedCandidateCount: Math.max(0, candidateFiles.length - allowedFiles.length),
+    selectedNodeFileCount: countEvidence(allowedFiles, evidenceByFile, "selected-node"),
+    directFileCount: countEvidence(allowedFiles, evidenceByFile, "direct-prompt"),
+    routeFileCount: countEvidence(allowedFiles, evidenceByFile, "route"),
+    conceptFileCount: countEvidence(allowedFiles, evidenceByFile, "concept"),
+    importNeighborFileCount: countEvidence(allowedFiles, evidenceByFile, "import-neighbor"),
+    nearbyTestFileCount: countEvidence(allowedFiles, evidenceByFile, "nearby-test"),
+    nearbySourceFileCount: countEvidence(allowedFiles, evidenceByFile, "nearby-source")
+  };
 }
 
 function inferIntent(prompt: string): string {
@@ -382,22 +483,41 @@ function buildRationale(
   affectedNodeIds: string[],
   allowedFiles: string[],
   selectedNodes: ScoredItem[],
-  fileScores: ScoredItem[]
+  fileScores: ScoredItem[],
+  inference: AllowedFileInference
 ): string[] {
   const rationale = [
     `Selected ${affectedNodeIds.length} affected node(s) from prompt/tree term overlap.`,
-    `Allowed ${allowedFiles.length} file(s) from affected node ownership, direct file matches, and nearby tests.`
+    `Allowed ${allowedFiles.length} file(s) from selected node ownership, direct prompt matches, route evidence, concept evidence, import neighbors, and nearby source/test companions.`,
+    `Grounding counts: ${inference.selectedNodeFileCount} node-owned, ${inference.directFileCount} direct, ${inference.routeFileCount} route, ${inference.conceptFileCount} concept, ${inference.importNeighborFileCount} import-neighbor, ${inference.nearbyTestFileCount} nearby test, ${inference.nearbySourceFileCount} nearby source.`
   ];
   if (selectedNodes.length) rationale.push(`Highest node score: ${selectedNodes[0].id} (${selectedNodes[0].score.toFixed(1)}).`);
   if (fileScores.length) rationale.push(`Highest file score: ${fileScores[0].id} (${fileScores[0].score.toFixed(1)}).`);
+  if (inference.routeFileCount > 0) rationale.push(`Route evidence contributed ${inference.routeFileCount} allowed file(s).`);
+  if (inference.conceptFileCount > 0) rationale.push(`Concept evidence contributed ${inference.conceptFileCount} allowed file(s).`);
+  if (inference.importNeighborFileCount > 0) rationale.push(`Import graph evidence contributed ${inference.importNeighborFileCount} neighboring file(s).`);
+  if (inference.excludedCandidateCount > 0) {
+    rationale.push(`Excluded ${inference.excludedCandidateCount} lower-scored candidate file(s) to keep the contract reviewable.`);
+  }
   return rationale;
 }
 
-function limitAllowedFiles(allowedFiles: string[], fileScores: ScoredItem[], limit: number): string[] {
+function mergeScoredItems(primary: ScoredItem[], secondary: ScoredItem[]): ScoredItem[] {
+  const merged = new Map<string, ScoredItem>();
+  for (const item of [...primary, ...secondary]) {
+    const existing = merged.get(item.id);
+    merged.set(item.id, {
+      id: item.id,
+      score: (existing?.score ?? 0) + item.score
+    });
+  }
+  return [...merged.values()].filter(item => item.score > 0).sort(scoreSort);
+}
+
+function limitAllowedFiles(allowedFiles: string[], scoreByFile: Map<string, number>, limit: number): string[] {
   if (allowedFiles.length <= limit) return sortedUnique(allowedFiles);
-  const scoreMap = new Map(fileScores.map(score => [score.id, score.score]));
   return allowedFiles
-    .sort((left, right) => (scoreMap.get(right) ?? 0) - (scoreMap.get(left) ?? 0) || left.localeCompare(right))
+    .sort((left, right) => (scoreByFile.get(right) ?? 0) - (scoreByFile.get(left) ?? 0) || left.localeCompare(right))
     .slice(0, limit)
     .sort();
 }
@@ -418,13 +538,152 @@ function fallbackNodeIds(nodes: TreeNode[]): string[] {
   return [nodes.find(node => node.id === "project.intent")?.id ?? nodes[0]?.id].filter((id): id is string => Boolean(id));
 }
 
-function addNearbyTestFile(allowed: Set<string>, existing: Set<string>, filePath: string): void {
-  const testPath = filePath.replace(/(\.[cm]?[jt]sx?)$/u, ".test$1");
-  addIfExists(allowed, existing, testPath);
+function conceptRelatedFileCandidates(
+  scoredConcepts: Array<PromptScoredEvidence<Concept>>,
+  byFile: Map<string, FileSummary>,
+  promptScoreByFile: Map<string, number>,
+  promptTokens: string[]
+): ScoredItem[] {
+  const candidates = new Map<string, number>();
+  for (const conceptScore of scoredConcepts.slice(0, 4)) {
+    const conceptDirectMatch = promptTokens.includes(conceptScore.item.id) ||
+      conceptScore.item.tags.some(tag => tokenize(tag).some(token => promptTokens.includes(token)));
+    const related = conceptScore.item.relatedFiles
+      .map(filePath => normalizeScopePath(filePath))
+      .filter(filePath => byFile.has(filePath))
+      .map(filePath => ({
+        id: filePath,
+        score: (promptScoreByFile.get(filePath) ?? 0) + pathSpecificBoost(filePath, promptTokens) + (conceptDirectMatch ? 1 : 0)
+      }))
+      .filter(item => item.score > 0)
+      .sort(scoreSort)
+      .slice(0, 6);
+    for (const item of related) {
+      candidates.set(item.id, Math.max(candidates.get(item.id) ?? 0, item.score + conceptScore.score / 4));
+    }
+  }
+  return [...candidates.entries()]
+    .map(([id, score]) => ({ id, score }))
+    .sort(scoreSort);
 }
 
-function addIfExists(allowed: Set<string>, existing: Set<string>, filePath: string): void {
-  if (existing.has(filePath)) allowed.add(filePath);
+function importNeighborCandidates(seedFiles: string[], files: FileSummary[], existing: Set<string>): string[] {
+  const seeds = new Set(seedFiles.map(normalizeScopePath));
+  const neighbors = new Set<string>();
+  for (const file of files) {
+    const from = normalizeScopePath(file.path);
+    for (const specifier of file.imports) {
+      const to = resolveLocalImport(from, specifier, existing);
+      if (!to) continue;
+      if (seeds.has(from)) neighbors.add(to);
+      if (seeds.has(to)) neighbors.add(from);
+    }
+  }
+  return [...neighbors].sort();
+}
+
+function resolveLocalImport(fromFile: string, specifier: string, existing: Set<string>): string | undefined {
+  if (!specifier.startsWith(".")) return undefined;
+  const base = normalizeRelativePath(`${scopeDirname(fromFile)}/${specifier}`);
+  for (const candidate of importPathCandidates(base)) {
+    if (existing.has(candidate)) return candidate;
+  }
+  return undefined;
+}
+
+function importPathCandidates(basePath: string): string[] {
+  const candidates = [basePath];
+  const extension = scopeExtension(basePath);
+  if (extension === ".js") {
+    candidates.push(replacePathExtension(basePath, ".ts"), replacePathExtension(basePath, ".tsx"), replacePathExtension(basePath, ".mts"), replacePathExtension(basePath, ".cts"));
+  } else if (extension === ".jsx") {
+    candidates.push(replacePathExtension(basePath, ".tsx"));
+  } else if (!extension) {
+    for (const candidateExtension of [".ts", ".tsx", ".js", ".jsx", ".mjs", ".mts", ".cts", ".json", ".css"]) {
+      candidates.push(`${basePath}${candidateExtension}`);
+    }
+    for (const candidateExtension of [".ts", ".tsx", ".js", ".jsx", ".mjs", ".mts", ".cts"]) {
+      candidates.push(`${basePath}/index${candidateExtension}`);
+    }
+  }
+  return sortedUnique(candidates.map(normalizeScopePath));
+}
+
+function nearbyTestCandidates(filePath: string): string[] {
+  const normalized = normalizeScopePath(filePath);
+  if (isTestLikePath(normalized)) return [];
+  const extension = scopeExtension(normalized);
+  if (!extension) return [];
+  const base = normalized.slice(0, -extension.length);
+  const dirname = scopeDirname(normalized);
+  const basename = scopeBasename(normalized);
+  return sortedUnique([
+    `${base}.test${extension}`,
+    `${base}.spec${extension}`,
+    dirname ? `${dirname}/__tests__/${basename.slice(0, -extension.length)}.test${extension}` : ""
+  ]);
+}
+
+function nearbySourceCandidates(filePath: string): string[] {
+  const normalized = normalizeScopePath(filePath);
+  const direct = normalized
+    .replace(/\.test(\.[^.\/]+)$/u, "$1")
+    .replace(/\.spec(\.[^.\/]+)$/u, "$1");
+  const candidates = direct !== normalized ? [direct] : [];
+  if (normalized.includes("/__tests__/")) {
+    const withoutTestsDir = normalized.replace("/__tests__/", "/");
+    candidates.push(
+      withoutTestsDir
+        .replace(/\.test(\.[^.\/]+)$/u, "$1")
+        .replace(/\.spec(\.[^.\/]+)$/u, "$1")
+    );
+  }
+  return sortedUnique(candidates);
+}
+
+function countEvidence(
+  allowedFiles: string[],
+  evidenceByFile: Map<string, Set<AllowedFileEvidenceKind>>,
+  evidence: AllowedFileEvidenceKind
+): number {
+  return allowedFiles.filter(filePath => evidenceByFile.get(filePath)?.has(evidence)).length;
+}
+
+function isTestLikePath(filePath: string): boolean {
+  return filePath.includes(".test.") || filePath.includes(".spec.") || filePath.includes("/__tests__/") || filePath.includes("/tests/");
+}
+
+function scopeDirname(filePath: string): string {
+  return normalizeScopePath(filePath).split("/").slice(0, -1).join("/");
+}
+
+function scopeBasename(filePath: string): string {
+  return normalizeScopePath(filePath).split("/").filter(Boolean).at(-1) ?? filePath;
+}
+
+function scopeExtension(filePath: string): string {
+  const basename = scopeBasename(filePath);
+  const index = basename.lastIndexOf(".");
+  return index > 0 ? basename.slice(index) : "";
+}
+
+function replacePathExtension(filePath: string, extension: string): string {
+  const normalized = normalizeScopePath(filePath);
+  const currentExtension = scopeExtension(normalized);
+  return currentExtension ? `${normalized.slice(0, -currentExtension.length)}${extension}` : `${normalized}${extension}`;
+}
+
+function normalizeRelativePath(filePath: string): string {
+  const segments: string[] = [];
+  for (const segment of normalizeScopePath(filePath).split("/")) {
+    if (!segment || segment === ".") continue;
+    if (segment === "..") {
+      segments.pop();
+      continue;
+    }
+    segments.push(segment);
+  }
+  return segments.join("/");
 }
 
 function tokenize(text: string): string[] {
@@ -521,8 +780,57 @@ function scopeId(date: Date): string {
   ].join("-");
 }
 
+function riskyAreaLines(report: ScopeCheckReport): string[] {
+  const lines: string[] = [];
+  for (const dangerous of report.diffSummary.dangerousFileChanges) {
+    lines.push(`${dangerous.path}: ${dangerous.reasons.join(", ")}`);
+  }
+  for (const signal of report.diffSummary.overreach) {
+    lines.push(`[${signal.kind}] ${signal.message}`);
+  }
+  return lines.length ? lines : ["None detected."];
+}
+
+function recommendedReviewerChecks(report: ScopeCheckReport): string[] {
+  const checks = new Set<string>();
+  const kinds = new Set(report.violations.map(violation => violation.kind));
+  if (kinds.has("file-out-of-scope")) checks.add("Confirm every out-of-scope file was explicitly approved or narrow the diff.");
+  if (kinds.has("dangerous-file")) checks.add("Review dangerous file changes for secrets, CI, lockfile, or package-manager impact.");
+  if (kinds.has("generated-only-change")) checks.add("Verify generated memory changes came from an intentional scan, evaluation, or context refresh.");
+  if (kinds.has("docs-only-change")) checks.add("Confirm documentation-only work did not require source or test changes.");
+  if (kinds.has("package-metadata-change")) checks.add("Review package metadata, lockfile, install, and script behavior.");
+  if (kinds.has("implementation-without-test")) checks.add("Decide whether the implementation needs a nearby unit or integration test.");
+  if (kinds.has("source-changed-memory-not-refreshed")) checks.add("Consider running a memory refresh if source changes affect scanner output, ownership, concepts, or invariants.");
+  if (kinds.has("cross-subsystem-change")) checks.add("Check that each touched subsystem is required by the prompt and has matching tests or docs.");
+  if (kinds.has("broad-areas") || kinds.has("source-app-docs-automation")) checks.add("Review whether mixed areas represent one coherent change or unrelated work.");
+  if (report.diffSummary.changedAreas.length) checks.add(`Inspect changed areas: ${report.diffSummary.changedAreas.join(", ")}.`);
+  return checks.size ? [...checks] : ["Review changed files against the allowed file list and required checks."];
+}
+
 function pushList(lines: string[], values: string[]): void {
   for (const value of values) lines.push(`- ${value}`);
+}
+
+type AllowedFileEvidenceKind =
+  | "selected-node"
+  | "direct-prompt"
+  | "route"
+  | "concept"
+  | "import-neighbor"
+  | "nearby-test"
+  | "nearby-source";
+
+interface AllowedFileInference {
+  allowedFiles: string[];
+  candidateCount: number;
+  excludedCandidateCount: number;
+  selectedNodeFileCount: number;
+  directFileCount: number;
+  routeFileCount: number;
+  conceptFileCount: number;
+  importNeighborFileCount: number;
+  nearbyTestFileCount: number;
+  nearbySourceFileCount: number;
 }
 
 interface ScoredItem {

@@ -12,6 +12,7 @@ For release decisions, use [V1_RELEASE_GATE.md](V1_RELEASE_GATE.md) as the pass/
 | --- | --- | --- |
 | `init`, `scan`, `doctor`, `validate`, `migrate` | Stable MVP | Deterministic local project-memory commands. They do not invoke providers. |
 | `context`, `export`, `serve` | Stable MVP | Read or display generated memory. `serve --open` is opt-in and local-first. |
+| Read-only workflow views in `serve` | Beta display surface | Summarizes existing goal, scope, coherence, and context-pack artifacts. It does not execute missions or mutate memory. |
 | `route` | Beta | Read-only prompt classifier. Useful for guidance, but heuristics may change. |
 | `scope` and `scope check` | Beta | Helps detect overreach against a prompt scope; review the result before relying on it. |
 | `evaluate` | Beta | Deterministic quality metrics. Useful signal, not a semantic correctness guarantee. |
@@ -34,12 +35,13 @@ Not stable means the project intentionally refuses or limits execution until saf
 
 ## V1 Goal Workflow Boundary
 
-For the first v1, keep `goal --review-required` beta unless public beta feedback shows that the planning-only surface is reliable across external projects. The stable v1 product remains deterministic project memory, validation, context packs, export, and visual inspection. `goal --run`, `goal --full-auto`, and mission execution are not stable v1 surfaces.
+For the first v1, keep `goal --review-required` beta unless public beta feedback shows that the planning-only surface is reliable across external projects. The stable v1 product remains deterministic project memory, validation, context packs, export, and visual inspection. Read-only workflow artifact panels may be present in the visual app as beta display views, but they do not make goal planning, mission execution, or workflow approval stable. `goal --run`, `goal --full-auto`, and mission execution are not stable v1 surfaces.
 
 ## Safety Boundaries
 
 - `scan`, `validate`, `context`, `export`, `evaluate`, and `serve` do not call an LLM provider by default.
 - Provider proposals are review artifacts. They are not written directly into canonical `.abstraction-tree/` memory.
+- Visual workflow views are summaries of existing local artifacts, not controls for executing or accepting missions.
 - Mission files are plans until they are reviewed, scope-checked, executed, and diff-reviewed.
 - The dogfooding loop must not push, merge, bypass checks, or run unbounded.
 - Humans remain responsible for accepting important code changes.

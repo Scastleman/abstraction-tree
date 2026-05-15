@@ -148,6 +148,14 @@ export function validateConcepts(
       });
     }
 
+    const qualityReasons = conceptQualityReasons(concept);
+    for (const reason of qualityReasons) {
+      issues.push({
+        severity: "warning",
+        message: `Concept ${concept.id || "(missing id)"} has low-quality concept signal: ${reason}.`
+      });
+    }
+
     if (nodeIds) {
       for (const nodeId of concept.relatedNodeIds ?? []) {
         if (!nodeIds.has(nodeId)) {
@@ -177,6 +185,21 @@ export function validateConcepts(
   }
 
   return issues;
+}
+
+export function conceptQualityReasons(concept: Concept): string[] {
+  const reasons: string[] = [];
+  const normalizedId = normalizeConceptId(concept.id);
+
+  if (FILLER_CONCEPT_IDS.has(normalizedId)) reasons.push("filler concept id");
+  if (!arrayLength(concept.relatedFiles)) reasons.push("no related files");
+  if (!arrayLength(concept.evidence)) {
+    reasons.push("no evidence");
+  } else if (concept.evidence.every(isFillerEvidence)) {
+    reasons.push("filler-only evidence");
+  }
+
+  return uniqueStrings(reasons);
 }
 
 export function validateInvariants(
@@ -649,6 +672,45 @@ function stringArrayValue(value: unknown): string[] {
 
 function uniqueStrings(values: string[]): string[] {
   return [...new Set(values)];
+}
+
+const FILLER_CONCEPT_IDS = new Set([
+  "a", "an", "and", "are", "as", "at", "be", "but", "by", "for", "from", "if", "in", "into", "is",
+  "it", "its", "of", "on", "or", "out", "over", "the", "then", "this", "to", "was", "when", "where",
+  "which", "while", "with", "within", "without",
+  "app", "apps", "component", "components", "config", "criterion", "criteria", "data", "default",
+  "doc", "docs", "documentation", "example", "examples", "file", "files", "guide", "guides",
+  "helper", "helpers", "index", "item", "items", "json", "md", "mjs", "module", "modules", "node",
+  "nodes", "note", "notes", "overview", "package", "packages", "project", "readme", "record",
+  "records", "require", "required", "result", "results", "root", "script", "scripts", "section",
+  "sections", "service", "services", "src", "status", "statu", "success", "test", "tests", "ts",
+  "type", "types", "usage", "user", "users", "util", "utils", "value", "values"
+]);
+
+function isFillerEvidence(evidence: Concept["evidence"][number]): boolean {
+  return isFillerTerm(evidence.term) || isFillerValue(evidence.value);
+}
+
+function isFillerTerm(term: string): boolean {
+  const normalized = normalizeConceptId(term);
+  const words = normalized.split(".").filter(Boolean);
+  return Boolean(words.length) && words.every(word => FILLER_CONCEPT_IDS.has(word));
+}
+
+function isFillerValue(value: string): boolean {
+  const normalized = normalizeConceptId(value);
+  const words = normalized.split(".").filter(Boolean);
+  if (!words.length) return true;
+  const meaningful = words.filter(word => !FILLER_CONCEPT_IDS.has(word));
+  return meaningful.length === 0;
+}
+
+function normalizeConceptId(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, ".").replace(/^\.+|\.+$/g, "");
+}
+
+function arrayLength(value: unknown): number {
+  return Array.isArray(value) ? value.length : 0;
 }
 
 function isValidTimestamp(value: unknown): boolean {

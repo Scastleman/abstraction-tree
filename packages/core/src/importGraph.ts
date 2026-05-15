@@ -3,6 +3,7 @@ import path from "node:path";
 import type {
   ExternalImport,
   FileSummary,
+  ImportClassification,
   ImportAliasPattern,
   ImportCycle,
   ImportGraph,
@@ -17,9 +18,15 @@ export interface BuildImportGraphOptions {
   workspacePackages?: WorkspacePackage[];
   importAliases?: ImportAliasPattern[];
   rootDirs?: string[];
+  rustPackages?: RustPackageRoot[];
+  goModules?: GoModuleRoot[];
 }
 
 type PackageManifest = Record<string, unknown>;
+interface WorkspacePatternSpec {
+  pattern: string;
+  excluded: boolean;
+}
 interface GeneratedPackageArtifactResolution {
   to: string;
   packageName: string;
@@ -36,9 +43,56 @@ interface AliasResolution {
   rule?: AliasRule;
   matched: boolean;
 }
+interface PythonPackageRoot {
+  name: string;
+  root: string;
+}
+interface PythonResolution {
+  to: string;
+  packageName: string;
+}
+export interface RustPackageRoot {
+  name: string;
+  crateName: string;
+  root: string;
+  manifestPath: string;
+  entrypoints: string[];
+}
+interface RustResolution {
+  to: string;
+  packageName: string;
+}
+export interface GoModuleRoot {
+  modulePath: string;
+  root: string;
+  manifestPath: string;
+}
+interface GoResolution {
+  to?: string;
+  modulePath: string;
+  matched: boolean;
+}
 
 const JAVASCRIPT_EXTENSIONS = new Set([".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs"]);
-const RESOLUTION_EXTENSIONS = [".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs", ".json"];
+const PYTHON_EXTENSIONS = new Set([".py"]);
+const RUST_EXTENSIONS = new Set([".rs"]);
+const GO_EXTENSIONS = new Set([".go"]);
+const MARKDOWN_EXTENSIONS = new Set([".md", ".mdx"]);
+const IMPORT_GRAPH_EXTENSIONS = new Set([...JAVASCRIPT_EXTENSIONS, ...PYTHON_EXTENSIONS, ...RUST_EXTENSIONS, ...GO_EXTENSIONS, ...MARKDOWN_EXTENSIONS]);
+const JAVASCRIPT_RESOLUTION_EXTENSIONS = [".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs", ".json"];
+const PYTHON_RESOLUTION_EXTENSIONS = [".py"];
+const RUST_RESOLUTION_EXTENSIONS = [".rs"];
+const MARKDOWN_RESOLUTION_EXTENSIONS = [
+  ".md", ".mdx", ".rst",
+  ".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs",
+  ".py", ".go", ".rs", ".json", ".toml", ".yaml", ".yml"
+];
+const STATIC_ASSET_EXTENSIONS = new Set([
+  ".avif", ".bmp", ".css", ".gif", ".ico", ".jpeg", ".jpg", ".less", ".mp3", ".mp4",
+  ".otf", ".pdf", ".png", ".sass", ".scss", ".svg", ".ttf", ".wasm", ".webp", ".woff",
+  ".woff2", ".worker"
+]);
+const STATIC_ASSET_QUERY_KEYS = new Set(["asset", "component", "inline", "raw", "react", "sharedworker", "url", "worker"]);
 const EXTENSION_ALIASES: Record<string, string[]> = {
   ".js": [".ts", ".tsx", ".js", ".jsx"],
   ".jsx": [".tsx", ".jsx"],
@@ -46,6 +100,7 @@ const EXTENSION_ALIASES: Record<string, string[]> = {
   ".cjs": [".cts", ".cjs", ".ts", ".js"]
 };
 const GENERATED_PACKAGE_BUILD_DIRS = new Set(["dist", "dist-ts"]);
+const GENERATED_ARTIFACT_DIRS = new Set([".vite", "build", "coverage", "dist", "dist-ts"]);
 
 export function emptyImportGraph(): ImportGraph {
   return {
@@ -58,13 +113,17 @@ export function emptyImportGraph(): ImportGraph {
 }
 
 export async function buildImportGraph(projectRoot: string, files: FileSummary[], options: BuildImportGraphOptions = {}): Promise<ImportGraph> {
-  const [workspacePackages, importResolution] = await Promise.all([
+  const [workspacePackages, rustPackages, goModules, importResolution] = await Promise.all([
     options.workspacePackages ? Promise.resolve(normalizeWorkspacePackages(options.workspacePackages)) : discoverWorkspacePackages(projectRoot, files),
+    options.rustPackages ? Promise.resolve(normalizeRustPackages(options.rustPackages)) : discoverRustPackageRoots(projectRoot, files),
+    options.goModules ? Promise.resolve(normalizeGoModules(options.goModules)) : discoverGoModuleRoots(projectRoot, files),
     discoverImportResolution(projectRoot, files, options.importAliases ?? [])
   ]);
   return buildImportGraphFromFiles(files, {
     ...options,
     workspacePackages,
+    rustPackages,
+    goModules,
     importAliases: importResolution.importAliases,
     rootDirs: uniqueStrings([...(options.rootDirs ?? []), ...importResolution.rootDirs])
   });
@@ -76,16 +135,31 @@ export function buildImportGraphFromFiles(files: FileSummary[], options: BuildIm
   const workspaceByName = new Map(workspacePackages.map(pkg => [pkg.name, pkg]));
   const aliasRules = normalizeAliasRules(options.importAliases ?? []);
   const rootDirs = normalizeRootDirs(options.rootDirs ?? []);
+  const pythonPackages = inferPythonPackageRoots(files);
+  const rustPackages = normalizeRustPackages(options.rustPackages ?? inferRustPackageRoots(files));
+  const goModules = normalizeGoModules(options.goModules ?? inferGoModuleRoots(files));
   const edges: ImportGraphEdge[] = [];
   const externalImports: ExternalImport[] = [];
   const unresolvedImports: UnresolvedImport[] = [];
 
-  for (const file of files.filter(isJavaScriptFile).sort((a, b) => a.path.localeCompare(b.path))) {
+  for (const file of files.filter(isImportGraphFile).sort((a, b) => a.path.localeCompare(b.path))) {
     for (const specifier of [...file.imports].sort()) {
-      if (isRelativeSpecifier(specifier)) {
+      const classification = classifyImportSpecifier(file.path, specifier, workspacePackages);
+      if (classification === "virtual") {
+        externalImports.push({
+          from: file.path,
+          specifier,
+          packageName: "virtual",
+          ...classificationField(classification)
+        });
+        continue;
+      }
+
+      if (isRelativeSpecifier(file.path, specifier)) {
+        const edgeKind = relativeEdgeKindForFile(file.path);
         const to = resolveRelativeSpecifier(file.path, specifier, fileSet, rootDirs);
         if (to) {
-          edges.push({ from: file.path, to, specifier, kind: "relative" });
+          edges.push({ from: file.path, to, specifier, kind: edgeKind, ...classificationField(classification) });
         } else {
           const generatedArtifact = resolveGeneratedPackageArtifactSpecifier(file.path, specifier, workspacePackages, fileSet);
           if (generatedArtifact) {
@@ -94,11 +168,20 @@ export function buildImportGraphFromFiles(files: FileSummary[], options: BuildIm
               to: generatedArtifact.to,
               specifier,
               kind: "workspace-package",
+              ...classificationField("generated-artifact"),
               packageName: generatedArtifact.packageName
             });
             continue;
           }
-          unresolvedImports.push(unresolved(file.path, specifier, "relative", "Relative import could not be resolved to a scanned repository file."));
+          unresolvedImports.push(unresolved(
+            file.path,
+            specifier,
+            edgeKind,
+            unresolvedReasonForClassification(classification, `${edgeKind === "markdown-link" ? "Markdown link" : "Relative import"} could not be resolved to a scanned repository file.`),
+            undefined,
+            undefined,
+            classification
+          ));
         }
         continue;
       }
@@ -110,6 +193,7 @@ export function buildImportGraphFromFiles(files: FileSummary[], options: BuildIm
           to: aliasResolution.to,
           specifier,
           kind: "alias",
+          ...classificationField(classification),
           aliasSource: aliasSource(aliasResolution.rule)
         });
         continue;
@@ -119,9 +203,10 @@ export function buildImportGraphFromFiles(files: FileSummary[], options: BuildIm
           file.path,
           specifier,
           "alias",
-          aliasUnresolvedReason(aliasResolution.rule),
+          unresolvedReasonForClassification(classification, aliasUnresolvedReason(aliasResolution.rule)),
           undefined,
-          aliasSource(aliasResolution.rule)
+          aliasSource(aliasResolution.rule),
+          classification
         ));
         continue;
       }
@@ -130,21 +215,52 @@ export function buildImportGraphFromFiles(files: FileSummary[], options: BuildIm
           file.path,
           specifier,
           "alias",
-          "Import looks like a local alias, but no TypeScript paths, bundler alias, or configured importAliases entry matched it. Configure compilerOptions.paths, a supported bundler resolve.alias, or .abstraction-tree config importAliases."
+          unresolvedReasonForClassification(classification, "Import looks like a local alias, but no TypeScript paths, bundler alias, or configured importAliases entry matched it. Configure compilerOptions.paths, a supported bundler resolve.alias, or .abstraction-tree config importAliases."),
+          undefined,
+          undefined,
+          classification
         ));
         continue;
       }
 
-      const packageName = packageNameFromSpecifier(specifier);
+      const goResolution = isGoFilePath(file.path)
+        ? resolveGoModuleSpecifier(file.path, specifier, goModules, fileSet)
+        : undefined;
+      if (goResolution?.to) {
+        edges.push({
+          from: file.path,
+          to: goResolution.to,
+          specifier,
+          kind: "go-package",
+          ...classificationField(classification),
+          packageName: goResolution.modulePath
+        });
+        continue;
+      }
+      if (goResolution?.matched) {
+        unresolvedImports.push(unresolved(
+          file.path,
+          specifier,
+          "go-package",
+          unresolvedReasonForClassification(classification, "Go module import matched the local module path, but its package directory could not be resolved to a scanned Go file."),
+          goResolution.modulePath,
+          undefined,
+          classification
+        ));
+        continue;
+      }
+
+      const packageName = packageNameFromSpecifier(file.path, specifier);
       const workspacePackage = packageName ? workspaceByName.get(packageName) : undefined;
       if (workspacePackage) {
-        const workspaceResolution = resolveWorkspaceSpecifier(specifier, workspacePackage, fileSet);
+        const workspaceResolution = resolveWorkspaceSpecifier(file.path, specifier, workspacePackage, fileSet);
         if (workspaceResolution) {
           edges.push({
             from: file.path,
             to: workspaceResolution,
             specifier,
             kind: "workspace-package",
+            ...classificationField(classification),
             packageName
           });
         } else {
@@ -152,15 +268,47 @@ export function buildImportGraphFromFiles(files: FileSummary[], options: BuildIm
             file.path,
             specifier,
             "workspace-package",
-            "Workspace package import was recognized, but its subpath could not be resolved.",
-            packageName
+            unresolvedReasonForClassification(classification, "Workspace package import was recognized, but its subpath could not be resolved."),
+            packageName,
+            undefined,
+            classification
           ));
         }
         continue;
       }
 
+      const pythonResolution = isPythonFilePath(file.path)
+        ? resolvePythonAbsoluteSpecifier(specifier, pythonPackages, fileSet)
+        : undefined;
+      if (pythonResolution) {
+        edges.push({
+          from: file.path,
+          to: pythonResolution.to,
+          specifier,
+          kind: "workspace-package",
+          ...classificationField(classification),
+          packageName: pythonResolution.packageName
+        });
+        continue;
+      }
+
+      const rustResolution = isRustFilePath(file.path)
+        ? resolveRustAbsoluteSpecifier(file.path, specifier, rustPackages, fileSet)
+        : undefined;
+      if (rustResolution) {
+        edges.push({
+          from: file.path,
+          to: rustResolution.to,
+          specifier,
+          kind: "workspace-package",
+          ...classificationField(classification),
+          packageName: rustResolution.packageName
+        });
+        continue;
+      }
+
       if (packageName) {
-        externalImports.push({ from: file.path, specifier, packageName });
+        externalImports.push({ from: file.path, specifier, packageName, ...classificationField(classification) });
       }
     }
   }
@@ -168,8 +316,8 @@ export function buildImportGraphFromFiles(files: FileSummary[], options: BuildIm
   const uniqueEdges = uniqueBy(edges, edgeKey).sort(byEdge);
   return {
     edges: uniqueEdges,
-    externalImports: uniqueBy(externalImports, item => `${item.from}|${item.specifier}|${item.packageName}`).sort(byExternalImport),
-    unresolvedImports: uniqueBy(unresolvedImports, item => `${item.from}|${item.specifier}|${item.kind}|${item.packageName ?? ""}|${item.aliasSource ?? ""}`).sort(byUnresolvedImport),
+    externalImports: uniqueBy(externalImports, item => `${item.from}|${item.specifier}|${item.packageName}|${item.classification ?? ""}`).sort(byExternalImport),
+    unresolvedImports: uniqueBy(unresolvedImports, item => `${item.from}|${item.specifier}|${item.kind}|${item.packageName ?? ""}|${item.aliasSource ?? ""}|${item.classification ?? ""}`).sort(byUnresolvedImport),
     cycles: detectImportCycles(uniqueEdges, fileSet),
     workspacePackages
   };
@@ -177,13 +325,24 @@ export function buildImportGraphFromFiles(files: FileSummary[], options: BuildIm
 
 export async function discoverWorkspacePackages(projectRoot: string, files: FileSummary[]): Promise<WorkspacePackage[]> {
   const rootManifest = await readPackageManifest(projectRoot);
-  const patterns = workspacePatterns(rootManifest);
-  if (!patterns.length) return [];
+  const patterns = [
+    ...packageJsonWorkspacePatterns(rootManifest),
+    ...await pnpmWorkspacePatterns(projectRoot)
+  ];
+  if (!patterns.some(pattern => !pattern.excluded)) return [];
 
   const roots = new Set<string>();
-  for (const pattern of patterns) {
+  for (const { pattern, excluded } of patterns) {
+    if (excluded) continue;
     for (const root of await expandWorkspacePattern(projectRoot, pattern)) {
       roots.add(root);
+    }
+  }
+
+  const excludedPatterns = patterns.filter(pattern => pattern.excluded).map(pattern => pattern.pattern);
+  for (const root of [...roots]) {
+    if (excludedPatterns.some(pattern => workspacePatternMatchesRoot(root, pattern))) {
+      roots.delete(root);
     }
   }
 
@@ -211,25 +370,432 @@ export async function discoverWorkspacePackages(projectRoot: string, files: File
   return normalizeWorkspacePackages(packages);
 }
 
-function isJavaScriptFile(file: FileSummary): boolean {
-  return JAVASCRIPT_EXTENSIONS.has(file.extension.toLowerCase());
+async function discoverRustPackageRoots(projectRoot: string, files: FileSummary[]): Promise<RustPackageRoot[]> {
+  const fileSet = new Set(files.map(file => file.path));
+  const packages: RustPackageRoot[] = [];
+
+  for (const file of files.filter(isRustManifestFile).sort((a, b) => a.path.localeCompare(b.path))) {
+    const manifestPath = file.path;
+    const root = path.posix.dirname(manifestPath);
+    const normalizedRoot = root === "." ? "." : root;
+    const raw = await readTextFile(path.join(projectRoot, repoPathToNative(manifestPath)));
+    const parsed = raw ? parseCargoManifest(raw) : { binPaths: [] };
+    const name = parsed.packageName ?? rustPackageNameFromSummary(file) ?? rustPackageNameFromRoot(normalizedRoot);
+    if (!name) continue;
+    packages.push({
+      name,
+      crateName: rustCrateName(name),
+      root: normalizedRoot,
+      manifestPath,
+      entrypoints: rustEntrypointsForRoot(normalizedRoot, fileSet, parsed.binPaths)
+    });
+  }
+
+  return normalizeRustPackages(packages);
 }
 
-function isRelativeSpecifier(specifier: string): boolean {
-  return specifier.startsWith("./") || specifier.startsWith("../");
+async function discoverGoModuleRoots(projectRoot: string, files: FileSummary[]): Promise<GoModuleRoot[]> {
+  const modules: GoModuleRoot[] = [];
+
+  for (const file of files.filter(isGoModFile).sort((a, b) => a.path.localeCompare(b.path))) {
+    const manifestPath = file.path;
+    const root = path.posix.dirname(manifestPath);
+    const normalizedRoot = root === "." ? "." : root;
+    const raw = await readTextFile(path.join(projectRoot, repoPathToNative(manifestPath)));
+    const modulePath = raw ? parseGoModulePath(raw) : goModulePathFromSummary(file);
+    if (!modulePath) continue;
+    modules.push({
+      modulePath,
+      root: normalizedRoot,
+      manifestPath
+    });
+  }
+
+  return normalizeGoModules(modules);
+}
+
+function inferRustPackageRoots(files: FileSummary[]): RustPackageRoot[] {
+  const fileSet = new Set(files.map(file => file.path));
+  return normalizeRustPackages(files
+    .filter(isRustManifestFile)
+    .map(file => {
+      const root = path.posix.dirname(file.path);
+      const normalizedRoot = root === "." ? "." : root;
+      const name = rustPackageNameFromSummary(file) ?? rustPackageNameFromRoot(normalizedRoot);
+      return {
+        name,
+        crateName: rustCrateName(name),
+        root: normalizedRoot,
+        manifestPath: file.path,
+        entrypoints: rustEntrypointsForRoot(normalizedRoot, fileSet, rustBinPathsFromSummary(file))
+      };
+    }));
+}
+
+function inferGoModuleRoots(files: FileSummary[]): GoModuleRoot[] {
+  return normalizeGoModules(files
+    .filter(isGoModFile)
+    .flatMap(file => {
+      const modulePath = goModulePathFromSummary(file);
+      if (!modulePath) return [];
+      const root = path.posix.dirname(file.path);
+      return [{
+        modulePath,
+        root: root === "." ? "." : root,
+        manifestPath: file.path
+      }];
+    }));
+}
+
+function parseCargoManifest(raw: string): { packageName?: string; binPaths: string[] } {
+  let section = "";
+  let packageName: string | undefined;
+  const binPaths: string[] = [];
+
+  for (const rawLine of raw.split(/\r?\n/u)) {
+    const line = yamlWithoutComment(rawLine).trim();
+    const sectionMatch = line.match(/^\[\[?([A-Za-z0-9_.-]+)\]?\]\s*$/u);
+    if (sectionMatch) {
+      section = sectionMatch[1];
+      continue;
+    }
+    const keyValue = line.match(/^([A-Za-z0-9_.-]+)\s*=\s*["']([^"']+)["']/u);
+    if (!keyValue) continue;
+    const key = keyValue[1];
+    const value = keyValue[2];
+    if (section === "package" && key === "name") packageName = value;
+    if (section === "bin" && key === "path") binPaths.push(value);
+  }
+
+  return {
+    ...(packageName ? { packageName } : {}),
+    binPaths: uniqueStrings(binPaths)
+  };
+}
+
+function parseGoModulePath(raw: string): string | undefined {
+  for (const rawLine of raw.split(/\r?\n/u)) {
+    const line = rawLine.replace(/\/\/.*$/u, "").trim();
+    const moduleMatch = line.match(/^module\s+(\S+)/u);
+    if (moduleMatch?.[1]) return moduleMatch[1];
+  }
+  return undefined;
+}
+
+function goModulePathFromSummary(file: FileSummary): string | undefined {
+  const symbol = file.symbols.find(symbol => symbol.startsWith("go.module:"));
+  return symbol?.slice("go.module:".length);
+}
+
+function rustPackageNameFromSummary(file: FileSummary): string | undefined {
+  const symbol = file.symbols.find(symbol => symbol.startsWith("package.name:"));
+  return symbol?.slice("package.name:".length);
+}
+
+function rustBinPathsFromSummary(file: FileSummary): string[] {
+  return file.symbols
+    .filter(symbol => symbol.startsWith("bin.path:"))
+    .map(symbol => normalizeRepoPath(symbol.slice("bin.path:".length)));
+}
+
+function rustEntrypointsForRoot(root: string, fileSet: Set<string>, binPaths: string[] = []): string[] {
+  const explicit = binPaths.map(binPath => repoJoin(root, binPath));
+  const defaults = [
+    repoJoin(root, "src/lib.rs"),
+    repoJoin(root, "src/main.rs"),
+    ...[...fileSet].filter(filePath => pathContains(repoJoin(root, "src/bin"), filePath) && path.posix.extname(filePath) === ".rs")
+  ];
+  return uniqueStrings([...explicit, ...defaults].filter(filePath => fileSet.has(filePath))).sort();
+}
+
+function rustPackageNameFromRoot(root: string): string {
+  if (root === ".") return "crate";
+  return path.posix.basename(root);
+}
+
+function rustCrateName(packageName: string): string {
+  return packageName.replace(/-/gu, "_");
+}
+
+function isRustManifestFile(file: FileSummary): boolean {
+  return path.posix.basename(file.path).toLowerCase() === "cargo.toml";
+}
+
+function isGoModFile(file: FileSummary): boolean {
+  return path.posix.basename(file.path).toLowerCase() === "go.mod";
+}
+
+function inferPythonPackageRoots(files: FileSummary[]): PythonPackageRoot[] {
+  const roots = new Map<string, PythonPackageRoot>();
+
+  for (const file of files) {
+    if (!isPythonFilePath(file.path) || file.isTest || isPythonProjectSupportFile(file.path)) continue;
+    const root = pythonPackageRootForPath(file.path);
+    if (!root) continue;
+    roots.set(root.root, root);
+  }
+
+  return [...roots.values()].sort((a, b) => a.root.localeCompare(b.root));
+}
+
+function pythonPackageRootForPath(filePath: string): PythonPackageRoot | undefined {
+  const normalized = normalizeRepoPath(filePath);
+  const parts = normalized.split("/");
+  const srcIndex = parts.lastIndexOf("src");
+  if (srcIndex >= 0 && parts[srcIndex + 1] && isPythonPackageName(parts[srcIndex + 1])) {
+    return {
+      name: parts[srcIndex + 1],
+      root: parts.slice(0, srcIndex + 2).join("/")
+    };
+  }
+
+  const packageIndex = parts.findIndex(part => isPythonPackageName(part) && !PYTHON_NON_PACKAGE_DIRS.has(part.toLowerCase()));
+  if (packageIndex >= 0 && parts.length > packageIndex + 1) {
+    return {
+      name: parts[packageIndex],
+      root: parts.slice(0, packageIndex + 1).join("/")
+    };
+  }
+
+  return undefined;
+}
+
+function isPythonProjectSupportFile(filePath: string): boolean {
+  const basename = path.posix.basename(filePath).toLowerCase();
+  return ["setup.py", "noxfile.py", "conftest.py"].includes(basename) || /(^|\/)docs\/conf\.py$/u.test(filePath.toLowerCase());
+}
+
+const PYTHON_NON_PACKAGE_DIRS = new Set([
+  ".github", "build", "dist", "docs", "examples", "scripts", "test", "tests", "tools"
+]);
+
+function isPythonPackageName(value: string): boolean {
+  return /^[A-Za-z_][A-Za-z0-9_]*$/u.test(value) && !value.startsWith("_");
+}
+
+function isImportGraphFile(file: FileSummary): boolean {
+  return IMPORT_GRAPH_EXTENSIONS.has(file.extension.toLowerCase());
+}
+
+function isPythonFilePath(filePath: string): boolean {
+  return path.posix.extname(filePath).toLowerCase() === ".py";
+}
+
+function isRustFilePath(filePath: string): boolean {
+  return path.posix.extname(filePath).toLowerCase() === ".rs";
+}
+
+function isGoFilePath(filePath: string): boolean {
+  return path.posix.extname(filePath).toLowerCase() === ".go";
+}
+
+function isMarkdownFilePath(filePath: string): boolean {
+  return MARKDOWN_EXTENSIONS.has(path.posix.extname(filePath).toLowerCase());
+}
+
+function resolutionExtensionsForFile(filePath: string): string[] {
+  if (isRustFilePath(filePath)) return RUST_RESOLUTION_EXTENSIONS;
+  if (isMarkdownFilePath(filePath)) return MARKDOWN_RESOLUTION_EXTENSIONS;
+  return isPythonFilePath(filePath) ? PYTHON_RESOLUTION_EXTENSIONS : JAVASCRIPT_RESOLUTION_EXTENSIONS;
+}
+
+function isRelativeSpecifier(from: string, specifier: string): boolean {
+  return specifier.startsWith("./") ||
+    specifier.startsWith("../") ||
+    (isPythonFilePath(from) && specifier.startsWith(".")) ||
+    (isRustFilePath(from) && isRustRelativeModuleSpecifier(specifier)) ||
+    (isMarkdownFilePath(from) && isMarkdownLocalLinkSpecifier(specifier));
+}
+
+function relativeEdgeKindForFile(filePath: string): ImportGraphEdgeKind {
+  return isMarkdownFilePath(filePath) ? "markdown-link" : "relative";
+}
+
+function classifyImportSpecifier(from: string, specifier: string, workspacePackages: WorkspacePackage[]): ImportClassification {
+  if (isVirtualSpecifier(specifier)) return "virtual";
+  if (isStaticAssetSpecifier(specifier)) return "static-asset";
+  if (isGeneratedArtifactSpecifier(from, specifier, workspacePackages)) return "generated-artifact";
+  return "source";
+}
+
+function classificationField(classification: ImportClassification): { classification?: ImportClassification } {
+  return classification === "source" ? {} : { classification };
+}
+
+function isVirtualSpecifier(specifier: string): boolean {
+  return specifier.startsWith("virtual:") ||
+    specifier.startsWith("\0") ||
+    specifier.startsWith("/@vite/") ||
+    specifier.startsWith("/@react-refresh") ||
+    specifier === "@vite/client" ||
+    specifier === "@vite/env" ||
+    specifier === "vite/modulepreload-polyfill";
+}
+
+function isStaticAssetSpecifier(specifier: string): boolean {
+  const { path: specifierPath, queryKeys } = splitSpecifierForClassification(specifier);
+  if ([...queryKeys].some(key => STATIC_ASSET_QUERY_KEYS.has(key.toLowerCase()))) return true;
+
+  return STATIC_ASSET_EXTENSIONS.has(path.posix.extname(specifierPath).toLowerCase());
+}
+
+function isGeneratedArtifactSpecifier(from: string, specifier: string, workspacePackages: WorkspacePackage[]): boolean {
+  if (isRelativeSpecifier(from, specifier)) {
+    const candidate = relativeSpecifierCandidate(from, specifier);
+    return candidate ? isGeneratedArtifactPath(candidate, workspacePackages) : false;
+  }
+
+  const packageName = packageNameFromSpecifier(from, specifier);
+  const workspacePackage = packageName ? workspacePackages.find(pkg => pkg.name === packageName) : undefined;
+  if (workspacePackage) {
+    const subpath = specifier.slice(workspacePackage.name.length + 1);
+    return pathStartsWithGeneratedArtifactDir(subpath);
+  }
+
+  return pathStartsWithGeneratedArtifactDir(splitSpecifierForClassification(specifier).path);
+}
+
+function splitSpecifierForClassification(specifier: string): { path: string; queryKeys: Set<string> } {
+  const [withoutHash] = specifier.split("#", 1);
+  const queryIndex = withoutHash.indexOf("?");
+  if (queryIndex === -1) return { path: withoutHash, queryKeys: new Set() };
+
+  const query = withoutHash.slice(queryIndex + 1);
+  return {
+    path: withoutHash.slice(0, queryIndex),
+    queryKeys: new Set(query.split("&").map(part => part.split("=", 1)[0]).filter(Boolean))
+  };
+}
+
+function isGeneratedArtifactPath(candidate: string, workspacePackages: WorkspacePackage[]): boolean {
+  if (pathStartsWithGeneratedArtifactDir(candidate)) return true;
+
+  for (const workspacePackage of workspacePackagesBySpecificRoot(workspacePackages)) {
+    const packageRelativePath = pathRelativeToPackage(candidate, workspacePackage.root);
+    if (packageRelativePath && pathStartsWithGeneratedArtifactDir(packageRelativePath)) return true;
+  }
+
+  return false;
+}
+
+function pathStartsWithGeneratedArtifactDir(specifierPath: string): boolean {
+  const normalized = normalizeRepoPath(specifierPath);
+  if (!normalized || normalized === "." || isOutsideRepo(normalized)) return false;
+
+  const segments = normalized.split("/");
+  return segments.length > 1 && GENERATED_ARTIFACT_DIRS.has(segments[0]);
+}
+
+function unresolvedReasonForClassification(classification: ImportClassification, fallback: string): string {
+  switch (classification) {
+    case "static-asset":
+      return "Static asset import is not resolved to a scanned source file; it is classified separately from unresolved source imports.";
+    case "generated-artifact":
+      return "Generated artifact import points at build output that is commonly ignored by the scanner; it is classified separately from unresolved source imports.";
+    case "virtual":
+      return "Virtual module import is supplied by a bundler or runtime plugin and is classified separately from unresolved source imports.";
+    case "source":
+      return fallback;
+  }
 }
 
 function resolveRelativeSpecifier(from: string, specifier: string, fileSet: Set<string>, rootDirs: string[] = []): string | undefined {
   const candidate = relativeSpecifierCandidate(from, specifier);
   if (!candidate) return undefined;
-  return resolvePathCandidate(candidate, fileSet) ?? resolveRootDirsCandidate(from, candidate, rootDirs, fileSet);
+  return resolvePathCandidate(candidate, fileSet, resolutionExtensionsForFile(from)) ?? resolveRootDirsCandidate(from, candidate, rootDirs, fileSet);
 }
 
 function relativeSpecifierCandidate(from: string, specifier: string): string | undefined {
+  if (isRustFilePath(from) && isRustRelativeModuleSpecifier(specifier)) {
+    return rustRelativeSpecifierCandidate(from, specifier);
+  }
+
+  if (isPythonFilePath(from) && specifier.startsWith(".") && !specifier.startsWith("./") && !specifier.startsWith("../")) {
+    return pythonRelativeSpecifierCandidate(from, specifier);
+  }
+
+  if (isMarkdownFilePath(from) && isMarkdownLocalLinkSpecifier(specifier)) {
+    return markdownRelativeSpecifierCandidate(from, specifier);
+  }
+
   const fromDir = path.posix.dirname(from);
   const candidate = normalizeRepoPath(path.posix.normalize(path.posix.join(fromDir, specifier)));
   if (isOutsideRepo(candidate)) return undefined;
   return candidate;
+}
+
+function isRustRelativeModuleSpecifier(specifier: string): boolean {
+  return specifier.startsWith("mod:") ||
+    specifier.startsWith("self::") ||
+    specifier.startsWith("super::");
+}
+
+function rustRelativeSpecifierCandidate(from: string, specifier: string): string | undefined {
+  let baseDir = path.posix.dirname(from);
+  const moduleSpecifier = specifier.startsWith("mod:") ? specifier.slice("mod:".length) : specifier;
+  const parts = moduleSpecifier.split("::").filter(Boolean);
+  while (parts[0] === "super") {
+    baseDir = path.posix.dirname(baseDir);
+    parts.shift();
+  }
+  if (parts[0] === "self") parts.shift();
+  if (!parts.length) return undefined;
+
+  const candidate = normalizeRepoPath(path.posix.normalize(path.posix.join(baseDir, parts.join("/"))));
+  if (isOutsideRepo(candidate)) return undefined;
+  return candidate;
+}
+
+function pythonRelativeSpecifierCandidate(from: string, specifier: string): string | undefined {
+  const leadingDotMatch = specifier.match(/^\.+/u);
+  const leadingDots = leadingDotMatch?.[0].length ?? 0;
+  if (!leadingDots) return undefined;
+
+  let baseDir = path.posix.dirname(from);
+  for (let index = 1; index < leadingDots; index += 1) {
+    baseDir = path.posix.dirname(baseDir);
+  }
+
+  const modulePath = specifier.slice(leadingDots).replaceAll(".", "/");
+  const candidate = normalizeRepoPath(path.posix.normalize(path.posix.join(baseDir, modulePath)));
+  if (isOutsideRepo(candidate)) return undefined;
+  return candidate;
+}
+
+function isMarkdownLocalLinkSpecifier(specifier: string): boolean {
+  const linkPath = markdownLinkSpecifierPath(specifier);
+  if (!linkPath) return false;
+  if (linkPath.startsWith("#")) return false;
+  if (/^[A-Za-z][A-Za-z0-9+.-]*:/u.test(linkPath) || linkPath.startsWith("//")) return false;
+  return true;
+}
+
+function markdownRelativeSpecifierCandidate(from: string, specifier: string): string | undefined {
+  const linkPath = markdownLinkSpecifierPath(specifier);
+  if (!linkPath || !isMarkdownLocalLinkSpecifier(linkPath)) return undefined;
+
+  const decoded = decodeRepoUriPath(linkPath);
+  const candidate = decoded.startsWith("/")
+    ? normalizeRepoPath(decoded.slice(1))
+    : normalizeRepoPath(path.posix.normalize(path.posix.join(path.posix.dirname(from), decoded)));
+  if (isOutsideRepo(candidate)) return undefined;
+  return candidate;
+}
+
+function markdownLinkSpecifierPath(specifier: string): string | undefined {
+  const trimmed = specifier.trim().replace(/^<|>$/gu, "");
+  if (!trimmed) return undefined;
+  const [withoutHash] = trimmed.split("#", 1);
+  const [withoutQuery] = withoutHash.split("?", 1);
+  return withoutQuery || undefined;
+}
+
+function decodeRepoUriPath(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
 }
 
 function resolveGeneratedPackageArtifactSpecifier(
@@ -300,7 +866,9 @@ function isPackageEntrypointArtifact(artifactSubpath: string): boolean {
     path.posix.basename(artifactSubpath, path.posix.extname(artifactSubpath)) === "index";
 }
 
-function resolveWorkspaceSpecifier(specifier: string, workspacePackage: WorkspacePackage, fileSet: Set<string>): string | undefined {
+function resolveWorkspaceSpecifier(from: string, specifier: string, workspacePackage: WorkspacePackage, fileSet: Set<string>): string | undefined {
+  if (isPythonFilePath(from)) return resolvePythonWorkspaceSpecifier(specifier, workspacePackage, fileSet);
+
   if (specifier === workspacePackage.name) {
     return workspacePackage.entrypoint ?? workspacePackage.root;
   }
@@ -313,6 +881,123 @@ function resolveWorkspaceSpecifier(specifier: string, workspacePackage: Workspac
       ? resolvePathCandidate(repoJoin(path.posix.dirname(workspacePackage.entrypoint), subpath), fileSet)
       : undefined)
   );
+}
+
+function resolvePythonWorkspaceSpecifier(specifier: string, workspacePackage: WorkspacePackage, fileSet: Set<string>): string | undefined {
+  if (specifier === workspacePackage.name) {
+    return workspacePackage.entrypoint ?? resolvePathCandidate(workspacePackage.root, fileSet, PYTHON_RESOLUTION_EXTENSIONS) ?? workspacePackage.root;
+  }
+
+  const subpath = specifier.slice(workspacePackage.name.length).replace(/^\./u, "").replaceAll(".", "/");
+  if (!subpath) return workspacePackage.entrypoint ?? workspacePackage.root;
+  return resolvePathCandidate(repoJoin(workspacePackage.root, subpath), fileSet, PYTHON_RESOLUTION_EXTENSIONS);
+}
+
+function resolvePythonAbsoluteSpecifier(
+  specifier: string,
+  packages: PythonPackageRoot[],
+  fileSet: Set<string>
+): PythonResolution | undefined {
+  if (!specifier || specifier.startsWith(".")) return undefined;
+  const [packageName, ...subpathParts] = specifier.split(".");
+  const pythonPackage = packages.find(pkg => pkg.name === packageName);
+  if (!pythonPackage) return undefined;
+
+  const subpath = subpathParts.join("/");
+  const to = subpath
+    ? resolvePathCandidate(repoJoin(pythonPackage.root, subpath), fileSet, PYTHON_RESOLUTION_EXTENSIONS)
+    : resolvePathCandidate(pythonPackage.root, fileSet, PYTHON_RESOLUTION_EXTENSIONS);
+  return to ? { to, packageName } : undefined;
+}
+
+function resolveRustAbsoluteSpecifier(
+  from: string,
+  specifier: string,
+  packages: RustPackageRoot[],
+  fileSet: Set<string>
+): RustResolution | undefined {
+  if (!specifier.includes("::")) return undefined;
+  const parts = specifier.split("::").filter(Boolean);
+  if (!parts.length) return undefined;
+
+  const [first, ...moduleParts] = parts;
+  const rustPackage = first === "crate"
+    ? rustPackageForPath(from, packages)
+    : packages.find(pkg => pkg.crateName === first || pkg.name === first);
+  if (!rustPackage) return undefined;
+
+  const to = resolveRustModulePath(rustPackage, moduleParts, fileSet);
+  return to ? { to, packageName: rustPackage.name } : undefined;
+}
+
+function resolveGoModuleSpecifier(
+  from: string,
+  specifier: string,
+  modules: GoModuleRoot[],
+  fileSet: Set<string>
+): GoResolution | undefined {
+  const goModule = goModuleForSpecifier(from, specifier, modules);
+  if (!goModule) return undefined;
+
+  const subpath = specifier === goModule.modulePath
+    ? ""
+    : specifier.slice(goModule.modulePath.length + 1);
+  const packageDir = subpath ? repoJoin(goModule.root, subpath) : goModule.root;
+  return {
+    modulePath: goModule.modulePath,
+    matched: true,
+    to: resolveGoPackageFile(packageDir, fileSet)
+  };
+}
+
+function goModuleForSpecifier(from: string, specifier: string, modules: GoModuleRoot[]): GoModuleRoot | undefined {
+  return [...modules]
+    .sort((a, b) => b.modulePath.length - a.modulePath.length || b.root.length - a.root.length || a.modulePath.localeCompare(b.modulePath))
+    .find(module => pathContains(module.root, from) && (specifier === module.modulePath || specifier.startsWith(`${module.modulePath}/`)));
+}
+
+function resolveGoPackageFile(packageDir: string, fileSet: Set<string>): string | undefined {
+  const normalizedDir = normalizeRepoPath(packageDir);
+  const files = [...fileSet]
+    .filter(filePath => path.posix.dirname(filePath) === normalizedDir && isGoFilePath(filePath))
+    .sort((a, b) => goPackageFileRank(a) - goPackageFileRank(b) || a.localeCompare(b));
+  return files[0];
+}
+
+function goPackageFileRank(filePath: string): number {
+  const basename = path.posix.basename(filePath).toLowerCase();
+  if (basename.endsWith("_test.go")) return 3;
+  if (basename === "doc.go") return 2;
+  if (basename === "main.go") return 1;
+  return 0;
+}
+
+function resolveRustModulePath(
+  rustPackage: RustPackageRoot,
+  moduleParts: string[],
+  fileSet: Set<string>
+): string | undefined {
+  if (!moduleParts.length) return rustPackage.entrypoints.find(entrypoint => fileSet.has(entrypoint));
+
+  for (let count = moduleParts.length; count > 0; count -= 1) {
+    const modulePath = moduleParts.slice(0, count).join("/");
+    const candidates = [
+      repoJoin(rustPackage.root, "src", modulePath),
+      repoJoin(rustPackage.root, modulePath)
+    ];
+    for (const candidate of candidates) {
+      const resolved = resolvePathCandidate(candidate, fileSet, RUST_RESOLUTION_EXTENSIONS);
+      if (resolved) return resolved;
+    }
+  }
+
+  return undefined;
+}
+
+function rustPackageForPath(filePath: string, packages: RustPackageRoot[]): RustPackageRoot | undefined {
+  return [...packages]
+    .sort((a, b) => b.root.length - a.root.length || a.name.localeCompare(b.name))
+    .find(pkg => pathContains(pkg.root, filePath));
 }
 
 function resolvePackageEntrypoint(packageRoot: string, manifest: PackageManifest | undefined, fileSet: Set<string>): string | undefined {
@@ -332,15 +1017,15 @@ function resolvePackageEntrypoint(packageRoot: string, manifest: PackageManifest
   return undefined;
 }
 
-function resolvePathCandidate(candidate: string, fileSet: Set<string>): string | undefined {
+function resolvePathCandidate(candidate: string, fileSet: Set<string>, extensions: string[] = JAVASCRIPT_RESOLUTION_EXTENSIONS): string | undefined {
   const normalized = normalizeRepoPath(candidate);
   if (isOutsideRepo(normalized)) return undefined;
 
-  const candidates = candidatePaths(normalized);
+  const candidates = candidatePaths(normalized, extensions);
   return candidates.find(candidatePath => fileSet.has(candidatePath));
 }
 
-function candidatePaths(candidate: string): string[] {
+function candidatePaths(candidate: string, extensions: string[] = JAVASCRIPT_RESOLUTION_EXTENSIONS): string[] {
   const ext = path.posix.extname(candidate);
   const candidates: string[] = [];
 
@@ -352,12 +1037,14 @@ function candidatePaths(candidate: string): string[] {
     return uniqueStrings(candidates);
   }
 
-  for (const extension of RESOLUTION_EXTENSIONS) {
+  for (const extension of extensions) {
     candidates.push(`${candidate}${extension}`);
   }
-  for (const extension of RESOLUTION_EXTENSIONS) {
+  for (const extension of extensions) {
     candidates.push(repoJoin(candidate, `index${extension}`));
   }
+  if (extensions.includes(".py")) candidates.push(repoJoin(candidate, "__init__.py"));
+  if (extensions.includes(".rs")) candidates.push(repoJoin(candidate, "mod.rs"));
 
   return uniqueStrings(candidates);
 }
@@ -457,7 +1144,7 @@ function resolveRootDirsCandidate(from: string, candidate: string, rootDirs: str
 
     for (const targetRoot of rootDirs) {
       if (targetRoot === sourceRoot) continue;
-      const resolved = resolvePathCandidate(repoJoin(targetRoot, virtualPath), fileSet);
+      const resolved = resolvePathCandidate(repoJoin(targetRoot, virtualPath), fileSet, resolutionExtensionsForFile(from));
       if (resolved) return resolved;
     }
   }
@@ -542,8 +1229,18 @@ function commandNameFromPackageName(packageName: string): string {
   return packageName.includes("/") ? packageName.split("/").at(-1) ?? packageName : packageName;
 }
 
-function packageNameFromSpecifier(specifier: string): string | undefined {
+function packageNameFromSpecifier(from: string, specifier: string): string | undefined {
   if (!specifier || specifier.startsWith("node:")) return specifier || undefined;
+  if (isRustFilePath(from)) {
+    if (isRustRelativeModuleSpecifier(specifier) || specifier.startsWith("crate::")) return undefined;
+    return specifier.split("::")[0] || undefined;
+  }
+  if (isPythonFilePath(from)) {
+    if (specifier.startsWith(".")) return undefined;
+    return specifier.split(".")[0] || undefined;
+  }
+  if (isGoFilePath(from)) return specifier || undefined;
+  if (isMarkdownFilePath(from)) return undefined;
   if (specifier.startsWith("@")) {
     const parts = specifier.split("/");
     return parts.length >= 2 ? `${parts[0]}/${parts[1]}` : specifier;
@@ -560,17 +1257,212 @@ async function readPackageManifest(directory: string): Promise<PackageManifest |
   }
 }
 
-function workspacePatterns(manifest: PackageManifest | undefined): string[] {
+function packageJsonWorkspacePatterns(manifest: PackageManifest | undefined): WorkspacePatternSpec[] {
   const workspaces = manifest?.workspaces;
-  if (Array.isArray(workspaces)) return workspaces.filter(isString).filter(pattern => !pattern.startsWith("!"));
+  if (Array.isArray(workspaces)) return workspaces.filter(isString).flatMap(workspacePatternSpec);
 
   const workspaceRecord = objectRecord(workspaces);
   const packages = workspaceRecord?.packages;
-  return Array.isArray(packages) ? packages.filter(isString).filter(pattern => !pattern.startsWith("!")) : [];
+  return Array.isArray(packages) ? packages.filter(isString).flatMap(workspacePatternSpec) : [];
+}
+
+async function pnpmWorkspacePatterns(projectRoot: string): Promise<WorkspacePatternSpec[]> {
+  const patterns: WorkspacePatternSpec[] = [];
+  for (const fileName of ["pnpm-workspace.yaml", "pnpm-workspace.yml"]) {
+    const raw = await readTextFile(path.join(projectRoot, fileName));
+    if (raw) patterns.push(...parsePnpmWorkspacePatterns(raw));
+  }
+  return patterns;
+}
+
+function parsePnpmWorkspacePatterns(raw: string): WorkspacePatternSpec[] {
+  const lines = raw.replace(/^\uFEFF/u, "").split(/\r?\n/u);
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index];
+    const packagesMatch = line.match(/^(\s*)packages\s*:\s*(.*)$/u);
+    if (!packagesMatch || packagesMatch[1].length > 0) continue;
+
+    const inlineValue = yamlWithoutComment(packagesMatch[2]).trim();
+    if (inlineValue) return yamlWorkspacePatternValues(inlineValue).flatMap(workspacePatternSpec);
+
+    const values: string[] = [];
+    for (let itemIndex = index + 1; itemIndex < lines.length; itemIndex += 1) {
+      const itemLine = lines[itemIndex];
+      const trimmed = itemLine.trim();
+      if (!trimmed || trimmed.startsWith("#")) continue;
+      if (leadingWhitespaceLength(itemLine) === 0) break;
+
+      const itemMatch = itemLine.match(/^\s*-\s*(.*)$/u);
+      if (itemMatch) values.push(...yamlWorkspacePatternValues(itemMatch[1]));
+    }
+
+    return values.flatMap(workspacePatternSpec);
+  }
+
+  return [];
+}
+
+function yamlWorkspacePatternValues(value: string): string[] {
+  const trimmed = yamlWithoutComment(value).trim();
+  if (!trimmed) return [];
+  if (trimmed.startsWith("[")) return parseYamlInlineStringList(trimmed);
+
+  const scalar = parseYamlScalarString(trimmed);
+  return scalar ? [scalar] : [];
+}
+
+function parseYamlInlineStringList(value: string): string[] {
+  const trimmed = yamlWithoutComment(value).trim();
+  if (!trimmed.startsWith("[") || !trimmed.endsWith("]")) return [];
+
+  return splitYamlInlineListItems(trimmed.slice(1, -1))
+    .map(item => parseYamlScalarString(item))
+    .filter(isString);
+}
+
+function splitYamlInlineListItems(value: string): string[] {
+  const items: string[] = [];
+  let current = "";
+  let quote: "'" | "\"" | undefined;
+  let escaped = false;
+
+  for (let index = 0; index < value.length; index += 1) {
+    const character = value[index];
+
+    if (quote) {
+      current += character;
+      if (quote === "'" && character === "'" && value[index + 1] === "'") {
+        current += value[index + 1];
+        index += 1;
+        continue;
+      }
+      if (quote === "\"" && character === "\\" && !escaped) {
+        escaped = true;
+        continue;
+      }
+      if (character === quote && !escaped) quote = undefined;
+      escaped = false;
+      continue;
+    }
+
+    if (character === "'" || character === "\"") {
+      quote = character;
+      current += character;
+      continue;
+    }
+
+    if (character === ",") {
+      items.push(current);
+      current = "";
+      continue;
+    }
+
+    current += character;
+  }
+
+  items.push(current);
+  return items;
+}
+
+function parseYamlScalarString(value: string): string | undefined {
+  const trimmed = yamlWithoutComment(value).trim().replace(/,$/u, "").trim();
+  if (!trimmed || trimmed === "[]" || trimmed === "null" || trimmed === "~") return undefined;
+
+  if (trimmed.startsWith("'")) {
+    const end = findSingleQuotedYamlScalarEnd(trimmed);
+    return end === -1 ? undefined : trimmed.slice(1, end).replace(/''/gu, "'").trim();
+  }
+
+  if (trimmed.startsWith("\"")) {
+    const end = findDoubleQuotedYamlScalarEnd(trimmed);
+    if (end === -1) return undefined;
+
+    const quoted = trimmed.slice(0, end + 1);
+    try {
+      const parsed = JSON.parse(quoted);
+      return typeof parsed === "string" ? parsed.trim() : undefined;
+    } catch {
+      return trimmed.slice(1, end).trim();
+    }
+  }
+
+  return trimmed;
+}
+
+function findSingleQuotedYamlScalarEnd(value: string): number {
+  for (let index = 1; index < value.length; index += 1) {
+    if (value[index] !== "'") continue;
+    if (value[index + 1] === "'") {
+      index += 1;
+      continue;
+    }
+    return index;
+  }
+  return -1;
+}
+
+function findDoubleQuotedYamlScalarEnd(value: string): number {
+  let escaped = false;
+  for (let index = 1; index < value.length; index += 1) {
+    const character = value[index];
+    if (character === "\\" && !escaped) {
+      escaped = true;
+      continue;
+    }
+    if (character === "\"" && !escaped) return index;
+    escaped = false;
+  }
+  return -1;
+}
+
+function yamlWithoutComment(value: string): string {
+  let quote: "'" | "\"" | undefined;
+  let escaped = false;
+
+  for (let index = 0; index < value.length; index += 1) {
+    const character = value[index];
+
+    if (quote) {
+      if (quote === "'" && character === "'" && value[index + 1] === "'") {
+        index += 1;
+        continue;
+      }
+      if (quote === "\"" && character === "\\" && !escaped) {
+        escaped = true;
+        continue;
+      }
+      if (character === quote && !escaped) quote = undefined;
+      escaped = false;
+      continue;
+    }
+
+    if (character === "'" || character === "\"") {
+      quote = character;
+      continue;
+    }
+
+    if (character === "#") return value.slice(0, index);
+  }
+
+  return value;
+}
+
+function leadingWhitespaceLength(value: string): number {
+  return value.length - value.trimStart().length;
+}
+
+function workspacePatternSpec(pattern: string): WorkspacePatternSpec[] {
+  const trimmed = pattern.trim();
+  if (!trimmed) return [];
+
+  const excluded = trimmed.startsWith("!");
+  const normalizedPattern = excluded ? trimmed.slice(1).trim() : trimmed;
+  return normalizedPattern ? [{ pattern: normalizedPattern, excluded }] : [];
 }
 
 async function expandWorkspacePattern(projectRoot: string, pattern: string): Promise<string[]> {
-  const normalized = normalizeRepoPath(pattern).replace(/\/+$/g, "").replace(/^\.\//, "");
+  const normalized = normalizeWorkspacePattern(pattern);
   if (!normalized || normalized === ".") return [];
 
   const segments = normalized.split("/");
@@ -615,6 +1507,33 @@ async function expandWorkspaceSegments(
   await expandWorkspaceSegments(projectRoot, repoJoin(relativeDir, segment), segments, index + 1, roots);
 }
 
+function workspacePatternMatchesRoot(root: string, pattern: string): boolean {
+  const normalizedPattern = normalizeWorkspacePattern(pattern);
+  if (!normalizedPattern || normalizedPattern === ".") return normalizeRepoPath(root) === ".";
+
+  const normalizedRoot = normalizeRepoPath(root).replace(/\/+$/u, "");
+  const rootSegments = normalizedRoot === "." ? [] : normalizedRoot.split("/");
+  return workspaceSegmentsMatch(normalizedPattern.split("/"), rootSegments);
+}
+
+function workspaceSegmentsMatch(patternSegments: string[], rootSegments: string[]): boolean {
+  if (!patternSegments.length) return rootSegments.length === 0;
+
+  const [segment, ...remainingPattern] = patternSegments;
+  if (segment === "**") {
+    return workspaceSegmentsMatch(remainingPattern, rootSegments) ||
+      (rootSegments.length > 0 && workspaceSegmentsMatch(patternSegments, rootSegments.slice(1)));
+  }
+
+  if (!rootSegments.length) return false;
+  return wildcardSegmentRegex(segment).test(rootSegments[0]) &&
+    workspaceSegmentsMatch(remainingPattern, rootSegments.slice(1));
+}
+
+function normalizeWorkspacePattern(pattern: string): string {
+  return normalizeRepoPath(pattern).replace(/\/+$/gu, "").replace(/^\.\//u, "");
+}
+
 async function hasPackageManifest(directory: string): Promise<boolean> {
   return Boolean(await readPackageManifest(directory));
 }
@@ -626,6 +1545,14 @@ async function childDirectories(projectRoot: string, relativeDir: string): Promi
     .filter(entry => entry.isDirectory())
     .map(entry => repoJoin(relativeDir, entry.name))
     .sort();
+}
+
+async function readTextFile(filePath: string): Promise<string | undefined> {
+  try {
+    return await readFile(filePath, "utf8");
+  } catch {
+    return undefined;
+  }
 }
 
 function detectImportCycles(edges: ImportGraphEdge[], fileSet: Set<string>): ImportCycle[] {
@@ -697,9 +1624,18 @@ function unresolved(
   kind: ImportGraphEdgeKind,
   reason: string,
   packageName?: string,
-  aliasSource?: string
+  aliasSource?: string,
+  classification: ImportClassification = "source"
 ): UnresolvedImport {
-  return { from, specifier, kind, reason, ...(packageName ? { packageName } : {}), ...(aliasSource ? { aliasSource } : {}) };
+  return {
+    from,
+    specifier,
+    kind,
+    ...classificationField(classification),
+    reason,
+    ...(packageName ? { packageName } : {}),
+    ...(aliasSource ? { aliasSource } : {})
+  };
 }
 
 function normalizeWorkspacePackages(packages: WorkspacePackage[]): WorkspacePackage[] {
@@ -714,6 +1650,25 @@ function normalizeWorkspacePackages(packages: WorkspacePackage[]): WorkspacePack
       dependencyPackageNames: pkg.dependencyPackageNames
     })
   })), pkg => pkg.name).sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function normalizeRustPackages(packages: RustPackageRoot[]): RustPackageRoot[] {
+  return uniqueBy(packages.map(pkg => ({
+    name: pkg.name,
+    crateName: pkg.crateName || rustCrateName(pkg.name),
+    root: normalizeRepoPath(pkg.root),
+    manifestPath: normalizeRepoPath(pkg.manifestPath),
+    entrypoints: uniqueStrings((pkg.entrypoints ?? []).map(normalizeRepoPath)).sort()
+  })), pkg => `${pkg.root}|${pkg.name}`).sort((a, b) => a.root.localeCompare(b.root) || a.name.localeCompare(b.name));
+}
+
+function normalizeGoModules(modules: GoModuleRoot[]): GoModuleRoot[] {
+  return uniqueBy(modules.map(module => ({
+    modulePath: module.modulePath.trim(),
+    root: normalizeRepoPath(module.root),
+    manifestPath: normalizeRepoPath(module.manifestPath)
+  })).filter(module => module.modulePath && module.root && module.manifestPath), module => `${module.root}|${module.modulePath}`)
+    .sort((a, b) => a.root.localeCompare(b.root) || a.modulePath.localeCompare(b.modulePath));
 }
 
 function normalizeRepoPath(input: string): string {
@@ -734,7 +1689,10 @@ function isOutsideRepo(repoPath: string): boolean {
 }
 
 function wildcardSegmentRegex(segment: string): RegExp {
-  const escaped = segment.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replaceAll("*", "[^/]*");
+  const escaped = segment
+    .replace(/[.+^${}()|[\]\\]/g, "\\$&")
+    .replaceAll("*", "[^/]*")
+    .replaceAll("?", "[^/]");
   return new RegExp(`^${escaped}$`);
 }
 
@@ -777,7 +1735,7 @@ function optionalStringArrayFields<T extends Record<string, string[] | undefined
 }
 
 function edgeKey(edge: ImportGraphEdge): string {
-  return `${edge.from}|${edge.to}|${edge.specifier}|${edge.kind}|${edge.packageName ?? ""}|${edge.aliasSource ?? ""}`;
+  return `${edge.from}|${edge.to}|${edge.specifier}|${edge.kind}|${edge.packageName ?? ""}|${edge.aliasSource ?? ""}|${edge.classification ?? ""}`;
 }
 
 function byEdge(a: ImportGraphEdge, b: ImportGraphEdge): number {

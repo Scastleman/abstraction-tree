@@ -77,7 +77,7 @@ Pass criteria:
 - Screenshot freshness is reviewed before release when UI layout, `/api/state` payloads, node details, or visual-demo docs change.
 - `docs:commands` verifies that referenced screenshot files exist.
 
-Goal workspace and mission-plan visualization is post-v1 unless a small read-only panel lands without weakening the stable app. v1 does not require visual mission execution.
+Read-only goal workspace, mission-plan, scope, coherence, and context-pack visualization may ship as beta visual-app surfaces when backed by existing local artifacts. These panels do not weaken the stable app scope, do not make goal workflows stable, and are not required for v1. v1 does not require visual mission execution.
 
 ## Docs And Changelog Gate
 
@@ -113,6 +113,14 @@ npm run atree:evaluate
 npm run atree -- doctor --project . --strict
 npm run diff:summary
 ```
+
+To capture local evidence for the current working tree, run:
+
+```bash
+node scripts/capture-release-gate-evidence.mjs --version 0.2.0-beta.1
+```
+
+The script writes `docs/release-evidence/<date>-current-gate.md` and records the git SHA, working-tree status before and after, environment details, command output, stderr, and exit code for each command. Use `--include-install` from a clean checkout when the evidence should also include `npm ci`. A nonzero command is recorded as blocker evidence and makes the script exit nonzero after the evidence file is written. The generated evidence is candidate evidence only; maintainers still decide release readiness.
 
 CI must run the build and coverage suite on at least Ubuntu and Windows, fail
 below the configured coverage thresholds, fail on high-severity npm audit

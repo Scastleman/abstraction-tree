@@ -22,6 +22,7 @@ Release decisions are tracked in [V1_RELEASE_GATE.md](V1_RELEASE_GATE.md) and [V
 - Mission runner planning/execution with batching, sandbox gates, runtime tracking, and review artifacts.
 - Scope contracts and scope checks against the current Git diff.
 - Assessment packs for ChatGPT/human strategic review.
+- Read-only beta visual workflow views for existing goal workspaces, mission-plan stages, scope selections, coherence reviews, and context packs.
 - CI smoke coverage for route, goal planning, scope, doctor, evaluation, assessment packs, and pack-only dogfooding evidence.
 - Dogfooding-memory boundary checks so external projects do not inherit this repo's `.abstraction-tree/`.
 - Provider-neutral LLM proposal interface and explicit `atree propose` review artifacts.
@@ -37,10 +38,9 @@ Release decisions are tracked in [V1_RELEASE_GATE.md](V1_RELEASE_GATE.md) and [V
 - `atree goal --run` and `--full-auto` currently refuse execution after planning until runner integration can preserve the same guardrails as manual mission execution.
 - Prompt routing and affected-tree mapping use heuristics and project memory, not perfect semantic understanding.
 - Coherence review and goal scoring are deterministic first-pass artifacts.
-- The visual app does not yet expose goal workspaces, mission plans, scope results, or coherence reviews as first-class views.
+- Visual workflow views are beta and read-only. They summarize artifacts that already exist under `.abstraction-tree/`; they do not execute missions, approve changes, edit scopes, or make goal workflows stable.
 - Historical filenames such as `FULL_SELF_IMPROVEMENT_LOOP.md` and `scripts/run-full-self-improvement-loop.mjs` remain as compatibility entrypoints, but they are not the product framing.
 - Public npm packages are published and externally verified for `0.2.0-beta.1`, but v1 still needs beta feedback, fresh release-gate evidence, and deliberate stable package/tag handling.
-- Visual goal workspace and mission-plan panels are post-v1 unless implemented as small read-only views without changing stable app scope.
 
 ## Next Priorities
 
@@ -53,7 +53,7 @@ Release decisions are tracked in [V1_RELEASE_GATE.md](V1_RELEASE_GATE.md) and [V
 7. Improve affected-tree mapping with better dependency, concept, invariant, and previous-change evidence.
 8. Improve mission decomposition so complex prompts split into smaller, safer, dependency-aware missions.
 9. Improve scope-contract accuracy and overreach reporting.
-10. Add visual app support for goal workspaces, affected-tree maps, mission plans, scope checks, coherence reviews, and PR/report artifacts after the stable visual proof remains solid.
+10. Harden read-only beta visual workflow views with screenshot evidence, artifact coverage, and clearer review states while keeping mission execution outside the stable app scope.
 11. Improve PR body and final-report generation for reviewable Codex workflows.
 12. Prepare the v1 package/tag transition after the release gate passes.
 

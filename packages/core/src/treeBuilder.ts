@@ -706,6 +706,7 @@ interface ConceptCandidate {
   signals: Set<ConceptEvidenceKind>;
   tags: Set<string>;
   evidence: ConceptEvidence[];
+  configured: boolean;
 }
 
 const CONCEPT_STOP_WORDS = new Set([
@@ -719,7 +720,10 @@ const CONCEPT_STOP_WORDS = new Set([
   "directories", "source", "target", "input", "inputs", "output", "outputs", "option", "options",
   "field", "fields", "id", "ids", "item", "items", "data", "result", "results", "default", "defaults", "local",
   "readme", "license", "contributing", "docs", "doc", "documentation", "guide", "guides", "overview",
-  "section", "sections", "note", "notes", "usage", "user", "users"
+  "section", "sections", "note", "notes", "usage", "user", "users",
+  "a", "an", "and", "are", "as", "at", "be", "by", "but", "for", "from", "if", "in", "into", "is",
+  "it", "its", "of", "on", "or", "out", "over", "the", "then", "this", "to", "was", "when", "where",
+  "which", "while", "with", "within", "without"
 ]);
 
 const SINGLE_WORD_CONCEPT_STOP_WORDS = new Set([
@@ -728,7 +732,8 @@ const SINGLE_WORD_CONCEPT_STOP_WORDS = new Set([
   "find", "format", "generated", "get", "handle", "handler", "kind", "list", "load", "make", "mode",
   "parse", "read", "record", "records", "render", "report", "reports", "review", "run", "runner",
   "save", "serve", "skip", "state", "store", "text", "update", "validate", "write", "concept",
-  "config", "configuration", "extension", "issue", "line", "relative"
+  "config", "configuration", "criterion", "criteria", "extension", "issue", "line", "relative",
+  "require", "required", "status", "statu", "success"
 ]);
 
 const LEADING_ACTION_WORDS = new Set([
@@ -777,9 +782,9 @@ function inferConcepts(
 
   for (const file of files) {
     const pathSignal = isMarkdownFile(file) ? "doc" : "path";
-    addConceptTerms(candidates, conceptTerms(file.path, { sourceKind: pathSignal }), file.path, file.path, pathSignal, options);
-    for (const symbol of file.symbols) addConceptTerms(candidates, conceptTerms(symbol), file.path, symbol, "symbol", options);
-    for (const exported of file.exports) addConceptTerms(candidates, conceptTerms(exported), file.path, exported, "export", options);
+    addConceptTerms(candidates, conceptTerms(file.path, { sourceKind: pathSignal }, options), file.path, file.path, pathSignal, options);
+    for (const symbol of file.symbols) addConceptTerms(candidates, conceptTerms(symbol, {}, options), file.path, symbol, "symbol", options);
+    for (const exported of file.exports) addConceptTerms(candidates, conceptTerms(exported, {}, options), file.path, exported, "export", options);
   }
 
   return pruneShadowedSingleConcepts([...candidates.values()].filter(isQualityConcept))
@@ -1453,6 +1458,302 @@ function inferArchitectureNodes(
     });
   }
 
+  if (hasPythonArchitectureEvidence(files)) {
+    const pythonSourceFiles = uniqueFilePaths(files.filter(isPythonPackageSourceFile));
+    if (pythonSourceFiles.length) {
+      specs.push({
+        id: "architecture.python.package.api",
+        title: "Python Package API",
+        summary: "Python package source inferred from pyproject/setup metadata and src or top-level package modules.",
+        sourceFiles: pythonSourceFiles,
+        responsibilities: [
+          "Represent importable Python package modules and their public package-facing behavior.",
+          "Keep Python package source separate from tests, docs, and packaging metadata."
+        ],
+        dependencies: pythonPackageEvidence(files),
+        confidence: 0.72
+      });
+    }
+
+    const pythonCliFiles = uniqueFilePaths(files.filter(isPythonCliEntrypointFile));
+    if (pythonCliFiles.length) {
+      specs.push({
+        id: "architecture.python.cli.entrypoints",
+        title: "Python CLI Entry Points",
+        summary: "Python command entrypoints inferred from click, typer, argparse, console script metadata, main modules, and CLI paths.",
+        sourceFiles: pythonCliFiles,
+        responsibilities: [
+          "Expose command-line entrypoints for Python packages through source modules or packaging metadata.",
+          "Connect console script metadata to the command parsing modules it names."
+        ],
+        dependencies: ["python-cli:click-typer-argparse-or-console-scripts"],
+        confidence: 0.7
+      });
+    }
+
+    const pythonParserFiles = uniqueFilePaths(files.filter(isPythonParserOptionsFile));
+    if (pythonParserFiles.length) {
+      specs.push({
+        id: "architecture.python.parser.options",
+        title: "Python Parser / Options Layer",
+        summary: "Python parser, option, argument, envvar, and default-handling modules inferred from paths, imports, and symbols.",
+        sourceFiles: pythonParserFiles,
+        responsibilities: [
+          "Own parser, option, argument, envvar, and default-handling behavior in Python packages.",
+          "Provide strong context anchors for option parsing and CLI behavior prompts."
+        ],
+        dependencies: ["python-architecture:parser-options"],
+        confidence: 0.74
+      });
+    }
+
+    const pythonTestFiles = uniqueFilePaths(files.filter(isPythonTestFile));
+    if (pythonTestFiles.length) {
+      specs.push({
+        id: "architecture.python.tests",
+        title: "Python Tests",
+        summary: "Python regression tests inferred from tests directories and test_*.py or *_test.py naming.",
+        sourceFiles: pythonTestFiles,
+        responsibilities: [
+          "Verify Python package behavior through pytest/unittest-style test modules.",
+          "Keep parser, option, CLI, and package API changes tied to regression tests."
+        ],
+        dependencies: ["python-tests:pytest-or-unittest"],
+        confidence: 0.7
+      });
+    }
+
+    const pythonProjects = pythonProjectRoots(files);
+    const pythonDocsFiles = uniqueFilePaths(files.filter(file => isPythonDocsFile(file, pythonProjects)));
+    if (pythonDocsFiles.length) {
+      specs.push({
+        id: "architecture.python.docs",
+        title: "Python Docs",
+        summary: "Python package documentation inferred from README, docs folders, reStructuredText files, and Sphinx config.",
+        sourceFiles: pythonDocsFiles,
+        responsibilities: [
+          "Explain Python package behavior, CLI usage, parser options, and user-facing APIs.",
+          "Keep docs changes visible beside package source and tests."
+        ],
+        dependencies: ["python-docs:sphinx-readme-rst"],
+        confidence: 0.68
+      });
+    }
+
+    const pythonPackagingFiles = uniqueFilePaths(files.filter(isPythonPackagingFile));
+    if (pythonPackagingFiles.length) {
+      specs.push({
+        id: "architecture.python.packaging.metadata",
+        title: "Python Packaging Metadata",
+        summary: "Python packaging and test-runner metadata inferred from pyproject.toml, setup files, tox, pytest, and nox configuration.",
+        sourceFiles: pythonPackagingFiles,
+        responsibilities: [
+          "Define Python package metadata, console scripts, dependencies, and test/build tool configuration.",
+          "Keep packaging metadata separate from importable source and behavior tests."
+        ],
+        dependencies: ["python-packaging:pyproject-setup-tox-pytest-nox"],
+        confidence: 0.7
+      });
+    }
+  }
+
+  if (hasRustArchitectureEvidence(files)) {
+    const rustEntrypointFiles = uniqueFilePaths(files.filter(file => isRustBinaryEntrypointFile(file, files)));
+    if (rustEntrypointFiles.length) {
+      specs.push({
+        id: "architecture.rust.binary.entrypoint",
+        title: "Rust Binary Entrypoint",
+        summary: "Rust binary entrypoints inferred from Cargo metadata, src/main.rs, and src/bin modules.",
+        sourceFiles: rustEntrypointFiles,
+        responsibilities: [
+          "Start Rust CLI execution from Cargo-declared or conventional binary entrypoint modules.",
+          "Connect argument parsing and runtime engine modules through explicit Rust module imports."
+        ],
+        dependencies: rustPackageEvidence(files),
+        confidence: 0.72
+      });
+    }
+
+    const rustCliFiles = uniqueFilePaths(files.filter(isRustCliArgumentFile));
+    if (rustCliFiles.length) {
+      specs.push({
+        id: "architecture.rust.cli.arguments",
+        title: "Rust CLI Argument Surface",
+        summary: "Rust CLI argument and flag handling inferred from cli, args, option, command, and parser paths or symbols.",
+        sourceFiles: rustCliFiles,
+        responsibilities: [
+          "Own Rust command-line flags, options, argument parsing, and command-facing configuration.",
+          "Provide strong context anchors for CLI behavior prompts."
+        ],
+        dependencies: ["rust-architecture:cli-arguments"],
+        confidence: 0.72
+      });
+    }
+
+    const rustTraversalFiles = uniqueFilePaths(files.filter(isRustTraversalSearchFile));
+    if (rustTraversalFiles.length) {
+      specs.push({
+        id: "architecture.rust.traversal.search",
+        title: "Rust Traversal / Search Engine",
+        summary: "Rust traversal, search, filtering, and walking modules inferred from source paths and symbols.",
+        sourceFiles: rustTraversalFiles,
+        responsibilities: [
+          "Own filesystem traversal, search iteration, filtering, and entry collection behavior.",
+          "Keep traversal behavior distinct from CLI flag parsing and Cargo metadata."
+        ],
+        dependencies: ["rust-architecture:traversal-search"],
+        confidence: 0.73
+      });
+    }
+
+    const rustIgnoreFiles = uniqueFilePaths(files.filter(isRustConfigIgnoreFile));
+    if (rustIgnoreFiles.length) {
+      specs.push({
+        id: "architecture.rust.config.ignore",
+        title: "Rust Config / Ignore Rules",
+        summary: "Rust config, ignore, hidden-file, include/exclude, and filtering rules inferred from paths and symbols.",
+        sourceFiles: rustIgnoreFiles,
+        responsibilities: [
+          "Own Rust configuration and ignore-rule behavior such as hidden-file filtering.",
+          "Tie option-facing prompts to implementation modules that apply those rules."
+        ],
+        dependencies: ["rust-architecture:config-ignore-rules"],
+        confidence: 0.72
+      });
+    }
+
+    const rustTestFiles = uniqueFilePaths(files.filter(isRustIntegrationTestFile));
+    if (rustTestFiles.length) {
+      specs.push({
+        id: "architecture.rust.integration.tests",
+        title: "Rust Integration Tests",
+        summary: "Rust integration tests inferred from tests and benches directories plus *_test.rs naming.",
+        sourceFiles: rustTestFiles,
+        responsibilities: [
+          "Verify Rust CLI and library behavior through integration-style test modules.",
+          "Keep traversal, ignore, and CLI changes tied to regression tests."
+        ],
+        dependencies: ["rust-tests:cargo-test"],
+        confidence: 0.7
+      });
+    }
+
+    const rustPackagingFiles = uniqueFilePaths(files.filter(isRustPackagingFile));
+    if (rustPackagingFiles.length) {
+      specs.push({
+        id: "architecture.rust.packaging.metadata",
+        title: "Rust Packaging Metadata",
+        summary: "Rust Cargo package metadata inferred from Cargo.toml and Cargo.lock.",
+        sourceFiles: rustPackagingFiles,
+        responsibilities: [
+          "Define Rust crate metadata, binary targets, dependencies, and lockfile state.",
+          "Keep Cargo metadata separate from CLI behavior source and tests."
+        ],
+        dependencies: rustPackageEvidence(files),
+        confidence: 0.69
+      });
+    }
+  }
+
+  if (hasDocsBookArchitectureEvidence(files)) {
+    const bookRoots = docsBookProjectRoots(files);
+    const bookStructureFiles = uniqueFilePaths(files.filter(file => isDocsBookStructureFile(file, bookRoots)));
+    if (bookStructureFiles.length) {
+      specs.push({
+        id: "architecture.docs.book.structure",
+        title: "Docs Book Structure",
+        summary: "Documentation book table-of-contents and project structure inferred from SUMMARY, mdBook config, and chapter-root files.",
+        sourceFiles: bookStructureFiles,
+        responsibilities: [
+          "Define the book's chapter ordering, navigation spine, and source root.",
+          "Keep table-of-contents changes visible beside the chapter files they organize."
+        ],
+        dependencies: docsBookEvidence(files),
+        confidence: 0.72
+      });
+    }
+
+    const chapterFiles = uniqueFilePaths(files.filter(file => isDocsBookChapterFile(file, bookRoots)));
+    if (chapterFiles.length) {
+      specs.push({
+        id: "architecture.docs.book.chapter.content",
+        title: "Docs Book Chapter Content",
+        summary: "Documentation book chapters and appendices inferred from Markdown chapter paths, headings, and docs source roots.",
+        sourceFiles: chapterFiles,
+        responsibilities: [
+          "Own chapter, appendix, and section prose as first-class architecture surfaces in documentation-heavy repositories.",
+          "Provide strong context anchors for prompts that name chapter titles, chapter numbers, or docs paths."
+        ],
+        dependencies: ["docs-book:chapter-content"],
+        confidence: 0.7
+      });
+    }
+
+    const listingFiles = uniqueFilePaths(files.filter(file => isDocsBookListingFile(file, bookRoots)));
+    if (listingFiles.length) {
+      specs.push({
+        id: "architecture.docs.book.listings.examples",
+        title: "Docs Book Listings / Examples",
+        summary: "Book listings and runnable examples inferred from listings, examples, and chapter-specific sample-code paths.",
+        sourceFiles: listingFiles,
+        responsibilities: [
+          "Keep runnable or quoted example code connected to the chapters that discuss it.",
+          "Surface listings and examples for typo, restructuring, and chapter-maintenance prompts."
+        ],
+        dependencies: ["docs-book:listings-examples"],
+        confidence: 0.7
+      });
+    }
+
+    const buildPublishingFiles = uniqueFilePaths(files.filter(file => isDocsBookBuildPublishingFile(file, bookRoots)));
+    if (buildPublishingFiles.length) {
+      specs.push({
+        id: "architecture.docs.book.build.publishing",
+        title: "Docs Book Build / Publishing",
+        summary: "Documentation book build, theme, publishing, and deployment tooling inferred from mdBook config, theme assets, scripts, and CI paths.",
+        sourceFiles: buildPublishingFiles,
+        responsibilities: [
+          "Define how the documentation book is rendered, themed, checked, or published.",
+          "Keep build and publishing tooling separate from chapter prose and examples."
+        ],
+        dependencies: ["docs-book:build-publishing"],
+        confidence: 0.68
+      });
+    }
+
+    const translationEditionFiles = uniqueFilePaths(files.filter(file => isDocsBookTranslationEditionFile(file, bookRoots)));
+    if (translationEditionFiles.length) {
+      specs.push({
+        id: "architecture.docs.book.translation.editions",
+        title: "Docs Book Translation / Editions",
+        summary: "Documentation book translation, edition, print, or alternate-version files inferred from edition and localization paths.",
+        sourceFiles: translationEditionFiles,
+        responsibilities: [
+          "Represent alternate book editions, translations, and print-specific material as separate documentation architecture surfaces.",
+          "Keep edition-specific changes from being mistaken for canonical chapter changes."
+        ],
+        dependencies: ["docs-book:translations-editions"],
+        confidence: 0.66
+      });
+    }
+
+    const editorialQualityFiles = uniqueFilePaths(files.filter(file => isDocsBookEditorialQualityFile(file, bookRoots)));
+    if (editorialQualityFiles.length) {
+      specs.push({
+        id: "architecture.docs.book.editorial.quality",
+        title: "Docs Book Editorial Quality",
+        summary: "Documentation book editorial checks inferred from spellcheck, linkcheck, lint, test, and review tooling paths.",
+        sourceFiles: editorialQualityFiles,
+        responsibilities: [
+          "Run or configure editorial quality checks for chapter prose, links, examples, and book output.",
+          "Keep generated evaluation fixtures and local memory separate from source documentation quality signals."
+        ],
+        dependencies: ["docs-book:editorial-quality"],
+        confidence: 0.66
+      });
+    }
+  }
+
   const uiPackages = workspacePackages.filter(pkg =>
     packageLeaf(pkg) === "app" || hasAny(pkg.dependencyPackageNames, ["react", "react-dom", "vite"])
   );
@@ -1526,6 +1827,8 @@ function inferArchitectureNodes(
 
   const distributionFiles = uniqueFilePaths([
     ...files.filter(file => isPackageManifestFile(file)),
+    ...files.filter(file => isPythonPackagingFile(file)),
+    ...files.filter(file => isRustPackagingFile(file)),
     ...files.filter(file => /(^|\/)package-lock\.json$/.test(file.path)),
     ...workspacePackages.flatMap(pkg => files.filter(file => file.path === pkg.entrypoint))
   ]);
@@ -1533,13 +1836,13 @@ function inferArchitectureNodes(
     specs.push({
       id: "architecture.package.distribution",
       title: "Package Distribution",
-      summary: "Published package and workspace boundaries inferred from package manifests, npm workspace metadata, entrypoints, and bin commands.",
+      summary: "Published package and workspace boundaries inferred from package manifests, Python and Cargo metadata, npm workspace metadata, entrypoints, and bin commands.",
       sourceFiles: distributionFiles,
       responsibilities: [
-        "Represent installable package boundaries, published entrypoints, package scripts, and command aliases.",
+        "Represent installable package boundaries, published entrypoints, package scripts, console scripts, and command aliases.",
         "Connect package manifests to the runtime surfaces they expose."
       ],
-      dependencies: workspacePackages.flatMap(packageDistributionEvidence),
+      dependencies: [...workspacePackages.flatMap(packageDistributionEvidence), ...rustPackageEvidence(files)],
       confidence: workspacePackages.length ? 0.78 : 0.62
     });
   }
@@ -1637,6 +1940,419 @@ function packageDistributionEvidence(pkg: WorkspacePackage): string[] {
     ...(pkg.scriptNames ?? []).map(script => `script:${pkg.name}:${script}`),
     ...(pkg.dependencyPackageNames ?? []).map(dependency => `package:${dependency}`)
   ];
+}
+
+function hasPythonArchitectureEvidence(files: FileSummary[]): boolean {
+  return files.some(isPythonPackageSourceFile) &&
+    (files.some(isPythonPackagingFile) || pythonPackageRoots(files).length > 0);
+}
+
+function pythonPackageEvidence(files: FileSummary[]): string[] {
+  return [
+    ...pythonPackageRoots(files).map(root => `python-package:${root}`),
+    ...files.filter(isPythonPackagingFile).map(file => `manifest:${file.path}`)
+  ];
+}
+
+function pythonPackageRoots(files: FileSummary[]): string[] {
+  const roots = new Set<string>();
+  for (const file of files) {
+    if (!isPythonSourceFile(file) || file.isTest || isPythonSupportFile(file.path)) continue;
+    const root = pythonPackageRoot(file.path);
+    if (root) roots.add(root);
+  }
+  return [...roots].sort();
+}
+
+function pythonProjectRoots(files: FileSummary[]): string[] {
+  const roots = new Set<string>();
+  for (const packageRoot of pythonPackageRoots(files)) {
+    const srcIndex = packageRoot.split("/").lastIndexOf("src");
+    roots.add(srcIndex >= 0 ? packageRoot.split("/").slice(0, srcIndex).join("/") || "." : path.posix.dirname(packageRoot) || ".");
+  }
+  for (const file of files.filter(isPythonPackagingFile)) {
+    const dir = path.posix.dirname(normalizeRepoPath(file.path));
+    roots.add(dir === "." ? "." : dir);
+  }
+  return [...roots].sort((a, b) => b.length - a.length || a.localeCompare(b));
+}
+
+function pythonPackageRoot(filePath: string): string | undefined {
+  const parts = normalizeRepoPath(filePath).split("/");
+  const srcIndex = parts.lastIndexOf("src");
+  if (srcIndex >= 0 && isPythonPackageName(parts[srcIndex + 1] ?? "")) {
+    return parts.slice(0, srcIndex + 2).join("/");
+  }
+
+  if (parts.length >= 2 && isPythonPackageName(parts[0]) && !PYTHON_NON_PACKAGE_DIRS.has(parts[0].toLowerCase())) {
+    return parts[0];
+  }
+
+  return undefined;
+}
+
+function isPythonPackageSourceFile(file: FileSummary): boolean {
+  return isPythonSourceFile(file) && !file.isTest && !isPythonSupportFile(file.path) && Boolean(pythonPackageRoot(file.path));
+}
+
+function isPythonCliEntrypointFile(file: FileSummary): boolean {
+  const normalized = normalizeRepoPath(file.path).toLowerCase();
+  const basename = path.posix.basename(normalized);
+  if (isPythonPackagingFile(file)) {
+    return hasAny(file.symbols, ["project.scripts", "project.entry-points.console_scripts", "options.entry_points"]);
+  }
+  if (!isPythonPackageSourceFile(file)) return false;
+  return basename === "__main__.py" ||
+    /(^|\/)(cli|commands?|main)\.py$/u.test(normalized) ||
+    hasAny(file.imports, ["click", "typer", "argparse"]) ||
+    hasAny(file.symbols, ["main", "cli"]);
+}
+
+function isPythonParserOptionsFile(file: FileSummary): boolean {
+  if (!isPythonPackageSourceFile(file)) return false;
+  const evidence = [
+    file.path,
+    file.summary,
+    ...file.symbols,
+    ...file.imports
+  ].join(" ").toLowerCase();
+  return /\b(parser|parse|option|options|argument|arguments|param|parameter|envvar|default|command|argparse|click|typer)\b/u.test(evidence);
+}
+
+function isPythonTestFile(file: FileSummary): boolean {
+  return isPythonSourceFile(file) && file.isTest;
+}
+
+function isPythonDocsFile(file: FileSummary, projectRoots: string[]): boolean {
+  const normalized = normalizeRepoPath(file.path).toLowerCase();
+  const relative = relativeToBestProjectRoot(normalized, projectRoots);
+  if (!relative) return false;
+  return relative === "readme.rst" ||
+    relative === "readme.md" ||
+    relative.startsWith("docs/") ||
+    /\.(rst)$/u.test(relative);
+}
+
+function isPythonPackagingFile(file: FileSummary): boolean {
+  const normalized = normalizeRepoPath(file.path).toLowerCase();
+  const basename = path.posix.basename(normalized);
+  return [
+    "pyproject.toml",
+    "setup.py",
+    "setup.cfg",
+    "tox.ini",
+    "pytest.ini",
+    "noxfile.py"
+  ].includes(basename);
+}
+
+function isPythonSourceFile(file: FileSummary): boolean {
+  return file.extension.toLowerCase() === ".py";
+}
+
+function isPythonSupportFile(filePath: string): boolean {
+  const normalized = normalizeRepoPath(filePath).toLowerCase();
+  const basename = path.posix.basename(normalized);
+  return ["setup.py", "noxfile.py", "conftest.py"].includes(basename) || /(^|\/)docs\/conf\.py$/u.test(normalized);
+}
+
+const PYTHON_NON_PACKAGE_DIRS = new Set([
+  ".github", "build", "dist", "docs", "examples", "scripts", "test", "tests", "tools"
+]);
+
+function isPythonPackageName(value: string): boolean {
+  return /^[A-Za-z_][A-Za-z0-9_]*$/u.test(value) && !value.startsWith("_");
+}
+
+function hasRustArchitectureEvidence(files: FileSummary[]): boolean {
+  return files.some(isRustSourceFile) &&
+    (files.some(isRustPackagingFile) || files.some(file => isRustBinaryEntrypointFile(file, files)));
+}
+
+function rustPackageEvidence(files: FileSummary[]): string[] {
+  return [
+    ...rustPackageNames(files).map(name => `cargo-package:${name}`),
+    ...files.filter(isRustPackagingFile).map(file => `manifest:${file.path}`),
+    ...rustCargoBinPaths(files).map(filePath => `entrypoint:${filePath}`)
+  ];
+}
+
+function rustPackageNames(files: FileSummary[]): string[] {
+  return uniqueStrings(files
+    .filter(isRustPackagingFile)
+    .flatMap(file => file.symbols)
+    .filter(symbol => symbol.startsWith("package.name:"))
+    .map(symbol => symbol.slice("package.name:".length)))
+    .sort();
+}
+
+function rustCargoBinPaths(files: FileSummary[]): string[] {
+  const filePaths = new Set(files.map(file => normalizeRepoPath(file.path)));
+  return uniqueStrings(files
+    .filter(isRustPackagingFile)
+    .flatMap(file => file.symbols)
+    .filter(symbol => symbol.startsWith("bin.path:"))
+    .map(symbol => normalizeRepoPath(symbol.slice("bin.path:".length)))
+    .filter(filePath => filePaths.has(filePath)))
+    .sort();
+}
+
+function isRustBinaryEntrypointFile(file: FileSummary, files: FileSummary[]): boolean {
+  if (!isRustSourceFile(file) || file.isTest) return false;
+  const normalized = normalizeRepoPath(file.path).toLowerCase();
+  const cargoBinPaths = new Set(rustCargoBinPaths(files).map(filePath => filePath.toLowerCase()));
+  return cargoBinPaths.has(normalized) ||
+    /(^|\/)src\/main\.rs$/u.test(normalized) ||
+    /(^|\/)src\/bin\/[^/]+\.rs$/u.test(normalized) ||
+    /(^|\/)src\/bin\/[^/]+\/main\.rs$/u.test(normalized);
+}
+
+function isRustCliArgumentFile(file: FileSummary): boolean {
+  if (!isRustPackageSourceFile(file)) return false;
+  const evidence = rustEvidenceText(file, file.imports.filter(specifier => !specifier.startsWith("mod:")));
+  return /\b(cli|args?|options?|flags?|command|commands?|parser|parse|clap|structopt|pico_args|argh)\b/u.test(evidence) ||
+    /(^|_)parse_/u.test(evidence);
+}
+
+function isRustTraversalSearchFile(file: FileSummary): boolean {
+  if (!isRustPackageSourceFile(file)) return false;
+  return /\b(walk|walker|traversal|traverse|search|find|visit|entry|entries|filter|ignore|glob|match)\b/u.test(rustEvidenceText(file, file.imports.filter(specifier => !specifier.startsWith("mod:"))));
+}
+
+function isRustConfigIgnoreFile(file: FileSummary): boolean {
+  if (!isRustPackageSourceFile(file)) return false;
+  return /\b(config|configuration|ignore|filter|gitignore|rules?|exclude|include|glob)\b/u.test(rustEvidenceText(file, file.imports.filter(specifier => !specifier.startsWith("mod:"))));
+}
+
+function isRustIntegrationTestFile(file: FileSummary): boolean {
+  const normalized = normalizeRepoPath(file.path).toLowerCase();
+  return isRustSourceFile(file) && (
+    file.isTest ||
+    normalized.startsWith("tests/") ||
+    normalized.includes("/tests/") ||
+    normalized.startsWith("benches/") ||
+    normalized.includes("/benches/") ||
+    /_test\.rs$/u.test(normalized)
+  );
+}
+
+function isRustPackageSourceFile(file: FileSummary): boolean {
+  const normalized = normalizeRepoPath(file.path).toLowerCase();
+  return isRustSourceFile(file) &&
+    !isRustIntegrationTestFile(file) &&
+    !normalized.startsWith("target/") &&
+    !normalized.includes("/target/");
+}
+
+function isRustPackagingFile(file: FileSummary): boolean {
+  const basename = path.posix.basename(normalizeRepoPath(file.path)).toLowerCase();
+  return basename === "cargo.toml" || basename === "cargo.lock";
+}
+
+function isRustSourceFile(file: FileSummary): boolean {
+  return file.extension.toLowerCase() === ".rs";
+}
+
+function rustEvidenceText(file: FileSummary, imports: string[] = file.imports): string {
+  return [
+    file.path,
+    file.summary,
+    ...file.symbols,
+    ...imports
+  ].join(" ").toLowerCase().replace(/[_-]+/gu, " ");
+}
+
+function relativeToBestProjectRoot(filePath: string, roots: string[]): string | undefined {
+  for (const root of roots) {
+    if (root === ".") return filePath;
+    if (filePath === root) return "";
+    if (filePath.startsWith(`${root}/`)) return filePath.slice(root.length + 1);
+  }
+  return undefined;
+}
+
+function hasDocsBookArchitectureEvidence(files: FileSummary[]): boolean {
+  const bookRoots = docsBookProjectRoots(files);
+  const structureSignals = files.filter(file => isDocsBookSummaryFile(file) || isDocsBookConfigFile(file)).length;
+  const chapterSignals = files.filter(file => isDocsBookChapterFile(file, bookRoots)).length;
+  const listingSignals = files.filter(file => isDocsBookListingFile(file, bookRoots)).length;
+  const toolingSignals = files.filter(file => isDocsBookBuildPublishingFile(file, bookRoots) || isDocsBookEditorialQualityFile(file, bookRoots)).length;
+  return structureSignals > 0 || (chapterSignals >= 3 && (listingSignals > 0 || toolingSignals > 0));
+}
+
+function docsBookEvidence(files: FileSummary[]): string[] {
+  return uniqueStrings([
+    ...files.filter(isDocsBookSummaryFile).map(file => `summary:${file.path}`),
+    ...files.filter(isDocsBookConfigFile).map(file => `manifest:${file.path}`)
+  ]).sort();
+}
+
+function docsBookProjectRoots(files: FileSummary[]): string[] {
+  const roots = new Set<string>();
+
+  for (const file of files) {
+    const normalized = normalizeRepoPath(file.path);
+    if (isDocsBookConfigFile(file)) {
+      const dir = path.posix.dirname(normalized);
+      roots.add(dir === "." ? "." : dir);
+      continue;
+    }
+
+    if (isDocsBookSummaryFile(file)) {
+      const summaryDir = path.posix.dirname(normalized);
+      const summaryLeaf = path.posix.basename(summaryDir).toLowerCase();
+      if (summaryLeaf === "src" || summaryLeaf === "docs" || summaryLeaf === "book") {
+        const root = path.posix.dirname(summaryDir);
+        roots.add(root === "." ? "." : root);
+      } else {
+        roots.add(summaryDir === "." ? "." : summaryDir);
+      }
+    }
+
+    if (isDocumentationSourceFile(file) && !isDocsBookTranslationEditionPath(normalized) && isDocsBookChapterBasename(path.posix.basename(normalized))) {
+      const parts = normalized.split("/");
+      const sourceIndex = parts.findIndex(part => part === "src" || part === "docs" || part === "book");
+      if (sourceIndex >= 0) {
+        const root = parts.slice(0, sourceIndex).join("/");
+        roots.add(root || ".");
+      } else {
+        const dir = path.posix.dirname(normalized);
+        roots.add(dir === "." ? "." : dir);
+      }
+    }
+  }
+
+  return [...roots].sort((a, b) => b.length - a.length || a.localeCompare(b));
+}
+
+function isDocsBookStructureFile(file: FileSummary, roots: string[]): boolean {
+  const normalized = normalizeRepoPath(file.path).toLowerCase();
+  const relative = relativeToBestProjectRoot(normalized, roots) ?? normalized;
+  return isDocsBookSummaryFile(file) ||
+    isDocsBookConfigFile(file) ||
+    relative === "readme.md" && docsBookProjectRoots([file]).length > 0;
+}
+
+function isDocsBookChapterFile(file: FileSummary, roots: string[]): boolean {
+  if (!isDocumentationSourceFile(file) || isDocsBookSummaryFile(file) || isReadmeMarkdownPath(file.path)) return false;
+  const normalized = normalizeRepoPath(file.path).toLowerCase();
+  const relative = relativeToBestProjectRoot(normalized, roots);
+  if (!relative) return false;
+  if (isDocsBookTranslationEditionPath(normalized) || isDocsBookTranslationEditionPath(relative)) return false;
+  if (relative.startsWith("listings/") || relative.includes("/listings/")) return false;
+  if (relative.startsWith("examples/") || relative.includes("/examples/")) return false;
+  return isDocumentationBookLikePath(file, roots);
+}
+
+function isDocsBookListingFile(file: FileSummary, roots: string[]): boolean {
+  if (file.isTest) return false;
+  const normalized = normalizeRepoPath(file.path).toLowerCase();
+  if (isGeneratedDocsBookArtifactPath(normalized)) return false;
+  const relative = relativeToBestProjectRoot(normalized, roots);
+  if (!relative) return false;
+  return relative.startsWith("listings/") ||
+    relative.includes("/listings/") ||
+    (relative.startsWith("examples/") || relative.includes("/examples/")) && /\b(ch|chapter|appendix|listing|book|docs?)\b/u.test(pathTokens(relative));
+}
+
+function isDocsBookBuildPublishingFile(file: FileSummary, roots: string[]): boolean {
+  if (file.isTest) return false;
+  const normalized = normalizeRepoPath(file.path).toLowerCase();
+  if (isGeneratedDocsBookArtifactPath(normalized)) return false;
+  const relative = relativeToBestProjectRoot(normalized, roots);
+  if (!relative) return false;
+  const basename = path.posix.basename(relative);
+  const evidence = docsBookEvidenceText(file);
+  return isDocsBookConfigFile(file) ||
+    relative.startsWith("theme/") ||
+    relative.includes("/theme/") ||
+    relative.startsWith(".github/workflows/") && /\b(book|docs?|mdbook|publish|deploy|pages)\b/u.test(evidence) ||
+    /(^|\/)(scripts?|tools?)\/[^/]*(book|docs?|mdbook|publish|deploy|build)[^/]*\.(mjs|js|ts|sh|ps1|py)$/u.test(relative) ||
+    basename === "package.json" && /\b(mdbook|book|docs?|publish|deploy|build)\b/u.test(evidence);
+}
+
+function isDocsBookTranslationEditionFile(file: FileSummary, roots: string[]): boolean {
+  if (file.isTest) return false;
+  const normalized = normalizeRepoPath(file.path).toLowerCase();
+  if (isGeneratedDocsBookArtifactPath(normalized)) return false;
+  const relative = relativeToBestProjectRoot(normalized, roots);
+  return relative ? isDocsBookTranslationEditionPath(normalized) || isDocsBookTranslationEditionPath(relative) : false;
+}
+
+function isDocsBookEditorialQualityFile(file: FileSummary, roots: string[]): boolean {
+  if (file.isTest) return false;
+  const normalized = normalizeRepoPath(file.path).toLowerCase();
+  if (isGeneratedDocsBookArtifactPath(normalized)) return false;
+  const relative = relativeToBestProjectRoot(normalized, roots);
+  if (!relative) return false;
+  const evidence = docsBookEvidenceText(file);
+  return /(^|\/)(scripts?|tools?)\/[^/]*(spell|typo|lint|link|check|test|quality|vale|lychee)[^/]*\.(mjs|js|ts|sh|ps1|py)$/u.test(relative) && /\b(book|docs?|chapter|mdbook|link|spell|typo|vale|lychee)\b/u.test(evidence) ||
+    relative.startsWith(".github/workflows/") && /\b(book|docs?|chapter|mdbook|spell|link|lint|test|vale|lychee)\b/u.test(evidence) ||
+    /(^|\/)(vale\.ini|\.vale\.ini|lychee\.toml|cspell\.json|markdownlint\.json)$/u.test(relative);
+}
+
+function isDocsBookSummaryFile(file: FileSummary): boolean {
+  const normalized = normalizeRepoPath(file.path).toLowerCase();
+  return isDocumentationSourceFile(file) && path.posix.basename(normalized) === "summary.md";
+}
+
+function isDocsBookConfigFile(file: FileSummary): boolean {
+  const normalized = normalizeRepoPath(file.path).toLowerCase();
+  const basename = path.posix.basename(normalized);
+  return basename === "book.toml" || basename === "mdbook.yml" || basename === "mdbook.yaml";
+}
+
+function isDocumentationBookLikePath(file: FileSummary, roots: string[]): boolean {
+  if (!isDocumentationSourceFile(file)) return false;
+  const normalized = normalizeRepoPath(file.path).toLowerCase();
+  const relative = relativeToBestProjectRoot(normalized, roots);
+  if (!relative) return false;
+  const basename = path.posix.basename(relative);
+  return relative.startsWith("src/") ||
+    relative.includes("/src/") ||
+    relative.startsWith("docs/") ||
+    relative.includes("/docs/") ||
+    isDocsBookChapterBasename(basename);
+}
+
+function isDocsBookChapterBasename(basename: string): boolean {
+  return /^(ch|chapter)[0-9][0-9a-z-]*\.(md|mdx|rst)$/u.test(basename) ||
+    /^(appendix|appendices|foreword|preface|title-page)[0-9a-z-]*\.(md|mdx|rst)$/u.test(basename);
+}
+
+function isDocumentationSourceFile(file: FileSummary): boolean {
+  const extension = file.extension.toLowerCase();
+  return extension === ".md" || extension === ".mdx" || extension === ".rst";
+}
+
+function isReadmeMarkdownPath(filePath: string): boolean {
+  return path.posix.basename(normalizeRepoPath(filePath)).toLowerCase() === "readme.md";
+}
+
+function isDocsBookTranslationEditionPath(filePath: string): boolean {
+  return /(^|\/)(translations?|localized|locale|i18n|editions?|second-edition|first-edition|nostarch|print|printable|paperback)\//u.test(filePath) ||
+    /(^|\/)(translations?|localized|locale|i18n|editions?|second-edition|first-edition|nostarch|print|printable|paperback)[.-]/u.test(filePath);
+}
+
+function isGeneratedDocsBookArtifactPath(filePath: string): boolean {
+  return filePath.startsWith(".abstraction-tree/") ||
+    filePath.includes("/.abstraction-tree/") ||
+    filePath.startsWith("book/") ||
+    filePath.includes("/book/") ||
+    filePath.startsWith("target/") ||
+    filePath.includes("/target/") ||
+    filePath.startsWith("dist/") ||
+    filePath.includes("/dist/");
+}
+
+function docsBookEvidenceText(file: FileSummary): string {
+  return [
+    file.path,
+    file.summary,
+    ...file.symbols,
+    ...file.imports,
+    ...file.exports
+  ].join(" ").toLowerCase().replace(/[_-]+/gu, " ");
 }
 
 function isCliSurfaceFile(file: FileSummary): boolean {
@@ -1751,6 +2467,10 @@ function packageLeaf(pkg: WorkspacePackage): string {
   return leaf.toLowerCase();
 }
 
+function normalizeRepoPath(filePath: string): string {
+  return filePath.replaceAll("\\", "/").replace(/^\.\//u, "");
+}
+
 function isUnderRepoPath(filePath: string, root: string): boolean {
   return filePath === root || filePath.startsWith(root.replace(/\/+$/g, "") + "/");
 }
@@ -1819,7 +2539,7 @@ function addConceptSignal(
   options: ConceptBuildOptions
 ) {
   if (!term) return;
-  const vocabulary = options.vocabulary.get(normalizeVocabularyTerm(term));
+  const vocabulary = options.vocabulary.get(normalizeVocabularyTerm(term, { preserveStopped: true }));
   if (!vocabulary && isStoppedConceptTerm(term)) return;
   const canonicalTerm = vocabulary?.concept ?? term;
   if (!canonicalTerm || (!vocabulary && isStoppedConceptTerm(canonicalTerm))) return;
@@ -1832,7 +2552,8 @@ function addConceptSignal(
     score: 0,
     signals: new Set<ConceptEvidenceKind>(),
     tags: new Set<string>(),
-    evidence: []
+    evidence: [],
+    configured: false
   };
   const evidenceKey = conceptEvidenceKey(kind, filePath, value, canonicalTerm);
   const hasEvidence = existing.evidence.some(evidence => conceptEvidenceKey(evidence.kind, evidence.filePath, evidence.value, evidence.term) === evidenceKey);
@@ -1842,6 +2563,7 @@ function addConceptSignal(
   existing.signals.add(kind);
   existing.tags.add(canonicalTerm);
   existing.tags.add(term);
+  existing.configured = existing.configured || Boolean(vocabulary);
   for (const synonym of vocabulary?.synonyms ?? []) existing.tags.add(synonym);
   if (!hasEvidence) existing.evidence.push({ kind, filePath, value, term: canonicalTerm, score });
   candidates.set(canonicalTerm, existing);
@@ -1850,11 +2572,11 @@ function addConceptSignal(
 function buildConceptVocabulary(mappings: DomainVocabularyMapping[] | undefined): Map<string, ConceptVocabularyEntry> {
   const vocabulary = new Map<string, ConceptVocabularyEntry>();
   for (const mapping of mappings ?? []) {
-    const concept = normalizeVocabularyTerm(mapping.concept);
+    const concept = normalizeVocabularyTerm(mapping.concept, { preserveStopped: true });
     if (!concept) continue;
     const synonyms = uniqueStrings(
       [mapping.concept, ...mapping.synonyms]
-        .map(normalizeVocabularyTerm)
+        .map(term => normalizeVocabularyTerm(term, { preserveStopped: true }))
         .filter(Boolean)
     );
     const entry: ConceptVocabularyEntry = {
@@ -1868,22 +2590,37 @@ function buildConceptVocabulary(mappings: DomainVocabularyMapping[] | undefined)
   return vocabulary;
 }
 
-function normalizeVocabularyTerm(input: string): string {
+function normalizeVocabularyTerm(input: string, options: { preserveStopped?: boolean } = {}): string {
   return input
     .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
     .toLowerCase()
     .split(/[^a-z0-9]+/)
     .map(singularizeConceptWord)
-    .filter(token => token.length >= 2 && !CONCEPT_STOP_WORDS.has(token))
+    .filter(token => token.length >= 2 && (options.preserveStopped || !CONCEPT_STOP_WORDS.has(token)))
     .join(" ");
 }
 
-function conceptTerms(input: string, options: { sourceKind?: ConceptEvidenceKind } = {}): string[] {
+function conceptTerms(input: string, options: { sourceKind?: ConceptEvidenceKind } = {}, buildOptions?: ConceptBuildOptions): string[] {
+  const configuredTerms = buildOptions ? matchedVocabularyTerms(input, buildOptions.vocabulary) : [];
   if (options.sourceKind === "path" || options.sourceKind === "doc") {
-    return uniqueStrings(input.split(/[\\/]+/).flatMap(segment => termsFromWords(conceptWords(segment))));
+    return uniqueStrings([
+      ...input.split(/[\\/]+/).flatMap(segment => termsFromWords(conceptWords(segment))),
+      ...configuredTerms
+    ]);
   }
 
-  return termsFromWords(conceptWords(input));
+  return uniqueStrings([...termsFromWords(conceptWords(input)), ...configuredTerms]);
+}
+
+function matchedVocabularyTerms(input: string, vocabulary: Map<string, ConceptVocabularyEntry>): string[] {
+  if (!vocabulary.size) return [];
+  const normalizedInput = normalizeVocabularyTerm(input, { preserveStopped: true });
+  if (!normalizedInput) return [];
+  return uniqueStrings([...vocabulary.keys()].filter(term => hasVocabularyTerm(normalizedInput, term)));
+}
+
+function hasVocabularyTerm(normalizedInput: string, term: string): boolean {
+  return new RegExp(`(^|\\s)${escapeRegExp(term)}(\\s|$)`).test(normalizedInput);
 }
 
 function termsFromWords(inputWords: string[]): string[] {
@@ -1947,6 +2684,7 @@ function isQualityConcept(candidate: ConceptCandidate): boolean {
   const hasNonDocSignal = [...candidate.signals].some(signal => signal !== "doc");
   const docOnly = !hasNonDocSignal;
 
+  if (candidate.configured && candidate.files.size > 0 && candidate.score >= 4) return true;
   if (docOnly) return isCompound && candidate.files.size >= 2 && candidate.score >= 6;
   if (isCompound) return candidate.score >= 4 && (hasCodeSignal || candidate.files.size >= 2 || candidate.signals.size >= 2);
   if (hasCodeSignal) return candidate.files.size >= 2 || candidate.score >= 7 || (hasPathSignal && candidate.score >= 5);
@@ -1994,6 +2732,7 @@ function conceptEvidenceKey(kind: ConceptEvidenceKind, filePath: string, value: 
 
 function singularizeConceptWord(word: string): string {
   if (word === "children") return "child";
+  if (word === "status") return word;
   if (word.length > 4 && word.endsWith("ies")) return `${word.slice(0, -3)}y`;
   if (word.length > 4 && /(ches|shes|xes|zes|ses)$/.test(word)) return word.slice(0, -2);
   if (word.length > 3 && word.endsWith("s") && !word.endsWith("ss")) return word.slice(0, -1);

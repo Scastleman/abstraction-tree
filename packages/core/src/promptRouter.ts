@@ -28,10 +28,29 @@ export interface PromptRouteResult {
   recommendedCommand: string;
 }
 
-interface ScoredItem<T> {
+export interface PromptScoredEvidence<T> {
   id: string;
   item: T;
   score: number;
+  reasons: string[];
+}
+
+export interface PromptEvidenceInput {
+  prompt: string;
+  nodes?: TreeNode[];
+  files?: FileSummary[];
+  concepts?: Concept[];
+}
+
+export interface PromptEvidenceResult {
+  tokens: string[];
+  scoredFiles: Array<PromptScoredEvidence<FileSummary>>;
+  scoredNodes: Array<PromptScoredEvidence<TreeNode>>;
+  scoredConcepts: Array<PromptScoredEvidence<Concept>>;
+  estimatedFiles: string[];
+  estimatedAffectedNodes: string[];
+  estimatedAffectedConcepts: string[];
+  estimatedAffectedLayers: string[];
 }
 
 const stopWords = new Set([
@@ -94,19 +113,17 @@ const broadTerms = ["all", "whole", "entire", "everything", "repo", "repository"
 export function routePrompt(input: PromptRouteInput): PromptRouteResult {
   const prompt = input.prompt.trim();
   const lowerPrompt = prompt.toLowerCase();
-  const tokens = tokenize(prompt);
   const nodes = input.nodes ?? [];
   const files = input.files ?? [];
   const concepts = input.concepts ?? [];
   const invariants = input.invariants ?? [];
   const memoryAvailable = input.memoryAvailable ?? (nodes.length > 0 || files.length > 0 || concepts.length > 0 || invariants.length > 0);
-  const scoredFiles = scoreFiles(files, tokens);
-  const scoredNodes = scoreNodes(nodes, scoredFiles, tokens);
-  const scoredConcepts = scoreConcepts(concepts, scoredFiles, tokens);
-  const estimatedFiles = topScored(scoredFiles, 8).map(item => item.item.path);
-  const estimatedAffectedNodes = topScored(scoredNodes, 8).map(item => item.item.id);
-  const estimatedAffectedConcepts = topScored(scoredConcepts, 8).map(item => item.item.id);
-  const estimatedAffectedLayers = inferLayers(tokens, estimatedFiles, estimatedAffectedNodes);
+  const evidence = scorePromptEvidence({ prompt, nodes, files, concepts });
+  const tokens = evidence.tokens;
+  const estimatedFiles = evidence.estimatedFiles;
+  const estimatedAffectedNodes = evidence.estimatedAffectedNodes;
+  const estimatedAffectedConcepts = evidence.estimatedAffectedConcepts;
+  const estimatedAffectedLayers = evidence.estimatedAffectedLayers;
   const areaCount = affectedAreaTerms(tokens).length;
   const complexScore = complexityScore(tokens, lowerPrompt, areaCount, estimatedAffectedLayers.length, estimatedFiles.length, estimatedAffectedNodes.length);
   const directScore = directScoreFor(tokens, lowerPrompt, estimatedFiles.length, estimatedAffectedLayers.length);
@@ -166,6 +183,28 @@ export function routePrompt(input: PromptRouteInput): PromptRouteResult {
     estimatedFiles,
     reasons: uniqueStable(reasons),
     recommendedCommand: recommendedCommand(decision, input.promptFile)
+  };
+}
+
+export function scorePromptEvidence(input: PromptEvidenceInput): PromptEvidenceResult {
+  const prompt = input.prompt.trim();
+  const tokens = tokenize(prompt);
+  const scoredFiles = scoreFiles(input.files ?? [], tokens);
+  const scoredNodes = scoreNodes(input.nodes ?? [], scoredFiles, tokens);
+  const scoredConcepts = scoreConcepts(input.concepts ?? [], scoredFiles, tokens);
+  const estimatedFiles = topScored(scoredFiles, 8).map(item => item.item.path);
+  const estimatedAffectedNodes = topScored(scoredNodes, 8).map(item => item.item.id);
+  const estimatedAffectedConcepts = topScored(scoredConcepts, 8).map(item => item.item.id);
+
+  return {
+    tokens,
+    scoredFiles,
+    scoredNodes,
+    scoredConcepts,
+    estimatedFiles,
+    estimatedAffectedNodes,
+    estimatedAffectedConcepts,
+    estimatedAffectedLayers: inferLayers(tokens, estimatedFiles, estimatedAffectedNodes)
   };
 }
 
@@ -381,7 +420,7 @@ function inferLayers(tokens: string[], filePaths: string[], nodeIds: string[]): 
   return orderedLayers.filter(layer => layers.has(layer));
 }
 
-function scoreFiles(files: FileSummary[], promptTokens: string[]): Array<ScoredItem<FileSummary>> {
+function scoreFiles(files: FileSummary[], promptTokens: string[]): Array<PromptScoredEvidence<FileSummary>> {
   return files
     .map(file => {
       const haystack = tokenize([
@@ -392,10 +431,16 @@ function scoreFiles(files: FileSummary[], promptTokens: string[]): Array<ScoredI
         ...file.exports,
         ...file.symbols
       ].join(" "));
+      const overlapScore = scoreTokenOverlap(promptTokens, haystack);
+      const boost = filePathBoost(file.path, promptTokens);
       return {
         id: file.path,
         item: file,
-        score: scoreTokenOverlap(promptTokens, haystack) + filePathBoost(file.path, promptTokens)
+        score: overlapScore + boost,
+        reasons: reasonsForScore([
+          overlapScore > 0 ? "Prompt terms matched file path, summary, language, imports, exports, or symbols." : "",
+          boost > 0 ? "File path matched route-specific prompt terms." : ""
+        ], "Selected as prompt file evidence.")
       };
     })
     .filter(item => item.score > 0)
@@ -404,9 +449,9 @@ function scoreFiles(files: FileSummary[], promptTokens: string[]): Array<ScoredI
 
 function scoreNodes(
   nodes: TreeNode[],
-  scoredFiles: Array<ScoredItem<FileSummary>>,
+  scoredFiles: Array<PromptScoredEvidence<FileSummary>>,
   promptTokens: string[]
-): Array<ScoredItem<TreeNode>> {
+): Array<PromptScoredEvidence<TreeNode>> {
   const fileScores = new Map(scoredFiles.map(score => [score.id, score.score]));
   return nodes
     .map(node => {
@@ -422,13 +467,19 @@ function scoreNodes(
         node.title,
         node.level,
         node.summary,
-        ...node.responsibilities,
-        ...nodeFiles
-      ].join(" "));
+          ...node.responsibilities,
+          ...nodeFiles
+        ].join(" "));
+      const directScore = scoreTokenOverlap(promptTokens, haystack);
+      const relatedFileScore = Math.min(fileScore, 8);
       return {
         id: node.id,
         item: node,
-        score: scoreTokenOverlap(promptTokens, haystack) + Math.min(fileScore, 8)
+        score: directScore + relatedFileScore,
+        reasons: reasonsForScore([
+          directScore > 0 ? "Prompt terms matched node identity, summary, responsibilities, or ownership." : "",
+          relatedFileScore > 0 ? "Node owns files selected by prompt file evidence." : ""
+        ], "Selected as prompt node evidence.")
       };
     })
     .filter(item => item.score > 0)
@@ -437,13 +488,13 @@ function scoreNodes(
 
 function scoreConcepts(
   concepts: Concept[],
-  scoredFiles: Array<ScoredItem<FileSummary>>,
+  scoredFiles: Array<PromptScoredEvidence<FileSummary>>,
   promptTokens: string[]
-): Array<ScoredItem<Concept>> {
+): Array<PromptScoredEvidence<Concept>> {
   const fileScores = new Map(scoredFiles.map(score => [score.id, score.score]));
   return concepts
     .map(concept => {
-      const relatedFileScore = concept.relatedFiles
+      const relatedFileScoreRaw = concept.relatedFiles
         .map(filePath => fileScores.get(filePath) ?? 0)
         .sort((left, right) => right - left)
         .slice(0, 3)
@@ -456,10 +507,16 @@ function scoreConcepts(
         ...concept.relatedFiles,
         ...concept.evidence.map(evidence => `${evidence.term} ${evidence.value}`)
       ].join(" "));
+      const directScore = scoreTokenOverlap(promptTokens, haystack);
+      const relatedFileScore = Math.min(relatedFileScoreRaw, 6);
       return {
         id: concept.id,
         item: concept,
-        score: scoreTokenOverlap(promptTokens, haystack) + Math.min(relatedFileScore, 6)
+        score: directScore + relatedFileScore,
+        reasons: reasonsForScore([
+          directScore > 0 ? "Prompt terms matched concept title, tags, summary, related files, or evidence." : "",
+          relatedFileScore > 0 ? "Concept relates to files selected by prompt file evidence." : ""
+        ], "Selected as prompt concept evidence.")
       };
     })
     .filter(item => item.score > 0)
@@ -493,11 +550,11 @@ function scoreTokenOverlap(needles: string[], haystack: string[]): number {
   return score;
 }
 
-function topScored<T>(items: Array<ScoredItem<T>>, limit: number): Array<ScoredItem<T>> {
+function topScored<T>(items: Array<PromptScoredEvidence<T>>, limit: number): Array<PromptScoredEvidence<T>> {
   return items.filter(item => item.score > 0).sort(scoreSort).slice(0, limit);
 }
 
-function scoreSort<T>(left: ScoredItem<T>, right: ScoredItem<T>): number {
+function scoreSort<T>(left: PromptScoredEvidence<T>, right: PromptScoredEvidence<T>): number {
   return right.score - left.score || left.id.localeCompare(right.id);
 }
 
@@ -515,4 +572,9 @@ function listOrNone(values: string[]): string[] {
 
 function uniqueStable(values: string[]): string[] {
   return [...new Set(values.filter(Boolean))];
+}
+
+function reasonsForScore(reasons: string[], fallback: string): string[] {
+  const cleaned = reasons.filter(Boolean);
+  return cleaned.length ? cleaned : [fallback];
 }

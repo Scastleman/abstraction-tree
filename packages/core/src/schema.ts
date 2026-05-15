@@ -74,11 +74,33 @@ export interface AtreeConfig {
   visualApp: {
     enabled: boolean;
     defaultPort: number;
+    artifacts?: {
+      enabled: boolean;
+    };
   };
 }
 
 export interface AtreeConfigOverride extends Partial<Omit<AtreeConfig, "visualApp">> {
   visualApp?: Partial<AtreeConfig["visualApp"]>;
+}
+
+export const ATREE_BUILT_IN_PROFILE_NAMES = [
+  "node-monorepo",
+  "react-app",
+  "python-package",
+  "rust-cli",
+  "go-service",
+  "docs-book",
+  "mixed-fullstack"
+] as const;
+
+export type AtreeBuiltInProfileName = (typeof ATREE_BUILT_IN_PROFILE_NAMES)[number];
+
+export interface AtreeBuiltInProfile {
+  name: AtreeBuiltInProfileName;
+  title: string;
+  summary: string;
+  config: AtreeConfigOverride;
 }
 
 export interface FileSummary {
@@ -124,7 +146,8 @@ export interface TreeNode {
   confidence: number;
 }
 
-export type ImportGraphEdgeKind = "relative" | "workspace-package" | "alias";
+export type ImportGraphEdgeKind = "relative" | "workspace-package" | "alias" | "go-package" | "markdown-link";
+export type ImportClassification = "source" | "static-asset" | "generated-artifact" | "virtual";
 
 export interface WorkspacePackage {
   name: string;
@@ -141,6 +164,7 @@ export interface ImportGraphEdge {
   to: string;
   specifier: string;
   kind: ImportGraphEdgeKind;
+  classification?: ImportClassification;
   packageName?: string;
   aliasSource?: string;
 }
@@ -149,12 +173,14 @@ export interface ExternalImport {
   from: string;
   specifier: string;
   packageName: string;
+  classification?: ImportClassification;
 }
 
 export interface UnresolvedImport {
   from: string;
   specifier: string;
   kind: ImportGraphEdgeKind;
+  classification?: ImportClassification;
   packageName?: string;
   aliasSource?: string;
   reason: string;
@@ -400,11 +426,19 @@ export interface ContextPackView {
   };
 }
 
+export interface WorkflowArtifactPolicy {
+  enabled: boolean;
+  root: string;
+  textOnly: boolean;
+  redacted: boolean;
+}
+
 export interface WorkflowViewState {
   goalWorkspaces: GoalWorkspaceView[];
   scopeReviews: ScopeReviewView[];
   coherenceReviews: CoherenceReviewView[];
   contextPacks: ContextPackView[];
+  artifacts?: WorkflowArtifactPolicy;
 }
 
 export interface AbstractionTreeState {
@@ -432,6 +466,14 @@ export interface ContextSelectionDiagnostic {
   excludedReason?: "hard-limit" | "token-budget";
 }
 
+export interface ContextRouteDisagreementDiagnostic {
+  filePath: string;
+  routeScore: number;
+  contextStatus: "excluded" | "missing";
+  reason: string;
+  excludedReason?: ContextSelectionDiagnostic["excludedReason"];
+}
+
 export interface ContextPackDiagnostics {
   tokenEstimator: "approximate-json-chars-div-4";
   budgeted: boolean;
@@ -439,6 +481,7 @@ export interface ContextPackDiagnostics {
   maxTokens?: number;
   selected: ContextSelectionDiagnostic[];
   excludedNearby: ContextSelectionDiagnostic[];
+  routeDisagreements?: ContextRouteDisagreementDiagnostic[];
 }
 
 export interface ContextPack {

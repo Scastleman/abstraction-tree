@@ -1,0 +1,13 @@
+{
+  "name": "mern-lite",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "server": "node backend/server.js",
+    "client": "vite --host 127.0.0.1"
+  },
+  "dependencies": {
+    "express": "^4.18.0",
+    "mongoose": "^8.0.0"
+  }
+}

@@ -7,7 +7,7 @@
     "project.intent",
     "project.architecture",
     "architecture.core.engine",
-    "concept-node.context.pack"
+    "concept-node.context"
   ],
   "filesChanged": [
     ".abstraction-tree/evaluation-fixture.json"

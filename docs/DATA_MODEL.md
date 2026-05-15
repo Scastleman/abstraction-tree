@@ -28,7 +28,21 @@ Project-level configuration. It includes the current install mode: `core` for ab
 
 `importAliases` is an optional custom resolver hook for local aliases that cannot be inferred from TypeScript or bundler config. Each entry has `find` and `replacement` fields, using project-relative paths and optional `*` wildcards, such as `{ "find": "@/*", "replacement": "src/*" }`.
 
-Scanner customization can also come from root `atree.config.json`, global `~/.abstraction-tree/config.json`, or `atree scan --config <path>`. These override files can add `subsystemPatterns`, `domainVocabulary`, and `conceptSignalWeights` without editing committed generated memory. Use `atree scan --no-custom-config` to ignore those override files during debugging. See [Project Configuration](CONFIGURATION.md) for examples and type definitions.
+`visualApp.artifacts.enabled` is an optional safety switch for the local visual app. It defaults to enabled when omitted. Set it to `false` to disable `GET /api/artifact` text serving for that workspace:
+
+```json
+{
+  "visualApp": {
+    "enabled": true,
+    "defaultPort": 4317,
+    "artifacts": {
+      "enabled": false
+    }
+  }
+}
+```
+
+Scanner customization can also come from root `atree.config.json`, global `~/.abstraction-tree/config.json`, or `atree scan --config <path>`. These override files can add `subsystemPatterns`, `domainVocabulary`, and `conceptSignalWeights` without editing committed generated memory. `domainVocabulary` is the explicit escape hatch for unusual project vocabulary, including short terms that normal extraction would prune; generic stopwords are still filtered unless a project maps them deliberately with enough signal weight. Use `atree scan --no-custom-config` to ignore those override files during debugging. See [Project Configuration](CONFIGURATION.md) for examples and type definitions.
 
 ## Schema migrations
 
@@ -122,15 +136,17 @@ Fresh deterministic scans populate `explanation` and `reasonForExistence` from a
 
 ## `import-graph.json`
 
-Resolved import graph output derived from scanned JavaScript and TypeScript-family files.
+Resolved import graph output derived from scanned JavaScript/TypeScript-family files and lightweight non-JS dependency evidence for Python, Rust, Go, and Markdown/MDX documentation.
 
 It includes:
 
 - resolved local edges for relative imports;
 - resolved workspace package edges when package roots or entrypoints can be inferred;
 - resolved alias edges from TypeScript `compilerOptions.paths`, supported bundler `resolve.alias` config, or custom `config.json` `importAliases`;
+- resolved best-effort Python package imports, Rust module/crate imports, Go module imports under `go.mod`, and local Markdown links to scanned repository files;
 - external package imports;
-- unresolved local or alias-shaped imports with a reason;
+- import `classification` metadata when an import is a `static-asset`, `generated-artifact`, or `virtual` module instead of a normal `source` import;
+- unresolved local or alias-shaped imports with a reason, with source-like misses separated from classified static assets, generated build outputs, and virtual modules;
 - detected file import cycles;
 - discovered workspace package metadata.
 
@@ -146,6 +162,8 @@ Examples:
 - context pack;
 - scanner;
 - visual app.
+
+Concept extraction prunes common stopwords and documentation filler such as `the`, `and`, generic guide/overview words, and other terms that would otherwise displace domain vocabulary in context scoring. Validation and evaluation also warn on noisy concept ids, concepts without evidence or related files, and concepts whose evidence is only filler.
 
 ## `invariants.json`
 
@@ -188,6 +206,6 @@ Top-level fields:
 - `agentHealth`: derived status for the app, including optional `latestRun`, `latestEvaluation`, `validation`, and `automation` groups.
 - `workflow`: optional visual workflow data derived from goal workspaces, scope contracts/checks, coherence reviews, and context packs.
 
-The `workflow` group is read-only app data. It does not introduce a new source of truth; it summarizes artifacts already written under `.abstraction-tree/goals/`, `.abstraction-tree/scopes/`, and `.abstraction-tree/context-packs/`. Goal entries include status, mode, report links, affected-file and task counts, mission stages, and unresolved-item counts. Scope entries include selected, excluded, and questionable files, concepts, invariants, nodes, areas, and checks with reasons. Coherence entries summarize the Markdown review verdict and evidence links.
+The `workflow` group is read-only app data. It does not introduce a new source of truth; it summarizes artifacts already written under `.abstraction-tree/goals/`, `.abstraction-tree/scopes/`, and `.abstraction-tree/context-packs/`. Goal entries include status, mode, report links, affected-file and task counts, mission stages, and unresolved-item counts. Scope entries include selected, excluded, and questionable files, concepts, invariants, nodes, areas, and checks with reasons. Coherence entries summarize the Markdown review verdict and evidence links. The optional `workflow.artifacts` policy tells the app whether local artifact text serving is enabled, restricted to `.abstraction-tree`, text-only, and redacted before display.
 
-The CLI validates this payload with the runtime API-state contract before returning it. Missing run reports, evaluation reports, automation runtime files, and workflow artifacts are represented by absent nested groups or empty workflow arrays rather than request failures. Workflow summaries and `GET /api/artifact?path=...` report links are restricted to `.abstraction-tree/` text artifacts and redact obvious bearer tokens, API keys, tokens, secrets, passwords, and credentials before serving text to the app.
+The CLI validates this payload with the runtime API-state contract before returning it. Missing run reports, evaluation reports, automation runtime files, and workflow artifacts are represented by absent nested groups or empty workflow arrays rather than request failures. Workflow summaries and `GET /api/artifact?path=...` report links are restricted to `.abstraction-tree/` text artifacts and redact common obvious secret-like values such as bearer tokens, API keys, tokens, secrets, passwords, credentials, GitHub tokens, and shell-style environment secrets before serving text to the app. Redaction is a defense-in-depth display aid, not a guarantee that all sensitive data has been removed; generated prompts, paths, logs, and reports should still be treated as local sensitive artifacts.

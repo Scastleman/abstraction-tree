@@ -87,10 +87,91 @@ def write_report():
   const suffixPyTest = summarizeFile("tools/report_test.py", ".py", source, Buffer.byteLength(source));
   assert.equal(suffixPyTest.isTest, true);
 
+  const goSource = `
+package checkout
+
+import (
+    "net/http"
+    service "example.com/acme/shop/internal/service"
+    _ "embed"
+)
+
+type Handler struct {}
+
+func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {}
+
+func NewRouter() {}
+`;
+  const goSummary = summarizeFile("internal/http/handler.go", ".go", goSource, Buffer.byteLength(goSource));
+  assert.deepEqual(goSummary.imports.sort(), ["embed", "example.com/acme/shop/internal/service", "net/http"]);
+  assert.ok(goSummary.exports.includes("Handler"));
+  assert.ok(goSummary.exports.includes("ServeHTTP"));
+  assert.ok(goSummary.exports.includes("NewRouter"));
+  assert.ok(goSummary.symbols.includes("Handler"));
+  assert.ok(goSummary.symbols.includes("ServeHTTP"));
+
+  const goModSource = "module example.com/acme/shop\n\ngo 1.22\n";
+  const goModSummary = summarizeFile("go.mod", ".mod", goModSource, Buffer.byteLength(goModSource));
+  assert.equal(goModSummary.language, "Go Module");
+  assert.ok(goModSummary.symbols.includes("go.module:example.com/acme/shop"));
+  assert.ok(goModSummary.symbols.includes("go.version:1.22"));
+
   const goTestSource = "package checkout\n\nfunc TestCheckout(t *testing.T) {}\n";
   const goTest = summarizeFile("checkout/checkout_test.go", ".go", goTestSource, Buffer.byteLength(goTestSource));
   assert.equal(goTest.isTest, true);
   assert.ok(goTest.symbols.includes("TestCheckout"));
+
+  const rustSource = `
+mod cli;
+use fd_lite::walk::ignore_hidden;
+
+pub struct Options {
+    pub hidden: bool,
+}
+
+pub fn parse_hidden_flag(args: &[String]) -> Options {
+    Options { hidden: args.iter().any(|arg| arg == "--hidden") }
+}
+`;
+  const rustSummary = summarizeFile("src/cli.rs", ".rs", rustSource, Buffer.byteLength(rustSource));
+  assert.equal(rustSummary.parseStrategy, "regex");
+  assert.deepEqual(rustSummary.imports.sort(), ["fd_lite::walk::ignore_hidden", "mod:cli"]);
+  assert.ok(rustSummary.exports.includes("Options"));
+  assert.ok(rustSummary.exports.includes("parse_hidden_flag"));
+  assert.ok(rustSummary.symbols.includes("Options"));
+  assert.ok(rustSummary.symbols.includes("parse_hidden_flag"));
+
+  const rustTest = summarizeFile("tests/cli_test.rs", ".rs", rustSource, Buffer.byteLength(rustSource));
+  assert.equal(rustTest.isTest, true);
+
+  const cargoSource = `
+[package]
+name = "fd-lite"
+
+[[bin]]
+name = "fd"
+path = "src/main.rs"
+`;
+  const cargoSummary = summarizeFile("Cargo.toml", ".toml", cargoSource, Buffer.byteLength(cargoSource));
+  assert.ok(cargoSummary.symbols.includes("package.name:fd-lite"));
+  assert.ok(cargoSummary.symbols.includes("bin.name:fd"));
+  assert.ok(cargoSummary.symbols.includes("bin.path:src/main.rs"));
+
+  const markdownSource = `
+# Ownership
+
+See [next](./next.md#borrowing), [listing](../listings/example/src/main.rs), and ![diagram](images/flow.png?raw).
+Skip [external](https://example.com/page), [anchor](#local), and [mail](mailto:test@example.com).
+
+[reference]: ../README.md
+`;
+  const markdownSummary = summarizeFile("docs/chapter.md", ".md", markdownSource, Buffer.byteLength(markdownSource));
+  assert.deepEqual(markdownSummary.imports.sort(), [
+    "../README.md",
+    "../listings/example/src/main.rs",
+    "./next.md",
+    "images/flow.png"
+  ]);
 });
 
 test("summarizeFile uses README intro prose as project purpose evidence", () => {

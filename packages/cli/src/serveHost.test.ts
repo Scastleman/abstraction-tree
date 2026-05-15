@@ -31,17 +31,17 @@ test("selectServeHost keeps explicit loopback hosts without a warning", () => {
 test("selectServeHost warns for wildcard and non-loopback hosts", () => {
   const wildcard = selectServeHost("0.0.0.0");
   assert.equal(wildcard.host, "0.0.0.0");
-  assert.match(wildcard.warning ?? "", /may expose \/api\/state on your network/);
+  assert.match(wildcard.warning ?? "", /may expose \/api\/state and \/api\/artifact on your network/);
   assert.match(wildcard.warning ?? "", /bearer-token authentication/);
   assert.match(wildcard.warning ?? "", new RegExp(defaultServeHost));
 
   const ipv6Wildcard = selectServeHost("::");
   assert.equal(ipv6Wildcard.host, "::");
-  assert.match(ipv6Wildcard.warning ?? "", /may expose \/api\/state on your network/);
+  assert.match(ipv6Wildcard.warning ?? "", /may expose \/api\/state and \/api\/artifact on your network/);
 
   const lanHost = selectServeHost("192.168.1.20");
   assert.equal(lanHost.host, "192.168.1.20");
-  assert.match(lanHost.warning ?? "", /may expose \/api\/state on your network/);
+  assert.match(lanHost.warning ?? "", /may expose \/api\/state and \/api\/artifact on your network/);
 });
 
 test("selectServeAuth allows loopback without a token", () => {
@@ -51,7 +51,7 @@ test("selectServeAuth allows loopback without a token", () => {
 test("selectServeAuth requires a token for non-loopback hosts", () => {
   const selection = selectServeAuth("0.0.0.0", undefined, {});
 
-  assert.match(selection.error ?? "", /Refusing to serve \/api\/state on non-loopback host 0\.0\.0\.0/);
+  assert.match(selection.error ?? "", /Refusing to serve local API routes on non-loopback host 0\.0\.0\.0/);
   assert.match(selection.error ?? "", /--token <token>/);
   assert.match(selection.error ?? "", new RegExp(serveTokenEnvVar));
 });

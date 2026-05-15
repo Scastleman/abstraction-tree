@@ -4,6 +4,7 @@ import path from "node:path";
 import { createServer } from "node:http";
 import sirv from "sirv";
 import {
+  ATREE_BUILT_IN_PROFILE_NAMES,
   atreePath,
   buildContextPack,
   formatContextPackMarkdown,
@@ -26,7 +27,7 @@ import {
   type ChangeRecord,
   type InstallMode
 } from "@abstraction-tree/core";
-import { loadApiAgentHealth, loadApiArtifact, loadApiState } from "./apiState.js";
+import { apiArtifactPolicy, loadApiAgentHealth, loadApiArtifact, loadApiState } from "./apiState.js";
 import { runChangePruneGeneratedCommand, runChangeReviewCommand } from "./changeReviewCommand.js";
 import { collectValidationIssues, doctorExitCode, findVisualAppDist, formatDoctorReport, runDoctor } from "./doctor.js";
 import { runGoalCommand } from "./goalCommand.js";
@@ -92,6 +93,7 @@ program.command("scan")
   .description("[stable] Scan files and build deterministic abstraction memory")
   .option("-p, --project <path>", "project root")
   .option("--config <path>", "custom config override JSON path; defaults to project root atree.config.json when present")
+  .option("--profile <name>", `built-in repo-type quality profile: ${ATREE_BUILT_IN_PROFILE_NAMES.join(", ")}`)
   .option("--no-custom-config", "ignore global, root, and --config custom configuration")
   .action(async opts => {
     const root = projectPath(opts.project);
@@ -103,7 +105,8 @@ program.command("scan")
     }
     const config = await readEffectiveConfig(root, {
       configPath: opts.config,
-      customConfig: opts.customConfig !== false
+      customConfig: opts.customConfig !== false,
+      profile: opts.profile
     });
     const scan = await scanProject(root, { config });
     const importGraph = await buildImportGraph(root, scan.files, { importAliases: config.importAliases });
@@ -378,6 +381,7 @@ program.command("serve")
   .option("--port <number>", "port; defaults to config visualApp.defaultPort or 4317")
   .option("--host <host>", "host to bind; defaults to 127.0.0.1")
   .option("--token <token>", "bearer token required for /api/state; required for non-loopback hosts")
+  .option("--no-artifacts", "disable /api/artifact redacted text artifact serving for this server")
   .option("--open", "open the visual app in the default browser after the server starts")
   .action(async opts => {
     const root = projectPath(opts.project);
@@ -390,6 +394,7 @@ program.command("serve")
     }
     const config = await readConfig(root);
     const port = Number(opts.port ?? config.visualApp?.defaultPort ?? 4317);
+    const artifactPolicy = apiArtifactPolicy(config, opts.artifacts !== false);
     const appDist = findVisualAppDist();
     if (!appDist) {
       console.error("The visual app is not installed or has not been built.");
@@ -414,7 +419,7 @@ program.command("serve")
           res.end(JSON.stringify({ error: "Unauthorized /api/state request." }));
           return;
         }
-        const state = await loadApiState(root, projectRoot => loadApiAgentHealth(projectRoot, collectValidationIssues));
+        const state = await loadApiState(root, projectRoot => loadApiAgentHealth(projectRoot, collectValidationIssues), artifactPolicy);
         res.setHeader("content-type", "application/json");
         res.end(JSON.stringify(state));
         return;
@@ -427,8 +432,14 @@ program.command("serve")
           res.end(JSON.stringify({ error: "Unauthorized /api/artifact request." }));
           return;
         }
+        if (!artifactPolicy.enabled) {
+          res.statusCode = 403;
+          res.setHeader("content-type", "application/json");
+          res.end(JSON.stringify({ error: "Artifact serving is disabled for this server." }));
+          return;
+        }
         const requestUrl = new URL(req.url, "http://127.0.0.1");
-        const artifact = await loadApiArtifact(root, requestUrl.searchParams.get("path") ?? "");
+        const artifact = await loadApiArtifact(root, requestUrl.searchParams.get("path") ?? "", { enabled: artifactPolicy.enabled });
         if (!artifact) {
           res.statusCode = 404;
           res.setHeader("content-type", "application/json");
@@ -443,7 +454,10 @@ program.command("serve")
     });
     if (warning) console.warn(warning);
     if (auth.token) {
-      console.log("API state authentication enabled. Send `Authorization: Bearer <token>` or open the app with `#atree_token=<token>`.");
+      console.log("Local API authentication enabled. Send `Authorization: Bearer <token>` or open the app with `#atree_token=<token>`.");
+    }
+    if (!artifactPolicy.enabled) {
+      console.log("Artifact text serving disabled for this server.");
     }
     server.listen(port, host, () => {
       const appUrl = formatServeUrl(host, port);

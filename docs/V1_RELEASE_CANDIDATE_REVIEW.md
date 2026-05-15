@@ -10,7 +10,7 @@ This review checks the current repository against the v1 release gate. It is int
 
 Current verdict: not v1-ready yet.
 
-The current public beta version is `0.2.0-beta.1`. The stable local path is strong in the monorepo, local tarball smoke tests pass, clean external npm installs have verified the published beta, and a baseline release gate passed from a fresh clean checkout on 2026-05-15 before the current mission-improvement diff. Internal diverse-repository beta testing also found inference-quality gaps and one likely `doctor --strict` false positive that should be fixed or explicitly deferred before v1. The project is still not v1-ready because it needs public beta feedback, a post-change release-gate rerun, and a deliberate stable dist-tag/version decision before v1.
+The current public beta version is `0.2.0-beta.1`. The stable local path is strong in the monorepo, local tarball smoke tests pass, clean external npm installs have verified the published beta, and the documented post-change release gate passed on 2026-05-15. Internal diverse-repository beta testing also found inference-quality gaps; the observed `doctor --strict` self-dogfooding false positive has been addressed by requiring hard copied-memory evidence before warning. The project is still not v1-ready because it needs public beta feedback, review of the broad current mission-improvement diff, and a deliberate stable dist-tag/version decision before v1.
 
 ## Gate Results
 
@@ -19,11 +19,11 @@ The current public beta version is `0.2.0-beta.1`. The stable local path is stro
 | Stable user path | Pass for public beta | Repo-local commands, `pack:smoke`, and public npm install verification exercise init, scan, doctor, validate, context, export, and serve. |
 | Install/package proof | Pass for public beta | `pack:smoke` installs local tarballs into an external temp project, verifies dogfooding-memory exclusion, and public registry verification passed for `abstraction-tree@beta` and `@abstraction-tree/cli@beta`. |
 | Schema/migration policy | Pass for pre-v1 | `DATA_MODEL.md` documents `0.1.0`, future-version rejection, dry-run behavior, and backup expectations for future write migrations. |
-| Visual proof | Pass | `docs/VISUAL_DEMO.md` and README embed real screenshots captured from `examples/small-web-app`. Refresh them when UI layout, `/api/state`, node detail content, or visual-demo docs change. |
+| Visual proof | Pass | `docs/VISUAL_DEMO.md` and README embed real screenshots captured from `examples/small-web-app`. Stable visual scope remains tree, node, file, concept, invariant, change, and health inspection; workflow artifact views are read-only beta surfaces. Refresh screenshots when UI layout, `/api/state`, node detail content, workflow panels, or visual-demo docs change. |
 | Docs/changelog alignment | Pass with ongoing maintenance | README is concise, docs are split by ownership, command docs have a local checker, and changelog has a `0.2.0-beta.1` candidate section plus `Unreleased`. |
-| CI/release preflight | Baseline pass from clean checkout | CI runs deterministic checks, `0.2.0-beta.1` was published after release dry-run and pack-smoke preparation, and the full documented release gate passed from a clean external clone on 2026-05-15 before the current mission-improvement diff. Rerun the gate after these changes land before making a v1 decision. |
+| CI/release preflight | Current evidence passed | CI runs deterministic checks, `0.2.0-beta.1` was published after release dry-run and pack-smoke preparation, and the documented post-change release gate passed on 2026-05-15. Treat this as candidate evidence only; maintainer review is still required before any v1 decision. |
 | Memory hygiene | Pass when current scan pruning is applied | `changes prune-generated --apply` keeps semantic history and latest generated scan while removing superseded generated scan noise. |
-| Beta/experimental boundaries | Pass | Stable vs Experimental keeps route/goal/scope/evaluate as beta where appropriate and mission execution/dogfooding as experimental. `goal --review-required` remains beta through first v1 unless external feedback justifies graduating only planning. |
+| Beta/experimental boundaries | Pass | Stable vs Experimental keeps route/goal/scope/evaluate and read-only workflow views as beta where appropriate, and mission execution/dogfooding as experimental. `goal --review-required` remains beta through first v1 unless external feedback justifies graduating only planning. |
 
 ## Public Beta Evidence
 
@@ -36,11 +36,26 @@ Public registry evidence has been collected for `0.2.0-beta.1`. The registry cur
 | Dogfooding-memory isolation from npm install | Pass | [2026-05-14 evidence](release-evidence/2026-05-14-0.2.0-beta.1-verification.md) |
 | Diverse real-world repository scan, context, and route evaluation | Partial pass | [2026-05-15 evidence](release-evidence/2026-05-15-diverse-repository-beta-evaluation.md) |
 
+## Current Commit Release-Gate Evidence
+
+Result: passed on 2026-05-15 for the current mission-improvement diff.
+
+Evidence link: [2026-05-15 current gate evidence](release-evidence/2026-05-15-current-gate.md).
+
+The captured command was:
+
+```bash
+node scripts/capture-release-gate-evidence.mjs --version 0.2.0-beta.1
+```
+
+The evidence records git SHA, environment, command outputs, stderr, exit codes, and final git status. The full documented gate passed, including audit, typecheck, build, coverage, package size, pack smoke, release dry-run, scan, validate, evaluate, doctor, and diff summary. Treat the generated file as release-gate evidence only; it does not declare v1 readiness or replace maintainer signoff.
+
 ## Blockers Before V1
 
 - Collect external beta feedback and fix install, scan, validate, export, serve, or dogfooding-memory issues that block the stable path.
-- Resolve or explicitly defer the diverse-repository beta findings that affect stable commands, especially the likely self dogfooding false positive in `doctor --strict`.
-- Keep real visual screenshots current in `docs/assets/visual-demo/` whenever the app UI changes.
+- Review the broad current mission-improvement diff and resolve or explicitly defer any release-gate warning before making a v1 decision.
+- Resolve or explicitly defer remaining diverse-repository beta findings that affect stable commands; the self dogfooding false positive in `doctor --strict` is now covered by hard-evidence detector tests.
+- Keep real visual screenshots current in `docs/assets/visual-demo/` whenever the app UI changes, including beta workflow panels when they are documented.
 - Decide and document stable v1 package/tag handling so `latest` intentionally points at a stable release when v1 is ready.
 - Keep `goal --review-required` beta at v1 unless public beta feedback provides evidence that the planning surface is stable enough to graduate.
 
@@ -51,7 +66,7 @@ Use the GitHub issue templates for beta feedback. Mark an issue as a `v1-blocker
 ## Non-Blockers For V1
 
 - `goal --run`, `goal --full-auto`, mission execution, provider proposals, and the dogfooding loop can remain experimental.
-- Visual goal workspace panels can remain post-v1 as long as docs do not imply they are stable.
+- Read-only visual workflow panels can remain beta and non-blocking for v1 as long as docs do not imply they execute missions or make goal workflows stable.
 - Deterministic tree generation can remain evidence-based rather than LLM-inferred.
 
 ## Baseline Clean Checkout Evidence
